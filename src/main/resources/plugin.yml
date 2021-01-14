@@ -1,0 +1,52 @@
+main: de.jeff_media.AngelChest.Main
+name: AngelChest
+version: 2.22.1
+api-version: "1.13"
+description: Puts your inventory into a protected chest when you die.
+website: https://www.spigotmc.org/resources/1-13-angelchest.60383/
+author: mfnalex
+prefix: AngelChest
+database: false
+load: POSTWORLD
+softdepend: [Multiverse-Core,Multiverse,Vault,WorldGuard,Slimefun,InventoryPages,Minepacks,PlaceholderAPI]
+commands:
+  unlock:
+    permission: angelchest.protect
+    description: "Unlocks your AngelChests"
+    aliases: [unlockchest,acunlock]
+    usage: /<command>s
+  aclist:
+    permission: angelchest.use
+    description: "Lists info about your AngelChests"
+    aliases: [acinfo,angelchests]
+    usage: "/<command>"
+  acfetch:
+    permission: angelchest.fetch
+    description: "Remotely retrieves your AngelChest"
+    aliases: [acretrieve]
+    usage: "/<command>"
+  actp:
+    permission: angelchest.tp
+    description: "Teleports player to their AngelChest"
+    aliases: [acteleport]
+    usage: "/<command>"
+  acreload:
+    permission: angelchest.reload
+    description: "Reloads AngelChest configuration"
+    aliases: [angelchestreload]
+    usage: "</command>"
+permissions:
+  angelchest.use:
+    description: "Players with this permission will have their items put into a chest on death by an Angel"
+  angelchest.protect:
+    description: "Players with this permission have their AngelChests protected from other players. They can unlock their chests unsing /unlock"
+  angelchest.protect.ignore:
+    description: "Players with this permission can open other player's protected AngelChests"
+  angelchest.xp:
+    description: "The amount of dropped experience will also be stored in the AngelChest"
+  angelchest.xp.levels:
+    description: "The full experience level of the player will be stored in the AngelChest"
+  angelchest.tp:
+    description: "Allows players to teleport to their AngelChests using /aclist or /acinfo"
+  angelchest.reload:
+    description: "Allows to reload the configuration using /acreload"
