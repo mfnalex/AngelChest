@@ -1,8 +1,8 @@
 package de.jeff_media.AngelChestPlus.commands;
 
-import de.jeff_media.AngelChestPlus.AngelChestCommandUtils;
+import de.jeff_media.AngelChestPlus.utils.AngelChestCommandUtils;
 import de.jeff_media.AngelChestPlus.Main;
-import de.jeff_media.AngelChestPlus.Utils;
+import de.jeff_media.AngelChestPlus.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

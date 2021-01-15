@@ -1,5 +1,7 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.utils;
 
+import de.jeff_media.AngelChestPlus.Config;
+import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.hooks.InventoryPagesHook;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
@@ -75,7 +77,7 @@ public class HookUtils implements Listener {
         return false;
     }
 
-    boolean removeOnDeath(ItemStack item) {
+    public boolean removeOnDeath(ItemStack item) {
         if(item==null) return false;
         if(isDisabledMaterial(item)) return true;
         if(inventoryPagesHook.isButton(item)) return true;

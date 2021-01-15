@@ -1,10 +1,11 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.utils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.jeff_media.AngelChestPlus.*;
 import de.jeff_media.AngelChestPlus.hooks.MinepacksHook;
 import org.bukkit.Material;
 

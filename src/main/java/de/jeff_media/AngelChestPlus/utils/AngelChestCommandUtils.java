@@ -1,9 +1,13 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.utils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import de.jeff_media.AngelChestPlus.AngelChest;
+import de.jeff_media.AngelChestPlus.Config;
+import de.jeff_media.AngelChestPlus.Main;
+import de.jeff_media.AngelChestPlus.PendingConfirm;
 import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -20,7 +24,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class AngelChestCommandUtils {
 
-	static void payMoney(OfflinePlayer p, double money, Main main, String reason) {
+	public static void payMoney(OfflinePlayer p, double money, Main main, String reason) {
 
 		if(money <= 0) {
 			return;

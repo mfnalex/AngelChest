@@ -1,5 +1,6 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.utils;
 
+import de.jeff_media.AngelChestPlus.Main;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;

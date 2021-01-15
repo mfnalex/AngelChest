@@ -2,13 +2,14 @@ package de.jeff_media.AngelChestPlus;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import de.jeff_media.AngelChestPlus.utils.AngelChestCommandUtils;
+import de.jeff_media.AngelChestPlus.utils.Utils;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -37,11 +38,11 @@ public class AngelChest {
     public boolean isProtected;
     //long configDuration;
     //long taskStart;
-    int secondsLeft;
+    public int secondsLeft;
     public int experience = 0;
     public int levels = 0;
     double price = 0;
-    boolean infinite = false;
+    public boolean infinite = false;
     public Main main;
 
 

@@ -2,6 +2,9 @@ package de.jeff_media.AngelChestPlus.listeners;
 
 import de.jeff_media.AngelChestPlus.*;
 import de.jeff_media.AngelChestPlus.hooks.PlayerHeadDropsHook;
+import de.jeff_media.AngelChestPlus.utils.AngelChestCommandUtils;
+import de.jeff_media.AngelChestPlus.utils.ProtectionUtils;
+import de.jeff_media.AngelChestPlus.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;

@@ -1,5 +1,7 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.utils;
 
+import de.jeff_media.AngelChestPlus.Config;
+import de.jeff_media.AngelChestPlus.Main;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -29,7 +31,7 @@ public class GroupUtils {
         }
     }
 
-    int getDurationPerPlayer(Player p) {
+    public int getDurationPerPlayer(Player p) {
         if(yaml==null) return main.getConfig().getInt(Config.ANGELCHEST_DURATION);
         if(main.getConfig().getInt(Config.ANGELCHEST_DURATION)==0) return 0;
         Iterator<String> it = groups.keySet().iterator();

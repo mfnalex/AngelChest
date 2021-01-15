@@ -24,7 +24,7 @@ public class WorldGuardHandler {
     // If an older version is installed, this class will redirect the check to the legacy handler
     WorldGuardLegacyHandler legacyHandler = null;
 
-    WorldGuardHandler(Main main) {
+    public WorldGuardHandler(Main main) {
         this.main=main;
 
         if(main.getConfig().getBoolean(Config.DISABLE_WORLDGUARD_INTEGRATION)) {

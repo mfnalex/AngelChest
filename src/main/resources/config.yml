@@ -285,7 +285,7 @@ angelchest-list: "[{id}] {time} &aX:&f {x} &aY:&f {y} &aZ:&f {z} | {world} "
 # For example -0.5 means the hologram will be moved 0.5 blocks down
 hologram-offset: 0.0
 # The distance between each hologram line
-hologram-offset-per-line: 0.22
+hologram-offset-per-line: 0.25
 
 ##### Clickable Links when running /acinfo or /aclist
 link-unlock: "&5[Unlock]&r"

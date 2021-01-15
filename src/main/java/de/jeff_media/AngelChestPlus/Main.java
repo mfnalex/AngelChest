@@ -11,6 +11,9 @@ import de.jeff_media.AngelChestPlus.listeners.BlockListener;
 import de.jeff_media.AngelChestPlus.listeners.HologramListener;
 import de.jeff_media.AngelChestPlus.listeners.PistonListener;
 import de.jeff_media.AngelChestPlus.listeners.PlayerListener;
+import de.jeff_media.AngelChestPlus.utils.ConfigUtils;
+import de.jeff_media.AngelChestPlus.utils.GroupUtils;
+import de.jeff_media.AngelChestPlus.utils.HookUtils;
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
 import io.papermc.lib.PaperLib;
 import org.bstats.bukkit.Metrics;
@@ -35,7 +38,7 @@ public class Main extends JavaPlugin {
 	public HashMap<UUID,PendingConfirm> pendingConfirms;
 	public LinkedHashMap<Block,AngelChest> angelChests;
 	public HashMap<UUID,Block> lastPlayerPositions;
-	Material chestMaterial;
+	public Material chestMaterial;
 	PluginUpdateChecker updateChecker;
 
 	public boolean debug = false;
@@ -43,11 +46,11 @@ public class Main extends JavaPlugin {
 
 	public boolean gracefulShutdown = false;
 
-	List<String> disabledMaterials;
-	List<String> disabledWorlds;
-	List<String> disabledRegions;
-	List<Material> dontSpawnOn;
-	List<Material> onlySpawnIn;
+	public List<String> disabledMaterials;
+	public List<String> disabledWorlds;
+	public List<String> disabledRegions;
+	public List<Material> dontSpawnOn;
+	public List<Material> onlySpawnIn;
 
 	boolean emergencyMode = false;
 	
@@ -56,7 +59,7 @@ public class Main extends JavaPlugin {
 	public WorldGuardHandler worldGuardHandler;
 	public HookUtils hookUtils;
 	public Watchdog watchdog;
-	MinepacksHook minepacksHook;
+	public MinepacksHook minepacksHook;
 
 	public void debug(String t) {
 		if(debug) getLogger().info("[DEBUG] " + t);
@@ -218,7 +221,7 @@ public class Main extends JavaPlugin {
 
 	}
 
-	void saveAllAngelChestsToFile() {
+	public void saveAllAngelChestsToFile() {
 		// Destroy all Angel Chests, including hologram AND CONTENTS!
 		//for(Entry<Block,AngelChest> entry : angelChests.entrySet()) {
 		//	Utils.destroyAngelChest(entry.getKey(), entry.getValue(), this);
@@ -277,7 +280,7 @@ public class Main extends JavaPlugin {
 		return armorStandUUIDs;
 	}
 
-	void initUpdateChecker() {
+	public void initUpdateChecker() {
 		if(updateChecker == null) {
 			updateChecker = new PluginUpdateChecker(this,
 					UPDATECHECKER_LINK_API,

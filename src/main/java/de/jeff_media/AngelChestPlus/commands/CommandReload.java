@@ -1,6 +1,6 @@
 package de.jeff_media.AngelChestPlus.commands;
 
-import de.jeff_media.AngelChestPlus.ConfigUtils;
+import de.jeff_media.AngelChestPlus.utils.ConfigUtils;
 import de.jeff_media.AngelChestPlus.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

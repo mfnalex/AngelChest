@@ -1,5 +1,7 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.utils;
 
+import de.jeff_media.AngelChestPlus.Config;
+import de.jeff_media.AngelChestPlus.Main;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.chat.ClickEvent;

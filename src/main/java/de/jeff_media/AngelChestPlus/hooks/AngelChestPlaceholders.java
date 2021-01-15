@@ -1,6 +1,8 @@
 package de.jeff_media.AngelChestPlus.hooks;
 
 import de.jeff_media.AngelChestPlus.*;
+import de.jeff_media.AngelChestPlus.utils.AngelChestCommandUtils;
+import de.jeff_media.AngelChestPlus.utils.Utils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;

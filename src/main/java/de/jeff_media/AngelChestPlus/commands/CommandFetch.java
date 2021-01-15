@@ -1,6 +1,8 @@
 package de.jeff_media.AngelChestPlus.commands;
 
 import de.jeff_media.AngelChestPlus.*;
+import de.jeff_media.AngelChestPlus.utils.AngelChestBlockDataUtils;
+import de.jeff_media.AngelChestPlus.utils.AngelChestCommandUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -12,8 +14,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import static de.jeff_media.AngelChestPlus.Utils.findSafeBlock;
-import static de.jeff_media.AngelChestPlus.Utils.getCardinalDirection;
+import static de.jeff_media.AngelChestPlus.utils.Utils.findSafeBlock;
+import static de.jeff_media.AngelChestPlus.utils.Utils.getCardinalDirection;
 
 public class CommandFetch implements CommandExecutor {
 

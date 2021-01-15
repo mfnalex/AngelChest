@@ -17,14 +17,14 @@ public class Messages {
 	MSG_PLEASE_SELECT_CHEST, MSG_ANGELCHEST_EXPLODED, MSG_NO_CHEST_IN_PVP, MSG_RETRIEVED, MSG_CONFIRM,
 	MSG_NOT_ENOUGH_MONEY_CHEST;
 	
-	final String LINK_TP, LINK_FETCH, LINK_UNLOCK;
+	public final String LINK_TP, LINK_FETCH, LINK_UNLOCK;
 
 	// The following messages shouldn't really appear
-	final String ERR_NOTOWNER = ChatColor.RED+"You do not own this AngelChest.";
-	final String ERR_ALREADYUNLOCKED;
-	final String ERR_INVALIDCHEST = ChatColor.RED + "Invalid AngelChest!";
+	public final String ERR_NOTOWNER = ChatColor.RED+"You do not own this AngelChest.";
+	public final String ERR_ALREADYUNLOCKED;
+	public final String ERR_INVALIDCHEST = ChatColor.RED + "Invalid AngelChest!";
 
-	Messages(Main main) {
+	public Messages(Main main) {
 		this.main = main;
 		//this.plugin = plugin;
 

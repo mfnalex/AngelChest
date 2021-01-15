@@ -1,4 +1,4 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.utils;
 
 import org.bukkit.entity.Player;
 
