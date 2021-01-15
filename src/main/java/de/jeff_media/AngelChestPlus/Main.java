@@ -260,7 +260,7 @@ public class Main extends JavaPlugin {
 		// Skip this because it is checked in the listener and this method is not needed elsewhere
 		//if(!(e instanceof ArmorStand)) return false;
 
-		return getAllArmorStands().contains(e);
+		return getAllArmorStandUUIDs().contains(e.getUniqueId());
 	}
 	
 	public @Nullable AngelChest getAngelChest(Block block) {
@@ -272,26 +272,26 @@ public class Main extends JavaPlugin {
 	}
 	
 	public AngelChest getAngelChestByHologram(ArmorStand armorStand) {
-		for(AngelChest as : angelChests.values()) {
-			if( as == null) continue;
-			if(as.hologram == null) continue;
-			if(as.hologram.armorStands.contains(armorStand)) {
-				return as;
+		for(AngelChest angelChest : angelChests.values()) {
+			if( angelChest == null) continue;
+			if(angelChest.hologram == null) continue;
+			if(angelChest.hologram.armorStandUUIDs.contains(armorStand.getUniqueId())) {
+				return angelChest;
 			}
 		}
 		return null;
 	}
 	
-	ArrayList<ArmorStand> getAllArmorStands() {
-		ArrayList<ArmorStand> armorStands = new ArrayList<>();
+	ArrayList<UUID> getAllArmorStandUUIDs() {
+		ArrayList<UUID> armorStandUUIDs = new ArrayList<>();
 		for(AngelChest ac : angelChests.values()) {
 			if(ac==null || ac.hologram==null) continue;
-			for(ArmorStand armorStand : ac.hologram.armorStands) {
-				if(armorStand == null) continue;
-				armorStands.add(armorStand);
+			for(UUID uuid : ac.hologram.armorStandUUIDs) {
+				//if(armorStand == null) continue;
+				armorStandUUIDs.add(uuid);
 			}
 		}
-		return armorStands;
+		return armorStandUUIDs;
 	}
 
 	void initUpdateChecker() {

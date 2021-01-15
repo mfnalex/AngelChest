@@ -1,6 +1,7 @@
 package de.jeff_media.AngelChestPlus;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -12,10 +13,11 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Hologram {
 
-	final ArrayList<ArmorStand> armorStands;
 	final ArrayList<UUID> armorStandUUIDs;
 	final String text;
 	final double lineOffset = -0.2D;
@@ -48,9 +50,10 @@ public class Hologram {
 				line = PlaceholderAPI.setPlaceholders(Bukkit.getOfflinePlayer(chest.owner),line);
 			}
 
-			if(armorStands.get(lineNumber) !=null) {
-				armorStands.get(lineNumber).setCustomName(line);
-				System.out.println("updated hologram "+armorStands.get(lineNumber).getUniqueId()+" "+ line);
+			ArmorStand armorStand = getArmorStandByLineNumber(lineNumber);
+			if(armorStand !=null) {
+				armorStand.setCustomName(line);
+				//System.out.println("updated hologram "+armorStands.get(lineNumber).getUniqueId()+" "+ line);
 			} else {
 				System.out.println("Could not update hologram because its null");
 			}
@@ -68,7 +71,6 @@ public class Hologram {
 		main.debug("Creating hologram with text " + text + " at "+location.toString());
 		this.text = text;
 
-		armorStands = new ArrayList<>();
 		armorStandUUIDs = new ArrayList<>();
 
 		Scanner scanner = new Scanner(text);
@@ -88,8 +90,6 @@ public class Hologram {
 			as.setCustomNameVisible(true);
 			as.setVisible(false);
 
-			armorStands.add(as);
-			
 			main.blockArmorStandCombinations.add(new BlockArmorStandCombination(block,as));
 			
 			currentOffset += lineOffset;
@@ -101,14 +101,30 @@ public class Hologram {
 	}
 	
 	public void destroy() {
-		for(ArmorStand armorStand : armorStands.toArray(new ArmorStand[0])) {
+		for(ArmorStand armorStand : getArmorStands()) {
 			//System.out.println("DESTROYING ARMOR STAND @ " + armorStand.getLocation().toString());
 			if(armorStand!=null) armorStand.remove();
 			
-			armorStands.remove(armorStand);
+			armorStandUUIDs.remove(armorStand.getUniqueId());
 
 			
 		}
+	}
+
+	public @Nullable ArmorStand getArmorStandByLineNumber(int line) {
+		if(armorStandUUIDs.size()<=line) return null;
+		return (ArmorStand) Bukkit.getEntity(armorStandUUIDs.get(line));
+	}
+
+	public @NotNull List<ArmorStand> getArmorStands() {
+		ArrayList<ArmorStand> armorStands = new ArrayList<>();
+		for(UUID uuid : armorStandUUIDs) {
+			Entity entity = Bukkit.getEntity(uuid);
+			if(entity instanceof ArmorStand) {
+				armorStands.add((ArmorStand) entity);
+			}
+		}
+		return armorStands;
 	}
 
 }

@@ -349,7 +349,7 @@ public class AngelChest {
                 main.getServer().getEntity(uuid).remove();
             }
         }
-        for (ArmorStand armorStand : hologram.armorStands) {
+        for (ArmorStand armorStand : hologram.getArmorStands()) {
             if (armorStand == null) continue;
             armorStand.remove();
         }
@@ -426,7 +426,7 @@ public class AngelChest {
                 main.getServer().getEntity(uuid).remove();
             }
         }
-        for (ArmorStand armorStand : hologram.armorStands) {
+        for (ArmorStand armorStand : hologram.getArmorStands()) {
             if (armorStand == null) continue;
             armorStand.remove();
         }
