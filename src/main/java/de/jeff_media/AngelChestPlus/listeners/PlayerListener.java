@@ -405,16 +405,6 @@ public class PlayerListener implements Listener {
 			//System.out.println("GETBYHOLOGRAM1");
         }
 
-        else {
-        	main.blockArmorStandCombinations.forEach((combination -> {
-        		if(event.getRightClicked().getUniqueId().equals(combination.armorStand.getUniqueId())) {
-        			as.set(main.getAngelChest(combination.block));
-					//System.out.println("GETBYHOLOGRAM2");
-				}
-			}));
-
-		}
-
         if(as.get()==null) return;
 
 		if (!as.get().owner.equals(event.getPlayer().getUniqueId())

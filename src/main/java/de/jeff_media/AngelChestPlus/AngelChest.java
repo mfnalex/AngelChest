@@ -34,7 +34,6 @@ public class AngelChest {
     public UUID worldid;
     public UUID owner;
     public Hologram hologram;
-    public State state = State.ACTIVE;
     public boolean isProtected;
     //long configDuration;
     //long taskStart;
@@ -43,11 +42,8 @@ public class AngelChest {
     public int levels = 0;
     double price = 0;
     boolean infinite = false;
-    Main main;
+    public Main main;
 
-    public enum State {
-        ACTIVE, ALREADY_LOADED
-    }
 
     public @Nullable AngelChest(File file, Main main) {
         main.debug("Creating AngelChest from file " + file.getName());
@@ -58,12 +54,6 @@ public class AngelChest {
             main.getLogger().warning("Could not load legacy AngelChest file " + file.getName());
             success = false;
             t.printStackTrace();
-            return;
-        }
-
-        if(checkIfAlreadyLoaded(yaml,main)) {
-            state = State.ALREADY_LOADED;
-            success = false;
             return;
         }
 
@@ -237,15 +227,6 @@ public class AngelChest {
         return YamlConfiguration.loadConfiguration(file);
     }
 
-    private static boolean checkIfAlreadyLoaded(YamlConfiguration yaml, Main main) {
-        UUID worldid = UUID.fromString(yaml.getString("worldid"));
-        if (main.getServer().getWorld(worldid) == null) {
-            return false;
-        }
-        AngelChest loadedChest = main.getAngelChest(main.getServer().getWorld(worldid).getBlockAt(yaml.getInt("x"), yaml.getInt("y"), yaml.getInt("z")));
-        return loadedChest != null;
-    }
-
     // Creates a physcial chest
     public void createChest(Block block, UUID uuid) {
         main.debug("Attempting to create chest with material " + main.chestMaterial.name() + " at "+block.getLocation().toString());
@@ -311,7 +292,7 @@ public class AngelChest {
         main.debug("Destroying chest at "+b.getLocation()+toString());
         b.setType(Material.AIR);
         b.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, b.getLocation(), 1);
-        destroyHologram(main);
+        hologram.destroy();
     }
 
     public void unlock() {
@@ -387,11 +368,12 @@ public class AngelChest {
         // remove the physical chest
         destroyChest(block);
 
-        for(UUID uuid : hologram.armorStandUUIDs) {
+        /*for(UUID uuid : hologram.armorStandUUIDs) {
             if(Bukkit.getEntity(uuid)!=null) {
                 Bukkit.getEntity(uuid).remove();
             }
-        }
+        }*/
+        hologram.destroy();
 
         // drop contents
         Utils.dropItems(block, armorInv);
@@ -408,11 +390,17 @@ public class AngelChest {
                 && main.getConfig().getDouble(Config.PRICE) > 0) {
             AngelChestCommandUtils.payMoney(Bukkit.getOfflinePlayer(owner),price, main,"AngelChest expired");
         }
+
     }
 
     public void remove() {
         main.debug("Removing AngelChest");
         main.angelChests.remove(block);
+        removeFromWatchdog();
+    }
+
+    private void removeFromWatchdog() {
+
     }
 
 	public void createHologram(Main main, Block block, UUID uuid) {
@@ -422,16 +410,4 @@ public class AngelChest {
 		hologram = new Hologram(block, hologramText, main,this);
 	}
 
-	public void destroyHologram(Main main) {
-        for (UUID uuid : hologram.armorStandUUIDs) {
-            if (main.getServer().getEntity(uuid) != null) {
-                main.getServer().getEntity(uuid).remove();
-            }
-        }
-        for (ArmorStand armorStand : hologram.getArmorStands()) {
-            if (armorStand == null) continue;
-            armorStand.remove();
-        }
-        if (hologram != null) hologram.destroy();
-	}
 }

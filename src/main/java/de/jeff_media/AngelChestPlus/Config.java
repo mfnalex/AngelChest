@@ -41,6 +41,7 @@ public class Config {
     public static final String DETECT_PLAYER_HEAD_DROPS = "detect-player-head-drops";
     public static final String EVENT_PRIORITY = "event-priority";
     public static final String HOLOGRAM_OFFSET = "hologram-offset";
+    public static final String HOLOGRAM_OFFSET_PER_LINE = "hologram-offset-per-line";
     public static final String LINK_UNLOCK = "link-unlock";
     public static final String LINK_FETCH = "link-fetch";
     public static final String LINK_TELEPORT = "link-teleport";

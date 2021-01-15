@@ -10,12 +10,17 @@ import org.bukkit.Material;
 
 public class ConfigUtils {
 	
-	static void createDirectories(Main main) {
+	static void createDirectory(Main main, String name) {
 
-		File categoriesFolder = new File(main.getDataFolder().getPath() + File.separator + "angelchests");
-		if (!categoriesFolder.getAbsoluteFile().exists()) {
-			categoriesFolder.mkdir();
+		File folder = new File(main.getDataFolder().getPath() + File.separator + name);
+		if (!folder.getAbsoluteFile().exists()) {
+			folder.mkdirs();
 		}
+	}
+
+	static void createDirectories(Main main) {
+		createDirectory(main, "angelchests");
+		createDirectory(main, "persistent");
 	}
 
 	public static void reloadCompleteConfig(Main main,boolean reload) {
@@ -60,6 +65,7 @@ public class ConfigUtils {
 		main.getConfig().addDefault(Config.ANGELCHEST_DURATION, 600);
 		main.getConfig().addDefault(Config.MAX_ALLOWED_ANGELCHESTS,5);
 		main.getConfig().addDefault(Config.HOLOGRAM_OFFSET,0.0);
+		main.getConfig().addDefault(Config.HOLOGRAM_OFFSET_PER_LINE,0.25d);
 		main.getConfig().addDefault(Config.MAX_RADIUS, 10);
 		main.getConfig().addDefault(Config.MATERIAL, "CHEST");
 		main.getConfig().addDefault("player-head","{PLAYER}");

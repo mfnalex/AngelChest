@@ -284,6 +284,8 @@ angelchest-list: "[{id}] {time} &aX:&f {x} &aY:&f {y} &aZ:&f {z} | {world} "
 # If you think the hologram is displayed too high, you can change this number.
 # For example -0.5 means the hologram will be moved 0.5 blocks down
 hologram-offset: 0.0
+# The distance between each hologram line
+hologram-offset-per-line: 0.22
 
 ##### Clickable Links when running /acinfo or /aclist
 link-unlock: "&5[Unlock]&r"
@@ -600,7 +602,7 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 console-message-on-open: false
 
 # Debug mode - you probably do not want this.
-debug: false
+debug: true
 verbose: false
 
 # NEVER CHANGE THE VALUES BELOW!

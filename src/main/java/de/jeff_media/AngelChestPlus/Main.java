@@ -34,13 +34,14 @@ public class Main extends JavaPlugin {
 
 	public HashMap<UUID,PendingConfirm> pendingConfirms;
 	public LinkedHashMap<Block,AngelChest> angelChests;
-	public ArrayList<BlockArmorStandCombination> blockArmorStandCombinations;
 	public HashMap<UUID,Block> lastPlayerPositions;
 	Material chestMaterial;
 	PluginUpdateChecker updateChecker;
 
 	public boolean debug = false;
 	public boolean verbose = false;
+
+	public boolean gracefulShutdown = false;
 
 	List<String> disabledMaterials;
 	List<String> disabledWorlds;
@@ -54,6 +55,7 @@ public class Main extends JavaPlugin {
 	public GroupUtils groupUtils;
 	public WorldGuardHandler worldGuardHandler;
 	public HookUtils hookUtils;
+	public Watchdog watchdog;
 	MinepacksHook minepacksHook;
 
 	public void debug(String t) {
@@ -73,10 +75,12 @@ public class Main extends JavaPlugin {
 			return;
 		}
 
+		watchdog = new Watchdog(this);
+
 		ConfigUtils.reloadCompleteConfig(this,false);
 
+
 		angelChests = new LinkedHashMap<>();
-		blockArmorStandCombinations = new ArrayList<>();
 		lastPlayerPositions = new HashMap<>();
 
 		debug("Loading AngelChests from disk");
@@ -101,7 +105,7 @@ public class Main extends JavaPlugin {
 			new AngelChestPlaceholders(this).register();
 		}
 
-		this.getCommand("acd").setExecutor(new CommandDebug());
+		this.getCommand("acd").setExecutor(new CommandDebug(this));
 
 		debug("Registering listeners");
 		getServer().getPluginManager().registerEvents(new PlayerListener(this),this);
@@ -144,7 +148,7 @@ public class Main extends JavaPlugin {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			for(AngelChest chest : angelChests.values()) {
 				if(chest != null && chest.hologram != null) {
-					chest.hologram.update(chest, main);
+					chest.hologram.update(chest);
 				}
 			}
 		},20l,20l);
@@ -160,31 +164,6 @@ public class Main extends JavaPlugin {
 		},20l,20l);
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-
-			//getLogger().info(blockArmorStandCombinations.size()+"");
-			/*Iterator it = blockArmorStandCombinations.iterator();
-			while(it.hasNext()) {
-				BlockArmorStandCombination comb = (BlockArmorStandCombination) it.next();
-				if(it == null) continue;
-
-				if(!PaperLib.isChunkGenerated(comb.block.getLocation())) {
-					verbose("Chunk at "+comb.block.getLocation().toString()+" has not been generated!");
-				}
-
-				if(!comb.block.getWorld().isChunkLoaded(comb.block.getX() >> 4,comb.block.getZ() >> 4)) {
-
-					verbose("Chunk at "+comb.block.getLocation().toString() + " is not loaded, skipping repeating task regarding BlockArmorstandCombination");
-					// CONTINUE IF CHUNK IS NOT LOADED
-
-					continue;
-				}
-				if(!isAngelChest(comb.block)) {
-					comb.armorStand.remove();
-					it.remove();
-					verbose("Removing BlockArmorStandCombination");
-					//getLogger().info("Removed armor stand that has been left behind at @ " + comb.block.getLocation().toString());
-				}
-			}*/
 
 			// The following might only be needed for chests destroyed by end crystals spawning during the init phase of the ender dragon
 			for(Entry<Block,AngelChest> entry : angelChests.entrySet()) {
@@ -221,10 +200,7 @@ public class Main extends JavaPlugin {
 		    for (File child : directoryListing) {
 				getLogger().info("Loading AngelChest " + child.getName());
 		      AngelChest ac = new AngelChest(child,this);
-		      if(ac.state == AngelChest.State.ALREADY_LOADED) {
-		      	continue;
-			  }
-		      else if(ac.success) {
+		      if(ac.success) {
 				  angelChests.put(ac.block, ac);
 			  } else {
 				  getLogger().info("Error while loading "+child.getName()+", probably the world is not loaded yet. Will try again on next world load.");
@@ -235,7 +211,7 @@ public class Main extends JavaPlugin {
 	}
 
 	public void onDisable() {
-
+		gracefulShutdown = true;
 		if(emergencyMode) return;
 
 		saveAllAngelChestsToFile();
@@ -289,7 +265,7 @@ public class Main extends JavaPlugin {
 		return null;
 	}
 	
-	ArrayList<UUID> getAllArmorStandUUIDs() {
+	public ArrayList<UUID> getAllArmorStandUUIDs() {
 		ArrayList<UUID> armorStandUUIDs = new ArrayList<>();
 		for(AngelChest ac : angelChests.values()) {
 			if(ac==null || ac.hologram==null) continue;
