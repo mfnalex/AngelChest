@@ -1,6 +1,8 @@
 package de.jeff_media.AngelChestPlus.gui;
 
+import de.jeff_media.AngelChestPlus.TeleportAction;
 import de.jeff_media.AngelChestPlus.Main;
+import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -9,6 +11,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.inventory.InventoryView;
 import org.jetbrains.annotations.NotNull;
 
 public class GUIListener implements @NotNull Listener {
@@ -19,40 +22,65 @@ public class GUIListener implements @NotNull Listener {
         this.main=main;
     }
 
-    @EventHandler
+    @EventHandler(priority= EventPriority.HIGHEST, ignoreCancelled = true)
     public void cancel(InventoryDragEvent event) {
         if(event.getInventory() == null) return;
         if(!(event.getInventory().getHolder() instanceof AngelChestGUIHolder)) return;
         event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority= EventPriority.HIGHEST, ignoreCancelled = true)
     public void cancel(InventoryInteractEvent event) {
         if(event.getInventory() == null) return;
         if(!(event.getInventory().getHolder() instanceof AngelChestGUIHolder)) return;
         event.setCancelled(true);
     }
 
-/*    @EventHandler
+    @EventHandler(priority= EventPriority.HIGHEST, ignoreCancelled = true)
     public void cancel(InventoryMoveItemEvent event) {
-        if(event.getInitiator() != null) {
-            if(event.getInitiator().getHolder() instanceof AngelChestGUIHolder) {
+        if(event.getSource() != null) {
+            if(event.getSource().getHolder() instanceof AngelChestGUIHolder) {
                 event.setCancelled(true);
             }
         }
-        if(!(event.getInventory().getHolder() instanceof AngelChestGUIHolder)) return;
+        if(event.getDestination() != null) {
+            if(event.getDestination().getHolder() instanceof AngelChestGUIHolder) {
+                event.setCancelled(true);
+            }
+        }
         event.setCancelled(true);
-    }*/
+    }
 
-    @EventHandler(priority= EventPriority.LOWEST)
+    @EventHandler(priority= EventPriority.HIGHEST, ignoreCancelled = true)
     public void onGUIClick(InventoryClickEvent event) {
 
         if(!(event.getWhoClicked() instanceof Player)) return;
+        InventoryView view = event.getView();
 
-        if(event.getInventory() == null) return;
-        if(!(event.getClickedInventory().getHolder() instanceof AngelChestGUIHolder)) return;
-        event.setCancelled(true);
-        //event.setResult(Event.Result.DENY);
+        if(event.getInventory() != null) {
+            if(event.getInventory().getHolder() instanceof AngelChestGUIHolder) {
+                event.setCancelled(true);
+            }
+        }
+
+        if(event.getClickedInventory() != null) {
+            if(event.getClickedInventory().getHolder() instanceof AngelChestGUIHolder) {
+                event.setCancelled(true);
+            }
+        }
+
+        if(view == null) return;
+        if(view.getTopInventory() != null) {
+            if(view.getTopInventory().getHolder() instanceof AngelChestGUIHolder) {
+                event.setCancelled(true);
+            }
+        }
+
+        if(view.getBottomInventory() != null) {
+            if(view.getBottomInventory().getHolder() instanceof AngelChestGUIHolder) {
+                event.setCancelled(true);
+            }
+        }
 
         if(event.getClickedInventory() == null) return;
         if(!(event.getClickedInventory().getHolder() instanceof AngelChestGUIHolder)) return;
@@ -85,6 +113,15 @@ public class GUIListener implements @NotNull Listener {
                 break;
 
             case GUI.SLOT_TP:
+                CommandUtils.fetchOrTeleport(main,player,holder.getAngelChest(), holder.getChestId(), TeleportAction.TELEPORT_TO_CHEST,false);
+                //CommandUtils.teleportPlayerToChest(main,player,holder.getAngelChests().get(holder.getChestId()-1),new String[] {});
+                break;
+
+            case GUI.SLOT_FETCH:
+                CommandUtils.fetchOrTeleport(main,player,holder.getAngelChest(), holder.getChestId(), TeleportAction.FETCH_CHEST,false);
+                break;
+
+            default:
                 break;
         }
     }

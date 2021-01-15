@@ -2,9 +2,8 @@ package de.jeff_media.AngelChestPlus.gui;
 
 import de.jeff_media.AngelChestPlus.AngelChest;
 import de.jeff_media.AngelChestPlus.Main;
-import de.jeff_media.AngelChestPlus.utils.AngelChestCommandUtils;
+import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.HeadCreator;
-import de.jeff_media.AngelChestPlus.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,6 +22,11 @@ public class GUIManager {
     private static final String BUTTON_TP = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGZlYjM5ZDcxZWY4ZTZhNDI2NDY1OTMzOTNhNTc1M2NlMjZhMWJlZTI3YTBjYThhMzJjYjYzN2IxZmZhZSJ9fX0=";
     private static final String BUTTON_FETCH = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGZlYjM5ZDcxZWY4ZTZhNDI2NDY1OTMzOTNhNTc1M2NlMjZhMWJlZTI3YTBjYThhMzJjYjYzN2IxZmZhZSJ9fX0=";
     private static final String BUTTON_UNLOCK = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGFkOTQzZDA2MzM0N2Y5NWFiOWU5ZmE3NTc5MmRhODRlYzY2NWViZDIyYjA1MGJkYmE1MTlmZjdkYTYxZGIifX19";
+    private static final String BUTTON_CONFIRM = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjZlNTIyZDkxODI1MjE0OWU2ZWRlMmVkZjNmZTBmMmMyYzU4ZmVlNmFjMTFjYjg4YzYxNzIwNzIxOGFlNDU5NSJ9fX0=";
+    private static final String BUTTON_CONFIRM_ACCEPT = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2UyYTUzMGY0MjcyNmZhN2EzMWVmYWI4ZTQzZGFkZWUxODg5MzdjZjgyNGFmODhlYThlNGM5M2E0OWM1NzI5NCJ9fX0=";
+    private static final String BUTTON_CONFIRM_DECLINE = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTljZGI5YWYzOGNmNDFkYWE1M2JjOGNkYTc2NjVjNTA5NjMyZDE0ZTY3OGYwZjE5ZjI2M2Y0NmU1NDFkOGEzMCJ9fX0=";
+
+
 
     public GUIManager(Main main ) {
         this.main=main;
@@ -66,6 +69,7 @@ public class GUIManager {
         AngelChestGUIHolder holder = new AngelChestGUIHolder(player, GUIContext.MAIN_MENU, main);
         int inventorySize = getInventorySize(holder.getNumberOfAngelChests());
         Inventory inventory = Bukkit.createInventory(holder,inventorySize,"§4[§cAngelChest§4]");
+        holder.setInventory(inventory);
 
         int id = 1;
         for(AngelChest chest : holder.getAngelChests()) {
@@ -81,8 +85,11 @@ public class GUIManager {
     }
 
     public void showChestGUI(Player player, AngelChestGUIHolder holder, int id) {
-        AngelChest angelChest = holder.getAngelChests().get(id-1);
-        Inventory inventory = Bukkit.createInventory(new AngelChestGUIHolder(player,GUIContext.CHEST_MENU, main),9,"§4[§cAngelChest§4] §c#"+id);
+        AngelChest angelChest = holder.getAngelChest();
+        AngelChestGUIHolder newHolder = new AngelChestGUIHolder(player,GUIContext.CHEST_MENU, main);
+        newHolder.setChestId(id);
+        Inventory inventory = Bukkit.createInventory(newHolder,9,"§4[§cAngelChest§4] §c#"+id);
+        newHolder.setInventory(inventory);
 
         inventory.setItem(GUI.SLOT_BACK,getBackButton());
         inventory.setItem(GUI.SLOT_INFO,getInfoButton(angelChest,id));
@@ -92,8 +99,13 @@ public class GUIManager {
         player.openInventory(inventory);
     }
 
+    public void showConfirmGUI(Player player, AngelChestGUIHolder holder, int id) {
+        AngelChest angelChest = holder.getAngelChest();
+        AngelChestGUIHolder newHolder = new AngelChestGUIHolder(player, GUIContext.CONFIRM_MENU, main);
+    }
+
     private ItemStack getBackButton() {
-        return getButton(BUTTON_BACK,"&6Back",null);
+        return getButton(BUTTON_BACK,"§6Back",null);
     }
 
     private ItemStack getInfoButton(AngelChest angelChest, int id) {
@@ -111,6 +123,20 @@ public class GUIManager {
     private ItemStack getUnlockButton() {
         return getButton(BUTTON_UNLOCK, "§6Unlock", null);
     }
+
+    private ItemStack getConfirmAcceptButton() {
+        return getButton(BUTTON_CONFIRM_ACCEPT,"§aAccept",null);
+    }
+
+    private ItemStack getConfirmDeclineButton() {
+        return getButton(BUTTON_CONFIRM_DECLINE,"§cDecline",null);
+    }
+
+    private ItemStack getConfirmInfoButton(double price) {
+        return getButton(BUTTON_CONFIRM,"§6Info",
+            getLore("§6You are about to spend {price}{currency}."
+                    .replaceAll("\\{price}", String.valueOf(price))
+                    .replaceAll("\\{currency}", CommandUtils.getCurrency(price, main)))); }
 
     private ItemStack getButton(Material material, String name, @Nullable List<String> lore) {
         ItemStack item = new ItemStack(material);
@@ -130,7 +156,9 @@ public class GUIManager {
         return item;
     }
 
-
+    private List<String> getLore(String text) {
+        return Arrays.asList(text.split("\n"));
+    }
 
 
 

@@ -11,10 +11,10 @@ load: POSTWORLD
 softdepend: [Multiverse-Core,Multiverse,Vault,WorldGuard,Slimefun,InventoryPages,Minepacks,PlaceholderAPI]
 loadbefore: [AngelChest]
 commands:
-  unlock:
+  acunlock:
     permission: angelchest.protect
     description: "Unlocks your AngelChests"
-    aliases: [unlockchest,acunlock]
+    aliases: [unlockchest,unlock]
     usage: /<command>s
   aclist:
     permission: angelchest.use
@@ -36,13 +36,13 @@ commands:
     description: "Reloads AngelChest configuration"
     aliases: [angelchestreload]
     usage: "</command>"
-#  ac:
-#    permission: angelchest.use
-#    description: "Opens AngelChest GUI"
-#    aliases: [angelchests]
-#    usage: "</command>"
-#  acd:
-#    permission: angelchest.debug
+  acgui:
+    permission: angelchest.use
+    description: "Opens AngelChest GUI"
+    aliases: [angelchests,ac]
+    usage: "</command>"
+  acd:
+    permission: angelchest.debug
 permissions:
   angelchest.use:
     description: "Players with this permission will have their items put into a chest on death by an Angel"

@@ -1,7 +1,7 @@
 package de.jeff_media.AngelChestPlus.hooks;
 
 import de.jeff_media.AngelChestPlus.*;
-import de.jeff_media.AngelChestPlus.utils.AngelChestCommandUtils;
+import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.Utils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
@@ -97,7 +97,7 @@ public class AngelChestPlaceholders extends PlaceholderExpansion {
         }
         switch(split[0]) {
             case "time":
-                return AngelChestCommandUtils.getTimeLeft(allChests.get(id));
+                return CommandUtils.getTimeLeft(allChests.get(id));
             case "world":
                 return allChests.get(id).block.getWorld().getName();
             case "x":

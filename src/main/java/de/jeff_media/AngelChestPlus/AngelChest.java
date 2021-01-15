@@ -2,7 +2,7 @@ package de.jeff_media.AngelChestPlus;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import de.jeff_media.AngelChestPlus.utils.AngelChestCommandUtils;
+import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.Utils;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
@@ -389,7 +389,7 @@ public class AngelChest {
         if(refund
                 && main.getConfig().getBoolean(Config.REFUND_EXPIRED_CHESTS)
                 && main.getConfig().getDouble(Config.PRICE) > 0) {
-            AngelChestCommandUtils.payMoney(Bukkit.getOfflinePlayer(owner),price, main,"AngelChest expired");
+            CommandUtils.payMoney(Bukkit.getOfflinePlayer(owner),price, main,"AngelChest expired");
         }
 
     }

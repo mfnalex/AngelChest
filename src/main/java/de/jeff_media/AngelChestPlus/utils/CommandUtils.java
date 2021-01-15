@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import de.jeff_media.AngelChestPlus.AngelChest;
-import de.jeff_media.AngelChestPlus.Config;
-import de.jeff_media.AngelChestPlus.Main;
-import de.jeff_media.AngelChestPlus.PendingConfirm;
+import de.jeff_media.AngelChestPlus.*;
 import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -16,13 +13,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.javatuples.Triplet;
+import org.jetbrains.annotations.Nullable;
 
-public class AngelChestCommandUtils {
+import static de.jeff_media.AngelChestPlus.utils.Utils.findSafeBlock;
+import static de.jeff_media.AngelChestPlus.utils.Utils.getCardinalDirection;
+
+public class CommandUtils {
 
 	public static void payMoney(OfflinePlayer p, double money, Main main, String reason) {
 
@@ -92,6 +95,42 @@ public class AngelChestCommandUtils {
 		}
 	}
 
+	/*
+	Integer = "real" chest ID (starting at 0)
+	AngelChest = affected chest
+	Player = chest owner
+	 */
+	public static @Nullable Triplet<Integer,AngelChest,Player> argIdx2AngelChest(Main main, Player sendTo, Player affectedPlayer, String[] args) {
+
+		// Get all AngelChests by this player
+		ArrayList<AngelChest> angelChestsFromThisPlayer = Utils.getAllAngelChestsFromPlayer(affectedPlayer, main);
+
+		if(angelChestsFromThisPlayer.size()==0) {
+			sendTo.sendMessage(main.messages.MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS);
+			return null;
+		}
+
+		if(angelChestsFromThisPlayer.size() > 1 && args.length == 0) {
+			sendTo.sendMessage(main.messages.MSG_PLEASE_SELECT_CHEST);
+			sendListOfAngelChests(main, sendTo,affectedPlayer);
+			return null;
+		}
+
+		int chestId = 0;
+
+		if(args.length > 0) {
+			chestId = Integer.parseInt(args[0]) - 1;
+		}
+
+		if(chestId >= angelChestsFromThisPlayer.size() || chestId < 0) {
+			sendTo.sendMessage(main.messages.ERR_INVALIDCHEST);
+			return null;
+		}
+
+		return new Triplet<>(chestId, angelChestsFromThisPlayer.get(chestId), affectedPlayer);
+	}
+
+	/*
 	// Parses the first argument for the chest index in acinfo and returns a valid chest if it exists
 	public static AngelChest argIdx2AngelChest(Main main, Player sendTo, Player affectedPlayer, String[] args) {
 		// Get all AngelChests by this player
@@ -120,7 +159,7 @@ public class AngelChestCommandUtils {
 		}
 
 		return angelChestsFromThisPlayer.get(chestIdx);
-	}
+	}*/
 
 	public static void sendConfirmMessage(CommandSender sender, String command, double price , String message, Main main) {
 
@@ -129,9 +168,144 @@ public class AngelChestCommandUtils {
 		sender.spigot().sendMessage(text);
 	}
 
+	/**
+	 * If args is null, skip the confirmation stuff
+	 */
+	public static void fetchOrTeleport(Main main, Player p, AngelChest ac, int id, TeleportAction action, boolean askForConfirmation) {
+
+		if(!p.hasPermission(action.getPermission())) {
+			p.sendMessage(main.getCommand(action.getCommand()).getPermissionMessage());
+			return;
+		}
+
+		if(!ac.owner.equals(p.getUniqueId())) {
+			p.sendMessage(main.messages.ERR_NOTOWNER);
+			return;
+		}
+
+		double price = action.getPrice(main);
+
+		if(askForConfirmation) {
+			if (!askForConfirmation(main, p, ac, id, price, action)) return;
+		}
+
+		if(price>0 && !hasEnoughMoney(p,price,main,main.messages.MSG_NOT_ENOUGH_MONEY, action.getEconomyReason())) {
+			return;
+		}
+		switch(action) {
+			case TELEPORT_TO_CHEST: teleportPlayerToChestAsync(main, p, ac); return;
+			case FETCH_CHEST: fetchChestToPlayer(main, p, ac); return;
+		}
+
+	}
+
+	private static Location getLocationInDirection(Location loc, String directionPlayerIsFacing) {
+		Location newLoc = loc.clone();
+		switch (directionPlayerIsFacing) {
+			case "N":
+				newLoc.add(0, 0, -2);
+				break;
+			case "NE":
+				newLoc.add(2, 0, -2);
+				break;
+			case "E":
+				newLoc.add(2, 0, 0);
+				break;
+			case "SE":
+				newLoc.add(2, 0, 2);
+				break;
+			case "S":
+				newLoc.add(0, 0, 2);
+				break;
+			case "SW":
+				newLoc.add(-2, 0, 2);
+				break;
+			case "W":
+				newLoc.add(-2, 0, 0);
+				break;
+			case "NW":
+				newLoc.add(-2, 0, -2);
+				break;
+			default:
+				//main.getLogger().info("Unable to get block facing direction");
+				break;
+		}
+		return newLoc;
+	}
+
+	private static BlockFace getChestFacingDirection(String directionPlayerIsFacing) {
+		// Set the relative direction of the block and offset the new chest location
+		switch (directionPlayerIsFacing) {
+			case "N":
+			case "NE":
+				return BlockFace.SOUTH;
+			case "E":
+			case "SE":
+				return BlockFace.WEST;
+			case "W":
+			case "NW":
+				return BlockFace.EAST;
+			case "S":
+			case "SW":
+			default:
+				return BlockFace.NORTH;
+		}
+	}
+
+	private static void fetchChestToPlayer(Main main, Player player, AngelChest ac) {
+
+		String dir = getCardinalDirection(player);
+		Location newLoc = getLocationInDirection(player.getLocation(),dir);
+		BlockFace facing = getChestFacingDirection(dir);
+
+		Block newBlock = findSafeBlock(newLoc.getBlock(), main);
+		Block oldBlock = ac.block;
+
+		// Move the block in game
+		ac.destroyChest(oldBlock);
+		ac.createChest(newBlock, player.getUniqueId());
+
+		// Make the chest face the player
+		AngelChestBlockDataUtils.setBlockDirection(newBlock, facing);
+
+		// Swap the block in code
+		main.angelChests.put(newBlock, main.angelChests.remove(oldBlock));
+		main.angelChests.get(newBlock).block = newBlock;
+
+		player.sendMessage(main.messages.MSG_RETRIEVED);
+	}
 
 
-	public static void teleportPlayerToChest(Main main, Player p, AngelChest ac, CommandSender sender, String[] args) {
+
+	private static void teleportPlayerToChestAsync(Main main, Player p, AngelChest ac) {
+		AtomicInteger chunkLoadingTask = new AtomicInteger();
+		chunkLoadingTask.set(Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
+			if(areChunksLoadedNearby(ac.block.getLocation(), main)) {
+				main.debug("All chunks loaded! Teleporting now!");
+				doActualTeleport(main, p, ac);
+				Bukkit.getScheduler().cancelTask(chunkLoadingTask.get());
+			} else {
+				main.debug("Not all chunks are loaded yet, waiting...");
+			}
+		},1l, 1l));
+	}
+
+	private static boolean askForConfirmation(Main main, Player p, AngelChest ac, int id, double price, TeleportAction action) {
+		String confirmCommand = String.format("/%s ",action.getCommand());
+		confirmCommand += id;
+		if (price > 0) {
+			PendingConfirm confirm = main.pendingConfirms.get(p.getUniqueId());
+			if (confirm == null || !confirm.chest.equals(ac) || confirm.action != action) {
+				main.pendingConfirms.put(p.getUniqueId(), new PendingConfirm(ac, action));
+				CommandUtils.sendConfirmMessage(p, confirmCommand, price, main.messages.MSG_CONFIRM, main);
+				return true;
+			}
+			main.pendingConfirms.remove(p.getUniqueId());
+		}
+		return false;
+	}
+
+	/*public static void teleportPlayerToChest(Main main, Player p, AngelChest ac, @Nullable CommandSender sender, String[] args) {
 		if(!p.hasPermission("angelchest.tp")) {
 			p.sendMessage(main.getCommand("aclist").getPermissionMessage());
 			return;
@@ -168,7 +342,7 @@ public class AngelChestCommandUtils {
 				main.debug("Not all chunks are loaded yet, waiting...");
 			}
 		},1l, 1l));
-	}
+	}*/
 
 	private static boolean areChunksLoadedNearby(Location loc, Main main) {
 		boolean allChunksLoaded = true;
@@ -235,7 +409,7 @@ public class AngelChestCommandUtils {
 		p.teleport(tploc, TeleportCause.PLUGIN);
 	}
 
-	private static String getCurrency(double money, Main main) {
+	public static String getCurrency(double money, Main main) {
 
 		Plugin v = main.getServer().getPluginManager().getPlugin("Vault");
 		if(v==null) return "";

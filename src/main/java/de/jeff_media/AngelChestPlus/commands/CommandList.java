@@ -1,6 +1,6 @@
 package de.jeff_media.AngelChestPlus.commands;
 
-import de.jeff_media.AngelChestPlus.utils.AngelChestCommandUtils;
+import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.utils.Utils;
 import org.bukkit.Bukkit;
@@ -56,7 +56,7 @@ public class CommandList implements CommandExecutor {
 			p.sendMessage(main.messages.MSG_ANGELCHEST_LOCATION);
 		}
 
-		AngelChestCommandUtils.sendListOfAngelChests(main, p, affectedPlayer);
+		CommandUtils.sendListOfAngelChests(main, p, affectedPlayer);
 
 		return true;
 	}

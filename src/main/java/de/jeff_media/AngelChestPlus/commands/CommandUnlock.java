@@ -1,7 +1,7 @@
 package de.jeff_media.AngelChestPlus.commands;
 
 import de.jeff_media.AngelChestPlus.AngelChest;
-import de.jeff_media.AngelChestPlus.utils.AngelChestCommandUtils;
+import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -50,17 +50,17 @@ public class CommandUnlock implements CommandExecutor {
 		
 		if(args.length > 0) {
 			if(args[0].equals("all")) {
-				AngelChestCommandUtils.unlockAllChests(main, p);
+				CommandUtils.unlockAllChests(main, p);
 				return true;
 			}
 		}
 		
-		AngelChest ac = AngelChestCommandUtils.argIdx2AngelChest(main, p, affectedPlayer, args);
+		AngelChest ac = CommandUtils.argIdx2AngelChest(main, p, affectedPlayer, args);
 		if(ac == null) {
 			return true;
 		}
 
-		AngelChestCommandUtils.unlockSingleChest(main, p, affectedPlayer, ac);
+		CommandUtils.unlockSingleChest(main, p, affectedPlayer, ac);
 		return true;
 	}
 }

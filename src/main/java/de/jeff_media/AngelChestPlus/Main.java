@@ -101,25 +101,26 @@ public class Main extends JavaPlugin {
 		scheduleRepeatingTasks(main);
 
 		debug("Registering commands");
+		CommandFetchOrTeleport commandFetchOrTeleport = new CommandFetchOrTeleport(this);
 		this.getCommand("unlock").setExecutor(new CommandUnlock(this));
 		this.getCommand("aclist").setExecutor(new CommandList(this));
-		this.getCommand("acfetch").setExecutor(new CommandFetch(this));
-		this.getCommand("actp").setExecutor(new CommandTeleportTo(this));
+		this.getCommand("acfetch").setExecutor(commandFetchOrTeleport);
+		this.getCommand("actp").setExecutor(commandFetchOrTeleport);
 		this.getCommand("acreload").setExecutor(new CommandReload(this));
-		//this.getCommand("ac").setExecutor(new CommandGUI(this));
+		this.getCommand("ac").setExecutor(new CommandGUI(this));
 
 		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
 			new AngelChestPlaceholders(this).register();
 		}
 
-		//this.getCommand("acd").setExecutor(new CommandDebug(this));
+		this.getCommand("acd").setExecutor(new CommandDebug(this));
 
 		debug("Registering listeners");
 		getServer().getPluginManager().registerEvents(new PlayerListener(this),this);
 		getServer().getPluginManager().registerEvents(new HologramListener(this),this);
 		getServer().getPluginManager().registerEvents(new BlockListener(this),this);
 		getServer().getPluginManager().registerEvents(new PistonListener(this),this);
-		//getServer().getPluginManager().registerEvents(new GUIListener(this),this);
+		getServer().getPluginManager().registerEvents(new GUIListener(this),this);
 		
 		@SuppressWarnings("unused")
 		Metrics metrics = new Metrics(this,3194);

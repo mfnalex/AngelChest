@@ -7,3 +7,9 @@
 - Way better performance
   - Async chunk loading when players teleport to their chest
   - Completely new hologram mechanism that is way faster and stops updating holograms in unloaded chunks
+
+
+## TODO
+- Allow players to run /acinfo, /aclist, /acfetch and /acgui for other players
+- Make EconomyReason configurable
+- Make text in /acgui conigurable

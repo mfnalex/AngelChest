@@ -17,6 +17,8 @@ public class AngelChestGUIHolder implements InventoryHolder {
     private final ArrayList<AngelChest> chests;
     private final int numberOfAngelChests;
     private final Player player;
+    private int chestId = 0;
+    private Inventory inventory;
 
     public AngelChestGUIHolder(Player player, GUIContext context, Main main) {
         this.context = context;
@@ -25,13 +27,17 @@ public class AngelChestGUIHolder implements InventoryHolder {
         this.player = player;
     }
 
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
     public ArrayList<AngelChest> getAngelChests() {
         return chests;
     }
 
     @Override
     public @NotNull Inventory getInventory() {
-        return null;
+        return inventory;
     }
 
     public int getNumberOfAngelChests() {
@@ -40,6 +46,19 @@ public class AngelChestGUIHolder implements InventoryHolder {
 
     public @Nullable GUIContext getContext() {
         return context;
+    }
+
+    public int getChestId() {
+        return chestId;
+    }
+
+    public void setChestId(int chestId) {
+        this.chestId = chestId;
+    }
+
+    public @Nullable AngelChest getAngelChest() {
+        if(chestId == 0) return null;
+        return getAngelChests().get(chestId-1);
     }
 
 

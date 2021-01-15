@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
-import de.jeff_media.AngelChestPlus.utils.AngelChestCommandUtils;
+import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -40,7 +40,7 @@ public class Hologram {
 			String line = scanner.nextLine();
             if (armorStand != null) {
 
-                line = line.replaceAll("\\{time}", AngelChestCommandUtils.getTimeLeft(chest));
+                line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
                 if (line.equals("")) {
                     armorStand.setCustomName(" ");
                     armorStand.setCustomNameVisible(false);
@@ -82,7 +82,7 @@ public class Hologram {
         Scanner scanner = new Scanner(text);
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            line = line.replaceAll("\\{time}", AngelChestCommandUtils.getTimeLeft(chest));
+            line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
             boolean customNameVisible = true;
             if (line.equals("")) {
                 line = " ";

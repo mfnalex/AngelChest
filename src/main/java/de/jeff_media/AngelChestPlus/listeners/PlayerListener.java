@@ -2,7 +2,7 @@ package de.jeff_media.AngelChestPlus.listeners;
 
 import de.jeff_media.AngelChestPlus.*;
 import de.jeff_media.AngelChestPlus.hooks.PlayerHeadDropsHook;
-import de.jeff_media.AngelChestPlus.utils.AngelChestCommandUtils;
+import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.ProtectionUtils;
 import de.jeff_media.AngelChestPlus.utils.Utils;
 import org.bukkit.Bukkit;
@@ -153,7 +153,7 @@ public class PlayerListener implements Listener {
 			}
 		}
 
-		if(!AngelChestCommandUtils.hasEnoughMoney(event.getEntity(), main.getConfig().getDouble(Config.PRICE), main, main.messages.MSG_NOT_ENOUGH_MONEY_CHEST,"AngelChest spawned")) {
+		if(!CommandUtils.hasEnoughMoney(event.getEntity(), main.getConfig().getDouble(Config.PRICE), main, main.messages.MSG_NOT_ENOUGH_MONEY_CHEST,"AngelChest spawned")) {
 			return;
 		}
 
@@ -226,7 +226,7 @@ public class PlayerListener implements Listener {
 			Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
 				//TpLinkUtil.sendLink(p, String.format(plugin.messages.MSG_ANGELCHEST_LOCATION , locString )+" ", "/acinfo tp "+x+" "+y+" "+z+" "+world);
 				try {
-					AngelChestCommandUtils.sendListOfAngelChests(main, p, p);
+					CommandUtils.sendListOfAngelChests(main, p, p);
 				} catch(Throwable throwable) {
 					//e.printStackTrace();
 				}
