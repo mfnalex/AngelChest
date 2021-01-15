@@ -160,7 +160,7 @@ public class AngelChestCommandUtils {
 		}
 		AtomicInteger chunkLoadingTask = new AtomicInteger();
 		chunkLoadingTask.set(Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
-			if(areChunksLoadedNearby(ac.block.getLocation())) {
+			if(areChunksLoadedNearby(ac.block.getLocation(),main)) {
 				main.debug("All chunks loaded! Teleporting now!");
 				doActualTeleport(main, p, ac);
 				Bukkit.getScheduler().cancelTask(chunkLoadingTask.get());
@@ -170,13 +170,13 @@ public class AngelChestCommandUtils {
 		},1l, 1l));
 	}
 
-	private static boolean areChunksLoadedNearby(Location loc) {
+	private static boolean areChunksLoadedNearby(Location loc, Main main) {
 		boolean allChunksLoaded = true;
 		ArrayList<Location> locs = new ArrayList<>();
 		for(int x = -16; x<=16; x+=16 ) {
 			for(int z = -16; z<=16; z+=16 ) {
 				if(!isChunkLoaded(loc.add(x,0,z))) {
-					System.out.println("Chunk at "+loc.add(x,0,z)+" is not loaded");
+					main.debug("Chunk at "+loc.add(x,0,z)+" is not loaded yet, waiting...");
 					allChunksLoaded = false;
 				}
 			}

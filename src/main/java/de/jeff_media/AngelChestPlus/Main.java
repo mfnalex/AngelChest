@@ -5,6 +5,8 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import de.jeff_media.AngelChestPlus.commands.*;
+import de.jeff_media.AngelChestPlus.gui.GUIListener;
+import de.jeff_media.AngelChestPlus.gui.GUIManager;
 import de.jeff_media.AngelChestPlus.hooks.AngelChestPlaceholders;
 import de.jeff_media.AngelChestPlus.hooks.MinepacksHook;
 import de.jeff_media.AngelChestPlus.listeners.BlockListener;
@@ -60,6 +62,7 @@ public class Main extends JavaPlugin {
 	public HookUtils hookUtils;
 	public Watchdog watchdog;
 	public MinepacksHook minepacksHook;
+	public GUIManager guiManager;
 
 	public void debug(String t) {
 		if(debug) getLogger().info("[DEBUG] " + t);
@@ -103,18 +106,20 @@ public class Main extends JavaPlugin {
 		this.getCommand("acfetch").setExecutor(new CommandFetch(this));
 		this.getCommand("actp").setExecutor(new CommandTeleportTo(this));
 		this.getCommand("acreload").setExecutor(new CommandReload(this));
+		//this.getCommand("ac").setExecutor(new CommandGUI(this));
 
 		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
 			new AngelChestPlaceholders(this).register();
 		}
 
-		this.getCommand("acd").setExecutor(new CommandDebug(this));
+		//this.getCommand("acd").setExecutor(new CommandDebug(this));
 
 		debug("Registering listeners");
 		getServer().getPluginManager().registerEvents(new PlayerListener(this),this);
 		getServer().getPluginManager().registerEvents(new HologramListener(this),this);
 		getServer().getPluginManager().registerEvents(new BlockListener(this),this);
 		getServer().getPluginManager().registerEvents(new PistonListener(this),this);
+		//getServer().getPluginManager().registerEvents(new GUIListener(this),this);
 		
 		@SuppressWarnings("unused")
 		Metrics metrics = new Metrics(this,3194);

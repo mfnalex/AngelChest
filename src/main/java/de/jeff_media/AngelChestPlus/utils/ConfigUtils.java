@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.jeff_media.AngelChestPlus.*;
+import de.jeff_media.AngelChestPlus.gui.GUIManager;
 import de.jeff_media.AngelChestPlus.hooks.MinepacksHook;
 import org.bukkit.Material;
 
@@ -21,7 +22,7 @@ public class ConfigUtils {
 
 	static void createDirectories(Main main) {
 		createDirectory(main, "angelchests");
-		createDirectory(main, "persistent");
+
 	}
 
 	public static void reloadCompleteConfig(Main main,boolean reload) {
@@ -41,6 +42,7 @@ public class ConfigUtils {
 		main.worldGuardHandler = new WorldGuardHandler(main);
 		main.hookUtils = new HookUtils(main);
 		main.minepacksHook = new MinepacksHook();
+		main.guiManager = new GUIManager(main);
 		//main.debugger = new AngelChestDebugger(main);
 		if(reload) {
 			main.loadAllAngelChestsFromFile();

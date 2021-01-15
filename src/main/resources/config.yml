@@ -60,10 +60,6 @@ max-radius: 10
 # is located.
 show-location: true
 
-# When set to true, the links in the chat for teleportation, fetching or unlocking
-# an AngelChest will be sent on a separate line
-show-links-on-separate-line: false
-
 # You can choose the Material to use for the AngelChest,
 # e.g. CHEST, ENDER_CHEST, OBSIDIAN, ...
 # When using PLAYER_HEAD, you can use the head of the died
@@ -270,27 +266,43 @@ event-priority: NORMAL
 # &l Bold         &o Italic
 # &n Underline    &r Reset
 
-##### Hologram text and name of the AngelChest.
+##### Hologram settings
 # {player} is the player's name.
 # {time} is the amount of time left.
 # \n is a new line.
-##### The hologram text also allows you to use PlacerholderAPI placeholders
-##### Use an empty string to disable the hologram.
+# The hologram text also allows you to use PlacerholderAPI placeholders
+# Use an empty string to disable the hologram.
 hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&6{time}"
-angelchest-inventory-name: "&a[AngelChest] &b{player}&r"
-angelchest-list: "[{id}] {time} &aX:&f {x} &aY:&f {y} &aZ:&f {z} | {world} "
 
-##### Hologram offset
 # If you think the hologram is displayed too high, you can change this number.
 # For example -0.5 means the hologram will be moved 0.5 blocks down
 hologram-offset: 0.0
+
 # The distance between each hologram line
 hologram-offset-per-line: 0.25
+
+##### Chest inventory name
+# {player} is the player's name.
+angelchest-inventory-name: "&a[AngelChest] &b{player}&r"
+
+##### AngelChest list (/aclist) settings
+# {id} is the number of the chest
+# {x} {y} {z} are the coordinates
+# {world} is the name of the world
+# {time} is the amount of time left.
+# \n is a new line.
+angelchest-list: "[{id}] {time} &aX:&f {x} &aY:&f {y} &aZ:&f {z} | {world} "
 
 ##### Clickable Links when running /acinfo or /aclist
 link-unlock: "&5[Unlock]&r"
 link-fetch: "&6[Fetch]&r"
 link-teleport: "&6[TP]&r"
+
+# When set to true, the links in the chat for teleportation, fetching or unlocking
+# an AngelChest will be sent on a separate line
+show-links-on-separate-line: false
+
+
 
 ##### Messages
 message-all-your-angelchests-were-already-unlocked: "&eAll your AngelChests were already unlocked."

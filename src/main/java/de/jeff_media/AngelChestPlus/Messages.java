@@ -17,7 +17,7 @@ public class Messages {
 	MSG_PLEASE_SELECT_CHEST, MSG_ANGELCHEST_EXPLODED, MSG_NO_CHEST_IN_PVP, MSG_RETRIEVED, MSG_CONFIRM,
 	MSG_NOT_ENOUGH_MONEY_CHEST;
 	
-	public final String LINK_TP, LINK_FETCH, LINK_UNLOCK;
+	public final String LINK_TP, LINK_FETCH, LINK_UNLOCK, LINK_UNLOCK_FOR;
 
 	// The following messages shouldn't really appear
 	public final String ERR_NOTOWNER = ChatColor.RED+"You do not own this AngelChest.";
@@ -79,6 +79,8 @@ public class Messages {
 		LINK_FETCH = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.LINK_FETCH,"&6[Fetch]&r"));
 		
 		LINK_UNLOCK = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.LINK_UNLOCK,"&5[Unlock]&r"));
+
+		LINK_UNLOCK_FOR = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.LINK_UNLOCK_FOR,"&5[Unlock for...]&r"));
 
 		ERR_ALREADYUNLOCKED = getMsg("already-unlocked","&cThis AngelChest is already unlocked.");
 

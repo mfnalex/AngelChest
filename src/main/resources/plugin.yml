@@ -19,7 +19,7 @@ commands:
   aclist:
     permission: angelchest.use
     description: "Lists info about your AngelChests"
-    aliases: [acinfo,angelchests]
+    aliases: [acinfo]
     usage: "/<command>"
   acfetch:
     permission: angelchest.fetch
@@ -36,8 +36,13 @@ commands:
     description: "Reloads AngelChest configuration"
     aliases: [angelchestreload]
     usage: "</command>"
-  acd:
-    permission: angelchest.debug
+#  ac:
+#    permission: angelchest.use
+#    description: "Opens AngelChest GUI"
+#    aliases: [angelchests]
+#    usage: "</command>"
+#  acd:
+#    permission: angelchest.debug
 permissions:
   angelchest.use:
     description: "Players with this permission will have their items put into a chest on death by an Angel"

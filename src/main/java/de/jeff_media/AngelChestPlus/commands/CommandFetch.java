@@ -66,11 +66,11 @@ public class CommandFetch implements CommandExecutor {
             PendingConfirm confirm = main.pendingConfirms.get(((Player) sender).getUniqueId());
             if (confirm == null || !confirm.chest.equals(ac) || confirm.action != PendingConfirm.Action.Fetch) {
                 if (confirm == null) {
-                    System.out.println("confirm == null");
+                    //System.out.println("confirm == null");
                 } else if (!confirm.chest.equals(ac)) {
-                    System.out.println("!= ac");
+                    //System.out.println("!= ac");
                 } else if (confirm.action != PendingConfirm.Action.Fetch) {
-                    System.out.println("!= action");
+                    //System.out.println("!= action");
                 }
                 main.pendingConfirms.put(((Player) sender).getUniqueId(), new PendingConfirm(ac, PendingConfirm.Action.Fetch));
                 String confirmCommand = "/acfetch " + String.join(" ", args);
