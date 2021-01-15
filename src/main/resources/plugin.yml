@@ -1,14 +1,15 @@
-main: de.jeff_media.AngelChest.Main
-name: AngelChest
-version: 2.22.1
+main: ${spigot.main}
+name: ${project.name}
+version: ${project.version}
+description: ${spigot.description}
+prefix: ${spigot.prefix}
 api-version: "1.13"
-description: Puts your inventory into a protected chest when you die.
 website: https://www.spigotmc.org/resources/1-13-angelchest.60383/
-author: mfnalex
-prefix: AngelChest
+authors: [mfnalex, JEFF Media GbR]
 database: false
 load: POSTWORLD
 softdepend: [Multiverse-Core,Multiverse,Vault,WorldGuard,Slimefun,InventoryPages,Minepacks,PlaceholderAPI]
+loadbefore: [AngelChest]
 commands:
   unlock:
     permission: angelchest.protect
@@ -35,6 +36,8 @@ commands:
     description: "Reloads AngelChest configuration"
     aliases: [angelchestreload]
     usage: "</command>"
+  acd:
+    permission: angelchest.debug
 permissions:
   angelchest.use:
     description: "Players with this permission will have their items put into a chest on death by an Angel"

@@ -1,0 +1,33 @@
+package de.jeff_media.AngelChestPlus.commands;
+
+import de.jeff_media.AngelChestPlus.ConfigUtils;
+import de.jeff_media.AngelChestPlus.Main;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
+
+public class CommandReload implements CommandExecutor  {
+
+    final Main main;
+
+    public CommandReload(Main main) {
+        this.main=main;
+    }
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+
+        if(!commandSender.hasPermission("angelchest.reload")) {
+            commandSender.sendMessage(command.getPermissionMessage());
+            return true;
+        }
+
+        ConfigUtils.reloadCompleteConfig(main,true);
+
+        commandSender.sendMessage(ChatColor.GREEN+"AngelChest configuration has been reloaded.");
+
+        return true;
+    }
+}
