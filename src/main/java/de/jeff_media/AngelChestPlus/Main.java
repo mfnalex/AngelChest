@@ -88,76 +88,8 @@ public class Main extends JavaPlugin {
 		// Deletes old armorstands and restores broken AngelChests (only case where I currently know this happens is when a endcrystal spanws in a chest)
 		Main main = this;
 
-		// Rename holograms
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-			for(AngelChest chest : angelChests.values()) {
-				if(chest != null && chest.hologram != null) {
-					chest.hologram.update(chest,main);
-				}
-			}
-		},20l,20l);
+		scheduleRepeatingTasks(main);
 
-		// Track player positions
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-			for(Player player : Bukkit.getOnlinePlayers()) {
-				Entity entity = (Entity) player;
-				if(entity.isOnGround()) {
-					lastPlayerPositions.put(player.getUniqueId(),entity.getLocation().getBlock());
-				}
-			}
-		},20l,20l);
-
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-
-			//getLogger().info(blockArmorStandCombinations.size()+"");
-			for(BlockArmorStandCombination comb : blockArmorStandCombinations.toArray(new BlockArmorStandCombination[0])) {
-
-				if(!PaperLib.isChunkGenerated(comb.block.getLocation())) {
-					verbose("Chunk at "+comb.block.getLocation().toString()+" has not been generated!");
-				}
-
-				if(!comb.block.getWorld().isChunkLoaded(comb.block.getX() >> 4,comb.block.getZ() >> 4)) {
-
-					verbose("Chunk at "+comb.block.getLocation().toString() + " is not loaded, skipping repeating task regarding BlockArmorstandCombination");
-					// CONTINUE IF CHUNK IS NOT LOADED
-
-					continue;
-				}
-				if(!isAngelChest(comb.block)) {
-					comb.armorStand.remove();
-					blockArmorStandCombinations.remove(comb);
-					debug("Removing BlockArmorStandCombination because of missing AngelChest");
-					//getLogger().info("Removed armor stand that has been left behind at @ " + comb.block.getLocation().toString());
-				}
-			}
-
-			// The following might only be needed for chests destroyed by end crystals spawning during the init phase of the ender dragon
-			for(Entry<Block,AngelChest> entry : angelChests.entrySet()) {
-
-				if(!PaperLib.isChunkGenerated(entry.getKey().getLocation())) {
-					verbose("Chunk at "+entry.getKey().getLocation().toString()+" has not been generated!");
-				}
-
-				if(!entry.getKey().getWorld().isChunkLoaded(entry.getKey().getX() >> 4,entry.getKey().getZ() >> 4)) {
-
-					verbose("Chunk at "+entry.getKey().getLocation().toString() + " is not loaded, skipping repeating task regarding angelChests.entrySet()");
-					// CONTINUE IF CHUNK IS NOT LOADED
-
-					continue;
-				}
-				/*if(!isAngelChest(entry.getKey())) {
-					entry.getValue().destroy();
-					debug("Removing block from list because it's no AngelChest");
-				}*/
-				if(isBrokenAngelChest(entry.getKey())) {
-					// TODO: Disabled for now, but left behind if someone still has missing chests upon end crystal generation
-					Block block = entry.getKey();
-					debug("Fixing broken AngelChest at "+block.getLocation());
-					entry.setValue(new AngelChest(getAngelChest(block).saveToFile(),main));
-				}
-			}
-		}, 0L, 2 * 20);
-		
 		debug("Registering commands");
 		this.getCommand("unlock").setExecutor(new CommandUnlock(this));
 		this.getCommand("aclist").setExecutor(new CommandList(this));
@@ -206,7 +138,82 @@ public class Main extends JavaPlugin {
 		}, 0, 20);
 		
 	}
-	
+
+	private void scheduleRepeatingTasks(Main main) {
+		// Rename holograms
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+			for(AngelChest chest : angelChests.values()) {
+				if(chest != null && chest.hologram != null) {
+					chest.hologram.update(chest, main);
+				}
+			}
+		},20l,20l);
+
+		// Track player positions
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+			for(Player player : Bukkit.getOnlinePlayers()) {
+				Entity entity = (Entity) player;
+				if(entity.isOnGround()) {
+					lastPlayerPositions.put(player.getUniqueId(),entity.getLocation().getBlock());
+				}
+			}
+		},20l,20l);
+
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+
+			//getLogger().info(blockArmorStandCombinations.size()+"");
+			/*Iterator it = blockArmorStandCombinations.iterator();
+			while(it.hasNext()) {
+				BlockArmorStandCombination comb = (BlockArmorStandCombination) it.next();
+				if(it == null) continue;
+
+				if(!PaperLib.isChunkGenerated(comb.block.getLocation())) {
+					verbose("Chunk at "+comb.block.getLocation().toString()+" has not been generated!");
+				}
+
+				if(!comb.block.getWorld().isChunkLoaded(comb.block.getX() >> 4,comb.block.getZ() >> 4)) {
+
+					verbose("Chunk at "+comb.block.getLocation().toString() + " is not loaded, skipping repeating task regarding BlockArmorstandCombination");
+					// CONTINUE IF CHUNK IS NOT LOADED
+
+					continue;
+				}
+				if(!isAngelChest(comb.block)) {
+					comb.armorStand.remove();
+					it.remove();
+					verbose("Removing BlockArmorStandCombination");
+					//getLogger().info("Removed armor stand that has been left behind at @ " + comb.block.getLocation().toString());
+				}
+			}*/
+
+			// The following might only be needed for chests destroyed by end crystals spawning during the init phase of the ender dragon
+			for(Entry<Block,AngelChest> entry : angelChests.entrySet()) {
+
+				if(!PaperLib.isChunkGenerated(entry.getKey().getLocation())) {
+					verbose("Chunk at "+entry.getKey().getLocation().toString()+" has not been generated!");
+				}
+
+				if(!entry.getKey().getWorld().isChunkLoaded(entry.getKey().getX() >> 4,entry.getKey().getZ() >> 4)) {
+
+					verbose("Chunk at "+entry.getKey().getLocation().toString() + " is not loaded, skipping repeating task regarding angelChests.entrySet()");
+					// CONTINUE IF CHUNK IS NOT LOADED
+
+					continue;
+				}
+				/*if(!isAngelChest(entry.getKey())) {
+					entry.getValue().destroy();
+					debug("Removing block from list because it's no AngelChest");
+				}*/
+				if(isBrokenAngelChest(entry.getKey())) {
+					// TODO: Disabled for now, but left behind if someone still has missing chests upon end crystal generation
+					Block block = entry.getKey();
+					debug("Fixing broken AngelChest at "+block.getLocation());
+					entry.setValue(new AngelChest(getAngelChest(block).saveToFile(true), main));
+				}
+			}
+		}, 0L, 2 * 20);
+	}
+
 	public void loadAllAngelChestsFromFile() {
 		File dir = new File(getDataFolder().getPath() + File.separator + "angelchests");
 		  File[] directoryListing = dir.listFiles();
@@ -241,7 +248,7 @@ public class Main extends JavaPlugin {
 		//	Utils.destroyAngelChest(entry.getKey(), entry.getValue(), this);
 		//}
 		for (Entry<Block, AngelChest> entry : angelChests.entrySet()) {
-			entry.getValue().saveToFile();
+			entry.getValue().saveToFile(true);
 			entry.getValue().hologram.destroy();
 		}
 	}

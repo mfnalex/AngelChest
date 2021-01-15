@@ -318,7 +318,7 @@ public class AngelChest {
         this.isProtected = false;
     }
 
-    public File saveToFile() {
+    public File saveToFile(boolean removeChest) {
         File yamlFile = new File(main.getDataFolder() + File.separator + "angelchests",
                 this.hashCode() + ".yml");
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(yamlFile);
@@ -342,9 +342,10 @@ public class AngelChest {
         yaml.set("extraInv", extraInv);
         yaml.set("overflowInv", overflowInv.getContents());
 
-        // Duplicate Start
-        block.setType(Material.AIR);
-        for (UUID uuid : hologram.armorStandUUIDs) {
+        if(removeChest) {
+            // Duplicate Start
+            block.setType(Material.AIR);
+        /*for (UUID uuid : hologram.armorStandUUIDs) {
             if (main.getServer().getEntity(uuid) != null) {
                 main.getServer().getEntity(uuid).remove();
             }
@@ -352,8 +353,9 @@ public class AngelChest {
         for (ArmorStand armorStand : hologram.getArmorStands()) {
             if (armorStand == null) continue;
             armorStand.remove();
+        }*/
+            if (hologram != null) hologram.destroy();
         }
-        if (hologram != null) hologram.destroy();
         // Duplicate End
         try {
             yaml.save(yamlFile);
