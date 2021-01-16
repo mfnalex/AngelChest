@@ -1,6 +1,7 @@
 package de.jeff_media.AngelChestPlus.gui;
 
 import de.jeff_media.AngelChestPlus.AngelChest;
+import de.jeff_media.AngelChestPlus.Config;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.TeleportAction;
 import de.jeff_media.AngelChestPlus.commands.CommandFetchOrTeleport;
@@ -21,52 +22,30 @@ import java.util.List;
 public class GUIManager {
 
     private final Main main;
-    private static final String BUTTON_BACK = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY0Zjc3OWE4ZTNmZmEyMzExNDNmYTY5Yjk2YjE0ZWUzNWMxNmQ2NjllMTljNzVmZDFhN2RhNGJmMzA2YyJ9fX0=";
-    private static final String BUTTON_TP = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGZlYjM5ZDcxZWY4ZTZhNDI2NDY1OTMzOTNhNTc1M2NlMjZhMWJlZTI3YTBjYThhMzJjYjYzN2IxZmZhZSJ9fX0=";
-    private static final String BUTTON_FETCH = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGZlYjM5ZDcxZWY4ZTZhNDI2NDY1OTMzOTNhNTc1M2NlMjZhMWJlZTI3YTBjYThhMzJjYjYzN2IxZmZhZSJ9fX0=";
-    private static final String BUTTON_UNLOCK = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGFkOTQzZDA2MzM0N2Y5NWFiOWU5ZmE3NTc5MmRhODRlYzY2NWViZDIyYjA1MGJkYmE1MTlmZjdkYTYxZGIifX19";
-    private static final String BUTTON_CONFIRM = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjZlNTIyZDkxODI1MjE0OWU2ZWRlMmVkZjNmZTBmMmMyYzU4ZmVlNmFjMTFjYjg4YzYxNzIwNzIxOGFlNDU5NSJ9fX0=";
-    private static final String BUTTON_CONFIRM_ACCEPT = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2UyYTUzMGY0MjcyNmZhN2EzMWVmYWI4ZTQzZGFkZWUxODg5MzdjZjgyNGFmODhlYThlNGM5M2E0OWM1NzI5NCJ9fX0=";
-    private static final String BUTTON_CONFIRM_DECLINE = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTljZGI5YWYzOGNmNDFkYWE1M2JjOGNkYTc2NjVjNTA5NjMyZDE0ZTY3OGYwZjE5ZjI2M2Y0NmU1NDFkOGEzMCJ9fX0=";
-
-    private static final String TITLE_MAIN = "§4§l[§c§lAngelChest§4§l]";
-    private static final String TITLE_CHEST = "§4§l[§c§lAngelChest§4§l] §c#{id} §4| §c{time}";
-
 
     public GUIManager(Main main) {
         this.main = main;
+
     }
 
-    /**
-     * Updates the players GUI when a chest is broken or created
-     *
-     * @param player
-     * @param brokenChestId
-     */
     public void updateGUI(Player player, int brokenChestId) {
         if (player.getOpenInventory() == null) return;
         if (player.getOpenInventory().getTopInventory() == null) return;
         if (!(player.getOpenInventory().getTopInventory().getHolder() instanceof AngelChestGUIHolder)) return;
 
-        main.debug("GUI: Update");
-        main.debug("Broken Chest ID: "+brokenChestId);
-
         AngelChestGUIHolder holder = (AngelChestGUIHolder) player.getOpenInventory().getTopInventory().getHolder();
 
         if (holder.getContext() == GUIContext.MAIN_MENU) {
             showMainGUI(player);
-            main.debug("GUI: Main menu, restarting it");
             return;
         }
 
         int selectedChest = holder.getChestIdStartingAt1();
         if (selectedChest < brokenChestId) {
-            main.debug("GUI: Selected chest was before destroyed, nothing to do");
+            return;
         } else if (brokenChestId == selectedChest) {
             showMainGUI(player);
-            main.debug("GUI: Selected chest is the one destroyed, going back to main menu");
         } else {
-            main.debug("GUI: Selected chest is after the destroyed, adjusting ID");
             holder.setChestIdStartingAt1(holder.getChestIdStartingAt1() - 1);
             if(holder.getContext()==GUIContext.CHEST_MENU) {
                 showChestGUI(player,holder,holder.getChestIdStartingAt1());
@@ -120,7 +99,7 @@ public class GUIManager {
     public void showMainGUI(Player player) {
         AngelChestGUIHolder holder = new AngelChestGUIHolder(player, GUIContext.MAIN_MENU, main);
         int inventorySize = getInventorySize(holder.getNumberOfAngelChests());
-        Inventory inventory = Bukkit.createInventory(holder, inventorySize, TITLE_MAIN);
+        Inventory inventory = Bukkit.createInventory(holder, inventorySize, main.messages.GUI_TITLE_MAIN);
         holder.setInventory(inventory);
 
         if (Utils.getAllAngelChestsFromPlayer(player, main).size() == 1) {
@@ -187,7 +166,7 @@ public class GUIManager {
     }
 
     private ItemStack getBackButton() {
-        return getButton(BUTTON_BACK, "§6Back", null);
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_BACK), "§6Back", null);
     }
 
     private ItemStack getInfoButton(AngelChest angelChest, int id) {
@@ -195,27 +174,27 @@ public class GUIManager {
     }
 
     private ItemStack getTPButton() {
-        return getButton(BUTTON_TP, "§6Teleport", null);
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_TELEPORT), "§6Teleport", null);
     }
 
     private ItemStack getFetchButton() {
-        return getButton(BUTTON_FETCH, "§6Fetch", null);
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_FETCH), "§6Fetch", null);
     }
 
     private ItemStack getUnlockButton() {
-        return getButton(BUTTON_UNLOCK, "§6Unlock", null);
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_UNLOCK), "§6Unlock", null);
     }
 
     private ItemStack getConfirmAcceptButton() {
-        return getButton(BUTTON_CONFIRM_ACCEPT, "§aAccept", null);
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_ACCEPT), "§aAccept", null);
     }
 
     private ItemStack getConfirmDeclineButton() {
-        return getButton(BUTTON_CONFIRM_DECLINE, "§cDecline", null);
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_DECLINE), "§cDecline", null);
     }
 
     private ItemStack getConfirmInfoButton(double price) {
-        return getButton(BUTTON_CONFIRM, "§6Info",
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_INFO), "§6Info",
                 getLore("§6You are about to spend {price}{currency}."
                         .replaceAll("\\{price}", String.valueOf(price))
                         .replaceAll("\\{currency}", CommandUtils.getCurrency(price, main))));
@@ -244,7 +223,7 @@ public class GUIManager {
     }
 
     private String getTitle(AngelChest chest, int id) {
-        return TITLE_CHEST.replaceAll("\\{id}", String.valueOf(id))
+        return main.messages.GUI_TITLE_CHEST.replaceAll("\\{id}", String.valueOf(id))
                         .replaceAll("\\{time}",CommandUtils.getTimeLeft(chest));
 
     }

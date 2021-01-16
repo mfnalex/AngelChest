@@ -16,6 +16,8 @@ public class Messages {
 	, MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK, HOLOGRAM_TEXT, ANGELCHEST_INVENTORY_NAME, ANGELCHEST_LIST, MSG_ANGELCHEST_LOCATION, MSG_NOT_ENOUGH_MONEY,
 	MSG_PLEASE_SELECT_CHEST, MSG_ANGELCHEST_EXPLODED, MSG_NO_CHEST_IN_PVP, MSG_RETRIEVED, MSG_CONFIRM,
 	MSG_NOT_ENOUGH_MONEY_CHEST;
+
+	public final String GUI_TITLE_MAIN, GUI_TITLE_CHEST/*, GUI_BACK, GUI_INFO, GUI_TELEPORT, GUI_FETCH, GUI_UNLOCK, GUI_ACCEPT, GUI_CONFIRM_LORE, GUI_DECLINE*/;
 	
 	public final String LINK_TP, LINK_FETCH, LINK_UNLOCK, LINK_UNLOCK_FOR;
 
@@ -91,6 +93,14 @@ public class Messages {
 		MSG_RETRIEVED = getMsg("angelchest-retrieved","&aAngelChest retrieved!");
 
 		MSG_CONFIRM = getMsg("confirm","&6You are about to spend {price}{currency}. Click this message to continue.");
+
+		GUI_TITLE_CHEST = getMsg(Config.GUI_TITLE_CHEST,"§4§l[§c§lAngelChest§4§l] §c#{id} §4| §c{time}");
+
+		GUI_TITLE_MAIN = getMsg(Config.GUI_TITLE_MAIN,"§4§l[§c§lAngelChest§4§l]");
+
+		//GUI_ACCEPT = getMsg("gui-accept","&aAccept");
+		//GUI_BACK = getMsg("gui-back","&6Back");
+		//GUI_CONFIRM_LORE = getMsg("gui-confirm-lore")
 	}
 
 

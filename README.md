@@ -1,4 +1,5 @@
 ## Added
+- Complete GUI for your AngelChests with configurable buttons etc.
 - Better config updater
 - More control over the holograms
 - Literally unbreakable chests - not even /setblock or WorldEdit can destroy chests

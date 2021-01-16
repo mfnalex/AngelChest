@@ -49,4 +49,13 @@ public class Config {
     public static final String HOLOGRAM_TEXT = "hologram-text";
     public static final String ANGELCHEST_INVENTORY_NAME = "angelchest-inventory-name";
     public static final String ANGELCHEST_LIST = "angelchest-list";
+    public static final String GUI_BUTTON_BACK = "gui-button-back";
+    public static final String GUI_BUTTON_TELEPORT = "gui-button-teleport";
+    public static final String GUI_BUTTON_FETCH = "gui-button-fetch";
+    public static final String GUI_BUTTON_UNLOCK = "gui-button-unlock";
+    public static final String GUI_BUTTON_CONFIRM_INFO = "gui-button-confirm-info";
+    public static final String GUI_BUTTON_CONFIRM_ACCEPT = "gui-button-confirm-accept";
+    public static final String GUI_BUTTON_CONFIRM_DECLINE = "gui-button-confirm-decline";
+    public static final String GUI_TITLE_MAIN = "gui-title-main";
+    public static final String GUI_TITLE_CHEST = "gui-title-chest";
 }
