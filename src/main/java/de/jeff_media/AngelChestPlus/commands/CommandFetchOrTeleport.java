@@ -46,10 +46,10 @@ public class CommandFetchOrTeleport implements CommandExecutor {
             return true;
         }
 
-        int id = chestResult.getValue0();
+        int chestIdStartingAt1 = chestResult.getValue0();
         AngelChest angelChest = chestResult.getValue1();
         Player player = chestResult.getValue2();
-        CommandUtils.fetchOrTeleport(main,player,angelChest,id,action,true);
+        CommandUtils.fetchOrTeleport(main,player,angelChest,chestIdStartingAt1,action,true);
 
         return true;
     }

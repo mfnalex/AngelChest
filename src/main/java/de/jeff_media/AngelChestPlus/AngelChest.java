@@ -392,16 +392,19 @@ public class AngelChest {
             CommandUtils.payMoney(Bukkit.getOfflinePlayer(owner),price, main,"AngelChest expired");
         }
 
+        int currentChestId = Utils.getAllAngelChestsFromPlayer(Bukkit.getOfflinePlayer(owner),main).indexOf(this)+1;
+        Player player = Bukkit.getPlayer(owner);
+        if(player != null && player.isOnline()) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
+                main.guiManager.updateGUI(player, currentChestId);
+            },1l);
+        }
+
     }
 
     public void remove() {
         main.debug("Removing AngelChest");
         main.angelChests.remove(block);
-        removeFromWatchdog();
-    }
-
-    private void removeFromWatchdog() {
-
     }
 
 	public void createHologram(Main main, Block block, UUID uuid) {

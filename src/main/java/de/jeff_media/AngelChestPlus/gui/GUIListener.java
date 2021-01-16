@@ -1,5 +1,6 @@
 package de.jeff_media.AngelChestPlus.gui;
 
+import de.jeff_media.AngelChestPlus.Config;
 import de.jeff_media.AngelChestPlus.TeleportAction;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
@@ -96,13 +97,33 @@ public class GUIListener implements @NotNull Listener {
             case CHEST_MENU:
                 onGUIClickChestMenu(event,player,holder,clickedSlot);
                 break;
+            case CONFIRM_MENU:
+                onGUIClickConfirmMenu(event,player,holder,clickedSlot);
+                break;
         }
 
+    }
+
+    private void onGUIClickConfirmMenu(InventoryClickEvent event, Player player, AngelChestGUIHolder holder, int clickedSlot) {
+        TeleportAction action = holder.getAction();
+        switch (clickedSlot) {
+            case GUI.SLOT_CONFIRM_ACCEPT:
+                CommandUtils.fetchOrTeleport(main, player, holder.getAngelChest(), holder.getChestIdStartingAt1(), action, false);
+                player.closeInventory();
+                break;
+            case GUI.SLOT_CONFIRM_DECLINE:
+                player.closeInventory();
+                player.closeInventory();
+                break;
+            default:
+                break;
+        }
     }
 
     private void onGUIClickMainMenu(InventoryClickEvent event, Player player, AngelChestGUIHolder holder, int clickedSlot) {
         int clickedID = clickedSlot+1;
         if(clickedID > holder.getNumberOfAngelChests()) return;
+        holder.setChestIdStartingAt1(clickedID);
         main.guiManager.showChestGUI(player,holder, clickedID);
     }
 
@@ -113,16 +134,25 @@ public class GUIListener implements @NotNull Listener {
                 break;
 
             case GUI.SLOT_TP:
-                CommandUtils.fetchOrTeleport(main,player,holder.getAngelChest(), holder.getChestId(), TeleportAction.TELEPORT_TO_CHEST,false);
-                //CommandUtils.teleportPlayerToChest(main,player,holder.getAngelChests().get(holder.getChestId()-1),new String[] {});
+                confirmOrTeleport(event, player, holder, TeleportAction.TELEPORT_TO_CHEST);
+                //CommandUtils.teleportPlayerToChest(main,player,holder.getAngelChests().get(holder.getChestIdStartingAt1()-1),new String[] {});
                 break;
 
             case GUI.SLOT_FETCH:
-                CommandUtils.fetchOrTeleport(main,player,holder.getAngelChest(), holder.getChestId(), TeleportAction.FETCH_CHEST,false);
+                confirmOrTeleport(event, player, holder, TeleportAction.FETCH_CHEST);
                 break;
 
             default:
                 break;
+        }
+    }
+
+    private void confirmOrTeleport(InventoryClickEvent event, Player player, AngelChestGUIHolder holder, TeleportAction action) {
+        if(main.getConfig().getBoolean(Config.CONFIRM)) {
+            main.guiManager.showConfirmGUI(player,holder,action);
+        } else {
+            CommandUtils.fetchOrTeleport(main, player, holder.getAngelChest(), holder.getChestIdStartingAt1(), action, false);
+            player.closeInventory();
         }
     }
 }

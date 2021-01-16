@@ -2,6 +2,7 @@ package de.jeff_media.AngelChestPlus.gui;
 
 import de.jeff_media.AngelChestPlus.AngelChest;
 import de.jeff_media.AngelChestPlus.Main;
+import de.jeff_media.AngelChestPlus.TeleportAction;
 import de.jeff_media.AngelChestPlus.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -17,7 +18,8 @@ public class AngelChestGUIHolder implements InventoryHolder {
     private final ArrayList<AngelChest> chests;
     private final int numberOfAngelChests;
     private final Player player;
-    private int chestId = 0;
+    private int chestIdStartingAt1 = 0;
+    private TeleportAction action;
     private Inventory inventory;
 
     public AngelChestGUIHolder(Player player, GUIContext context, Main main) {
@@ -25,6 +27,19 @@ public class AngelChestGUIHolder implements InventoryHolder {
         this.chests = Utils.getAllAngelChestsFromPlayer(player,main);
         this.numberOfAngelChests = chests.size();
         this.player = player;
+    }
+
+    public AngelChestGUIHolder(Player player, GUIContext context, Main main, int chestIdStartingAt1) {
+        this(player,context,main);
+        this.chestIdStartingAt1 = chestIdStartingAt1;
+    }
+
+    public void setAction(TeleportAction action) {
+        this.action=action;
+    }
+
+    public TeleportAction getAction() {
+        return action;
     }
 
     public void setInventory(Inventory inventory) {
@@ -48,17 +63,17 @@ public class AngelChestGUIHolder implements InventoryHolder {
         return context;
     }
 
-    public int getChestId() {
-        return chestId;
+    public int getChestIdStartingAt1() {
+        return chestIdStartingAt1;
     }
 
-    public void setChestId(int chestId) {
-        this.chestId = chestId;
+    public void setChestIdStartingAt1(int chestIdStartingAt1) {
+        this.chestIdStartingAt1 = chestIdStartingAt1;
     }
 
     public @Nullable AngelChest getAngelChest() {
-        if(chestId == 0) return null;
-        return getAngelChests().get(chestId-1);
+        if(chestIdStartingAt1 == 0) return null;
+        return getAngelChests().get(chestIdStartingAt1 -1);
     }
 
 

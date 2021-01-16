@@ -253,12 +253,15 @@ event-priority: NORMAL
 ##### localization ######
 #########################
 
+# In the following configuration sections, you can use color and
+# formatting codes for all text messages.
+
 # Available color codes:
 # &0 Black        &6 Gold       &c Red
 # &1 Dark Blue    &7 Gray       &d Light Purple
 # &2 Dark Green   &8 Dark Gray  &e Yellow
 # &3 Dark Aqua    &9 Blue       &f White
-# &4 Dark Red     &a Green     
+# &4 Dark Red     &a Green
 # &5 Dark Purple  &b Aqua
 
 # Available formatting codes:
@@ -266,7 +269,10 @@ event-priority: NORMAL
 # &l Bold         &o Italic
 # &n Underline    &r Reset
 
-##### Hologram settings
+#########################
+#####   Hologram   ######
+#########################
+
 # {player} is the player's name.
 # {time} is the amount of time left.
 # \n is a new line.
@@ -281,9 +287,22 @@ hologram-offset: 0.0
 # The distance between each hologram line
 hologram-offset-per-line: 0.25
 
+#########################
+#####     GUI      ######
+#########################
+
+# You can use base64 strings to customize the GUI buttons.
+# You can for example use this website: https://minecraft-heads.com/custom-heads
+# At the bottom of each head's page, copy the string at Other -> Value
+
+
 ##### Chest inventory name
 # {player} is the player's name.
-angelchest-inventory-name: "&a[AngelChest] &b{player}&r"
+angelchest-inventory-name: "&4&l[&c&lAngelChest&4&l] &b{player}&r"
+
+#########################
+#####    Other     ######
+#########################
 
 ##### AngelChest list (/aclist) settings
 # {id} is the number of the chest
@@ -302,9 +321,10 @@ link-teleport: "&6[TP]&r"
 # an AngelChest will be sent on a separate line
 show-links-on-separate-line: false
 
+#########################
+#####   Messages   ######
+#########################
 
-
-##### Messages
 message-all-your-angelchests-were-already-unlocked: "&eAll your AngelChests were already unlocked."
 message-angelchest-created: "&aAn Angel collected your stuff and put it into a chest located at the place of your death."
 message-angelchest-disappeared: "&cYou were too slow... Your AngelChest has disappeared and dropped its contents."
@@ -327,7 +347,13 @@ message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was pu
 message-angelchest-retrieved: "&aAngelChest retrieved!"
 message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 
-##### Default translations - to use one, just uncomment them. Of course you can also change those.
+#########################
+##### Translations ######
+#########################
+
+# Here are some community made translations - to use one, just uncomment them by removing the
+# single hashtag (#) symbol at the beginning of each line. Do NOT uncomment the name of the language.
+# Of course you can also edit the translations.
 
 ##### English
 #message-all-your-angelchests-were-already-unlocked: "&eAll your AngelChests were already unlocked."

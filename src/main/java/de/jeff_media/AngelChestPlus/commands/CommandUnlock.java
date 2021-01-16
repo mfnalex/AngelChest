@@ -21,6 +21,7 @@ public class CommandUnlock implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String alias, String[] args) {
+		/*
 		Player affectedPlayer = null;
 		if(!command.getName().equalsIgnoreCase("unlock")) return false;
 		
@@ -60,7 +61,7 @@ public class CommandUnlock implements CommandExecutor {
 			return true;
 		}
 
-		CommandUtils.unlockSingleChest(main, p, affectedPlayer, ac);
+		CommandUtils.unlockSingleChest(main, p, affectedPlayer, ac);*/
 		return true;
 	}
 }
