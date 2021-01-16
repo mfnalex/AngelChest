@@ -1,7 +1,7 @@
 ## 0.0.4
-- Added option to automatically open GUI on death
-  - Either it can show all chests or it can directly show the GUI for latest chest
-  - Option to only open the GUI when player is allowed to fetch or teleport to the chest added as well
+- GUI can automatically be opened after death
+  - GUI can either be automatically opened for the latest chest, or a list of all chests
+  - Showing the GUI can be disabled if the player neither has permission for fetching nor teleporting to the chest
 
 ## 0.0.3
 - Fixed /acunlock command and unlocking through GUI
