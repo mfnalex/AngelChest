@@ -112,7 +112,7 @@ public class AngelChest {
         overflowInv = Bukkit.createInventory(holder, 54, inventoryName);
         holder.setInventory(overflowInv);
         int iOverflow = 0;
-        for (ItemStack is : yaml.getList("overflowInv").toArray(new ItemStack[0])) {
+        for (ItemStack is : yaml.getList("overflowInv").toArray(new ItemStack[54])) {
             if (is != null) overflowInv.setItem(iOverflow, is);
             iOverflow++;
         }
@@ -120,7 +120,7 @@ public class AngelChest {
         // Load ArmorInv
         armorInv = new ItemStack[4];
         int iArmor = 0;
-        for (ItemStack is : yaml.getList("armorInv").toArray(new ItemStack[0])) {
+        for (ItemStack is : yaml.getList("armorInv").toArray(new ItemStack[4])) {
             if (is != null) armorInv[iArmor] = is;
             iArmor++;
         }
@@ -128,7 +128,7 @@ public class AngelChest {
         // Load StorageInv
         storageInv = new ItemStack[36];
         int iStorage = 0;
-        for (ItemStack is : yaml.getList("storageInv").toArray(new ItemStack[0])) {
+        for (ItemStack is : yaml.getList("storageInv").toArray(new ItemStack[36])) {
             if (is != null) storageInv[iStorage] = is;
             iStorage++;
         }
@@ -136,7 +136,7 @@ public class AngelChest {
         // Load ExtraInv
         extraInv = new ItemStack[1];
         int iExtra = 0;
-        for (ItemStack is : yaml.getList("extraInv").toArray(new ItemStack[0])) {
+        for (ItemStack is : yaml.getList("extraInv").toArray(new ItemStack[1])) {
             if (is != null) extraInv[iExtra] = is;
             iExtra++;
         }

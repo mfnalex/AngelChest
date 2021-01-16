@@ -152,6 +152,11 @@ public class GUIListener implements @NotNull Listener {
                 }
                 break;
 
+            case GUI.SLOT_PREVIEW:
+                if(player.hasPermission(Permissions.ALLOW_PREVIEW)) {
+                    main.guiManager.showPreviewGUI(player, holder.getAngelChest());
+                }
+
             default:
                 break;
         }

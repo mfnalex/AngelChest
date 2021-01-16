@@ -1,3 +1,6 @@
+## 0.0.6
+- Added preview feature to the GUI
+
 ## 0.0.5
 - Configurable prices per player (might be bugged, needs testing)
 

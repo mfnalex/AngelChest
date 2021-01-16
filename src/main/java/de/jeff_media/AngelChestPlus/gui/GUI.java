@@ -8,6 +8,7 @@ public class GUI {
     public static final int SLOT_TP = 4;
     public static final int SLOT_FETCH = 5;
     public static final int SLOT_UNLOCK = 7;
+    public static final int SLOT_PREVIEW = 8;
 
     // Confirm Menu
     public static final int SLOT_CONFIRM_INFO = 4;

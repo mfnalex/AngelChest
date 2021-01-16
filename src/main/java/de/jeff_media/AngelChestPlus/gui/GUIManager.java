@@ -134,6 +134,36 @@ public class GUIManager {
         }, 20L);
     }
 
+    public void showPreviewGUI(Player player, AngelChest angelChest) {
+        AngelChestGUIHolder holder = new AngelChestGUIHolder(player,GUIContext.PREVIEW_MENU,main);
+        Inventory inventory = Bukkit.createInventory(holder,54,main.messages.GUI_TITLE_MAIN);
+        holder.setInventory(inventory);
+        int armorStart = 0;
+        int offhandStart = 5;
+        int storageStart = 9;
+        int hotbarStart = 45;
+        ItemStack[] itemStacks = new ItemStack[54];
+        for(int i = 0; i < 54; i++) {
+            itemStacks[i] = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+        }
+        for(int i = 0; i < 4; i++) {
+            itemStacks[i+armorStart] = angelChest.armorInv[i];
+        }
+        for(int i = 0; i < 1; i++) {
+            itemStacks[i+offhandStart] = angelChest.extraInv[i];
+        }
+        for(int i = 0; i < 9; i++) {
+            itemStacks[i+hotbarStart] = angelChest.storageInv[i];
+        }
+        for(int i = 0; i < 27; i++) {
+            itemStacks[i+storageStart] = angelChest.storageInv[i+9];
+        }
+        for(int i = 0; i < 54; i++) {
+            inventory.setItem(i,itemStacks[i]);
+        }
+        player.openInventory(inventory);
+    }
+
     public void showChestGUI(Player player, AngelChestGUIHolder holder, int id) {
         AngelChest angelChest = holder.getAngelChest();
         AngelChestGUIHolder newHolder = new AngelChestGUIHolder(player, GUIContext.CHEST_MENU, main, id);
@@ -145,6 +175,7 @@ public class GUIManager {
         if(player.hasPermission(Permissions.ALLOW_TELEPORT)) inventory.setItem(GUI.SLOT_TP, getTPButton());
         if(player.hasPermission(Permissions.ALLOW_FETCH)) inventory.setItem(GUI.SLOT_FETCH, getFetchButton());
         if(player.hasPermission(Permissions.ALLOW_PROTECT) && angelChest.isProtected) inventory.setItem(GUI.SLOT_UNLOCK, getUnlockButton());
+        if(player.hasPermission(Permissions.ALLOW_PREVIEW)) inventory.setItem(GUI.SLOT_PREVIEW, getPreviewButton());
         player.openInventory(inventory);
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
@@ -175,6 +206,10 @@ public class GUIManager {
                 // TODO: No idea why it happens, but everything still works normally lol so fuck it.
             }
         }, 20L);
+    }
+
+    private ItemStack getPreviewButton() {
+        return getButton(Material.BOOK,"§6Preview",null);
     }
 
     private ItemStack getBackButton() {

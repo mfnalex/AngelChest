@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChestPlus</name>
     <artifactId>AngelChestPlus</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.6-SNAPSHOT</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -181,7 +181,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>Slimefun4</artifactId>
-            <version>RC-14</version>
+            <version>RC-15</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

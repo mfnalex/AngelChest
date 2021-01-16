@@ -3,6 +3,7 @@
   - GUI can automatically be opened after death
   - GUI can either be automatically opened for the latest chest, or a list of all chests
   - Showing the GUI can be disabled if the player neither has permission for fetching nor teleporting to the chest
+- option to preview chest contents in the GUI
 - per group prices for fetch / teleport / chest spawning
 - Better config updater
 - More control over the holograms
@@ -16,7 +17,7 @@
 
 
 ## TODO
-- option to preview chest contents in the GUI
+- !!!! Integrate GUI and Preview feature so a player can see contents while having the options to tp, fetch etc the chest on the same screen
 - Allow players to run /acinfo, /aclist, /acfetch and /acgui for other players, including offline players
 - Make EconomyReason configurable
 - Make text in /acgui conigurable
