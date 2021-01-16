@@ -14,7 +14,7 @@ import java.util.UUID;
 public class Watchdog {
 
     private final Main main;
-    YamlConfiguration yaml;
+    final YamlConfiguration yaml;
 
     public Watchdog(Main main) {
         this.main=main;

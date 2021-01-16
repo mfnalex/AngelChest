@@ -10,7 +10,7 @@ public enum TeleportAction {
     private final String priceInConfig;
     private final String command;
 
-    private TeleportAction(String permission, String economyReason, String priceInConfig, String command) {
+    TeleportAction(String permission, String economyReason, String priceInConfig, String command) {
         this.permission = permission;
         this.economyReason = economyReason;
         this.priceInConfig = priceInConfig;

@@ -16,7 +16,7 @@ public class CommandGUI implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String alias, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
 
         if(!sender.hasPermission("angelchest.use")) {
             sender.sendMessage(main.getCommand("aclist").getPermissionMessage());

@@ -6,7 +6,6 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 
@@ -23,10 +22,10 @@ public class WorldListener implements Listener {
         main.loadAllAngelChestsFromFile();
     }
 
-    @EventHandler
+    /*@EventHandler
     public void onChunkLoad(ChunkLoadEvent e) {
 
-    }
+    }*/
 
     @EventHandler
     public void onChunkUnload(ChunkUnloadEvent e) {

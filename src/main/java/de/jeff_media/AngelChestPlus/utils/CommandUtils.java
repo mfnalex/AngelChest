@@ -102,7 +102,7 @@ public class CommandUtils {
 	 */
 	public static @Nullable Triplet<Integer,AngelChest,Player> argIdx2AngelChest(Main main, Player sendTo, Player affectedPlayer, String[] args) {
 
-		int chestIdStartingAt1 = 0;
+		int chestIdStartingAt1;
 
 		// Get all AngelChests by this player
 		ArrayList<AngelChest> angelChestsFromThisPlayer = Utils.getAllAngelChestsFromPlayer(affectedPlayer, main);
@@ -207,7 +207,7 @@ public class CommandUtils {
 			} else {
 				main.debug("Not all chunks are loaded yet, waiting...");
 			}
-		},1l, 1l));
+		}, 1L, 1L));
 	}
 
 	private static boolean hasConfirmed(Main main, Player p, AngelChest ac, int chestIdStartingAt1, double price, TeleportAction action) {

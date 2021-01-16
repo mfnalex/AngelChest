@@ -97,18 +97,17 @@ public class ConfigUpdater {
 	}
 
 	private static String getQuotes(String line) {
-		String quotes = "";
 		for(String test : NODES_NEEDING_DOUBLE_QUOTES) {
 			if (line.startsWith(test)) {
-				quotes = "\"";
+				return "\"";
 			}
 		}
 		for(String test : NODES_NEEDING_SINGLE_QUOTES) {
 			if(line.startsWith(test)) {
-				quotes="'";
+				return "'";
 			}
 		}
-		return quotes;
+		return "";
 	}
 
 	private static boolean lineIsStringList(String line) {

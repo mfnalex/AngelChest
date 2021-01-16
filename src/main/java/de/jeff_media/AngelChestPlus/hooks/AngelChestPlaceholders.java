@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class AngelChestPlaceholders extends PlaceholderExpansion {
 
-    Main main;
+    final Main main;
 
     public AngelChestPlaceholders(Main main) {
         this.main=main;

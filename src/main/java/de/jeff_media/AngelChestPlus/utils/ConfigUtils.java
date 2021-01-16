@@ -11,7 +11,8 @@ import de.jeff_media.AngelChestPlus.hooks.MinepacksHook;
 import org.bukkit.Material;
 
 public class ConfigUtils {
-	
+
+	@SuppressWarnings("SameParameterValue")
 	static void createDirectory(Main main, String name) {
 
 		File folder = new File(main.getDataFolder().getPath() + File.separator + name);

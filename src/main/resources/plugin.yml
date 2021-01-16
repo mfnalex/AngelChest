@@ -1,7 +1,7 @@
 main: ${spigot.main}
 name: ${project.name}
 version: ${project.version}
-description: ${spigot.description}
+description: "${project.description}"
 prefix: ${spigot.prefix}
 api-version: "1.13"
 website: https://www.spigotmc.org/resources/1-13-angelchest.60383/
@@ -47,7 +47,7 @@ permissions:
   angelchest.use:
     description: "Players with this permission will have their items put into a chest on death by an Angel"
   angelchest.protect:
-    description: "Players with this permission have their AngelChests protected from other players. They can unlock their chests unsing /unlock"
+    description: "Players with this permission have their AngelChests protected from other players. They can unlock their chests using /acunlock"
   angelchest.protect.ignore:
     description: "Players with this permission can open other player's protected AngelChests"
   angelchest.xp:
@@ -55,6 +55,8 @@ permissions:
   angelchest.xp.levels:
     description: "The full experience level of the player will be stored in the AngelChest"
   angelchest.tp:
-    description: "Allows players to teleport to their AngelChests using /aclist or /acinfo"
+    description: "Allows players to teleport to their AngelChests"
+  angelchest.fetch:
+    description: "Allows players to teleport their AngelChests to them"
   angelchest.reload:
     description: "Allows to reload the configuration using /acreload"

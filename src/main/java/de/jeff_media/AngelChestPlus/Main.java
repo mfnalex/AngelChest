@@ -160,17 +160,16 @@ public class Main extends JavaPlugin {
 					chest.hologram.update(chest);
 				}
 			}
-		},20l,20l);
+		}, 20L, 20L);
 
 		// Track player positions
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			for(Player player : Bukkit.getOnlinePlayers()) {
-				Entity entity = (Entity) player;
-				if(entity.isOnGround()) {
-					lastPlayerPositions.put(player.getUniqueId(),entity.getLocation().getBlock());
+				if(((Entity) player).isOnGround()) {
+					lastPlayerPositions.put(player.getUniqueId(), player.getLocation().getBlock());
 				}
 			}
-		},20l,20l);
+		}, 20L, 20L);
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 
@@ -278,10 +277,8 @@ public class Main extends JavaPlugin {
 		ArrayList<UUID> armorStandUUIDs = new ArrayList<>();
 		for(AngelChest ac : angelChests.values()) {
 			if(ac==null || ac.hologram==null) continue;
-			for(UUID uuid : ac.hologram.armorStandUUIDs) {
-				//if(armorStand == null) continue;
-				armorStandUUIDs.add(uuid);
-			}
+			//if(armorStand == null) continue;
+			armorStandUUIDs.addAll(ac.hologram.armorStandUUIDs);
 		}
 		return armorStandUUIDs;
 	}
@@ -309,10 +306,7 @@ public class Main extends JavaPlugin {
 	}
 
 	private boolean isFreeVersionInstalled() {
-		if(Bukkit.getPluginManager().getPlugin("AngelChest")!=null) {
-			return true;
-		}
-		return false;
+		return Bukkit.getPluginManager().getPlugin("AngelChest") != null;
 	}
 
 }

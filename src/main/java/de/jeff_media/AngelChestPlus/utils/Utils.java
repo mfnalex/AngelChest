@@ -51,6 +51,9 @@ public class Utils {
 		Block block = loc.getBlock();
 		for(int i = 0; i < height; i++) {
 			if(block.getRelative(0,-i,0).getType()==Material.LAVA) return true;
+
+			// TODO: Does this work?
+			if(block.getRelative(0,-i,0).getType().isSolid()) return false;
 		}
 		return false;
 	}
@@ -116,13 +119,6 @@ public class Utils {
 	}
 
 
-	/**
-	 * Puts everything from source into destination.
-	 * 
-	 * @param source
-	 * @param dest
-	 * @return true if everything could be stored, otherwise false
-	 */
 	public static boolean tryToMergeInventories(AngelChest source, PlayerInventory dest) {
 		if(!isEmpty(source.overflowInv))
 			return false; // Already applied inventory

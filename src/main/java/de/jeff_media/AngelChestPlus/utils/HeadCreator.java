@@ -21,7 +21,7 @@ public class HeadCreator {
 
         profile.getProperties().put("textures", new Property("textures", base64));
 
-        Field profileField = null;
+        Field profileField;
 
         try {
             profileField = meta.getClass().getDeclaredField("profile");

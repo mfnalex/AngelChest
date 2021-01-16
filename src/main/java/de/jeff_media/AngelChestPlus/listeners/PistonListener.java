@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PistonListener implements Listener {
 
-    Main main;
+    final Main main;
 
     public PistonListener(Main main) {
         this.main=main;

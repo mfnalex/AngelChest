@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 public class EmergencyMode {
 
-    private static String[] FREE_VERSION_INSTALLED = {
+    private static final String[] FREE_VERSION_INSTALLED = {
             "§c ",
             "§c§l! ! !W A R N I N G ! ! !",
             "§cYou have installed AngelChestPlus but did not remove the old version.",

@@ -4,7 +4,6 @@ import de.jeff_media.AngelChestPlus.AngelChest;
 import de.jeff_media.AngelChestPlus.Config;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.TeleportAction;
-import de.jeff_media.AngelChestPlus.commands.CommandFetchOrTeleport;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.HeadCreator;
 import de.jeff_media.AngelChestPlus.utils.Utils;
@@ -71,7 +70,7 @@ public class GUIManager {
 
     private List<String> getChestItemLore(AngelChest angelChest, int id) {
 
-        String lore[] = new String[]{
+        String[] lore = new String[]{
                 String.format("§4%s",CommandUtils.getTimeLeft(angelChest)),
                 String.format("§aX: §f%d", angelChest.block.getX()),
                 String.format("§aY: §f%d", angelChest.block.getY()),
@@ -124,7 +123,7 @@ public class GUIManager {
             if(hasOpen(player,inventory)) {
                 showMainGUI(player);
             }
-        },20l);
+        }, 20L);
     }
 
     public void showChestGUI(Player player, AngelChestGUIHolder holder, int id) {
@@ -144,7 +143,7 @@ public class GUIManager {
             if(hasOpen(player,inventory)) {
                 showChestGUI(player, holder, holder.getChestIdStartingAt1());
             }
-        },20l);
+        }, 20L);
     }
 
     public void showConfirmGUI(Player player, AngelChestGUIHolder holder, TeleportAction action) {
@@ -162,7 +161,7 @@ public class GUIManager {
             if(hasOpen(player,inventory)) {
                 showConfirmGUI(player, holder, holder.getAction());
             }
-        },20l);
+        }, 20L);
     }
 
     private ItemStack getBackButton() {
@@ -200,6 +199,7 @@ public class GUIManager {
                         .replaceAll("\\{currency}", CommandUtils.getCurrency(price, main))));
     }
 
+    @SuppressWarnings("SameParameterValue")
     private ItemStack getButton(Material material, String name, @Nullable List<String> lore) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
