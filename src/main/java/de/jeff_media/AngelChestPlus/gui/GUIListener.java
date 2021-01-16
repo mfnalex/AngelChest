@@ -1,6 +1,7 @@
 package de.jeff_media.AngelChestPlus.gui;
 
 import de.jeff_media.AngelChestPlus.Config;
+import de.jeff_media.AngelChestPlus.Permissions;
 import de.jeff_media.AngelChestPlus.TeleportAction;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
@@ -134,12 +135,21 @@ public class GUIListener implements @NotNull Listener {
                 break;
 
             case GUI.SLOT_TP:
-                confirmOrTeleport(event, player, holder, TeleportAction.TELEPORT_TO_CHEST);
-                //CommandUtils.teleportPlayerToChest(main,player,holder.getAngelChests().get(holder.getChestIdStartingAt1()-1),new String[] {});
+                if(player.hasPermission(Permissions.ALLOW_TELEPORT)) {
+                    confirmOrTeleport(event, player, holder, TeleportAction.TELEPORT_TO_CHEST);
+                }
                 break;
 
             case GUI.SLOT_FETCH:
-                confirmOrTeleport(event, player, holder, TeleportAction.FETCH_CHEST);
+                if(player.hasPermission(Permissions.ALLOW_FETCH)) {
+                    confirmOrTeleport(event, player, holder, TeleportAction.FETCH_CHEST);
+                }
+                break;
+
+            case GUI.SLOT_UNLOCK:
+                if(player.hasPermission(Permissions.ALLOW_PROTECT) && holder.getAngelChest().isProtected) {
+                    CommandUtils.unlockSingleChest(main, player, player, holder.getAngelChest());
+                }
                 break;
 
             default:

@@ -25,14 +25,14 @@
 #                            Shows a list of your AngelChests, including links for teleporting to, fetching and
 #                            unlocking each chest. This is basically the "chat-only" version of /acgui
 #
-# /acfetch                   Permission: angelchest.fetch
-#                            Teleports the chest to the player
+# /acfetch [chestID]         Permission: angelchest.fetch
+#                            Teleports one of the chests to the player
 #
-# /actp                      Permission: angelchest.tp
-#                            Teleports the player to their chest
+# /actp [chestID]            Permission: angelchest.tp
+#                            Teleports the player to one of their chest
 #
 # /acunlock [chestID]        Permission: angelchest.protect
-#                            Unlocks one or all of your AngelChests if you have the angelchest.protect permission
+#                            Unlocks one of your AngelChests if you have the angelchest.protect permission
 #
 # /acreload                  Permission: angelchest.reload
 #                            Reloads the config

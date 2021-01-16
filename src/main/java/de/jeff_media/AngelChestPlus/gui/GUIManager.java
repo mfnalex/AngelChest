@@ -1,9 +1,6 @@
 package de.jeff_media.AngelChestPlus.gui;
 
-import de.jeff_media.AngelChestPlus.AngelChest;
-import de.jeff_media.AngelChestPlus.Config;
-import de.jeff_media.AngelChestPlus.Main;
-import de.jeff_media.AngelChestPlus.TeleportAction;
+import de.jeff_media.AngelChestPlus.*;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.HeadCreator;
 import de.jeff_media.AngelChestPlus.utils.Utils;
@@ -134,9 +131,9 @@ public class GUIManager {
 
         inventory.setItem(GUI.SLOT_BACK, getBackButton());
         inventory.setItem(GUI.SLOT_INFO, getInfoButton(angelChest, id));
-        inventory.setItem(GUI.SLOT_TP, getTPButton());
-        inventory.setItem(GUI.SLOT_FETCH, getFetchButton());
-        inventory.setItem(GUI.SLOT_UNLOCK, getUnlockButton());
+        if(player.hasPermission(Permissions.ALLOW_TELEPORT)) inventory.setItem(GUI.SLOT_TP, getTPButton());
+        if(player.hasPermission(Permissions.ALLOW_FETCH)) inventory.setItem(GUI.SLOT_FETCH, getFetchButton());
+        if(player.hasPermission(Permissions.ALLOW_PROTECT) && angelChest.isProtected) inventory.setItem(GUI.SLOT_UNLOCK, getUnlockButton());
         player.openInventory(inventory);
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
@@ -158,8 +155,13 @@ public class GUIManager {
         player.openInventory(inventory);
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
-            if(hasOpen(player,inventory)) {
-                showConfirmGUI(player, holder, holder.getAction());
+            try {
+                if (hasOpen(player, inventory)) {
+                    showConfirmGUI(player, holder, holder.getAction());
+                }
+            } catch (NullPointerException ignored) {
+                //main.debug("Null in repeating task in showConfirmGUI");
+                // TODO: No idea why it happens, but everything still works normally lol so fuck it.
             }
         }, 20L);
     }
