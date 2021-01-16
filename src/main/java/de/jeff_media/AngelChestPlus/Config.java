@@ -58,4 +58,5 @@ public class Config {
     public static final String GUI_BUTTON_CONFIRM_DECLINE = "gui-button-confirm-decline";
     public static final String GUI_TITLE_MAIN = "gui-title-main";
     public static final String GUI_TITLE_CHEST = "gui-title-chest";
+    public static final String ASYNC_CHUNK_LOADING = "async-chunk-loading";
 }

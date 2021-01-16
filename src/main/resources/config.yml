@@ -114,6 +114,14 @@ auto-respawn: false
 # When auto-respawn is true, you can define a delay in seconds before the player is respawned.
 auto-respawn-delay: 10
 
+# When true, AngelChest loads all chunks asynchronously to avoid lags when players are teleporting
+# to one of their chests. This only works on Paper and its forks, but you do NOT have to disable
+# this if you do not use Paper. On very slow servers, users could experience a small pause
+# between starting the teleport and actually being teleported when this is enabled. This is NO lag,
+# it's just AngelChest waiting for the server to load the chunks instead of "force loading" them.
+# If you don't know what this means: just leave it enabled
+async-chunk-loading: true
+
 # Should we check for updates?
 # When enabled, a message is printed in the console if a new version has
 # been found, and OPs will be notified when they join the server.

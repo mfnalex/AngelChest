@@ -164,7 +164,7 @@ public class CommandUtils {
 			return;
 		}
 		switch(action) {
-			case TELEPORT_TO_CHEST: teleportPlayerToChestAsync(main, p, ac); return;
+			case TELEPORT_TO_CHEST: teleportPlayerToChest(main, p, ac); return;
 			case FETCH_CHEST: fetchChestToPlayer(main, p, ac); return;
 		}
 
@@ -197,17 +197,22 @@ public class CommandUtils {
 
 
 
-	private static void teleportPlayerToChestAsync(Main main, Player p, AngelChest ac) {
-		AtomicInteger chunkLoadingTask = new AtomicInteger();
-		chunkLoadingTask.set(Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
-			if(areChunksLoadedNearby(ac.block.getLocation(), main)) {
-				main.debug("All chunks loaded! Teleporting now!");
-				doActualTeleport(main, p, ac);
-				Bukkit.getScheduler().cancelTask(chunkLoadingTask.get());
-			} else {
-				main.debug("Not all chunks are loaded yet, waiting...");
-			}
-		}, 1L, 1L));
+	private static void teleportPlayerToChest(Main main, Player p, AngelChest ac) {
+		if(main.getConfig().getBoolean(Config.ASYNC_CHUNK_LOADING)) {
+			AtomicInteger chunkLoadingTask = new AtomicInteger();
+			chunkLoadingTask.set(Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
+				if (areChunksLoadedNearby(ac.block.getLocation(), main)) {
+					main.debug("[Async chunk loading] All chunks loaded! Teleporting now!");
+					doActualTeleport(main, p, ac);
+					Bukkit.getScheduler().cancelTask(chunkLoadingTask.get());
+				} else {
+					main.debug("[Async chunk loading] Not all chunks are loaded yet, waiting...");
+				}
+			}, 1L, 1L));
+		} else {
+			main.debug("[Async chunk loading] You disabled async-chunk-loading. Chunk loading COULD cause tps losses! See config.yml");
+			doActualTeleport(main, p, ac);
+		}
 	}
 
 	private static boolean hasConfirmed(Main main, Player p, AngelChest ac, int chestIdStartingAt1, double price, TeleportAction action) {
