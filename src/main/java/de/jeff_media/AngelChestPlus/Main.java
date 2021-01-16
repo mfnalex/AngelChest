@@ -101,13 +101,15 @@ public class Main extends JavaPlugin {
 		scheduleRepeatingTasks(main);
 
 		debug("Registering commands");
+		registerCommands();
+		debug("Setting command executors...");
 		CommandFetchOrTeleport commandFetchOrTeleport = new CommandFetchOrTeleport(this);
-		this.getCommand("unlock").setExecutor(new CommandUnlock(this));
+		this.getCommand("acunlock").setExecutor(new CommandUnlock(this));
 		this.getCommand("aclist").setExecutor(new CommandList(this));
 		this.getCommand("acfetch").setExecutor(commandFetchOrTeleport);
 		this.getCommand("actp").setExecutor(commandFetchOrTeleport);
 		this.getCommand("acreload").setExecutor(new CommandReload(this));
-		this.getCommand("ac").setExecutor(new CommandGUI(this));
+		this.getCommand("acgui").setExecutor(new CommandGUI(this));
 
 		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
 			new AngelChestPlaceholders(this).register();
@@ -150,6 +152,21 @@ public class Main extends JavaPlugin {
 			}
 		}, 0, 20);
 		
+	}
+
+	private void registerCommands() {
+		String[] commands = new String[] {"acgui","aclist","acfetch","actp","acunlock","acreload"};
+		for(String command : commands) {
+			ArrayList<String> newCommand = new ArrayList<>();
+			debug("Registering command "+command+" with aliases");
+			newCommand.add(command);
+			List<String> aliases = getConfig().getStringList("command-aliases-"+command);
+			for(String alias : aliases) {
+				newCommand.add(alias);
+				debug("- "+alias);
+			}
+			CommandManager.registerCommand(this, newCommand.toArray(new String[0]));
+		}
 	}
 
 	private void scheduleRepeatingTasks(Main main) {

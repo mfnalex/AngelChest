@@ -11,6 +11,13 @@
 
 
 ## TODO
-- Allow players to run /acinfo, /aclist, /acfetch and /acgui for other players
+- Fix /unlock command again
+- option to preview chest contents in the GUI
+- per group prices for fetch / teleport / chest spawning
+- option to auto-open the GUI after a death respawn
+- Allow players to run /acinfo, /aclist, /acfetch and /acgui for other players, including offline players
 - Make EconomyReason configurable
 - Make text in /acgui conigurable
+- Custom command aliases
+- Option (for OPs, maybe everyone with the protect.ignore permission) to open chests with shift-rightclick without looting them
+- Option to show ALL chests by ALL players (for OPs of course)

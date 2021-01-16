@@ -25,12 +25,16 @@ public class ConfigUpdater {
 			Config.ONLY_SPAWN_IN+":",
 			Config.DISABLED_MATERIALS+":",
 			Config.DISABLED_WORLDS+":",
-			Config.DISABLED_WORLDGUARD_REGIONS
+			Config.DISABLED_WORLDGUARD_REGIONS+":",
+			"command-aliases-"
 	};
 	private static final String[] LINES_IGNORED = {"config-version:", "plugin-version:"};
 
 	private static void debug(Logger logger, String message) {
-		logger.warning(message);
+
+		if(false) {
+			logger.warning(message);
+		}
 	}
 
 	public static void updateConfig(Main main) {

@@ -59,4 +59,10 @@ public class Config {
     public static final String GUI_TITLE_MAIN = "gui-title-main";
     public static final String GUI_TITLE_CHEST = "gui-title-chest";
     public static final String ASYNC_CHUNK_LOADING = "async-chunk-loading";
+    public static final String ALIAS_ACGUI = "command-aliases-acgui";
+    public static final String ALIAS_ACLIST = "command-aliases-aclist";
+    public static final String ALIAS_ACFETCH = "command-aliases-acfetch";
+    public static final String ALIAS_ACTP = "command-aliases-actp";
+    public static final String ALIAS_ACUNLOCK = "command-aliases-acunlock";
+    public static final String ALIAS_ACRELOAD = "command-aliases-acreload";
 }

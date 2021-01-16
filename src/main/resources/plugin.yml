@@ -11,36 +11,30 @@ load: POSTWORLD
 softdepend: [Multiverse-Core,Multiverse,Vault,WorldGuard,Slimefun,InventoryPages,Minepacks,PlaceholderAPI]
 loadbefore: [AngelChest]
 commands:
-  acunlock:
-    permission: angelchest.protect
-    description: "Unlocks your AngelChests"
-    aliases: [unlockchest,unlock]
-    usage: /<command>s
-  aclist:
-    permission: angelchest.use
-    description: "Lists info about your AngelChests"
-    aliases: [acinfo]
-    usage: "/<command>"
-  acfetch:
-    permission: angelchest.fetch
-    description: "Remotely retrieves your AngelChest"
-    aliases: [acretrieve]
-    usage: "/<command>"
-  actp:
-    permission: angelchest.tp
-    description: "Teleports player to their AngelChest"
-    aliases: [acteleport]
-    usage: "/<command>"
-  acreload:
-    permission: angelchest.reload
-    description: "Reloads AngelChest configuration"
-    aliases: [angelchestreload]
-    usage: "</command>"
-  acgui:
-    permission: angelchest.use
-    description: "Opens AngelChest GUI"
-    aliases: [angelchests,ac]
-    usage: "</command>"
+#  acunlock:
+#    permission: angelchest.protect
+#    description: "Unlocks your AngelChests"
+#    usage: /<command>s
+#  aclist:
+#    permission: angelchest.use
+#    description: "Lists info about your AngelChests"
+#    usage: "/<command>"
+#  acfetch:
+#    permission: angelchest.fetch
+#    description: "Remotely retrieves your AngelChest"
+#    usage: "/<command>"
+#  actp:
+#    permission: angelchest.tp
+#    description: "Teleports player to their AngelChest"
+#    usage: "/<command>"
+#  acreload:
+#    permission: angelchest.reload
+#    description: "Reloads AngelChest configuration"
+#    usage: "</command>"
+#  acgui:
+#    permission: angelchest.use
+#    description: "Opens AngelChest GUI"
+#    usage: "</command>"
   acd:
     permission: angelchest.debug
 permissions:
