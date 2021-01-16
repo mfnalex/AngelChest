@@ -65,4 +65,6 @@ public class Config {
     public static final String ALIAS_ACTP = "command-aliases-actp";
     public static final String ALIAS_ACUNLOCK = "command-aliases-acunlock";
     public static final String ALIAS_ACRELOAD = "command-aliases-acreload";
+    public static final String SHOW_GUI_AFTER_DEATH = "show-gui-after-death";
+    public static final String ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH = "only-show-gui-after-death-if-player-can-tp-or-fetch";
 }

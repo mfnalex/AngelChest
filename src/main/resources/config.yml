@@ -111,6 +111,18 @@ max-radius: 10
 # is located.
 show-location: true
 
+# When true, dead players will automatically get the AngelChest GUI opened after
+# they respawn if they have at least one AngelChest.
+# Possible values:
+# true    - Opens the main GUI showing all AngelChests or the latest if you only have one
+# latest  - Opens the GUI showing the latest AngelChest only
+# false   - Do not open the GUI automatically
+show-gui-after-death: false
+
+# When "show-gui-after-death" is enabled ("latest" or "true"), only show the GUI if the
+# player has access to either teleport or fetch the chest. If not, do not open the GUI
+only-show-gui-after-death-if-player-can-tp-or-fetch: true
+
 # You can choose the Material to use for the AngelChest,
 # e.g. CHEST, ENDER_CHEST, OBSIDIAN, ...
 # When using PLAYER_HEAD, you can use the head of the died

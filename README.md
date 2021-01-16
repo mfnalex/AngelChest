@@ -1,5 +1,8 @@
 ## Added
 - Complete GUI for your AngelChests with configurable buttons etc.
+  - GUI can automatically be opened after death
+  - GUI can either be automatically opened for the latest chest, or a list of all chests
+  - Showing the GUI can be disabled if the player neither has permission for fetching nor teleporting to the chest
 - Better config updater
 - More control over the holograms
 - Literally unbreakable chests - not even /setblock or WorldEdit can destroy chests
@@ -12,10 +15,8 @@
 
 
 ## TODO
-- Fix /unlock command again
 - option to preview chest contents in the GUI
 - per group prices for fetch / teleport / chest spawning
-- option to auto-open the GUI after a death respawn
 - Allow players to run /acinfo, /aclist, /acfetch and /acgui for other players, including offline players
 - Make EconomyReason configurable
 - Make text in /acgui conigurable

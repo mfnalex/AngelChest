@@ -109,6 +109,8 @@ public class ConfigUtils {
 		main.getConfig().addDefault(Config.ALIAS_ACTP, Arrays.asList("acteleport","angelchesttp","angelchestteleport"));
 		main.getConfig().addDefault(Config.ALIAS_ACUNLOCK, Arrays.asList("angelchestunlock","unlockchest","unlock"));
 		main.getConfig().addDefault(Config.ALIAS_ACRELOAD, Arrays.asList("angelchestreload"));
+		main.getConfig().addDefault(Config.SHOW_GUI_AFTER_DEATH, "false");
+		main.getConfig().addDefault(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH, true);
 		main.getConfig().addDefault("tp-distance",2);
 		main.getConfig().addDefault("full-xp", false); // Currently not in config because there is no way to get players XP
 		main.disabledMaterials = main.getConfig().getStringList(Config.DISABLED_MATERIALS);

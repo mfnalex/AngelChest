@@ -92,6 +92,17 @@ public class GUIManager {
         return player.getOpenInventory().getTopInventory().equals(inventory);
     }
 
+    public void showLatestChestGUI(Player player) {
+        AngelChestGUIHolder holder = new AngelChestGUIHolder(player, GUIContext.MAIN_MENU, main);
+        int latestChest = holder.getNumberOfAngelChests();
+        int inventorySize = getInventorySize(latestChest);
+        Inventory inventory = Bukkit.createInventory(holder, inventorySize, main.messages.GUI_TITLE_MAIN);
+        holder.setInventory(inventory);
+
+        holder.setChestIdStartingAt1(latestChest);
+        main.guiManager.showChestGUI(player, holder, latestChest);
+    }
+
     public void showMainGUI(Player player) {
         AngelChestGUIHolder holder = new AngelChestGUIHolder(player, GUIContext.MAIN_MENU, main);
         int inventorySize = getInventorySize(holder.getNumberOfAngelChests());

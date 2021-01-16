@@ -291,18 +291,43 @@ public class PlayerListener implements Listener {
 
 	}
 
-	/* Debug
-	@EventHandler
-	public void onPlayerRespawnEvent(PlayerRespawnEvent e) {
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onPlayerRespawn(PlayerRespawnEvent playerRespawnEvent) {
+		main.debug("Player Respawn: Show GUI to player?");
+		Player player = playerRespawnEvent.getPlayer();
+		if(!player.hasPermission(Permissions.ALLOW_USE)) {
+			main.debug("  No: no angelchest.use permission");
+			return;
+		}
+		ArrayList<AngelChest> chests = Utils.getAllAngelChestsFromPlayer(player,main);
+		if(chests.size()==0) {
+			main.debug("  No: no AngelChests");
+			return;
+		}
+		String showGUIAfterDeath = main.getConfig().getString(Config.SHOW_GUI_AFTER_DEATH).toLowerCase();
 
-		//Player p = e.getPlayer();
-		//System.out.println("Respawn");
-		for(ItemStack itemStack : p.getInventory()) {
-			if(itemStack==null) continue;
-			System.out.println(itemStack.getType().name());
+		if(main.getConfig().getBoolean(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH)) {
+			main.debug(" Checking if player has fetch or tp permission...");
+			if(!player.hasPermission(Permissions.ALLOW_FETCH) && !player.hasPermission(Permissions.ALLOW_TELEPORT)) {
+				main.debug("  No: Neither angelchest.fetch nor angelchest.tp permission");
+				return;
+			}
+		main.debug(" At least one of those permissions is given.");
 		}
 
-	}*/
+		Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
+			if(showGUIAfterDeath.equals("false")) {
+				main.debug("  No: showGUIAfterDeath is false");
+				return;
+			} else if(showGUIAfterDeath.equals("latest")) {
+				main.debug("  Yes: show latest chest");
+				main.guiManager.showLatestChestGUI(player);
+			} else if(showGUIAfterDeath.equals("true")) {
+				main.debug("  Yes: show all chests or latest if there is only one");
+				main.guiManager.showMainGUI(player);
+			}
+		});
+	}
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onAngelChestRightClick(PlayerInteractEvent event) {
