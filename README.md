@@ -3,6 +3,7 @@
   - GUI can automatically be opened after death
   - GUI can either be automatically opened for the latest chest, or a list of all chests
   - Showing the GUI can be disabled if the player neither has permission for fetching nor teleporting to the chest
+- per group prices for fetch / teleport / chest spawning
 - Better config updater
 - More control over the holograms
 - Literally unbreakable chests - not even /setblock or WorldEdit can destroy chests
@@ -16,9 +17,11 @@
 
 ## TODO
 - option to preview chest contents in the GUI
-- per group prices for fetch / teleport / chest spawning
 - Allow players to run /acinfo, /aclist, /acfetch and /acgui for other players, including offline players
 - Make EconomyReason configurable
 - Make text in /acgui conigurable
 - Option (for OPs, maybe everyone with the protect.ignore permission) to open chests with shift-rightclick without looting them
 - Option to show ALL chests by ALL players (for OPs of course)
+
+## To test
+- TEST IF FOLLOWING WORKS: per group prices for fetch / teleport / chest spawning

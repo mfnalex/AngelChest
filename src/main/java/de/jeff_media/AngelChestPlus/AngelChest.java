@@ -149,21 +149,21 @@ public class AngelChest {
     }
 
 
-    public AngelChest(Player p, UUID owner, Block block, PlayerInventory playerItems, Main main) {
+    public AngelChest(Player player, UUID owner, Block block, PlayerInventory playerItems, Main main) {
 
-        main.debug("Creating AngelChest natively for player "+p.getName());
+        main.debug("Creating AngelChest natively for player "+player.getName());
 
         this.main = main;
         this.owner = owner;
         this.block = block;
-        this.price = main.getConfig().getDouble(Config.PRICE);
+        this.price = main.groupUtils.getSpawnPricePerPlayer(player);
         this.isProtected = main.getServer().getPlayer(owner).hasPermission("angelchest.protect");
         this.secondsLeft = main.groupUtils.getDurationPerPlayer(main.getServer().getPlayer(owner));
         if(secondsLeft<=0) infinite = true;
 
         String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", main.getServer().getPlayer(owner).getName());
         overflowInv = Bukkit.createInventory(null, 54, inventoryName);
-        createChest(block,p.getUniqueId());
+        createChest(block,player.getUniqueId());
 
         // Remove curse of vanishing equipment and Minepacks backpacks
         for (int i = 0; i<playerItems.getSize();i++) {
@@ -388,7 +388,7 @@ public class AngelChest {
 
         if(refund
                 && main.getConfig().getBoolean(Config.REFUND_EXPIRED_CHESTS)
-                && main.getConfig().getDouble(Config.PRICE) > 0) {
+                && price > 0) {
             CommandUtils.payMoney(Bukkit.getOfflinePlayer(owner),price, main,"AngelChest expired");
         }
 

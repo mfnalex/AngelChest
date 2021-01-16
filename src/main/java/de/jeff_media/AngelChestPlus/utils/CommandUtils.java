@@ -142,32 +142,31 @@ public class CommandUtils {
 	/**
 	 * If args is null, skip the confirmation stuff
 	 */
-	public static void fetchOrTeleport(Main main, Player p, AngelChest ac, int chestIdStartingAt1, TeleportAction action, boolean askForConfirmation) {
+	public static void fetchOrTeleport(Main main, Player player, AngelChest ac, int chestIdStartingAt1, TeleportAction action, boolean askForConfirmation) {
 
-		if(!p.hasPermission(action.getPermission())) {
-			p.sendMessage(main.getCommand(action.getCommand()).getPermissionMessage());
+		if(!player.hasPermission(action.getPermission())) {
+			player.sendMessage(main.getCommand(action.getCommand()).getPermissionMessage());
 			return;
 		}
 
-		if(!ac.owner.equals(p.getUniqueId())) {
-			p.sendMessage(main.messages.ERR_NOTOWNER);
+		if(!ac.owner.equals(player.getUniqueId())) {
+			player.sendMessage(main.messages.ERR_NOTOWNER);
 			return;
 		}
 
-		double price = action.getPrice(main);
+		double price = action.getPrice(main,player);
 
 		if(askForConfirmation) {
-			if (!hasConfirmed(main, p, ac, chestIdStartingAt1, price, action)) return;
+			if (!hasConfirmed(main, player, ac, chestIdStartingAt1, price, action)) return;
 		}
 
-		if(price>0 && !hasEnoughMoney(p,price,main,main.messages.MSG_NOT_ENOUGH_MONEY, action.getEconomyReason())) {
+		if(price>0 && !hasEnoughMoney(player,price,main,main.messages.MSG_NOT_ENOUGH_MONEY, action.getEconomyReason())) {
 			return;
 		}
 		switch(action) {
-			case TELEPORT_TO_CHEST: teleportPlayerToChest(main, p, ac); return;
-			case FETCH_CHEST: fetchChestToPlayer(main, p, ac); return;
+			case TELEPORT_TO_CHEST: teleportPlayerToChest(main, player, ac); return;
+			case FETCH_CHEST: fetchChestToPlayer(main, player, ac); return;
 		}
-
 	}
 
 

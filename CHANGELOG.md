@@ -1,3 +1,6 @@
+## 0.0.5
+- Configurable prices per player (might be bugged, needs testing)
+
 ## 0.0.4
 - GUI can automatically be opened after death
   - GUI can either be automatically opened for the latest chest, or a list of all chests

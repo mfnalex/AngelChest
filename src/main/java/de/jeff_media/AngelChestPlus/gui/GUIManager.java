@@ -160,7 +160,7 @@ public class GUIManager {
         Inventory inventory = Bukkit.createInventory(newHolder, 9, getTitle(holder.getAngelChest(),holder.getChestIdStartingAt1()));
         newHolder.setInventory(inventory);
 
-        inventory.setItem(GUI.SLOT_CONFIRM_INFO, getConfirmInfoButton(action.getPrice(main)));
+        inventory.setItem(GUI.SLOT_CONFIRM_INFO, getConfirmInfoButton(action.getPrice(main,player)));
         inventory.setItem(GUI.SLOT_CONFIRM_ACCEPT, getConfirmAcceptButton());
         inventory.setItem(GUI.SLOT_CONFIRM_DECLINE, getConfirmDeclineButton());
         player.openInventory(inventory);

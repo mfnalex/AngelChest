@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChestPlus</name>
     <artifactId>AngelChestPlus</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.5-SNAPSHOT</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>

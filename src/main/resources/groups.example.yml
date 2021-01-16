@@ -1,17 +1,25 @@
 # You can define a custom AngelChest duration for certain groups.
 # Players will need the angelchest.group.[groupname] permission.
 # If a player is in no group, the default value will be used.
+# If a player is in multiple groups, the "best" value is used,
+# e.g. the highest duration, highest amount of chests and
+# lowest prices.
 #
 # Available options:
 #   angelchest-duration: <duration in seconds>
 #   max-allowed-angelchests: <number of chests>
-#   (more options coming in future versions)
+#   price-spawn: <price for spawning the chest>
+#   price-teleport: <price for teleporting to the chest>
+#   price-fetch: <price for fetching the chest>
 #
 # Note: You MUST rename this file to groups.yml if you wish to use it.
 
 admin:
   angelchest-duration: 1500
   max-allowed-angelchests: 10
+  price-spawn: 0
+  price-teleport: 0
+  price-fetch: 0
 mod:
   angelchest-duration: 1200
   max-allowed-angelchests: 10

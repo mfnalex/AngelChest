@@ -1,19 +1,20 @@
 package de.jeff_media.AngelChestPlus;
 
+import de.jeff_media.AngelChestPlus.utils.GroupUtils;
+import org.bukkit.entity.Player;
+
 public enum TeleportAction {
 
-    TELEPORT_TO_CHEST("angelchest.tp", "AngelChest TP", Config.PRICE_TELEPORT,"actp"),
-    FETCH_CHEST("angelchest.fetch", "AngelChest Fetch", Config.PRICE_FETCH,"acfetch");
+    TELEPORT_TO_CHEST("angelchest.tp", "AngelChest TP","actp"),
+    FETCH_CHEST("angelchest.fetch", "AngelChest Fetch","acfetch");
 
     private final String permission;
     private final String economyReason;
-    private final String priceInConfig;
     private final String command;
 
-    TeleportAction(String permission, String economyReason, String priceInConfig, String command) {
+    TeleportAction(String permission, String economyReason, String command) {
         this.permission = permission;
         this.economyReason = economyReason;
-        this.priceInConfig = priceInConfig;
         this.command = command;
     }
 
@@ -25,8 +26,15 @@ public enum TeleportAction {
         return economyReason;
     }
 
-    public double getPrice(Main main) {
-        return main.getConfig().getDouble(priceInConfig);
+    public double getPrice(Main main, Player player) {
+        //return main.getConfig().getDouble(priceInConfig);
+        if(this == TELEPORT_TO_CHEST) {
+            return main.groupUtils.getTeleportPricePerPlayer(player);
+        } else if(this == FETCH_CHEST) {
+            return main.groupUtils.getFetchPricePerPlayer(player);
+        } else {
+            return 0.0D;
+        }
     }
 
     public String getCommand() {
