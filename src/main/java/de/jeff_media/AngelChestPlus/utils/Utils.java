@@ -4,7 +4,7 @@ import java.util.*;
 
 import com.google.common.base.Enums;
 import de.jeff_media.AngelChestPlus.AngelChest;
-import de.jeff_media.AngelChestPlus.Config;
+import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.Main;
 import org.bukkit.*;
 import org.bukkit.block.Block;

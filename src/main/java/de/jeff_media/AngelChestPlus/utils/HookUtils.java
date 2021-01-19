@@ -1,6 +1,6 @@
 package de.jeff_media.AngelChestPlus.utils;
 
-import de.jeff_media.AngelChestPlus.Config;
+import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.hooks.InventoryPagesHook;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -17,7 +17,7 @@ public class HookUtils implements Listener {
     //ArrayList<Entity> hologramsToBeSpawned = new ArrayList<Entity>();
     //boolean hologramToBeSpawned = false;
 
-    HookUtils(Main main) {
+    public HookUtils(Main main) {
         this.main=main;
         this.inventoryPagesHook = new InventoryPagesHook(main);
     }

@@ -1,6 +1,7 @@
 package de.jeff_media.AngelChestPlus.listeners;
 
 import de.jeff_media.AngelChestPlus.*;
+import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.hooks.PlayerHeadDropsHook;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.ProtectionUtils;

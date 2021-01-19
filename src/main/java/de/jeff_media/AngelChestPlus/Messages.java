@@ -1,5 +1,6 @@
 package de.jeff_media.AngelChestPlus;
 
+import de.jeff_media.AngelChestPlus.config.Config;
 import org.bukkit.ChatColor;
 
 

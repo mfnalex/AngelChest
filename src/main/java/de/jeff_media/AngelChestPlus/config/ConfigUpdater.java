@@ -1,4 +1,7 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.config;
+
+import de.jeff_media.AngelChestPlus.Main;
+import de.jeff_media.AngelChestPlus.config.Config;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

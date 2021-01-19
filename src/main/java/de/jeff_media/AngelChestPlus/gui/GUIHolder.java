@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class AngelChestGUIHolder implements InventoryHolder {
+public class GUIHolder implements InventoryHolder {
 
     private final GUIContext context;
     private final ArrayList<AngelChest> chests;
@@ -21,15 +21,16 @@ public class AngelChestGUIHolder implements InventoryHolder {
     private int chestIdStartingAt1 = 0;
     private TeleportAction action;
     private Inventory inventory;
+    private boolean isReadOnlyPreview = false;
 
-    public AngelChestGUIHolder(Player player, GUIContext context, Main main) {
+    public GUIHolder(Player player, GUIContext context, Main main) {
         this.context = context;
         this.chests = Utils.getAllAngelChestsFromPlayer(player,main);
         this.numberOfAngelChests = chests.size();
         this.player = player;
     }
 
-    public AngelChestGUIHolder(Player player, GUIContext context, Main main, int chestIdStartingAt1) {
+    public GUIHolder(Player player, GUIContext context, Main main, int chestIdStartingAt1) {
         this(player,context,main);
         this.chestIdStartingAt1 = chestIdStartingAt1;
     }
@@ -75,6 +76,15 @@ public class AngelChestGUIHolder implements InventoryHolder {
         if(chestIdStartingAt1 == 0) return null;
         return getAngelChests().get(chestIdStartingAt1 -1);
     }
+
+    public boolean isReadOnlyPreview() {
+        return isReadOnlyPreview;
+    }
+
+    public void setReadOnlyPreview(boolean readOnlyPreview) {
+        isReadOnlyPreview = readOnlyPreview;
+    }
+
 
 
 }

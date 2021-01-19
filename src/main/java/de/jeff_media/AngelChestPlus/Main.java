@@ -3,21 +3,25 @@ package de.jeff_media.AngelChestPlus;
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.jeff_media.AngelChestPlus.commands.*;
+import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.gui.GUIListener;
 import de.jeff_media.AngelChestPlus.gui.GUIManager;
-import de.jeff_media.AngelChestPlus.hooks.AngelChestPlaceholders;
+import de.jeff_media.AngelChestPlus.hooks.PlaceholderAPIHook;
 import de.jeff_media.AngelChestPlus.hooks.MinepacksHook;
 import de.jeff_media.AngelChestPlus.listeners.BlockListener;
 import de.jeff_media.AngelChestPlus.listeners.HologramListener;
 import de.jeff_media.AngelChestPlus.listeners.PistonListener;
 import de.jeff_media.AngelChestPlus.listeners.PlayerListener;
-import de.jeff_media.AngelChestPlus.utils.ConfigUtils;
+import de.jeff_media.AngelChestPlus.config.ConfigUtils;
 import de.jeff_media.AngelChestPlus.utils.GroupUtils;
 import de.jeff_media.AngelChestPlus.utils.HookUtils;
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
 import io.papermc.lib.PaperLib;
+import org.apache.commons.lang.math.NumberUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -112,7 +116,7 @@ public class Main extends JavaPlugin {
 		this.getCommand("acgui").setExecutor(new CommandGUI(this));
 
 		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
-			new AngelChestPlaceholders(this).register();
+			new PlaceholderAPIHook(this).register();
 		}
 
 		this.getCommand("acd").setExecutor(new CommandDebug(this));
@@ -324,6 +328,18 @@ public class Main extends JavaPlugin {
 
 	private boolean isFreeVersionInstalled() {
 		return Bukkit.getPluginManager().getPlugin("AngelChest") != null;
+	}
+
+	// Returns 16 for 1.16, etc.
+	static int getMcVersion() {
+		Pattern p = Pattern.compile("^1\\.(\\d*)\\.");
+		Matcher m = p.matcher((Bukkit.getBukkitVersion()));
+		int version = -1;
+		while (m.find()) {
+			if (NumberUtils.isNumber(m.group(1)))
+				version = Integer.parseInt(m.group(1));
+		}
+		return version;
 	}
 
 }

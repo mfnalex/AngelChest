@@ -1,6 +1,6 @@
 package de.jeff_media.AngelChestPlus.utils;
 
-import de.jeff_media.AngelChestPlus.Config;
+import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.Main;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -14,7 +14,7 @@ public class GroupUtils {
     final Main main;
     YamlConfiguration yaml;
     LinkedHashMap<String,Group> groups;
-    GroupUtils(Main main, File yamlFile) {
+    public GroupUtils(Main main, File yamlFile) {
         this.main=main;
         if(!yamlFile.exists()) {
             main.getLogger().info("groups.yml does not exist, skipping custom group settings.");

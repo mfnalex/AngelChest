@@ -2,6 +2,8 @@ package de.jeff_media.AngelChestPlus;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import de.jeff_media.AngelChestPlus.config.ChestYaml;
+import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.Utils;
 import io.papermc.lib.PaperLib;
@@ -59,7 +61,7 @@ public class AngelChest {
         }
 
         this.main = main;
-        this.owner = UUID.fromString(yaml.getString("owner"));
+        this.owner = UUID.fromString(yaml.getString(ChestYaml.OWNER_UUID));
         this.levels = yaml.getInt("levels", 0);
         this.isProtected = yaml.getBoolean("isProtected");
         this.secondsLeft = yaml.getInt("secondsLeft");
@@ -70,7 +72,7 @@ public class AngelChest {
         int saveVersion = yaml.getInt("angelchest-saveversion", 1);
         if (saveVersion == 1) {
             try {
-                this.block = yaml.getLocation("block").getBlock();
+                this.block = yaml.getLocation(ChestYaml.LEGACY_BLOCK).getBlock();
                 this.worldid = block.getWorld().getUID();
             } catch (Exception exception) {
                 success = false;
@@ -311,7 +313,7 @@ public class AngelChest {
         yaml.set("y", block.getY());
         yaml.set("z", block.getZ());
         yaml.set("infinite",infinite);
-        yaml.set("owner", owner.toString());
+        yaml.set(ChestYaml.OWNER_UUID, owner.toString());
         yaml.set("isProtected", isProtected);
         //yaml.set("configDuration", configDuration);
         //yaml.set("taskStart", taskStart);

@@ -1,6 +1,6 @@
 package de.jeff_media.AngelChestPlus.utils;
 
-import de.jeff_media.AngelChestPlus.Config;
+import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.Main;
 import org.bukkit.entity.Player;
 

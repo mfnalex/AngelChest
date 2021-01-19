@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
+import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;

@@ -1,4 +1,4 @@
-package de.jeff_media.AngelChestPlus.utils;
+package de.jeff_media.AngelChestPlus.config;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -7,8 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.jeff_media.AngelChestPlus.*;
+import de.jeff_media.AngelChestPlus.config.Config;
+import de.jeff_media.AngelChestPlus.config.ConfigUpdater;
 import de.jeff_media.AngelChestPlus.gui.GUIManager;
 import de.jeff_media.AngelChestPlus.hooks.MinepacksHook;
+import de.jeff_media.AngelChestPlus.utils.GroupUtils;
+import de.jeff_media.AngelChestPlus.utils.HookUtils;
 import org.bukkit.Material;
 
 public class ConfigUtils {
