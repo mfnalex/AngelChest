@@ -4,6 +4,7 @@
   - GUI can either be automatically opened for the latest chest, or a list of all chests
   - Showing the GUI can be disabled if the player neither has permission for fetching nor teleporting to the chest
 - option to preview chest contents in the GUI
+- option to open a chest with shift+rightclick to only take certain items instead of looting everything
 - per group prices for fetch / teleport / chest spawning
 - configurable amount of xp loss (percentage) per group
 - Better config updater
@@ -25,7 +26,6 @@
 - Option (for OPs, maybe everyone with the protect.ignore permission) to open chests with shift-rightclick without looting them
 - Option to show ALL chests by ALL players (for OPs of course)
 - Option to instantly save AngelChests 
-- XP Percantage: https://minecraft.gamepedia.com/Experience#Leveling_up
 
 ## To test
 - TEST IF FOLLOWING WORKS: per group prices for fetch / teleport / chest spawning
