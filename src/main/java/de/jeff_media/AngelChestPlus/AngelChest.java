@@ -226,6 +226,11 @@ public class AngelChest {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return String.format("AngelChest{block="+block.toString()+",owner="+owner.toString()+"}");
+    }
+
     private YamlConfiguration loadYaml(File file) {
         return YamlConfiguration.loadConfiguration(file);
     }

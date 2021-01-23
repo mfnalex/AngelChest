@@ -118,8 +118,7 @@ public class Utils {
 		return Enums.getIfPresent(EventPriority.class,configuredPriority).or(EventPriority.NORMAL);
 	}
 
-
-	public static boolean tryToMergeInventories(AngelChest source, PlayerInventory dest) {
+	public static boolean tryToMergeInventories(Main main, AngelChest source, PlayerInventory dest) {
 		if(!isEmpty(source.overflowInv))
 			return false; // Already applied inventory
 
@@ -208,6 +207,10 @@ public class Utils {
 		}, delay);
 	}
 
+	public static ArrayList<AngelChest> getAllAngelChestsFromPlayer(UUID uuid, Main main) {
+		return getAllAngelChestsFromPlayer(Bukkit.getOfflinePlayer(uuid),main);
+	}
+
 	public static ArrayList<AngelChest> getAllAngelChestsFromPlayer(OfflinePlayer p, Main main) {
 		ArrayList<AngelChest> angelChests = new ArrayList<>();
 		for (AngelChest angelChest : main.angelChests.values()) {
@@ -224,6 +227,20 @@ public class Utils {
 			double dist2 = b2.getLocation().distance(angelChestBlock.getLocation());
 			return Double.compare(dist1, dist2);
 		});
+	}
+
+	public static void applyXp(Player p, AngelChest angelChest) {
+		if(p.hasPermission("angelchest.xp.levels") && angelChest.levels!=0 && angelChest.levels> p.getLevel()) {
+			p.setExp(0);
+			p.setLevel(angelChest.levels);
+			angelChest.levels = 0;
+			angelChest.experience = 0;
+		}
+		else if((p.hasPermission("angelchest.xp") || p.hasPermission("angelchest.xp.levels")) && angelChest.experience!=0) {
+			p.giveExp(angelChest.experience);
+			angelChest.levels = 0;
+			angelChest.experience=0;
+		}
 	}
 	
 	 public static List<Block> getPossibleChestLocations(Location location, int radius, Main main) {

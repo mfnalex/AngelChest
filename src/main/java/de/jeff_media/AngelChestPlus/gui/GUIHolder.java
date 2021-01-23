@@ -23,6 +23,9 @@ public class GUIHolder implements InventoryHolder {
     private Inventory inventory;
     private boolean isReadOnlyPreview = false;
 
+    // for use when a player previes another player's chest
+    private AngelChest specialAngelChest;
+
     public GUIHolder(Player player, GUIContext context, Main main) {
         this.context = context;
         this.chests = Utils.getAllAngelChestsFromPlayer(player,main);
@@ -73,8 +76,13 @@ public class GUIHolder implements InventoryHolder {
     }
 
     public @Nullable AngelChest getAngelChest() {
+        if(specialAngelChest != null) return specialAngelChest;
         if(chestIdStartingAt1 == 0) return null;
         return getAngelChests().get(chestIdStartingAt1 -1);
+    }
+
+    public @Nullable AngelChest getSpecialAngelChest() {
+        return specialAngelChest;
     }
 
     public boolean isReadOnlyPreview() {
@@ -83,6 +91,10 @@ public class GUIHolder implements InventoryHolder {
 
     public void setReadOnlyPreview(boolean readOnlyPreview) {
         isReadOnlyPreview = readOnlyPreview;
+    }
+
+    public void setAngelChest(AngelChest angelChest) {
+        this.specialAngelChest = angelChest;
     }
 
 

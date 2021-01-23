@@ -67,6 +67,7 @@ public class Main extends JavaPlugin {
 	public Watchdog watchdog;
 	public MinepacksHook minepacksHook;
 	public GUIManager guiManager;
+	public GUIListener guiListener;
 
 	public void debug(String t) {
 		if(debug) getLogger().info("[DEBUG] " + t);
@@ -126,7 +127,8 @@ public class Main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new HologramListener(this),this);
 		getServer().getPluginManager().registerEvents(new BlockListener(this),this);
 		getServer().getPluginManager().registerEvents(new PistonListener(this),this);
-		getServer().getPluginManager().registerEvents(new GUIListener(this),this);
+		guiListener = new GUIListener(this);
+		getServer().getPluginManager().registerEvents(guiListener,this);
 		
 		@SuppressWarnings("unused")
 		Metrics metrics = new Metrics(this,3194);

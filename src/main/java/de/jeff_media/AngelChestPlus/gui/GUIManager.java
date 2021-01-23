@@ -25,6 +25,23 @@ public class GUIManager {
 
     }
 
+    public void updatePreviewInvs(Player originalPlayer, AngelChest angelChest) {
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            if(player.equals(originalPlayer)) continue;
+            if(player.getOpenInventory() == null) continue;
+            if(player.getOpenInventory().getTopInventory() == null) continue;
+            if(!(player.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder)) continue;
+            GUIHolder guiHolder = (GUIHolder) player.getOpenInventory().getTopInventory().getHolder();
+            if(guiHolder.getSpecialAngelChest() != null && guiHolder.getSpecialAngelChest().equals(angelChest)) {
+                main.debug("This AngelChest "+angelChest.toString()+" is also in use by "+player.getName()+", updating...");
+                //Bukkit.getScheduler().scheduleSyncDelayedTask(main, () ->
+                        showPreviewGUI(player,angelChest, guiHolder.isReadOnlyPreview())
+                //,1L)
+                        ;
+            }
+        }
+    }
+
     public void updateGUI(Player player, int brokenChestId) {
         if (player.getOpenInventory() == null) return;
         if (player.getOpenInventory().getTopInventory() == null) return;
@@ -139,32 +156,18 @@ public class GUIManager {
         GUIHolder holder = new GUIHolder(player,GUIContext.PREVIEW_MENU,main);
         Inventory inventory = Bukkit.createInventory(holder,54,main.messages.GUI_TITLE_MAIN);
         holder.setInventory(inventory);
-
-        ItemStack[] itemStacks = new ItemStack[54];
-        for(int i = 0; i < 54; i++) {
-            itemStacks[i] = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
-        }
+        holder.setAngelChest(angelChest);
+        //holder.setChestIdStartingAt1(Utils.getAllAngelChestsFromPlayer(angelChest.owner,main).indexOf(angelChest)+1);
+        /*inventory = */GUIUtils.loadChestIntoPreviewInventory(holder.getAngelChest(),inventory);
 
         if(isPreview) {
-            itemStacks[GUI.SLOT_PREVIEW_BACK] = getBackButton();
+            inventory.setItem(GUI.SLOT_PREVIEW_BACK,getBackButton());
             holder.setReadOnlyPreview(true);
         }
+        if(angelChest.experience > 0 || angelChest.levels > 0) {
+            inventory.setItem(GUI.SLOT_PREVIEW_XP,getButton(Material.EXPERIENCE_BOTTLE,"§6XP",null));
+        }
 
-        for(int i = 0; i < GUI.PREVIEW_ARMOR_SIZE; i++) {
-            itemStacks[i+GUI.SLOT_PREVIEW_ARMOR_START] = angelChest.armorInv[i];
-        }
-        for(int i = 0; i < GUI.PREVIEW_OFFHAND_SIZE; i++) {
-            itemStacks[i+GUI.SLOT_PREVIEW_OFFHAND] = angelChest.extraInv[i];
-        }
-        for(int i = 0; i < GUI.PREVIEW_HOTBAR_SIZE; i++) {
-            itemStacks[i+GUI.SLOT_PREVIEW_HOTBAR_START] = angelChest.storageInv[i];
-        }
-        for(int i = 0; i < GUI.PREVIEW_STORAGE_SIZE; i++) {
-            itemStacks[i+GUI.SLOT_PREVIEW_STORAGE_START] = angelChest.storageInv[i+GUI.PREVIEW_HOTBAR_SIZE];
-        }
-        for(int i = 0; i < 54; i++) {
-            inventory.setItem(i,itemStacks[i]);
-        }
         player.openInventory(inventory);
     }
 

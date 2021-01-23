@@ -17,12 +17,17 @@
 
 
 ## TODO
-- !!!! Integrate GUI and Preview feature so a player can see contents while having the options to tp, fetch etc the chest on the same screen
+- Integrate GUI and Preview feature so a player can see contents while having the options to tp, fetch etc the chest on the same screen
 - Allow players to run /acinfo, /aclist, /acfetch and /acgui for other players, including offline players
 - Make EconomyReason configurable
 - Make text in /acgui conigurable
 - Option (for OPs, maybe everyone with the protect.ignore permission) to open chests with shift-rightclick without looting them
 - Option to show ALL chests by ALL players (for OPs of course)
+- Option to instantly save AngelChests 
+- XP Percantage: https://minecraft.gamepedia.com/Experience#Leveling_up
 
 ## To test
 - TEST IF FOLLOWING WORKS: per group prices for fetch / teleport / chest spawning
+
+## Secret features:
+- Only equip chestplate automatically if 

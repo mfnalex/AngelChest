@@ -19,6 +19,7 @@ public class GUI {
     public static final int SLOT_PREVIEW_BACK = 0;
     public static final int SLOT_PREVIEW_ARMOR_START = 2;
     public static final int PREVIEW_ARMOR_SIZE = 4;
+    public static final int SLOT_PREVIEW_XP = 6;
     public static final int SLOT_PREVIEW_OFFHAND = 7;
     public static final int PREVIEW_OFFHAND_SIZE = 1;
     public static final int SLOT_PREVIEW_STORAGE_START = 9;

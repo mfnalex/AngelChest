@@ -2,6 +2,7 @@ package de.jeff_media.AngelChestPlus.listeners;
 
 import de.jeff_media.AngelChestPlus.*;
 import de.jeff_media.AngelChestPlus.config.Config;
+import de.jeff_media.AngelChestPlus.gui.GUIManager;
 import de.jeff_media.AngelChestPlus.hooks.PlayerHeadDropsHook;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.ProtectionUtils;
@@ -350,33 +351,25 @@ public class PlayerListener implements Listener {
 			event.setCancelled(true);
 			return;
 		}
-		// p.openInventory(angelChest.inv);
-		openAngelChest(p, block, angelChest);
+
+
+		if(p.isSneaking()) {
+			main.guiManager.showPreviewGUI(p, angelChest, false);
+		} else {
+			openAngelChest(p, block, angelChest);
+		}
 
 		event.setCancelled(true);
 	}
 
 	void openAngelChest(Player p, Block block, AngelChest angelChest) {
 
-		if(p.hasPermission("angelchest.xp.levels") && angelChest.levels!=0 && angelChest.levels> p.getLevel()) {
-			p.setExp(0);
-			p.setLevel(angelChest.levels);
-			angelChest.levels = 0;
-			angelChest.experience = 0;
-		}
-		else if((p.hasPermission("angelchest.xp") || p.hasPermission("angelchest.xp.levels")) && angelChest.experience!=0) {
-			p.giveExp(angelChest.experience);
-			angelChest.levels = 0;
-			angelChest.experience=0;
-		}
-
-
-
+		Utils.applyXp(p, angelChest);
 
 		boolean succesfullyStoredEverything;
 		boolean isOwnChest = angelChest.owner == p.getUniqueId();
 
-		succesfullyStoredEverything = Utils.tryToMergeInventories(angelChest, p.getInventory());
+		succesfullyStoredEverything = Utils.tryToMergeInventories(main, angelChest, p.getInventory());
 		if (succesfullyStoredEverything) {
 			p.sendMessage(main.messages.MSG_YOU_GOT_YOUR_INVENTORY_BACK);
 			angelChest.destroy(false);
