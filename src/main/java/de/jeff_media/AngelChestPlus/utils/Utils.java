@@ -230,6 +230,7 @@ public class Utils {
 	}
 
 	public static void applyXp(Player p, AngelChest angelChest) {
+		/*
 		if(p.hasPermission("angelchest.xp.levels") && angelChest.levels!=0 && angelChest.levels> p.getLevel()) {
 			p.setExp(0);
 			p.setLevel(angelChest.levels);
@@ -240,6 +241,10 @@ public class Utils {
 			p.giveExp(angelChest.experience);
 			angelChest.levels = 0;
 			angelChest.experience=0;
+		}*/
+		if(angelChest.experience > 0) {
+			p.giveExp(angelChest.experience);
+			angelChest.experience = 0;
 		}
 	}
 	

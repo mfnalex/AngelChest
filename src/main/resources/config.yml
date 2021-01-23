@@ -7,10 +7,6 @@
 # angelchest.use             Spawns AngelChest on death instead of dropping the items
 # angelchest.protect         The AngelChest is locked for other players
 # angelchest.protect.ignore  Players can open other player's locked AngelChests
-# angelchest.xp              The AngelChest stores the amount of XP that would be dropped
-# angelchest.xp.levels       The AngelChest stores the amount of XP levels a player had
-#                            Note: If the AngelChest despawns or is broken, it will only
-#                            drop the normal amount of XP
 # angelchest.fetch           Allows the player to teleport their chests to them
 # angelchest.tp              The player can teleport to their AngelChests
 # angelchest.reload          Allows reloading the config using /acreload
@@ -36,6 +32,15 @@
 #
 # /acreload                  Permission: angelchest.reload
 #                            Reloads the config
+
+
+
+
+########## THE FOLLOWING PERMISSIONS ARE NO LONGER VALID ############
+# angelchest.xp              The AngelChest stores the amount of XP that would be dropped
+# angelchest.xp.levels       The AngelChest stores the amount of XP levels a player had
+#                            Note: If the AngelChest despawns or is broken, it will only
+#                            drop the normal amount of XP
 
 ############################
 ##### Command settings #####
@@ -99,6 +104,15 @@ max-allowed-angelchests: 5
 # You can disable spawning the AngelChest when a player has been killed by
 # another player. By default, the AngelChest will always spawn.
 allow-angelchest-in-pvp: true
+
+# Amount of XP the player keeps within their chest on death.
+# 1.0 = 100%, 0.5 = 50%, etc.
+# When set to 0, all XP is lost.
+# When set to -1, use vanilla amount
+# You can override this for certain players by setting up groups
+# and giving players the angelchest.group.<groupname> permission.
+# See groups.example.yml for more information.
+xp-percentage: -1
 
 # When the block where the player dies is not empty (e.g. water, lava, half slab)
 # we will search for an empty block inside max-radius. Default is 10 blocks.

@@ -4,9 +4,7 @@ import de.jeff_media.AngelChestPlus.*;
 import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.gui.GUIManager;
 import de.jeff_media.AngelChestPlus.hooks.PlayerHeadDropsHook;
-import de.jeff_media.AngelChestPlus.utils.CommandUtils;
-import de.jeff_media.AngelChestPlus.utils.ProtectionUtils;
-import de.jeff_media.AngelChestPlus.utils.Utils;
+import de.jeff_media.AngelChestPlus.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -200,11 +198,23 @@ public class PlayerListener implements Listener {
 		main.angelChests.put(angelChestBlock,ac);
 		main.debug("Debug 3");
 
-		if(!event.getKeepLevel() && event.getDroppedExp()!=0 && p.hasPermission("angelchest.xp")) {
-			if(p.hasPermission("angelchest.xp.levels")) {
-				ac.levels = p.getLevel();
+		if(!event.getKeepLevel() && event.getDroppedExp()!=0) {
+			double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(p);
+			main.debug("Player has xpPercentage of " + xpPercentage);
+			if(xpPercentage == -1) {
+				ac.experience = event.getDroppedExp();
+			} else {
+				float currentXP = XPUtils.getTotalXPRequiredForLevel(p.getLevel());
+				main.debug("currentXP = "+currentXP + " (for this level)");
+				main.debug("p.getEXP = "+p.getExp());
+				double remainingXP = p.getExp()*XPUtils.getXPRequiredForNextLevel(p.getLevel());
+				main.debug("Remaining XP = " + remainingXP);
+				double totalXP = currentXP + remainingXP;
+				main.debug("Total XP = "+totalXP);
+				double adjustedXP = totalXP * xpPercentage;
+				main.debug("adjustedXP = "+adjustedXP);
+				ac.experience = (int) adjustedXP;
 			}
-			ac.experience=event.getDroppedExp();
 			event.setDroppedExp(0);
 		}
 

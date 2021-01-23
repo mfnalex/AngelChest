@@ -11,6 +11,7 @@ public class Config {
     public static final String CONSOLE_MESSAGE_ON_OPEN = "console-message-on-open";
     public static final String ANGELCHEST_DURATION = "angelchest-duration";
     public static final String MAX_ALLOWED_ANGELCHESTS = "max-allowed-angelchests";
+    public static final String XP_PERCENTAGE = "xp-percentage";
     public static final String ALLOW_ANGELCHEST_IN_PVP = "allow-angelchest-in-pvp";
     public static final String MAX_RADIUS = "max-radius";
     public static final String SHOW_LOCATION = "show-location";

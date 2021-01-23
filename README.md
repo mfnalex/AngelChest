@@ -5,6 +5,7 @@
   - Showing the GUI can be disabled if the player neither has permission for fetching nor teleporting to the chest
 - option to preview chest contents in the GUI
 - per group prices for fetch / teleport / chest spawning
+- configurable amount of xp loss (percentage) per group
 - Better config updater
 - More control over the holograms
 - Literally unbreakable chests - not even /setblock or WorldEdit can destroy chests

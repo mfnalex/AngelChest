@@ -3,12 +3,13 @@ package de.jeff_media.AngelChestPlus.utils;
 import org.bukkit.entity.Player;
 
 public class ExperienceUtils {
-	
+
+
 	/* This whole Math is kind of broken!
 	 * For now we will just disable taking the "full" xp
 	 */
 	
-	
+	/*
     // Calculate amount of EXP needed to level up
     public static int getExpToLevelUp(int level){
         if(level <= 15){
