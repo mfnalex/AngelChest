@@ -66,7 +66,7 @@ public class ConfigUtils {
 		createDirectories(main);
 
 		main.getConfig().addDefault(Config.CHECK_FOR_UPDATES, "true");
-		main.getConfig().addDefault(Config.DETECT_PLAYER_HEAD_DROPS,false);
+		//main.getConfig().addDefault(Config.DETECT_PLAYER_HEAD_DROPS,false);
 		main.getConfig().addDefault(Config.CHECK_FOR_UPDATES_INTERVAL,4);
 		main.getConfig().addDefault(Config.ALLOW_ANGELCHEST_IN_PVP,true);
 		main.getConfig().addDefault(Config.TOTEM_OF_UNDYING_WORKS_EVERYWHERE,true);
@@ -84,7 +84,7 @@ public class ConfigUtils {
 		main.getConfig().addDefault(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD,false);
 		main.getConfig().addDefault(Config.DISABLE_WORLDGUARD_INTEGRATION,false);
 		//main.getConfig().addDefault("ignore-keep-inventory",false);
-		main.getConfig().addDefault(Config.EVENT_PRIORITY,"NORMAL");
+		main.getConfig().addDefault(Config.EVENT_PRIORITY,"HIGHEST");
 		main.getConfig().addDefault(Config.HEAD_USES_PLAYER_NAME,true);
 		main.getConfig().addDefault(Config.AUTO_RESPAWN,false);
 		main.getConfig().addDefault(Config.AUTO_RESPAWN_DELAY,10);

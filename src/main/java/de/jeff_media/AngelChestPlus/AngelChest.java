@@ -168,6 +168,7 @@ public class AngelChest {
         createChest(block,player.getUniqueId());
 
         // Remove curse of vanishing equipment and Minepacks backpacks
+        main.debug("===== PLAYER INVENTORY CONTENTS =====");
         for (int i = 0; i<playerItems.getSize();i++) {
             if (Utils.isEmpty(playerItems.getItem(i))) {
                 continue;
@@ -175,6 +176,7 @@ public class AngelChest {
             main.debug("Slot "+i+": "+playerItems.getItem(i));
             if(toBeRemoved(playerItems.getItem(i))) playerItems.setItem(i,null);
         }
+        main.debug("===== PLAYER INVENTORY CONTENTS END =====");
 
         armorInv = playerItems.getArmorContents();
         storageInv = playerItems.getStorageContents();
@@ -228,7 +230,7 @@ public class AngelChest {
 
     @Override
     public String toString() {
-        return String.format("AngelChest{block="+block.toString()+",owner="+owner.toString()+"}");
+        return "AngelChest{block=" + block.toString() + ",owner=" + owner.toString() + "}";
     }
 
     private YamlConfiguration loadYaml(File file) {

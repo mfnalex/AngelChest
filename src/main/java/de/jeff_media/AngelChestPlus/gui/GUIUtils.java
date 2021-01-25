@@ -6,7 +6,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.Objects;
 
 public class GUIUtils {
@@ -59,26 +58,13 @@ public class GUIUtils {
             itemStacks[i] = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         }
 
-        for(int i = 0; i < GUI.PREVIEW_ARMOR_SIZE; i++) {
-            itemStacks[i+GUI.SLOT_PREVIEW_ARMOR_START] = angelChest.armorInv[i];
-        }
-        for(int i = 0; i < GUI.PREVIEW_OFFHAND_SIZE; i++) {
-            itemStacks[i+GUI.SLOT_PREVIEW_OFFHAND] = angelChest.extraInv[i];
-        }
-        for(int i = 0; i < GUI.PREVIEW_HOTBAR_SIZE; i++) {
-            itemStacks[i+GUI.SLOT_PREVIEW_HOTBAR_START] = angelChest.storageInv[i];
-        }
-        for(int i = 0; i < GUI.PREVIEW_STORAGE_SIZE; i++) {
-            itemStacks[i+GUI.SLOT_PREVIEW_STORAGE_START] = angelChest.storageInv[i+GUI.PREVIEW_HOTBAR_SIZE];
-        }
+        System.arraycopy(angelChest.armorInv, 0, itemStacks, 2, GUI.PREVIEW_ARMOR_SIZE);
+        System.arraycopy(angelChest.extraInv, 0, itemStacks, 7, GUI.PREVIEW_OFFHAND_SIZE);
+        System.arraycopy(angelChest.storageInv, 0, itemStacks, 45, GUI.PREVIEW_HOTBAR_SIZE);
+        System.arraycopy(angelChest.storageInv, 9, itemStacks, 9, GUI.PREVIEW_STORAGE_SIZE);
         for(int i = 0; i < 54; i++) {
             inventory.setItem(i,itemStacks[i]);
         }
     }
 
-    public static void printPreviewIntentory(ItemStack[] items) {
-        for(int i = 0; i < items.length; i++) {
-            System.out.println(String.format("Slot %d: %s",i,items[i] != null ? items[i].toString() : "null"));
-        }
-    }
 }

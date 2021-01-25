@@ -307,4 +307,20 @@ public class Utils {
 		if(items==null) return true;
 		return (items.length==0);
     }
+
+    /*
+    public static boolean itemStacksAreEqual(ItemStack i1, ItemStack i2) {
+		if(i1.getType() != i2.getType()) return false;
+		if(i1.getAmount() != i2.getAmount()) return false;
+		if(i1.hasItemMeta() != i2.hasItemMeta()) return false;
+		ItemMeta m1 = i1.getItemMeta();
+		ItemMeta m2 = i2.getItemMeta();
+		if(m1.getDisplayName() != null) {
+			if(!m1.getDisplayName().equals(m2.getDisplayName())) return false;
+		} else {
+			if(m2.getDisplayName() != null) return false;
+		}
+
+		}
+	}*/
 }

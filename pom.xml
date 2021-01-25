@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChestPlus</name>
     <artifactId>AngelChestPlus</artifactId>
-    <version>1.0.0</version>
+    <version>0.0.8</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -197,11 +197,12 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
+<!--
     <distributionManagement>
         <repository>
             <id>jeff-ftp</id>
             <url>ftps://ftp.jeff-media.de/maven2</url>
         </repository>
     </distributionManagement>
+-->
 </project>

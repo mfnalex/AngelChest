@@ -1,13 +1,11 @@
 package de.jeff_media.AngelChestPlus.gui;
 
-import de.jeff_media.AngelChestPlus.AngelChest;
 import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.Permissions;
 import de.jeff_media.AngelChestPlus.TeleportAction;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,12 +15,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GUIListener implements @NotNull Listener {
@@ -153,7 +149,7 @@ public class GUIListener implements @NotNull Listener {
 
     public boolean isAngelChestPreviewGUI(InventoryView view) {
         if (view.getTopInventory() != null) {
-            if (view.getTopInventory().getHolder() instanceof GUIHolder) return true;
+            return view.getTopInventory().getHolder() instanceof GUIHolder;
         }
         return false;
     }

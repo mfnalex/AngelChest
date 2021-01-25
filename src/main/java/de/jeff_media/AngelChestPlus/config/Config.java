@@ -39,7 +39,7 @@ public class Config {
     public static final String ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD = "only-spawn-chests-if-player-may-build";
     public static final String USE_SLIMEFUN = "use-slimefun";
     public static final String CHECK_GENERIC_SOULBOUND = "check-generic-soulbound";
-    public static final String DETECT_PLAYER_HEAD_DROPS = "detect-player-head-drops";
+    //public static final String DETECT_PLAYER_HEAD_DROPS = "detect-player-head-drops";
     public static final String EVENT_PRIORITY = "event-priority";
     public static final String HOLOGRAM_OFFSET = "hologram-offset";
     public static final String HOLOGRAM_OFFSET_PER_LINE = "hologram-offset-per-line";

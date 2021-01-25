@@ -1,6 +1,5 @@
 package de.jeff_media.AngelChestPlus;
 
-import de.jeff_media.AngelChestPlus.utils.GroupUtils;
 import org.bukkit.entity.Player;
 
 public enum TeleportAction {

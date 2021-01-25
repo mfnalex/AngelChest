@@ -1,3 +1,11 @@
+## 0.0.8
+- detect ALL 3rd party plugin's additional death drops (such as player heads etc.)
+- 100 % compatible with vanilla datapacks (VanillaTweaks etc.)
+
+## 0.0.7
+- configurable amount of xp loss (percentage) per group
+- option to open a chest with shift+rightclick to only take certain items instead of looting everything
+
 ## 0.0.6
 - Added preview feature to the GUI
 

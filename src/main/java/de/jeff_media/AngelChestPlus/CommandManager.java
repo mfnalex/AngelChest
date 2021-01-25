@@ -28,17 +28,7 @@ public class CommandManager {
             c.setAccessible(true);
 
             command = c.newInstance(name, plugin);
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
+        } catch (SecurityException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException | IllegalArgumentException e) {
             e.printStackTrace();
         }
 
@@ -55,13 +45,7 @@ public class CommandManager {
 
                 commandMap = (CommandMap) f.get(Bukkit.getPluginManager());
             }
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException | IllegalArgumentException | SecurityException e) {
             e.printStackTrace();
         }
 

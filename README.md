@@ -5,13 +5,14 @@
   - Showing the GUI can be disabled if the player neither has permission for fetching nor teleporting to the chest
 - option to preview chest contents in the GUI
 - option to open a chest with shift+rightclick to only take certain items instead of looting everything
+- Support for almost any third party plugin!
+- 100 % compatible with vanilla datapacks (VanillaTweaks etc.)
 - per group prices for fetch / teleport / chest spawning
 - configurable amount of xp loss (percentage) per group
 - Better config updater
 - More control over the holograms
 - Literally unbreakable chests - not even /setblock or WorldEdit can destroy chests
 - Even when the server crashes or if the process gets killed, AngelChest can remove "dead" (leftover) holograms on the next start
-- Support for almost any third party plugin!
 - 100% configurable command names / aliases
 - Way better performance
   - Async chunk loading when players teleport to their chest
