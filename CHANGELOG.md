@@ -1,3 +1,9 @@
+## 0.0.9
+- Prevent player spawning on top of bedrock in the nether when player died near the ceiling
+- Prevent Confirm menu in GUI showing up if price is set to 0
+- Fixed BACK button not working in Chest Preview GUI
+- Added number of XP to the XP bottle's name in the Chest Preview GUI
+
 ## 0.0.8
 - detect ALL 3rd party plugin's additional death drops (such as player heads etc.)
 - 100 % compatible with vanilla datapacks (VanillaTweaks etc.)

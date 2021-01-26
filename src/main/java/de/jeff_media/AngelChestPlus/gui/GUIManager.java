@@ -5,6 +5,7 @@ import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.HeadCreator;
 import de.jeff_media.AngelChestPlus.utils.Utils;
+import de.jeff_media.AngelChestPlus.utils.XPUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -156,6 +157,7 @@ public class GUIManager {
         GUIHolder holder = new GUIHolder(player,GUIContext.PREVIEW_MENU,main);
         Inventory inventory = Bukkit.createInventory(holder,54,main.messages.GUI_TITLE_MAIN);
         holder.setInventory(inventory);
+        holder.setChestIdStartingAt1(Utils.getAllAngelChestsFromPlayer(angelChest.owner,main).indexOf(angelChest));
         holder.setAngelChest(angelChest);
         //holder.setChestIdStartingAt1(Utils.getAllAngelChestsFromPlayer(angelChest.owner,main).indexOf(angelChest)+1);
         /*inventory = */GUIUtils.loadChestIntoPreviewInventory(holder.getAngelChest(),inventory);
@@ -165,7 +167,7 @@ public class GUIManager {
             holder.setReadOnlyPreview(true);
         }
         if(angelChest.experience > 0 || angelChest.levels > 0) {
-            inventory.setItem(GUI.SLOT_PREVIEW_XP,getButton(Material.EXPERIENCE_BOTTLE,"§6XP",null));
+            inventory.setItem(GUI.SLOT_PREVIEW_XP,getButton(Material.EXPERIENCE_BOTTLE,"§6"+ XPUtils.xpToString(angelChest.experience),null));
         }
 
         player.openInventory(inventory);

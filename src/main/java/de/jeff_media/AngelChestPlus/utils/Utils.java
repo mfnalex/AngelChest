@@ -20,6 +20,11 @@ import org.bukkit.inventory.PlayerInventory;
 public class Utils {
 
 	public static boolean isSafeSpot(Location location) {
+
+		if(location.getWorld().getEnvironment()== World.Environment.NETHER) {
+			if(location.getBlockY()>=128) return false;
+		}
+
 		if(!location.getBlock().getType().isSolid()
 				&&
 

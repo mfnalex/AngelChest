@@ -16,6 +16,10 @@ public class XPUtils {
         return (int) ((4.5*sqrt(targetLevel)) - (162.5*targetLevel) + 2220);
     }
 
+    public static String xpToString(int xp) {
+        return String.format("%d XP",xp);
+    }
+
     /*
     public static int getTotalXPRequiredForLevelRecursive(int targetLevel) {
         int totalXP = 0;
