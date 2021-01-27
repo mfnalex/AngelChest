@@ -80,8 +80,8 @@ public class GUIListener implements @NotNull Listener {
 */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
     public void onPreviewGUIClick(InventoryClickEvent event) {
-        System.out.println("Current item: " + event.getCurrentItem());
-        System.out.println("Cursor: " + event.getCursor());
+        /*System.out.println("Current item: " + event.getCurrentItem());
+        System.out.println("Cursor: " + event.getCursor());*/
 
         /*if(!event.isCancelled()) {
             System.out.println("Return: event is not cancelled");
@@ -91,16 +91,16 @@ public class GUIListener implements @NotNull Listener {
         Player player = (Player) event.getWhoClicked();
 
         if (event.getClickedInventory() == null) {
-            System.out.println("Return: getClicked Inv is null");
+            main.debug("Return: getClicked Inv is null");
             return;
         }
         if (!(event.getClickedInventory().getHolder() instanceof GUIHolder)) {
-            System.out.println("Return: clicked inventory is no GUIHolder");
+            main.debug("Return: clicked inventory is no GUIHolder");
             return;
         }
         GUIHolder guiHolder = (GUIHolder) event.getClickedInventory().getHolder();
         if (guiHolder.getContext() != GUIContext.PREVIEW_MENU) {
-            System.out.println("Return: GUICOntext is not PREVIEW");
+            main.debug("Return: GUICOntext is not PREVIEW");
             return;
         }
 
@@ -115,7 +115,7 @@ public class GUIListener implements @NotNull Listener {
                 return;
             }
 
-            System.out.println("Return: This is a read only preview");
+            main.debug("Return: This is a read only preview");
             return;
         }
 

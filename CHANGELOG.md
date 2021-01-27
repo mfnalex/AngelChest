@@ -1,3 +1,6 @@
+## 0.1.0
+- Fixed exception in InventoryClickEvent
+
 ## 0.0.9
 - Prevent player spawning on top of bedrock in the nether when player died near the ceiling
 - Prevent Confirm menu in GUI showing up if price is set to 0
