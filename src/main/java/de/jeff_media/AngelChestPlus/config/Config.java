@@ -68,6 +68,7 @@ public class Config {
     public static final String ALIAS_ACRELOAD = "command-aliases-acreload";
     public static final String SHOW_GUI_AFTER_DEATH = "show-gui-after-death";
     public static final String ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH = "only-show-gui-after-death-if-player-can-tp-or-fetch";
+    public static final String DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP = "dont-protect-chest-if-player-died-in-pvp";
 
 
     // SECRET FEATURES

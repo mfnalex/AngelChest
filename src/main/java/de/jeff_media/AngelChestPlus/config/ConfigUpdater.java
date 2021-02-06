@@ -185,8 +185,12 @@ public class ConfigUpdater {
 		if(!main.getDataFolder().exists()) {
 			File oldFolder = new File(main.getDataFolder().getPath()+File.separator+".."+File.separator+"AngelChest");
 			if(oldFolder.exists()) {
-				oldFolder.renameTo(main.getDataFolder());
+				main.getLogger().warning("Renaming AngelChest folder to AngelChestPlus");
+				if(!oldFolder.renameTo(new File(main.getDataFolder()+"asd"))) {
+					main.getLogger().severe("Could not rename old plugin folder!");
+				}
 			} else {
+				main.getLogger().warning("4");
 				main.getDataFolder().mkdirs();
 			}
 		}

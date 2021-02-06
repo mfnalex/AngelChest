@@ -5,21 +5,30 @@ import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.hooks.InventoryPagesHook;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Nullable;
 
 public class HookUtils implements Listener {
 
     final Main main;
     final InventoryPagesHook inventoryPagesHook;
+    final @Nullable Plugin eliteMobsPlugin;
     //ArrayList<Entity> hologramsToBeSpawned = new ArrayList<Entity>();
     //boolean hologramToBeSpawned = false;
 
     public HookUtils(Main main) {
         this.main=main;
         this.inventoryPagesHook = new InventoryPagesHook(main);
+        this.eliteMobsPlugin = Bukkit.getPluginManager().getPlugin("EliteMobs");
     }
 
     boolean isSlimefunSoulbound(ItemStack item) {
@@ -45,6 +54,35 @@ public class HookUtils implements Listener {
                 return true;
             }
         }
+        return false;
+    }
+
+    boolean isEliteMobsSoulBound(ItemStack item) {
+
+        if(item==null) return false;
+        //main.debug("Checking if "+item.toString()+" is EliteMobs soulbound...");
+
+        if(!item.hasItemMeta()) {
+            //main.debug("NO: No item meta");
+            return false;
+        }
+        if(eliteMobsPlugin==null) {
+            //main.debug("NO: EliteMobs == null");
+            return false;
+        }
+
+
+        ItemMeta meta = item.getItemMeta();
+        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        if(pdc.has(new NamespacedKey(eliteMobsPlugin,"soulbind"), PersistentDataType.STRING)) {
+            main.debug(item.toString() + " is a EliteMobs soulbound item");
+            return true;
+        }
+        /*main.debug("NO: NamespacedKey not found.");
+        main.debug("Debugging PDC:");
+        for(NamespacedKey key : pdc.getKeys()) {
+            main.debug("- "+key);
+        }*/
         return false;
     }
 
@@ -79,6 +117,7 @@ public class HookUtils implements Listener {
 
     public boolean removeOnDeath(ItemStack item) {
         if(item==null) return false;
+        //if(isEliteMobsSoulBound(item)) return true;
         if(isDisabledMaterial(item)) return true;
         if(inventoryPagesHook.isButton(item)) return true;
         if(isGenericSoulbound(item)) return true;
@@ -88,6 +127,7 @@ public class HookUtils implements Listener {
     public boolean keepOnDeath(ItemStack item) {
         if(item==null) return false;
         if( isSlimefunSoulbound(item)) return true;
+        if(isEliteMobsSoulBound(item)) return true;
         if(isNativeSoulbound(item)) return true;
         return false;
     }

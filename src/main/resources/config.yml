@@ -105,6 +105,10 @@ max-allowed-angelchests: 5
 # another player. By default, the AngelChest will always spawn.
 allow-angelchest-in-pvp: true
 
+# When set to true, AngelChests created by players who died in PVP will not
+# be protected from other players.
+dont-protect-chest-if-player-died-in-pvp: false
+
 # Amount of XP the player keeps within their chest on death.
 # 1.0 = 100%, 0.5 = 50%, etc.
 # When set to 0, all XP is lost.

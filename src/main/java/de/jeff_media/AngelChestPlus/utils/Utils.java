@@ -24,17 +24,17 @@ public class Utils {
 		if(location.getWorld().getEnvironment()== World.Environment.NETHER) {
 			if(location.getBlockY()>=128) return false;
 		}
+		if(isAboveLava(location,10)) return false;
 
-		if(!location.getBlock().getType().isSolid()
-				&&
+		if(location.getBlockY() <= 0) return false;
 
-				(location.getBlock().getRelative(0,-1,0).getType().isSolid()
-						|| location.getBlock().getRelative(0,-1,0).getType() == Material.WATER)
+		if(location.getBlock().getType().isOccluding()) return false;
 
-				&& !isAboveLava(location,10)
-				&& location.getBlockY() > 0) {
+		if(location.getBlock().getRelative(0,-1,0).getType().isSolid()
+						|| location.getBlock().getRelative(0,-1,0).getType() == Material.WATER) {
 			return true;
 		}
+
 		return false;
 	}
 

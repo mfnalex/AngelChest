@@ -270,6 +270,12 @@ public class PlayerListener implements Listener {
 
         }
 
+        if(main.getConfig().getBoolean(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP)) {
+            if (event.getEntity().getKiller() != null && event.getEntity().getKiller() != event.getEntity()) {
+                ac.isProtected = false;
+            }
+        }
+
         //Utils.reloadAngelChest(ac,plugin);
     }
 

@@ -59,8 +59,8 @@ public class GUIListener implements @NotNull Listener {
                 event.setCancelled(true);
             }
         }
-        main.debug("[GUIListener] "+"cancel(InventoryMoveItemEvent): cancelled -> true (3)");
-        event.setCancelled(true);
+        //main.debug("[GUIListener] "+"cancel(InventoryMoveItemEvent): cancelled -> true (3)");
+        //event.setCancelled(true);
     }
 /*
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

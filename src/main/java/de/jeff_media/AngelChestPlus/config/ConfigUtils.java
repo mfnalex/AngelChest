@@ -117,6 +117,7 @@ public class ConfigUtils {
 		main.getConfig().addDefault(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH, true);
 		main.getConfig().addDefault("tp-distance",2);
 		main.getConfig().addDefault("full-xp", false); // Currently not in config because there is no way to get players XP
+		main.getConfig().addDefault(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP,false);
 		main.disabledMaterials = main.getConfig().getStringList(Config.DISABLED_MATERIALS);
 		main.disabledWorlds =  main.getConfig().getStringList(Config.DISABLED_WORLDS);
 		main.disabledRegions =  main.getConfig().getStringList(Config.DISABLED_WORLDGUARD_REGIONS);
