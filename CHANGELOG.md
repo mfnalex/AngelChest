@@ -1,5 +1,10 @@
-## 1.1.2
+## 1.1.4
+- Made GUI 100% translatable
+
+## 1.1.3
 - Added config option: "dont-protect-chest-if-player-died-in-pvp"
+
+## 1.1.2
 - Improved TPing to the Chest
 - Fixed hoppers not working (wtf sorry for that, I am embarrassed)
 

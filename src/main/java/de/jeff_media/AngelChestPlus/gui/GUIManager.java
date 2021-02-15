@@ -91,7 +91,7 @@ public class GUIManager {
                 String.format("§aX: §f%d", angelChest.block.getX()),
                 String.format("§aY: §f%d", angelChest.block.getY()),
                 String.format("§aZ: §f%d", angelChest.block.getZ()),
-                String.format("§aWorld: §f%s", angelChest.block.getWorld().getName())
+                String.format(/*"§aWorld: "+*/"§f%s", angelChest.block.getWorld().getName())
         };
         return Arrays.asList(lore);
     }
@@ -218,40 +218,40 @@ public class GUIManager {
     }
 
     private ItemStack getPreviewButton() {
-        return getButton(Material.BOOK,"§6Preview",null);
+        return getButton(Material.BOOK,main.messages.GUI_PREVIEW,null);
     }
 
     private ItemStack getBackButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_BACK), "§6Back", null);
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_BACK), main.messages.GUI_BACK, null);
     }
 
     private ItemStack getInfoButton(AngelChest angelChest, int id) {
-        return getButton(Material.PAPER, "§6Info", getChestItemLore(angelChest, id));
+        return getButton(Material.PAPER, main.messages.GUI_INFO, getChestItemLore(angelChest, id));
     }
 
     private ItemStack getTPButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_TELEPORT), "§6Teleport", null);
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_TELEPORT), main.messages.GUI_TELEPORT, null);
     }
 
     private ItemStack getFetchButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_FETCH), "§6Fetch", null);
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_FETCH), main.messages.GUI_FETCH, null);
     }
 
     private ItemStack getUnlockButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_UNLOCK), "§6Unlock", null);
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_UNLOCK), main.messages.GUI_UNLOCK, null);
     }
 
     private ItemStack getConfirmAcceptButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_ACCEPT), "§aAccept", null);
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_ACCEPT), main.messages.GUI_ACCEPT, null);
     }
 
     private ItemStack getConfirmDeclineButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_DECLINE), "§cDecline", null);
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_DECLINE), main.messages.GUI_DECLINE, null);
     }
 
     private ItemStack getConfirmInfoButton(double price) {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_INFO), "§6Info",
-                getLore("§6You are about to spend {price}{currency}."
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_INFO), main.messages.GUI_INFO,
+                getLore(main.messages.GUI_INFO_LORE
                         .replaceAll("\\{price}", String.valueOf(price))
                         .replaceAll("\\{currency}", CommandUtils.getCurrency(price, main))));
     }

@@ -19,8 +19,7 @@ public class ConfigUpdater {
 			Config.ANGELCHEST_INVENTORY_NAME,
 			Config.ANGELCHEST_LIST,
 			"link-",
-			"gui-title-",
-			"gui-button"
+			"gui-"
 	};
 	private static final String[] NODES_NEEDING_SINGLE_QUOTES = {"test-"};
 	private static final String[] LINES_CONTAINING_STRING_LISTS = {

@@ -396,6 +396,17 @@ gui-title-chest: "&4&l[&c&lAngelChest&4&l] &c#{id} &4| &c{time}"
 # {player} is the player's name.
 angelchest-inventory-name: "&4&l[&c&lAngelChest&4&l] &b{player}&r"
 
+##### Button names and lore
+gui-back: "&6Back"
+gui-info: "&6Info"
+gui-info-lore: "§6You are about to spend {price}{currency}."
+gui-teleport: "&6Teleport"
+gui-fetch: "&6Fetch"
+gui-unlock: "&6Unlock"
+gui-accept: "&aAccept"
+gui-decline: "&cDecline"
+gui-preview: "&6Preview"
+
 #########################
 #####    Other     ######
 #########################

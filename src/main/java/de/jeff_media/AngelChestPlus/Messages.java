@@ -18,7 +18,7 @@ public class Messages {
 	MSG_PLEASE_SELECT_CHEST, MSG_ANGELCHEST_EXPLODED, MSG_NO_CHEST_IN_PVP, MSG_RETRIEVED, MSG_CONFIRM,
 	MSG_NOT_ENOUGH_MONEY_CHEST;
 
-	public final String GUI_TITLE_MAIN, GUI_TITLE_CHEST/*, GUI_BACK, GUI_INFO, GUI_TELEPORT, GUI_FETCH, GUI_UNLOCK, GUI_ACCEPT, GUI_CONFIRM_LORE, GUI_DECLINE*/;
+	public final String GUI_TITLE_MAIN, GUI_TITLE_CHEST, GUI_BACK, GUI_INFO, GUI_TELEPORT, GUI_FETCH, GUI_UNLOCK, GUI_ACCEPT, GUI_DECLINE, GUI_INFO_LORE, GUI_PREVIEW;
 	
 	public final String LINK_TP, LINK_FETCH, LINK_UNLOCK, LINK_UNLOCK_FOR;
 
@@ -95,17 +95,27 @@ public class Messages {
 
 		MSG_CONFIRM = getMsg("confirm","&6You are about to spend {price}{currency}. Click this message to continue.");
 
-		GUI_TITLE_CHEST = getMsg(Config.GUI_TITLE_CHEST,"§4§l[§c§lAngelChest§4§l] §c#{id} §4| §c{time}");
+		GUI_TITLE_CHEST = getGui(Config.GUI_TITLE_CHEST,"§4§l[§c§lAngelChest§4§l] §c#{id} §4| §c{time}");
 
-		GUI_TITLE_MAIN = getMsg(Config.GUI_TITLE_MAIN,"§4§l[§c§lAngelChest§4§l]");
+		GUI_TITLE_MAIN = getGui(Config.GUI_TITLE_MAIN,"§4§l[§c§lAngelChest§4§l]");
 
-		//GUI_ACCEPT = getMsg("gui-accept","&aAccept");
-		//GUI_BACK = getMsg("gui-back","&6Back");
-		//GUI_CONFIRM_LORE = getMsg("gui-confirm-lore")
+		GUI_ACCEPT = getGui("gui-accept","&aAccept");
+		GUI_DECLINE = getGui("gui-decline","&cDecline");
+		GUI_BACK = getGui("gui-back","&6Back");
+		GUI_INFO = getGui("gui-info","&6Info");
+		GUI_INFO_LORE = getGui("gui-info-lore","§6You are about to spend {price}{currency}.");
+		GUI_TELEPORT = getGui("gui-teleport","&6Teleport");
+		GUI_FETCH = getGui("gui-fetch","&6Fetch");
+		GUI_UNLOCK = getGui("gui-unlock","&6Unlock");
+		GUI_PREVIEW = getGui("gui-preview","&6Preview");
 	}
 
 
 	private String getMsg(String path, String defaultText) {
 		return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-"+path,defaultText));
+	}
+
+	private String getGui(String path, String defaultText) {
+		return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(path,defaultText));
 	}
 }
