@@ -168,6 +168,12 @@ custom-head-base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5
 # before he died in the void. When false, the chest will spawn at Y=1
 void-detection: true
 
+# When false, AngelChests will not be spawned for players who died in lava
+allow-chest-in-lava: true
+
+# When false, AngelChests will not be spawned for players who died in the void
+allow-chest-in-void: true
+
 # You probably don't want your AngelChest to spawn on blocks like GRASS_PATH, FARMLAND, etc.
 # as that would destroy those blocks. You can blacklist them here.
 dont-spawn-on:
@@ -747,7 +753,7 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 console-message-on-open: false
 
 # Debug mode - you probably do not want this.
-debug: true
+debug: false
 verbose: false
 
 # NEVER CHANGE THE VALUES BELOW!

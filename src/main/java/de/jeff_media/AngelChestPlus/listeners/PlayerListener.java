@@ -6,6 +6,7 @@ import de.jeff_media.AngelChestPlus.hooks.PlayerHeadDropsHook;
 import de.jeff_media.AngelChestPlus.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -14,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -137,6 +139,18 @@ public class PlayerListener implements Listener {
         if (main.getConfig().getBoolean(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD)
                 && !ProtectionUtils.playerMayBuildHere(p, p.getLocation(), main)) {
             main.debug("Cancelled: BlockPlaceEvent cancelled");
+            return;
+        }
+
+        if(!main.getConfig().getBoolean(Config.ALLOW_CHEST_IN_LAVA)
+                && p.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
+            main.debug("Cancelled: Lava, allow-chest-in-lava: false");
+            return;
+        }
+
+        if(!main.getConfig().getBoolean(Config.ALLOW_CHEST_IN_VOID)
+                && p.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID) {
+            main.debug("Cancelled: Void, allow-chest-in-void: false");
             return;
         }
 

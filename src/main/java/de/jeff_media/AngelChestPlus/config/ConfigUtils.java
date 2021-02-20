@@ -118,6 +118,8 @@ public class ConfigUtils {
 		main.getConfig().addDefault("tp-distance",2);
 		main.getConfig().addDefault("full-xp", false); // Currently not in config because there is no way to get players XP
 		main.getConfig().addDefault(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP,false);
+		main.getConfig().addDefault(Config.ALLOW_CHEST_IN_LAVA,true);
+		main.getConfig().addDefault(Config.ALLOW_CHEST_IN_VOID,true);
 		main.disabledMaterials = main.getConfig().getStringList(Config.DISABLED_MATERIALS);
 		main.disabledWorlds =  main.getConfig().getStringList(Config.DISABLED_WORLDS);
 		main.disabledRegions =  main.getConfig().getStringList(Config.DISABLED_WORLDGUARD_REGIONS);

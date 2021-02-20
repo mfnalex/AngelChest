@@ -1,3 +1,8 @@
+## 1.2.0
+- Added config options:
+  - allow-chest-in-lava
+  - allow-chest-in-void
+
 ## 1.1.4
 - Made GUI 100% translatable
 
