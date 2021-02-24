@@ -145,7 +145,9 @@ public class GUIListener implements @NotNull Listener {
             } else {
 
                 event.getClickedInventory().setItem(clickedSlot, null);
-                main.debug("[GUIListener] "+"Adding " + clickedItem.toString());
+                if(clickedItem!=null) {
+                    main.debug("[GUIListener] " + "Adding " + clickedItem.toString());
+                }
                 HashMap<Integer, ItemStack> leftOvers = player.getInventory().addItem(clickedItem);
                 for (ItemStack leftOver : leftOvers.values()) {
 

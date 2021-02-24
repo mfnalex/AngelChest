@@ -69,6 +69,12 @@ public class Main extends JavaPlugin {
 	public GUIManager guiManager;
 	public GUIListener guiListener;
 
+	private static Main instance;
+
+	public static Main getInstance() {
+		return instance;
+	}
+
 	public void debug(String t) {
 		if(debug) getLogger().info("[DEBUG] " + t);
 	}
@@ -79,6 +85,8 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+
+		instance = this;
 
 		if(isFreeVersionInstalled()) {
 			emergencyMode = true;

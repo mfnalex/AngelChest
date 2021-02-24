@@ -1,3 +1,9 @@
+## 1.2.2
+- Fixed XP percentage not working when set to a fractional value
+
+## 1.2.1
+- Fixed rare exception in GUI
+
 ## 1.2.0
 - Added config options:
   - allow-chest-in-lava

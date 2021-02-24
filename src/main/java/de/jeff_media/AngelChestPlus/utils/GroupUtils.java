@@ -30,8 +30,10 @@ public class GroupUtils {
             double priceFetch = yaml.getDouble(groupName+".price-fetch",-1);
             double priceTeleport = yaml.getDouble(groupName+".price-teleport",-1);
             double xpPercentage = yaml.getDouble(groupName+".xp-percentage",-1);
-            //System.out.println("Registering group "+groupName);
-            groups.put(groupName, new Group(angelchestDuration,chestsPerPlayer,priceSpawn,priceTeleport,priceFetch, xpPercentage));
+            main.debug("Registering group "+groupName);
+            Group group = new Group(angelchestDuration,chestsPerPlayer,priceSpawn,priceTeleport,priceFetch, xpPercentage);
+            groups.put(groupName, group);
+
         }
     }
 
@@ -44,10 +46,10 @@ public class GroupUtils {
             if(!p.hasPermission("angelchest.group."+group)) continue;
             //System.out.println(" Player is in group "+group);
             double xpPercentage = groups.get(group).xpPercentage;
-            bestValueFound = Math.max(xpPercentage, bestValueFound);
+            bestValueFound = Math.max((double)xpPercentage, (double)bestValueFound);
             //System.out.println("best value found: "+bestValueFound);
         }
-        return bestValueFound == -1 ? main.getConfig().getInt(Config.XP_PERCENTAGE) : bestValueFound;
+        return bestValueFound == -1 ? main.getConfig().getDouble(Config.XP_PERCENTAGE) : bestValueFound;
     }
 
     public int getDurationPerPlayer(Player p) {
@@ -137,6 +139,8 @@ public class GroupUtils {
             this.priceTeleport=priceTeleport;
             this.priceFetch=priceFetch;
             this.xpPercentage = xpPercentage;
+
+            Main.getInstance().debug("XP Percentage: "+xpPercentage);
         }
     }
 
