@@ -743,14 +743,34 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 #message-angelchest-retrieved: "&aAngelChest yanınıza çağrıldı!"
 #message-confirm: "&6{price}{currency} harcamak üzeresin. Devam etmek için mesaja tıkla."
 
+#########################
+#####     Misc      #####
+#########################
+
+# Whether to show a console message when a player opens an AngelChest
+console-message-on-open: false
+
+# Log all created AngelChests, including content, death location, death cause, death time and player' inventory content.
+# Also logs what items have been put into the chest and what items have been retreived from it.
+log-angelchests: false
+
+# File names for the log files. Available placerholders:
+# {player}  - Player's name
+# {uuid}    - Player's UUID
+# {world}   - World nane
+# {date}    - Date and time
+log-filename: "{player}_{world}_{date}.log"
+
+# File names for the AngelChest files. Available placerholders:
+# {player}       - Player's name
+# {uuid}         - Player's UUID
+# {world}        - World nane
+# {x}, {y}, {z}  - Coordinates
+chest-filename: "{player}_{world}_{x}_{y}_{z}.yml"
 
 #########################
 #####     Done!     #####
 #########################
-
-# Verbose options
-# Whether to show a console message when a player opens an AngelChest
-console-message-on-open: false
 
 # Debug mode - you probably do not want this.
 debug: false

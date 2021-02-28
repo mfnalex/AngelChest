@@ -120,6 +120,9 @@ public class ConfigUtils {
 		main.getConfig().addDefault(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP,false);
 		main.getConfig().addDefault(Config.ALLOW_CHEST_IN_LAVA,true);
 		main.getConfig().addDefault(Config.ALLOW_CHEST_IN_VOID,true);
+		main.getConfig().addDefault(Config.LOG_ANGELCHESTS, false);
+		main.getConfig().addDefault(Config.LOG_FILENAME,"{player}_{world}_{date}.log");
+		main.getConfig().addDefault(Config.CHEST_FILENAME,"{player}_{world}_{x}_{y}_{z}.yml");
 		main.disabledMaterials = main.getConfig().getStringList(Config.DISABLED_MATERIALS);
 		main.disabledWorlds =  main.getConfig().getStringList(Config.DISABLED_WORLDS);
 		main.disabledRegions =  main.getConfig().getStringList(Config.DISABLED_WORLDGUARD_REGIONS);

@@ -71,6 +71,9 @@ public class Config {
     public static final String DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP = "dont-protect-chest-if-player-died-in-pvp";
     public static final String ALLOW_CHEST_IN_LAVA = "allow-chest-in-lava";
     public static final String ALLOW_CHEST_IN_VOID = "allow-chest-in-void";
+    public static final String LOG_ANGELCHESTS = "log-angelchests";
+    public static final String LOG_FILENAME = "log-filename";
+    public static final String CHEST_FILENAME = "chest-filename";
 
 
     // SECRET FEATURES

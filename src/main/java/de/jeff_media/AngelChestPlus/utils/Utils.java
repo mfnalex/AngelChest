@@ -1,5 +1,6 @@
 package de.jeff_media.AngelChestPlus.utils;
 
+import java.io.File;
 import java.util.*;
 
 import com.google.common.base.Enums;
@@ -124,6 +125,8 @@ public class Utils {
 	}
 
 	public static boolean tryToMergeInventories(Main main, AngelChest source, PlayerInventory dest) {
+		File file = Main.getInstance().logger.getLogFile(source.logfile);
+		Player player = (Player) dest.getHolder();
 		if(!isEmpty(source.overflowInv))
 			return false; // Already applied inventory
 
@@ -136,6 +139,7 @@ public class Utils {
 		for(int i = 0; i < armor_merged.length; i ++) {
 			if(isEmpty(armor_merged[i])) {
 				armor_merged[i] = source.armorInv[i];
+				main.logger.logItemTaken(player,source.armorInv[i],file);
 			} else if(!isEmpty(source.armorInv[i])) {
 				overflow.add(source.armorInv[i]);
 			}
@@ -146,6 +150,7 @@ public class Utils {
 		for(int i = 0; i < storage_merged.length; i ++) {
 			if(isEmpty(storage_merged[i])) {
 				storage_merged[i] = source.storageInv[i];
+				main.logger.logItemTaken(player,source.storageInv[i],file);
 			} else if(!isEmpty(source.storageInv[i])) {
 				overflow.add(source.storageInv[i]);
 			}
@@ -156,6 +161,7 @@ public class Utils {
 		for(int i = 0; i < extra_merged.length; i ++) {
 			if(isEmpty(extra_merged[i])) {
 				extra_merged[i] = source.extraInv[i];
+				main.logger.logItemTaken(player,source.extraInv[i],file);
 			} else if(!isEmpty(source.extraInv[i])) {
 				overflow.add(source.extraInv[i]);
 			}
@@ -173,6 +179,7 @@ public class Utils {
 		source.overflowInv.clear();
 
 		if (unstorable.size() == 0) {
+			main.logger.logLastItemTaken(player,file);
 			return true;
 		}
 

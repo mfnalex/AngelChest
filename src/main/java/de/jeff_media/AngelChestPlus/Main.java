@@ -68,6 +68,7 @@ public class Main extends JavaPlugin {
 	public MinepacksHook minepacksHook;
 	public GUIManager guiManager;
 	public GUIListener guiListener;
+	public Logger logger;
 
 	private static Main instance;
 
@@ -101,6 +102,7 @@ public class Main extends JavaPlugin {
 
 		angelChests = new LinkedHashMap<>();
 		lastPlayerPositions = new HashMap<>();
+		logger = new Logger();
 
 		debug("Loading AngelChests from disk");
 		loadAllAngelChestsFromFile();
@@ -226,7 +228,7 @@ public class Main extends JavaPlugin {
 					// TODO: Disabled for now, but left behind if someone still has missing chests upon end crystal generation
 					Block block = entry.getKey();
 					debug("Fixing broken AngelChest at "+block.getLocation());
-					entry.setValue(new AngelChest(getAngelChest(block).saveToFile(true), main));
+					entry.setValue(new AngelChest(getAngelChest(block).saveToFile(true)));
 				}
 			}
 		}, 0L, 2 * 20);
@@ -238,7 +240,7 @@ public class Main extends JavaPlugin {
 		  if (directoryListing != null) {
 		    for (File child : directoryListing) {
 				getLogger().info("Loading AngelChest " + child.getName());
-		      AngelChest ac = new AngelChest(child,this);
+		      AngelChest ac = new AngelChest(child);
 		      if(ac.success) {
 				  angelChests.put(ac.block, ac);
 			  } else {

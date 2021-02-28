@@ -24,6 +24,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -224,7 +225,7 @@ public class PlayerListener implements Listener {
         }
 		// END DETECT ALL DROPS
 
-        AngelChest ac = new AngelChest(p, p.getUniqueId(), angelChestBlock, p.getInventory(), main);
+        AngelChest ac = new AngelChest(p, p.getUniqueId(), angelChestBlock, p.getInventory(), main.logger.getLogFileName(event));
         main.angelChests.put(angelChestBlock, ac);
 
         if (!event.getKeepLevel() && event.getDroppedExp() != 0) {
@@ -246,6 +247,8 @@ public class PlayerListener implements Listener {
             }
             event.setDroppedExp(0);
         }
+
+        main.logger.logDeath(event,ac);
 
         // Delete players inventory except excluded items
         clearInventory(p.getInventory());

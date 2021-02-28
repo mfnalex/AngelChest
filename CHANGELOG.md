@@ -1,3 +1,6 @@
+## 1.3.0
+- Added config option to extensively log all AngelChest actions into separate files
+
 ## 1.2.2
 - Fixed XP percentage not working when set to a fractional value
 

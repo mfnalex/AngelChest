@@ -46,9 +46,11 @@ public class AngelChest {
     double price = 0;
     public boolean infinite = false;
     public Main main;
+    public String logfile;
 
 
-    public @Nullable AngelChest(File file, Main main) {
+    public @Nullable AngelChest(File file) {
+        main = Main.getInstance();
         main.debug("Creating AngelChest from file " + file.getName());
         YamlConfiguration yaml;
         try {
@@ -67,6 +69,8 @@ public class AngelChest {
         this.secondsLeft = yaml.getInt("secondsLeft");
         this.infinite = yaml.getBoolean("infinite",false);
         this.price = yaml.getDouble("price", main.getConfig().getDouble(Config.PRICE));
+        this.logfile = yaml.getString("logfile",null);
+
 
         // Check if this is the current save format
         int saveVersion = yaml.getInt("angelchest-saveversion", 1);
@@ -146,18 +150,20 @@ public class AngelChest {
         file.delete();
     }
 
-    public AngelChest(Player p, Block block, Main main) {
-    	this(p, p.getUniqueId(), block, p.getInventory(), main);
+    public AngelChest(Player p, Block block, String logfile) {
+    	this(p, p.getUniqueId(), block, p.getInventory(),logfile);
     }
 
 
-    public AngelChest(Player player, UUID owner, Block block, PlayerInventory playerItems, Main main) {
+    public AngelChest(Player player, UUID owner, Block block, PlayerInventory playerItems, String logfile) {
 
+        main = Main.getInstance();
         main.debug("Creating AngelChest natively for player "+player.getName());
 
         this.main = main;
         this.owner = owner;
         this.block = block;
+        this.logfile = logfile;
         this.price = main.groupUtils.getSpawnPricePerPlayer(player);
         this.isProtected = main.getServer().getPlayer(owner).hasPermission("angelchest.protect");
         this.secondsLeft = main.groupUtils.getDurationPerPlayer(main.getServer().getPlayer(owner));
@@ -183,6 +189,17 @@ public class AngelChest {
         extraInv = playerItems.getExtraContents();
 
         removeKeepedItems();
+    }
+
+    public String getFileName() {
+        return main.getConfig().getString(Config.CHEST_FILENAME)
+                .replaceAll("\\{world}",block.getWorld().getName())
+                .replaceAll("\\{uuid}",owner.toString())
+                .replaceAll("\\{player}",Bukkit.getOfflinePlayer(owner).getName())
+                .replaceAll("\\{x}", String.valueOf(block.getX()))
+                .replaceAll("\\{y}", String.valueOf(block.getY()))
+                .replaceAll("\\{z}", String.valueOf(block.getZ()))
+        ;
     }
 
 
@@ -311,7 +328,7 @@ public class AngelChest {
 
     public File saveToFile(boolean removeChest) {
         File yamlFile = new File(main.getDataFolder() + File.separator + "angelchests",
-                this.hashCode() + ".yml");
+                this.getFileName());
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(yamlFile);
         yaml.set("angelchest-saveversion", 2);
         yaml.set("worldid", block.getLocation().getWorld().getUID().toString());
@@ -328,6 +345,7 @@ public class AngelChest {
         yaml.set("experience", experience);
         yaml.set("levels", levels);
         yaml.set("price",price);
+        yaml.set("logfile",logfile);
         yaml.set("storageInv", storageInv);
         yaml.set("armorInv", armorInv);
         yaml.set("extraInv", extraInv);
