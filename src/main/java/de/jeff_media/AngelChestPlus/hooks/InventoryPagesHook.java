@@ -22,7 +22,7 @@ public class InventoryPagesHook {
     boolean disabled = false;
 
     public InventoryPagesHook(Main main) {
-        this.main = main;
+        this.main = Main.getInstance();
 
         File inventoryPagesConfigFile = new File(main.getDataFolder() + File.separator + ".." + File.separator + "InventoryPages" + File.separator + "config.yml");
 

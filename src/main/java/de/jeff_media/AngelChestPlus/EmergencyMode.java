@@ -18,14 +18,14 @@ public class EmergencyMode {
         FREE_VERSION_INSTALLED
     }
 
-    public static void run(Main main,EmergencyReason reason) {
+    public static void run(EmergencyReason reason) {
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), () -> {
             for(String line : FREE_VERSION_INSTALLED) {
                 for(Player player : Bukkit.getOnlinePlayers()) {
                     player.sendMessage(line);
                 }
-                main.getLogger().severe(line);
+                Main.getInstance().getLogger().severe(line);
             }
         },0,30*20L);
 

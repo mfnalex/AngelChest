@@ -22,7 +22,7 @@ public class GUIManager {
     private final Main main;
 
     public GUIManager(Main main) {
-        this.main = main;
+        this.main = Main.getInstance();
 
     }
 
@@ -112,7 +112,7 @@ public class GUIManager {
     }
 
     public void showLatestChestGUI(Player player) {
-        GUIHolder holder = new GUIHolder(player, GUIContext.MAIN_MENU, main);
+        GUIHolder holder = new GUIHolder(player, GUIContext.MAIN_MENU);
         int latestChest = holder.getNumberOfAngelChests();
         int inventorySize = getInventorySize(latestChest);
         Inventory inventory = Bukkit.createInventory(holder, inventorySize, main.messages.GUI_TITLE_MAIN);
@@ -123,12 +123,12 @@ public class GUIManager {
     }
 
     public void showMainGUI(Player player) {
-        GUIHolder holder = new GUIHolder(player, GUIContext.MAIN_MENU, main);
+        GUIHolder holder = new GUIHolder(player, GUIContext.MAIN_MENU);
         int inventorySize = getInventorySize(holder.getNumberOfAngelChests());
         Inventory inventory = Bukkit.createInventory(holder, inventorySize, main.messages.GUI_TITLE_MAIN);
         holder.setInventory(inventory);
 
-        if (Utils.getAllAngelChestsFromPlayer(player, main).size() == 1) {
+        if (Utils.getAllAngelChestsFromPlayer(player).size() == 1) {
             holder.setChestIdStartingAt1(1);
             main.guiManager.showChestGUI(player, holder, 1);
             return;
@@ -154,10 +154,10 @@ public class GUIManager {
     }
 
     public void showPreviewGUI(Player player, AngelChest angelChest, boolean isPreview) {
-        GUIHolder holder = new GUIHolder(player,GUIContext.PREVIEW_MENU,main);
+        GUIHolder holder = new GUIHolder(player,GUIContext.PREVIEW_MENU);
         Inventory inventory = Bukkit.createInventory(holder,54,main.messages.GUI_TITLE_MAIN);
         holder.setInventory(inventory);
-        holder.setChestIdStartingAt1(Utils.getAllAngelChestsFromPlayer(angelChest.owner,main).indexOf(angelChest));
+        holder.setChestIdStartingAt1(Utils.getAllAngelChestsFromPlayer(angelChest.owner).indexOf(angelChest));
         holder.setAngelChest(angelChest);
         //holder.setChestIdStartingAt1(Utils.getAllAngelChestsFromPlayer(angelChest.owner,main).indexOf(angelChest)+1);
         /*inventory = */GUIUtils.loadChestIntoPreviewInventory(holder.getAngelChest(),inventory);
@@ -175,7 +175,7 @@ public class GUIManager {
 
     public void showChestGUI(Player player, GUIHolder holder, int id) {
         AngelChest angelChest = holder.getAngelChest();
-        GUIHolder newHolder = new GUIHolder(player, GUIContext.CHEST_MENU, main, id);
+        GUIHolder newHolder = new GUIHolder(player, GUIContext.CHEST_MENU, id);
         Inventory inventory = Bukkit.createInventory(newHolder, 9, getTitle(holder.getAngelChest(),holder.getChestIdStartingAt1()));
         newHolder.setInventory(inventory);
 
@@ -195,12 +195,12 @@ public class GUIManager {
     }
 
     public void showConfirmGUI(Player player, GUIHolder holder, TeleportAction action) {
-        GUIHolder newHolder = new GUIHolder(player, GUIContext.CONFIRM_MENU, main, holder.getChestIdStartingAt1());
+        GUIHolder newHolder = new GUIHolder(player, GUIContext.CONFIRM_MENU, holder.getChestIdStartingAt1());
         newHolder.setAction(action);
         Inventory inventory = Bukkit.createInventory(newHolder, 9, getTitle(holder.getAngelChest(),holder.getChestIdStartingAt1()));
         newHolder.setInventory(inventory);
 
-        inventory.setItem(GUI.SLOT_CONFIRM_INFO, getConfirmInfoButton(action.getPrice(main,player)));
+        inventory.setItem(GUI.SLOT_CONFIRM_INFO, getConfirmInfoButton(action.getPrice(player)));
         inventory.setItem(GUI.SLOT_CONFIRM_ACCEPT, getConfirmAcceptButton());
         inventory.setItem(GUI.SLOT_CONFIRM_DECLINE, getConfirmDeclineButton());
         player.openInventory(inventory);

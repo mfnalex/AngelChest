@@ -12,7 +12,7 @@ public class CommandGUI implements CommandExecutor {
     final Main main;
 
     public CommandGUI(Main main) {
-        this.main = main;
+        this.main = Main.getInstance();
     }
 
     @Override

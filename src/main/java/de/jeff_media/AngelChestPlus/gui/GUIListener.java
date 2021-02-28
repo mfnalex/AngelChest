@@ -19,14 +19,15 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class GUIListener implements @NotNull Listener {
 
     private final Main main;
 
-    public GUIListener(Main main) {
-        this.main = main;
+    public GUIListener() {
+        this.main = Main.getInstance();
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -110,7 +111,7 @@ public class GUIListener implements @NotNull Listener {
 
             if(event.getSlot() == GUI.SLOT_PREVIEW_BACK) {
                 main.debug("[GUIListener] "+"Preview -> Back");
-                GUIHolder newHolder = new GUIHolder(player,GUIContext.MAIN_MENU,main, guiHolder.getChestIdStartingAt1()+1);
+                GUIHolder newHolder = new GUIHolder(player,GUIContext.MAIN_MENU, guiHolder.getChestIdStartingAt1()+1);
                 main.guiManager.showChestGUI(player, newHolder, newHolder.getChestIdStartingAt1());
                 return;
             }
@@ -139,7 +140,10 @@ public class GUIListener implements @NotNull Listener {
             //event.getClickedInventory().remove(clickedItem);
             int clickedSlot = event.getSlot();
 
+            File logfile = main.logger.getLogFile(guiHolder.getAngelChest().logfile);
+
             if(clickedSlot == GUI.SLOT_PREVIEW_XP) {
+                main.logger.logXPTaken(player,guiHolder.getAngelChest().experience,logfile);
                 Utils.applyXp(player, guiHolder.getAngelChest());
                 event.getClickedInventory().setItem(GUI.SLOT_PREVIEW_XP,null);
             } else {
@@ -147,14 +151,14 @@ public class GUIListener implements @NotNull Listener {
                 event.getClickedInventory().setItem(clickedSlot, null);
                 if(clickedItem!=null) {
                     main.debug("[GUIListener] " + "Adding " + clickedItem.toString());
+                    main.logger.logItemTaken(player,clickedItem,logfile);
                 }
                 HashMap<Integer, ItemStack> leftOvers = player.getInventory().addItem(clickedItem);
                 for (ItemStack leftOver : leftOvers.values()) {
-
                     event.getClickedInventory().setItem(clickedSlot, leftOver);
                 }
             }
-            GUIUtils.savePreviewInventoryToChest(event.getClickedInventory(), guiHolder.getAngelChest(), main);
+            GUIUtils.savePreviewInventoryToChest(event.getClickedInventory(), guiHolder.getAngelChest());
             main.guiManager.updatePreviewInvs(player, guiHolder.getAngelChest());
             //GUIUtils.printPreviewIntentory(event.getClickedInventory().getContents());
             event.setCancelled(true);
@@ -292,7 +296,7 @@ public class GUIListener implements @NotNull Listener {
     }
 
     private void confirmOrTeleport(InventoryClickEvent event, Player player, GUIHolder holder, TeleportAction action) {
-        if (main.getConfig().getBoolean(Config.CONFIRM) && action.getPrice(main,player)>0.0d) {
+        if (main.getConfig().getBoolean(Config.CONFIRM) && action.getPrice(player)>0.0d) {
             main.guiManager.showConfirmGUI(player, holder, action);
         } else {
             CommandUtils.fetchOrTeleport(main, player, holder.getAngelChest(), holder.getChestIdStartingAt1(), action, false);

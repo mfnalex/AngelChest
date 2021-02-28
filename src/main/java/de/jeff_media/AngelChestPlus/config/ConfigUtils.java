@@ -1,10 +1,7 @@
 package de.jeff_media.AngelChestPlus.config;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import de.jeff_media.AngelChestPlus.*;
 import de.jeff_media.AngelChestPlus.config.Config;
@@ -18,33 +15,33 @@ import org.bukkit.Material;
 public class ConfigUtils {
 
 	@SuppressWarnings("SameParameterValue")
-	static void createDirectory(Main main, String name) {
-
-		File folder = new File(main.getDataFolder().getPath() + File.separator + name);
+	static void createDirectory(String name) {
+		File folder = new File(Main.getInstance().getDataFolder().getPath() + File.separator + name);
 		if (!folder.getAbsoluteFile().exists()) {
 			folder.mkdirs();
 		}
 	}
 
-	static void createDirectories(Main main) {
-		createDirectory(main, "angelchests");
-
+	static void createDirectories() {
+		createDirectory("angelchests");
+		createDirectory("logs");
 	}
 
-	public static void reloadCompleteConfig(Main main,boolean reload) {
+	public static void reloadCompleteConfig(boolean reload) {
+		Main main = Main.getInstance();
 		if(reload) {
 			main.saveAllAngelChestsToFile();
 		}
 		main.reloadConfig();
-		createConfig(main);
-		ConfigUpdater.updateConfig(main);
+		createConfig();
+		ConfigUpdater.updateConfig();
 		main.initUpdateChecker();
 		main.debug = main.getConfig().getBoolean(Config.DEBUG,false);
 		main.verbose = main.getConfig().getBoolean(Config.VERBOSE,false);
 		main.messages = new Messages(main);
 		main.pendingConfirms = new HashMap<>();
 		File groupsFile = new File(main.getDataFolder()+File.separator+"groups.yml");
-		main.groupUtils = new GroupUtils(main,groupsFile);
+		main.groupUtils = new GroupUtils(groupsFile);
 		main.worldGuardHandler = new WorldGuardHandler(main);
 		main.hookUtils = new HookUtils(main);
 		main.minepacksHook = new MinepacksHook();
@@ -57,13 +54,14 @@ public class ConfigUtils {
 	}
 
 	
-	static void createConfig(Main main) {
+	static void createConfig() {
 
+		Main main = Main.getInstance();
 		ConfigUpdater.migrateFromFreeVersion(main);
 
 		main.saveDefaultConfig();
 		main.saveResource("groups.example.yml", true);
-		createDirectories(main);
+		createDirectories();
 
 		main.getConfig().addDefault(Config.CHECK_FOR_UPDATES, "true");
 		//main.getConfig().addDefault(Config.DETECT_PLAYER_HEAD_DROPS,false);
@@ -94,6 +92,7 @@ public class ConfigUtils {
 		main.getConfig().addDefault(Config.SHOW_LINKS_ON_SEPARATE_LINE,false);
 		main.getConfig().addDefault(Config.CONFIRM,true);
 		main.getConfig().addDefault(Config.PRICE,0.0d);
+		main.getConfig().addDefault(Config.PRICE_OPEN,0.0d);
 		main.getConfig().addDefault(Config.VOID_DETECTION,true);
 		main.getConfig().addDefault(Config.REFUND_EXPIRED_CHESTS,true);
 		main.getConfig().addDefault(Config.PRICE_TELEPORT,0.0d);
@@ -112,7 +111,7 @@ public class ConfigUtils {
 		main.getConfig().addDefault(Config.ALIAS_ACFETCH, Arrays.asList("acretrieve","angelchestretrieve","angelchestfetch"));
 		main.getConfig().addDefault(Config.ALIAS_ACTP, Arrays.asList("acteleport","angelchesttp","angelchestteleport"));
 		main.getConfig().addDefault(Config.ALIAS_ACUNLOCK, Arrays.asList("angelchestunlock","unlockchest","unlock"));
-		main.getConfig().addDefault(Config.ALIAS_ACRELOAD, Arrays.asList("angelchestreload"));
+		main.getConfig().addDefault(Config.ALIAS_ACRELOAD, Collections.singletonList("angelchestreload"));
 		main.getConfig().addDefault(Config.SHOW_GUI_AFTER_DEATH, "false");
 		main.getConfig().addDefault(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH, true);
 		main.getConfig().addDefault("tp-distance",2);

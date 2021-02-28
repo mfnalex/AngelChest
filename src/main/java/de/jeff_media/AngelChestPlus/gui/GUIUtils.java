@@ -1,7 +1,6 @@
 package de.jeff_media.AngelChestPlus.gui;
 
 import de.jeff_media.AngelChestPlus.AngelChest;
-import de.jeff_media.AngelChestPlus.Main;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -20,7 +19,7 @@ public class GUIUtils {
 
     }
 
-    public static void savePreviewInventoryToChest(Inventory inventory, AngelChest angelChest, Main main) {
+    public static void savePreviewInventoryToChest(Inventory inventory, AngelChest angelChest) {
         Objects.requireNonNull(angelChest,"AngelChest is null!");
         angelChest.armorInv = new ItemStack[GUI.PREVIEW_ARMOR_SIZE];
         angelChest.extraInv = new ItemStack[GUI.PREVIEW_OFFHAND_SIZE];

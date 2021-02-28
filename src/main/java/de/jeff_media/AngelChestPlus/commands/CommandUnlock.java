@@ -14,8 +14,8 @@ public class CommandUnlock implements CommandExecutor {
 	
 	final Main main;
 	
-	public CommandUnlock(Main main) {
-		this.main = main;
+	public CommandUnlock( ) {
+		this.main = Main.getInstance();
 	}
 
 	@Override

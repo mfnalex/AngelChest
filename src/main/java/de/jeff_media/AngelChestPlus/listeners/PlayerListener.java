@@ -2,11 +2,9 @@ package de.jeff_media.AngelChestPlus.listeners;
 
 import de.jeff_media.AngelChestPlus.*;
 import de.jeff_media.AngelChestPlus.config.Config;
-import de.jeff_media.AngelChestPlus.hooks.PlayerHeadDropsHook;
 import de.jeff_media.AngelChestPlus.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -24,7 +22,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredListener;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +32,7 @@ public class PlayerListener implements Listener {
     final Main main;
 
     public PlayerListener(Main main) {
-        this.main = main;
+        this.main = Main.getInstance();
 
         main.debug("PlayerListener created");
     }
@@ -127,7 +124,7 @@ public class PlayerListener implements Listener {
             }
         }
 
-        if (!Utils.isWorldEnabled(p.getLocation().getWorld(), main)) {
+        if (!Utils.isWorldEnabled(p.getLocation().getWorld())) {
             main.debug("Cancelled: world disabled (" + p.getLocation().getWorld());
             return;
         }
@@ -138,7 +135,7 @@ public class PlayerListener implements Listener {
         }
 
         if (main.getConfig().getBoolean(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD)
-                && !ProtectionUtils.playerMayBuildHere(p, p.getLocation(), main)) {
+                && !ProtectionUtils.playerMayBuildHere(p, p.getLocation())) {
             main.debug("Cancelled: BlockPlaceEvent cancelled");
             return;
         }
@@ -160,7 +157,7 @@ public class PlayerListener implements Listener {
             main.debug("Cancelled: event#getDrops == null || event#getDrops#size == 0");
             main.debug("Either your inventory was empty, or another plugin set your");
             main.debug("drops to zero.");
-            Utils.sendDelayedMessage(p, main.messages.MSG_INVENTORY_WAS_EMPTY, 1, main);
+            Utils.sendDelayedMessage(p, main.messages.MSG_INVENTORY_WAS_EMPTY, 1);
             return;
         }
 
@@ -168,12 +165,12 @@ public class PlayerListener implements Listener {
             if (event.getEntity().getKiller() != null && event.getEntity().getKiller() != event.getEntity()) {
                 main.debug("Cancelled: allow-angelchest-in-pvp is false and this seemed to be a pvp death");
 
-                Utils.sendDelayedMessage(p, main.messages.MSG_NO_CHEST_IN_PVP, 1, main);
+                Utils.sendDelayedMessage(p, main.messages.MSG_NO_CHEST_IN_PVP, 1);
                 return;
             }
         }
 
-        if (!CommandUtils.hasEnoughMoney(event.getEntity(), main.getConfig().getDouble(Config.PRICE), main, main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, "AngelChest spawned")) {
+        if (!CommandUtils.hasEnoughMoney(event.getEntity(), main.getConfig().getDouble(Config.PRICE), main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, "AngelChest spawned")) {
             return;
         }
 
@@ -198,7 +195,7 @@ public class PlayerListener implements Listener {
             tmpPosition = p.getLocation().getBlock();
         }
 
-        Block angelChestBlock = Utils.findSafeBlock(tmpPosition, main);
+        Block angelChestBlock = Utils.findSafeBlock(tmpPosition);
 
         /*if (main.getConfig().getBoolean(Config.DETECT_PLAYER_HEAD_DROPS)) {
             PlayerHeadDropsHook.applyPlayerHeadDrops(p.getInventory(), event.getDrops(), main);
@@ -257,25 +254,15 @@ public class PlayerListener implements Listener {
         event.getDrops().clear();
 
         // send message after one twentieth second
-        Utils.sendDelayedMessage(p, main.messages.MSG_ANGELCHEST_CREATED, 1, main);
+        Utils.sendDelayedMessage(p, main.messages.MSG_ANGELCHEST_CREATED, 1);
 
 
         if (main.getConfig().getBoolean(Config.SHOW_LOCATION)) {
-            //Utils.sendDelayedMessage(p, String.format(plugin.messages.MSG_ANGELCHEST_LOCATION , Utils.locationToString(fixedAngelChestBlock) ), 2, plugin);
-			/*final int x = fixedAngelChestBlock.getX();
-			final int y = fixedAngelChestBlock.getY();
-			final int z = fixedAngelChestBlock.getZ();
-			final String world = fixedAngelChestBlock.getWorld().getName();
-			String locString = Utils.locationToString(fixedAngelChestBlock);*/
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
-                //TpLinkUtil.sendLink(p, String.format(plugin.messages.MSG_ANGELCHEST_LOCATION , locString )+" ", "/acinfo tp "+x+" "+y+" "+z+" "+world);
-                CommandUtils.sendListOfAngelChests(main, p, p);
-
-            }, 2);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> CommandUtils.sendListOfAngelChests(main, p, p), 2);
         }
 
         int maxChests = main.groupUtils.getChestsPerPlayer(p);
-        ArrayList<AngelChest> chests = Utils.getAllAngelChestsFromPlayer(p, main);
+        ArrayList<AngelChest> chests = Utils.getAllAngelChestsFromPlayer(p);
         //System.out.println(chests.size()+" chests.size");
         if (chests.size() > maxChests) {
             chests.get(0).destroy(true);
@@ -346,7 +333,7 @@ public class PlayerListener implements Listener {
             main.debug("  No: no angelchest.use permission");
             return;
         }
-        ArrayList<AngelChest> chests = Utils.getAllAngelChestsFromPlayer(player, main);
+        ArrayList<AngelChest> chests = Utils.getAllAngelChestsFromPlayer(player);
         if (chests.size() == 0) {
             main.debug("  No: no AngelChests");
             return;
@@ -400,6 +387,9 @@ public class PlayerListener implements Listener {
             return;
         }
 
+        if(!angelChest.hasPaidForOpening(p)) {
+            return;
+        }
 
         if (p.isSneaking()) {
             main.guiManager.showPreviewGUI(p, angelChest, false);

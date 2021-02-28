@@ -11,8 +11,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class ProtectionUtils {
 
-    public static boolean playerMayBuildHere(Player p, Location loc, Main main) {
-
+    public static boolean playerMayBuildHere(Player p, Location loc) {
+        Main main = Main.getInstance();
         BlockPlaceEvent event = new BlockPlaceEvent(loc.getBlock(),loc.getBlock().getState(),loc.getBlock().getRelative(BlockFace.DOWN),new ItemStack(Material.DIRT),p,true, EquipmentSlot.HAND);
         main.getServer().getPluginManager().callEvent(event);
         if(event.isCancelled()) {

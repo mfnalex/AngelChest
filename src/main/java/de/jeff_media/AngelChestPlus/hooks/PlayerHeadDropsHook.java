@@ -1,3 +1,4 @@
+/*
 package de.jeff_media.AngelChestPlus.hooks;
 
 import de.jeff_media.AngelChestPlus.Main;
@@ -10,7 +11,9 @@ import java.util.List;
 
 public class PlayerHeadDropsHook {
 
-    public static void applyPlayerHeadDrops(PlayerInventory inventory, List<ItemStack> drops, Main main) {
+    public static void applyPlayerHeadDrops(PlayerInventory inventory, List<ItemStack> drops) {
+
+        Main main = Main.getInstance();
 
         for(ItemStack item : drops) {
             if(item == null) {
@@ -48,3 +51,4 @@ public class PlayerHeadDropsHook {
     }
 
 }
+*/

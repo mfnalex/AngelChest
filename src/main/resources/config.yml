@@ -2,6 +2,14 @@
 #####   AngelChestPlus  #####
 #############################
 
+##### WARNING! #####
+# This file contains UTF8 symbols! You MUST use a proper text editor like Notepad++ to edit this file!
+# If you use some kind of "online editor", you file will break and reset to the default values!
+
+#############################
+#####    Permissions    #####
+#############################
+
 # The following permissions are available:
 #
 # angelchest.use             Spawns AngelChest on death instead of dropping the items
@@ -10,6 +18,10 @@
 # angelchest.fetch           Allows the player to teleport their chests to them
 # angelchest.tp              The player can teleport to their AngelChests
 # angelchest.reload          Allows reloading the config using /acreload
+
+#############################
+#####     Commands      #####
+#############################
 
 # The following commands are available:
 #
@@ -32,15 +44,6 @@
 #
 # /acreload                  Permission: angelchest.reload
 #                            Reloads the config
-
-
-
-
-########## THE FOLLOWING PERMISSIONS ARE NO LONGER VALID ############
-# angelchest.xp              The AngelChest stores the amount of XP that would be dropped
-# angelchest.xp.levels       The AngelChest stores the amount of XP levels a player had
-#                            Note: If the AngelChest despawns or is broken, it will only
-#                            drop the normal amount of XP
 
 ############################
 ##### Command settings #####
@@ -229,6 +232,7 @@ check-interval: 4
 # If you need more options to adjust the prices for certain actions, please
 # leave a message in the SpigotMC discussion or open an issue at GitHub.
 # If you request a feature in the review section, it will probably be ignored.
+# You can also adjust those prices individually for each group. See groups.example.yml
 
 # How much does it cost to spawn the AngelChest? The amount will automatically
 # be taken from the player on death if they have enough money, otherwise
@@ -239,14 +243,18 @@ price: 0
 # before it expires
 refund-expired-chests: false
 
-# How much does it cost to teleport yourself to one of your AngelChests
+# How much does it cost for a player to open a chest? Each player will only be
+# charged once per chest.
+price-open: 0
+
+# How much does it cost to teleport yourself to one of your AngelChests?
 price-teleport: 0
 
-# How much does it cost to teleport your AngelChests to you
+# How much does it cost to teleport your AngelChests to you?
 price-fetch: 0
 
-# When set to true, players must confirm actions that cost money by entering the same command again
-# or by clicking on a text message in the chat
+# When set to true, players must confirm teleporting to or fetching a chest if you set a price for those actions
+# by entering the same command again or by clicking on a text message in the chat
 confirm: true
 
 #########################
@@ -459,6 +467,7 @@ message-too-many-angelchests: "&cYou had more AngelChests than your Angel could 
 message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was put to flight by the presence of your killer."
 message-angelchest-retrieved: "&aAngelChest retrieved!"
 message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
+message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 
 #########################
 ##### Translations ######
@@ -490,6 +499,7 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 #message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was put to flight by the presence of your killer."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
+#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 
 ##### Chinese Simplified 简体中文 - Thanks to qsefthuopq for translating! -> https://www.spigotmc.org/members/qsefthuopq.339953/
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天御之箱都已解锁."
@@ -513,6 +523,7 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 #message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was put to flight by the presence of your killer."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
+#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 
 ##### Chinese Traditional 繁體中文 - Thanks to maoding for translating! -> https://www.spigotmc.org/members/maoding.400505/
 #message-all-your-angelchests-were-already-unlocked: "&e所有的小天使箱子已被解鎖"
@@ -536,6 +547,7 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 #message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was put to flight by the presence of your killer."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
+#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 
 ##### Dutch - Thanks to Xeyame for translating -> https://github.com/Xeyame
 #message-all-your-angelchests-were-already-unlocked: "&eAl je AngerChests zijn al ontgrendeld."
@@ -559,6 +571,7 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 #message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was put to flight by the presence of your killer."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
+#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/ 
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
@@ -582,6 +595,7 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 #message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was put to flight by the presence of your killer."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
+#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 
 ##### German
 #message-all-your-angelchests-were-already-unlocked: "&eAlle deine AngelChests waren bereits aufgeschlossen."
@@ -605,6 +619,7 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 #message-no-angelchest-in-pvp: "&cEin Engel wollte deine Sachen einsammeln, doch die Anwesenheit deines Mörders trieb ihn in die Flucht."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
+#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 
 ##### Italian
 #message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChests sono già state sbloccate."
@@ -628,6 +643,7 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 #message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was put to flight by the presence of your killer."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
+#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 
 ##### Polish
 #message-all-your-angelchests-were-already-unlocked: "&eWszystkie twoje AnielskieSkrzynie zostały już odblokowane."
@@ -651,6 +667,7 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 #message-no-angelchest-in-pvp: "&cAnioł próbował zebrać twoje rzeczy, ale został zmuszony do ucieczki przez obecność twojego zabójcy."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
+#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 
 ##### Portuguese
 #message-all-your-angelchests-were-already-unlocked: "&eTodos os seus AngelChests estavam desbloqueados."
@@ -674,6 +691,7 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 #message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was put to flight by the presence of your killer."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
+#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 
 ##### Russian - Thanks to @GEEK for translating
 #message-all-your-angelchests-were-already-unlocked: "&eВсе ваши Ангельские сундуки разблокированы."
@@ -697,6 +715,7 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 #message-no-angelchest-in-pvp: "&cАнгел пытался собрать ваши вещи, но был обращен в бегство из-за вашего убийцы.."
 #message-angelchest-retrieved: "&aАнгельский сундук извлечён!"
 #message-confirm: "&6Вы собираетесь потратить {price}{currency}. Нажмите на сообщение для продолжения."
+#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 
 ##### Spanish
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus AngelChest ya se encuentran desbloqueados."
@@ -720,6 +739,7 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 #message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was put to flight by the presence of your killer."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
+#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 
 ##### Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eTüm AngelChest'lerinin kilidi zaten açık."
@@ -742,6 +762,7 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 #message-no-angelchest-in-pvp: "&cBir melek eşyalarını toplamayı denedi fakat katiliniz tarafından engellendi."
 #message-angelchest-retrieved: "&aAngelChest yanınıza çağrıldı!"
 #message-confirm: "&6{price}{currency} harcamak üzeresin. Devam etmek için mesaja tıkla."
+#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 
 #########################
 #####     Misc      #####
@@ -751,7 +772,8 @@ message-confirm: "&6You are about to spend {price}{currency}. Click this message
 console-message-on-open: false
 
 # Log all created AngelChests, including content, death location, death cause, death time and player' inventory content.
-# Also logs what items have been put into the chest and what items have been retreived from it.
+# Also logs what items have been put into the chest and when a chest has been emptied.
+# Note: Taking out single items from the chest is currently NOT logged! That will be added in the future.
 log-angelchests: false
 
 # File names for the log files. Available placerholders:

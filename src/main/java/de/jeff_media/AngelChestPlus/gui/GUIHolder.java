@@ -1,7 +1,6 @@
 package de.jeff_media.AngelChestPlus.gui;
 
 import de.jeff_media.AngelChestPlus.AngelChest;
-import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.TeleportAction;
 import de.jeff_media.AngelChestPlus.utils.Utils;
 import org.bukkit.entity.Player;
@@ -26,15 +25,15 @@ public class GUIHolder implements InventoryHolder {
     // for use when a player previes another player's chest
     private AngelChest specialAngelChest;
 
-    public GUIHolder(Player player, GUIContext context, Main main) {
+    public GUIHolder(Player player, GUIContext context) {
         this.context = context;
-        this.chests = Utils.getAllAngelChestsFromPlayer(player,main);
+        this.chests = Utils.getAllAngelChestsFromPlayer(player);
         this.numberOfAngelChests = chests.size();
         this.player = player;
     }
 
-    public GUIHolder(Player player, GUIContext context, Main main, int chestIdStartingAt1) {
-        this(player,context,main);
+    public GUIHolder(Player player, GUIContext context, int chestIdStartingAt1) {
+        this(player,context);
         this.chestIdStartingAt1 = chestIdStartingAt1;
     }
 

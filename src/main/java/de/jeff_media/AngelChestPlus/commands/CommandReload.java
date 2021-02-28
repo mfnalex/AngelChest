@@ -1,7 +1,6 @@
 package de.jeff_media.AngelChestPlus.commands;
 
 import de.jeff_media.AngelChestPlus.config.ConfigUtils;
-import de.jeff_media.AngelChestPlus.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,12 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandReload implements CommandExecutor  {
-
-    final Main main;
-
-    public CommandReload(Main main) {
-        this.main=main;
-    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -24,7 +17,7 @@ public class CommandReload implements CommandExecutor  {
             return true;
         }
 
-        ConfigUtils.reloadCompleteConfig(main,true);
+        ConfigUtils.reloadCompleteConfig(true);
 
         commandSender.sendMessage(ChatColor.GREEN+"AngelChest configuration has been reloaded.");
 

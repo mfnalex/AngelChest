@@ -30,16 +30,11 @@ public class CommandDebug implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
-        for(Entity entity : ((Player) (commandSender)).getNearbyEntities(20,20,20)) {
-            if(entity instanceof ArmorStand) {
-                commandSender.sendMessage(entity.getUniqueId().toString()+": "+entity.getCustomName());
-            }
-        }
-
         if(args.length>0) {
             switch(args[0].toLowerCase()) {
-                case "config": config(commandSender, shift(args));
-                case "info": info(commandSender, shift(args));
+                case "config": config(commandSender, shift(args)); break;
+                case "info": info(commandSender, shift(args)); break;
+                case "group": group(commandSender, shift(args)); break;
             }
             return true;
         }
@@ -47,10 +42,45 @@ public class CommandDebug implements CommandExecutor {
         commandSender.sendMessage(new String[] {
                 "Available debug commands:",
                 "- info",
+                "- group",
                 "- config"
         });
 
         return true;
+    }
+
+    private void group(CommandSender commandSender, String[] args) {
+        Player player = null;
+        if(args.length==0) {
+            if(!(commandSender instanceof Player)) {
+                commandSender.sendMessage("Use this command as player or specify a player name.");
+                return;
+            } else {
+                player = (Player) commandSender;
+            }
+        } else {
+            if(Bukkit.getPlayer(args[0])==null) {
+                commandSender.sendMessage("Player "+args[0]+" not found.");
+                return;
+            } else {
+                player = Bukkit.getPlayer(args[0]);
+            }
+        }
+
+        int maxChests = main.groupUtils.getChestsPerPlayer(player);
+        int duration = main.groupUtils.getDurationPerPlayer(player);
+        double priceSpawn = main.groupUtils.getSpawnPricePerPlayer(player);
+        double priceOpen = main.groupUtils.getOpenPricePerPlayer(player);
+        double priceTeleport = main.groupUtils.getTeleportPricePerPlayer(player);
+        double priceFetch = main.groupUtils.getFetchPricePerPlayer(player);
+        double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(player);
+        commandSender.sendMessage("Max Chests: "+maxChests);
+        commandSender.sendMessage("Duration: "+duration);
+        commandSender.sendMessage("Price Spawn: "+priceSpawn);
+        commandSender.sendMessage("Price Open:" +priceOpen);
+        commandSender.sendMessage("Price Teleport: "+priceTeleport);
+        commandSender.sendMessage("Price Fetch:" +priceFetch);
+        commandSender.sendMessage("XP Percentage: "+xpPercentage);
     }
 
     private void info(CommandSender commandSender, String[] args) {

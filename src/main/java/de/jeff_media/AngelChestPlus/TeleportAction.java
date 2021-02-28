@@ -25,7 +25,8 @@ public enum TeleportAction {
         return economyReason;
     }
 
-    public double getPrice(Main main, Player player) {
+    public double getPrice(Player player) {
+        Main main = Main.getInstance();
         //return main.getConfig().getDouble(priceInConfig);
         if(this == TELEPORT_TO_CHEST) {
             return main.groupUtils.getTeleportPricePerPlayer(player);

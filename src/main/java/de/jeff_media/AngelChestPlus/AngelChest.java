@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import de.jeff_media.AngelChestPlus.config.ChestYaml;
 import de.jeff_media.AngelChestPlus.config.Config;
+import de.jeff_media.AngelChestPlus.enums.EconomyStatus;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.Utils;
 import io.papermc.lib.PaperLib;
@@ -24,6 +25,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class AngelChest {
@@ -47,6 +50,7 @@ public class AngelChest {
     public boolean infinite = false;
     public Main main;
     public String logfile;
+    public List<String> openedBy;
 
 
     public @Nullable AngelChest(File file) {
@@ -62,7 +66,7 @@ public class AngelChest {
             return;
         }
 
-        this.main = main;
+        this.main = Main.getInstance();
         this.owner = UUID.fromString(yaml.getString(ChestYaml.OWNER_UUID));
         this.levels = yaml.getInt("levels", 0);
         this.isProtected = yaml.getBoolean("isProtected");
@@ -70,6 +74,11 @@ public class AngelChest {
         this.infinite = yaml.getBoolean("infinite",false);
         this.price = yaml.getDouble("price", main.getConfig().getDouble(Config.PRICE));
         this.logfile = yaml.getString("logfile",null);
+        if(yaml.contains("opened-by")) {
+            this.openedBy = yaml.getStringList("opened-by");
+        } else {
+            openedBy = new ArrayList<>();
+        }
 
 
         // Check if this is the current save format
@@ -160,10 +169,11 @@ public class AngelChest {
         main = Main.getInstance();
         main.debug("Creating AngelChest natively for player "+player.getName());
 
-        this.main = main;
+        this.main = Main.getInstance();
         this.owner = owner;
         this.block = block;
         this.logfile = logfile;
+        this.openedBy = new ArrayList<>();
         this.price = main.groupUtils.getSpawnPricePerPlayer(player);
         this.isProtected = main.getServer().getPlayer(owner).hasPermission("angelchest.protect");
         this.secondsLeft = main.groupUtils.getDurationPerPlayer(main.getServer().getPlayer(owner));
@@ -345,6 +355,7 @@ public class AngelChest {
         yaml.set("experience", experience);
         yaml.set("levels", levels);
         yaml.set("price",price);
+        yaml.set("opened-by",openedBy);
         yaml.set("logfile",logfile);
         yaml.set("storageInv", storageInv);
         yaml.set("armorInv", armorInv);
@@ -372,6 +383,29 @@ public class AngelChest {
             e.printStackTrace();
         }
         return yamlFile;
+    }
+
+    public boolean hasPaidForOpening(Player player) {
+        main.debug("Checking whether "+player+" already paid to open this chest...");
+        if(openedBy.contains(player.getUniqueId().toString())) {
+            main.debug("Yes, they did!");
+            return true;
+        }
+        double price = main.groupUtils.getOpenPricePerPlayer(player);
+        main.debug("No, they didn't... It will cost "+price);
+        main.logger.logPaidForChest(player,price,main.logger.getLogFile(logfile));
+        if(CommandUtils.hasEnoughMoney(player,price,main.messages.MSG_NOT_ENOUGH_MONEY,"AngelChest opened")) {
+            openedBy.add(player.getUniqueId().toString());
+            if(main.economyStatus == EconomyStatus.ACTIVE) {
+                player.sendMessage(main.messages.MSG_PAID_OPEN
+                        .replaceAll("\\{price}", String.valueOf(price))
+                        .replaceAll("\\{currency}", CommandUtils.getCurrency(price,main))
+                );
+            }
+            return true;
+        }
+        player.sendMessage(main.messages.MSG_NOT_ENOUGH_MONEY);
+        return false;
     }
 
     public void destroy(boolean refund) {
@@ -416,10 +450,10 @@ public class AngelChest {
         if(refund
                 && main.getConfig().getBoolean(Config.REFUND_EXPIRED_CHESTS)
                 && price > 0) {
-            CommandUtils.payMoney(Bukkit.getOfflinePlayer(owner),price, main,"AngelChest expired");
+            CommandUtils.payMoney(Bukkit.getOfflinePlayer(owner),price, "AngelChest expired");
         }
 
-        int currentChestId = Utils.getAllAngelChestsFromPlayer(Bukkit.getOfflinePlayer(owner),main).indexOf(this)+1;
+        int currentChestId = Utils.getAllAngelChestsFromPlayer(Bukkit.getOfflinePlayer(owner)).indexOf(this)+1;
         Player player = Bukkit.getPlayer(owner);
         if(player != null && player.isOnline()) {
             Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> main.guiManager.updateGUI(player, currentChestId), 1L);

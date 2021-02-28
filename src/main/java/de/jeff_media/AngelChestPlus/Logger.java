@@ -1,11 +1,11 @@
 package de.jeff_media.AngelChestPlus;
 
 import de.jeff_media.AngelChestPlus.config.Config;
-import jdk.internal.jline.internal.Nullable;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,8 +17,8 @@ import java.util.Date;
 
 public class Logger {
 
-    Main main;
-    String path;
+    final Main main;
+    final String path;
 
     public Logger() {
         main=Main.getInstance();
@@ -87,9 +87,17 @@ public class Logger {
         return String.format("%d %d %d @ %s",x,y,z,world);
     }
 
+    public void logXPTaken(Player player, int xp, File file) {
+        writeWithTime(String.format("Player \"%s\" took XP: %d",xp),file);
+    }
+
     public void logItemTaken(Player player, @Nullable ItemStack item, File file) {
         if(item==null) return;
         writeWithTime(String.format("Player \"%s\" took item: %s",player.getName(),item.toString()),file);
+    }
+
+    public void logPaidForChest(Player player, double price, File file) {
+        writeWithTime(String.format("Player \"%s\" paid %f to open this AngelChest for the first time.",player.getName(),price),file);
     }
 
     public void logLastItemTaken(Player player, File file) {

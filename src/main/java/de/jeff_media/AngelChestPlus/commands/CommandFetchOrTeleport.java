@@ -15,8 +15,8 @@ public class CommandFetchOrTeleport implements CommandExecutor {
 
     final Main main;
 
-    public CommandFetchOrTeleport(Main main) {
-        this.main = main;
+    public CommandFetchOrTeleport() {
+        this.main = Main.getInstance();
     }
 
     @Override

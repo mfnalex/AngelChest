@@ -19,7 +19,9 @@ public class ConfigUpdater {
 			Config.ANGELCHEST_INVENTORY_NAME,
 			Config.ANGELCHEST_LIST,
 			"link-",
-			"gui-"
+			"gui-",
+			"log-filename",
+			"chest-filename"
 	};
 	private static final String[] NODES_NEEDING_SINGLE_QUOTES = {"test-"};
 	private static final String[] LINES_CONTAINING_STRING_LISTS = {
@@ -39,7 +41,8 @@ public class ConfigUpdater {
 		}
 	}
 
-	public static void updateConfig(Main main) {
+	public static void updateConfig() {
+		Main main = Main.getInstance();
 		Logger logger = main.getLogger();
 		debug(logger,"Newest config version  = "+getNewConfigVersion(main));
 		debug(logger,"Current config version = "+main.getConfig().getLong(Config.CONFIG_VERSION));

@@ -28,6 +28,7 @@ public class Config {
     public static final String AUTO_RESPAWN = "auto-respawn";
     public static final String AUTO_RESPAWN_DELAY = "auto-respawn-delay";
     public static final String PRICE = "price";
+    public static final String PRICE_OPEN = "price-open";
     public static final String REFUND_EXPIRED_CHESTS = "refund-expired-chests";
     public static final String PRICE_TELEPORT = "price-teleport";
     public static final String PRICE_FETCH = "price-fetch";

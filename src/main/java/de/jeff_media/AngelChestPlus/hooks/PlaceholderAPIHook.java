@@ -9,7 +9,6 @@ import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class PlaceholderAPIHook extends PlaceholderExpansion {
 
@@ -55,8 +54,8 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
     @Override
     public String onRequest(OfflinePlayer player, String identifier){
 
-        UUID uuid = player.getUniqueId();
-        ArrayList<AngelChest> allChests = Utils.getAllAngelChestsFromPlayer(player,main);
+        //UUID uuid = player.getUniqueId();
+        ArrayList<AngelChest> allChests = Utils.getAllAngelChestsFromPlayer(player);
 
         switch (identifier) {
             case "price":

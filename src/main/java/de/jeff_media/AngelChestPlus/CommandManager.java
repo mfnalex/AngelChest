@@ -13,7 +13,8 @@ import java.util.Arrays;
 
 public class CommandManager {
 
-    public static void registerCommand(Main main, String... aliases) {
+    public static void registerCommand(String... aliases) {
+        Main main = Main.getInstance();
         PluginCommand command = getCommand(aliases[0], main);
 
         command.setAliases(Arrays.asList(aliases));

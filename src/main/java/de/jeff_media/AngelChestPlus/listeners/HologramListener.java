@@ -10,7 +10,7 @@ public class HologramListener implements Listener {
 	final Main main;
 	
 	public HologramListener(Main main) {
-		this.main = main;
+		this.main = Main.getInstance();
 	}
 	
 	@EventHandler

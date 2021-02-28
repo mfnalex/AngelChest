@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import de.jeff_media.AngelChestPlus.commands.*;
 import de.jeff_media.AngelChestPlus.config.Config;
+import de.jeff_media.AngelChestPlus.enums.EconomyStatus;
 import de.jeff_media.AngelChestPlus.gui.GUIListener;
 import de.jeff_media.AngelChestPlus.gui.GUIManager;
 import de.jeff_media.AngelChestPlus.hooks.PlaceholderAPIHook;
@@ -21,6 +22,7 @@ import de.jeff_media.AngelChestPlus.utils.GroupUtils;
 import de.jeff_media.AngelChestPlus.utils.HookUtils;
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
 import io.papermc.lib.PaperLib;
+import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -69,6 +71,9 @@ public class Main extends JavaPlugin {
 	public GUIManager guiManager;
 	public GUIListener guiListener;
 	public Logger logger;
+	public Economy econ;
+
+	public EconomyStatus economyStatus = EconomyStatus.UNKNOWN;
 
 	private static Main instance;
 
@@ -91,13 +96,13 @@ public class Main extends JavaPlugin {
 
 		if(isFreeVersionInstalled()) {
 			emergencyMode = true;
-			EmergencyMode.run(this, EmergencyMode.EmergencyReason.FREE_VERSION_INSTALLED);
+			EmergencyMode.run(EmergencyMode.EmergencyReason.FREE_VERSION_INSTALLED);
 			return;
 		}
 
 		watchdog = new Watchdog(this);
 
-		ConfigUtils.reloadCompleteConfig(this,false);
+		ConfigUtils.reloadCompleteConfig(false);
 
 
 		angelChests = new LinkedHashMap<>();
@@ -118,12 +123,12 @@ public class Main extends JavaPlugin {
 		debug("Registering commands");
 		registerCommands();
 		debug("Setting command executors...");
-		CommandFetchOrTeleport commandFetchOrTeleport = new CommandFetchOrTeleport(this);
-		this.getCommand("acunlock").setExecutor(new CommandUnlock(this));
-		this.getCommand("aclist").setExecutor(new CommandList(this));
+		CommandFetchOrTeleport commandFetchOrTeleport = new CommandFetchOrTeleport();
+		this.getCommand("acunlock").setExecutor(new CommandUnlock());
+		this.getCommand("aclist").setExecutor(new CommandList());
 		this.getCommand("acfetch").setExecutor(commandFetchOrTeleport);
 		this.getCommand("actp").setExecutor(commandFetchOrTeleport);
-		this.getCommand("acreload").setExecutor(new CommandReload(this));
+		this.getCommand("acreload").setExecutor(new CommandReload());
 		this.getCommand("acgui").setExecutor(new CommandGUI(this));
 
 		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
@@ -137,7 +142,7 @@ public class Main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new HologramListener(this),this);
 		getServer().getPluginManager().registerEvents(new BlockListener(this),this);
 		getServer().getPluginManager().registerEvents(new PistonListener(this),this);
-		guiListener = new GUIListener(this);
+		guiListener = new GUIListener();
 		getServer().getPluginManager().registerEvents(guiListener,this);
 		
 		@SuppressWarnings("unused")
@@ -181,7 +186,7 @@ public class Main extends JavaPlugin {
 				newCommand.add(alias);
 				debug("- "+alias);
 			}
-			CommandManager.registerCommand(this, newCommand.toArray(new String[0]));
+			CommandManager.registerCommand(newCommand.toArray(new String[0]));
 		}
 	}
 

@@ -1,5 +1,12 @@
+## 1.4.0
+- TODO: Remove the overflow inventory and open the regular GUI instead!
+
 ## 1.3.0
+- Added "price for opening" the chest
 - Added config option to extensively log all AngelChest actions into separate files
+  - Currently does NOT log taking out individual items from the overflow inventory
+- Recoded many parts for better performance and stability
+- Updated API to 1.16.5
 
 ## 1.2.2
 - Fixed XP percentage not working when set to a fractional value

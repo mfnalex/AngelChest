@@ -15,8 +15,8 @@ public class CommandList implements CommandExecutor {
 	
 	final Main main;
 	
-	public CommandList(Main main) {
-		this.main = main;
+	public CommandList() {
+		this.main = Main.getInstance();
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class CommandList implements CommandExecutor {
 		if(affectedPlayer==null) affectedPlayer=p;
 		
 		// Only send this message if the player has chests
-		if(!Utils.getAllAngelChestsFromPlayer(p, main).isEmpty()) {
+		if(!Utils.getAllAngelChestsFromPlayer(p).isEmpty()) {
 			p.sendMessage(main.messages.MSG_ANGELCHEST_LOCATION);
 		}
 

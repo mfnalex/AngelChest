@@ -16,7 +16,7 @@ public class BlockListener implements Listener {
 
     public BlockListener(Main main) {
 
-        this.main = main;
+        this.main = Main.getInstance();
 
         main.debug("BlockListener created");
     }
@@ -39,6 +39,9 @@ public class BlockListener implements Listener {
                 && !event.getPlayer().hasPermission("angelchest.protect.ignore") && angelChest.isProtected) {
             event.getPlayer().sendMessage(main.messages.MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS);
             event.setCancelled(true);
+            return;
+        }
+        if(!angelChest.hasPaidForOpening(event.getPlayer())) {
             return;
         }
         angelChest.destroy(false);
