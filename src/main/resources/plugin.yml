@@ -8,7 +8,7 @@ website: https://www.spigotmc.org/resources/1-13-angelchest.60383/
 authors: [mfnalex, JEFF Media GbR]
 database: false
 load: POSTWORLD
-softdepend: [Multiverse-Core,Multiverse,Vault,WorldGuard,Slimefun,InventoryPages,Minepacks,PlaceholderAPI,EliteMobs]
+softdepend: [Multiverse-Core,Multiverse,Vault,WorldGuard,Slimefun,InventoryPages,Minepacks,PlaceholderAPI,EliteMobs,ChestSort]
 loadbefore: [AngelChest]
 commands:
 #  acunlock:

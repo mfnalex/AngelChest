@@ -2,6 +2,7 @@ package de.jeff_media.AngelChestPlus.utils;
 
 import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.Main;
+import de.jeff_media.AngelChestPlus.data.Group;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -175,27 +176,6 @@ public class GroupUtils {
             return bestValueFound;
         } else {
             return main.getConfig().getDouble(Config.PRICE_TELEPORT);
-        }
-    }
-
-    static class Group {
-        final int duration;
-        final int maxChests;
-        final double priceSpawn;
-        final double priceOpen;
-        final double priceTeleport;
-        final double priceFetch;
-        final double xpPercentage;
-
-        Group(int duration, int maxChests, double priceSpawn, double priceOpen, double priceTeleport, double priceFetch, double xpPercentage) {
-
-            this.duration = duration;
-            this.maxChests = maxChests;
-            this.priceSpawn=priceSpawn;
-            this.priceOpen = priceOpen;
-            this.priceTeleport=priceTeleport;
-            this.priceFetch=priceFetch;
-            this.xpPercentage = xpPercentage;
         }
     }
 

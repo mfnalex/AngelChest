@@ -1,12 +1,16 @@
 package de.jeff_media.AngelChestPlus.gui;
 
 import de.jeff_media.AngelChestPlus.config.Config;
-import de.jeff_media.AngelChestPlus.Permissions;
-import de.jeff_media.AngelChestPlus.TeleportAction;
+import de.jeff_media.AngelChestPlus.config.Permissions;
+import de.jeff_media.AngelChestPlus.enums.EconomyStatus;
+import de.jeff_media.AngelChestPlus.enums.TeleportAction;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.Utils;
+import de.jeff_media.ChestSortAPI.ChestSortEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -28,6 +32,14 @@ public class GUIListener implements @NotNull Listener {
 
     public GUIListener() {
         this.main = Main.getInstance();
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onChestSortEvent(ChestSortEvent event) {
+        if(event.getInventory() != null && event.getInventory().getHolder() != null && event.getInventory().getHolder() instanceof GUIHolder) {
+            main.debug("Prevented ChestSort from sorting AngelChest GUI");
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -79,15 +91,9 @@ public class GUIListener implements @NotNull Listener {
         }
     }
 */
+    @SuppressWarnings("DefaultAnnotationParam")
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
     public void onPreviewGUIClick(InventoryClickEvent event) {
-        /*System.out.println("Current item: " + event.getCurrentItem());
-        System.out.println("Cursor: " + event.getCursor());*/
-
-        /*if(!event.isCancelled()) {
-            System.out.println("Return: event is not cancelled");
-            return;
-        }*/
         if (!(event.getWhoClicked() instanceof Player)) return;
         Player player = (Player) event.getWhoClicked();
 
@@ -149,10 +155,12 @@ public class GUIListener implements @NotNull Listener {
             } else {
 
                 event.getClickedInventory().setItem(clickedSlot, null);
-                if(clickedItem!=null) {
-                    main.debug("[GUIListener] " + "Adding " + clickedItem.toString());
-                    main.logger.logItemTaken(player,clickedItem,logfile);
+                if(clickedItem==null) {
+                    return;
                 }
+                main.debug("[GUIListener] " + "Adding " + clickedItem.toString());
+                main.logger.logItemTaken(player,clickedItem,logfile);
+
                 HashMap<Integer, ItemStack> leftOvers = player.getInventory().addItem(clickedItem);
                 for (ItemStack leftOver : leftOvers.values()) {
                     event.getClickedInventory().setItem(clickedSlot, leftOver);
@@ -161,6 +169,20 @@ public class GUIListener implements @NotNull Listener {
             GUIUtils.savePreviewInventoryToChest(event.getClickedInventory(), guiHolder.getAngelChest());
             main.guiManager.updatePreviewInvs(player, guiHolder.getAngelChest());
             //GUIUtils.printPreviewIntentory(event.getClickedInventory().getContents());
+
+            if(guiHolder.getAngelChest().isEmpty()) {
+                main.logger.logLastItemTaken(player,logfile);
+                for(HumanEntity viewer : guiHolder.getInventory().getViewers()) {
+                    viewer.closeInventory();
+                }
+                Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
+                    guiHolder.getAngelChest().destroy(false);
+                    guiHolder.getAngelChest().remove();
+                },1L);
+            }
+
+            event.setCancelled(true);
+        } else {
             event.setCancelled(true);
         }
     }
@@ -296,7 +318,7 @@ public class GUIListener implements @NotNull Listener {
     }
 
     private void confirmOrTeleport(InventoryClickEvent event, Player player, GUIHolder holder, TeleportAction action) {
-        if (main.getConfig().getBoolean(Config.CONFIRM) && action.getPrice(player)>0.0d) {
+        if (main.getConfig().getBoolean(Config.CONFIRM) && action.getPrice(player)>0.0d && main.economyStatus== EconomyStatus.ACTIVE) {
             main.guiManager.showConfirmGUI(player, holder, action);
         } else {
             CommandUtils.fetchOrTeleport(main, player, holder.getAngelChest(), holder.getChestIdStartingAt1(), action, false);

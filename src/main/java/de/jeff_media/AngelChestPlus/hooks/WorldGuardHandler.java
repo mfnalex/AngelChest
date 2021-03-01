@@ -1,4 +1,4 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.hooks;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 
@@ -7,19 +7,23 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
+import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.config.Config;
 import org.bukkit.block.Block;
 
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Hooks into WorldGuard 7+. If this fails, it tries to use the WorldGuardLegacyHandler for older versions.
+ */
 public class WorldGuardHandler {
 
 
     final Main main;
     WorldGuardPlugin wg;
     RegionContainer container;
-    boolean disabled = false;
+    public boolean disabled = false;
 
     // This is for WorldGuard 7+ only.
     // If an older version is installed, this class will redirect the check to the legacy handler
@@ -69,6 +73,11 @@ public class WorldGuardHandler {
 
     }
 
+    /**
+     * Checks whether this block is inside one of the disabled WorldGuard Regions.
+     * @param block Block to check
+     * @return true if the block is inside a blacklisted region, otherwise false
+     */
     public boolean isBlacklisted(Block block) {
         if(disabled) return false;
         if(legacyHandler!=null) return legacyHandler.isBlacklisted(block);

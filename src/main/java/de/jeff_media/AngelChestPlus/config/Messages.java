@@ -1,15 +1,16 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.config;
 
+import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.config.Config;
 import org.bukkit.ChatColor;
 
-
+/**
+ * Contains all translatable messages. Loads translations from the config file, or falls back to hardcoded default values
+ * DO NOT USE HARDCODED MESSAGES unless they will only be shown to console or server operators.
+ */
 public class Messages {
-	//private AngelChestPlugin plugin;
 
-	final Main main;
-
-
+	private final Main main;
 
 	public final String MSG_PLAYERSONLY,MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS,MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS,
 	MSG_ALL_YOUR_ANGELCHESTS_WERE_ALREADY_UNLOCKED, MSG_UNLOCKED_ONE_ANGELCHEST, MSG_UNLOCKED_MORE_ANGELCHESTS, MSG_INVENTORY_WAS_EMPTY,

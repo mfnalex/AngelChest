@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChestPlus</name>
     <artifactId>AngelChestPlus</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -141,6 +141,12 @@
             <groupId>de.jeff_media</groupId>
             <artifactId>PluginUpdateChecker</artifactId>
             <version>1.3.2</version> <!-- Check latest version first -->
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.jeff_media</groupId>
+            <artifactId>ChestSortAPI</artifactId>
+            <version>2.0.0</version> <!-- The API version is independent of the ChestSort version -->
             <scope>compile</scope>
         </dependency>
         <dependency>

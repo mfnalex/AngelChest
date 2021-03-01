@@ -1,7 +1,7 @@
 package de.jeff_media.AngelChestPlus.gui;
 
-import de.jeff_media.AngelChestPlus.AngelChest;
-import de.jeff_media.AngelChestPlus.TeleportAction;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
+import de.jeff_media.AngelChestPlus.enums.TeleportAction;
 import de.jeff_media.AngelChestPlus.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -16,6 +16,7 @@ public class GUIHolder implements InventoryHolder {
     private final GUIContext context;
     private final ArrayList<AngelChest> chests;
     private final int numberOfAngelChests;
+
     private final Player player;
     private int chestIdStartingAt1 = 0;
     private TeleportAction action;
@@ -96,6 +97,8 @@ public class GUIHolder implements InventoryHolder {
         this.specialAngelChest = angelChest;
     }
 
-
+    public Player getPlayer() {
+        return player;
+    }
 
 }

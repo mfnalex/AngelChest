@@ -1,6 +1,6 @@
 package de.jeff_media.AngelChestPlus.commands;
 
-import de.jeff_media.AngelChestPlus.AngelChest;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import org.bukkit.command.Command;
@@ -38,7 +38,7 @@ public class CommandUnlock implements CommandExecutor {
 			return true;
 		}
 
-		int chestIdStartingAt1 = chestResult.getValue0();
+		//int chestIdStartingAt1 = chestResult.getValue0();
 		AngelChest angelChest = chestResult.getValue1();
 		Player player = chestResult.getValue2();
 		CommandUtils.unlockSingleChest(main,player,player,angelChest);

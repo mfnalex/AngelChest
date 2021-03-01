@@ -1,6 +1,6 @@
 package de.jeff_media.AngelChestPlus.gui;
 
-import de.jeff_media.AngelChestPlus.AngelChest;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -9,6 +9,11 @@ import java.util.Objects;
 
 public class GUIUtils {
 
+    /**
+     * Checks whether the clicked slot belongs to the spaces reserved for the player's items
+     * @param slot slotnumber
+     * @return true if it belongs to the player inventory, false if it belongs to the GUI
+     */
     public static boolean isLootableInPreview(int slot) {
         return
                 (slot >= GUI.PREVIEW_ARMOR_SIZE && slot < GUI.PREVIEW_ARMOR_SIZE + GUI.PREVIEW_ARMOR_SIZE)

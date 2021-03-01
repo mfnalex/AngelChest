@@ -1,9 +1,9 @@
 package de.jeff_media.AngelChestPlus.utils;
 
-import de.jeff_media.AngelChestPlus.AngelChest;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
 import de.jeff_media.AngelChestPlus.Main;
-import de.jeff_media.AngelChestPlus.PendingConfirm;
-import de.jeff_media.AngelChestPlus.TeleportAction;
+import de.jeff_media.AngelChestPlus.data.PendingConfirm;
+import de.jeff_media.AngelChestPlus.enums.TeleportAction;
 import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.enums.EconomyStatus;
 import io.papermc.lib.PaperLib;
@@ -40,26 +40,9 @@ public class CommandUtils {
             return;
         }
 
-        Plugin v = main.getServer().getPluginManager().getPlugin("Vault");
-
-        if (v == null) {
-            main.debug("pay: vault is null");
-            return;
+        if(main.economyStatus==EconomyStatus.ACTIVE) {
+            main.econ.depositPlayer(p, reason, money);
         }
-
-        RegisteredServiceProvider<Economy> rsp = main.getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            main.debug("pay: registered service provider<Economy> is null");
-            return;
-        }
-
-        if (rsp.getProvider() == null) {
-            main.debug("pay: provider is null");
-            return;
-        }
-
-        Economy econ = rsp.getProvider();
-        econ.depositPlayer(p, reason, money);
     }
 
     public static boolean hasEnoughMoney(Player p, double money, String messageWhenNotEnoughMoney, String reason) {
@@ -68,7 +51,7 @@ public class CommandUtils {
 
         main.debug("Checking if " + p.getName() + " has at least " + money + " money...");
 
-        if (main.economyStatus == EconomyStatus.UNKNOWN) {
+        /*if (main.economyStatus == EconomyStatus.UNKNOWN) {
 
             main.debug("  (btw we don't know yet if economy is working...)");
 
@@ -96,7 +79,8 @@ public class CommandUtils {
             main.econ = rsp.getProvider();
             main.economyStatus = EconomyStatus.ACTIVE;
             main.debug("  (economy works, we will remember this!)");
-        } else if (main.economyStatus == EconomyStatus.INACTIVE) {
+        } else */
+        if (main.economyStatus != EconomyStatus.ACTIVE) {
             main.debug("We already know that economy support is not active, so all players have enough money!");
             return true;
         }
@@ -179,7 +163,7 @@ public class CommandUtils {
 
         double price = action.getPrice(player);
 
-        if (askForConfirmation) {
+        if (askForConfirmation && main.economyStatus != EconomyStatus.INACTIVE) {
             if (!hasConfirmed(main, player, ac, chestIdStartingAt1, price, action)) return;
         }
 
@@ -189,10 +173,10 @@ public class CommandUtils {
         switch (action) {
             case TELEPORT_TO_CHEST:
                 teleportPlayerToChest(main, player, ac);
-                return;
+                break;
             case FETCH_CHEST:
                 fetchChestToPlayer(main, player, ac);
-                return;
+                break;
         }
     }
 
@@ -261,7 +245,7 @@ public class CommandUtils {
 
     private static boolean areChunksLoadedNearby(Location loc, Main main) {
         boolean allChunksLoaded = true;
-        ArrayList<Location> locs = new ArrayList<>();
+        //ArrayList<Location> locs = new ArrayList<>();
         for (int x = -16; x <= 16; x += 16) {
             for (int z = -16; z <= 16; z += 16) {
                 if (!isChunkLoaded(loc.add(x, 0, z))) {

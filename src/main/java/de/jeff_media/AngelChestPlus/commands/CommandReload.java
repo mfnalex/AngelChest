@@ -1,6 +1,7 @@
 package de.jeff_media.AngelChestPlus.commands;
 
 import de.jeff_media.AngelChestPlus.config.ConfigUtils;
+import de.jeff_media.AngelChestPlus.config.Permissions;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,7 +13,7 @@ public class CommandReload implements CommandExecutor  {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
-        if(!commandSender.hasPermission("angelchest.reload")) {
+        if(!commandSender.hasPermission(Permissions.ALLOW_RELOAD)) {
             commandSender.sendMessage(command.getPermissionMessage());
             return true;
         }

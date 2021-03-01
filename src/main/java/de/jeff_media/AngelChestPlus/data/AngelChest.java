@@ -1,7 +1,8 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.data;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.config.ChestYaml;
 import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.enums.EconomyStatus;
@@ -22,43 +23,47 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Represents an AngelChest including its content and all other relevant information
+ */
 public class AngelChest {
 
     public ItemStack[] armorInv;
     public ItemStack[] storageInv;
     public ItemStack[] extraInv;
     public Inventory overflowInv;
-    boolean success = true;
+    public boolean success = true;
     public Block block;
     public UUID worldid;
     public UUID owner;
     public Hologram hologram;
     public boolean isProtected;
-    //long configDuration;
-    //long taskStart;
     public int secondsLeft;
     public int experience = 0;
     public int levels = 0;
-    double price = 0;
     public boolean infinite = false;
     public Main main;
     public String logfile;
     public List<String> openedBy;
 
+    double price = 0;
 
+    /**
+     * Loads an AngelChest from a YAML file
+     * @param file File containing the AngelChest data
+     */
     public @Nullable AngelChest(File file) {
         main = Main.getInstance();
         main.debug("Creating AngelChest from file " + file.getName());
         YamlConfiguration yaml;
         try {
-            yaml = loadYaml(file);
+            yaml = YamlConfiguration.loadConfiguration(file);
         } catch (Throwable t) {
             main.getLogger().warning("Could not load legacy AngelChest file " + file.getName());
             success = false;
@@ -127,6 +132,7 @@ public class AngelChest {
         overflowInv = Bukkit.createInventory(holder, 54, inventoryName);
         holder.setInventory(overflowInv);
         int iOverflow = 0;
+        //noinspection SuspiciousToArrayCall
         for (ItemStack is : yaml.getList("overflowInv").toArray(new ItemStack[54])) {
             if (is != null) overflowInv.setItem(iOverflow, is);
             iOverflow++;
@@ -135,6 +141,7 @@ public class AngelChest {
         // Load ArmorInv
         armorInv = new ItemStack[4];
         int iArmor = 0;
+        //noinspection SuspiciousToArrayCall
         for (ItemStack is : yaml.getList("armorInv").toArray(new ItemStack[4])) {
             if (is != null) armorInv[iArmor] = is;
             iArmor++;
@@ -143,6 +150,7 @@ public class AngelChest {
         // Load StorageInv
         storageInv = new ItemStack[36];
         int iStorage = 0;
+        //noinspection SuspiciousToArrayCall
         for (ItemStack is : yaml.getList("storageInv").toArray(new ItemStack[36])) {
             if (is != null) storageInv[iStorage] = is;
             iStorage++;
@@ -151,19 +159,35 @@ public class AngelChest {
         // Load ExtraInv
         extraInv = new ItemStack[1];
         int iExtra = 0;
+        //noinspection SuspiciousToArrayCall
         for (ItemStack is : yaml.getList("extraInv").toArray(new ItemStack[1])) {
             if (is != null) extraInv[iExtra] = is;
             iExtra++;
         }
 
-        file.delete();
+        if(!file.delete()) {
+            main.getLogger().severe("Could not remove AngelChest file "+file.getAbsolutePath());
+        }
     }
 
-    public AngelChest(Player p, Block block, String logfile) {
-    	this(p, p.getUniqueId(), block, p.getInventory(),logfile);
+    /**
+     * Creates a new AngelChest
+     * @param player Player that this AngelChest belongs to
+     * @param block Block where the AngelChest should be created
+     * @param logfile Name of the logfile for this AngelChest
+     */
+    public AngelChest(Player player, Block block, String logfile) {
+    	this(player, player.getUniqueId(), block, player.getInventory(),logfile);
     }
 
-
+    /**
+     * Creates a new AngelChest
+     * @param player Player that this AngelChest belongs to
+     * @param owner UUID of the player that this AngelChest belongs to
+     * @param block Block where the AngelCHest should be created
+     * @param playerItems The player's inventory
+     * @param logfile Name of the logfile for this AngelChest
+     */
     public AngelChest(Player player, UUID owner, Block block, PlayerInventory playerItems, String logfile) {
 
         main = Main.getInstance();
@@ -198,9 +222,13 @@ public class AngelChest {
         storageInv = playerItems.getStorageContents();
         extraInv = playerItems.getExtraContents();
 
-        removeKeepedItems();
+        removeKeptItems();
     }
 
+    /**
+     * Returns the filename where this AngelChest is saved
+     * @return filename for this AngelChest
+     */
     public String getFileName() {
         return main.getConfig().getString(Config.CHEST_FILENAME)
                 .replaceAll("\\{world}",block.getWorld().getName())
@@ -212,8 +240,34 @@ public class AngelChest {
         ;
     }
 
+    /**
+     * Checks whether this AngelChest has been completely looted
+     * @return true when AngelChest is empty, otherwise false
+     */
+    public boolean isEmpty() {
+        for(ItemStack item : storageInv) {
+            if(!Utils.isEmpty(item)) return false;
+        }
+        for(ItemStack item : armorInv) {
+            if(!Utils.isEmpty(item)) return false;
+        }
+        for(ItemStack item : extraInv) {
+            if(!Utils.isEmpty(item)) return false;
+        }
+        for(ItemStack item : overflowInv) {
+            if(!Utils.isEmpty(item)) return false;
+        }
+        if(experience>0) {
+            return false;
+        }
+        return true;
+    }
 
-    private void removeKeepedItems() {
+    /**
+     * Removes all items that the player kept on death, and all other items that should not
+     * appear in the chest (e.g. curse of vanishing, soulbound items, ...)
+     */
+    private void removeKeptItems() {
 
         for(int i = 0; i <armorInv.length;i++) {
             if(main.hookUtils.keepOnDeath(armorInv[i])
@@ -234,23 +288,24 @@ public class AngelChest {
         }
     }
 
-    private boolean toBeRemoved(ItemStack i) {
-        if(i==null) return false;
+    /**
+     * Checks whether this item should be removed from the inventory
+     * @param item The item to check
+     * @return true when this item should be removed, otherwise false
+     */
+    private boolean toBeRemoved(ItemStack item) {
+        if(item==null) return false;
         if(main.getConfig().getBoolean(Config.REMOVE_CURSE_OF_VANISHING)
-                && i.getEnchantments().containsKey(Enchantment.VANISHING_CURSE)) {
+                && item.getEnchantments().containsKey(Enchantment.VANISHING_CURSE)) {
             return true;
         }
         if(main.getConfig().getBoolean(Config.REMOVE_CURSE_OF_BINDING)
-                && i.getEnchantments().containsKey(Enchantment.BINDING_CURSE)) {
+                && item.getEnchantments().containsKey(Enchantment.BINDING_CURSE)) {
             return true;
         }
-        if (main.minepacksHook.isMinepacksBackpack(i, main)) {
+        if (main.minepacksHook.isMinepacksBackpack(item)) {
             return true;
         }
-
-
-        //if(m.hasLore() && m.getLore().contains)
-
 
         return false;
     }
@@ -260,35 +315,41 @@ public class AngelChest {
         return "AngelChest{block=" + block.toString() + ",owner=" + owner.toString() + "}";
     }
 
-    private YamlConfiguration loadYaml(File file) {
-        return YamlConfiguration.loadConfiguration(file);
-    }
-
-    // Creates a physcial chest
+    /**
+     * Sets the block at the location to the correct material
+     * @param block The block where the AngelChest is spawned
+     * @param uuid The owner's UUID (to correctly set player heads)
+     */
     public void createChest(Block block, UUID uuid) {
         main.debug("Attempting to create chest with material " + main.chestMaterial.name() + " at "+block.getLocation().toString());
         block.setType(main.chestMaterial);
+
+        // Material is PLAYER_HEAD, so either use the custom texture, or the player skin's texture
         if(main.chestMaterial.name().equalsIgnoreCase("PLAYER_HEAD")) {
             if(Material.getMaterial("PLAYER_HEAD") == null) {
                 main.getLogger().warning("Using a custom PLAYER_HEAD as chest material is NOT SUPPORTED in versions < 1.13. Consider using another chest material.");
             } else {
                 Skull state = (Skull) block.getState();
-                ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
-                String skullName = main.getConfig().getString("custom-head");
+                /*ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+                String skullName = main.getConfig().getString("custom-head");*/
 
+                // Use the player skin's texture
                 if(main.getConfig().getBoolean(Config.HEAD_USES_PLAYER_NAME)) {
                     main.debug("Player head = username");
                     OfflinePlayer player = main.getServer().getOfflinePlayer(uuid);
                     state.setOwningPlayer(player);
                     state.update();
-                } else {
+                }
+                // Use a predefined texture
+                else {
                     main.debug("Player head = base64");
                     String base64 = main.getConfig().getString(Config.CUSTOM_HEAD_BASE64);
                     GameProfile profile = new GameProfile(UUID.randomUUID(), "");
                     profile.getProperties().put("textures", new Property("textures", base64));
 
-                    Field profileField = null;
+                    //Field profileField = null;
                     try {
+                        // Not needed anymore but please don't remove
                         /*profileField = state.getClass().getDeclaredField("profile");
                         profileField.setAccessible(true);
                         profileField.set(state, profile);*/
@@ -321,36 +382,47 @@ public class AngelChest {
 
             }
         }
-        createHologram(main, block, uuid);
+        createHologram(block, uuid);
     }
 
-    // Destroys a physical chest
-    public void destroyChest(Block b) {
-        main.debug("Destroying chest at "+b.getLocation()+toString());
-        b.setType(Material.AIR);
-        b.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, b.getLocation(), 1);
+    /**
+     * Removes the chest block from the world and displays explosion particles.
+     * @param block Block where the AngelChest was spawned
+     */
+    public void destroyChest(Block block) {
+        main.debug("Destroying chest at "+block.getLocation()+toString());
+        block.setType(Material.AIR);
+        block.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, block.getLocation(), 1);
         hologram.destroy();
     }
 
+    /**
+     * Unlocks this AngelChest for ALL players.
+     */
     public void unlock() {
         this.isProtected = false;
     }
 
+    /**
+     * Saves the AngelChest to a yaml file.
+     * @param removeChest Whether to also remove the AngelChest from the world
+     * @return File where the AngelChest has been saved to
+     */
     public File saveToFile(boolean removeChest) {
         File yamlFile = new File(main.getDataFolder() + File.separator + "angelchests",
                 this.getFileName());
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(yamlFile);
         yaml.set("angelchest-saveversion", 2);
+
+        // We are not using block objects to avoid problems with unloaded or removed worlds
         yaml.set("worldid", block.getLocation().getWorld().getUID().toString());
-        //yaml.set("block", block.getLocation());
         yaml.set("x", block.getX());
         yaml.set("y", block.getY());
         yaml.set("z", block.getZ());
+
         yaml.set("infinite",infinite);
         yaml.set(ChestYaml.OWNER_UUID, owner.toString());
         yaml.set("isProtected", isProtected);
-        //yaml.set("configDuration", configDuration);
-        //yaml.set("taskStart", taskStart);
         yaml.set("secondsLeft", secondsLeft);
         yaml.set("experience", experience);
         yaml.set("levels", levels);
@@ -365,15 +437,6 @@ public class AngelChest {
         if(removeChest) {
             // Duplicate Start
             block.setType(Material.AIR);
-        /*for (UUID uuid : hologram.armorStandUUIDs) {
-            if (main.getServer().getEntity(uuid) != null) {
-                main.getServer().getEntity(uuid).remove();
-            }
-        }
-        for (ArmorStand armorStand : hologram.getArmorStands()) {
-            if (armorStand == null) continue;
-            armorStand.remove();
-        }*/
             if (hologram != null) hologram.destroy();
         }
         // Duplicate End
@@ -385,6 +448,12 @@ public class AngelChest {
         return yamlFile;
     }
 
+    /**
+     * Attempts to charge the player for opening the chest. Each player will only be charged once per chest.
+     * @param player The player that attempted to open the chest
+     * @return true if the player successfully paid now or has already paid, otherwise false
+     */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean hasPaidForOpening(Player player) {
         main.debug("Checking whether "+player+" already paid to open this chest...");
         if(openedBy.contains(player.getUniqueId().toString())) {
@@ -408,6 +477,10 @@ public class AngelChest {
         return false;
     }
 
+    /**
+     * Removes the Block from the world. Attempts to load the chunk first.
+     * @param refund Whether the owner should get the price back they paid to have the chest spawned.
+     */
     public void destroy(boolean refund) {
         main.debug("Destroying AngelChest");
 
@@ -429,19 +502,13 @@ public class AngelChest {
 
         // remove the physical chest
         destroyChest(block);
-
-        /*for(UUID uuid : hologram.armorStandUUIDs) {
-            if(Bukkit.getEntity(uuid)!=null) {
-                Bukkit.getEntity(uuid).remove();
-            }
-        }*/
         hologram.destroy();
 
         // drop contents
         Utils.dropItems(block, armorInv);
         Utils.dropItems(block, storageInv);
         Utils.dropItems(block, extraInv);
-        Utils.dropItems(block, overflowInv);
+        //Utils.dropItems(block, overflowInv);
 
         if (experience > 0) {
             Utils.dropExp(block, experience);
@@ -461,16 +528,23 @@ public class AngelChest {
 
     }
 
+    /**
+     * Removes this AngelChest from the memory
+     */
     public void remove() {
         main.debug("Removing AngelChest");
         main.angelChests.remove(block);
     }
 
-	public void createHologram(Main main, Block block, UUID uuid) {
-		//String hologramText = String.format(plugin.messages.HOLOGRAM_TEXT, plugin.getServer().getOfflinePlayer(uuid).getName());
+    /**
+     * Creates the hologram above the AngelChest
+     * @param block Block where the hologram should be spawned
+     * @param uuid Owner of this AngelChest
+     */
+	public void createHologram(Block block, UUID uuid) {
         String hologramText = main.messages.HOLOGRAM_TEXT
                 .replaceAll("\\{player}",main.getServer().getOfflinePlayer(uuid).getName());
-		hologram = new Hologram(block, hologramText, main,this);
+		hologram = new Hologram(block, hologramText, this);
 	}
 
 }

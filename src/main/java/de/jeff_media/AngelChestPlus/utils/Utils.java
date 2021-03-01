@@ -1,7 +1,7 @@
 package de.jeff_media.AngelChestPlus.utils;
 
 import com.google.common.base.Enums;
-import de.jeff_media.AngelChestPlus.AngelChest;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.config.Config;
 import org.bukkit.*;
@@ -56,6 +56,7 @@ public class Utils {
         return blocks;
     }
 
+    @SuppressWarnings("SameParameterValue")
     static boolean isAboveLava(Location loc, int height) {
         Block block = loc.getBlock();
         for (int i = 0; i < height; i++) {
@@ -187,8 +188,15 @@ public class Utils {
             return true;
         }
 
-        source.overflowInv.addItem(unstorable.values()
-                .toArray(new ItemStack[0]));
+        /*source.overflowInv.addItem(unstorable.values()
+                .toArray(new ItemStack[0]));*/
+        source.storageInv = new ItemStack[source.storageInv.length];
+        int i = 0;
+        for(ItemStack item : unstorable.values()) {
+            if(item==null) continue;
+            source.storageInv[i] = item;
+            i++;
+        }
 
         return false;
     }
@@ -206,10 +214,10 @@ public class Utils {
         orb.setExperience(xp);
     }
 
-    public static void dropItems(Block block, Inventory inv) {
+    /*public static void dropItems(Block block, Inventory inv) {
         dropItems(block, inv.getContents());
         inv.clear();
-    }
+    }*/
 
     public static void sendDelayedMessage(Player p, String message, long delay) {
         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {

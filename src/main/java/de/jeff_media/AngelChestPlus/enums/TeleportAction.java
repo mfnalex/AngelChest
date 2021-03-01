@@ -1,7 +1,11 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.enums;
 
+import de.jeff_media.AngelChestPlus.Main;
 import org.bukkit.entity.Player;
 
+/**
+ * Represents a teleport related action (TP and Fetch)
+ */
 public enum TeleportAction {
 
     TELEPORT_TO_CHEST("angelchest.tp", "AngelChest TP","actp"),
@@ -27,7 +31,6 @@ public enum TeleportAction {
 
     public double getPrice(Player player) {
         Main main = Main.getInstance();
-        //return main.getConfig().getDouble(priceInConfig);
         if(this == TELEPORT_TO_CHEST) {
             return main.groupUtils.getTeleportPricePerPlayer(player);
         } else if(this == FETCH_CHEST) {

@@ -175,6 +175,8 @@ void-detection: true
 allow-chest-in-lava: true
 
 # When false, AngelChests will not be spawned for players who died in the void
+# NOTE: The vanilla /kill command will cause void damage, so when you set this to
+# false, using /kill or /minecraft:kill will prevent the AngelChest from spawning
 allow-chest-in-void: true
 
 # You probably don't want your AngelChest to spawn on blocks like GRASS_PATH, FARMLAND, etc.
