@@ -7,6 +7,7 @@ import de.jeff_media.AngelChestPlus.data.AngelChest;
 import de.jeff_media.AngelChestPlus.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -29,14 +30,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Handles player related events
+ */
 public class PlayerListener implements Listener {
 
     final Main main;
 
-    public PlayerListener(Main main) {
+    public PlayerListener() {
         this.main = Main.getInstance();
-
-        main.debug("PlayerListener created");
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -87,24 +89,18 @@ public class PlayerListener implements Listener {
         }
     }
 
-
+    /**
+     * Attempts to spawn an AngelChest on player death
+     * @param event PlayerDeathEvent
+     */
     private void spawnAngelChest(PlayerDeathEvent event) {
+
+        // Print out all plugins/listeners that listen to the PlayerDeathEvent
         if (main.debug) {
             for (RegisteredListener registeredListener : event.getHandlers().getRegisteredListeners()) {
                 main.debug(registeredListener.getPlugin().getName() + ": " + registeredListener.getListener().getClass().getName() + " @ " + registeredListener.getPriority().name());
             }
         }
-
-
-        //Objects.requireNonNull(main.chestMaterial,"Chest Material is null!");
-
-		/*System.out.println("test");
-		if(plugin.chestMaterial==null) {
-			System.out.println("chestmat is null");
-			return;
-		}
-
-		plugin.debug(plugin.chestMaterial.name());*/
 
         main.debug("PlayerListener -> spawnAngelChest");
         Player p = event.getEntity();
@@ -113,6 +109,7 @@ public class PlayerListener implements Listener {
             return;
         }
 
+        // TODO: Readd this to the config file maybe?
         if (event.getKeepInventory()) {
             if (!main.getConfig().getBoolean("ignore-keep-inventory", false)) {
                 main.debug("Cancelled: event#getKeepInventory() == true");
@@ -155,6 +152,7 @@ public class PlayerListener implements Listener {
         }
 
         // Don't do anything if player's inventory is empty anyway
+        // TODO: Player could die while having no items, but XP
         if (event.getDrops() == null || event.getDrops().size() == 0) {
             main.debug("Cancelled: event#getDrops == null || event#getDrops#size == 0");
             main.debug("Either your inventory was empty, or another plugin set your");
@@ -198,11 +196,6 @@ public class PlayerListener implements Listener {
         }
 
         Block angelChestBlock = Utils.findSafeBlock(tmpPosition);
-
-        /*if (main.getConfig().getBoolean(Config.DETECT_PLAYER_HEAD_DROPS)) {
-            PlayerHeadDropsHook.applyPlayerHeadDrops(p.getInventory(), event.getDrops(), main);
-        }*/
-
 
         // DETECT ALL DROPS, EVEN FRESHLY ADDED
         ArrayList<ItemStack> freshDrops = new ArrayList<>();
@@ -285,6 +278,10 @@ public class PlayerListener implements Listener {
         //Utils.reloadAngelChest(ac,plugin);
     }
 
+    /**
+     * Remove all items from inventory that should not be kept on death
+     * @param inv inventory
+     */
     private void clearInventory(Inventory inv) {
         for (int i = 0; i < inv.getSize(); i++) {
             if (main.hookUtils.keepOnDeath(inv.getItem(i))) {
@@ -295,23 +292,36 @@ public class PlayerListener implements Listener {
 
     }
 
+    /**
+     * Handles auto-respawning the player
+     * @param event PlayerDeathEvent
+     */
     @EventHandler
-    public void onDeath(PlayerDeathEvent e) {
+    public void onDeath(PlayerDeathEvent event) {
         if (!main.getConfig().getBoolean(Config.AUTO_RESPAWN)) return;
         int delay = main.getConfig().getInt(Config.AUTO_RESPAWN_DELAY);
 
         Bukkit.getScheduler().runTaskLater(main, () -> {
-            if (e.getEntity().isDead()) {
-                e.getEntity().spigot().respawn();
+            if (event.getEntity().isDead()) {
+                event.getEntity().spigot().respawn();
             }
         }, 1L + (delay * 20));
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeathBecauseTotemNotEquipped(EntityResurrectEvent e) {
+        main.debug("EntityResurrectEvent");
         if (!(e.getEntity() instanceof Player)) return;
 
-        if (!main.getConfig().getBoolean(Config.TOTEM_OF_UNDYING_WORKS_EVERYWHERE)) return;
+        if(!e.isCancelled()) {
+            main.debug("  R: Not cancelled");
+            return;
+        }
+
+        if (!main.getConfig().getBoolean(Config.TOTEM_OF_UNDYING_WORKS_EVERYWHERE)) {
+            main.debug("  R: Config option disabled");
+            return;
+        }
 
         Player p = (Player) e.getEntity();
 
@@ -321,6 +331,13 @@ public class PlayerListener implements Listener {
             if (is.getType().name().equals("TOTEM_OF_UNDYING") || is.getType().name().equals("TOTEM")) {
                 e.setCancelled(false);
                 is.setAmount(is.getAmount() - 1);
+                ItemStack offHand = p.getInventory().getItemInOffHand();
+                if(offHand != null && offHand.getAmount()!=0 && offHand.getType()!= Material.AIR) {
+                    final ItemStack finalOffHand = offHand.clone();
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
+                        p.getInventory().setItemInOffHand(finalOffHand);
+                    },1L);
+                }
                 return;
             }
         }
@@ -474,7 +491,11 @@ public class PlayerListener implements Listener {
             event.setCancelled(true);
             return;
         }
-        openAngelChest(event.getPlayer(), as.get().block, as.get());
+        if(event.getPlayer().isSneaking()) {
+            main.guiManager.showPreviewGUI(event.getPlayer(), as.get(), false);
+        } else {
+            openAngelChest(event.getPlayer(), as.get().block, as.get());
+        }
     }
 
 }

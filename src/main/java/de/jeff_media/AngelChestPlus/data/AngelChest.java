@@ -241,6 +241,29 @@ public class AngelChest {
     }
 
     /**
+     * Checks whether this AngelChest has been completely looted
+     * @return true when AngelChest is empty, otherwise false
+     */
+    public boolean isEmpty() {
+        for(ItemStack item : storageInv) {
+            if(!Utils.isEmpty(item)) return false;
+        }
+        for(ItemStack item : armorInv) {
+            if(!Utils.isEmpty(item)) return false;
+        }
+        for(ItemStack item : extraInv) {
+            if(!Utils.isEmpty(item)) return false;
+        }
+        for(ItemStack item : overflowInv) {
+            if(!Utils.isEmpty(item)) return false;
+        }
+        if(experience>0) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Removes all items that the player kept on death, and all other items that should not
      * appear in the chest (e.g. curse of vanishing, soulbound items, ...)
      */

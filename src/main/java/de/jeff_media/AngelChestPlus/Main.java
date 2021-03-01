@@ -35,6 +35,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
@@ -142,7 +144,7 @@ public class Main extends JavaPlugin {
 		this.getCommand("acd").setExecutor(new CommandDebug(this));
 
 		debug("Registering listeners");
-		getServer().getPluginManager().registerEvents(new PlayerListener(this),this);
+		getServer().getPluginManager().registerEvents(new PlayerListener(),this);
 		getServer().getPluginManager().registerEvents(new HologramListener(),this);
 		getServer().getPluginManager().registerEvents(new BlockListener(),this);
 		getServer().getPluginManager().registerEvents(new PistonListener(this),this);
@@ -158,6 +160,8 @@ public class Main extends JavaPlugin {
 
 		if (debug) getLogger().info("Disabled Worlds: "+disabledWorlds.size());
 		if (debug) getLogger().info("Disabled WorldGuard regions: "+disabledRegions.size());
+
+		setEconomyStatus();
 		
 		
 		// Schedule DurationTimer
@@ -177,6 +181,33 @@ public class Main extends JavaPlugin {
 			}
 		}, 0, 20);
 		
+	}
+
+	private void setEconomyStatus() {
+		Plugin v = getServer().getPluginManager().getPlugin("Vault");
+
+		if (v == null) {
+			getLogger().info("Vault not installed, disabling economy functions.");
+			economyStatus = EconomyStatus.INACTIVE;
+			return;
+		}
+
+		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+		if (rsp == null) {
+			getLogger().info("No EconomyServiceProvider found, disabling economy functions.");
+			economyStatus = EconomyStatus.INACTIVE;
+			return;
+		}
+
+		if (rsp.getProvider() == null) {
+			getLogger().info("No EconomyProvider found, disabling economy functions.");
+			economyStatus = EconomyStatus.INACTIVE;
+			return;
+		}
+
+		econ = rsp.getProvider();
+		economyStatus = EconomyStatus.ACTIVE;
+		getLogger().info("Successfully hooked into Vault and the EconomyProvider, enabling economy functions.");
 	}
 
 	private void registerCommands() {

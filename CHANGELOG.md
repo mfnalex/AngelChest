@@ -1,5 +1,10 @@
-## 1.4.0-SNAPSHOT
-- Remove the overflow inventory and open the regular GUI instead!
+## 1.4.0
+- Opening the AngelChest after not all items could be stored will now open the regular AngelChest GUI
+- Fixed: Opening the GUI will not show any items after not everything could be stored in the player inventory
+- Fixed: Using "totem-works-everywhere" reducing offhand slot by one when the totem was not in main or offhand (this actually was a Bukkit/Spigot bug)
+- Fixed: Players being able to remove the glass panes from the AngelChest GUI
+- Fixed: Confirmation message for prices will no longer be shown if Vault/Economy is not installed
+- Fixed: Logging AngelChest transactions now log EVERYTHING
 
 ## 1.3.0
 - Added "price for opening" the chest

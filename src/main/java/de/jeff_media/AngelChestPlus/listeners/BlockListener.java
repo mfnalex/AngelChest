@@ -106,27 +106,4 @@ public class BlockListener implements Listener {
         event.blockList().removeIf(main::isAngelChest);
     }
 
-    /**
-     * Prevents pistons from moving or destroying AngelChest blocks
-     * @param event BlockPistonExtendEvent
-     */
-    @EventHandler
-    public void onBlockPistonExtendEvent(BlockPistonExtendEvent event) {
-        Block block = event.getBlock();
-        if (main.isAngelChest(block)) {
-            event.setCancelled(true);
-        }
-    }
-
-    /**
-     * Prevents pistons from moving or destroying AngelChest blocks
-     * @param event BlockPistonRetractEvent
-     */
-    @EventHandler
-    public void onBlockPistonRetractEvent(BlockPistonRetractEvent event) {
-        Block block = event.getBlock();
-        if (main.isAngelChest(block)) {
-            event.setCancelled(true);
-        }
-    }
 }
