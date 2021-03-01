@@ -8,11 +8,15 @@ import java.util.regex.Pattern;
 
 import de.jeff_media.AngelChestPlus.commands.*;
 import de.jeff_media.AngelChestPlus.config.Config;
+import de.jeff_media.AngelChestPlus.config.Messages;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
+import de.jeff_media.AngelChestPlus.data.PendingConfirm;
 import de.jeff_media.AngelChestPlus.enums.EconomyStatus;
 import de.jeff_media.AngelChestPlus.gui.GUIListener;
 import de.jeff_media.AngelChestPlus.gui.GUIManager;
 import de.jeff_media.AngelChestPlus.hooks.PlaceholderAPIHook;
 import de.jeff_media.AngelChestPlus.hooks.MinepacksHook;
+import de.jeff_media.AngelChestPlus.hooks.WorldGuardHandler;
 import de.jeff_media.AngelChestPlus.listeners.BlockListener;
 import de.jeff_media.AngelChestPlus.listeners.HologramListener;
 import de.jeff_media.AngelChestPlus.listeners.PistonListener;
@@ -43,8 +47,8 @@ public class Main extends JavaPlugin {
 	private static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID+"/updates";
 	private static final String UPDATECHECKER_LINK_DONATE = "https://paypal.me/mfnalex";
 
-	public HashMap<UUID,PendingConfirm> pendingConfirms;
-	public LinkedHashMap<Block,AngelChest> angelChests;
+	public HashMap<UUID, PendingConfirm> pendingConfirms;
+	public LinkedHashMap<Block, AngelChest> angelChests;
 	public HashMap<UUID,Block> lastPlayerPositions;
 	public Material chestMaterial;
 	PluginUpdateChecker updateChecker;
@@ -139,8 +143,8 @@ public class Main extends JavaPlugin {
 
 		debug("Registering listeners");
 		getServer().getPluginManager().registerEvents(new PlayerListener(this),this);
-		getServer().getPluginManager().registerEvents(new HologramListener(this),this);
-		getServer().getPluginManager().registerEvents(new BlockListener(this),this);
+		getServer().getPluginManager().registerEvents(new HologramListener(),this);
+		getServer().getPluginManager().registerEvents(new BlockListener(),this);
 		getServer().getPluginManager().registerEvents(new PistonListener(this),this);
 		guiListener = new GUIListener();
 		getServer().getPluginManager().registerEvents(guiListener,this);

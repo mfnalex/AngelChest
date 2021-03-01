@@ -1,4 +1,4 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.hooks;
 
 
 import com.sk89q.worldguard.bukkit.BukkitUtil;
@@ -8,12 +8,16 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import de.jeff_media.AngelChestPlus.hooks.WorldGuardHandler;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ * Hooks into WorldGuard 6 and older.
+ */
 @SuppressWarnings("JavaReflectionMemberAccess")
 public class WorldGuardLegacyHandler {
 
@@ -24,7 +28,7 @@ public class WorldGuardLegacyHandler {
 
     /**
      * This is so dirty that I love it. Has to be done because the Compiler doesn't know we are actually talking with the API version 6
-     * @param handler
+     * @param handler instance of the regular WorldGuardHandler
      */
     WorldGuardLegacyHandler(WorldGuardHandler handler) {
         this.handler=handler;
@@ -48,6 +52,12 @@ public class WorldGuardLegacyHandler {
         }
         handler.main.getLogger().info("Successfully hooked into WorldGuard legacy");
     }
+
+    /**
+     * Checks if this block is inside one of the disabled WorldGuard regions
+     * @param block Block to check
+     * @return true if block is inside a protected region, otherwise false
+     */
     boolean isBlacklisted(Block block) {
         handler.main.debug("Checking with WorldGuard 6 API if player died in blacklisted region");
         if(wgLegacy==null) return false;

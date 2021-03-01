@@ -2,6 +2,7 @@ package de.jeff_media.AngelChestPlus.hooks;
 
 import de.jeff_media.AngelChestPlus.*;
 import de.jeff_media.AngelChestPlus.config.Config;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.Utils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -10,6 +11,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+/**
+ * Hooks into PlaceholderAPI
+ */
 public class PlaceholderAPIHook extends PlaceholderExpansion {
 
     final Main main;
@@ -84,6 +88,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
         if(id < 1) return null;
         id--;
 
+        //noinspection SwitchStatementWithTooFewBranches
         switch (split[0]) {
             case "isactive":
                 if (id >= allChests.size()) {

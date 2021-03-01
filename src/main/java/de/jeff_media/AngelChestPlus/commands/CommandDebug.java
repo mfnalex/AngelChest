@@ -1,13 +1,11 @@
 package de.jeff_media.AngelChestPlus.commands;
 
-import de.jeff_media.AngelChestPlus.AngelChest;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
 import de.jeff_media.AngelChestPlus.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,7 +48,7 @@ public class CommandDebug implements CommandExecutor {
     }
 
     private void group(CommandSender commandSender, String[] args) {
-        Player player = null;
+        Player player;
         if(args.length==0) {
             if(!(commandSender instanceof Player)) {
                 commandSender.sendMessage("Use this command as player or specify a player name.");
@@ -127,9 +125,11 @@ public class CommandDebug implements CommandExecutor {
         }
     }
 
+    @SuppressWarnings("EmptyMethod")
     private void setConfig(CommandSender commandSender, String[] args) {
     }
 
+    @SuppressWarnings("EmptyMethod")
     private void getConfig(CommandSender commandSender, String[] args) {
     }
 

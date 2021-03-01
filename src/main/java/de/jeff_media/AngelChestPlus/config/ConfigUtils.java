@@ -4,14 +4,16 @@ import java.io.File;
 import java.util.*;
 
 import de.jeff_media.AngelChestPlus.*;
-import de.jeff_media.AngelChestPlus.config.Config;
-import de.jeff_media.AngelChestPlus.config.ConfigUpdater;
 import de.jeff_media.AngelChestPlus.gui.GUIManager;
 import de.jeff_media.AngelChestPlus.hooks.MinepacksHook;
+import de.jeff_media.AngelChestPlus.hooks.WorldGuardHandler;
 import de.jeff_media.AngelChestPlus.utils.GroupUtils;
 import de.jeff_media.AngelChestPlus.utils.HookUtils;
 import org.bukkit.Material;
 
+/**
+ * Creates the default config and directories, handles reloading and adds the default values
+ */
 public class ConfigUtils {
 
 	@SuppressWarnings("SameParameterValue")
@@ -57,7 +59,7 @@ public class ConfigUtils {
 	static void createConfig() {
 
 		Main main = Main.getInstance();
-		ConfigUpdater.migrateFromFreeVersion(main);
+		ConfigUpdater.migrateFromFreeVersion();
 
 		main.saveDefaultConfig();
 		main.saveResource("groups.example.yml", true);

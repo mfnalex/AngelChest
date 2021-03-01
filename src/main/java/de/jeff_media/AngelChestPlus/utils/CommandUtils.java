@@ -1,9 +1,9 @@
 package de.jeff_media.AngelChestPlus.utils;
 
-import de.jeff_media.AngelChestPlus.AngelChest;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
 import de.jeff_media.AngelChestPlus.Main;
-import de.jeff_media.AngelChestPlus.PendingConfirm;
-import de.jeff_media.AngelChestPlus.TeleportAction;
+import de.jeff_media.AngelChestPlus.data.PendingConfirm;
+import de.jeff_media.AngelChestPlus.enums.TeleportAction;
 import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.enums.EconomyStatus;
 import io.papermc.lib.PaperLib;
@@ -189,10 +189,10 @@ public class CommandUtils {
         switch (action) {
             case TELEPORT_TO_CHEST:
                 teleportPlayerToChest(main, player, ac);
-                return;
+                break;
             case FETCH_CHEST:
                 fetchChestToPlayer(main, player, ac);
-                return;
+                break;
         }
     }
 

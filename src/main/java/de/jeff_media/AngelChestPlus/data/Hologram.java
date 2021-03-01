@@ -1,10 +1,11 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.data;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
+import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -18,19 +19,21 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Represents a complete AngelChest hologram
+ */
 public class Hologram {
 
-    final ArrayList<UUID> armorStandUUIDs;
-    final String text;
+    public final ArrayList<UUID> armorStandUUIDs;
+    public final String text;
     final double lineOffset;
     private final Main main;
-    //double offset = 0.0D;
     boolean usePapi = false;
 
-    /*public Hologram(Block block, String text, Main main, AngelChest chest) {
-        this(block.getLocation().add(new Vector(0.5, -0.5 + main.getConfig().getDouble(Config.HOLOGRAM_OFFSET), 0.5)), text, main, chest);
-    }*/
-
+    /**
+     * Updates the hologram. Called once per second
+     * @param chest AngelChest this hologram belongs to
+     */
     public void update(AngelChest chest) {
 
         Scanner scanner = new Scanner(text);
@@ -61,9 +64,14 @@ public class Hologram {
         }
     }
 
-    //public Hologram(Location location , String text, Main main, AngelChest chest) {
-    public Hologram(Block block, String text, Main main, AngelChest chest) {
-        this.main=main;
+    /**
+     * Creates a hologram with one or more lines
+     * @param block Block where the hologram should be spawned
+     * @param text The hologram text, lines separated by "\n"
+     * @param chest AngelChest this hologram belongs to
+     */
+    public Hologram(Block block, String text, AngelChest chest) {
+        this.main=Main.getInstance();
         int totalLineNumbers = text.split("\n").length;
         lineOffset = main.getConfig().getDouble(Config.HOLOGRAM_OFFSET_PER_LINE);
         Location location = block.getLocation()
@@ -90,8 +98,6 @@ public class Hologram {
                 customNameVisible = false;
             }
 
-            //plugin.hookUtils.hologramToBeSpawned=true;
-
             ArmorStand as = (ArmorStand) location.getWorld().spawnEntity(location.clone().add(new Vector(0, -lineOffset*lineNumber, 0)), EntityType.ARMOR_STAND); // Spawn the ArmorStand
             armorStandUUIDs.add(as.getUniqueId());
 
@@ -101,18 +107,17 @@ public class Hologram {
             as.setCustomNameVisible(customNameVisible);
             as.setVisible(false);
 
-            //currentOffset += lineOffset;
-
-            //plugin.hookUtils.hologramToBeSpawned=false;
             lineNumber++;
         }
         scanner.close();
         main.watchdog.save();
     }
 
+    /**
+     * Destroys all armor stands belonging to this hologram
+     */
     public void destroy() {
         for (ArmorStand armorStand : getArmorStands()) {
-            //System.out.println("DESTROYING ARMOR STAND @ " + armorStand.getLocation().toString());
             if (armorStand != null) armorStand.remove();
 
             armorStandUUIDs.remove(armorStand.getUniqueId());
@@ -120,11 +125,20 @@ public class Hologram {
         main.watchdog.save();
     }
 
+    /**
+     * Returns the armor stand that belongs to a specific line number
+     * @param line line number, starting with 0
+     * @return armor stand belonging to line number, null if it doesnt exist
+     */
     public @Nullable ArmorStand getArmorStandByLineNumber(int line) {
         if (armorStandUUIDs.size() <= line) return null;
         return (ArmorStand) Bukkit.getEntity(armorStandUUIDs.get(line));
     }
 
+    /**
+     * Returns a list of all ArmorStands
+     * @return list of all ArmorStands
+     */
     public @NotNull List<ArmorStand> getArmorStands() {
         ArrayList<ArmorStand> armorStands = new ArrayList<>();
         for (UUID uuid : armorStandUUIDs) {

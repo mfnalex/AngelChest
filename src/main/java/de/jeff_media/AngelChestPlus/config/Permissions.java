@@ -1,5 +1,8 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.config;
 
+/**
+ * Represents all permission names used by AngelChest. DO NOT USE HARDCODED VALUES
+ */
 public class Permissions {
 
     public static final String ALLOW_PROTECT = "angelchest.protect";

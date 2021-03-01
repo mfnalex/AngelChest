@@ -7,19 +7,28 @@ import org.bukkit.inventory.ItemStack;
 
 import org.bukkit.plugin.Plugin;
 
+/**
+ * Hooks into MinePacks
+ */
 public class MinepacksHook {
 
 	boolean disabled = false;
 	boolean skipReflection = false;
 	MinepacksPlugin minepacks = null;
 
-	public boolean isMinepacksBackpack(ItemStack is,Main main) {
+	/**
+	 * Checks whether an ItemStack is a MinePacks backpack
+	 * @param is The ItemStack to check
+	 * @return true if it's a backpack, otherwise false
+	 */
+	public boolean isMinepacksBackpack(ItemStack is) {
 		if(disabled) return false;
 		if(is==null) return false;
 		if(skipReflection) {
 			return minepacks.isBackpackItem(is);
 		}
 		Plugin minepacksCandidate = Bukkit.getPluginManager().getPlugin("Minepacks");
+		Main main = Main.getInstance();
 		if(minepacksCandidate == null) {
 			main.debug("Minepacks is not installed");
 			disabled = true;

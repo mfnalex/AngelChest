@@ -1,5 +1,10 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.data;
 
+import de.jeff_media.AngelChestPlus.enums.TeleportAction;
+
+/**
+ * Represents a pending confirm when a player initiates an action that has a price and needs to be confirmed
+ */
 public class PendingConfirm {
 
     public final int chestId;

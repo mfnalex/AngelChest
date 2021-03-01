@@ -1,5 +1,5 @@
-## 1.4.0
-- TODO: Remove the overflow inventory and open the regular GUI instead!
+## 1.4.0-SNAPSHOT
+- Remove the overflow inventory and open the regular GUI instead!
 
 ## 1.3.0
 - Added "price for opening" the chest

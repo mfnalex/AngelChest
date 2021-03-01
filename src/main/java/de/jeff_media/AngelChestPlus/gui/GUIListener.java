@@ -1,8 +1,8 @@
 package de.jeff_media.AngelChestPlus.gui;
 
 import de.jeff_media.AngelChestPlus.config.Config;
-import de.jeff_media.AngelChestPlus.Permissions;
-import de.jeff_media.AngelChestPlus.TeleportAction;
+import de.jeff_media.AngelChestPlus.config.Permissions;
+import de.jeff_media.AngelChestPlus.enums.TeleportAction;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.Utils;
@@ -79,6 +79,7 @@ public class GUIListener implements @NotNull Listener {
         }
     }
 */
+    @SuppressWarnings("DefaultAnnotationParam")
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
     public void onPreviewGUIClick(InventoryClickEvent event) {
         /*System.out.println("Current item: " + event.getCurrentItem());

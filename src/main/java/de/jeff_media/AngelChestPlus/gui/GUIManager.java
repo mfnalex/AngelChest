@@ -2,6 +2,9 @@ package de.jeff_media.AngelChestPlus.gui;
 
 import de.jeff_media.AngelChestPlus.*;
 import de.jeff_media.AngelChestPlus.config.Config;
+import de.jeff_media.AngelChestPlus.config.Permissions;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
+import de.jeff_media.AngelChestPlus.enums.TeleportAction;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import de.jeff_media.AngelChestPlus.utils.HeadCreator;
 import de.jeff_media.AngelChestPlus.utils.Utils;
@@ -57,6 +60,7 @@ public class GUIManager {
 
         int selectedChest = holder.getChestIdStartingAt1();
         if (selectedChest < brokenChestId) {
+            //noinspection UnnecessaryReturnStatement
             return;
         } else if (brokenChestId == selectedChest) {
             showMainGUI(player);
@@ -68,7 +72,6 @@ public class GUIManager {
                 showConfirmGUI(player,holder,holder.getAction());
             }
         }
-        return;
     }
 
     private ItemStack getChestItem(AngelChest angelChest, int id) {

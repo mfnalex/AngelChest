@@ -1,6 +1,6 @@
 package de.jeff_media.AngelChestPlus.commands;
 
-import de.jeff_media.AngelChestPlus.AngelChest;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import org.bukkit.command.Command;

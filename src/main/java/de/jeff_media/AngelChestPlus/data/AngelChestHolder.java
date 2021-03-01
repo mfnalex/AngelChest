@@ -1,14 +1,17 @@
-package de.jeff_media.AngelChestPlus;
+package de.jeff_media.AngelChestPlus.data;
 
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Represents an AngelChest's Inventory
+ */
 public class AngelChestHolder implements InventoryHolder {
 
     Inventory inv;
 
-    void setInventory(Inventory inv) {
+    public void setInventory(Inventory inv) {
         this.inv=inv;
     }
 

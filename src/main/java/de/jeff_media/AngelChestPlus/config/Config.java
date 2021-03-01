@@ -1,5 +1,8 @@
 package de.jeff_media.AngelChestPlus.config;
 
+/**
+ * Key names to use for the global config.yml
+ */
 public class Config {
 
     public static final String CHECK_FOR_UPDATES = "check-for-updates";

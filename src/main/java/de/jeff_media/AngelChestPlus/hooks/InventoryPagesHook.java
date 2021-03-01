@@ -10,6 +10,9 @@ import org.bukkit.inventory.ItemStack;
 import net.md_5.bungee.api.ChatColor;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Hooks into InventoryPages
+ */
 public class InventoryPagesHook {
 
     final Main main;
@@ -51,6 +54,11 @@ public class InventoryPagesHook {
 
     }
 
+    /**
+     * Checks if an ItemStack belongs to InventoryPages.
+     * @param item The ItemStack to check
+     * @return true if it belongs to InventoryPages, otherwise false
+     */
     public boolean isButton(@Nullable ItemStack item/*, int slot, @NotNull Inventory inv*/) {
 
         if(disabled) return false;

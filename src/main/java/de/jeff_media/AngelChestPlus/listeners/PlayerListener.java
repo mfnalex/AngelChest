@@ -2,6 +2,8 @@ package de.jeff_media.AngelChestPlus.listeners;
 
 import de.jeff_media.AngelChestPlus.*;
 import de.jeff_media.AngelChestPlus.config.Config;
+import de.jeff_media.AngelChestPlus.config.Permissions;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
 import de.jeff_media.AngelChestPlus.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -417,7 +419,8 @@ public class PlayerListener implements Listener {
             }
         } else {
             p.sendMessage(main.messages.MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK);
-            p.openInventory(angelChest.overflowInv);
+            //p.openInventory(angelChest.overflowInv);
+            main.guiManager.showPreviewGUI(p, angelChest, false);
             main.getLogger().info(p.getName() + " opened the AngelChest of " + Bukkit.getOfflinePlayer(angelChest.owner).getName() + " at " + angelChest.block.getLocation());
         }
     }

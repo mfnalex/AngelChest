@@ -1,6 +1,6 @@
 package de.jeff_media.AngelChestPlus.listeners;
 
-import de.jeff_media.AngelChestPlus.AngelChest;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
 import de.jeff_media.AngelChestPlus.Main;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -10,26 +10,23 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
+/**
+ * Listens to block related events, e.g. messing with the actual Block where an AngelChest is located
+ */
 public class BlockListener implements Listener {
 
     final Main main;
 
-    public BlockListener(Main main) {
-
+    public BlockListener() {
         this.main = Main.getInstance();
-
-        main.debug("BlockListener created");
     }
 
-
-    /*@EventHandler(priority = EventPriority.MONITOR)
-    public void onHologramSpawn(EntitySpawnEvent e) {
-        if(!plugin.hookUtils.hologramToBeSpawned) return;
-            if(!e.isCancelled()) return;
-            plugin.debug("Trying to prevent cancellation of EntitySpawnEvent for the hologram");
-            e.setCancelled(false);
-    }*/
-
+    /**
+     * Called when an AngelChest's block is being broken.
+     * Handles protecting the chest, or dropping it's content if it was not protected or if the user
+     * was allowed to break the chest.
+     * @param event BlockBreakEvent
+     */
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         if (!main.isAngelChest(event.getBlock()))
@@ -48,6 +45,10 @@ public class BlockListener implements Listener {
         angelChest.remove();
     }
 
+    /**
+     * Prevent liquids and dragon eggs from destroying AngelChest blocks
+     * @param event BlockFromToEvent
+     */
     @EventHandler
     public void onLiquidDestroysChest(BlockFromToEvent event) {
         // Despite the name, this event only fires when liquid or a teleporting dragon egg changes a block
@@ -56,21 +57,30 @@ public class BlockListener implements Listener {
         }
     }
 
+    /**
+     * Prevents the AngelChest block from being broken by breaking the block below it
+     * @param event BlockBreakEvent
+     */
     @EventHandler
-    public void onBreakingBlockThatThisIsAttachedTo(BlockBreakEvent e) {
-        if (!main.isAngelChest(e.getBlock().getRelative(BlockFace.UP))) return;
-        if(e.getBlock().getRelative(BlockFace.UP).getPistonMoveReaction()!= PistonMoveReaction.BREAK) return;
+    public void onBreakingBlockThatThisIsAttachedTo(BlockBreakEvent event) {
+        if (!main.isAngelChest(event.getBlock().getRelative(BlockFace.UP))) return;
+        if(event.getBlock().getRelative(BlockFace.UP).getPistonMoveReaction()!= PistonMoveReaction.BREAK) return;
 
-            e.setCancelled(true);
+            event.setCancelled(true);
             main.debug("Preventing BlockBreakEvent because it interferes with AngelChest.");
 
     }
 
+    /**
+     * Prevents all entity explosions from destroying AngelChest blocks
+     * @param event EntityExplodeEvent
+     */
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
         event.blockList().removeIf(main::isAngelChest);
     }
 
+    // TODO: Why is this commented out?
 	/*@EventHandler
 	public void onRightClickHologram(PlayerInteractAtEntityEvent e) {
 		if(!(e.getRightClicked() instanceof ArmorStand)) {
@@ -87,11 +97,19 @@ public class BlockListener implements Listener {
 
 	}*/
 
+    /**
+     * Prevent all block explosions from destroying AngelChest blocks
+     * @param event BlockExplodeEvent
+     */
     @EventHandler
     public void onBlockExplode(BlockExplodeEvent event) {
         event.blockList().removeIf(main::isAngelChest);
     }
 
+    /**
+     * Prevents pistons from moving or destroying AngelChest blocks
+     * @param event BlockPistonExtendEvent
+     */
     @EventHandler
     public void onBlockPistonExtendEvent(BlockPistonExtendEvent event) {
         Block block = event.getBlock();
@@ -100,6 +118,10 @@ public class BlockListener implements Listener {
         }
     }
 
+    /**
+     * Prevents pistons from moving or destroying AngelChest blocks
+     * @param event BlockPistonRetractEvent
+     */
     @EventHandler
     public void onBlockPistonRetractEvent(BlockPistonRetractEvent event) {
         Block block = event.getBlock();

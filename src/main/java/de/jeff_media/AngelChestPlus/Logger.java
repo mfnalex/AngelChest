@@ -1,6 +1,7 @@
 package de.jeff_media.AngelChestPlus;
 
 import de.jeff_media.AngelChestPlus.config.Config;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -61,7 +62,7 @@ public class Logger {
     }
 
     private void writeWithTime(String text, File file) {
-        FileWriter fw = null;
+        FileWriter fw;
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         try {
             fw = new FileWriter(file, true);
@@ -88,7 +89,7 @@ public class Logger {
     }
 
     public void logXPTaken(Player player, int xp, File file) {
-        writeWithTime(String.format("Player \"%s\" took XP: %d",xp),file);
+        writeWithTime(String.format("Player \"%s\" took XP: %d",player.getName(),xp),file);
     }
 
     public void logItemTaken(Player player, @Nullable ItemStack item, File file) {
@@ -107,7 +108,7 @@ public class Logger {
         write("=== AngelChest removed ===",file);
     }
 
-    public File logDeath(PlayerDeathEvent event, AngelChest ac) {
+    public void logDeath(PlayerDeathEvent event, AngelChest ac) {
         File file = getLogFile(event);
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         write("=== AngelChest spawned ===",file);
@@ -167,6 +168,5 @@ public class Logger {
             write("> "+item.toString(),file);
         }
         write("",file);
-        return file;
     }
 }

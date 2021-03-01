@@ -1,6 +1,6 @@
 package de.jeff_media.AngelChestPlus.gui;
 
-import de.jeff_media.AngelChestPlus.AngelChest;
+import de.jeff_media.AngelChestPlus.data.AngelChest;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
