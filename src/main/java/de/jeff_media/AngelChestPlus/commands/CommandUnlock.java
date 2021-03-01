@@ -38,7 +38,7 @@ public class CommandUnlock implements CommandExecutor {
 			return true;
 		}
 
-		int chestIdStartingAt1 = chestResult.getValue0();
+		//int chestIdStartingAt1 = chestResult.getValue0();
 		AngelChest angelChest = chestResult.getValue1();
 		Player player = chestResult.getValue2();
 		CommandUtils.unlockSingleChest(main,player,player,angelChest);

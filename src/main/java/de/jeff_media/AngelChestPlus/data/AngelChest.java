@@ -23,7 +23,6 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -308,8 +307,8 @@ public class AngelChest {
                 main.getLogger().warning("Using a custom PLAYER_HEAD as chest material is NOT SUPPORTED in versions < 1.13. Consider using another chest material.");
             } else {
                 Skull state = (Skull) block.getState();
-                ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
-                String skullName = main.getConfig().getString("custom-head");
+                /*ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+                String skullName = main.getConfig().getString("custom-head");*/
 
                 // Use the player skin's texture
                 if(main.getConfig().getBoolean(Config.HEAD_USES_PLAYER_NAME)) {
@@ -325,7 +324,7 @@ public class AngelChest {
                     GameProfile profile = new GameProfile(UUID.randomUUID(), "");
                     profile.getProperties().put("textures", new Property("textures", base64));
 
-                    Field profileField = null;
+                    //Field profileField = null;
                     try {
                         // Not needed anymore but please don't remove
                         /*profileField = state.getClass().getDeclaredField("profile");

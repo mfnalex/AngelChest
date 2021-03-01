@@ -214,10 +214,10 @@ public class Utils {
         orb.setExperience(xp);
     }
 
-    public static void dropItems(Block block, Inventory inv) {
+    /*public static void dropItems(Block block, Inventory inv) {
         dropItems(block, inv.getContents());
         inv.clear();
-    }
+    }*/
 
     public static void sendDelayedMessage(Player p, String message, long delay) {
         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {

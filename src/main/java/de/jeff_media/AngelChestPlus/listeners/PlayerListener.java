@@ -407,7 +407,7 @@ public class PlayerListener implements Listener {
         Utils.applyXp(p, angelChest);
 
         boolean succesfullyStoredEverything;
-        boolean isOwnChest = angelChest.owner == p.getUniqueId();
+        //boolean isOwnChest = angelChest.owner == p.getUniqueId();
 
         succesfullyStoredEverything = Utils.tryToMergeInventories(main, angelChest, p.getInventory());
         if (succesfullyStoredEverything) {
@@ -433,7 +433,7 @@ public class PlayerListener implements Listener {
                 continue;
             }
 
-            Inventory inv = event.getInventory();
+            //Inventory inv = event.getInventory();
             if (Utils.isEmpty(angelChest.overflowInv)
                     && Utils.isEmpty(angelChest.armorInv)
                     && Utils.isEmpty(angelChest.extraInv)

@@ -261,7 +261,7 @@ public class CommandUtils {
 
     private static boolean areChunksLoadedNearby(Location loc, Main main) {
         boolean allChunksLoaded = true;
-        ArrayList<Location> locs = new ArrayList<>();
+        //ArrayList<Location> locs = new ArrayList<>();
         for (int x = -16; x <= 16; x += 16) {
             for (int z = -16; z <= 16; z += 16) {
                 if (!isChunkLoaded(loc.add(x, 0, z))) {

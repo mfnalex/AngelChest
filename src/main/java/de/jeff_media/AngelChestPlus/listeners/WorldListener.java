@@ -1,12 +1,8 @@
 package de.jeff_media.AngelChestPlus.listeners;
 
 import de.jeff_media.AngelChestPlus.Main;
-import org.bukkit.Chunk;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 
 public class WorldListener implements Listener {
@@ -27,7 +23,7 @@ public class WorldListener implements Listener {
 
     }*/
 
-    @EventHandler
+    /*@EventHandler
     public void onChunkUnload(ChunkUnloadEvent e) {
         Chunk chunk = e.getChunk();
         for(Entity entity : chunk.getEntities()) {
@@ -35,9 +31,7 @@ public class WorldListener implements Listener {
                 continue;
             }
 
-            ArmorStand armorStand = (ArmorStand) entity;
+            //ArmorStand armorStand = (ArmorStand) entity;
         }
-
-
-    }
+    }*/
 }
