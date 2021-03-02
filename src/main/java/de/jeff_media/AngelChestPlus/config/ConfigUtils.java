@@ -124,6 +124,7 @@ public class ConfigUtils {
 		main.getConfig().addDefault(Config.LOG_ANGELCHESTS, false);
 		main.getConfig().addDefault(Config.LOG_FILENAME,"{player}_{world}_{date}.log");
 		main.getConfig().addDefault(Config.CHEST_FILENAME,"{player}_{world}_{x}_{y}_{z}.yml");
+		main.getConfig().addDefault(Config.COLLECT_XP,"true");
 		main.disabledMaterials = main.getConfig().getStringList(Config.DISABLED_MATERIALS);
 		main.disabledWorlds =  main.getConfig().getStringList(Config.DISABLED_WORLDS);
 		main.disabledRegions =  main.getConfig().getStringList(Config.DISABLED_WORLDGUARD_REGIONS);

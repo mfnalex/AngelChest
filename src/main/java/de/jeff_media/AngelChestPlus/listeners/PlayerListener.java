@@ -220,7 +220,14 @@ public class PlayerListener implements Listener {
         AngelChest ac = new AngelChest(p, p.getUniqueId(), angelChestBlock, p.getInventory(), main.logger.getLogFileName(event));
         main.angelChests.put(angelChestBlock, ac);
 
-        if (!event.getKeepLevel() && event.getDroppedExp() != 0) {
+
+        if(main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("false")) {
+            // Do nothing
+        } else if(main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("nopvp") &&
+                (event.getEntity().getKiller() != null && event.getEntity().getKiller() != event.getEntity())) {
+            // Do nothing
+        }
+        else if (!event.getKeepLevel() && event.getDroppedExp() != 0) {
             double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(p);
             main.debug("Player has xpPercentage of " + xpPercentage);
             if (xpPercentage == -1) {
