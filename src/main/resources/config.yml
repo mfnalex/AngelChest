@@ -112,6 +112,11 @@ allow-angelchest-in-pvp: true
 # be protected from other players.
 dont-protect-chest-if-player-died-in-pvp: false
 
+# When true, the XP (see "xp-percentage" below) is collected, too.
+# When false, XP drops normally
+# When set to "nopvp", the XP is not collected if the player died during PvP.
+collect-xp: true
+
 # Amount of XP the player keeps within their chest on death.
 # 1.0 = 100%, 0.5 = 50%, etc.
 # When set to 0, all XP is lost.

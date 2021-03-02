@@ -40,7 +40,7 @@ public class GroupUtils {
     }
 
     public double getXPPercentagePerPlayer(Player p) {
-        if(yaml==null) return main.getConfig().getInt(Config.XP_PERCENTAGE);
+        if(yaml==null) return main.getConfig().getDouble(Config.XP_PERCENTAGE);
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
         while(it.hasNext()) {

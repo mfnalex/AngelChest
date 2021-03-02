@@ -1,3 +1,12 @@
+## 1.5.0
+- Added "collect-xp" setting
+  - When set to "true", AngelChest collects XP (see "xp-percentage" setting)
+  - When set to "false", it doesn't
+  - When set to "nopvp", it only collects XP if the death didnt happen during PvP
+
+## 1.4.1
+- Fixed "xp-percentage" not working with fractions when not using groups file
+
 ## 1.4.0
 - Opening the AngelChest after not all items could be stored will now open the regular AngelChest GUI
 - Fixed: Opening the GUI will not show any items after not everything could be stored in the player inventory
