@@ -28,6 +28,7 @@ import org.bukkit.plugin.RegisteredListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -168,6 +169,13 @@ public class PlayerListener implements Listener {
                 Utils.sendDelayedMessage(p, main.messages.MSG_NO_CHEST_IN_PVP, 1);
                 return;
             }
+        }
+
+        if (Utils.spawnChance(main.groupUtils.getSpawnChancePerPlayer(event.getEntity())) != true)
+        {
+            main.debug("Cancelled: unlucky, spawnChance returned false!");
+            Utils.sendDelayedMessage(p, main.messages.MSG_SPAWN_CHANCE_UNSUCCESFULL, 1);
+            return;
         }
 
         if (!CommandUtils.hasEnoughMoney(event.getEntity(), main.getConfig().getDouble(Config.PRICE), main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, "AngelChest spawned")) {

@@ -17,7 +17,7 @@ public class Messages {
 	MSG_ANGELCHEST_CREATED, MSG_ANGELCHEST_DISAPPEARED, MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS, MSG_YOU_GOT_YOUR_INVENTORY_BACK
 	, MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK, HOLOGRAM_TEXT, ANGELCHEST_INVENTORY_NAME, ANGELCHEST_LIST, MSG_ANGELCHEST_LOCATION, MSG_NOT_ENOUGH_MONEY,
 	MSG_PLEASE_SELECT_CHEST, MSG_ANGELCHEST_EXPLODED, MSG_NO_CHEST_IN_PVP, MSG_RETRIEVED, MSG_CONFIRM,
-	MSG_NOT_ENOUGH_MONEY_CHEST, MSG_PAID_OPEN;
+	MSG_NOT_ENOUGH_MONEY_CHEST, MSG_PAID_OPEN, MSG_SPAWN_CHANCE_UNSUCCESFULL;
 
 	public final String GUI_TITLE_MAIN, GUI_TITLE_CHEST, GUI_BACK, GUI_INFO, GUI_TELEPORT, GUI_FETCH, GUI_UNLOCK, GUI_ACCEPT, GUI_DECLINE, GUI_INFO_LORE, GUI_PREVIEW;
 	
@@ -31,6 +31,8 @@ public class Messages {
 	public Messages(Main main) {
 		this.main = Main.getInstance();
 		//this.plugin = plugin;
+
+		MSG_SPAWN_CHANCE_UNSUCCESFULL =  ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-spawn-chance-unsuccesfull", "&cYour Angel forgot to collect your stuff, unlucky!"));
 
 		MSG_PLAYERSONLY = ChatColor.translateAlternateColorCodes('&', main.getConfig()
 				.getString("message-error-players-only", "&cError: This command can only be run by players."));

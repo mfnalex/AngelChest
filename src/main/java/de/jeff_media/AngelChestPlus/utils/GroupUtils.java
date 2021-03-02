@@ -187,11 +187,11 @@ public class GroupUtils {
         while(it.hasNext()) {
             String group = it.next();
             if(!p.hasPermission("angelchest.group."+group)) continue;
-            double pricePerPlayer = groups.get(group).priceTeleport;
-            if(pricePerPlayer==-1) {
+            double spawnChancePlayer = groups.get(group).spawnChance;
+            if(spawnChancePlayer==-1) {
                 continue;
             }
-            bestValueFound = bestValueFound == null ? pricePerPlayer : Math.min(pricePerPlayer, bestValueFound);
+            bestValueFound = bestValueFound == null ? spawnChancePlayer : Math.max(spawnChancePlayer, bestValueFound);
         }
         if(bestValueFound!=null) {
             return bestValueFound;

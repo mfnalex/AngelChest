@@ -15,10 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 public class Utils {
@@ -331,6 +328,14 @@ public class Utils {
     public static boolean isEmpty(ItemStack[] items) {
         if (items == null) return true;
         return (items.length == 0);
+    }
+
+    public static boolean spawnChance(double chance)
+    {
+        if (chance >= 1.0) return true;
+        int chancePercent = (int) (chance*100);
+        int random = new Random().nextInt(100); //Returns value between 0 and 99
+        return random <= chancePercent;
     }
 
     /*

@@ -475,6 +475,7 @@ message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was pu
 message-angelchest-retrieved: "&aAngelChest retrieved!"
 message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 #########################
 ##### Translations ######
@@ -507,6 +508,7 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+#message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Chinese Simplified 简体中文 - Thanks to qsefthuopq for translating! -> https://www.spigotmc.org/members/qsefthuopq.339953/
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天御之箱都已解锁."
@@ -770,6 +772,7 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-angelchest-retrieved: "&aAngelChest yanınıza çağrıldı!"
 #message-confirm: "&6{price}{currency} harcamak üzeresin. Devam etmek için mesaja tıkla."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+#message-spawn-chance-unsuccesfull: "&cMelek eşyalarını toplamayı unuttu, şanssızlık!"
 
 #########################
 #####     Misc      #####
