@@ -78,6 +78,7 @@ public class Config {
     public static final String LOG_ANGELCHESTS = "log-angelchests";
     public static final String LOG_FILENAME = "log-filename";
     public static final String CHEST_FILENAME = "chest-filename";
+    public static final String ANGELCHEST_SPAWN_CHANCE = "angelchest-spawn-chance";
 
 
     // SECRET FEATURES

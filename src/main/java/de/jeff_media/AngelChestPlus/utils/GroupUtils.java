@@ -32,8 +32,9 @@ public class GroupUtils {
             double priceFetch = yaml.getDouble(groupName+".price-fetch",-1);
             double priceTeleport = yaml.getDouble(groupName+".price-teleport",-1);
             double xpPercentage = yaml.getDouble(groupName+".xp-percentage",-2);
+            double angelChestSpawnChance = yaml.getInt(groupName+".angelchest-spawn-chance",-1);
             main.debug("Registering group "+groupName);
-            Group group = new Group(angelchestDuration,chestsPerPlayer,priceSpawn,priceOpen,priceTeleport,priceFetch, xpPercentage);
+            Group group = new Group(angelchestDuration,chestsPerPlayer,priceSpawn,priceOpen,priceTeleport,priceFetch, xpPercentage, angelChestSpawnChance);
             groups.put(groupName, group);
 
         }
@@ -176,6 +177,26 @@ public class GroupUtils {
             return bestValueFound;
         } else {
             return main.getConfig().getDouble(Config.PRICE_TELEPORT);
+        }
+    }
+
+    public double getSpawnChancePerPlayer(Player p) {
+        if(yaml==null) return main.getConfig().getDouble(Config.ANGELCHEST_SPAWN_CHANCE);
+        Iterator<String> it = groups.keySet().iterator();
+        Double bestValueFound = null;
+        while(it.hasNext()) {
+            String group = it.next();
+            if(!p.hasPermission("angelchest.group."+group)) continue;
+            double pricePerPlayer = groups.get(group).priceTeleport;
+            if(pricePerPlayer==-1) {
+                continue;
+            }
+            bestValueFound = bestValueFound == null ? pricePerPlayer : Math.min(pricePerPlayer, bestValueFound);
+        }
+        if(bestValueFound!=null) {
+            return bestValueFound;
+        } else {
+            return main.getConfig().getDouble(Config.ANGELCHEST_SPAWN_CHANCE);
         }
     }
 
