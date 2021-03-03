@@ -15,6 +15,7 @@ import org.bukkit.block.Skull;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -80,7 +81,13 @@ public class AngelChest {
         this.infinite = yaml.getBoolean("infinite",false);
         this.price = yaml.getDouble("price", main.getConfig().getDouble(Config.PRICE));
         this.logfile = yaml.getString("logfile",null);
-        this.deathCause = yaml.getSerializable("deathCause",DeathCause.class);
+
+        if(yaml.isSet("deathCause")) {
+            this.deathCause = yaml.getSerializable("deathCause", DeathCause.class);
+        } else {
+            this.deathCause = new DeathCause(EntityDamageEvent.DamageCause.CUSTOM,"UNKNOWN");
+        }
+
         if(yaml.contains("opened-by")) {
             this.openedBy = yaml.getStringList("opened-by");
         } else {
