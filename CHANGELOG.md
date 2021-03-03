@@ -1,3 +1,6 @@
+## 1.6.1
+- Added option to remove old AngelChest log files after X hours
+
 ## 1.6.0
 - Added option to show the cause of the death (e.g. playername, SKELETON or SUFFOCATION) in the hologram
   - Just add {deathcause} to your hologram.

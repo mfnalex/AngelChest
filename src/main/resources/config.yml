@@ -784,6 +784,12 @@ console-message-on-open: false
 # Note: Taking out single items from the chest is currently NOT logged! That will be added in the future.
 log-angelchests: false
 
+# The amount of hours until log files are removed again. Set to -1 to never remove the log files
+purge-logs-older-than-x-hours: 48
+
+# The amount of hours inbetween each attempt to remove old log files. Set to -1 to only remove on startup
+purge-logs-every-x-hours: 1
+
 # File names for the log files. Available placerholders:
 # {player}  - Player's name
 # {uuid}    - Player's UUID
