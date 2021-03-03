@@ -1,3 +1,6 @@
+## 1.?.?
+- Updated Spanish translation
+
 ## 1.5.0
 - Added "collect-xp" setting
   - When set to "true", AngelChest collects XP (see "xp-percentage" setting)
