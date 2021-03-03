@@ -3,6 +3,7 @@ package de.jeff_media.AngelChestPlus.config;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.config.Config;
 import org.bukkit.ChatColor;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 /**
  * Contains all translatable messages. Loads translations from the config file, or falls back to hardcoded default values

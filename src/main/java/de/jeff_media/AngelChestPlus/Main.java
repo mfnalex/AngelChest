@@ -11,6 +11,7 @@ import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.config.Messages;
 import de.jeff_media.AngelChestPlus.data.AngelChest;
 import de.jeff_media.AngelChestPlus.data.PendingConfirm;
+import de.jeff_media.AngelChestPlus.data.DeathCause;
 import de.jeff_media.AngelChestPlus.enums.EconomyStatus;
 import de.jeff_media.AngelChestPlus.gui.GUIListener;
 import de.jeff_media.AngelChestPlus.gui.GUIManager;
@@ -32,6 +33,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -52,6 +54,7 @@ public class Main extends JavaPlugin {
 	public HashMap<UUID, PendingConfirm> pendingConfirms;
 	public LinkedHashMap<Block, AngelChest> angelChests;
 	public HashMap<UUID,Block> lastPlayerPositions;
+	public HashMap<UUID,Entity> killers;
 	public Material chestMaterial;
 	PluginUpdateChecker updateChecker;
 
@@ -99,6 +102,7 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 
 		instance = this;
+		ConfigurationSerialization.registerClass(DeathCause.class);
 
 		if(isFreeVersionInstalled()) {
 			emergencyMode = true;
@@ -113,6 +117,7 @@ public class Main extends JavaPlugin {
 
 		angelChests = new LinkedHashMap<>();
 		lastPlayerPositions = new HashMap<>();
+		killers = new HashMap<>();
 		logger = new Logger();
 
 		debug("Loading AngelChests from disk");

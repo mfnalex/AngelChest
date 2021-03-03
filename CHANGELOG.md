@@ -1,3 +1,8 @@
+## 1.6.0
+- Added option to show the cause of the death (e.g. playername, SKELETON or SUFFOCATION) in the hologram
+  - Just add {deathcause} to your hologram.
+  - New Hologram default text: `"&a&l[AngelChest]&r\n&b{player}\n&6{time}\n&cKilled by {deathcause}"`
+
 ## 1.5.0
 - Added "collect-xp" setting
   - When set to "true", AngelChest collects XP (see "xp-percentage" setting)
