@@ -4,18 +4,21 @@ import de.jeff_media.AngelChestPlus.*;
 import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.config.Permissions;
 import de.jeff_media.AngelChestPlus.data.AngelChest;
+import de.jeff_media.AngelChestPlus.data.DeathCause;
 import de.jeff_media.AngelChestPlus.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -28,6 +31,7 @@ import org.bukkit.plugin.RegisteredListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -217,7 +221,8 @@ public class PlayerListener implements Listener {
         }
 		// END DETECT ALL DROPS
 
-        AngelChest ac = new AngelChest(p, p.getUniqueId(), angelChestBlock, p.getInventory(), main.logger.getLogFileName(event));
+        DeathCause deathCause = new DeathCause(p.getLastDamageCause());
+        AngelChest ac = new AngelChest(p, p.getUniqueId(), angelChestBlock, p.getInventory(), main.logger.getLogFileName(event),deathCause);
         main.angelChests.put(angelChestBlock, ac);
 
 
@@ -283,6 +288,18 @@ public class PlayerListener implements Listener {
         }
 
         //Utils.reloadAngelChest(ac,plugin);
+    }
+
+    /**
+     * Keeps track of the correlation between killed player and damaging entity
+     * @param event
+     */
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        UUID player = event.getEntity().getUniqueId();
+        Entity killer = event.getDamager();
+        main.killers.put(player,killer);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> main.killers.remove(player),1l);
     }
 
     /**

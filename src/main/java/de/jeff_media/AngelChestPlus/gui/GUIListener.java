@@ -24,7 +24,10 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 public class GUIListener implements @NotNull Listener {
 
@@ -172,7 +175,7 @@ public class GUIListener implements @NotNull Listener {
 
             if(guiHolder.getAngelChest().isEmpty()) {
                 main.logger.logLastItemTaken(player,logfile);
-                for(HumanEntity viewer : guiHolder.getInventory().getViewers()) {
+                for(HumanEntity viewer : event.getClickedInventory().getViewers().toArray(new HumanEntity[0])) {
                     viewer.closeInventory();
                 }
                 Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {

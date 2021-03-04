@@ -72,6 +72,7 @@ public class CommandDebug implements CommandExecutor {
         double priceTeleport = main.groupUtils.getTeleportPricePerPlayer(player);
         double priceFetch = main.groupUtils.getFetchPricePerPlayer(player);
         double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(player);
+        int unlockDuration = main.groupUtils.getUnlockDurationPerPlayer(player);
         commandSender.sendMessage("Max Chests: "+maxChests);
         commandSender.sendMessage("Duration: "+duration);
         commandSender.sendMessage("Price Spawn: "+priceSpawn);
@@ -79,6 +80,7 @@ public class CommandDebug implements CommandExecutor {
         commandSender.sendMessage("Price Teleport: "+priceTeleport);
         commandSender.sendMessage("Price Fetch:" +priceFetch);
         commandSender.sendMessage("XP Percentage: "+xpPercentage);
+        commandSender.sendMessage("Unlock Duration: "+ unlockDuration);
     }
 
     private void info(CommandSender commandSender, String[] args) {
@@ -127,10 +129,25 @@ public class CommandDebug implements CommandExecutor {
 
     @SuppressWarnings("EmptyMethod")
     private void setConfig(CommandSender commandSender, String[] args) {
+        if(args.length>=2) {
+            String node = args[0].toLowerCase();
+            args = shift(args);
+            String value = String.join(" ",args);
+            main.getConfig().set(node,value);
+            commandSender.sendMessage(String.format("Set \"%s\" to \"%s\"",node,value));
+        } else {
+            commandSender.sendMessage("Usage: /acd config set <option> <value>");
+        }
     }
 
     @SuppressWarnings("EmptyMethod")
     private void getConfig(CommandSender commandSender, String[] args) {
+        if(args.length==1) {
+            String node = args[0].toLowerCase();
+            commandSender.sendMessage(String.format("%s = %s",node,main.getConfig().get(node).toString()));
+        } else {
+            commandSender.sendMessage("Usage: /acd config get <option>");
+        }
     }
 
 

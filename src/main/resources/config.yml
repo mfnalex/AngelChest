@@ -96,6 +96,15 @@ command-aliases-acreload:
 # Default is 600 seconds = 10 minutes
 angelchest-duration: 600
 
+# If players have their chests protected (angelchest.protect permission),
+# you can define a duration in seconds to automatically unlock the chests.
+# Use 0 to never automatically unlock chests.
+# You can override this for certain players by setting up groups and
+# giving players the angelchest.group.<groupname> permission. See
+# groups.example.yml for more information.
+# Default is 0 = never
+unlock-duration: 0
+
 # The maximum amount of AngelChests a player may have at the same time.
 # If a player dies again so that they would exceed this number, the
 # first created AngelChest is destroyed and drops its contents.
@@ -378,10 +387,11 @@ event-priority: HIGHEST
 
 # {player} is the player's name.
 # {time} is the amount of time left.
+# {deathcause} is the name of the killing player or the death cause (LAVA, VOID, ...)
 # \n is a new line.
 # The hologram text also allows you to use PlacerholderAPI placeholders
 # Use an empty string to disable the hologram.
-hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&6{time}"
+hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&6{time}\n&cKilled by {deathcause}"
 
 # If you think the hologram is displayed too high, you can change this number.
 # For example -0.5 means the hologram will be moved 0.5 blocks down
@@ -475,6 +485,7 @@ message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was pu
 message-angelchest-retrieved: "&aAngelChest retrieved!"
 message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 
 #########################
 ##### Translations ######
@@ -507,6 +518,7 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+#message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 
 ##### Chinese Simplified 简体中文 - Thanks to qsefthuopq for translating! -> https://www.spigotmc.org/members/qsefthuopq.339953/
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天御之箱都已解锁."
@@ -531,6 +543,7 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+#message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 
 ##### Chinese Traditional 繁體中文 - Thanks to maoding for translating! -> https://www.spigotmc.org/members/maoding.400505/
 #message-all-your-angelchests-were-already-unlocked: "&e所有的小天使箱子已被解鎖"
@@ -555,6 +568,7 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+#message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 
 ##### Dutch - Thanks to Xeyame for translating -> https://github.com/Xeyame
 #message-all-your-angelchests-were-already-unlocked: "&eAl je AngerChests zijn al ontgrendeld."
@@ -579,6 +593,7 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+#message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/ 
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
@@ -603,6 +618,7 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+#message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 
 ##### German
 #message-all-your-angelchests-were-already-unlocked: "&eAlle deine AngelChests waren bereits aufgeschlossen."
@@ -624,9 +640,10 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-already-unlocked: "&cDiese AngelChest war bereits aufgeschlossen."
 #message-too-many-angelchests: "&cDu hattest mehr AngelChests als dein Engel handhaben konnte... deine älteste AngelChest ist explodiert."
 #message-no-angelchest-in-pvp: "&cEin Engel wollte deine Sachen einsammeln, doch die Anwesenheit deines Mörders trieb ihn in die Flucht."
-#message-angelchest-retrieved: "&aAngelChest retrieved!"
-#message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
-#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+#message-angelchest-retrieved: "&aDeine AngelChest wurde herbeigerufen!"
+#message-confirm: "&6Diese Aktion kostet {price}{currency}. Klick auf diese Nachricht zum Bestätigen."
+#message-paid-open: "&8Du hast {price}{currency} ausgegeben um diese AngelChest zu öffnen."
+#message-unlocked-automatically: "&8Deine AngelChest wurde automatisch aufgeschlossen."
 
 ##### Italian
 #message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChests sono già state sbloccate."
@@ -651,6 +668,7 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+#message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 
 ##### Polish
 #message-all-your-angelchests-were-already-unlocked: "&eWszystkie twoje AnielskieSkrzynie zostały już odblokowane."
@@ -675,6 +693,7 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+#message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 
 ##### Portuguese
 #message-all-your-angelchests-were-already-unlocked: "&eTodos os seus AngelChests estavam desbloqueados."
@@ -699,6 +718,7 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-angelchest-retrieved: "&aAngelChest retrieved!"
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+#message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 
 ##### Russian - Thanks to @GEEK for translating
 #message-all-your-angelchests-were-already-unlocked: "&eВсе ваши Ангельские сундуки разблокированы."
@@ -723,6 +743,7 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-angelchest-retrieved: "&aАнгельский сундук извлечён!"
 #message-confirm: "&6Вы собираетесь потратить {price}{currency}. Нажмите на сообщение для продолжения."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+#message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 
 ##### Spanish
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus AngelChest ya se encuentran desbloqueados."
@@ -747,6 +768,7 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-angelchest-retrieved: "&aAngelChest recuperado!"
 #message-confirm: "&6Está a punto de gastar {price}{currency}. Haga clic en este mensaje para continuar."
 #message-paid-open: "&8Gastaste {price}{currency} para abrir un AngelChest."
+#message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 
 ##### Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eTüm AngelChest'lerinin kilidi zaten açık."
@@ -769,7 +791,8 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-no-angelchest-in-pvp: "&cBir melek eşyalarını toplamayı denedi fakat katiliniz tarafından engellendi."
 #message-angelchest-retrieved: "&aAngelChest yanınıza çağrıldı!"
 #message-confirm: "&6{price}{currency} harcamak üzeresin. Devam etmek için mesaja tıkla."
-#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+#message-paid-open: "&8Bir AngelChest açmak için {price}{currency} harcadın."
+#message-unlocked-automatically: "&8AngelChest'inin kilidi otomatik olarak açıldı"
 
 #########################
 #####     Misc      #####
@@ -782,6 +805,12 @@ console-message-on-open: false
 # Also logs what items have been put into the chest and when a chest has been emptied.
 # Note: Taking out single items from the chest is currently NOT logged! That will be added in the future.
 log-angelchests: false
+
+# The amount of hours until log files are removed again. Set to -1 to never remove the log files
+purge-logs-older-than-x-hours: 48
+
+# The amount of hours inbetween each attempt to remove old log files. Set to -1 to only remove on startup
+purge-logs-every-x-hours: 1
 
 # File names for the log files. Available placerholders:
 # {player}  - Player's name

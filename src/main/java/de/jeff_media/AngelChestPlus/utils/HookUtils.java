@@ -130,5 +130,4 @@ public class HookUtils implements Listener {
         if(isNativeSoulbound(item)) return true;
         return false;
     }
-
 }

@@ -11,6 +11,7 @@ import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.config.Messages;
 import de.jeff_media.AngelChestPlus.data.AngelChest;
 import de.jeff_media.AngelChestPlus.data.PendingConfirm;
+import de.jeff_media.AngelChestPlus.data.DeathCause;
 import de.jeff_media.AngelChestPlus.enums.EconomyStatus;
 import de.jeff_media.AngelChestPlus.gui.GUIListener;
 import de.jeff_media.AngelChestPlus.gui.GUIManager;
@@ -32,6 +33,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -52,6 +54,7 @@ public class Main extends JavaPlugin {
 	public HashMap<UUID, PendingConfirm> pendingConfirms;
 	public LinkedHashMap<Block, AngelChest> angelChests;
 	public HashMap<UUID,Block> lastPlayerPositions;
+	public HashMap<UUID,Entity> killers;
 	public Material chestMaterial;
 	PluginUpdateChecker updateChecker;
 
@@ -99,6 +102,7 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 
 		instance = this;
+		ConfigurationSerialization.registerClass(DeathCause.class);
 
 		if(isFreeVersionInstalled()) {
 			emergencyMode = true;
@@ -113,6 +117,7 @@ public class Main extends JavaPlugin {
 
 		angelChests = new LinkedHashMap<>();
 		lastPlayerPositions = new HashMap<>();
+		killers = new HashMap<>();
 		logger = new Logger();
 
 		debug("Loading AngelChests from disk");
@@ -162,24 +167,6 @@ public class Main extends JavaPlugin {
 		if (debug) getLogger().info("Disabled WorldGuard regions: "+disabledRegions.size());
 
 		setEconomyStatus();
-		
-		
-		// Schedule DurationTimer
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-			Iterator<AngelChest> it = angelChests.values().iterator();
-			while(it.hasNext()) {
-				AngelChest ac = it.next();
-				if(ac==null) continue;
-				ac.secondsLeft--;
-				if(ac.secondsLeft<=0 && !ac.infinite) {
-					if(getServer().getPlayer(ac.owner)!=null) {
-						getServer().getPlayer(ac.owner).sendMessage(messages.MSG_ANGELCHEST_DISAPPEARED);
-					}
-					ac.destroy(true);
-					it.remove();
-				}
-			}
-		}, 0, 20);
 		
 	}
 
@@ -272,6 +259,33 @@ public class Main extends JavaPlugin {
 				}
 			}
 		}, 0L, 2 * 20);
+
+		// Schedule DurationTimer
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+			Iterator<AngelChest> it = angelChests.values().iterator();
+			while(it.hasNext()) {
+				AngelChest ac = it.next();
+				if(ac==null) continue;
+				ac.secondsLeft--;
+				if(ac.secondsLeft<=0 && !ac.infinite) {
+					if(getServer().getPlayer(ac.owner)!=null) {
+						Messages.send(getServer().getPlayer(ac.owner),messages.MSG_ANGELCHEST_DISAPPEARED);
+					}
+					ac.destroy(true);
+					it.remove();
+				}
+				if(ac.isProtected && ac.unlockIn!=-1) {
+					ac.unlockIn--;
+					if(ac.unlockIn==-1) {
+						//ac.unlockIn=-1;
+						ac.isProtected=false;
+						if(getServer().getPlayer(ac.owner)!=null) {
+							Messages.send(getServer().getPlayer(ac.owner),messages.MSG_UNLOCKED_AUTOMATICALLY);
+						}
+					}
+				}
+			}
+		}, 0, 20);
 	}
 
 	public void loadAllAngelChestsFromFile() {
@@ -306,6 +320,8 @@ public class Main extends JavaPlugin {
 		//}
 		for (Entry<Block, AngelChest> entry : angelChests.entrySet()) {
 			entry.getValue().saveToFile(true);
+
+			// The following line isn't needed anymore but it doesn't hurt either
 			entry.getValue().hologram.destroy();
 		}
 	}

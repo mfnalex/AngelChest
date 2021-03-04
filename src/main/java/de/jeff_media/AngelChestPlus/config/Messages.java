@@ -3,6 +3,8 @@ package de.jeff_media.AngelChestPlus.config;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.config.Config;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 /**
  * Contains all translatable messages. Loads translations from the config file, or falls back to hardcoded default values
@@ -17,7 +19,7 @@ public class Messages {
 	MSG_ANGELCHEST_CREATED, MSG_ANGELCHEST_DISAPPEARED, MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS, MSG_YOU_GOT_YOUR_INVENTORY_BACK
 	, MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK, HOLOGRAM_TEXT, ANGELCHEST_INVENTORY_NAME, ANGELCHEST_LIST, MSG_ANGELCHEST_LOCATION, MSG_NOT_ENOUGH_MONEY,
 	MSG_PLEASE_SELECT_CHEST, MSG_ANGELCHEST_EXPLODED, MSG_NO_CHEST_IN_PVP, MSG_RETRIEVED, MSG_CONFIRM,
-	MSG_NOT_ENOUGH_MONEY_CHEST, MSG_PAID_OPEN;
+	MSG_NOT_ENOUGH_MONEY_CHEST, MSG_PAID_OPEN, MSG_UNLOCKED_AUTOMATICALLY;
 
 	public final String GUI_TITLE_MAIN, GUI_TITLE_CHEST, GUI_BACK, GUI_INFO, GUI_TELEPORT, GUI_FETCH, GUI_UNLOCK, GUI_ACCEPT, GUI_DECLINE, GUI_INFO_LORE, GUI_PREVIEW;
 	
@@ -98,6 +100,8 @@ public class Messages {
 
 		MSG_PAID_OPEN = getMsg("paid-open","&8You spent {price}{currency} to open your AngelChest.");
 
+		MSG_UNLOCKED_AUTOMATICALLY = getMsg("unlocked-automatically","&8Your AngelChest has been unlocked automatically.");
+
 		GUI_TITLE_CHEST = getGui(Config.GUI_TITLE_CHEST,"§4§l[§c§lAngelChest§4§l] §c#{id} §4| §c{time}");
 
 		GUI_TITLE_MAIN = getGui(Config.GUI_TITLE_MAIN,"§4§l[§c§lAngelChest§4§l]");
@@ -120,5 +124,11 @@ public class Messages {
 
 	private String getGui(String path, String defaultText) {
 		return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(path,defaultText));
+	}
+
+	public static void send(CommandSender receiver, String message) {
+		if(receiver==null) return;
+		if(message.equals("")) return;
+		receiver.sendMessage(message);
 	}
 }
