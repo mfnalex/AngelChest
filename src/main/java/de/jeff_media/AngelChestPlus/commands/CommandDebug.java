@@ -73,6 +73,8 @@ public class CommandDebug implements CommandExecutor {
         double priceFetch = main.groupUtils.getFetchPricePerPlayer(player);
         double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(player);
         int unlockDuration = main.groupUtils.getUnlockDurationPerPlayer(player);
+        double spawnChance = main.groupUtils.getSpawnChancePerPlayer(player);   
+
         commandSender.sendMessage("Max Chests: "+maxChests);
         commandSender.sendMessage("Duration: "+duration);
         commandSender.sendMessage("Price Spawn: "+priceSpawn);
@@ -81,6 +83,8 @@ public class CommandDebug implements CommandExecutor {
         commandSender.sendMessage("Price Fetch:" +priceFetch);
         commandSender.sendMessage("XP Percentage: "+xpPercentage);
         commandSender.sendMessage("Unlock Duration: "+ unlockDuration);
+        commandSender.sendMessage("Spawn Chance: "+spawnChance);
+
     }
 
     private void info(CommandSender commandSender, String[] args) {
