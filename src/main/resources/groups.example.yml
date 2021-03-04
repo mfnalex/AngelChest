@@ -15,7 +15,7 @@
 #   price-teleport: <price for teleporting to the chest>
 #   price-fetch: <price for fetching the chest>
 #   xp-percentage: <percentage of how much XP to keep> (e.g. 1 = 100%, 0.5 = 50%, -1 = vanilla behaviour)
-#   angelchest-spawn-chance: <spawn chance of an angelchest> (e.g 1.0 = 100%, 0.5 = 50%, 0.01 = 1%)
+#   spawn-chance: <spawn chance of an angelchest> (e.g 1.0 = 100%, 0.5 = 50%, 0.01 = 1%)
 #
 # Note: You MUST rename this file to groups.yml if you wish to use it.
 
@@ -28,22 +28,22 @@ admin:
   price-teleport: 0
   price-fetch: 0
   xp-percentage: 1.0
-  angelchest-spawn-chance: 1.0
+  spawn-chance: 1.0
 mod:
   angelchest-duration: 1200
   unlock-duration: 0
   max-allowed-angelchests: 10
   xp-percentage: 0.8
-  angelchest-spawn-chance: 1.0
+  spawn-chance: 1.0
 donor:
   angelchest-duration: 900
   unlock-duration: 450
   max-allowed-angelchests: 7
-  angelchest-spawn-chance: 1.0
+  spawn-chance: 1.0
 noob:
   angelchest-duration: 300
   unlock-duration: 150
-  angelchest-spawn-chance: 1.0
+  spawn-chance: 1.0
 idiot:
   angelchest-duration: 150
   spawn-chance: 1.0

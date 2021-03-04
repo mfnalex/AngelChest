@@ -33,9 +33,9 @@ public class GroupUtils {
             double priceTeleport = yaml.getDouble(groupName+".price-teleport",-1);
             double xpPercentage = yaml.getDouble(groupName+".xp-percentage",-2);
             int unlockDuration = yaml.getInt(groupName+".unlock-duration",-1);
-            double spawnChance = yaml.getInt(groupName+".spawn-chance",1.0);
+            double spawnChance = yaml.getDouble(groupName+".spawn-chance",1.0);
             main.debug("Registering group "+groupName);
-            Group group = new Group(angelchestDuration,chestsPerPlayer,priceSpawn,priceOpen,priceTeleport,priceFetch, xpPercentage, unlockDuration, chestSpawnChance);
+            Group group = new Group(angelchestDuration,chestsPerPlayer,priceSpawn,priceOpen,priceTeleport,priceFetch, xpPercentage, unlockDuration, spawnChance);
 
             groups.put(groupName, group);
 

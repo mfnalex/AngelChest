@@ -65,7 +65,7 @@ public class ConfigUtils {
 		main.saveResource("groups.example.yml", true);
 		createDirectories();
 		main.getConfig().addDefault(Config.XP_PERCENTAGE, -1);
-		main.getConfig().addDefault(Config.ANGELCHEST_SPAWN_CHANCE, 1.0);
+		main.getConfig().addDefault(Config.SPAWN_CHANCE, 1.0);
 		main.getConfig().addDefault(Config.CHECK_FOR_UPDATES, "true");
 		//main.getConfig().addDefault(Config.DETECT_PLAYER_HEAD_DROPS,false);
 		main.getConfig().addDefault(Config.CHECK_FOR_UPDATES_INTERVAL,4);

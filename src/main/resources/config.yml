@@ -269,7 +269,7 @@ price-teleport: 0
 # How much does it cost to teleport your AngelChests to you?
 price-fetch: 0
 
-# Global chance for spawning AngelChest
+# Global chance for spawning an AngelChest
 # 1.0 = 100%, 0.5 = 50%, 0.01 = 1%
 spawn-chance: 1.0
 
