@@ -8,8 +8,9 @@ public class Group {
     public final double priceTeleport;
     public final double priceFetch;
     public final double xpPercentage;
+    public final int unlockDuration;
 
-    public Group(int duration, int maxChests, double priceSpawn, double priceOpen, double priceTeleport, double priceFetch, double xpPercentage) {
+    public Group(int duration, int maxChests, double priceSpawn, double priceOpen, double priceTeleport, double priceFetch, double xpPercentage, int unlockDuration) {
 
         this.duration = duration;
         this.maxChests = maxChests;
@@ -18,5 +19,6 @@ public class Group {
         this.priceTeleport=priceTeleport;
         this.priceFetch=priceFetch;
         this.xpPercentage = xpPercentage;
+        this.unlockDuration=unlockDuration;
     }
 }

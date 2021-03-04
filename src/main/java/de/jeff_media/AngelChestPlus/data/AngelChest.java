@@ -46,6 +46,7 @@ public class AngelChest {
     public Hologram hologram;
     public boolean isProtected;
     public int secondsLeft;
+    public int unlockIn;
     public int experience = 0;
     public int levels = 0;
     public boolean infinite = false;
@@ -79,6 +80,7 @@ public class AngelChest {
         this.isProtected = yaml.getBoolean("isProtected");
         this.secondsLeft = yaml.getInt("secondsLeft");
         this.infinite = yaml.getBoolean("infinite",false);
+        this.unlockIn = yaml.getInt("unlockIn",-1);
         this.price = yaml.getDouble("price", main.getConfig().getDouble(Config.PRICE));
         this.logfile = yaml.getString("logfile",null);
 
@@ -210,6 +212,7 @@ public class AngelChest {
         this.price = main.groupUtils.getSpawnPricePerPlayer(player);
         this.isProtected = main.getServer().getPlayer(owner).hasPermission("angelchest.protect");
         this.secondsLeft = main.groupUtils.getDurationPerPlayer(main.getServer().getPlayer(owner));
+        this.unlockIn = main.groupUtils.getUnlockDurationPerPlayer(main.getServer().getPlayer(owner));
         this.deathCause = deathCause;
         if(secondsLeft<=0) infinite = true;
 
@@ -434,6 +437,7 @@ public class AngelChest {
         yaml.set(ChestYaml.OWNER_UUID, owner.toString());
         yaml.set("isProtected", isProtected);
         yaml.set("secondsLeft", secondsLeft);
+        yaml.set("unlockIn", unlockIn);
         yaml.set("experience", experience);
         yaml.set("levels", levels);
         yaml.set("price",price);

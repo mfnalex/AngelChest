@@ -96,6 +96,15 @@ command-aliases-acreload:
 # Default is 600 seconds = 10 minutes
 angelchest-duration: 600
 
+# If players have their chests protected (angelchest.protect permission),
+# you can define a duration in seconds to automatically unlock the chests.
+# Use 0 to never automatically unlock chests.
+# You can override this for certain players by setting up groups and
+# giving players the angelchest.group.<groupname> permission. See
+# groups.example.yml for more information.
+# Default is 0 = never
+unlock-duration: 0
+
 # The maximum amount of AngelChests a player may have at the same time.
 # If a player dies again so that they would exceed this number, the
 # first created AngelChest is destroyed and drops its contents.
@@ -476,6 +485,7 @@ message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was pu
 message-angelchest-retrieved: "&aAngelChest retrieved!"
 message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
+message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 
 #########################
 ##### Translations ######

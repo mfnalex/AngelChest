@@ -175,9 +175,8 @@ public class GUIListener implements @NotNull Listener {
 
             if(guiHolder.getAngelChest().isEmpty()) {
                 main.logger.logLastItemTaken(player,logfile);
-                List<HumanEntity> viewers = new ArrayList<>(event.getViewers());
-                for(HumanEntity humanEntity : viewers) {
-                    humanEntity.closeInventory();
+                for(HumanEntity viewer : event.getClickedInventory().getViewers().toArray(new HumanEntity[0])) {
+                    viewer.closeInventory();
                 }
                 Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
                     guiHolder.getAngelChest().destroy(false);

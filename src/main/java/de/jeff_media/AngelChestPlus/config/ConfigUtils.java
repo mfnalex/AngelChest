@@ -127,6 +127,7 @@ public class ConfigUtils {
 		main.getConfig().addDefault(Config.COLLECT_XP,"true");
 		main.getConfig().addDefault(Config.PURGE_LOGS_OLDER_THAN_X_HOURS,48);
 		main.getConfig().addDefault(Config.PURGE_LOGS_EVERY_X_HOURS,1);
+		main.getConfig().addDefault(Config.UNLOCK_DURATION,0);
 		main.disabledMaterials = main.getConfig().getStringList(Config.DISABLED_MATERIALS);
 		main.disabledWorlds =  main.getConfig().getStringList(Config.DISABLED_WORLDS);
 		main.disabledRegions =  main.getConfig().getStringList(Config.DISABLED_WORLDGUARD_REGIONS);

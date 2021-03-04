@@ -168,24 +168,6 @@ public class Main extends JavaPlugin {
 
 		setEconomyStatus();
 		
-		
-		// Schedule DurationTimer
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-			Iterator<AngelChest> it = angelChests.values().iterator();
-			while(it.hasNext()) {
-				AngelChest ac = it.next();
-				if(ac==null) continue;
-				ac.secondsLeft--;
-				if(ac.secondsLeft<=0 && !ac.infinite) {
-					if(getServer().getPlayer(ac.owner)!=null) {
-						getServer().getPlayer(ac.owner).sendMessage(messages.MSG_ANGELCHEST_DISAPPEARED);
-					}
-					ac.destroy(true);
-					it.remove();
-				}
-			}
-		}, 0, 20);
-		
 	}
 
 	private void setEconomyStatus() {
@@ -277,6 +259,33 @@ public class Main extends JavaPlugin {
 				}
 			}
 		}, 0L, 2 * 20);
+
+		// Schedule DurationTimer
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+			Iterator<AngelChest> it = angelChests.values().iterator();
+			while(it.hasNext()) {
+				AngelChest ac = it.next();
+				if(ac==null) continue;
+				ac.secondsLeft--;
+				if(ac.secondsLeft<=0 && !ac.infinite) {
+					if(getServer().getPlayer(ac.owner)!=null) {
+						Messages.send(getServer().getPlayer(ac.owner),messages.MSG_ANGELCHEST_DISAPPEARED);
+					}
+					ac.destroy(true);
+					it.remove();
+				}
+				if(ac.isProtected && ac.unlockIn!=-1) {
+					ac.unlockIn--;
+					if(ac.unlockIn==-1) {
+						//ac.unlockIn=-1;
+						ac.isProtected=false;
+						if(getServer().getPlayer(ac.owner)!=null) {
+							Messages.send(getServer().getPlayer(ac.owner),messages.MSG_UNLOCKED_AUTOMATICALLY);
+						}
+					}
+				}
+			}
+		}, 0, 20);
 	}
 
 	public void loadAllAngelChestsFromFile() {
