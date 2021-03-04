@@ -15,6 +15,7 @@ import org.bukkit.block.Skull;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -45,12 +46,14 @@ public class AngelChest {
     public Hologram hologram;
     public boolean isProtected;
     public int secondsLeft;
+    public int unlockIn;
     public int experience = 0;
     public int levels = 0;
     public boolean infinite = false;
     public Main main;
     public String logfile;
     public List<String> openedBy;
+    public DeathCause deathCause;
 
     double price = 0;
 
@@ -77,8 +80,16 @@ public class AngelChest {
         this.isProtected = yaml.getBoolean("isProtected");
         this.secondsLeft = yaml.getInt("secondsLeft");
         this.infinite = yaml.getBoolean("infinite",false);
+        this.unlockIn = yaml.getInt("unlockIn",-1);
         this.price = yaml.getDouble("price", main.getConfig().getDouble(Config.PRICE));
         this.logfile = yaml.getString("logfile",null);
+
+        if(yaml.isSet("deathCause")) {
+            this.deathCause = yaml.getSerializable("deathCause", DeathCause.class);
+        } else {
+            this.deathCause = new DeathCause(EntityDamageEvent.DamageCause.CUSTOM,"UNKNOWN");
+        }
+
         if(yaml.contains("opened-by")) {
             this.openedBy = yaml.getStringList("opened-by");
         } else {
@@ -176,8 +187,8 @@ public class AngelChest {
      * @param block Block where the AngelChest should be created
      * @param logfile Name of the logfile for this AngelChest
      */
-    public AngelChest(Player player, Block block, String logfile) {
-    	this(player, player.getUniqueId(), block, player.getInventory(),logfile);
+    public AngelChest(Player player, Block block, String logfile, DeathCause deathCause) {
+    	this(player, player.getUniqueId(), block, player.getInventory(),logfile,deathCause);
     }
 
     /**
@@ -188,7 +199,7 @@ public class AngelChest {
      * @param playerItems The player's inventory
      * @param logfile Name of the logfile for this AngelChest
      */
-    public AngelChest(Player player, UUID owner, Block block, PlayerInventory playerItems, String logfile) {
+    public AngelChest(Player player, UUID owner, Block block, PlayerInventory playerItems, String logfile, DeathCause deathCause) {
 
         main = Main.getInstance();
         main.debug("Creating AngelChest natively for player "+player.getName());
@@ -201,6 +212,8 @@ public class AngelChest {
         this.price = main.groupUtils.getSpawnPricePerPlayer(player);
         this.isProtected = main.getServer().getPlayer(owner).hasPermission("angelchest.protect");
         this.secondsLeft = main.groupUtils.getDurationPerPlayer(main.getServer().getPlayer(owner));
+        this.unlockIn = main.groupUtils.getUnlockDurationPerPlayer(main.getServer().getPlayer(owner));
+        this.deathCause = deathCause;
         if(secondsLeft<=0) infinite = true;
 
         String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", main.getServer().getPlayer(owner).getName());
@@ -424,15 +437,18 @@ public class AngelChest {
         yaml.set(ChestYaml.OWNER_UUID, owner.toString());
         yaml.set("isProtected", isProtected);
         yaml.set("secondsLeft", secondsLeft);
+        yaml.set("unlockIn", unlockIn);
         yaml.set("experience", experience);
         yaml.set("levels", levels);
         yaml.set("price",price);
+        yaml.set("deathCause",deathCause);
         yaml.set("opened-by",openedBy);
         yaml.set("logfile",logfile);
         yaml.set("storageInv", storageInv);
         yaml.set("armorInv", armorInv);
         yaml.set("extraInv", extraInv);
         yaml.set("overflowInv", overflowInv.getContents());
+
 
         if(removeChest) {
             // Duplicate Start
@@ -466,10 +482,12 @@ public class AngelChest {
         if(CommandUtils.hasEnoughMoney(player,price,main.messages.MSG_NOT_ENOUGH_MONEY,"AngelChest opened")) {
             openedBy.add(player.getUniqueId().toString());
             if(main.economyStatus == EconomyStatus.ACTIVE) {
-                player.sendMessage(main.messages.MSG_PAID_OPEN
-                        .replaceAll("\\{price}", String.valueOf(price))
-                        .replaceAll("\\{currency}", CommandUtils.getCurrency(price,main))
-                );
+                if(price>0) {
+                    player.sendMessage(main.messages.MSG_PAID_OPEN
+                            .replaceAll("\\{price}", String.valueOf(price))
+                            .replaceAll("\\{currency}", CommandUtils.getCurrency(price, main))
+                    );
+                }
             }
             return true;
         }
@@ -543,7 +561,8 @@ public class AngelChest {
      */
 	public void createHologram(Block block, UUID uuid) {
         String hologramText = main.messages.HOLOGRAM_TEXT
-                .replaceAll("\\{player}",main.getServer().getOfflinePlayer(uuid).getName());
+                .replaceAll("\\{player}",main.getServer().getOfflinePlayer(uuid).getName())
+                .replaceAll("\\{deathcause}",deathCause.getText());
 		hologram = new Hologram(block, hologramText, this);
 	}
 

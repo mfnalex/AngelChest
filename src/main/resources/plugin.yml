@@ -44,10 +44,6 @@ permissions:
     description: "Players with this permission have their AngelChests protected from other players. They can unlock their chests using /acunlock"
   angelchest.protect.ignore:
     description: "Players with this permission can open other player's protected AngelChests"
-  angelchest.xp:
-    description: "The amount of dropped experience will also be stored in the AngelChest"
-  angelchest.xp.levels:
-    description: "The full experience level of the player will be stored in the AngelChest"
   angelchest.tp:
     description: "Allows players to teleport to their AngelChests"
   angelchest.fetch:

@@ -32,16 +32,18 @@ public class GroupUtils {
             double priceFetch = yaml.getDouble(groupName+".price-fetch",-1);
             double priceTeleport = yaml.getDouble(groupName+".price-teleport",-1);
             double xpPercentage = yaml.getDouble(groupName+".xp-percentage",-2);
-            double angelChestSpawnChance = yaml.getInt(groupName+".angelchest-spawn-chance",-1);
+            int unlockDuration = yaml.getInt(groupName+".unlock-duration",-1);
+            double spawnChance = yaml.getInt(groupName+".spawn-chance",1.0);
             main.debug("Registering group "+groupName);
-            Group group = new Group(angelchestDuration,chestsPerPlayer,priceSpawn,priceOpen,priceTeleport,priceFetch, xpPercentage, angelChestSpawnChance);
+            Group group = new Group(angelchestDuration,chestsPerPlayer,priceSpawn,priceOpen,priceTeleport,priceFetch, xpPercentage, unlockDuration, chestSpawnChance);
+
             groups.put(groupName, group);
 
-        }
+                  }
     }
 
     public double getXPPercentagePerPlayer(Player p) {
-        if(yaml==null) return main.getConfig().getInt(Config.XP_PERCENTAGE);
+        if(yaml==null) return main.getConfig().getDouble(Config.XP_PERCENTAGE);
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
         while(it.hasNext()) {
@@ -77,6 +79,27 @@ public class GroupUtils {
             return bestValueFound;
         } else {
             return main.getConfig().getInt(Config.ANGELCHEST_DURATION);
+        }
+    }
+
+    public int getUnlockDurationPerPlayer(Player p) {
+        if(yaml==null) return main.getConfig().getInt(Config.UNLOCK_DURATION);
+        Iterator<String> it = groups.keySet().iterator();
+        Integer bestValueFound = null;
+        while(it.hasNext()) {
+            String group = it.next();
+            if(!p.hasPermission("angelchest.group."+group)) continue;
+            int valuePerPlayer = groups.get(group).unlockDuration;
+            if(valuePerPlayer==-1) {
+                continue;
+            }
+            if(valuePerPlayer==0) return 0; // Important! This is different from the other methods!
+            bestValueFound = bestValueFound == null ? valuePerPlayer : Math.max(valuePerPlayer, bestValueFound);
+        }
+        if(bestValueFound!=null) {
+            return bestValueFound;
+        } else {
+            return main.getConfig().getInt(Config.UNLOCK_DURATION);
         }
     }
 
@@ -181,7 +204,7 @@ public class GroupUtils {
     }
 
     public double getSpawnChancePerPlayer(Player p) {
-        if(yaml==null) return main.getConfig().getDouble(Config.ANGELCHEST_SPAWN_CHANCE);
+        if(yaml==null) return main.getConfig().getDouble(Config.SPAWN_CHANCE);
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
         while(it.hasNext()) {
@@ -196,7 +219,7 @@ public class GroupUtils {
         if(bestValueFound!=null) {
             return bestValueFound;
         } else {
-            return main.getConfig().getDouble(Config.ANGELCHEST_SPAWN_CHANCE);
+            return main.getConfig().getDouble(Config.SPAWN_CHANCE);
         }
     }
 

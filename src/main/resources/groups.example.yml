@@ -8,6 +8,7 @@
 #
 # Available options:
 #   angelchest-duration: <duration in seconds>
+#   unlock-duration: <duration in seconds> (0 = never unlock automatically)
 #   max-allowed-angelchests: <number of chests>
 #   price-spawn: <price for spawning the chest>
 #   price-open: <price for opening the chest>
@@ -20,6 +21,7 @@
 
 admin:
   angelchest-duration: 1500
+  unlock-duration: 0
   max-allowed-angelchests: 999
   price-spawn: 0
   price-open: 0
@@ -29,16 +31,19 @@ admin:
   angelchest-spawn-chance: 1.0
 mod:
   angelchest-duration: 1200
+  unlock-duration: 0
   max-allowed-angelchests: 10
   xp-percentage: 0.8
   angelchest-spawn-chance: 1.0
 donor:
   angelchest-duration: 900
+  unlock-duration: 450
   max-allowed-angelchests: 7
   angelchest-spawn-chance: 1.0
 noob:
   angelchest-duration: 300
+  unlock-duration: 150
   angelchest-spawn-chance: 1.0
 idiot:
   angelchest-duration: 150
-  angelchest-spawn-chance: 1.0
+  spawn-chance: 1.0

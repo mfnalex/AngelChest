@@ -2,6 +2,7 @@ package de.jeff_media.AngelChestPlus;
 
 import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.data.AngelChest;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -20,6 +21,9 @@ public class Logger {
 
     final Main main;
     final String path;
+    double removeOlderThanXHours;
+    double removeEveryXHours;
+    long maxOffsetBeforeRemoval;
 
     public Logger() {
         main=Main.getInstance();
@@ -27,6 +31,43 @@ public class Logger {
         if(!Files.isDirectory(new File(path).toPath())) {
             main.getLogger().info("Created log folder at "+path);
             new File(path).mkdirs();
+        }
+        removeOlderThanXHours = main.getConfig().getDouble(Config.PURGE_LOGS_OLDER_THAN_X_HOURS);
+        removeEveryXHours = main.getConfig().getDouble(Config.PURGE_LOGS_EVERY_X_HOURS);
+
+        long ticksBetweenChecks = (long) (removeEveryXHours*60*60*20);
+        maxOffsetBeforeRemoval = (long) (removeOlderThanXHours * 60 * 60 * 1000);
+        if(removeEveryXHours!=-1) {
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(main,() -> purgeLogs(),ticksBetweenChecks,ticksBetweenChecks);
+        }
+        purgeLogs();
+    }
+
+    public void purgeLogs() {
+        if(removeOlderThanXHours ==-1) return;
+        main.debug("Checking for old log files...");
+        long now = new Date().getTime();
+        File logFolder = new File(path);
+        int purged = 0;
+        int purgedSuccessfully = 0;
+        for(File logfile : logFolder.listFiles()) {
+            long diff = now - logfile.lastModified();
+            if(diff > maxOffsetBeforeRemoval) {
+                main.debug("Deleting log file "+logfile.getName()+" because it is older than "+ removeOlderThanXHours +" hours...");
+                if(!logfile.delete()) {
+                    main.getLogger().warning("Could not delete log file "+logfile.getName());
+                } else {
+                    purgedSuccessfully++;
+                }
+                purged++;
+            }
+        }
+        if(purged>0) {
+            if (purged == purgedSuccessfully) {
+                main.getLogger().info("Removed " + purged + " old log files.");
+            } else {
+                main.getLogger().warning("Attempted to remove "+purged+" old log files, but could only remove "+purgedSuccessfully);
+            }
         }
     }
 
