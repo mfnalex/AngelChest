@@ -9,6 +9,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+
+import java.io.File;
 
 /**
  * Listens to block related events, e.g. messing with the actual Block where an AngelChest is located
@@ -19,6 +22,23 @@ public class BlockListener implements Listener {
 
     public BlockListener() {
         this.main = Main.getInstance();
+    }
+
+    /**
+     * Called when a bucket is emptied inside the block of an AngelChest
+     * @param event PlayerBucketEmptyEvent
+     */
+    @EventHandler
+    public void onBucketEmpty(PlayerBucketEmptyEvent event) {
+        if(main.isAngelChest(event.getBlock())) {
+            event.setCancelled(true);
+        }
+
+        // The client thinks the player was removed anyway, so it will show up as a "regular" head.
+        // Gotta reload the AngelChest to fix this
+        AngelChest ac = main.getAngelChest(event.getBlock());
+        File file = ac.saveToFile(true);
+        main.angelChests.put(event.getBlock(),new AngelChest(file));
     }
 
     /**

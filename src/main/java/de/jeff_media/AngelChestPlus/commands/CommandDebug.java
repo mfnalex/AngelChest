@@ -127,10 +127,25 @@ public class CommandDebug implements CommandExecutor {
 
     @SuppressWarnings("EmptyMethod")
     private void setConfig(CommandSender commandSender, String[] args) {
+        if(args.length>=2) {
+            String node = args[0].toLowerCase();
+            args = shift(args);
+            String value = String.join(" ",args);
+            main.getConfig().set(node,value);
+            commandSender.sendMessage(String.format("Set \"%s\" to \"%s\"",node,value));
+        } else {
+            commandSender.sendMessage("Usage: /acd config set <option> <value>");
+        }
     }
 
     @SuppressWarnings("EmptyMethod")
     private void getConfig(CommandSender commandSender, String[] args) {
+        if(args.length==1) {
+            String node = args[0].toLowerCase();
+            commandSender.sendMessage(String.format("%s = %s",node,main.getConfig().get(node).toString()));
+        } else {
+            commandSender.sendMessage("Usage: /acd config get <option>");
+        }
     }
 
 

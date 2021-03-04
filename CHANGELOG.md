@@ -1,3 +1,11 @@
+## 1.6.3
+- Fixed player heads being shown as "regular" head to the player after he tried to break the head using a water bucket
+- Fixed exception when taking last item from AngelChest through the GUI
+- Fixed AngelChest not despawning when taking last item from AngelChest through the GUI
+
+## 1.6.2
+- Fixed players being able to duplicate player heads (if you set this as your chest material) by putting water "inside" the head block
+
 ## 1.6.1
 - Added option to remove old AngelChest log files after X hours
 

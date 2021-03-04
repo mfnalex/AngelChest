@@ -311,6 +311,8 @@ public class Main extends JavaPlugin {
 		//}
 		for (Entry<Block, AngelChest> entry : angelChests.entrySet()) {
 			entry.getValue().saveToFile(true);
+
+			// The following line isn't needed anymore but it doesn't hurt either
 			entry.getValue().hologram.destroy();
 		}
 	}
