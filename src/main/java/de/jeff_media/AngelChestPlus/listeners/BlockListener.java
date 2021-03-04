@@ -32,11 +32,14 @@ public class BlockListener implements Listener {
     public void onBucketEmpty(PlayerBucketEmptyEvent event) {
         if(main.isAngelChest(event.getBlock())) {
             event.setCancelled(true);
+        } else {
+            return;
         }
 
         // The client thinks the player was removed anyway, so it will show up as a "regular" head.
         // Gotta reload the AngelChest to fix this
         AngelChest ac = main.getAngelChest(event.getBlock());
+        if(ac==null) return;
         File file = ac.saveToFile(true);
         main.angelChests.put(event.getBlock(),new AngelChest(file));
     }

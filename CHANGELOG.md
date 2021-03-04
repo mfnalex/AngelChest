@@ -1,3 +1,6 @@
+## 1.7.2
+- Fixed exception when using buckets
+
 ## 1.7.1
 - Added new message to translations
 - Updated German and Turkish translations
