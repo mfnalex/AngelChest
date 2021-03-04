@@ -1,3 +1,7 @@
+## 1.7.1
+- Added new message to translations
+- Updated German and Turkish translations
+
 ## 1.7.0
 - Added option to automatically unlock chests after a specific amount of time.
   - Default is 0 = never automatically unlock
