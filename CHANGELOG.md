@@ -1,3 +1,8 @@
+## 1.8.0
+- Added option to show LOCKED/LOCKED for X minutes/UNLOCKED status to the chest hologram (placeholder: "{protected}")
+- Fixed: setting unlock-duration to 0 automatically unlocked the chest instea of never unlocking it
+- Improved French translation
+
 ## 1.7.2
 - Fixed exception when using buckets
 

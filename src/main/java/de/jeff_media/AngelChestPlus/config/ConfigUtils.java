@@ -10,6 +10,7 @@ import de.jeff_media.AngelChestPlus.hooks.WorldGuardHandler;
 import de.jeff_media.AngelChestPlus.utils.GroupUtils;
 import de.jeff_media.AngelChestPlus.utils.HookUtils;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 
 /**
  * Creates the default config and directories, handles reloading and adds the default values
@@ -59,83 +60,87 @@ public class ConfigUtils {
 	static void createConfig() {
 
 		Main main = Main.getInstance();
+		FileConfiguration conf = main.getConfig();
 		ConfigUpdater.migrateFromFreeVersion();
 
 		main.saveDefaultConfig();
 		main.saveResource("groups.example.yml", true);
 		createDirectories();
 
-		main.getConfig().addDefault(Config.CHECK_FOR_UPDATES, "true");
-		//main.getConfig().addDefault(Config.DETECT_PLAYER_HEAD_DROPS,false);
-		main.getConfig().addDefault(Config.CHECK_FOR_UPDATES_INTERVAL,4);
-		main.getConfig().addDefault(Config.ALLOW_ANGELCHEST_IN_PVP,true);
-		main.getConfig().addDefault(Config.TOTEM_OF_UNDYING_WORKS_EVERYWHERE,true);
-		main.getConfig().addDefault(Config.SHOW_LOCATION, true);
-		main.getConfig().addDefault(Config.ANGELCHEST_DURATION, 600);
-		main.getConfig().addDefault(Config.MAX_ALLOWED_ANGELCHESTS,5);
-		main.getConfig().addDefault(Config.HOLOGRAM_OFFSET,0.0);
-		main.getConfig().addDefault(Config.HOLOGRAM_OFFSET_PER_LINE,0.25d);
-		main.getConfig().addDefault(Config.MAX_RADIUS, 10);
-		main.getConfig().addDefault(Config.MATERIAL, "CHEST");
-		main.getConfig().addDefault("player-head","{PLAYER}");
-		main.getConfig().addDefault("preserve-xp", true);
-		main.getConfig().addDefault(Config.REMOVE_CURSE_OF_VANISHING,true);
-		main.getConfig().addDefault(Config.REMOVE_CURSE_OF_BINDING,true);
-		main.getConfig().addDefault(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD,false);
-		main.getConfig().addDefault(Config.DISABLE_WORLDGUARD_INTEGRATION,false);
-		//main.getConfig().addDefault("ignore-keep-inventory",false);
-		main.getConfig().addDefault(Config.EVENT_PRIORITY,"HIGHEST");
-		main.getConfig().addDefault(Config.HEAD_USES_PLAYER_NAME,true);
-		main.getConfig().addDefault(Config.AUTO_RESPAWN,false);
-		main.getConfig().addDefault(Config.AUTO_RESPAWN_DELAY,10);
-		main.getConfig().addDefault("play-can-skip-auto-respawn",false);
-		main.getConfig().addDefault(Config.USE_SLIMEFUN,true);
-		main.getConfig().addDefault(Config.CHECK_GENERIC_SOULBOUND,true);
-		main.getConfig().addDefault(Config.SHOW_LINKS_ON_SEPARATE_LINE,false);
-		main.getConfig().addDefault(Config.CONFIRM,true);
-		main.getConfig().addDefault(Config.PRICE,0.0d);
-		main.getConfig().addDefault(Config.PRICE_OPEN,0.0d);
-		main.getConfig().addDefault(Config.VOID_DETECTION,true);
-		main.getConfig().addDefault(Config.REFUND_EXPIRED_CHESTS,true);
-		main.getConfig().addDefault(Config.PRICE_TELEPORT,0.0d);
-		main.getConfig().addDefault(Config.PRICE_FETCH,0.0d);
-		main.getConfig().addDefault(Config.CONSOLE_MESSAGE_ON_OPEN,true);
-		main.getConfig().addDefault(Config.ASYNC_CHUNK_LOADING, true);
-		main.getConfig().addDefault(Config.GUI_BUTTON_BACK, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY0Zjc3OWE4ZTNmZmEyMzExNDNmYTY5Yjk2YjE0ZWUzNWMxNmQ2NjllMTljNzVmZDFhN2RhNGJmMzA2YyJ9fX0=");
-		main.getConfig().addDefault(Config.GUI_BUTTON_TELEPORT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGZlYjM5ZDcxZWY4ZTZhNDI2NDY1OTMzOTNhNTc1M2NlMjZhMWJlZTI3YTBjYThhMzJjYjYzN2IxZmZhZSJ9fX0=");
-		main.getConfig().addDefault(Config.GUI_BUTTON_FETCH, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGZlYjM5ZDcxZWY4ZTZhNDI2NDY1OTMzOTNhNTc1M2NlMjZhMWJlZTI3YTBjYThhMzJjYjYzN2IxZmZhZSJ9fX0=");
-		main.getConfig().addDefault(Config.GUI_BUTTON_UNLOCK, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGFkOTQzZDA2MzM0N2Y5NWFiOWU5ZmE3NTc5MmRhODRlYzY2NWViZDIyYjA1MGJkYmE1MTlmZjdkYTYxZGIifX19");
-		main.getConfig().addDefault(Config.GUI_BUTTON_CONFIRM_INFO, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjZlNTIyZDkxODI1MjE0OWU2ZWRlMmVkZjNmZTBmMmMyYzU4ZmVlNmFjMTFjYjg4YzYxNzIwNzIxOGFlNDU5NSJ9fX0=");
-		main.getConfig().addDefault(Config.GUI_BUTTON_CONFIRM_ACCEPT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2UyYTUzMGY0MjcyNmZhN2EzMWVmYWI4ZTQzZGFkZWUxODg5MzdjZjgyNGFmODhlYThlNGM5M2E0OWM1NzI5NCJ9fX0=");
-		main.getConfig().addDefault(Config.GUI_BUTTON_CONFIRM_DECLINE, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTljZGI5YWYzOGNmNDFkYWE1M2JjOGNkYTc2NjVjNTA5NjMyZDE0ZTY3OGYwZjE5ZjI2M2Y0NmU1NDFkOGEzMCJ9fX0=");
-		main.getConfig().addDefault(Config.ALIAS_ACGUI, Arrays.asList("ac","angelchest","angelchests","angelchestgui"));
-		main.getConfig().addDefault(Config.ALIAS_ACLIST, Arrays.asList("acinfo","angelchestinfo","angelchestlist"));
-		main.getConfig().addDefault(Config.ALIAS_ACFETCH, Arrays.asList("acretrieve","angelchestretrieve","angelchestfetch"));
-		main.getConfig().addDefault(Config.ALIAS_ACTP, Arrays.asList("acteleport","angelchesttp","angelchestteleport"));
-		main.getConfig().addDefault(Config.ALIAS_ACUNLOCK, Arrays.asList("angelchestunlock","unlockchest","unlock"));
-		main.getConfig().addDefault(Config.ALIAS_ACRELOAD, Collections.singletonList("angelchestreload"));
-		main.getConfig().addDefault(Config.SHOW_GUI_AFTER_DEATH, "false");
-		main.getConfig().addDefault(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH, true);
-		main.getConfig().addDefault("tp-distance",2);
-		main.getConfig().addDefault("full-xp", false); // Currently not in config because there is no way to get players XP
-		main.getConfig().addDefault(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP,false);
-		main.getConfig().addDefault(Config.ALLOW_CHEST_IN_LAVA,true);
-		main.getConfig().addDefault(Config.ALLOW_CHEST_IN_VOID,true);
-		main.getConfig().addDefault(Config.LOG_ANGELCHESTS, false);
-		main.getConfig().addDefault(Config.LOG_FILENAME,"{player}_{world}_{date}.log");
-		main.getConfig().addDefault(Config.CHEST_FILENAME,"{player}_{world}_{x}_{y}_{z}.yml");
-		main.getConfig().addDefault(Config.COLLECT_XP,"true");
-		main.getConfig().addDefault(Config.PURGE_LOGS_OLDER_THAN_X_HOURS,48);
-		main.getConfig().addDefault(Config.PURGE_LOGS_EVERY_X_HOURS,1);
-		main.getConfig().addDefault(Config.UNLOCK_DURATION,0);
-		main.disabledMaterials = main.getConfig().getStringList(Config.DISABLED_MATERIALS);
-		main.disabledWorlds =  main.getConfig().getStringList(Config.DISABLED_WORLDS);
-		main.disabledRegions =  main.getConfig().getStringList(Config.DISABLED_WORLDGUARD_REGIONS);
+		conf.addDefault(Config.CHECK_FOR_UPDATES, "true");
+		//conf.addDefault(Config.DETECT_PLAYER_HEAD_DROPS,false);
+		conf.addDefault(Config.CHECK_FOR_UPDATES_INTERVAL,4);
+		conf.addDefault(Config.ALLOW_ANGELCHEST_IN_PVP,true);
+		conf.addDefault(Config.TOTEM_OF_UNDYING_WORKS_EVERYWHERE,true);
+		conf.addDefault(Config.SHOW_LOCATION, true);
+		conf.addDefault(Config.ANGELCHEST_DURATION, 600);
+		conf.addDefault(Config.MAX_ALLOWED_ANGELCHESTS,5);
+		conf.addDefault(Config.HOLOGRAM_OFFSET,0.0);
+		conf.addDefault(Config.HOLOGRAM_OFFSET_PER_LINE,0.25d);
+		conf.addDefault(Config.MAX_RADIUS, 10);
+		conf.addDefault(Config.MATERIAL, "CHEST");
+		conf.addDefault("player-head","{PLAYER}");
+		conf.addDefault("preserve-xp", true);
+		conf.addDefault(Config.REMOVE_CURSE_OF_VANISHING,true);
+		conf.addDefault(Config.REMOVE_CURSE_OF_BINDING,true);
+		conf.addDefault(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD,false);
+		conf.addDefault(Config.DISABLE_WORLDGUARD_INTEGRATION,false);
+		//conf.addDefault("ignore-keep-inventory",false);
+		conf.addDefault(Config.EVENT_PRIORITY,"HIGHEST");
+		conf.addDefault(Config.HEAD_USES_PLAYER_NAME,true);
+		conf.addDefault(Config.AUTO_RESPAWN,false);
+		conf.addDefault(Config.AUTO_RESPAWN_DELAY,10);
+		conf.addDefault("play-can-skip-auto-respawn",false);
+		conf.addDefault(Config.USE_SLIMEFUN,true);
+		conf.addDefault(Config.CHECK_GENERIC_SOULBOUND,true);
+		conf.addDefault(Config.SHOW_LINKS_ON_SEPARATE_LINE,false);
+		conf.addDefault(Config.CONFIRM,true);
+		conf.addDefault(Config.PRICE,0.0d);
+		conf.addDefault(Config.PRICE_OPEN,0.0d);
+		conf.addDefault(Config.VOID_DETECTION,true);
+		conf.addDefault(Config.REFUND_EXPIRED_CHESTS,true);
+		conf.addDefault(Config.PRICE_TELEPORT,0.0d);
+		conf.addDefault(Config.PRICE_FETCH,0.0d);
+		conf.addDefault(Config.CONSOLE_MESSAGE_ON_OPEN,true);
+		conf.addDefault(Config.ASYNC_CHUNK_LOADING, true);
+		conf.addDefault(Config.GUI_BUTTON_BACK, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY0Zjc3OWE4ZTNmZmEyMzExNDNmYTY5Yjk2YjE0ZWUzNWMxNmQ2NjllMTljNzVmZDFhN2RhNGJmMzA2YyJ9fX0=");
+		conf.addDefault(Config.GUI_BUTTON_TELEPORT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGZlYjM5ZDcxZWY4ZTZhNDI2NDY1OTMzOTNhNTc1M2NlMjZhMWJlZTI3YTBjYThhMzJjYjYzN2IxZmZhZSJ9fX0=");
+		conf.addDefault(Config.GUI_BUTTON_FETCH, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGZlYjM5ZDcxZWY4ZTZhNDI2NDY1OTMzOTNhNTc1M2NlMjZhMWJlZTI3YTBjYThhMzJjYjYzN2IxZmZhZSJ9fX0=");
+		conf.addDefault(Config.GUI_BUTTON_UNLOCK, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGFkOTQzZDA2MzM0N2Y5NWFiOWU5ZmE3NTc5MmRhODRlYzY2NWViZDIyYjA1MGJkYmE1MTlmZjdkYTYxZGIifX19");
+		conf.addDefault(Config.GUI_BUTTON_CONFIRM_INFO, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjZlNTIyZDkxODI1MjE0OWU2ZWRlMmVkZjNmZTBmMmMyYzU4ZmVlNmFjMTFjYjg4YzYxNzIwNzIxOGFlNDU5NSJ9fX0=");
+		conf.addDefault(Config.GUI_BUTTON_CONFIRM_ACCEPT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2UyYTUzMGY0MjcyNmZhN2EzMWVmYWI4ZTQzZGFkZWUxODg5MzdjZjgyNGFmODhlYThlNGM5M2E0OWM1NzI5NCJ9fX0=");
+		conf.addDefault(Config.GUI_BUTTON_CONFIRM_DECLINE, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTljZGI5YWYzOGNmNDFkYWE1M2JjOGNkYTc2NjVjNTA5NjMyZDE0ZTY3OGYwZjE5ZjI2M2Y0NmU1NDFkOGEzMCJ9fX0=");
+		conf.addDefault(Config.ALIAS_ACGUI, Arrays.asList("ac","angelchest","angelchests","angelchestgui"));
+		conf.addDefault(Config.ALIAS_ACLIST, Arrays.asList("acinfo","angelchestinfo","angelchestlist"));
+		conf.addDefault(Config.ALIAS_ACFETCH, Arrays.asList("acretrieve","angelchestretrieve","angelchestfetch"));
+		conf.addDefault(Config.ALIAS_ACTP, Arrays.asList("acteleport","angelchesttp","angelchestteleport"));
+		conf.addDefault(Config.ALIAS_ACUNLOCK, Arrays.asList("angelchestunlock","unlockchest","unlock"));
+		conf.addDefault(Config.ALIAS_ACRELOAD, Collections.singletonList("angelchestreload"));
+		conf.addDefault(Config.SHOW_GUI_AFTER_DEATH, "false");
+		conf.addDefault(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH, true);
+		conf.addDefault("tp-distance",2);
+		conf.addDefault("full-xp", false); // Currently not in config because there is no way to get players XP
+		conf.addDefault(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP,false);
+		conf.addDefault(Config.ALLOW_CHEST_IN_LAVA,true);
+		conf.addDefault(Config.ALLOW_CHEST_IN_VOID,true);
+		conf.addDefault(Config.LOG_ANGELCHESTS, false);
+		conf.addDefault(Config.LOG_FILENAME,"{player}_{world}_{date}.log");
+		conf.addDefault(Config.CHEST_FILENAME,"{player}_{world}_{x}_{y}_{z}.yml");
+		conf.addDefault(Config.COLLECT_XP,"true");
+		conf.addDefault(Config.PURGE_LOGS_OLDER_THAN_X_HOURS,48);
+		conf.addDefault(Config.PURGE_LOGS_EVERY_X_HOURS,1);
+		conf.addDefault(Config.UNLOCK_DURATION,0);
+		conf.addDefault(Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT,"&cProtected for {time}");
+		conf.addDefault(Config.HOLOGRAM_PROTECTED_TEXT,"&cProtected");
+		conf.addDefault(Config.HOLOGRAM_UNPROTECTED_TEXT,"&aUnprotected");
+		main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
+		main.disabledWorlds =  conf.getStringList(Config.DISABLED_WORLDS);
+		main.disabledRegions =  conf.getStringList(Config.DISABLED_WORLDGUARD_REGIONS);
 		
-		List<String> dontSpawnOnTmp = main.getConfig().getStringList(Config.DONT_SPAWN_ON);
+		List<String> dontSpawnOnTmp = conf.getStringList(Config.DONT_SPAWN_ON);
 		main.dontSpawnOn = new ArrayList<>();
 		
-		List<String> onlySpawnInTmp =  main.getConfig().getStringList(Config.ONLY_SPAWN_IN);
+		List<String> onlySpawnInTmp =  conf.getStringList(Config.ONLY_SPAWN_IN);
 		main.onlySpawnIn = new ArrayList<>();
 		
 		for(String string : dontSpawnOnTmp) {
@@ -169,13 +174,13 @@ public class ConfigUtils {
 		}
 
 		
-		if(Material.getMaterial(main.getConfig().getString(Config.MATERIAL).toUpperCase())==null) {
-			main.getLogger().warning("Invalid Material: "+main.getConfig().getString(Config.MATERIAL)+" - falling back to CHEST");
+		if(Material.getMaterial(conf.getString(Config.MATERIAL).toUpperCase())==null) {
+			main.getLogger().warning("Invalid Material: "+conf.getString(Config.MATERIAL)+" - falling back to CHEST");
 			main.chestMaterial = Material.CHEST;
 		} else {
-			main.chestMaterial = Material.getMaterial(main.getConfig().getString(Config.MATERIAL).toUpperCase());
+			main.chestMaterial = Material.getMaterial(conf.getString(Config.MATERIAL).toUpperCase());
 			if(!main.chestMaterial.isBlock()) {
-				main.getLogger().warning("Not a block: "+main.getConfig().getString(Config.MATERIAL)+" - falling back to CHEST");
+				main.getLogger().warning("Not a block: "+conf.getString(Config.MATERIAL)+" - falling back to CHEST");
 				main.chestMaterial = Material.CHEST;
 			}
 		}

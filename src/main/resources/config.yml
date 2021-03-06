@@ -388,10 +388,23 @@ event-priority: HIGHEST
 # {player} is the player's name.
 # {time} is the amount of time left.
 # {deathcause} is the name of the killing player or the death cause (LAVA, VOID, ...)
+# {protected} shows the protection status. You can define its value below.
 # \n is a new line.
 # The hologram text also allows you to use PlacerholderAPI placeholders
 # Use an empty string to disable the hologram.
-hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&6{time}\n&cKilled by {deathcause}"
+hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&6{time}\n&cKilled by {deathcause}\n{protected}"
+
+# This text is added to the hologram where you have {protected} in your "hologram-text"
+# and if your AngelChest is protected and auto unlocking is disabled.
+hologram-protected-text: "&cProtected"
+
+# This text is added to the hologram where you have {protected} in your "hologram-text"
+# and if your AngelChest is protected and auto unlocking is enabled.
+hologram-protected-countdown-text: "&cProtected for {time}"
+
+# This text is added to the hologram where you have {protected} in your "hologram-text"
+# and if your AngelChest is unprotected.
+hologram-unprotected-text: "&aUnprotected"
 
 # If you think the hologram is displayed too high, you can change this number.
 # For example -0.5 means the hologram will be moved 0.5 blocks down
@@ -597,28 +610,28 @@ message-unlocked-automatically: "&8Your AngelChest has been unlocked automatical
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/ 
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
-#message-angelchest-created: "&aUn Ange a recupérer votre stuff et l'as mis dans un coffre à l'endroit de votre mort."
-#message-angelchest-disappeared: "&cVous avez été trop lent , votre stuff a disparu."
+#message-angelchest-created: "&aUn Ange a recupéré votre stuff et l'a mis dans un coffre à l'endroit de votre mort."
+#message-angelchest-disappeared: "&cVous avez été trop lent, votre stuff a disparu."
 #message-error-players-only: "&c Erreur : Cette commande ne peut être effectué que par des joueurs."
-#message-inventory-was-empty: "&e L'Ange n'as rien trouver dans votre inventaire au moment de votre mort."
+#message-inventory-was-empty: "&e L'Ange n'a rien trouvé dans votre inventaire au moment de votre mort."
 #message-not-allowed-to-break-other-angelchests: "&c L'Ange vous interdit de casser l' AngeCoffre d'un autre joueur."
-#message-not-allowed-to-open-other-angelchests: "&cL'Ange vous interdit d'ouvrir l' AngeCoffre d'un autre joueur."
+#message-not-allowed-to-open-other-angelchests: "&cL'Ange vous interdit d'ouvrir l'AngeCoffre d'un autre joueur."
 #message-unlocked-more-angelchests: "&aVous avez débloqué %d AngeCoffres."
 #message-unlocked-one-angelchest: "&aVous avez debloqué votre AngeCoffre."
-#message-you-dont-have-any-angelchests: "&eVous n'avez pas de AngeCoffre."
-#message-you-got-part-of-your-inventory-back: "&eVous avez récuperer une partie de votre inventaire , mais il en reste dans l' AngeCoffre."
-#message-you-got-your-inventory-back: "&aVous avez récuperer votre inventaire."
-#message-angelchest-location: "&eLocations of your AngelChests:"
-#message-not-enough-money: "&cYou don't have enough money."
-#message-not-enough-money2: "&cAn Angel tried to collect your stuff but you didn't have enough money."
-#message-please-select-chest: "&7Please specify which AngelChest you would like to select."
-#message-already-unlocked: "&cThis AngelChest is already unlocked."
-#message-too-many-angelchests: "&cYou had more AngelChests than your Angel could handle... Your oldest AngelChest has exploded."
-#message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was put to flight by the presence of your killer."
-#message-angelchest-retrieved: "&aAngelChest retrieved!"
-#message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
-#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
-#message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
+#message-you-dont-have-any-angelchests: "&eVous n'avez pas d'AngeCoffre."
+#message-you-got-part-of-your-inventory-back: "&eVous avez récupéré une partie de votre inventaire, mais il en reste dans l'AngeCoffre."
+#message-you-got-your-inventory-back: "&aVous avez récupéré votre inventaire."
+#message-angelchest-location: "&eEmplacement de vos AngeCoffre:"
+#message-not-enough-money: "&cTu n'as pas assez d'argent."
+#message-not-enough-money2: "&cUn ange a essayé de collecter ton stuff mais tu n'as pas assez d'argent pour lui..."
+#message-please-select-chest: "&7Tu dois spécifié quel AngeCoffre tu souhaites séléctionner."
+#message-already-unlocked: "&cCet AngeCoffre est déjà déverrouillé."
+#message-too-many-angelchests: "&cTu as atteint la limite d'AngeCoffre... Ton AngeCoffre le plus vieux à explosé."
+#message-no-angelchest-in-pvp: "&cUn ange a essayé de collecter ton stuff mais à pris peur face à ton assassin..."
+#message-angelchest-retrieved: "&aAngeCoffre récupéré !"
+#message-confirm: "&6Tu es sur le point de dépenser {price}{currency}. Clique sur ce message pour continuer."
+#message-paid-open: "&8Tu as dépensé {price}{currency} pour ouvrir cet AngeCoffre."
+#message-unlocked-automatically: "&8Tu AngeCoffre à été déverrouillé automatiquement."
 
 ##### German
 #message-all-your-angelchests-were-already-unlocked: "&eAlle deine AngelChests waren bereits aufgeschlossen."

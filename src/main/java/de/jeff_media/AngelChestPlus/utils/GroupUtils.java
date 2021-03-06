@@ -32,7 +32,7 @@ public class GroupUtils {
             double priceFetch = yaml.getDouble(groupName+".price-fetch",-1);
             double priceTeleport = yaml.getDouble(groupName+".price-teleport",-1);
             double xpPercentage = yaml.getDouble(groupName+".xp-percentage",-2);
-            int unlockDuration = yaml.getInt(groupName+".unlock-duration",-1);
+            int unlockDuration = yaml.getInt(groupName+".unlock-duration",-2);
             main.debug("Registering group "+groupName);
             Group group = new Group(angelchestDuration,chestsPerPlayer,priceSpawn,priceOpen,priceTeleport,priceFetch, xpPercentage, unlockDuration);
             groups.put(groupName, group);
@@ -81,17 +81,20 @@ public class GroupUtils {
     }
 
     public int getUnlockDurationPerPlayer(Player p) {
-        if(yaml==null) return main.getConfig().getInt(Config.UNLOCK_DURATION);
+        if(yaml==null) {
+            if(main.getConfig().getInt(Config.UNLOCK_DURATION)==0) return -1;
+            return main.getConfig().getInt(Config.UNLOCK_DURATION);
+        }
         Iterator<String> it = groups.keySet().iterator();
         Integer bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
             if(!p.hasPermission("angelchest.group."+group)) continue;
             int valuePerPlayer = groups.get(group).unlockDuration;
-            if(valuePerPlayer==-1) {
+            if(valuePerPlayer==-2) {
                 continue;
             }
-            if(valuePerPlayer==0) return 0; // Important! This is different from the other methods!
+            if(valuePerPlayer==-1) return -1; // Important! This is different from the other methods!
             bestValueFound = bestValueFound == null ? valuePerPlayer : Math.max(valuePerPlayer, bestValueFound);
         }
         if(bestValueFound!=null) {
