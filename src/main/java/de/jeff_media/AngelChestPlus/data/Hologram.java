@@ -104,6 +104,7 @@ public class Hologram {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
+            line = line.replaceAll("\\{protected}", getProtectedText(chest));
             boolean customNameVisible = true;
             if (line.equals("")) {
                 line = " ";
