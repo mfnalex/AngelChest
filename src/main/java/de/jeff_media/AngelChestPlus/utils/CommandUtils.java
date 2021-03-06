@@ -392,6 +392,28 @@ public class CommandUtils {
         }
     }
 
+    // TODO: Make this generic to getTimeLeft(AngelChest)
+    public static String getUnlockTimeLeft(AngelChest angelChest) {
+        int remaining = angelChest.unlockIn;
+        int sec = remaining % 60;
+        int min = (remaining / 60) % 60;
+        int hour = (remaining / 60) / 60;
+
+        String time;
+        if (hour > 0) {
+            time = String.format("%02d:%02d:%02d",
+                    hour, min, sec
+            );
+
+        } else {
+            time = String.format("%02d:%02d",
+                    min, sec
+            );
+        }
+
+        return time;
+    }
+
     public static String getTimeLeft(AngelChest angelChest) {
         int remaining = angelChest.secondsLeft;
         int sec = remaining % 60;

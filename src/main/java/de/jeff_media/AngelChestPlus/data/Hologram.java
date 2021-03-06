@@ -10,6 +10,7 @@ import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.utils.CommandUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
@@ -30,6 +31,16 @@ public class Hologram {
     private final Main main;
     boolean usePapi = false;
 
+    private String getProtectedText(AngelChest chest) {
+        if(!chest.isProtected) {
+            return ChatColor.translateAlternateColorCodes('&',main.getConfig().getString(Config.HOLOGRAM_UNPROTECTED_TEXT));
+        }
+        if(chest.unlockIn!=-1) {
+            return ChatColor.translateAlternateColorCodes('&',main.getConfig().getString(Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT).replaceAll("\\{time}",CommandUtils.getUnlockTimeLeft(chest)));
+        }
+        return ChatColor.translateAlternateColorCodes('&',main.getConfig().getString(Config.HOLOGRAM_PROTECTED_TEXT));
+    }
+
     /**
      * Updates the hologram. Called once per second
      * @param chest AngelChest this hologram belongs to
@@ -44,7 +55,8 @@ public class Hologram {
 			String line = scanner.nextLine();
             if (armorStand != null) {
 
-                line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
+                line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest))
+                .replaceAll("\\{protected}",getProtectedText(chest));
                 if (line.equals("")) {
                     armorStand.setCustomName(" ");
                     armorStand.setCustomNameVisible(false);
@@ -92,6 +104,7 @@ public class Hologram {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
+            line = line.replaceAll("\\{protected}", getProtectedText(chest));
             boolean customNameVisible = true;
             if (line.equals("")) {
                 line = " ";

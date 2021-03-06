@@ -82,6 +82,8 @@ public class Config {
     public static final String COLLECT_XP = "collect-xp";
     public static final String PURGE_LOGS_OLDER_THAN_X_HOURS = "purge-logs-older-than-x-hours";
     public static final String PURGE_LOGS_EVERY_X_HOURS = "purge-logs-every-x-hours";
+    public static final String HOLOGRAM_PROTECTED_COUNTDOWN_TEXT = "hologram-protected-countdown-text";
+    public static final String HOLOGRAM_PROTECTED_TEXT = "hologram-protected-text";
+    public static final String HOLOGRAM_UNPROTECTED_TEXT = "hologram-unprotected-text";
     public static final String SPAWN_CHANCE = "spawn-chance";
-
 }
