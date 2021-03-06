@@ -44,7 +44,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class Main extends JavaPlugin {
 
-	private static final String SPIGOT_RESOURCE_ID = "60383";
+	private static final String SPIGOT_RESOURCE_ID = "88214";
 	private static final int BSTATS_ID = 3194;
 	private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/angelchestplus/latest-version.txt";
 	private static final String UPDATECHECKER_LINK_DOWNLOAD = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID;
