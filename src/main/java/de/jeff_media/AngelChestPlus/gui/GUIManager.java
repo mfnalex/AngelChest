@@ -39,7 +39,7 @@ public class GUIManager {
             if(guiHolder.getSpecialAngelChest() != null && guiHolder.getSpecialAngelChest().equals(angelChest)) {
                 main.debug("This AngelChest "+angelChest.toString()+" is also in use by "+player.getName()+", updating...");
                 //Bukkit.getScheduler().scheduleSyncDelayedTask(main, () ->
-                        showPreviewGUI(player,angelChest, guiHolder.isReadOnlyPreview())
+                        showPreviewGUI(player,angelChest, guiHolder.isReadOnlyPreview(),false)
                 //,1L)
                         ;
             }
@@ -156,7 +156,7 @@ public class GUIManager {
         }, 20L);
     }
 
-    public void showPreviewGUI(Player player, AngelChest angelChest, boolean isPreview) {
+    public void showPreviewGUI(Player player, AngelChest angelChest, boolean isPreview, boolean firstOpened) {
         GUIHolder holder = new GUIHolder(player,GUIContext.PREVIEW_MENU);
         Inventory inventory = Bukkit.createInventory(holder,54,main.messages.GUI_TITLE_MAIN);
         holder.setInventory(inventory);
@@ -171,6 +171,12 @@ public class GUIManager {
         }
         if(angelChest.experience > 0 || angelChest.levels > 0) {
             inventory.setItem(GUI.SLOT_PREVIEW_XP,getButton(Material.EXPERIENCE_BOTTLE,"§6"+ XPUtils.xpToString(angelChest.experience),null));
+        }
+
+        if(!isPreview && firstOpened && !player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
+            if(Bukkit.getPlayer(angelChest.owner)!=null) {
+                Bukkit.getPlayer(angelChest.owner).sendMessage(main.messages.MSG_OPENED.replaceAll("\\{player}",player.getName()));
+            }
         }
 
         player.openInventory(inventory);

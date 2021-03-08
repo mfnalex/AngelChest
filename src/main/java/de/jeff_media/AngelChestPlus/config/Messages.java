@@ -19,7 +19,7 @@ public class Messages {
 	MSG_ANGELCHEST_CREATED, MSG_ANGELCHEST_DISAPPEARED, MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS, MSG_YOU_GOT_YOUR_INVENTORY_BACK
 	, MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK, HOLOGRAM_TEXT, ANGELCHEST_INVENTORY_NAME, ANGELCHEST_LIST, MSG_ANGELCHEST_LOCATION, MSG_NOT_ENOUGH_MONEY,
 	MSG_PLEASE_SELECT_CHEST, MSG_ANGELCHEST_EXPLODED, MSG_NO_CHEST_IN_PVP, MSG_RETRIEVED, MSG_CONFIRM,
-	MSG_NOT_ENOUGH_MONEY_CHEST, MSG_PAID_OPEN, MSG_UNLOCKED_AUTOMATICALLY;
+	MSG_NOT_ENOUGH_MONEY_CHEST, MSG_PAID_OPEN, MSG_UNLOCKED_AUTOMATICALLY, MSG_OPENED, MSG_EMPTIED;
 
 	public final String GUI_TITLE_MAIN, GUI_TITLE_CHEST, GUI_BACK, GUI_INFO, GUI_TELEPORT, GUI_FETCH, GUI_UNLOCK, GUI_ACCEPT, GUI_DECLINE, GUI_INFO_LORE, GUI_PREVIEW;
 	
@@ -69,6 +69,10 @@ public class Messages {
 		MSG_NOT_ENOUGH_MONEY = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-not-enough-money","&cYou don't have enough money."));
 
 		MSG_NOT_ENOUGH_MONEY_CHEST = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-not-enough-money2","&cAn Angel tried to collect your stuff but you didn't have enough money."));
+
+		MSG_OPENED = ChatColor.translateAlternateColorCodes('&',main.getConfig().getString("message-angelchest-opened","&6{player} has opened your AngelChest."));
+
+		MSG_EMPTIED = ChatColor.translateAlternateColorCodes('&',main.getConfig().getString("message-angelchest-emptied","&c{player} has emptied your AngelChest."));
 		
 		HOLOGRAM_TEXT = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.HOLOGRAM_TEXT,"&a&l[AngelChest]&r\n&b{player}\n&6{time}\n&cKilled by {deathcause}"));
 		

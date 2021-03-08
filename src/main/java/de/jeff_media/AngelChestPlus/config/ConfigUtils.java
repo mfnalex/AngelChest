@@ -135,6 +135,8 @@ public class ConfigUtils {
 		conf.addDefault(Config.HOLOGRAM_UNPROTECTED_TEXT,"&aUnprotected");
 		conf.addDefault(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED,false);
 		conf.addDefault(Config.MATERIAL_UNLOCKED,"ENDER_CHEST");
+		conf.addDefault(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST, true);
+		conf.addDefault(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST, true);
 		main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
 		main.disabledWorlds =  conf.getStringList(Config.DISABLED_WORLDS);
 		main.disabledRegions =  conf.getStringList(Config.DISABLED_WORLDGUARD_REGIONS);

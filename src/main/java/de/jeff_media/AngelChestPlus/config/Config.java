@@ -87,5 +87,7 @@ public class Config {
     public static final String HOLOGRAM_UNPROTECTED_TEXT = "hologram-unprotected-text";
     public static final String USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED = "use-different-material-when-unlocked";
     public static final String MATERIAL_UNLOCKED = "material-unlocked";
+    public static final String SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST = "show-message-when-other-player-opens-angelchest";
+    public static final String SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST = "show-message-when-other-player-empties-angelchest";
 
 }

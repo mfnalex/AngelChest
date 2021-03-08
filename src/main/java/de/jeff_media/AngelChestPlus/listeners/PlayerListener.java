@@ -430,20 +430,22 @@ public class PlayerListener implements Listener {
             return;
         }
 
+        boolean firstOpened = !angelChest.openedBy.contains(p.getUniqueId().toString());
+
         if(!angelChest.hasPaidForOpening(p)) {
             return;
         }
 
         if (p.isSneaking()) {
-            main.guiManager.showPreviewGUI(p, angelChest, false);
+            main.guiManager.showPreviewGUI(p, angelChest, false, firstOpened);
         } else {
-            openAngelChest(p, block, angelChest);
+            openAngelChest(p, block, angelChest, firstOpened);
         }
 
         event.setCancelled(true);
     }
 
-    void openAngelChest(Player p, Block block, AngelChest angelChest) {
+    void openAngelChest(Player p, Block block, AngelChest angelChest, boolean firstOpened) {
 
         Utils.applyXp(p, angelChest);
 
@@ -453,6 +455,14 @@ public class PlayerListener implements Listener {
         succesfullyStoredEverything = Utils.tryToMergeInventories(main, angelChest, p.getInventory());
         if (succesfullyStoredEverything) {
             p.sendMessage(main.messages.MSG_YOU_GOT_YOUR_INVENTORY_BACK);
+
+            // This is another player's chest
+            if(!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
+                if(Bukkit.getPlayer(angelChest.owner)!=null) {
+                    Bukkit.getPlayer(angelChest.owner).sendMessage(main.messages.MSG_EMPTIED.replaceAll("\\{player}",p.getName()));
+                }
+            }
+
             angelChest.destroy(false);
             angelChest.remove();
             if (main.getConfig().getBoolean(Config.CONSOLE_MESSAGE_ON_OPEN)) {
@@ -460,8 +470,19 @@ public class PlayerListener implements Listener {
             }
         } else {
             p.sendMessage(main.messages.MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK);
+
+            // This is another player's chest
+            if(!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
+                if(Bukkit.getPlayer(angelChest.owner)!=null) {
+                    if(firstOpened) {
+                        Bukkit.getPlayer(angelChest.owner).sendMessage(main.messages.MSG_OPENED.replaceAll("\\{player}", p.getName()));
+                        firstOpened = false;
+                    }
+                }
+            }
+
             //p.openInventory(angelChest.overflowInv);
-            main.guiManager.showPreviewGUI(p, angelChest, false);
+            main.guiManager.showPreviewGUI(p, angelChest, false, firstOpened);
             main.getLogger().info(p.getName() + " opened the AngelChest of " + Bukkit.getOfflinePlayer(angelChest.owner).getName() + " at " + angelChest.block.getLocation());
         }
     }
@@ -515,10 +536,14 @@ public class PlayerListener implements Listener {
             event.setCancelled(true);
             return;
         }
-        if(event.getPlayer().isSneaking()) {
-            main.guiManager.showPreviewGUI(event.getPlayer(), as.get(), false);
+        boolean firstOpened = !as.get().openedBy.contains(event.getPlayer().getUniqueId().toString());
+
+        if(!as.get().hasPaidForOpening(event.getPlayer())) {
+            return;
+        }        if(event.getPlayer().isSneaking()) {
+            main.guiManager.showPreviewGUI(event.getPlayer(), as.get(), false, firstOpened);
         } else {
-            openAngelChest(event.getPlayer(), as.get().block, as.get());
+            openAngelChest(event.getPlayer(), as.get().block, as.get(), firstOpened);
         }
     }
 
