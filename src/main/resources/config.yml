@@ -836,8 +836,8 @@ message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-confirm: "&6{price}{currency} harcamak üzeresin. Devam etmek için mesaja tıkla."
 #message-paid-open: "&8Bir AngelChest açmak için {price}{currency} harcadın."
 #message-unlocked-automatically: "&8AngelChest'inin kilidi otomatik olarak açıldı"
-#message-angelchest-opened: "&6{player} has opened your AngelChest."
-#message-angelchest-emptied: "&c{player} has emptied your AngelChest."
+#message-angelchest-opened: "&6{player} adlı oyuncu senin AngelChest'ini açtı."
+#message-angelchest-emptied: "&c{player} adlı oyuncu senin AngelChest'ini boşalttı."
 
 #########################
 #####     Misc      #####
