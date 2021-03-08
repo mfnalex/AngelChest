@@ -343,6 +343,7 @@ public class CommandUtils {
         }
 
         ac.unlock();
+        ac.scheduleBlockChange();
         sendTo.sendMessage(main.messages.MSG_UNLOCKED_ONE_ANGELCHEST);
     }
 
@@ -448,6 +449,7 @@ public class CommandUtils {
         for (AngelChest angelChest : angelChestsFromThisPlayer) {
             if (angelChest.isProtected) {
                 angelChest.unlock();
+                angelChest.scheduleBlockChange();
                 chestsUnlocked++;
             }
         }

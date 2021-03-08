@@ -1,3 +1,14 @@
+## 1.10.1
+- Added option to automatically add a prefix to all chat messages
+
+## 1.10.0
+- Added two new messages to show to AngelChest owners when other people open or empty their chests
+  - Can be disabled in the config
+- Fixed players not having to pay to open an AngelChest when doing so by clicking the hologram
+
+## 1.9.0
+- Added option to use different materials for protected and unprotected/unlocked chests
+
 ## 1.8.1
 - Fixed UpdateChecker pointing to the outdated free version
 

@@ -57,6 +57,33 @@ public class AngelChest {
 
     double price = 0;
 
+    public void scheduleBlockChange() {
+        scheduleBlockChange(true);
+    }
+
+    public void scheduleBlockChange(boolean firstTry) {
+        if(firstTry) {
+            main.debug("scheduleBlockChange: "+block.toString());
+        }
+        if(main.chestMaterial == main.chestMaterialUnlocked) {
+            main.debug("scheduleBlockChange abort: matching materials");
+            return;
+        }
+        int x = block.getX();
+        int z = block.getZ();
+
+        if(!block.getWorld().isChunkLoaded(x >> 4, z >> 4)) {
+            if(firstTry) {
+                main.debug("Tried to change block for chest in unloaded chunk because of unlocking, will do so once chunk is loaded.");
+            }
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> scheduleBlockChange(false),1l);
+        } else {
+            main.debug("Changed block for chest because of unlocking.");
+            createChest(block,owner,false);
+        }
+
+    }
+
     /**
      * Loads an AngelChest from a YAML file
      * @param file File containing the AngelChest data
@@ -328,23 +355,24 @@ public class AngelChest {
         return "AngelChest{block=" + block.toString() + ",owner=" + owner.toString() + "}";
     }
 
+    public void createChest(Block block, UUID uuid) {
+        createChest(block,uuid,true);
+    }
     /**
      * Sets the block at the location to the correct material
      * @param block The block where the AngelChest is spawned
      * @param uuid The owner's UUID (to correctly set player heads)
      */
-    public void createChest(Block block, UUID uuid) {
-        main.debug("Attempting to create chest with material " + main.chestMaterial.name() + " at "+block.getLocation().toString());
-        block.setType(main.chestMaterial);
+    public void createChest(Block block, UUID uuid, boolean createHologram) {
+        main.debug("Attempting to create chest with material " + main.getChestMaterial(this).name() + " at "+block.getLocation().toString());
+        block.setType(main.getChestMaterial(this));
 
         // Material is PLAYER_HEAD, so either use the custom texture, or the player skin's texture
-        if(main.chestMaterial.name().equalsIgnoreCase("PLAYER_HEAD")) {
+        if(main.getChestMaterial(this).name().equalsIgnoreCase("PLAYER_HEAD")) {
             if(Material.getMaterial("PLAYER_HEAD") == null) {
                 main.getLogger().warning("Using a custom PLAYER_HEAD as chest material is NOT SUPPORTED in versions < 1.13. Consider using another chest material.");
             } else {
                 Skull state = (Skull) block.getState();
-                /*ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
-                String skullName = main.getConfig().getString("custom-head");*/
 
                 // Use the player skin's texture
                 if(main.getConfig().getBoolean(Config.HEAD_USES_PLAYER_NAME)) {
@@ -360,13 +388,7 @@ public class AngelChest {
                     GameProfile profile = new GameProfile(UUID.randomUUID(), "");
                     profile.getProperties().put("textures", new Property("textures", base64));
 
-                    //Field profileField = null;
                     try {
-                        // Not needed anymore but please don't remove
-                        /*profileField = state.getClass().getDeclaredField("profile");
-                        profileField.setAccessible(true);
-                        profileField.set(state, profile);*/
-
                         // Some reflection because Spigot cannot place ItemStacks in the world, which ne need to keep the SkullMeta
 
                         Object nmsWorld = block.getWorld().getClass().getMethod("getHandle").invoke(block.getWorld());
@@ -389,13 +411,11 @@ public class AngelChest {
                     }
 
                 }
-
-                //state.set);
-                //state.update();
-
             }
         }
-        createHologram(block, uuid);
+        if(createHologram) {
+            createHologram(block, uuid);
+        }
     }
 
     /**

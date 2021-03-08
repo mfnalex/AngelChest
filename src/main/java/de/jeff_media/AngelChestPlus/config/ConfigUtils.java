@@ -134,6 +134,11 @@ public class ConfigUtils {
 		conf.addDefault(Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT,"&cProtected for {time}");
 		conf.addDefault(Config.HOLOGRAM_PROTECTED_TEXT,"&cProtected");
 		conf.addDefault(Config.HOLOGRAM_UNPROTECTED_TEXT,"&aUnprotected");
+		conf.addDefault(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED,false);
+		conf.addDefault(Config.MATERIAL_UNLOCKED,"ENDER_CHEST");
+		conf.addDefault(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST, true);
+		conf.addDefault(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST, true);
+		conf.addDefault(Config.PREFIX_MESSAGES, true);
 		main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
 		main.disabledWorlds =  conf.getStringList(Config.DISABLED_WORLDS);
 		main.disabledRegions =  conf.getStringList(Config.DISABLED_WORLDGUARD_REGIONS);
@@ -183,6 +188,17 @@ public class ConfigUtils {
 			if(!main.chestMaterial.isBlock()) {
 				main.getLogger().warning("Not a block: "+conf.getString(Config.MATERIAL)+" - falling back to CHEST");
 				main.chestMaterial = Material.CHEST;
+			}
+		}
+
+		if(Material.getMaterial(conf.getString(Config.MATERIAL_UNLOCKED).toUpperCase())==null) {
+			main.getLogger().warning("Invalid Material: "+conf.getString(Config.MATERIAL_UNLOCKED)+" - falling back to ENDER_CHEST");
+			main.chestMaterialUnlocked = Material.ENDER_CHEST;
+		} else {
+			main.chestMaterialUnlocked = Material.getMaterial(conf.getString(Config.MATERIAL_UNLOCKED).toUpperCase());
+			if(!main.chestMaterialUnlocked.isBlock()) {
+				main.getLogger().warning("Not a block: "+conf.getString(Config.MATERIAL_UNLOCKED)+" - falling back to ENDER_CHEST");
+				main.chestMaterialUnlocked = Material.ENDER_CHEST;
 			}
 		}
 

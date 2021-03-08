@@ -85,5 +85,11 @@ public class Config {
     public static final String HOLOGRAM_PROTECTED_COUNTDOWN_TEXT = "hologram-protected-countdown-text";
     public static final String HOLOGRAM_PROTECTED_TEXT = "hologram-protected-text";
     public static final String HOLOGRAM_UNPROTECTED_TEXT = "hologram-unprotected-text";
+    public static final String USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED = "use-different-material-when-unlocked";
+    public static final String MATERIAL_UNLOCKED = "material-unlocked";
+    public static final String SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST = "show-message-when-other-player-opens-angelchest";
+    public static final String SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST = "show-message-when-other-player-empties-angelchest";
+    public static final String PREFIX_MESSAGES = "add-prefix";
+    public static final String PREFIX = "prefix";
     public static final String SPAWN_CHANCE = "spawn-chance";
 }

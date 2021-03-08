@@ -178,6 +178,11 @@ public class GUIListener implements @NotNull Listener {
                 for(HumanEntity viewer : event.getClickedInventory().getViewers().toArray(new HumanEntity[0])) {
                     viewer.closeInventory();
                 }
+                if(!player.getUniqueId().equals(guiHolder.getAngelChest().owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
+                    if(Bukkit.getPlayer(guiHolder.getAngelChest().owner)!=null) {
+                        Bukkit.getPlayer(guiHolder.getAngelChest().owner).sendMessage(main.messages.MSG_EMPTIED.replaceAll("\\{player}",player.getName()));
+                    }
+                }
                 Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
                     guiHolder.getAngelChest().destroy(false);
                     guiHolder.getAngelChest().remove();
@@ -312,7 +317,7 @@ public class GUIListener implements @NotNull Listener {
 
             case GUI.SLOT_CHEST_PREVIEW:
                 if (player.hasPermission(Permissions.ALLOW_PREVIEW)) {
-                    main.guiManager.showPreviewGUI(player, holder.getAngelChest(), true);
+                    main.guiManager.showPreviewGUI(player, holder.getAngelChest(), true, false);
                 }
 
             default:

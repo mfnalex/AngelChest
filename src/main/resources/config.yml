@@ -146,6 +146,10 @@ max-radius: 10
 # is located.
 show-location: true
 
+# Whether to show a message to the AngelChest owner when other players open or empty their chest
+show-message-when-other-player-opens-angelchest: true
+show-message-when-other-player-empties-angelchest: true
+
 # When true, dead players will automatically get the AngelChest GUI opened after
 # they respawn if they have at least one AngelChest.
 # Possible values:
@@ -163,10 +167,12 @@ only-show-gui-after-death-if-player-can-tp-or-fetch: true
 # When using PLAYER_HEAD, you can use the head of the died
 # player or any other custom skull (see option below)
 # Tip: SOUL_CAMPFIRE looks awesome (1.16+ only)
-# Tip: Try to avoid using blocks that break when the block below
-# is updated, like TORCH or SOUL_LANTERN because that could be
-# exploited by using pistons below that block
 material: CHEST
+
+# You can choose another Material to use for unlocked
+# AngelChests.
+use-different-material-when-unlocked: false
+material-unlocked: ENDER_CHEST
 
 # When set to true and material is set to PLAYER_HEAD,
 # AngelChest will use the player's head for the chest.
@@ -477,6 +483,10 @@ link-teleport: "&6[TP]&r"
 # an AngelChest will be sent on a separate line
 show-links-on-separate-line: false
 
+# Whether AngelChest should automatically prefix all messages
+add-prefix: true
+prefix: "&b[&aAngelChest&b] &r"
+
 #########################
 #####   Messages   ######
 #########################
@@ -504,6 +514,8 @@ message-angelchest-retrieved: "&aAngelChest retrieved!"
 message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
+message-angelchest-opened: "&6{player} has opened your AngelChest."
+message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 #########################
@@ -538,6 +550,8 @@ message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, u
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
+#message-angelchest-opened: "&6{player} has opened your AngelChest."
+#message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Chinese Simplified 简体中文 - Thanks to qsefthuopq for translating! -> https://www.spigotmc.org/members/qsefthuopq.339953/
@@ -564,6 +578,8 @@ message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, u
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
+#message-angelchest-opened: "&6{player} has opened your AngelChest."
+#message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Chinese Traditional 繁體中文 - Thanks to maoding for translating! -> https://www.spigotmc.org/members/maoding.400505/
@@ -590,6 +606,8 @@ message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, u
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
+#message-angelchest-opened: "&6{player} has opened your AngelChest."
+#message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Dutch - Thanks to Xeyame for translating -> https://github.com/Xeyame
@@ -616,6 +634,8 @@ message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, u
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
+#message-angelchest-opened: "&6{player} has opened your AngelChest."
+#message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/ 
@@ -642,6 +662,8 @@ message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, u
 #message-confirm: "&6Tu es sur le point de dépenser {price}{currency}. Clique sur ce message pour continuer."
 #message-paid-open: "&8Tu as dépensé {price}{currency} pour ouvrir cet AngeCoffre."
 #message-unlocked-automatically: "&8Tu AngeCoffre à été déverrouillé automatiquement."
+#message-angelchest-opened: "&6{player} has opened your AngelChest."
+#message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### German
@@ -668,6 +690,8 @@ message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, u
 #message-confirm: "&6Diese Aktion kostet {price}{currency}. Klick auf diese Nachricht zum Bestätigen."
 #message-paid-open: "&8Du hast {price}{currency} ausgegeben um diese AngelChest zu öffnen."
 #message-unlocked-automatically: "&8Deine AngelChest wurde automatisch aufgeschlossen."
+#message-angelchest-opened: "&6{player} hat deine AngelChest geöffnet."
+#message-angelchest-emptied: "&c{player} hat deine AngelChest geleert."
 #message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Italian
@@ -694,6 +718,8 @@ message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, u
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
+#message-angelchest-opened: "&6{player} has opened your AngelChest."
+#message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Polish
@@ -720,6 +746,8 @@ message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, u
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
+#message-angelchest-opened: "&6{player} has opened your AngelChest."
+#message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Portuguese
@@ -746,6 +774,8 @@ message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, u
 #message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
+#message-angelchest-opened: "&6{player} has opened your AngelChest."
+#message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Russian - Thanks to @GEEK for translating
@@ -772,6 +802,8 @@ message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, u
 #message-confirm: "&6Вы собираетесь потратить {price}{currency}. Нажмите на сообщение для продолжения."
 #message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
+#message-angelchest-opened: "&6{player} has opened your AngelChest."
+#message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Spanish
@@ -798,6 +830,8 @@ message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, u
 #message-confirm: "&6Está a punto de gastar {price}{currency}. Haga clic en este mensaje para continuar."
 #message-paid-open: "&8Gastaste {price}{currency} para abrir un AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
+#message-angelchest-opened: "&6{player} has opened your AngelChest."
+#message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Turkish
@@ -823,6 +857,8 @@ message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, u
 #message-confirm: "&6{price}{currency} harcamak üzeresin. Devam etmek için mesaja tıkla."
 #message-paid-open: "&8Bir AngelChest açmak için {price}{currency} harcadın."
 #message-unlocked-automatically: "&8AngelChest'inin kilidi otomatik olarak açıldı"
+#message-angelchest-opened: "&6{player} adlı oyuncu senin AngelChest'ini açtı."
+#message-angelchest-emptied: "&c{player} adlı oyuncu senin AngelChest'ini boşalttı."
 #message-spawn-chance-unsuccesfull: "&cMelek eşyalarını toplamayı unuttu, şanssızlık!"
 
 #########################
