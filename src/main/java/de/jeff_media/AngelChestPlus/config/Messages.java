@@ -30,49 +30,55 @@ public class Messages {
 	public final String ERR_ALREADYUNLOCKED;
 	public final String ERR_INVALIDCHEST = ChatColor.RED + "Invalid AngelChest!";
 
+	public final String PREFIX;
+
 	public Messages(Main main) {
 		this.main = Main.getInstance();
-		//this.plugin = plugin;
+		if(main.getConfig().getBoolean(Config.PREFIX_MESSAGES)) {
+			PREFIX = ChatColor.translateAlternateColorCodes('&',main.getConfig().getString(Config.PREFIX));
+		} else {
+			PREFIX = "";
+		}
 
-		MSG_PLAYERSONLY = ChatColor.translateAlternateColorCodes('&', main.getConfig()
+		MSG_PLAYERSONLY = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
 				.getString("message-error-players-only", "&cError: This command can only be run by players."));
 		
-		MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS = ChatColor.translateAlternateColorCodes('&', main.getConfig()
+		MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
 				.getString("message-not-allowed-to-break-other-angelchests", "&cYou are not allowed to break other people's AngelChest."));
 		
-		MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS = ChatColor.translateAlternateColorCodes('&', main.getConfig()
+		MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
 				.getString("message-not-allowed-to-open-other-angelchests", "&cYou are not allowed to open other people's AngelChest."));
 		
-		MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS = ChatColor.translateAlternateColorCodes('&', main.getConfig()
+		MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS = PREFIX +  ChatColor.translateAlternateColorCodes('&', main.getConfig()
 				.getString("message-you-dont-have-any-angelchests", "&eYou don't have any AngelChests."));
 		
-		MSG_ALL_YOUR_ANGELCHESTS_WERE_ALREADY_UNLOCKED = ChatColor.translateAlternateColorCodes('&', main.getConfig()
+		MSG_ALL_YOUR_ANGELCHESTS_WERE_ALREADY_UNLOCKED =PREFIX +  ChatColor.translateAlternateColorCodes('&', main.getConfig()
 				.getString("message-all-your-angelchests-were-already-unlocked", "&eAll your AngelChests were already unlocked."));
 		
-		MSG_UNLOCKED_ONE_ANGELCHEST = ChatColor.translateAlternateColorCodes('&', main.getConfig()
+		MSG_UNLOCKED_ONE_ANGELCHEST = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
 				.getString("message-unlocked-one-angelchest", "&aYou have unlocked your AngelChest."));
 		
-		MSG_ANGELCHEST_DISAPPEARED = ChatColor.translateAlternateColorCodes('&', main.getConfig()
+		MSG_ANGELCHEST_DISAPPEARED = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
 				.getString("message-angelchest-disappeared", "&cYou were too slow... Your AngelChest has disappeared and dropped its contents."));
 		
-		MSG_UNLOCKED_MORE_ANGELCHESTS = ChatColor.translateAlternateColorCodes('&', main.getConfig()
+		MSG_UNLOCKED_MORE_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
 				.getString("message-unlocked-more-angelchests", "&aYou have unlocked %d AngelChests."));
 		
-		MSG_INVENTORY_WAS_EMPTY = ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-inventory-was-empty", "&eAn Angel searched for your stuff but could not find anything."));
+		MSG_INVENTORY_WAS_EMPTY =PREFIX +  ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-inventory-was-empty", "&eAn Angel searched for your stuff but could not find anything."));
 		
-		MSG_ANGELCHEST_CREATED = ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-angelchest-created", "&aAn Angel collected your stuff and put it into a chest located at the place of your death."));
+		MSG_ANGELCHEST_CREATED =PREFIX +  ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-angelchest-created", "&aAn Angel collected your stuff and put it into a chest located at the place of your death."));
 		
-		MSG_YOU_GOT_YOUR_INVENTORY_BACK = ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-you-got-your-inventory-back", "&aYou got your inventory back!"));
+		MSG_YOU_GOT_YOUR_INVENTORY_BACK = PREFIX + ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-you-got-your-inventory-back", "&aYou got your inventory back!"));
 		
-		MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK = ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-you-got-part-of-your-inventory-back", "&eYou got a part of your inventory back, but some items are still in the AngelChest."));
+		MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK = PREFIX + ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-you-got-part-of-your-inventory-back", "&eYou got a part of your inventory back, but some items are still in the AngelChest."));
 
-		MSG_NOT_ENOUGH_MONEY = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-not-enough-money","&cYou don't have enough money."));
+		MSG_NOT_ENOUGH_MONEY = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-not-enough-money","&cYou don't have enough money."));
 
-		MSG_NOT_ENOUGH_MONEY_CHEST = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-not-enough-money2","&cAn Angel tried to collect your stuff but you didn't have enough money."));
+		MSG_NOT_ENOUGH_MONEY_CHEST = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-not-enough-money2","&cAn Angel tried to collect your stuff but you didn't have enough money."));
 
-		MSG_OPENED = ChatColor.translateAlternateColorCodes('&',main.getConfig().getString("message-angelchest-opened","&6{player} has opened your AngelChest."));
+		MSG_OPENED = PREFIX + ChatColor.translateAlternateColorCodes('&',main.getConfig().getString("message-angelchest-opened","&6{player} has opened your AngelChest."));
 
-		MSG_EMPTIED = ChatColor.translateAlternateColorCodes('&',main.getConfig().getString("message-angelchest-emptied","&c{player} has emptied your AngelChest."));
+		MSG_EMPTIED = PREFIX + ChatColor.translateAlternateColorCodes('&',main.getConfig().getString("message-angelchest-emptied","&c{player} has emptied your AngelChest."));
 		
 		HOLOGRAM_TEXT = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.HOLOGRAM_TEXT,"&a&l[AngelChest]&r\n&b{player}\n&6{time}\n&cKilled by {deathcause}"));
 		
@@ -80,9 +86,9 @@ public class Messages {
 
 		ANGELCHEST_LIST = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.ANGELCHEST_LIST,"[{id}] {time} &aX:&f {x} &aY:&f {y} &aZ:&f {z} | {world} "));
 		
-		MSG_ANGELCHEST_LOCATION = ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-angelchest-location","&eLocation of your AngelChests:").replaceAll(": %s", ""));
+		MSG_ANGELCHEST_LOCATION = PREFIX + ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-angelchest-location","&eLocation of your AngelChests:").replaceAll(": %s", ""));
 
-		MSG_PLEASE_SELECT_CHEST = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-please-select-chest","&7Please specify which AngelChest you would like to select."));
+		MSG_PLEASE_SELECT_CHEST = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-please-select-chest","&7Please specify which AngelChest you would like to select."));
 		
 		LINK_TP = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.LINK_TELEPORT,"&6[TP]&r"));
 
@@ -92,19 +98,19 @@ public class Messages {
 
 		LINK_UNLOCK_FOR = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.LINK_UNLOCK_FOR,"&5[Unlock for...]&r"));
 
-		ERR_ALREADYUNLOCKED = getMsg("already-unlocked","&cThis AngelChest is already unlocked.");
+		ERR_ALREADYUNLOCKED = PREFIX + getMsg("already-unlocked","&cThis AngelChest is already unlocked.");
 
-		MSG_ANGELCHEST_EXPLODED = getMsg("too-many-angelchests","&cYou had more AngelChests than your guardian angel could handle... Your oldest AngelChest has exploded.");
+		MSG_ANGELCHEST_EXPLODED = PREFIX + getMsg("too-many-angelchests","&cYou had more AngelChests than your guardian angel could handle... Your oldest AngelChest has exploded.");
 
-		MSG_NO_CHEST_IN_PVP = getMsg("no-angelchest-in-pvp","&cAn Angel tried to collect your stuff but was put to flight by the presence of your killer.");
+		MSG_NO_CHEST_IN_PVP = PREFIX + getMsg("no-angelchest-in-pvp","&cAn Angel tried to collect your stuff but was put to flight by the presence of your killer.");
 
-		MSG_RETRIEVED = getMsg("angelchest-retrieved","&aAngelChest retrieved!");
+		MSG_RETRIEVED = PREFIX + getMsg("angelchest-retrieved","&aAngelChest retrieved!");
 
-		MSG_CONFIRM = getMsg("confirm","&6You are about to spend {price}{currency}. Click this message to continue.");
+		MSG_CONFIRM = PREFIX + getMsg("confirm","&6You are about to spend {price}{currency}. Click this message to continue.");
 
-		MSG_PAID_OPEN = getMsg("paid-open","&8You spent {price}{currency} to open your AngelChest.");
+		MSG_PAID_OPEN = PREFIX + getMsg("paid-open","&8You spent {price}{currency} to open your AngelChest.");
 
-		MSG_UNLOCKED_AUTOMATICALLY = getMsg("unlocked-automatically","&8Your AngelChest has been unlocked automatically.");
+		MSG_UNLOCKED_AUTOMATICALLY = PREFIX + getMsg("unlocked-automatically","&8Your AngelChest has been unlocked automatically.");
 
 		GUI_TITLE_CHEST = getGui(Config.GUI_TITLE_CHEST,"§4§l[§c§lAngelChest§4§l] §c#{id} §4| §c{time}");
 

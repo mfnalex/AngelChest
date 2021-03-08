@@ -1,3 +1,6 @@
+## 1.10.1
+- Added option to automatically add a prefix to all chat messages
+
 ## 1.10.0
 - Added two new messages to show to AngelChest owners when other people open or empty their chests
   - Can be disabled in the config

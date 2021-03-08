@@ -26,6 +26,7 @@ public class ConfigUpdater {
 			Config.HOLOGRAM_PROTECTED_TEXT,
 			Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT,
 			Config.HOLOGRAM_UNPROTECTED_TEXT,
+			Config.PREFIX,
 			"link-",
 			"gui-",
 			"log-filename",

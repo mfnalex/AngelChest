@@ -478,6 +478,10 @@ link-teleport: "&6[TP]&r"
 # an AngelChest will be sent on a separate line
 show-links-on-separate-line: false
 
+# Whether AngelChest should automatically prefix all messages
+add-prefix: true
+prefix: "&b[&aAngelChest&b] &r"
+
 #########################
 #####   Messages   ######
 #########################
