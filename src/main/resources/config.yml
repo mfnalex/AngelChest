@@ -163,10 +163,12 @@ only-show-gui-after-death-if-player-can-tp-or-fetch: true
 # When using PLAYER_HEAD, you can use the head of the died
 # player or any other custom skull (see option below)
 # Tip: SOUL_CAMPFIRE looks awesome (1.16+ only)
-# Tip: Try to avoid using blocks that break when the block below
-# is updated, like TORCH or SOUL_LANTERN because that could be
-# exploited by using pistons below that block
 material: CHEST
+
+# You can choose another Material to use for unlocked
+# AngelChests.
+use-different-material-when-unlocked: false
+material-unlocked: ENDER_CHEST
 
 # When set to true and material is set to PLAYER_HEAD,
 # AngelChest will use the player's head for the chest.

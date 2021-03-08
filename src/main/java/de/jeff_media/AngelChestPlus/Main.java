@@ -56,6 +56,7 @@ public class Main extends JavaPlugin {
 	public HashMap<UUID,Block> lastPlayerPositions;
 	public HashMap<UUID,Entity> killers;
 	public Material chestMaterial;
+	public Material chestMaterialUnlocked;
 	PluginUpdateChecker updateChecker;
 
 	public boolean debug = false;
@@ -85,6 +86,13 @@ public class Main extends JavaPlugin {
 	public EconomyStatus economyStatus = EconomyStatus.UNKNOWN;
 
 	private static Main instance;
+
+	public Material getChestMaterial(AngelChest chest) {
+		if(getConfig().getBoolean(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED)==false) {
+			return chestMaterial;
+		}
+		return chest.isProtected ? chestMaterial : chestMaterialUnlocked;
+	}
 
 	public static Main getInstance() {
 		return instance;
@@ -251,7 +259,7 @@ public class Main extends JavaPlugin {
 					entry.getValue().destroy();
 					debug("Removing block from list because it's no AngelChest");
 				}*/
-				if(isBrokenAngelChest(entry.getKey())) {
+				if(isBrokenAngelChest(entry.getKey(),entry.getValue())) {
 					// TODO: Disabled for now, but left behind if someone still has missing chests upon end crystal generation
 					Block block = entry.getKey();
 					debug("Fixing broken AngelChest at "+block.getLocation());
@@ -277,8 +285,8 @@ public class Main extends JavaPlugin {
 				if(ac.isProtected && ac.unlockIn!=-1) {
 					ac.unlockIn--;
 					if(ac.unlockIn==-1) {
-						//ac.unlockIn=-1;
 						ac.isProtected=false;
+						ac.scheduleBlockChange();
 						if(getServer().getPlayer(ac.owner)!=null) {
 							Messages.send(getServer().getPlayer(ac.owner),messages.MSG_UNLOCKED_AUTOMATICALLY);
 						}
@@ -332,8 +340,8 @@ public class Main extends JavaPlugin {
 		return angelChests.containsKey(block);
 	}
 
-	public boolean isBrokenAngelChest(Block block) {
-		return block.getType() != chestMaterial;
+	public boolean isBrokenAngelChest(Block block, AngelChest chest) {
+		return block.getType() != getChestMaterial(chest);
 	}
 	
 	public boolean isAngelChestHologram(Entity e) {

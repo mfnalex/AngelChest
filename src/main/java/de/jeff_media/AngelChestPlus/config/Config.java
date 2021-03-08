@@ -85,5 +85,7 @@ public class Config {
     public static final String HOLOGRAM_PROTECTED_COUNTDOWN_TEXT = "hologram-protected-countdown-text";
     public static final String HOLOGRAM_PROTECTED_TEXT = "hologram-protected-text";
     public static final String HOLOGRAM_UNPROTECTED_TEXT = "hologram-unprotected-text";
+    public static final String USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED = "use-different-material-when-unlocked";
+    public static final String MATERIAL_UNLOCKED = "material-unlocked";
 
 }

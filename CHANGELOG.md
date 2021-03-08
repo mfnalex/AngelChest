@@ -1,3 +1,6 @@
+## 1.9.0
+- Added option to use different materials for protected and unprotected/unlocked chests
+
 ## 1.8.1
 - Fixed UpdateChecker pointing to the outdated free version
 
