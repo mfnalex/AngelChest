@@ -105,6 +105,15 @@ angelchest-duration: 600
 # Default is 0 = never
 unlock-duration: 0
 
+# Global chance for spawning an AngelChest
+# 1.0 = 100%, 0.5 = 50%, 0.01 = 1%
+# Example: setting this to 1.0 will always spawn a chest, setting it to
+# 0.5 will only spawn it with a probability of 50%
+# You can override this for certain players by setting up groups and
+# giving players the angelchest.group.<groupname> permission. See
+# groups.example.yml for more information.
+spawn-chance: 1.0
+
 # The maximum amount of AngelChests a player may have at the same time.
 # If a player dies again so that they would exceed this number, the
 # first created AngelChest is destroyed and drops its contents.
@@ -274,11 +283,6 @@ price-teleport: 0
 
 # How much does it cost to teleport your AngelChests to you?
 price-fetch: 0
-
-# Global chance for spawning an AngelChest
-# 1.0 = 100%, 0.5 = 50%, 0.01 = 1%
-spawn-chance: 1.0
-
 
 # When set to true, players must confirm teleporting to or fetching a chest if you set a price for those actions
 # by entering the same command again or by clicking on a text message in the chat
@@ -737,17 +741,17 @@ message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, u
 #message-you-got-your-inventory-back: "&aOdzyskałeś swój ekwipunek!"
 #message-angelchest-location: "&eLokalizacja Twojej AnielskiejSkrzyni:"
 #message-not-enough-money: "&cNie masz wystarczająco pieniędzy."
-#message-not-enough-money2: "&cAn Angel tried to collect your stuff but you didn't have enough money."
+#message-not-enough-money2: "&cAn Anioł chciał zebrać twoje rzeczy, ale nie miałeś wystarczająco pieniędzy."
 #message-please-select-chest: "&7Określ, którą AnielskąSkrzynię chciałbyś wybrać."
 #message-already-unlocked: "&cTa AnielskaSkrzynia jest już odblokowana."
 #message-too-many-angelchests: "&cMiałeś więcej AnielskichSkrzyń, niż twój anioł mógł znieść... Twoja najstarsza AnielskaSkrzynia eksplodowała."
 #message-no-angelchest-in-pvp: "&cAnioł próbował zebrać twoje rzeczy, ale został zmuszony do ucieczki przez obecność twojego zabójcy."
-#message-angelchest-retrieved: "&aAngelChest retrieved!"
-#message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
-#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
-#message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
-#message-angelchest-opened: "&6{player} has opened your AngelChest."
-#message-angelchest-emptied: "&c{player} has emptied your AngelChest."
+#message-angelchest-retrieved: "&aAnielskaSkrzynia odzyskana!"
+#message-confirm: "&6Zaraz wydasz {price}{currency}. Kliknij w tą wiadomość aby kontynuować."
+#message-paid-open: "&8Wydałeś {price}{currency} żeby otworzyć AnielskąSkrzynie."
+#message-unlocked-automatically: "&8Twoja AnielskaSkrzynia została automatycznie odblokowana."
+#message-angelchest-opened: "&6{player} otworzył twoją AnielskąSkrzynie."
+#message-angelchest-emptied: "&c{player} opróżnił twoją AnielskąSkrzynie."
 #message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Portuguese
@@ -829,9 +833,9 @@ message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, u
 #message-angelchest-retrieved: "&aAngelChest recuperado!"
 #message-confirm: "&6Está a punto de gastar {price}{currency}. Haga clic en este mensaje para continuar."
 #message-paid-open: "&8Gastaste {price}{currency} para abrir un AngelChest."
-#message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
-#message-angelchest-opened: "&6{player} has opened your AngelChest."
-#message-angelchest-emptied: "&c{player} has emptied your AngelChest."
+#message-unlocked-automatically: "&8Tu AngelChest se ha desbloqueado automáticamente."
+#message-angelchest-opened: "&6{player} ha abierto tu AngelChest."
+#message-angelchest-emptied: "&c{player} ha vaciado tu AngelChest."
 #message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Turkish

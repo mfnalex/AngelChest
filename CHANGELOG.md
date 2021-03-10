@@ -1,3 +1,6 @@
+## 1.10.2
+- Updated Polish and Spanish translations
+
 ## 1.10.1
 - Added option to automatically add a prefix to all chat messages
 
