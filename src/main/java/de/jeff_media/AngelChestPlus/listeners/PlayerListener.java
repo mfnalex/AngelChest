@@ -174,6 +174,13 @@ public class PlayerListener implements Listener {
             }
         }
 
+        if (Utils.spawnChance(main.groupUtils.getSpawnChancePerPlayer(event.getEntity())) != true)
+        {
+            main.debug("Cancelled: unlucky, spawnChance returned false!");
+            Utils.sendDelayedMessage(p, main.messages.MSG_SPAWN_CHANCE_UNSUCCESFULL, 1);
+            return;
+        }
+
         if (!CommandUtils.hasEnoughMoney(event.getEntity(), main.getConfig().getDouble(Config.PRICE), main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, "AngelChest spawned")) {
             return;
         }

@@ -105,6 +105,15 @@ angelchest-duration: 600
 # Default is 0 = never
 unlock-duration: 0
 
+# Global chance for spawning an AngelChest
+# 1.0 = 100%, 0.5 = 50%, 0.01 = 1%
+# Example: setting this to 1.0 will always spawn a chest, setting it to
+# 0.5 will only spawn it with a probability of 50%
+# You can override this for certain players by setting up groups and
+# giving players the angelchest.group.<groupname> permission. See
+# groups.example.yml for more information.
+spawn-chance: 1.0
+
 # The maximum amount of AngelChests a player may have at the same time.
 # If a player dies again so that they would exceed this number, the
 # first created AngelChest is destroyed and drops its contents.
@@ -511,6 +520,7 @@ message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
 message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 message-angelchest-opened: "&6{player} has opened your AngelChest."
 message-angelchest-emptied: "&c{player} has emptied your AngelChest."
+message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 #########################
 ##### Translations ######
@@ -546,6 +556,7 @@ message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
+#message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Chinese Simplified 简体中文 - Thanks to qsefthuopq for translating! -> https://www.spigotmc.org/members/qsefthuopq.339953/
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天御之箱都已解锁."
@@ -573,6 +584,7 @@ message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
+#message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Chinese Traditional 繁體中文 - Thanks to maoding for translating! -> https://www.spigotmc.org/members/maoding.400505/
 #message-all-your-angelchests-were-already-unlocked: "&e所有的小天使箱子已被解鎖"
@@ -600,6 +612,7 @@ message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
+#message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Dutch - Thanks to Xeyame for translating -> https://github.com/Xeyame
 #message-all-your-angelchests-were-already-unlocked: "&eAl je AngerChests zijn al ontgrendeld."
@@ -627,6 +640,7 @@ message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
+#message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/ 
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
@@ -654,6 +668,7 @@ message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-unlocked-automatically: "&8Tu AngeCoffre à été déverrouillé automatiquement."
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
+#message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### German
 #message-all-your-angelchests-were-already-unlocked: "&eAlle deine AngelChests waren bereits aufgeschlossen."
@@ -681,6 +696,7 @@ message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-unlocked-automatically: "&8Deine AngelChest wurde automatisch aufgeschlossen."
 #message-angelchest-opened: "&6{player} hat deine AngelChest geöffnet."
 #message-angelchest-emptied: "&c{player} hat deine AngelChest geleert."
+#message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Italian
 #message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChests sono già state sbloccate."
@@ -708,6 +724,7 @@ message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
+#message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Polish
 #message-all-your-angelchests-were-already-unlocked: "&eWszystkie twoje AnielskieSkrzynie zostały już odblokowane."
@@ -735,6 +752,7 @@ message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-unlocked-automatically: "&8Twoja AnielskaSkrzynia została automatycznie odblokowana."
 #message-angelchest-opened: "&6{player} otworzył twoją AnielskąSkrzynie."
 #message-angelchest-emptied: "&c{player} opróżnił twoją AnielskąSkrzynie."
+#message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Portuguese
 #message-all-your-angelchests-were-already-unlocked: "&eTodos os seus AngelChests estavam desbloqueados."
@@ -762,6 +780,7 @@ message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
+#message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Russian - Thanks to @GEEK for translating
 #message-all-your-angelchests-were-already-unlocked: "&eВсе ваши Ангельские сундуки разблокированы."
@@ -789,6 +808,7 @@ message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
+#message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Spanish
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus AngelChest ya se encuentran desbloqueados."
@@ -816,6 +836,7 @@ message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-unlocked-automatically: "&8Tu AngelChest se ha desbloqueado automáticamente."
 #message-angelchest-opened: "&6{player} ha abierto tu AngelChest."
 #message-angelchest-emptied: "&c{player} ha vaciado tu AngelChest."
+#message-spawn-chance-unsuccesfull: "&cYour Angel forgot to collect your stuff, unlucky!"
 
 ##### Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eTüm AngelChest'lerinin kilidi zaten açık."
@@ -842,6 +863,7 @@ message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-unlocked-automatically: "&8AngelChest'inin kilidi otomatik olarak açıldı"
 #message-angelchest-opened: "&6{player} adlı oyuncu senin AngelChest'ini açtı."
 #message-angelchest-emptied: "&c{player} adlı oyuncu senin AngelChest'ini boşalttı."
+#message-spawn-chance-unsuccesfull: "&cMelek eşyalarını toplamayı unuttu, şanssızlık!"
 
 #########################
 #####     Misc      #####

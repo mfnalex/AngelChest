@@ -91,5 +91,5 @@ public class Config {
     public static final String SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST = "show-message-when-other-player-empties-angelchest";
     public static final String PREFIX_MESSAGES = "add-prefix";
     public static final String PREFIX = "prefix";
-
+    public static final String SPAWN_CHANCE = "spawn-chance";
 }

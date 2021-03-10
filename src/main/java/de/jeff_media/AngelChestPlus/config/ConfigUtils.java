@@ -66,7 +66,8 @@ public class ConfigUtils {
 		main.saveDefaultConfig();
 		main.saveResource("groups.example.yml", true);
 		createDirectories();
-
+		conf.addDefault(Config.XP_PERCENTAGE, -1);
+		conf.addDefault(Config.SPAWN_CHANCE, 1.0);
 		conf.addDefault(Config.CHECK_FOR_UPDATES, "true");
 		//conf.addDefault(Config.DETECT_PLAYER_HEAD_DROPS,false);
 		conf.addDefault(Config.CHECK_FOR_UPDATES_INTERVAL,4);
