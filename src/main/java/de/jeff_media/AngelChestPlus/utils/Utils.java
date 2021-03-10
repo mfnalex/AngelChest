@@ -332,9 +332,18 @@ public class Utils {
 
     public static boolean spawnChance(double chance)
     {
-        if (chance >= 1.0) return true;
+        Main main = Main.getInstance();
+        main.debug("spawn chance = "+chance);
+        if (chance >= 1.0) {
+            main.debug("chance >= 1.0, return true");
+            return true;
+        }
         int chancePercent = (int) (chance*100);
         int random = new Random().nextInt(100); //Returns value between 0 and 99
+        main.debug("chancePercent = "+chancePercent);
+        main.debug("random = " + random);
+        main.debug("(random must be smaller or equal to chancePercent to succeed)");
+        main.debug("return "+ (random <= chancePercent));
         return random <= chancePercent;
     }
 

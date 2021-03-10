@@ -215,6 +215,7 @@ public class GroupUtils {
             String group = it.next();
             if(!p.hasPermission("angelchest.group."+group)) continue;
             double spawnChancePlayer = groups.get(group).spawnChance;
+            if(spawnChancePlayer>=1) return 1;
             if(spawnChancePlayer==-1) {
                 continue;
             }
