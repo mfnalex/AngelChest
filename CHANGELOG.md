@@ -1,3 +1,8 @@
+## 1.11.0
+- Added chest spawn chance (normally set to 1.0 = 100%)
+  - Can also be configured per group
+  - When the chance does not succeed, no chest will be spawned, and the items drop normally
+
 ## 1.10.2
 - Updated Polish and Spanish translations
 
