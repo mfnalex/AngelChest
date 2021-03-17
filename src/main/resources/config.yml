@@ -264,6 +264,8 @@ check-interval: 4
 # leave a message in the SpigotMC discussion or open an issue at GitHub.
 # If you request a feature in the review section, it will probably be ignored.
 # You can also adjust those prices individually for each group. See groups.example.yml
+# You can also add the letter "p" to the end of the number to use percentages.
+# E.g. when using "0.2p", a user has to pay 20% of his account balance.
 
 # How much does it cost to spawn the AngelChest? The amount will automatically
 # be taken from the player on death if they have enough money, otherwise

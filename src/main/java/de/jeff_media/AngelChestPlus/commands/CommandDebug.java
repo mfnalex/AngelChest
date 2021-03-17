@@ -1,8 +1,11 @@
 package de.jeff_media.AngelChestPlus.commands;
 
+import de.jeff_media.AngelChestPlus.config.ConfigUtils;
+import de.jeff_media.AngelChestPlus.config.Permissions;
 import de.jeff_media.AngelChestPlus.data.AngelChest;
 import de.jeff_media.AngelChestPlus.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,8 +31,15 @@ public class CommandDebug implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
+        if(!commandSender.hasPermission(Permissions.DEBUG)) {
+            commandSender.sendMessage(command.getPermissionMessage());
+            return true;
+        }
+
         if(args.length>0) {
             switch(args[0].toLowerCase()) {
+                case "on": debug(commandSender, true); break;
+                case "off": debug(commandSender,false); break;
                 case "config": config(commandSender, shift(args)); break;
                 case "info": info(commandSender, shift(args)); break;
                 case "group": group(commandSender, shift(args)); break;
@@ -39,12 +49,21 @@ public class CommandDebug implements CommandExecutor {
 
         commandSender.sendMessage(new String[] {
                 "Available debug commands:",
+                "- on",
+                "- off",
                 "- info",
-                "- group",
-                "- config"
+                "- group"
+                //"- config"
         });
 
         return true;
+    }
+
+    private void debug(CommandSender commandSender, boolean enabled) {
+        ConfigUtils.reloadCompleteConfig(true);
+        main.debug=enabled;
+        main.getConfig().set("debug",enabled);
+        commandSender.sendMessage(ChatColor.GRAY+"AngelChest debug mode has been " + (enabled ? "enabled" : "disabled"));
     }
 
     private void group(CommandSender commandSender, String[] args) {

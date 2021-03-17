@@ -3,6 +3,7 @@ package de.jeff_media.AngelChestPlus.utils;
 import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.Main;
 import de.jeff_media.AngelChestPlus.data.Group;
+import de.jeff_media.AngelChestPlus.enums.EconomyStatus;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -27,10 +28,10 @@ public class GroupUtils {
         for(String groupName : yaml.getKeys(false)) {
             int angelchestDuration = yaml.getInt(groupName+".angelchest-duration",-1);
             int chestsPerPlayer = yaml.getInt(groupName+".max-allowed-angelchests",-1);
-            double priceSpawn = yaml.getDouble(groupName+".price-spawn",-1);
-            double priceOpen = yaml.getDouble(groupName+".price-open",-1);
-            double priceFetch = yaml.getDouble(groupName+".price-fetch",-1);
-            double priceTeleport = yaml.getDouble(groupName+".price-teleport",-1);
+            String priceSpawn = yaml.getString(groupName+".price-spawn","-1");
+            String priceOpen = yaml.getString(groupName+".price-open","-1");
+            String priceFetch = yaml.getString(groupName+".price-fetch","-1");
+            String priceTeleport = yaml.getString(groupName+".price-teleport","-1");
             double xpPercentage = yaml.getDouble(groupName+".xp-percentage",-2);
             int unlockDuration = yaml.getInt(groupName+".unlock-duration",-2);
             double spawnChance = yaml.getDouble(groupName+".spawn-chance",1.0);
@@ -128,82 +129,100 @@ public class GroupUtils {
     }
 
     public double getSpawnPricePerPlayer(Player p) {
-        if(yaml==null) return main.getConfig().getDouble(Config.PRICE);
+        if(yaml==null) return getPercantagePrice(p,main.getConfig().getString(Config.PRICE));
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
             if(!p.hasPermission("angelchest.group."+group)) continue;
-            double pricePerPlayer = groups.get(group).priceSpawn;
-            if(pricePerPlayer==-1) {
+            String pricePerPlayer = groups.get(group).priceSpawn;
+            if(pricePerPlayer.equals("-1")) {
                 continue;
             }
-            bestValueFound = bestValueFound == null ? pricePerPlayer : Math.min(pricePerPlayer, bestValueFound);
+            bestValueFound = bestValueFound == null ? getPercantagePrice(p,pricePerPlayer) : Math.min(getPercantagePrice(p,pricePerPlayer), bestValueFound);
         }
         if(bestValueFound!=null) {
             return bestValueFound;
         } else {
-            return main.getConfig().getDouble(Config.PRICE);
+            return getPercantagePrice(p,main.getConfig().getString(Config.PRICE));
         }
     }
 
     public double getOpenPricePerPlayer(Player p) {
-        if(yaml==null) return main.getConfig().getDouble(Config.PRICE_OPEN);
+        if(yaml==null) return getPercantagePrice(p,main.getConfig().getString(Config.PRICE_OPEN));
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
             if(!p.hasPermission("angelchest.group."+group)) continue;
-            double pricePerPlayer = groups.get(group).priceOpen;
-            if(pricePerPlayer==-1) {
+            String pricePerPlayer = groups.get(group).priceOpen;
+            if(pricePerPlayer.equals("-1")) {
                 continue;
             }
-            bestValueFound = bestValueFound == null ? pricePerPlayer : Math.min(pricePerPlayer, bestValueFound);
+            bestValueFound = bestValueFound == null ? getPercantagePrice(p,pricePerPlayer) : Math.min(getPercantagePrice(p,pricePerPlayer), bestValueFound);
         }
         if(bestValueFound!=null) {
             return bestValueFound;
         } else {
-            return main.getConfig().getDouble(Config.PRICE_OPEN);
+            return getPercantagePrice(p,main.getConfig().getString(Config.PRICE_OPEN));
         }
     }
 
     public double getFetchPricePerPlayer(Player p) {
-        if(yaml==null) return main.getConfig().getDouble(Config.PRICE_FETCH);
+        if(yaml==null) return getPercantagePrice(p,main.getConfig().getString(Config.PRICE_FETCH));
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
             if(!p.hasPermission("angelchest.group."+group)) continue;
-            double pricePerPlayer = groups.get(group).priceFetch;
-            if(pricePerPlayer==-1) {
+            String pricePerPlayer = groups.get(group).priceFetch;
+            if(pricePerPlayer.equals("-1")) {
                 continue;
             }
-            bestValueFound = bestValueFound == null ? pricePerPlayer : Math.min(pricePerPlayer, bestValueFound);
+            bestValueFound = bestValueFound == null ? getPercantagePrice(p,pricePerPlayer) : Math.min(getPercantagePrice(p,pricePerPlayer), bestValueFound);
         }
         if(bestValueFound!=null) {
             return bestValueFound;
         } else {
-            return main.getConfig().getDouble(Config.PRICE_FETCH);
+            return getPercantagePrice(p,main.getConfig().getString(Config.PRICE_FETCH));
         }
     }
 
     public double getTeleportPricePerPlayer(Player p) {
-        if(yaml==null) return main.getConfig().getDouble(Config.PRICE_TELEPORT);
+        if(yaml==null) return getPercantagePrice(p,main.getConfig().getString(Config.PRICE_TELEPORT));
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
             if(!p.hasPermission("angelchest.group."+group)) continue;
-            double pricePerPlayer = groups.get(group).priceTeleport;
-            if(pricePerPlayer==-1) {
+            String pricePerPlayer = groups.get(group).priceTeleport;
+            if(pricePerPlayer.equals("-1")) {
                 continue;
             }
-            bestValueFound = bestValueFound == null ? pricePerPlayer : Math.min(pricePerPlayer, bestValueFound);
+            bestValueFound = bestValueFound == null ? getPercantagePrice(p,pricePerPlayer) : Math.min(getPercantagePrice(p,pricePerPlayer), bestValueFound);
         }
         if(bestValueFound!=null) {
             return bestValueFound;
         } else {
-            return main.getConfig().getDouble(Config.PRICE_TELEPORT);
+            return getPercantagePrice(p,main.getConfig().getString(Config.PRICE_TELEPORT));
+        }
+    }
+
+    public static double getPercantagePrice(Player p, String value) {
+        Main main = Main.getInstance();
+        if(value.endsWith("p")) {
+            double percentage = Double.parseDouble(value.substring(0,value.length()-1));
+            if(main.economyStatus != EconomyStatus.ACTIVE) {
+                return 0;
+            }
+            if(percentage<=0) {
+                return 0;
+            }
+            double result = main.econ.getBalance(p)*percentage;
+            main.debug(value+" contains a p, getting percentage for player "+p.getName()+": "+result);
+            return result;
+        } else {
+            return Double.parseDouble(value);
         }
     }
 
@@ -227,5 +246,4 @@ public class GroupUtils {
             return main.getConfig().getDouble(Config.SPAWN_CHANCE);
         }
     }
-
 }

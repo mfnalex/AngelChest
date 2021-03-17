@@ -1,4 +1,14 @@
+## 1.11.2
+- Improved behaviour when loading AngelChests inside unloaded / removed worlds
+- Added debug command "/acd" (Permission: angelchest.debug) to enable/disable mode via command and more
+
+## 1.11.1
+- Fixed minor console warning
+
 ## 1.11.0
+- Added option to set prices based on player's bank account balance.
+  - Works for all prices (fetch, spawn, open, teleport)
+  - E.g. setting "price-teleport" to "0.1p" means it costs 10% of the player's total account balance
 - Added chest spawn chance (normally set to 1.0 = 100%)
   - Can also be configured per group
   - When the chance does not succeed, no chest will be spawned, and the items drop normally

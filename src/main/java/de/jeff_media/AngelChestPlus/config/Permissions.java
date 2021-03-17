@@ -11,4 +11,5 @@ public class Permissions {
     public static final String ALLOW_FETCH = "angelchest.fetch";
     public static final String ALLOW_PREVIEW = "angelchest.preview";
     public static final String ALLOW_RELOAD = "angelchest.reload";
+    public static final String DEBUG = "angelchest.debug";
 }

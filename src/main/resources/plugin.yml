@@ -50,3 +50,5 @@ permissions:
     description: "Allows players to teleport their AngelChests to them"
   angelchest.reload:
     description: "Allows to reload the configuration using /acreload"
+  angelchest.debug:
+    description: "Allows to use the debug command /acd"

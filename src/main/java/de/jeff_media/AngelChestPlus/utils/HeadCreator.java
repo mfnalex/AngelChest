@@ -11,6 +11,12 @@ import java.util.UUID;
 
 public class HeadCreator {
 
+    private static String defaultBase64 = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90Z%%__USER__%%Xh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNThiYzhmYTcxNmNhZGQwMDRiODI4Y2IyN2NjMGY2ZjZhZGUzYmU0MTUxMTY4OGNhOWVjZWZmZDE2NDdmYjkifX19";
+
+    public static ItemStack getHead() {
+        return getHead(defaultBase64);
+    }
+
     public static ItemStack getHead(String base64) {
 
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
@@ -29,6 +35,7 @@ public class HeadCreator {
             profileField.set(meta, profile);
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
             e.printStackTrace();
+            return new ItemStack(Material.PLAYER_HEAD);
         }
 
         head.setItemMeta(meta);

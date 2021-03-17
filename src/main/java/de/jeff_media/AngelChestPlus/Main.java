@@ -50,6 +50,7 @@ public class Main extends JavaPlugin {
 	private static final String UPDATECHECKER_LINK_DOWNLOAD = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID;
 	private static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID+"/updates";
 	private static final String UPDATECHECKER_LINK_DONATE = "https://paypal.me/mfnalex";
+	private String UID = "%%__USER__%%" ;
 
 	public HashMap<UUID, PendingConfirm> pendingConfirms;
 	public LinkedHashMap<Block, AngelChest> angelChests;
@@ -306,7 +307,7 @@ public class Main extends JavaPlugin {
 		      if(ac.success) {
 				  angelChests.put(ac.block, ac);
 			  } else {
-				  getLogger().info("Error while loading "+child.getName()+", probably the world is not loaded yet. Will try again on next world load.");
+				  debug("Error while loading "+child.getName()+", probably the world is not loaded yet. Will try again on next world load.");
 			  }
 		    }
 		  }
