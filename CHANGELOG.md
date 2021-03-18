@@ -1,3 +1,7 @@
+## 1.12.1
+- Improved /acd command for debugging blacklist issues
+- Fixed typos in config.yml and blacklist.example.yml
+
 ## 1.12.0
 - Added item blacklist. Blacklisted items will behave just like they would normally do on death.
   - You can blacklist items by lore, material and/or name.
