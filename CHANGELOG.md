@@ -1,3 +1,10 @@
+## 1.12.0
+- Added item blacklist. Blacklisted items will behave just like they would normally do on death.
+  - You can blacklist items by lore, material and/or name.
+  - To see the exact lore/name of a custom item, or see its blacklist status, use /acd blacklist
+  - You can either match name and/or lore exactly, or partly. You can also set individually for each item whether color codes should be checked or ignored.
+  - The blacklist is a separate file. See blacklist.example.yml for more information
+
 ## 1.11.2
 - Improved behaviour when loading AngelChests inside unloaded / removed worlds
 - Added debug command "/acd" (Permission: angelchest.debug) to enable/disable mode via command and more

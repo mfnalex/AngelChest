@@ -10,6 +10,7 @@ import de.jeff_media.AngelChestPlus.commands.*;
 import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.config.Messages;
 import de.jeff_media.AngelChestPlus.data.AngelChest;
+import de.jeff_media.AngelChestPlus.data.ItemBlacklistEntry;
 import de.jeff_media.AngelChestPlus.data.PendingConfirm;
 import de.jeff_media.AngelChestPlus.data.DeathCause;
 import de.jeff_media.AngelChestPlus.enums.EconomyStatus;
@@ -37,6 +38,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -83,6 +85,7 @@ public class Main extends JavaPlugin {
 	public GUIListener guiListener;
 	public Logger logger;
 	public Economy econ;
+	public Set<ItemBlacklistEntry> itemBlacklist;
 
 	public EconomyStatus economyStatus = EconomyStatus.UNKNOWN;
 
@@ -335,7 +338,13 @@ public class Main extends JavaPlugin {
 		}
 	}
 
-	
+	public String isItemBlacklisted(ItemStack item) {
+		for(ItemBlacklistEntry entry : itemBlacklist) {
+			String result = entry.matches(item);
+			if(result != null) return result;
+		}
+		return null;
+	}
 
 	public boolean isAngelChest(Block block) {
 		return angelChests.containsKey(block);

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.*;
 
 import de.jeff_media.AngelChestPlus.*;
+import de.jeff_media.AngelChestPlus.data.ItemBlacklistEntry;
 import de.jeff_media.AngelChestPlus.gui.GUIManager;
 import de.jeff_media.AngelChestPlus.hooks.MinepacksHook;
 import de.jeff_media.AngelChestPlus.hooks.WorldGuardHandler;
@@ -11,6 +12,7 @@ import de.jeff_media.AngelChestPlus.utils.GroupUtils;
 import de.jeff_media.AngelChestPlus.utils.HookUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 /**
  * Creates the default config and directories, handles reloading and adds the default values
@@ -49,6 +51,7 @@ public class ConfigUtils {
 		main.hookUtils = new HookUtils(main);
 		main.minepacksHook = new MinepacksHook();
 		main.guiManager = new GUIManager(main);
+		main.itemBlacklist = loadItemBlacklist();
 		//main.debugger = new AngelChestDebugger(main);
 		if(reload) {
 			main.loadAllAngelChestsFromFile();
@@ -56,7 +59,23 @@ public class ConfigUtils {
 
 	}
 
-	
+	private static Set<ItemBlacklistEntry> loadItemBlacklist() {
+		Main main = Main.getInstance();
+		Set<ItemBlacklistEntry> set = new HashSet<>();
+		File yamlFile = new File(main.getDataFolder()+File.separator+"blacklist.yml");
+		if(!yamlFile.exists()) {
+			main.getLogger().info("blacklist.yml does not exist, disabling item blacklist.");
+			return set;
+		}
+		YamlConfiguration yaml = YamlConfiguration.loadConfiguration(yamlFile);
+		for(String node : yaml.getKeys(false)) {
+			main.debug("Loading blacklist item "+node);
+			set.add(new ItemBlacklistEntry(node,yaml));
+		}
+		return set;
+	}
+
+
 	static void createConfig() {
 
 		Main main = Main.getInstance();
@@ -65,6 +84,7 @@ public class ConfigUtils {
 
 		main.saveDefaultConfig();
 		main.saveResource("groups.example.yml", true);
+		main.saveResource("blacklist.example.yml", true);
 		createDirectories();
 		conf.addDefault(Config.XP_PERCENTAGE, -1);
 		conf.addDefault(Config.SPAWN_CHANCE, 1.0);

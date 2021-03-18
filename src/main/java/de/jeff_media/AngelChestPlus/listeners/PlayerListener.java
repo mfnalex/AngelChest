@@ -28,10 +28,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredListener;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -212,6 +209,7 @@ public class PlayerListener implements Listener {
         ArrayList<ItemStack> freshDrops = new ArrayList<>();
         ItemStack[] drops = event.getDrops().toArray(new ItemStack[0]);
         List<ItemStack> inventoryAsList = Arrays.asList(p.getInventory().getContents());
+
         main.debug("===== ADDITIONAL DEATH DROP LIST =====");
         main.debug("The following items are in the drops list, but not in the inventory.");
         for (int i = 0; i < drops.length; i++) {
@@ -264,8 +262,14 @@ public class PlayerListener implements Listener {
         // Delete players inventory except excluded items
         clearInventory(p.getInventory());
 
-        // Clear the drops
-        event.getDrops().clear();
+        // Clear the drops except blacklisted items
+        Iterator it = event.getDrops().iterator();
+        while(it.hasNext()) {
+            ItemStack drop = (ItemStack) it.next();
+            if(!ac.blacklistedItems.contains(drop)) {
+                it.remove();
+            }
+        }
 
         // send message after one twentieth second
         Utils.sendDelayedMessage(p, main.messages.MSG_ANGELCHEST_CREATED, 1);

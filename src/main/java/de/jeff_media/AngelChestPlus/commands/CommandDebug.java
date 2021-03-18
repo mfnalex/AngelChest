@@ -10,6 +10,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -40,6 +42,7 @@ public class CommandDebug implements CommandExecutor {
             switch(args[0].toLowerCase()) {
                 case "on": debug(commandSender, true); break;
                 case "off": debug(commandSender,false); break;
+                case "blacklist": blacklist(commandSender, shift(args)); break;
                 case "config": config(commandSender, shift(args)); break;
                 case "info": info(commandSender, shift(args)); break;
                 case "group": group(commandSender, shift(args)); break;
@@ -49,14 +52,58 @@ public class CommandDebug implements CommandExecutor {
 
         commandSender.sendMessage(new String[] {
                 "Available debug commands:",
-                "- on",
-                "- off",
-                "- info",
-                "- group"
+                "- on §6Enables debug mode",
+                "- off §6Disables debug mode",
+                "- blacklist §6Shows blacklist information",
+                "- info §6Shows general debug information",
+                "- group §6Shows group information"
                 //"- config"
         });
 
         return true;
+    }
+
+    private void blacklist(CommandSender commandSender, String args[]) {
+        if(!(commandSender instanceof Player) && args.length==0) {
+            commandSender.sendMessage("Use this command as player or specify a player name.");
+            return;
+        }
+        Player player;
+        boolean isAnotherPlayer = false;
+        if(args.length>0) {
+            if(Bukkit.getPlayer(args[0])==null) {
+                commandSender.sendMessage("Player "+args[0]+" not found.");
+                return;
+            } else {
+                player = Bukkit.getPlayer(args[0]);
+                isAnotherPlayer=true;
+            }
+        } else {
+            player = (Player) commandSender;
+        }
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if(item==null) {
+            commandSender.sendMessage((isAnotherPlayer ? player.getName() : "You")+" must hold an item in the main hand.");
+            return;
+        }
+        ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : Bukkit.getItemFactory().getItemMeta(item.getType());
+        commandSender.sendMessage(" ");
+        commandSender.sendMessage("§e=== Material ===");
+        commandSender.sendMessage(item.getType().name().toUpperCase());
+        commandSender.sendMessage("§e=== Item Name ===");
+        commandSender.sendMessage(meta.hasDisplayName() ? "\""+meta.getDisplayName().replaceAll("§", "&") +"\"" : " ");
+        commandSender.sendMessage("§e=== Lore ===");
+        if(meta.hasLore()) {
+            for(String line : meta.getLore()) {
+                commandSender.sendMessage("- \"" + line.replaceAll("§","&")+"\"");
+            }
+        } else {
+            commandSender.sendMessage(" ");
+        }
+        commandSender.sendMessage("§e=== Blacklist Status ===");
+        String blacklisted = main.isItemBlacklisted(item);
+        commandSender.sendMessage(blacklisted==null ? "Not blacklisted" : "Blacklisted as \""+blacklisted+"\"");
+
     }
 
     private void debug(CommandSender commandSender, boolean enabled) {

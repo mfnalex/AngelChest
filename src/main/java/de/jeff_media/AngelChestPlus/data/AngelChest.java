@@ -54,6 +54,7 @@ public class AngelChest {
     public String logfile;
     public List<String> openedBy;
     public DeathCause deathCause;
+    public List<ItemStack> blacklistedItems;
 
     double price = 0;
 
@@ -241,6 +242,7 @@ public class AngelChest {
         this.secondsLeft = main.groupUtils.getDurationPerPlayer(main.getServer().getPlayer(owner));
         this.unlockIn = main.groupUtils.getUnlockDurationPerPlayer(main.getServer().getPlayer(owner));
         this.deathCause = deathCause;
+        this.blacklistedItems = new ArrayList<>();
         if(secondsLeft<=0) infinite = true;
 
         String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", main.getServer().getPlayer(owner).getName());
@@ -253,8 +255,16 @@ public class AngelChest {
             if (Utils.isEmpty(playerItems.getItem(i))) {
                 continue;
             }
-            main.debug("Slot "+i+": "+playerItems.getItem(i));
-            if(toBeRemoved(playerItems.getItem(i))) playerItems.setItem(i,null);
+            String isBlacklisted = main.isItemBlacklisted(playerItems.getItem(i));
+            if(isBlacklisted!=null) {
+                main.debug("Slot " + i + ": [BLACKLISTED: \""+isBlacklisted+"\"] " + playerItems.getItem(i));
+                blacklistedItems.add(playerItems.getItem(i));
+                playerItems.clear(i);
+            }
+            else {
+                main.debug("Slot " + i + ": " + playerItems.getItem(i));
+                if (toBeRemoved(playerItems.getItem(i))) playerItems.setItem(i, null);
+            }
         }
         main.debug("===== PLAYER INVENTORY CONTENTS END =====");
 

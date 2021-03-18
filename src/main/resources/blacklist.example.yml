@@ -1,0 +1,51 @@
+# You can blacklist certain items from being put into the AngelChest.
+# All blacklisted items will not be touched by AngelChest. They will
+# behave just like they would normally do on death.
+#
+# You can define items by material, lore and/or name.
+# You MUST use the "string list" format for the lore.
+# Each line of lore is checked separately. All specified
+# lines must match the item, but it's no problem if the
+# item has additional lines.
+# An item is only blacklisted if ALL specified options match.
+# See below for examples.
+#
+# Available options:
+#
+#   material: <material> (e.g. DIAMOND_AXE, DIRT, or ANY)
+#
+#   loreContains:        (the item must include every defined line)
+#     - "part of any line"
+#     - "part of another line"
+#
+#   loreExact:           (the item must include every defined line)
+#     - "exact text of any line"
+#     - "exact text of another line"
+#
+#   nameContains: <part of custom item name>
+#
+#   nameExact: <exact custom item name> (e.g. "§cMy awesome sword")
+#
+#   ignoreColors: <true|false> (whether name and lore checks also check for color codes)
+#
+# Use '&' for color codes. If you set ignoreColors to false, do NOT add the color code.
+# If you want to see the exact name and lore values for an item that you hold in your hand,
+# enter "/acd blacklist" to get information about the current item.
+# If you wish to copy that text, you can also run it from console like this: "/acd blacklist <player>"
+# Note: You MUST rename this file to blacklist.yml if you wish to use it.
+
+exampleSoulbound:
+  loreContains:
+    - "Kept on Death"
+  ignoreColors: true
+
+exampleSlimefunAltar:
+  material: ENCHANTING_TABLE
+  nameExact: "&dAncient Altar"
+  loreExact:
+    - ""
+    - "&5Multi-Block Altar for"
+    - "&5magical Crafting Processes"
+
+exampleDiamonds:
+  material: DIAMOND
