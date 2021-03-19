@@ -24,6 +24,7 @@ import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredListener;
@@ -424,6 +425,8 @@ public class PlayerListener implements Listener {
     public void onAngelChestRightClick(PlayerInteractEvent event) {
         Player p = event.getPlayer();
         if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
+            return;
+        if(event.getHand() != EquipmentSlot.HAND)
             return;
         if (event.getClickedBlock() == null)
             return;
