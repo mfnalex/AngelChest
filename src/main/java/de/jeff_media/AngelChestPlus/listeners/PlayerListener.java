@@ -496,6 +496,9 @@ public class PlayerListener implements Listener {
             main.guiManager.showPreviewGUI(p, angelChest, false, firstOpened);
             main.getLogger().info(p.getName() + " opened the AngelChest of " + Bukkit.getOfflinePlayer(angelChest.owner).getName() + " at " + angelChest.block.getLocation());
         }
+
+        main.guiManager.updatePreviewInvs(p, angelChest);
+
     }
 
     @EventHandler

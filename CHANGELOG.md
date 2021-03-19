@@ -1,3 +1,12 @@
+## 1.12.2
+- Fixed GUI not being closed/updated when a player empties the same AngelChest using right-click
+- Fixed GUI sometimes not allowing items to be placed in the player's inventory until clicked twice
+- Fixed GUI preventing players from dragging items inside the player's inventory while having the chest opened
+
+## 1.12.1
+- Improved /acd command for debugging blacklist issues
+- Fixed typos in config.yml and blacklist.example.yml
+
 ## 1.12.0
 - Added item blacklist. Blacklisted items will behave just like they would normally do on death.
   - You can blacklist items by lore, material and/or name.

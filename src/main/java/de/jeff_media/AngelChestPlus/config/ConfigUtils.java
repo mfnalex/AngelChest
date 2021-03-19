@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.*;
 
 import de.jeff_media.AngelChestPlus.*;
-import de.jeff_media.AngelChestPlus.data.ItemBlacklistEntry;
+import de.jeff_media.AngelChestPlus.data.BlacklistEntry;
 import de.jeff_media.AngelChestPlus.gui.GUIManager;
 import de.jeff_media.AngelChestPlus.hooks.MinepacksHook;
 import de.jeff_media.AngelChestPlus.hooks.WorldGuardHandler;
@@ -59,9 +59,9 @@ public class ConfigUtils {
 
 	}
 
-	private static Set<ItemBlacklistEntry> loadItemBlacklist() {
+	private static Map<String, BlacklistEntry> loadItemBlacklist() {
 		Main main = Main.getInstance();
-		Set<ItemBlacklistEntry> set = new HashSet<>();
+		Map<String, BlacklistEntry> set = new HashMap<>();
 		File yamlFile = new File(main.getDataFolder()+File.separator+"blacklist.yml");
 		if(!yamlFile.exists()) {
 			main.getLogger().info("blacklist.yml does not exist, disabling item blacklist.");
@@ -69,8 +69,7 @@ public class ConfigUtils {
 		}
 		YamlConfiguration yaml = YamlConfiguration.loadConfiguration(yamlFile);
 		for(String node : yaml.getKeys(false)) {
-			main.debug("Loading blacklist item "+node);
-			set.add(new ItemBlacklistEntry(node,yaml));
+			set.put(node.toLowerCase(),new BlacklistEntry(node,yaml));
 		}
 		return set;
 	}

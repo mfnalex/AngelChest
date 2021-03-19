@@ -10,9 +10,10 @@ import de.jeff_media.AngelChestPlus.commands.*;
 import de.jeff_media.AngelChestPlus.config.Config;
 import de.jeff_media.AngelChestPlus.config.Messages;
 import de.jeff_media.AngelChestPlus.data.AngelChest;
-import de.jeff_media.AngelChestPlus.data.ItemBlacklistEntry;
+import de.jeff_media.AngelChestPlus.data.BlacklistEntry;
 import de.jeff_media.AngelChestPlus.data.PendingConfirm;
 import de.jeff_media.AngelChestPlus.data.DeathCause;
+import de.jeff_media.AngelChestPlus.enums.BlacklistResult;
 import de.jeff_media.AngelChestPlus.enums.EconomyStatus;
 import de.jeff_media.AngelChestPlus.gui.GUIListener;
 import de.jeff_media.AngelChestPlus.gui.GUIManager;
@@ -85,7 +86,7 @@ public class Main extends JavaPlugin {
 	public GUIListener guiListener;
 	public Logger logger;
 	public Economy econ;
-	public Set<ItemBlacklistEntry> itemBlacklist;
+	public Map<String, BlacklistEntry> itemBlacklist;
 
 	public EconomyStatus economyStatus = EconomyStatus.UNKNOWN;
 
@@ -158,7 +159,10 @@ public class Main extends JavaPlugin {
 			new PlaceholderAPIHook(this).register();
 		}
 
-		this.getCommand("acd").setExecutor(new CommandDebug(this));
+		CommandDebug commandDebug = new CommandDebug();
+		this.getCommand("acd").setExecutor(commandDebug);
+		this.getCommand("acd").setTabCompleter(commandDebug);
+
 
 		debug("Registering listeners");
 		getServer().getPluginManager().registerEvents(new PlayerListener(),this);
@@ -338,10 +342,12 @@ public class Main extends JavaPlugin {
 		}
 	}
 
-	public String isItemBlacklisted(ItemStack item) {
-		for(ItemBlacklistEntry entry : itemBlacklist) {
-			String result = entry.matches(item);
-			if(result != null) return result;
+	public @Nullable String isItemBlacklisted(ItemStack item) {
+		for(BlacklistEntry entry : itemBlacklist.values()) {
+			BlacklistResult result = entry.matches(item);
+			if(result == BlacklistResult.MATCH) {
+				return result.getName();
+			}
 		}
 		return null;
 	}

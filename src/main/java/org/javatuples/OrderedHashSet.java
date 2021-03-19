@@ -7,7 +7,7 @@ public class OrderedHashSet<T> {
     //private final static long serialVersionUID = -36592371275262l;
 
     private T t;
-    private HashMap<Integer,T> map;
+    private final HashMap<Integer,T> map;
 
     public OrderedHashSet() {
         this.map = new HashMap<>();
@@ -33,7 +33,8 @@ public class OrderedHashSet<T> {
                 return Integer.compare(o1.getKey(), o2.getKey());
             }
         });
-        Map.Entry<Integer,T> entries[] = (Map.Entry<Integer, T>[]) entryStream.toArray();
+        @SuppressWarnings("unchecked") Map.Entry<Integer, T>[] entries = (Map.Entry<Integer, T>[]) entryStream.toArray();
+        //noinspection unchecked
         return new ArrayList<T>((Collection<? extends T>) Arrays.asList(entries));
     }
 }
