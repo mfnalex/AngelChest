@@ -309,7 +309,7 @@ public class Main extends JavaPlugin {
 		  File[] directoryListing = dir.listFiles();
 		  if (directoryListing != null) {
 		    for (File child : directoryListing) {
-				getLogger().info("Loading AngelChest " + child.getName());
+				debug("Loading AngelChest " + child.getName());
 		      AngelChest ac = new AngelChest(child);
 		      if(ac.success) {
 				  angelChests.put(ac.block, ac);

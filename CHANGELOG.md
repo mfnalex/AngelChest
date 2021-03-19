@@ -1,3 +1,7 @@
+## 1.12.3
+- Fixed some messages being shown twice in some server implementations under certain circumstances
+- Removed "Loading AngelChest xyz.yml" on startup. This will now only be shown when debug mode is enabled
+
 ## 1.12.2
 - Fixed GUI not being closed/updated when a player empties the same AngelChest using right-click
 - Fixed GUI sometimes not allowing items to be placed in the player's inventory until clicked twice
