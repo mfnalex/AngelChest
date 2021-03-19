@@ -38,10 +38,11 @@ public class GUIManager {
             GUIHolder guiHolder = (GUIHolder) player.getOpenInventory().getTopInventory().getHolder();
             if(guiHolder.getSpecialAngelChest() != null && guiHolder.getSpecialAngelChest().equals(angelChest)) {
                 main.debug("This AngelChest "+angelChest.toString()+" is also in use by "+player.getName()+", updating...");
-                //Bukkit.getScheduler().scheduleSyncDelayedTask(main, () ->
-                        showPreviewGUI(player,angelChest, guiHolder.isReadOnlyPreview(),false)
-                //,1L)
-                        ;
+                if(!angelChest.isEmpty()) {
+                    showPreviewGUI(player, angelChest, guiHolder.isReadOnlyPreview(), false);
+                } else {
+                    player.closeInventory();
+                }
             }
         }
     }

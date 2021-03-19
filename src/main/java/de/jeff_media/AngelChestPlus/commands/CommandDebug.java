@@ -66,7 +66,7 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    private void blacklist(CommandSender commandSender, String args[]) {
+    private void blacklist(CommandSender commandSender, String[] args) {
 
         if(args.length>0 && args[0].equalsIgnoreCase("info")) {
 
@@ -289,8 +289,8 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        String mainCommands[] = {"on","off","blacklist","info","group"};
-        String blacklistCommands[] = {"info","test"};
+        String[] mainCommands = {"on","off","blacklist","info","group"};
+        String[] blacklistCommands = {"info","test"};
 
         // Debug
         /*main.verbose("args.lengh = "+args.length);

@@ -7,7 +7,7 @@ public class OrderedSet<T> {
     private final static long serialVersionUID = Long.valueOf("-365923%%__USER__%%5262l");
 
     private T t;
-    private HashMap<Integer,T> map;
+    private final HashMap<Integer,T> map;
 
     public OrderedSet() {
         this.map = new HashMap<>();
@@ -28,7 +28,7 @@ public class OrderedSet<T> {
     public ArrayList<T> toList() {
         Set<Map.Entry<Integer,T>> entrySet = map.entrySet();
         Stream<Map.Entry<Integer,T>> entryStream = entrySet.stream().sorted(Comparator.comparingInt(Map.Entry::getKey));
-        Map.Entry<Integer,T> entries[] = (Map.Entry<Integer, T>[]) entryStream.toArray();
+        Map.Entry<Integer, T>[] entries = (Map.Entry<Integer, T>[]) entryStream.toArray();
         return new ArrayList<T>((Collection<? extends T>) Arrays.asList(entries));
     }
 }
