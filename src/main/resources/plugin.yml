@@ -9,7 +9,7 @@ authors: [mfnalex, JEFF Media GbR]
 database: false
 load: POSTWORLD
 softdepend: [Multiverse-Core,Multiverse,Vault,WorldGuard,Slimefun,InventoryPages,Minepacks,PlaceholderAPI,EliteMobs,ChestSort]
-loadbefore: [AngelChest]
+loadbefore: [AngelChestPlus]
 commands:
 #  acunlock:
 #    permission: angelchest.protect
