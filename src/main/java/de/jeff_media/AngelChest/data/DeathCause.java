@@ -21,6 +21,14 @@ public class DeathCause implements ConfigurationSerializable {
 
     public DeathCause(EntityDamageEvent entityDamageEvent) {
         Main main = Main.getInstance();
+
+        // Some plugins do strange stuff and kill players without EntityDamageEvent
+        if(entityDamageEvent==null) {
+            damageCause = EntityDamageEvent.DamageCause.CUSTOM;
+            this.killerName = null;
+            return;
+        }
+
         this.damageCause = entityDamageEvent.getCause();
         this.killerName =null;
         Entity victim = entityDamageEvent.getEntity();

@@ -1,3 +1,6 @@
+## 3.0.3
+- Fixed NullPointerException when using some plugin's /kill or /slay commands
+
 ## 3.0.2
 - Added "discord-verification.html" file for super easy discord verification
 
