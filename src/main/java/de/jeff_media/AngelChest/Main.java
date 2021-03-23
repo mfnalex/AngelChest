@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.jeff_media.AngelChest.commands.*;
+import de.jeff_media.AngelChest.config.ChestFileUpdater;
 import de.jeff_media.AngelChest.config.Config;
 import de.jeff_media.AngelChest.config.Messages;
 import de.jeff_media.AngelChest.data.AngelChest;
@@ -121,6 +122,7 @@ public class Main extends JavaPlugin {
 		instance = this;
 
 		migrateFromAngelChestPlus1X();
+		ChestFileUpdater.updateChestFilesToNewDeathCause();
 		if(getMcVersion()<13) {
 			EmergencyMode.severe(EmergencyMode.UNSUPPORTED_MC_VERSION_1_12);
 			emergencyMode = true;

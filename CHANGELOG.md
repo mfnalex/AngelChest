@@ -1,4 +1,8 @@
-## 3.0.0-SNAPSHOT
+## 3.0.1
+- Fixed old chests from the Plus version not being compatible with 3.0.0+
+- Improved config file
+
+## 3.0.0
 - AngelChestPlus and AngelChest (free version) now share the same source code. This means:
   - All the premium features are still only available in AngelChestPlus. It will not change anything for your players.
   - The version has been bumped from 2.X (free version) and 1.X (plus version) to 3.0.0 so they will always share the same version number.
