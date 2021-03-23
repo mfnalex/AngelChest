@@ -28,6 +28,7 @@ import de.jeff_media.AngelChest.utils.DiscordVerificationUtils;
 import de.jeff_media.AngelChest.utils.GroupUtils;
 import de.jeff_media.AngelChest.utils.HookUtils;
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
+import de.jeff_media.discordverifier.DiscordVerifier;
 import io.papermc.lib.PaperLib;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.math.NumberUtils;
@@ -44,6 +45,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Main extends JavaPlugin {
@@ -361,7 +363,7 @@ public class Main extends JavaPlugin {
 		}, 0, 20);
 	}
 
-	public boolean premium() {
+	public @NotNull Boolean premium() {
 		if(usingValidUID !=null) return usingValidUID;
 		if(UID.equals("%%__USER__%%")) {
 			usingValidUID = false;
@@ -370,6 +372,9 @@ public class Main extends JavaPlugin {
 			usingValidUID = true;
 		} else {
 			usingValidUID = false;
+		}
+		if(!usingValidUID) {
+			usingValidUID = DiscordVerifier.isVerified(this);
 		}
 		return usingValidUID;
 	}

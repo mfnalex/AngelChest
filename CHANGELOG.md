@@ -1,5 +1,9 @@
+## 3.0.5
+- Fixed exception regarding UpdateChecker
+
 ## 3.0.4
 - Using /acreload while having a broken config file will now show a warning to all online OPs
+- Updated bStats
 
 ## 3.0.3
 - Fixed NullPointerException when using some plugin's /kill or /slay commands
