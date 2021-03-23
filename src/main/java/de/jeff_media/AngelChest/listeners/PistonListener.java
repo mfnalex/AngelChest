@@ -18,8 +18,8 @@ public class PistonListener implements Listener {
 
     final Main main;
 
-    public PistonListener(Main main) {
-        this.main=main;
+    public PistonListener() {
+        this.main=Main.getInstance();
     }
 
     /**

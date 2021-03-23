@@ -20,6 +20,7 @@ public class HologramListener implements Listener {
 	 * Prevents AngelChest holograms from being manipulated
 	 * @param event PlayerArmorStandManipulateEvent
 	 */
+	@SuppressWarnings("unused")
 	@EventHandler
 	public void manipulate(PlayerArmorStandManipulateEvent event)
 	{

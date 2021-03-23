@@ -28,7 +28,8 @@ public class OrderedSet<T> {
     public ArrayList<T> toList() {
         Set<Map.Entry<Integer,T>> entrySet = map.entrySet();
         Stream<Map.Entry<Integer,T>> entryStream = entrySet.stream().sorted(Comparator.comparingInt(Map.Entry::getKey));
-        Map.Entry<Integer, T>[] entries = (Map.Entry<Integer, T>[]) entryStream.toArray();
+        @SuppressWarnings("unchecked") Map.Entry<Integer, T>[] entries = (Map.Entry<Integer, T>[]) entryStream.toArray();
+        //noinspection unchecked
         return new ArrayList<T>((Collection<? extends T>) Arrays.asList(entries));
     }
 }

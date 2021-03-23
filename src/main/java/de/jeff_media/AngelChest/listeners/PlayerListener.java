@@ -175,7 +175,7 @@ public class PlayerListener implements Listener {
             }
         }
 
-        if (Utils.spawnChance(main.groupUtils.getSpawnChancePerPlayer(event.getEntity())) != true)
+        if (!Utils.spawnChance(main.groupUtils.getSpawnChancePerPlayer(event.getEntity())))
         {
             main.debug("Cancelled: unlucky, spawnChance returned false!");
             Utils.sendDelayedMessage(p, main.messages.MSG_SPAWN_CHANCE_UNSUCCESFULL, 1);

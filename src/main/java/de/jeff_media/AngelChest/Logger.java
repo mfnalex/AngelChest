@@ -22,9 +22,9 @@ public class Logger {
 
     final Main main;
     final String path;
-    double removeOlderThanXHours;
-    double removeEveryXHours;
-    long maxOffsetBeforeRemoval;
+    final double removeOlderThanXHours;
+    final double removeEveryXHours;
+    final long maxOffsetBeforeRemoval;
 
     public Logger() {
         main=Main.getInstance();

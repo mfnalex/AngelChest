@@ -27,6 +27,7 @@ public class DeathCause implements ConfigurationSerializable {
         Entity killer = main.killers.get(victim.getUniqueId());
 
         if(killer != null) {
+            //noinspection SwitchStatementWithTooFewBranches
             switch(killer.getType()) {
                 case PRIMED_TNT:
                     killerName = "TNT";
@@ -80,6 +81,7 @@ public class DeathCause implements ConfigurationSerializable {
         return map;
     }
 
+    @SuppressWarnings("unused")
     public static DeathCause deserialize(Map<String, Object> map) {
         EntityDamageEvent.DamageCause damageCause = Enums.getIfPresent(EntityDamageEvent.DamageCause.class, (String) map.get("damageCause")).or(EntityDamageEvent.DamageCause.VOID);
         String killer = (String) map.get("killer");

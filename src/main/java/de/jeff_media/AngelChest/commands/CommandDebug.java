@@ -47,7 +47,7 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
                 case "off": debug(commandSender,false); break;
                 case "blacklist": blacklist(commandSender, shift(args)); break;
                 case "config": config(commandSender, shift(args)); break;
-                case "info": info(commandSender, shift(args)); break;
+                case "info": info(commandSender); break;
                 case "group": group(commandSender, shift(args)); break;
             }
             return true;
@@ -116,7 +116,7 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
             args = shift(args);
 
             if(!(commandSender instanceof Player)) {
-                commandSender.sendMessage("You must be a player to run this command.");
+                commandSender.sendMessage("You must be a player to severe this command.");
                 return;
             }
             Player player = (Player) commandSender;
@@ -208,7 +208,7 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
 
     }
 
-    private void info(CommandSender commandSender, String[] args) {
+    private void info(CommandSender commandSender) {
         int expectedAngelChests = main.angelChests.size();
         int realAngelChests = 0;
         int expectedHolograms = main.getAllArmorStandUUIDs().size();
@@ -229,8 +229,8 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
         String text1 = "AngelChests: %d (%d), Holograms: %d (%d)";
         String text2 = "Watchdog: %d Holograms";
 
-        Bukkit.broadcastMessage(String.format(text1,realAngelChests,expectedAngelChests,realHolograms,expectedHolograms));
-        Bukkit.broadcastMessage(String.format(text2,main.watchdog.getCurrentUnsavedArmorStands()));
+        commandSender.sendMessage(String.format(text1,realAngelChests,expectedAngelChests,realHolograms,expectedHolograms));
+        commandSender.sendMessage(String.format(text2,main.watchdog.getCurrentUnsavedArmorStands()));
     }
 
     private void config(CommandSender commandSender, String[] args) {

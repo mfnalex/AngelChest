@@ -97,6 +97,7 @@ public class GUIHolder implements InventoryHolder {
         this.specialAngelChest = angelChest;
     }
 
+    @SuppressWarnings("unused")
     public Player getPlayer() {
         return player;
     }

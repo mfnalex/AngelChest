@@ -209,15 +209,16 @@ public class AngelChest {
         }
     }
 
+    /*
     /**
      * Creates a new AngelChest
      * @param player Player that this AngelChest belongs to
      * @param block Block where the AngelChest should be created
      * @param logfile Name of the logfile for this AngelChest
-     */
+     
     public AngelChest(Player player, Block block, String logfile, DeathCause deathCause) {
     	this(player, player.getUniqueId(), block, player.getInventory(),logfile,deathCause);
-    }
+    }*/
 
     /**
      * Creates a new AngelChest
@@ -307,10 +308,7 @@ public class AngelChest {
         for(ItemStack item : overflowInv) {
             if(!Utils.isEmpty(item)) return false;
         }
-        if(experience>0) {
-            return false;
-        }
-        return true;
+        return experience <= 0;
     }
 
     /**

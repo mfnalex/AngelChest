@@ -24,9 +24,9 @@ public class HookUtils implements Listener {
     //ArrayList<Entity> hologramsToBeSpawned = new ArrayList<Entity>();
     //boolean hologramToBeSpawned = false;
 
-    public HookUtils(Main main) {
-        this.main=main;
-        this.inventoryPagesHook = new InventoryPagesHook(main);
+    public HookUtils() {
+        this.main=Main.getInstance();
+        this.inventoryPagesHook = new InventoryPagesHook();
         this.eliteMobsPlugin = Bukkit.getPluginManager().getPlugin("EliteMobs");
     }
 

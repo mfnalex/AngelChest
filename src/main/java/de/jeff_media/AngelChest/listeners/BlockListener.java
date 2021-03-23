@@ -27,6 +27,7 @@ public class BlockListener implements Listener {
      * Called when a bucket is emptied inside the block of an AngelChest
      * @param event PlayerBucketEmptyEvent
      */
+    @SuppressWarnings("unused")
     @EventHandler
     public void onBucketEmpty(PlayerBucketEmptyEvent event) {
         if(main.isAngelChest(event.getBlock())) {
@@ -49,6 +50,7 @@ public class BlockListener implements Listener {
      * was allowed to break the chest.
      * @param event BlockBreakEvent
      */
+    @SuppressWarnings("unused")
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         if (!main.isAngelChest(event.getBlock()))
@@ -71,6 +73,7 @@ public class BlockListener implements Listener {
      * Prevent liquids and dragon eggs from destroying AngelChest blocks
      * @param event BlockFromToEvent
      */
+    @SuppressWarnings("unused")
     @EventHandler
     public void onLiquidDestroysChest(BlockFromToEvent event) {
         // Despite the name, this event only fires when liquid or a teleporting dragon egg changes a block
@@ -83,6 +86,7 @@ public class BlockListener implements Listener {
      * Prevents the AngelChest block from being broken by breaking the block below it
      * @param event BlockBreakEvent
      */
+    @SuppressWarnings("unused")
     @EventHandler
     public void onBreakingBlockThatThisIsAttachedTo(BlockBreakEvent event) {
         if (!main.isAngelChest(event.getBlock().getRelative(BlockFace.UP))) return;
@@ -97,6 +101,7 @@ public class BlockListener implements Listener {
      * Prevents all entity explosions from destroying AngelChest blocks
      * @param event EntityExplodeEvent
      */
+    @SuppressWarnings("unused")
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
         event.blockList().removeIf(main::isAngelChest);
@@ -123,6 +128,7 @@ public class BlockListener implements Listener {
      * Prevent all block explosions from destroying AngelChest blocks
      * @param event BlockExplodeEvent
      */
+    @SuppressWarnings("unused")
     @EventHandler
     public void onBlockExplode(BlockExplodeEvent event) {
         event.blockList().removeIf(main::isAngelChest);

@@ -174,7 +174,7 @@
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>PluginUpdateChecker</artifactId>
-            <version>1.4.1</version> <!-- Check latest version first -->
+            <version>1.5.1</version> <!-- Check latest version first -->
             <scope>compile</scope>
         </dependency>
         <dependency>

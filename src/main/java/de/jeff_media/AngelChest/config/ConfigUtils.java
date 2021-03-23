@@ -1,6 +1,8 @@
 package de.jeff_media.AngelChest.config;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 import de.jeff_media.AngelChest.*;
@@ -11,8 +13,10 @@ import de.jeff_media.AngelChest.hooks.WorldGuardHandler;
 import de.jeff_media.AngelChest.utils.GroupUtils;
 import de.jeff_media.AngelChest.utils.HookUtils;
 import org.bukkit.Material;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Creates the default config and directories, handles reloading and adds the default values
@@ -32,6 +36,31 @@ public class ConfigUtils {
 		createDirectory("logs");
 	}
 
+	public static void validateConfigFiles() {
+		String[] invalidFiles = getBrokenConfigFiles();
+		Main.getInstance().invalidConfigFiles = invalidFiles;
+		EmergencyMode.warnBrokenConfig();
+	}
+
+	public static @Nullable String[] getBrokenConfigFiles() {
+		ArrayList<String> files = new ArrayList<>();
+		for(String fileName : new String[] { "config.yml", "blacklist.yml", "groups.yml"}) {
+			File file = new File(Main.getInstance().getDataFolder(), "config.yml");
+
+			if (!file.exists()) continue;
+
+			YamlConfiguration config = new YamlConfiguration();
+			try {
+				config.load(file);
+			} catch (FileNotFoundException e) {
+				continue;
+			} catch (InvalidConfigurationException | IOException e) {
+				files.add(fileName);
+			}
+		}
+		return files.size()==0 ? null : files.toArray(new String[0]);
+	}
+
 	public static void reloadCompleteConfig(boolean reload) {
 		Main main = Main.getInstance();
 		if(reload) {
@@ -48,15 +77,15 @@ public class ConfigUtils {
 		File groupsFile = new File(main.getDataFolder()+File.separator+"groups.yml");
 		main.groupUtils = new GroupUtils(groupsFile);
 		main.worldGuardHandler = new WorldGuardHandler(main);
-		main.hookUtils = new HookUtils(main);
+		main.hookUtils = new HookUtils();
 		main.minepacksHook = new MinepacksHook();
-		main.guiManager = new GUIManager(main);
+		main.guiManager = new GUIManager();
 		main.itemBlacklist = loadItemBlacklist();
 		//main.debugger = new AngelChestDebugger(main);
 		if(reload) {
 			main.loadAllAngelChestsFromFile();
 		}
-
+		ConfigUtils.validateConfigFiles();
 	}
 
 	private static Map<String, BlacklistEntry> loadItemBlacklist() {
@@ -83,6 +112,9 @@ public class ConfigUtils {
 		main.saveDefaultConfig();
 		main.saveResource("groups.example.yml", true);
 		main.saveResource("blacklist.example.yml", true);
+		if(main.premium()) {
+			main.saveResource("discord-verification.txt", false);
+		}
 		createDirectories();
 		conf.addDefault(Config.XP_PERCENTAGE, -1);
 		conf.addDefault(Config.SPAWN_CHANCE, 1.0);
@@ -222,13 +254,4 @@ public class ConfigUtils {
 		}
 
 	}
-	
-	private static void showOldConfigWarning(Main main) {
-		main.getLogger().warning("==============================================");
-		main.getLogger().warning("You were using an old config file. AngelChest");
-		main.getLogger().warning("has updated the file to the newest version.");
-		main.getLogger().warning("Your changes have been kept.");
-		main.getLogger().warning("==============================================");
-	}
-
 }

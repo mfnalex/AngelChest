@@ -7,14 +7,6 @@ public enum BlacklistResult {
 
     private @Nullable String name;
 
-    BlacklistResult(String name) {
-        this.name=name;
-    }
-
-    BlacklistResult() {
-
-    }
-
     public String getName() {
         return name;
     }

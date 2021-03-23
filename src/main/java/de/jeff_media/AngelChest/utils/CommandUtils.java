@@ -164,7 +164,7 @@ public class CommandUtils {
         double price = action.getPrice(player);
 
         if (askForConfirmation && main.economyStatus != EconomyStatus.INACTIVE) {
-            if (!hasConfirmed(main, player, ac, chestIdStartingAt1, price, action)) return;
+            if (!hasConfirmed(main, player, chestIdStartingAt1, price, action)) return;
         }
 
         if (price > 0 && !hasEnoughMoney(player, price, main.messages.MSG_NOT_ENOUGH_MONEY, action.getEconomyReason())) {
@@ -223,7 +223,7 @@ public class CommandUtils {
         }
     }
 
-    private static boolean hasConfirmed(Main main, Player p, AngelChest ac, int chestIdStartingAt1, double price, TeleportAction action) {
+    private static boolean hasConfirmed(Main main, Player p, int chestIdStartingAt1, double price, TeleportAction action) {
         main.debug("Creating confirm message for Chest ID " + chestIdStartingAt1);
         main.debug("Action: " + action.toString());
         String confirmCommand = String.format("/%s ", action.getCommand());
@@ -441,6 +441,7 @@ public class CommandUtils {
         return time;
     }
 
+    /*
     public static void unlockAllChests(Main main, Player p) {
         ArrayList<AngelChest> angelChestsFromThisPlayer = Utils.getAllAngelChestsFromPlayer(p);
 
@@ -461,5 +462,5 @@ public class CommandUtils {
         } else {
             p.sendMessage(String.format(main.messages.MSG_UNLOCKED_MORE_ANGELCHESTS, chestsUnlocked));
         }
-    }
+    }*/
 }

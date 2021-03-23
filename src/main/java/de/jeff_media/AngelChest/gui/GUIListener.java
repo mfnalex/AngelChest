@@ -34,6 +34,7 @@ public class GUIListener implements @NotNull Listener {
         this.main = Main.getInstance();
     }
 
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChestSortEvent(ChestSortEvent event) {
         if(event.getInventory() != null && event.getInventory().getHolder() != null && event.getInventory().getHolder() instanceof GUIHolder) {
@@ -42,6 +43,7 @@ public class GUIListener implements @NotNull Listener {
         }
     }
 
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void cancel(InventoryDragEvent event) {
         if (event.getInventory() == null) return;
@@ -57,6 +59,7 @@ public class GUIListener implements @NotNull Listener {
         }
     }
 
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void cancel(InventoryInteractEvent event) {
         if (event.getInventory() == null) return;
@@ -65,6 +68,7 @@ public class GUIListener implements @NotNull Listener {
         event.setCancelled(true);
     }
 
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void cancel(InventoryMoveItemEvent event) {
         if (event.getSource() != null) {
@@ -98,7 +102,7 @@ public class GUIListener implements @NotNull Listener {
         }
     }
 */
-    @SuppressWarnings("DefaultAnnotationParam")
+    @SuppressWarnings({"DefaultAnnotationParam", "unused"})
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
     public void onPreviewGUIClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player)) return;
@@ -209,6 +213,7 @@ public class GUIListener implements @NotNull Listener {
         return false;
     }
 
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onGUIClick(InventoryClickEvent event) {
 
@@ -295,6 +300,7 @@ public class GUIListener implements @NotNull Listener {
 
     }
 
+    @SuppressWarnings("unused")
     private void onGUIClickConfirmMenu(InventoryClickEvent event, Player player, GUIHolder holder, int clickedSlot) {
         TeleportAction action = holder.getAction();
         switch (clickedSlot) {
@@ -311,6 +317,7 @@ public class GUIListener implements @NotNull Listener {
         }
     }
 
+    @SuppressWarnings("unused")
     private void onGUIClickMainMenu(InventoryClickEvent event, Player player, GUIHolder holder, int clickedSlot) {
         int clickedID = clickedSlot + 1;
         if (clickedID > holder.getNumberOfAngelChests()) return;
@@ -352,6 +359,7 @@ public class GUIListener implements @NotNull Listener {
         }
     }
 
+    @SuppressWarnings("unused")
     private void confirmOrTeleport(InventoryClickEvent event, Player player, GUIHolder holder, TeleportAction action) {
         if (main.getConfig().getBoolean(Config.CONFIRM) && action.getPrice(player)>0.0d && main.economyStatus== EconomyStatus.ACTIVE) {
             main.guiManager.showConfirmGUI(player, holder, action);

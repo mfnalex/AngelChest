@@ -46,12 +46,15 @@ import org.jetbrains.annotations.Nullable;
 
 public class Main extends JavaPlugin {
 
-	private static final String SPIGOT_RESOURCE_ID = "88214";
+	private static final String SPIGOT_RESOURCE_ID_PLUS = "88214";
+	private static final String SPIGOT_RESOURCE_ID_FREE = "60383";
 	private static final int BSTATS_ID = 3194;
 	private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/angelchestplus/latest-version.txt";
-	private static final String UPDATECHECKER_LINK_DOWNLOAD = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID;
-	private static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID+"/updates";
+	private static final String UPDATECHECKER_LINK_DOWNLOAD_FREE = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_FREE;
+	private static final String UPDATECHECKER_LINK_DOWNLOAD_PLUS = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_PLUS;
+	private static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_PLUS+"/updates";
 	private static final String UPDATECHECKER_LINK_DONATE = "https://paypal.me/mfnalex";
+	@SuppressWarnings({"FieldCanBeLocal","FieldMayBeFinal","CanBeFinal"})
 	private String UID = "%%__USER__%%" ;
 
 	public HashMap<UUID, PendingConfirm> pendingConfirms;
@@ -60,6 +63,7 @@ public class Main extends JavaPlugin {
 	public HashMap<UUID,Entity> killers;
 	public Material chestMaterial;
 	public Material chestMaterialUnlocked;
+	public String[] invalidConfigFiles;
 	PluginUpdateChecker updateChecker;
 
 	public boolean debug = false;
@@ -93,7 +97,7 @@ public class Main extends JavaPlugin {
 	private Boolean usingValidUID = null;
 
 	public Material getChestMaterial(AngelChest chest) {
-		if(premium(Features.DIFFERENT_MATERIAL_FOR_UNLOCKED_CHESTS) && getConfig().getBoolean(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED)==false) {
+		if(premium() && !getConfig().getBoolean(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED)) { // Don't add feature
 			return chestMaterial;
 		}
 		return chest.isProtected ? chestMaterial : chestMaterialUnlocked;
@@ -116,15 +120,18 @@ public class Main extends JavaPlugin {
 
 		instance = this;
 
-		//if(premium()) {
 		migrateFromAngelChestPlus1X();
-		//}
+		if(getMcVersion()<13) {
+			EmergencyMode.severe(EmergencyMode.UNSUPPORTED_MC_VERSION_1_12);
+			emergencyMode = true;
+			return;
+		}
 
 		ConfigurationSerialization.registerClass(DeathCause.class);
 
 		if(isAngelChestPlus1XInstalled()) {
 			emergencyMode = true;
-			EmergencyMode.run(EmergencyMode.EmergencyReason.FREE_VERSION_INSTALLED);
+			EmergencyMode.severe(EmergencyMode.FREE_VERSION_INSTALLED);
 			return;
 		}
 
@@ -156,7 +163,7 @@ public class Main extends JavaPlugin {
 		this.getCommand("acfetch").setExecutor(commandFetchOrTeleport);
 		this.getCommand("actp").setExecutor(commandFetchOrTeleport);
 		this.getCommand("acreload").setExecutor(new CommandReload());
-		this.getCommand("acgui").setExecutor(new CommandGUI(this));
+		this.getCommand("acgui").setExecutor(new CommandGUI());
 
 		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
 			new PlaceholderAPIHook(this).register();
@@ -171,12 +178,13 @@ public class Main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new PlayerListener(),this);
 		getServer().getPluginManager().registerEvents(new HologramListener(),this);
 		getServer().getPluginManager().registerEvents(new BlockListener(),this);
-		getServer().getPluginManager().registerEvents(new PistonListener(this),this);
+		getServer().getPluginManager().registerEvents(new PistonListener(),this);
+		getServer().getPluginManager().registerEvents(new EmergencyListener(),this);
 		guiListener = new GUIListener();
 		getServer().getPluginManager().registerEvents(guiListener,this);
 		
 		@SuppressWarnings("unused")
-		Metrics metrics = new Metrics(this,3194);
+		Metrics metrics = new Metrics(this,BSTATS_ID);
 		metrics.addCustomChart(new Metrics.SimplePie(Config.MATERIAL, () -> chestMaterial.name()));
 		metrics.addCustomChart(new Metrics.SimplePie("auto_respawn", () -> getConfig().getBoolean(Config.AUTO_RESPAWN)+""));
 		metrics.addCustomChart(new Metrics.SimplePie("totem_works_everywhere", () -> getConfig().getBoolean(Config.TOTEM_OF_UNDYING_WORKS_EVERYWHERE)+""));
@@ -355,8 +363,9 @@ public class Main extends JavaPlugin {
 		}
 		if(UID.matches("^[0-9]+$")) {
 			usingValidUID = true;
+		} else {
+			usingValidUID = false;
 		}
-		usingValidUID = false;
 		return usingValidUID;
 	}
 
@@ -459,9 +468,11 @@ public class Main extends JavaPlugin {
 		if(updateChecker == null) {
 			updateChecker = new PluginUpdateChecker(this,
 					UPDATECHECKER_LINK_API,
-					UPDATECHECKER_LINK_DOWNLOAD,
+					UPDATECHECKER_LINK_DOWNLOAD_PLUS,
+					UPDATECHECKER_LINK_DOWNLOAD_FREE,
 					UPDATECHECKER_LINK_CHANGELOG,
-					UPDATECHECKER_LINK_DONATE);
+					UPDATECHECKER_LINK_DONATE,
+					premium());
 		} else {
 			updateChecker.stop();
 		}

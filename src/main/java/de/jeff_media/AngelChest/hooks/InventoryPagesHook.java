@@ -18,13 +18,12 @@ public class InventoryPagesHook {
     final Main main;
     YamlConfiguration inventoryPagesConfig;
 
-    int prevSlot, nextSlot;
     Material prevMat, nextMat, noPageMat;
     String prevName, nextName, noPageName;
 
     boolean disabled = false;
 
-    public InventoryPagesHook(Main main) {
+    public InventoryPagesHook() {
         this.main = Main.getInstance();
 
         File inventoryPagesConfigFile = new File(main.getDataFolder() + File.separator + ".." + File.separator + "InventoryPages" + File.separator + "config.yml");
@@ -38,8 +37,8 @@ public class InventoryPagesHook {
 
         main.getLogger().info("Succesfully hooked into InventoryPages");
 
-        prevSlot = inventoryPagesConfig.getInt("items.prev.position")+9;
-        nextSlot = inventoryPagesConfig.getInt("items.next.position")+9;
+        /*prevSlot = inventoryPagesConfig.getInt("items.prev.position")+9;
+        nextSlot = inventoryPagesConfig.getInt("items.next.position")+9;*/
 
         prevMat = Material.valueOf(inventoryPagesConfig.getString("items.prev.id"));
         nextMat = Material.valueOf(inventoryPagesConfig.getString("items.next.id"));

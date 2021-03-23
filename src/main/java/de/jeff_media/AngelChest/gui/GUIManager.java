@@ -24,7 +24,7 @@ public class GUIManager {
 
     private final Main main;
 
-    public GUIManager(Main main) {
+    public GUIManager() {
         this.main = Main.getInstance();
 
     }
@@ -84,11 +84,11 @@ public class GUIManager {
         return item;
     }
 
-    private String getChestItemName(AngelChest angelChest, int id) {
+    private String getChestItemName(@SuppressWarnings("unused") AngelChest angelChest, int id) {
         return String.format("§6AngelChest #%d", id);
     }
 
-    private List<String> getChestItemLore(AngelChest angelChest, int id) {
+    private List<String> getChestItemLore(AngelChest angelChest,@SuppressWarnings("unused") int id) {
 
         String[] lore = new String[]{
                 String.format("§4%s",CommandUtils.getTimeLeft(angelChest)),

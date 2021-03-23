@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 public class LinkUtils {
 
-    protected static TextComponent getLinks(Player sendTo, Player affectedPlayer, String preText, String commandTp, String commandUnlock, String commandFetch) {
+    protected static TextComponent getLinks(Player sendTo, @SuppressWarnings("unused") Player affectedPlayer, String preText, String commandTp, String commandUnlock, String commandFetch) {
 
         Main main = Main.getInstance();
 

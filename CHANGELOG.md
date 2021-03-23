@@ -1,13 +1,16 @@
-## 3.0.0
+## 3.0.0-SNAPSHOT1
 - AngelChestPlus and AngelChest (free version) now share the same source code. This means:
-- All the premium features are still only available in AngelChestPlus. It will not change anything for your players.
-- The version has been bumped from 2.X (free version) and 1.X (plus version) to 3.0.0 so they will always share the same version number.
+  - All the premium features are still only available in AngelChestPlus. It will not change anything for your players.
+  - The version has been bumped from 2.X (free version) and 1.X (plus version) to 3.0.0 so they will always share the same version number.
+  - The free version will show links to both the free and plus version when a new update is available, the plus version will only show a link to the plus version
+- Fixed chest spawning above world's height limit
+- Fixed chest spawning at random locations in caves (when dying inside CAVE_AIR) 
+- Added config validator that will show a warning in console and to server operators when your config file is broken
 
 Note when upgrading: The file has been renamed from AngelChestPlus.jar to AngelChest.jar. Please remove your old .jar file before updating. You do NOT have to rename your config folder.
 
 ## 1.12.4
-- Fixed chest spawning above world's height limit
-- Fixed chest spawning at random locations in caves (when dying inside CAVE_AIR) 
+
 
 ## 1.12.3
 - Fixed some messages being shown twice in some server implementations under certain circumstances
