@@ -2,6 +2,8 @@
 #####   AngelChestPlus  #####
 #############################
 
+# written by mfnalex / JEFF Media GbR
+
 ##### WARNING! #####
 # This file contains UTF8 symbols! You MUST use a proper text editor like Notepad++ to edit this file!
 # If you use some kind of "online editor", your file will break and reset to the default values!
@@ -103,6 +105,7 @@ angelchest-duration: 600
 # giving players the angelchest.group.<groupname> permission. See
 # groups.example.yml for more information.
 # Default is 0 = never
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 unlock-duration: 0
 
 # Global chance for spawning an AngelChest
@@ -112,6 +115,7 @@ unlock-duration: 0
 # You can override this for certain players by setting up groups and
 # giving players the angelchest.group.<groupname> permission. See
 # groups.example.yml for more information.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 spawn-chance: 1.0
 
 # The maximum amount of AngelChests a player may have at the same time.
@@ -133,6 +137,7 @@ dont-protect-chest-if-player-died-in-pvp: false
 # When true, the XP (see "xp-percentage" below) is collected, too.
 # When false, XP drops normally
 # When set to "nopvp", the XP is not collected if the player died during PvP.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! (Always stores XP)
 collect-xp: true
 
 # Amount of XP the player keeps within their chest on death.
@@ -142,20 +147,15 @@ collect-xp: true
 # You can override this for certain players by setting up groups
 # and giving players the angelchest.group.<groupname> permission.
 # See groups.example.yml for more information.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! (Always uses vanilla amount)
 xp-percentage: -1
-
-# When the block where the player dies is not empty (e.g. water, lava, half slab)
-# we will search for an empty block inside max-radius. Default is 10 blocks.
-# If there is absolutely no free space inside this radius, the chest
-# is spawned exactly where the player died and may replace a transparent block, so
-# do not set this value too low.
-max-radius: 10
 
 # When set to true, players will receive a message telling them where the AngelChest
 # is located.
 show-location: true
 
 # Whether to show a message to the AngelChest owner when other players open or empty their chest
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 show-message-when-other-player-opens-angelchest: true
 show-message-when-other-player-empties-angelchest: true
 
@@ -165,6 +165,7 @@ show-message-when-other-player-empties-angelchest: true
 # true    - Opens the main GUI showing all AngelChests or the latest if you only have one
 # latest  - Opens the GUI showing the latest AngelChest only
 # false   - Do not open the GUI automatically
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 show-gui-after-death: false
 
 # When "show-gui-after-death" is enabled ("latest" or "true"), only show the GUI if the
@@ -180,6 +181,7 @@ material: CHEST
 
 # You can choose another Material to use for unlocked
 # AngelChests.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 use-different-material-when-unlocked: false
 material-unlocked: ENDER_CHEST
 
@@ -201,24 +203,39 @@ custom-head-base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5
 void-detection: true
 
 # When false, AngelChests will not be spawned for players who died in lava
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 allow-chest-in-lava: true
 
 # When false, AngelChests will not be spawned for players who died in the void
 # NOTE: The vanilla /kill command will cause void damage, so when you set this to
 # false, using /kill or /minecraft:kill will prevent the AngelChest from spawning
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 allow-chest-in-void: true
 
 # You probably don't want your AngelChest to spawn on blocks like GRASS_PATH, FARMLAND, etc.
-# as that would destroy those blocks. You can blacklist them here.
+# as that would destroy those blocks. You can blacklist them here so AngelChest searches
+# for a spot nearby.
 dont-spawn-on:
 - FARMLAND
 - GRASS_PATH
 - LAVA
 
-# You can specify inside which existing blocks the AngelChest may spawn.
+# You can specify inside which existing blocks the AngelChest may spawn. If the block where
+# the player died is not in this list, AngelChest searches for a spot nearby.
 only-spawn-in:
 - AIR
 - WATER
+
+# When the block where the player died doesn't match "dont-spawn-on" and "only-spawn-in"
+# we will search for another block inside max-radius. Default is 10 blocks.
+# If there is absolutely no free space inside this radius, the chest
+# is spawned exactly where the player died and may replace an existing block, so
+# do not set this value too low.
+max-radius: 10
+
+# When absolutely no block inside "max-radius" is found, and the block where the player
+# died is bedrock, we can search for another block to replace instead of bedrock.
+never-replace-bedrock: true
 
 # Remove curse of vanishing / curse of binding items from the chest?
 remove-curse-of-vanishing: true
@@ -270,6 +287,7 @@ check-interval: 4
 # How much does it cost to spawn the AngelChest? The amount will automatically
 # be taken from the player on death if they have enough money, otherwise
 # the chest will not spawn and the items drop normally
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 price: 0
 
 # You can refund the price when a player does not to open their AngelChest
@@ -278,6 +296,7 @@ refund-expired-chests: false
 
 # How much does it cost for a player to open a chest? Each player will only be
 # charged once per chest.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 price-open: 0
 
 # How much does it cost to teleport yourself to one of your AngelChests?
@@ -298,6 +317,9 @@ confirm: true
 # avoid those from being duplicated, you can just enter their material
 # type here. Future versions will also allow to filter for items by
 # lore or custom name and more 3rd party plugins hooks
+
+# When using AngelChestPlus, you can instead use the blacklist.yml file
+# to filter items according to material, name and lore!
 
 # Example:
 
@@ -413,14 +435,17 @@ hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&6{time}\n&cKilled by {deathcaus
 
 # This text is added to the hologram where you have {protected} in your "hologram-text"
 # and if your AngelChest is protected and auto unlocking is disabled.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 hologram-protected-text: "&cProtected"
 
 # This text is added to the hologram where you have {protected} in your "hologram-text"
 # and if your AngelChest is protected and auto unlocking is enabled.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 hologram-protected-countdown-text: "&cProtected for {time}"
 
 # This text is added to the hologram where you have {protected} in your "hologram-text"
 # and if your AngelChest is unprotected.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 hologram-unprotected-text: "&aUnprotected"
 
 # If you think the hologram is displayed too high, you can change this number.
@@ -433,6 +458,8 @@ hologram-offset-per-line: 0.25
 #########################
 #####     GUI      ######
 #########################
+
+# PREMIUM FEATURE: THE WHOLE GUI IS ONLY AVAILABLE IN AngelChestPlus!
 
 # You can use base64 strings to customize the GUI buttons.
 # You can for example use this website: https://minecraft-heads.com/custom-heads
@@ -877,6 +904,7 @@ console-message-on-open: false
 # Log all created AngelChests, including content, death location, death cause, death time and player' inventory content.
 # Also logs what items have been put into the chest and when a chest has been emptied.
 # Note: Taking out single items from the chest is currently NOT logged! That will be added in the future.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 log-angelchests: false
 
 # The amount of hours until log files are removed again. Set to -1 to never remove the log files

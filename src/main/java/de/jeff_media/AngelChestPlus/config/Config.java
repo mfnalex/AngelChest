@@ -92,4 +92,5 @@ public class Config {
     public static final String PREFIX_MESSAGES = "add-prefix";
     public static final String PREFIX = "prefix";
     public static final String SPAWN_CHANCE = "spawn-chance";
+    public static final String NEVER_REPLACE_BEDROCK = "never-replace-bedrock";
 }

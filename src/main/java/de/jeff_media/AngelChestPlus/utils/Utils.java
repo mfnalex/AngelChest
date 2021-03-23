@@ -13,6 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.*;
@@ -86,7 +87,12 @@ public class Utils {
 
     }
 
-    public static boolean isEmpty(ItemStack itemStack) {
+    /**
+     * Checks whether an ItemStack is null/empty or not
+     * @param itemStack ItemStack to check or null
+     * @return true if ItemStack is null, amount is 0 or material is AIR
+     */
+    public static boolean isEmpty(@Nullable ItemStack itemStack) {
         if (itemStack == null)
             return true;
         if (itemStack.getAmount() == 0)
@@ -94,27 +100,36 @@ public class Utils {
         return itemStack.getType().equals(Material.AIR);
     }
 
+    /**
+     * Checks whether a world is enabled or if it's on the blacklist
+     * @param world World to check
+     * @return true if world is enabled, false if it's on the blacklist
+     */
     public static boolean isWorldEnabled(World world) {
-
         for (String worldName : Main.getInstance().disabledWorlds) {
             if (world.getName().equalsIgnoreCase(worldName)) {
                 return false;
             }
         }
-
         return true;
     }
 
-    public static Block findSafeBlock(Block playerLoc) {
-        Main main = Main.getInstance();
+    public static Block getChestLocation(Block playerLoc) {
         Block fixedAngelChestBlock = playerLoc;
 
-        if (!playerLoc.getType().equals(Material.AIR)) {
-            List<Block> blocksNearby = Utils.getPossibleChestLocations(playerLoc.getLocation(),
-                    main.getConfig().getInt(Config.MAX_RADIUS));
+        //if (!playerLoc.getType().equals(Material.AIR)) {
+            List<Block> blocksNearby = Utils.getPossibleChestLocations(playerLoc.getLocation());
 
             if (blocksNearby.size() > 0) {
-                Utils.sortBlocksByDistance(fixedAngelChestBlock, blocksNearby);
+                Utils.sortBlocksByDistance(playerLoc, blocksNearby);
+                fixedAngelChestBlock = blocksNearby.get(0);
+            }
+        //}
+
+        if(Main.getInstance().getConfig().getBoolean(Config.NEVER_REPLACE_BEDROCK) && fixedAngelChestBlock.getType()==Material.BEDROCK) {
+            List<Block> nonBedrockBlocksNearby = Utils.getNonBedrockBlocks(playerLoc.getLocation());
+            if(nonBedrockBlocksNearby.size() > 0) {
+                Utils.sortBlocksByDistance(playerLoc,nonBedrockBlocksNearby);
                 fixedAngelChestBlock = blocksNearby.get(0);
             }
         }
@@ -269,17 +284,50 @@ public class Utils {
         }
     }
 
-    public static List<Block> getPossibleChestLocations(Location location, int radius) {
+    private static boolean isAir(Material mat) {
+        return mat==Material.AIR || mat == Material.CAVE_AIR;
+    }
+
+    public static List<Block> getPossibleChestLocations(Location location) {
         Main main = Main.getInstance();
+        int radius = main.getConfig().getInt(Config.MAX_RADIUS);
         List<Block> blocks = new ArrayList<>();
         for (int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
             for (int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
                 for (int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
+
                     Block block = location.getWorld().getBlockAt(x, y, z);
                     Block oneBelow = location.getWorld().getBlockAt(x, y - 1, z);
-                    if (main.onlySpawnIn.contains(block.getType())
+
+                    if (
+                            (isAir(block.getType()) || main.onlySpawnIn.contains(block.getType()) )
                             && !main.dontSpawnOn.contains(oneBelow.getType())
-                            && y > 0) {
+                            && y > 0
+                            && y < location.getWorld().getMaxHeight()) {
+                        //main.verbose("Possible chest loc: "+block.toString());
+                        blocks.add(block);
+                    } else {
+                        //main.verbose("NO possible chest loc: "+block.toString());
+                    }
+                }
+            }
+        }
+        return blocks;
+    }
+
+    public static List<Block> getNonBedrockBlocks(Location location) {
+        Main main = Main.getInstance();
+        int radius = main.getConfig().getInt(Config.MAX_RADIUS);
+        List<Block> blocks = new ArrayList<>();
+        for (int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
+            for (int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
+                for (int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
+
+                    Block block = location.getWorld().getBlockAt(x, y, z);
+
+                    if (block.getType() != Material.BEDROCK
+                            && y > 0
+                            && y < location.getWorld().getMaxHeight()) {
                         blocks.add(block);
                     }
                 }
@@ -333,6 +381,11 @@ public class Utils {
     public static boolean spawnChance(double chance)
     {
         Main main = Main.getInstance();
+
+        if(!main.premium()) {
+            return true;
+        }
+
         main.debug("spawn chance = "+chance);
         if (chance >= 1.0) {
             main.debug("chance >= 1.0, return true");

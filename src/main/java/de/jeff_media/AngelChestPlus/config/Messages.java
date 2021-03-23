@@ -19,6 +19,8 @@ public class Messages {
 	MSG_PLEASE_SELECT_CHEST, MSG_ANGELCHEST_EXPLODED, MSG_NO_CHEST_IN_PVP, MSG_RETRIEVED, MSG_CONFIRM,
 	MSG_NOT_ENOUGH_MONEY_CHEST, MSG_PAID_OPEN, MSG_UNLOCKED_AUTOMATICALLY, MSG_OPENED, MSG_EMPTIED, MSG_SPAWN_CHANCE_UNSUCCESFULL;
 
+	public final String MSG_PREMIUMONLY;
+
 
 	public final String GUI_TITLE_MAIN, GUI_TITLE_CHEST, GUI_BACK, GUI_INFO, GUI_TELEPORT, GUI_FETCH, GUI_UNLOCK, GUI_ACCEPT, GUI_DECLINE, GUI_INFO_LORE, GUI_PREVIEW;
 	
@@ -38,6 +40,8 @@ public class Messages {
 		} else {
 			PREFIX = "";
 		}
+
+		MSG_PREMIUMONLY = PREFIX + "§6This feature is only available in AngelChestPlus.";
 
 		MSG_SPAWN_CHANCE_UNSUCCESFULL = PREFIX + ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-spawn-chance-unsuccessful", "&cYour Angel forgot to collect your stuff, unlucky!"));
 		

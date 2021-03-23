@@ -174,9 +174,11 @@ public class GUIManager {
             inventory.setItem(GUI.SLOT_PREVIEW_XP,getButton(Material.EXPERIENCE_BOTTLE,"§6"+ XPUtils.xpToString(angelChest.experience),null));
         }
 
-        if(!isPreview && firstOpened && !player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
-            if(Bukkit.getPlayer(angelChest.owner)!=null) {
-                Bukkit.getPlayer(angelChest.owner).sendMessage(main.messages.MSG_OPENED.replaceAll("\\{player}",player.getName()));
+        if(main.premium()) {
+            if (!isPreview && firstOpened && !player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
+                if (Bukkit.getPlayer(angelChest.owner) != null) {
+                    Bukkit.getPlayer(angelChest.owner).sendMessage(main.messages.MSG_OPENED.replaceAll("\\{player}", player.getName()));
+                }
             }
         }
 

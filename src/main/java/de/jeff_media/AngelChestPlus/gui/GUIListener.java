@@ -186,9 +186,11 @@ public class GUIListener implements @NotNull Listener {
                 for(HumanEntity viewer : event.getClickedInventory().getViewers().toArray(new HumanEntity[0])) {
                     viewer.closeInventory();
                 }
-                if(!player.getUniqueId().equals(guiHolder.getAngelChest().owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
-                    if(Bukkit.getPlayer(guiHolder.getAngelChest().owner)!=null) {
-                        Bukkit.getPlayer(guiHolder.getAngelChest().owner).sendMessage(main.messages.MSG_EMPTIED.replaceAll("\\{player}",player.getName()));
+                if(main.premium()) {
+                    if (!player.getUniqueId().equals(guiHolder.getAngelChest().owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
+                        if (Bukkit.getPlayer(guiHolder.getAngelChest().owner) != null) {
+                            Bukkit.getPlayer(guiHolder.getAngelChest().owner).sendMessage(main.messages.MSG_EMPTIED.replaceAll("\\{player}", player.getName()));
+                        }
                     }
                 }
                 Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {

@@ -1,3 +1,7 @@
+## 1.12.4
+- Fixed chest spawning above world's height limit
+- Fixed chest spawning at random locations in caves (when dying inside CAVE_AIR) 
+
 ## 1.12.3
 - Fixed some messages being shown twice in some server implementations under certain circumstances
 - Removed "Loading AngelChest xyz.yml" on startup. This will now only be shown when debug mode is enabled

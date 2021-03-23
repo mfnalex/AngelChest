@@ -85,6 +85,9 @@ public class GroupUtils {
     }
 
     public int getUnlockDurationPerPlayer(Player p) {
+        if(!main.premium()) {
+            return -1;
+        }
         if(yaml==null) {
             if(main.getConfig().getInt(Config.UNLOCK_DURATION)==0) return -1;
             return main.getConfig().getInt(Config.UNLOCK_DURATION);
@@ -129,7 +132,10 @@ public class GroupUtils {
     }
 
     public double getSpawnPricePerPlayer(Player p) {
-        if(yaml==null) return getPercantagePrice(p,main.getConfig().getString(Config.PRICE));
+        if(!main.premium()) {
+            return 0;
+        }
+        if(yaml==null) return getPercentagePrice(p,main.getConfig().getString(Config.PRICE));
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
         while(it.hasNext()) {
@@ -139,17 +145,20 @@ public class GroupUtils {
             if(pricePerPlayer.equals("-1")) {
                 continue;
             }
-            bestValueFound = bestValueFound == null ? getPercantagePrice(p,pricePerPlayer) : Math.min(getPercantagePrice(p,pricePerPlayer), bestValueFound);
+            bestValueFound = bestValueFound == null ? getPercentagePrice(p,pricePerPlayer) : Math.min(getPercentagePrice(p,pricePerPlayer), bestValueFound);
         }
         if(bestValueFound!=null) {
             return bestValueFound;
         } else {
-            return getPercantagePrice(p,main.getConfig().getString(Config.PRICE));
+            return getPercentagePrice(p,main.getConfig().getString(Config.PRICE));
         }
     }
 
     public double getOpenPricePerPlayer(Player p) {
-        if(yaml==null) return getPercantagePrice(p,main.getConfig().getString(Config.PRICE_OPEN));
+        if(!main.premium()) {
+            return 0;
+        }
+        if(yaml==null) return getPercentagePrice(p,main.getConfig().getString(Config.PRICE_OPEN));
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
         while(it.hasNext()) {
@@ -159,17 +168,17 @@ public class GroupUtils {
             if(pricePerPlayer.equals("-1")) {
                 continue;
             }
-            bestValueFound = bestValueFound == null ? getPercantagePrice(p,pricePerPlayer) : Math.min(getPercantagePrice(p,pricePerPlayer), bestValueFound);
+            bestValueFound = bestValueFound == null ? getPercentagePrice(p,pricePerPlayer) : Math.min(getPercentagePrice(p,pricePerPlayer), bestValueFound);
         }
         if(bestValueFound!=null) {
             return bestValueFound;
         } else {
-            return getPercantagePrice(p,main.getConfig().getString(Config.PRICE_OPEN));
+            return getPercentagePrice(p,main.getConfig().getString(Config.PRICE_OPEN));
         }
     }
 
     public double getFetchPricePerPlayer(Player p) {
-        if(yaml==null) return getPercantagePrice(p,main.getConfig().getString(Config.PRICE_FETCH));
+        if(yaml==null || !main.premium()) return getPercentagePrice(p,main.getConfig().getString(Config.PRICE_FETCH));
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
         while(it.hasNext()) {
@@ -179,17 +188,17 @@ public class GroupUtils {
             if(pricePerPlayer.equals("-1")) {
                 continue;
             }
-            bestValueFound = bestValueFound == null ? getPercantagePrice(p,pricePerPlayer) : Math.min(getPercantagePrice(p,pricePerPlayer), bestValueFound);
+            bestValueFound = bestValueFound == null ? getPercentagePrice(p,pricePerPlayer) : Math.min(getPercentagePrice(p,pricePerPlayer), bestValueFound);
         }
         if(bestValueFound!=null) {
             return bestValueFound;
         } else {
-            return getPercantagePrice(p,main.getConfig().getString(Config.PRICE_FETCH));
+            return getPercentagePrice(p,main.getConfig().getString(Config.PRICE_FETCH));
         }
     }
 
     public double getTeleportPricePerPlayer(Player p) {
-        if(yaml==null) return getPercantagePrice(p,main.getConfig().getString(Config.PRICE_TELEPORT));
+        if(yaml==null || !main.premium()) return getPercentagePrice(p,main.getConfig().getString(Config.PRICE_TELEPORT));
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
         while(it.hasNext()) {
@@ -199,18 +208,22 @@ public class GroupUtils {
             if(pricePerPlayer.equals("-1")) {
                 continue;
             }
-            bestValueFound = bestValueFound == null ? getPercantagePrice(p,pricePerPlayer) : Math.min(getPercantagePrice(p,pricePerPlayer), bestValueFound);
+            bestValueFound = bestValueFound == null ? getPercentagePrice(p,pricePerPlayer) : Math.min(getPercentagePrice(p,pricePerPlayer), bestValueFound);
         }
         if(bestValueFound!=null) {
             return bestValueFound;
         } else {
-            return getPercantagePrice(p,main.getConfig().getString(Config.PRICE_TELEPORT));
+            return getPercentagePrice(p,main.getConfig().getString(Config.PRICE_TELEPORT));
         }
     }
 
-    public static double getPercantagePrice(Player p, String value) {
+    public static double getPercentagePrice(Player p, String value) {
         Main main = Main.getInstance();
         if(value.endsWith("p")) {
+            if(!main.premium()) {
+                main.getLogger().warning("You are using percentage prices in your config file. This is only available in AngelChestPlus. See here: https://www.spigotmc.org/resources/%E2%AD%90-angelchestplus-%E2%AD%90.88214/");
+                return 0;
+            }
             double percentage = Double.parseDouble(value.substring(0,value.length()-1));
             if(main.economyStatus != EconomyStatus.ACTIVE) {
                 return 0;
@@ -227,6 +240,7 @@ public class GroupUtils {
     }
 
     public double getSpawnChancePerPlayer(Player p) {
+        if(!main.premium()) return 1.0;
         if(yaml==null) return main.getConfig().getDouble(Config.SPAWN_CHANCE);
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;

@@ -130,19 +130,23 @@ public class Logger {
     }
 
     public void logXPTaken(Player player, int xp, File file) {
+        if(!main.premium()) return;
         writeWithTime(String.format("Player \"%s\" took XP: %d",player.getName(),xp),file);
     }
 
     public void logItemTaken(Player player, @Nullable ItemStack item, File file) {
+        if(!main.premium()) return;
         if(item==null) return;
         writeWithTime(String.format("Player \"%s\" took item: %s",player.getName(),item.toString()),file);
     }
 
     public void logPaidForChest(Player player, double price, File file) {
+        if(!main.premium()) return;
         writeWithTime(String.format("Player \"%s\" paid %f to open this AngelChest for the first time.",player.getName(),price),file);
     }
 
     public void logLastItemTaken(Player player, File file) {
+        if(!main.premium()) return;
         write("",file);
         writeWithTime(String.format("Player \"%s\" took the last item. Removing AngelChest!",player.getName()),file);
         write("",file);
@@ -150,6 +154,7 @@ public class Logger {
     }
 
     public void logDeath(PlayerDeathEvent event, AngelChest ac) {
+        if(!main.premium()) return;
         File file = getLogFile(event);
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         write("=== AngelChest spawned ===",file);

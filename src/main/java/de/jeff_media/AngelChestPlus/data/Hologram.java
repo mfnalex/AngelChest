@@ -55,8 +55,10 @@ public class Hologram {
 			String line = scanner.nextLine();
             if (armorStand != null) {
 
-                line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest))
-                .replaceAll("\\{protected}",getProtectedText(chest));
+                line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
+                if(main.premium()) {
+                    line = line.replaceAll("\\{protected}", getProtectedText(chest));
+                }
                 if (line.equals("")) {
                     armorStand.setCustomName(" ");
                     armorStand.setCustomNameVisible(false);
@@ -104,7 +106,9 @@ public class Hologram {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
-            line = line.replaceAll("\\{protected}", getProtectedText(chest));
+            if(main.premium()) {
+                line = line.replaceAll("\\{protected}", getProtectedText(chest));
+            }
             boolean customNameVisible = true;
             if (line.equals("")) {
                 line = " ";

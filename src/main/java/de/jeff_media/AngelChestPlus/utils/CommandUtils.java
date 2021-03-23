@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static de.jeff_media.AngelChestPlus.utils.Utils.findSafeBlock;
+import static de.jeff_media.AngelChestPlus.utils.Utils.getChestLocation;
 import static de.jeff_media.AngelChestPlus.utils.Utils.getCardinalDirection;
 
 public class CommandUtils {
@@ -187,7 +187,7 @@ public class CommandUtils {
         Location newLoc = BlockDataUtils.getLocationInDirection(player.getLocation(), dir);
         BlockFace facing = BlockDataUtils.getChestFacingDirection(dir);
 
-        Block newBlock = findSafeBlock(newLoc.getBlock());
+        Block newBlock = getChestLocation(newLoc.getBlock());
         Block oldBlock = ac.block;
 
         // Move the block in game

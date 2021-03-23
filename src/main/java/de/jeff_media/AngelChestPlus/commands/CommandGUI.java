@@ -18,6 +18,11 @@ public class CommandGUI implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
 
+        if(!main.premium()) {
+            sender.sendMessage(main.messages.MSG_PREMIUMONLY);
+            return true;
+        }
+
         if(!sender.hasPermission("angelchest.use")) {
             sender.sendMessage(main.getCommand("aclist").getPermissionMessage());
             return true;
