@@ -1,5 +1,5 @@
 ## 3.0.2
-- Added Discord verification system
+- Added "discord-verification.html" file for super easy discord verification
 
 ## 3.0.1
 - Fixed old chests from the Plus version not being compatible with 3.0.0+

@@ -376,9 +376,6 @@ public class Main extends JavaPlugin {
 		} else {
 			usingValidUID = false;
 		}
-		if(new File(getDataFolder(),"im-a-jerk").exists()) {
-			usingValidUID = true;
-		}
 		return usingValidUID;
 	}
 
