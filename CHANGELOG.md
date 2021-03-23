@@ -1,3 +1,6 @@
+## 3.0.2
+- Added Discord verification system
+
 ## 3.0.1
 - Fixed old chests from the Plus version not being compatible with 3.0.0+
 - Improved config file
@@ -13,9 +16,6 @@
 
 Note when upgrading: The file has been renamed from AngelChestPlus.jar to AngelChest.jar. Please remove your old .jar file before updating. You do NOT have to rename your config folder.
 Note when upgrading: This version does NO LONGER support Minecraft 1.12!!!
-
-## 1.12.4
-
 
 ## 1.12.3
 - Fixed some messages being shown twice in some server implementations under certain circumstances
