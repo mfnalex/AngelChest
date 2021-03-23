@@ -1,11 +1,9 @@
 package de.jeff_media.AngelChest.config;
 
 import de.jeff_media.AngelChest.Main;
+import de.jeff_media.AngelChest.utils.FileUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
+import java.io.*;
 
 public class ChestFileUpdater {
 
@@ -14,8 +12,8 @@ public class ChestFileUpdater {
 
         if(!main.getDataFolder().exists()) return;
         if(!new File(main.getDataFolder(),"angelchests").exists()) return;
-        for(File file2 : new File(main.getDataFolder(),"angelchests").listFiles()) {
-            boolean changed = false;
+        for(File file : new File(main.getDataFolder(),"angelchests").listFiles()) {
+            /*boolean changed = false;
             try {
                 // input the (modified) file content to the StringBuffer "input"
                 BufferedReader file = new BufferedReader(new FileReader(file2));
@@ -42,6 +40,14 @@ public class ChestFileUpdater {
 
             } catch (Exception e) {
                 main.getLogger().severe("Problem updating AngelChest file "+file2.getName());
+            }*/
+            try {
+                if(FileUtils.replaceStringsInFile(file,"de.jeff_media.AngelChestPlus.data.DeathCause","de.jeff_media.AngelChest.data.DeathCause")) {
+                    main.getLogger().info("Updated old AngelChest file "+ file.getName());
+                }
+            } catch (IOException ioException) {
+                main.getLogger().severe("There was a problem updating AngelChest file "+file.getName()+":");
+                ioException.printStackTrace();
             }
         }
     }

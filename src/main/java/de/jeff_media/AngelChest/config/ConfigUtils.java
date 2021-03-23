@@ -12,6 +12,7 @@ import de.jeff_media.AngelChest.hooks.MinepacksHook;
 import de.jeff_media.AngelChest.hooks.WorldGuardHandler;
 import de.jeff_media.AngelChest.utils.GroupUtils;
 import de.jeff_media.AngelChest.utils.HookUtils;
+import de.jeff_media.discordverifier.DiscordVerifier;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -115,9 +116,6 @@ public class ConfigUtils {
 		main.saveDefaultConfig();
 		main.saveResource("groups.example.yml", true);
 		main.saveResource("blacklist.example.yml", true);
-		if(main.premium()) {
-			//main.saveResource("discord-verification.html", false);
-		}
 		createDirectories();
 		conf.addDefault(Config.XP_PERCENTAGE, -1);
 		conf.addDefault(Config.SPAWN_CHANCE, 1.0);

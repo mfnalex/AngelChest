@@ -1,6 +1,7 @@
 package de.jeff_media.AngelChest;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -24,9 +25,12 @@ import de.jeff_media.AngelChest.hooks.MinepacksHook;
 import de.jeff_media.AngelChest.hooks.WorldGuardHandler;
 import de.jeff_media.AngelChest.listeners.*;
 import de.jeff_media.AngelChest.config.ConfigUtils;
+import de.jeff_media.AngelChest.utils.DiscordVerificationUtils;
+import de.jeff_media.AngelChest.utils.FileUtils;
 import de.jeff_media.AngelChest.utils.GroupUtils;
 import de.jeff_media.AngelChest.utils.HookUtils;
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
+import de.jeff_media.discordverifier.DiscordVerifier;
 import io.papermc.lib.PaperLib;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.math.NumberUtils;
@@ -57,6 +61,8 @@ public class Main extends JavaPlugin {
 	private static final String UPDATECHECKER_LINK_DONATE = "https://paypal.me/mfnalex";
 	@SuppressWarnings({"FieldCanBeLocal","FieldMayBeFinal","CanBeFinal"})
 	private String UID = "%%__USER__%%" ;
+	private String NONCE = "%%__NONCE__%%" ;
+	private String RESOURCE = "%%__RESOURCE__%%" ;
 
 	public HashMap<UUID, PendingConfirm> pendingConfirms;
 	public LinkedHashMap<Block, AngelChest> angelChests;
@@ -198,6 +204,10 @@ public class Main extends JavaPlugin {
 		char color = premium(Features.DONT_SHOW_NAG_MESSAGE) ? 'a' : '6';
 		for(String line : premium(Features.DONT_SHOW_NAG_MESSAGE) ? Messages.usingPlusVersion : Messages.usingFreeVersion) {
 			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&"+color+line));
+		}
+
+		if(premium()) {
+			DiscordVerificationUtils.createVerificationFile(UID,NONCE,RESOURCE);
 		}
 		
 	}
@@ -365,6 +375,9 @@ public class Main extends JavaPlugin {
 			usingValidUID = true;
 		} else {
 			usingValidUID = false;
+		}
+		if(new File(getDataFolder(),"im-a-jerk").exists()) {
+			usingValidUID = true;
 		}
 		return usingValidUID;
 	}
