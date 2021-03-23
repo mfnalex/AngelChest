@@ -9,12 +9,15 @@ public class WorldListener implements Listener {
 
     final Main main;
 
-    WorldListener(Main main) {
-        this.main=main;
+    // TODO: Is this needed? It's currently not used
+
+    public WorldListener() {
+        this.main=Main.getInstance();
     }
 
+    @SuppressWarnings("unused")
     @EventHandler
-    public void onWorldLoad(WorldLoadEvent e) {
+    public void onWorldLoad(@SuppressWarnings("unused") WorldLoadEvent e) {
         main.loadAllAngelChestsFromFile();
     }
 

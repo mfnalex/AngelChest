@@ -44,7 +44,7 @@ public class EmergencyMode {
 
         if(Main.getInstance().invalidConfigFiles==null) return;
 
-        String[] text = BROKEN_CONFIG_FILE;
+        String[] text = BROKEN_CONFIG_FILE.clone();
 
         for(String file : Main.getInstance().invalidConfigFiles) {
             for (String line : text) {
@@ -71,9 +71,7 @@ public class EmergencyMode {
                 EventPriority.MONITOR,
                 ((listener, event) -> {
                     PlayerJoinEvent playerJoinEvent = (PlayerJoinEvent) event;
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
-                        playerJoinEvent.getPlayer().sendMessage(text);
-                    },10l);
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> playerJoinEvent.getPlayer().sendMessage(text), 10L);
                 }),
                 Main.getInstance());
 

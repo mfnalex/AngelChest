@@ -9,13 +9,16 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class EmergencyListener implements Listener {
 
+    @SuppressWarnings("unused")
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent playerJoinEvent) {
+
+        if(Main.getInstance().invalidConfigFiles==null) return;
 
         if (playerJoinEvent.getPlayer().isOp()) {
             int i = 0;
             for (String file : Main.getInstance().invalidConfigFiles) {
-                String[] text = EmergencyMode.BROKEN_CONFIG_FILE;
+                String[] text = EmergencyMode.BROKEN_CONFIG_FILE.clone();
                 i++;
                 Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
                     for (int j = 0; j < text.length; j++) {

@@ -147,12 +147,8 @@ public class Main extends JavaPlugin {
 
 		debug("Loading AngelChests from disk");
 		loadAllAngelChestsFromFile();
-		//armorStandUUIDs = new ArrayList<UUID>();
 
-		// Deletes old armorstands and restores broken AngelChests (only case where I currently know this happens is when a endcrystal spanws in a chest)
-		Main main = this;
-
-		scheduleRepeatingTasks(main);
+		scheduleRepeatingTasks();
 
 		debug("Registering commands");
 		registerCommands();
@@ -172,6 +168,7 @@ public class Main extends JavaPlugin {
 		CommandDebug commandDebug = new CommandDebug();
 		this.getCommand("acd").setExecutor(commandDebug);
 		this.getCommand("acd").setTabCompleter(commandDebug);
+		this.getCommand("acversion").setExecutor(new CommandVersion());
 
 
 		debug("Registering listeners");
@@ -185,6 +182,7 @@ public class Main extends JavaPlugin {
 		
 		@SuppressWarnings("unused")
 		Metrics metrics = new Metrics(this,BSTATS_ID);
+		metrics.addCustomChart(new Metrics.SimplePie("using_plus_version", () -> String.valueOf(premium())));
 		metrics.addCustomChart(new Metrics.SimplePie(Config.MATERIAL, () -> chestMaterial.name()));
 		metrics.addCustomChart(new Metrics.SimplePie("auto_respawn", () -> getConfig().getBoolean(Config.AUTO_RESPAWN)+""));
 		metrics.addCustomChart(new Metrics.SimplePie("totem_works_everywhere", () -> getConfig().getBoolean(Config.TOTEM_OF_UNDYING_WORKS_EVERYWHERE)+""));
@@ -280,7 +278,7 @@ public class Main extends JavaPlugin {
 		}
 	}
 
-	private void scheduleRepeatingTasks(Main main) {
+	private void scheduleRepeatingTasks() {
 		// Rename holograms
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			for(AngelChest chest : angelChests.values()) {
@@ -493,7 +491,7 @@ public class Main extends JavaPlugin {
 	}
 
 	// Returns 16 for 1.16, etc.
-	static int getMcVersion() {
+	public static int getMcVersion() {
 		Pattern p = Pattern.compile("^1\\.(\\d*)\\.");
 		Matcher m = p.matcher((Bukkit.getBukkitVersion()));
 		int version = -1;

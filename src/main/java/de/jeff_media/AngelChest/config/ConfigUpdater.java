@@ -211,7 +211,7 @@ public class ConfigUpdater {
 		File newFile = new File(getFilePath(main,"config-backup-"+main.getConfig().getString(Config.CONFIG_PLUGIN_VERSION)+".yml"));
 		if(newFile.exists()) newFile.delete();
 		if(oldFile.getAbsoluteFile().renameTo(newFile.getAbsoluteFile())) {
-			main.getLogger().severe("Could not rename "+oldFile.getAbsolutePath()+" to "+newFile.getAbsolutePath());
+			main.getLogger().info("Could not rename "+oldFile.getAbsolutePath()+" to "+newFile.getAbsolutePath());
 		}
 	}
 }

@@ -37,25 +37,28 @@ public class ConfigUtils {
 	}
 
 	public static void validateConfigFiles() {
-		String[] invalidFiles = getBrokenConfigFiles();
-		Main.getInstance().invalidConfigFiles = invalidFiles;
+		Main.getInstance().invalidConfigFiles = getBrokenConfigFiles();
 		EmergencyMode.warnBrokenConfig();
 	}
 
 	public static @Nullable String[] getBrokenConfigFiles() {
 		ArrayList<String> files = new ArrayList<>();
 		for(String fileName : new String[] { "config.yml", "blacklist.yml", "groups.yml"}) {
-			File file = new File(Main.getInstance().getDataFolder(), "config.yml");
+			Main.getInstance().debug("Checking if file is broken: "+fileName);
+			File file = new File(Main.getInstance().getDataFolder(), fileName);
 
 			if (!file.exists()) continue;
 
 			YamlConfiguration config = new YamlConfiguration();
 			try {
 				config.load(file);
+				Main.getInstance().debug("- Valid file: "+ fileName);
 			} catch (FileNotFoundException e) {
+				Main.getInstance().debug("- Missing file: "+fileName);
 				continue;
 			} catch (InvalidConfigurationException | IOException e) {
 				files.add(fileName);
+				Main.getInstance().debug("- Broken file: "+fileName);
 			}
 		}
 		return files.size()==0 ? null : files.toArray(new String[0]);
@@ -113,7 +116,7 @@ public class ConfigUtils {
 		main.saveResource("groups.example.yml", true);
 		main.saveResource("blacklist.example.yml", true);
 		if(main.premium()) {
-			main.saveResource("discord-verification.txt", false);
+			//main.saveResource("discord-verification.html", false);
 		}
 		createDirectories();
 		conf.addDefault(Config.XP_PERCENTAGE, -1);

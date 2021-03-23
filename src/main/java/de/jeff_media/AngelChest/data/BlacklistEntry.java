@@ -70,12 +70,12 @@ public class BlacklistEntry {
     }
 
     private String join(List<String> list, boolean ignoreColors) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (String line : list) {
             if(ignoreColors) line = ChatColor.stripColor(line);
-            result = result + "\n" + line + "\n";
+            result.append("\n").append(line).append("\n");
         }
-        return result;
+        return result.toString();
     }
 
     private boolean materialMatches(Material type) {

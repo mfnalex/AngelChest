@@ -37,6 +37,9 @@ commands:
 #    usage: "</command>"
   acd:
     permission: angelchest.debug
+    aliases: [acdebug]
+  acversion:
+    permission: angelchest.version
 permissions:
   angelchest.use:
     description: "Players with this permission will have their items put into a chest on death by an Angel"
@@ -52,3 +55,5 @@ permissions:
     description: "Allows to reload the configuration using /acreload"
   angelchest.debug:
     description: "Allows to use the debug command /acd"
+  angelchest.version:
+    description: "Allows to use the version command /acversion"

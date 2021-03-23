@@ -25,7 +25,7 @@ public class Watchdog {
 
     private final Main main;
     final YamlConfiguration yaml;
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private final AtomicReference<OrderedHashSet<Entity>> armorStands = new AtomicReference<>(new OrderedHashSet());
 
     public Watchdog(Main main) {

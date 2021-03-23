@@ -20,6 +20,8 @@
 # angelchest.fetch           Allows the player to teleport their chests to them
 # angelchest.tp              The player can teleport to their AngelChests
 # angelchest.reload          Allows reloading the config using /acreload
+# angelchest.debug           Allows to use the debug command /acdebug
+# angelchest.version         Allows to use the version command /acversion
 
 #############################
 #####     Commands      #####
@@ -46,6 +48,13 @@
 #
 # /acreload                  Permission: angelchest.reload
 #                            Reloads the config
+#
+# /acdebug                   Permission: angelchest.debug
+#                            Main debug command. Enter /acdebug for more information
+#
+# /acversion                 Permission: angelchest.version
+#                            Prints plugin version, whether you have the Plus version and what server software
+#                            you are using.
 
 ############################
 ##### Command settings #####

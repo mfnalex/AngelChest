@@ -26,6 +26,7 @@ public class PistonListener implements Listener {
      * Prevents pistons from moving or destroying AngelChest blocks
      * @param event BlockPistonExtendEvent
      */
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPistonExtent(BlockPistonExtendEvent event) {
 
@@ -54,6 +55,7 @@ public class PistonListener implements Listener {
      * Prevents pistons from moving or destroying AngelChest blocks
      * @param event BlockPistonRetractEvent
      */
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPistonRetract(BlockPistonRetractEvent event) {
 

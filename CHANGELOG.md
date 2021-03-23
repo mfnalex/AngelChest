@@ -1,4 +1,4 @@
-## 3.0.0-SNAPSHOT1
+## 3.0.0-SNAPSHOT
 - AngelChestPlus and AngelChest (free version) now share the same source code. This means:
   - All the premium features are still only available in AngelChestPlus. It will not change anything for your players.
   - The version has been bumped from 2.X (free version) and 1.X (plus version) to 3.0.0 so they will always share the same version number.
@@ -8,6 +8,7 @@
 - Added config validator that will show a warning in console and to server operators when your config file is broken
 
 Note when upgrading: The file has been renamed from AngelChestPlus.jar to AngelChest.jar. Please remove your old .jar file before updating. You do NOT have to rename your config folder.
+Note when upgrading: This version does NO LONGER support Minecraft 1.12!!!
 
 ## 1.12.4
 

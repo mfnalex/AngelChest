@@ -39,7 +39,7 @@ public class Logger {
         long ticksBetweenChecks = (long) (removeEveryXHours*60*60*20);
         maxOffsetBeforeRemoval = (long) (removeOlderThanXHours * 60 * 60 * 1000);
         if(removeEveryXHours!=-1) {
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(main,() -> purgeLogs(),ticksBetweenChecks,ticksBetweenChecks);
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(main, this::purgeLogs,ticksBetweenChecks,ticksBetweenChecks);
         }
         purgeLogs();
     }

@@ -77,7 +77,7 @@ public class AngelChest {
             if(firstTry) {
                 main.debug("Tried to change block for chest in unloaded chunk because of unlocking, will do so once chunk is loaded.");
             }
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> scheduleBlockChange(false),1l);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> scheduleBlockChange(false), 1L);
         } else {
             main.debug("Changed block for chest because of unlocking.");
             createChest(block,owner,false);

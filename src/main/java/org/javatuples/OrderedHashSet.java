@@ -3,6 +3,7 @@ package org.javatuples;
 import java.util.*;
 import java.util.stream.Stream;
 
+@SuppressWarnings("ALL")
 public class OrderedHashSet<T> {
     //private final static long serialVersionUID = -36592371275262l;
 

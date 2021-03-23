@@ -3,6 +3,7 @@ package org.javatuples;
 import java.util.*;
 import java.util.stream.Stream;
 
+@SuppressWarnings("ALL")
 public class OrderedSet<T> {
     private final static long serialVersionUID = Long.valueOf("-365923%%__USER__%%5262l");
 

@@ -35,7 +35,7 @@ public class DeathCause implements ConfigurationSerializable {
             }
         }
 
-        if(killer != null && killer instanceof Projectile) {
+        if(killer instanceof Projectile) {
             Projectile projectile = (Projectile) killer;
             if(projectile.getShooter() instanceof Entity) {
                 killer = (Entity) projectile.getShooter();

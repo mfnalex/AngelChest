@@ -44,6 +44,7 @@ public class PlayerListener implements Listener {
         this.main = Main.getInstance();
     }
 
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.MONITOR)
     public void spawnAngelChestMonitor(PlayerDeathEvent event) {
         if (Utils.getEventPriority(main.getConfig().getString(Config.EVENT_PRIORITY)) == EventPriority.MONITOR) {
@@ -52,6 +53,7 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGHEST)
     public void spawnAngelChestHighest(PlayerDeathEvent event) {
         if (Utils.getEventPriority(main.getConfig().getString(Config.EVENT_PRIORITY)) == EventPriority.HIGHEST) {
@@ -60,6 +62,7 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGH)
     public void spawnAngelChestHigh(PlayerDeathEvent event) {
         if (Utils.getEventPriority(main.getConfig().getString(Config.EVENT_PRIORITY)) == EventPriority.HIGH) {
@@ -68,6 +71,7 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.NORMAL)
     public void spawnAngelChestNormal(PlayerDeathEvent event) {
         if (Utils.getEventPriority(main.getConfig().getString(Config.EVENT_PRIORITY)) == EventPriority.NORMAL) {
@@ -76,6 +80,7 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.LOW)
     public void spawnAngelChestLow(PlayerDeathEvent event) {
         if (Utils.getEventPriority(main.getConfig().getString(Config.EVENT_PRIORITY)) == EventPriority.LOW) {
@@ -84,6 +89,7 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.LOWEST)
     public void spawnAngelChestLowest(PlayerDeathEvent event) {
         if (Utils.getEventPriority(main.getConfig().getString(Config.EVENT_PRIORITY)) == EventPriority.LOWEST) {
@@ -286,13 +292,7 @@ public class PlayerListener implements Listener {
         clearInventory(p.getInventory());
 
         // Clear the drops except blacklisted items
-        Iterator it = event.getDrops().iterator();
-        while(it.hasNext()) {
-            ItemStack drop = (ItemStack) it.next();
-            if(!ac.blacklistedItems.contains(drop)) {
-                it.remove();
-            }
-        }
+        event.getDrops().removeIf(drop -> !ac.blacklistedItems.contains(drop));
 
         // send message after one twentieth second
         Utils.sendDelayedMessage(p, main.messages.MSG_ANGELCHEST_CREATED, 1);
@@ -328,14 +328,15 @@ public class PlayerListener implements Listener {
 
     /**
      * Keeps track of the correlation between killed player and damaging entity
-     * @param event
+     * @param event EntityDamageByEntityEvent
      */
+    @SuppressWarnings("unused")
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         UUID player = event.getEntity().getUniqueId();
         Entity killer = event.getDamager();
         main.killers.put(player,killer);
-        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> main.killers.remove(player),1l);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> main.killers.remove(player), 1L);
     }
 
     /**
@@ -356,6 +357,7 @@ public class PlayerListener implements Listener {
      * Handles auto-respawning the player
      * @param event PlayerDeathEvent
      */
+    @SuppressWarnings("unused")
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         if (!main.getConfig().getBoolean(Config.AUTO_RESPAWN)) return;
@@ -368,6 +370,7 @@ public class PlayerListener implements Listener {
         }, 1L + (delay * 20));
     }
 
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeathBecauseTotemNotEquipped(EntityResurrectEvent e) {
         main.debug("EntityResurrectEvent");
@@ -394,9 +397,7 @@ public class PlayerListener implements Listener {
                 ItemStack offHand = p.getInventory().getItemInOffHand();
                 if(offHand != null && offHand.getAmount()!=0 && offHand.getType()!= Material.AIR) {
                     final ItemStack finalOffHand = offHand.clone();
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
-                        p.getInventory().setItemInOffHand(finalOffHand);
-                    },1L);
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> p.getInventory().setItemInOffHand(finalOffHand),1L);
                 }
                 return;
             }
@@ -404,6 +405,7 @@ public class PlayerListener implements Listener {
 
     }
 
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerRespawn(PlayerRespawnEvent playerRespawnEvent) {
         main.debug("Player Respawn: Show GUI to player?");
@@ -449,6 +451,7 @@ public class PlayerListener implements Listener {
         });
     }
 
+    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.LOWEST)
     public void onAngelChestRightClick(PlayerInteractEvent event) {
         Player p = event.getPlayer();
@@ -481,13 +484,13 @@ public class PlayerListener implements Listener {
         if (p.isSneaking() && main.premium(Features.OPEN_GUI_VIA_SHIFT_RIGHTCLICK)) {
             main.guiManager.showPreviewGUI(p, angelChest, false, firstOpened);
         } else {
-            openAngelChest(p, block, angelChest, firstOpened);
+            openAngelChest(p, angelChest, firstOpened);
         }
 
         event.setCancelled(true);
     }
 
-    void openAngelChest(Player p, Block block, AngelChest angelChest, boolean firstOpened) {
+    void openAngelChest(Player p, AngelChest angelChest, boolean firstOpened) {
 
         Utils.applyXp(p, angelChest);
 
@@ -536,6 +539,7 @@ public class PlayerListener implements Listener {
 
     }
 
+    @SuppressWarnings("unused")
     @EventHandler
     public void onAngelChestClose(InventoryCloseEvent event) {
 
@@ -562,6 +566,7 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @SuppressWarnings("unused")
     @EventHandler
     public void onArmorStandRightClick(PlayerInteractAtEntityEvent event) {
         if (event.getRightClicked() == null) {
@@ -592,7 +597,7 @@ public class PlayerListener implements Listener {
         }        if(event.getPlayer().isSneaking()) {
             main.guiManager.showPreviewGUI(event.getPlayer(), as.get(), false, firstOpened);
         } else {
-            openAngelChest(event.getPlayer(), as.get().block, as.get(), firstOpened);
+            openAngelChest(event.getPlayer(), as.get(), firstOpened);
         }
     }
 
