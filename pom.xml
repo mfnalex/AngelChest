@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>3.0.3</version>
+    <version>3.0.4</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -174,7 +174,7 @@
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>PluginUpdateChecker</artifactId>
-            <version>1.5.2</version> <!-- Check latest version first -->
+            <version>1.5.3</version> <!-- Check latest version first -->
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -242,12 +242,12 @@
             <version>1.2</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency>-->
 
     </dependencies>
 

@@ -2,7 +2,6 @@ package de.jeff_media.AngelChest.commands;
 
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.config.ConfigUtils;
-import de.jeff_media.AngelChest.config.Messages;
 import de.jeff_media.AngelChest.config.Permissions;
 import de.jeff_media.AngelChest.data.AngelChest;
 import de.jeff_media.AngelChest.data.BlacklistEntry;

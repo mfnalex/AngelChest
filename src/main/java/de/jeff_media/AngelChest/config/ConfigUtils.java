@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import de.jeff_media.AngelChest.*;
 import de.jeff_media.AngelChest.data.BlacklistEntry;
@@ -12,12 +13,13 @@ import de.jeff_media.AngelChest.hooks.MinepacksHook;
 import de.jeff_media.AngelChest.hooks.WorldGuardHandler;
 import de.jeff_media.AngelChest.utils.GroupUtils;
 import de.jeff_media.AngelChest.utils.HookUtils;
-import de.jeff_media.discordverifier.DiscordVerifier;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.Nullable;
+import org.sqlite.util.StringUtils;
 
 /**
  * Creates the default config and directories, handles reloading and adds the default values
@@ -107,54 +109,207 @@ public class ConfigUtils {
 		return set;
 	}
 
+	static void metric(String name, String value) {
+		Main.getInstance().metrics.addCustomChart(new Metrics.SimplePie(name.replace('-','_').toLowerCase(), () -> value));
+	}
+
+	static void metric(String name) {
+		metric(name, Main.getInstance().getConfig().getString(name));
+	}
+
+	static void metric(String name, List<String> values) {
+		Collections.sort(values);
+		String value = StringUtils.join(values, ",");
+		metric(name,value);
+	}
+
 
 	static void createConfig() {
 
 		Main main = Main.getInstance();
 		FileConfiguration conf = main.getConfig();
 
+		metric("using_plus_version", String.valueOf(main.premium()));
+
 		main.saveDefaultConfig();
 		main.saveResource("groups.example.yml", true);
 		main.saveResource("blacklist.example.yml", true);
 		createDirectories();
+
 		conf.addDefault(Config.XP_PERCENTAGE, -1);
+		metric(Config.XP_PERCENTAGE);
+
 		conf.addDefault(Config.SPAWN_CHANCE, 1.0);
+		metric(Config.SPAWN_CHANCE);
+
 		conf.addDefault(Config.CHECK_FOR_UPDATES, "true");
-		//conf.addDefault(Config.DETECT_PLAYER_HEAD_DROPS,false);
+		metric(Config.CHECK_FOR_UPDATES);
+
 		conf.addDefault(Config.CHECK_FOR_UPDATES_INTERVAL,4);
+		metric(Config.CHECK_FOR_UPDATES_INTERVAL);
+
 		conf.addDefault(Config.ALLOW_ANGELCHEST_IN_PVP,true);
+		metric(Config.ALLOW_ANGELCHEST_IN_PVP);
+
 		conf.addDefault(Config.TOTEM_OF_UNDYING_WORKS_EVERYWHERE,true);
+		metric(Config.TOTEM_OF_UNDYING_WORKS_EVERYWHERE);
+
 		conf.addDefault(Config.SHOW_LOCATION, true);
+		metric(Config.SHOW_LOCATION);
+
 		conf.addDefault(Config.ANGELCHEST_DURATION, 600);
+		metric(Config.ANGELCHEST_DURATION);
+
 		conf.addDefault(Config.MAX_ALLOWED_ANGELCHESTS,5);
+		metric(Config.MAX_ALLOWED_ANGELCHESTS);
+
 		conf.addDefault(Config.HOLOGRAM_OFFSET,0.0);
+		metric(Config.HOLOGRAM_OFFSET);
+
 		conf.addDefault(Config.HOLOGRAM_OFFSET_PER_LINE,0.25d);
+		metric(Config.HOLOGRAM_OFFSET_PER_LINE);
+
 		conf.addDefault(Config.MAX_RADIUS, 10);
+		metric(Config.MAX_RADIUS);
+
 		conf.addDefault(Config.MATERIAL, "CHEST");
-		conf.addDefault("player-head","{PLAYER}");
-		conf.addDefault("preserve-xp", true);
+		metric(Config.MATERIAL);
+
+		conf.addDefault(Config.MATERIAL_UNLOCKED,"ENDER_CHEST");
+		metric(Config.MATERIAL_UNLOCKED);
+
 		conf.addDefault(Config.REMOVE_CURSE_OF_VANISHING,true);
+		metric(Config.REMOVE_CURSE_OF_VANISHING);
+
 		conf.addDefault(Config.REMOVE_CURSE_OF_BINDING,true);
+		metric(Config.REMOVE_CURSE_OF_BINDING);
+
 		conf.addDefault(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD,false);
+		metric(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD);
+
 		conf.addDefault(Config.DISABLE_WORLDGUARD_INTEGRATION,false);
-		//conf.addDefault("ignore-keep-inventory",false);
+		metric(Config.DISABLE_WORLDGUARD_INTEGRATION);
+
 		conf.addDefault(Config.EVENT_PRIORITY,"HIGHEST");
+		metric(Config.EVENT_PRIORITY);
+
 		conf.addDefault(Config.HEAD_USES_PLAYER_NAME,true);
+		metric(Config.HEAD_USES_PLAYER_NAME);
+
 		conf.addDefault(Config.AUTO_RESPAWN,false);
+		metric(Config.AUTO_RESPAWN);
+
 		conf.addDefault(Config.AUTO_RESPAWN_DELAY,10);
-		conf.addDefault("play-can-skip-auto-respawn",false);
+		metric(Config.AUTO_RESPAWN_DELAY);
+
 		conf.addDefault(Config.USE_SLIMEFUN,true);
+		metric(Config.USE_SLIMEFUN);
+
 		conf.addDefault(Config.CHECK_GENERIC_SOULBOUND,true);
+		metric(Config.CHECK_GENERIC_SOULBOUND);
+
 		conf.addDefault(Config.SHOW_LINKS_ON_SEPARATE_LINE,false);
+		metric(Config.SHOW_LINKS_ON_SEPARATE_LINE);
+
 		conf.addDefault(Config.CONFIRM,true);
+		metric(Config.CONFIRM);
+
 		conf.addDefault(Config.PRICE,0.0d);
+		metric(Config.PRICE);
+
 		conf.addDefault(Config.PRICE_OPEN,0.0d);
-		conf.addDefault(Config.VOID_DETECTION,true);
-		conf.addDefault(Config.REFUND_EXPIRED_CHESTS,true);
+		metric(Config.PRICE_OPEN);
+
 		conf.addDefault(Config.PRICE_TELEPORT,0.0d);
+		metric(Config.PRICE_TELEPORT);
+
 		conf.addDefault(Config.PRICE_FETCH,0.0d);
-		conf.addDefault(Config.CONSOLE_MESSAGE_ON_OPEN,true);
+		metric(Config.PRICE_FETCH);
+
+
+		conf.addDefault(Config.VOID_DETECTION,true);
+		metric(Config.VOID_DETECTION);
+
+		conf.addDefault(Config.REFUND_EXPIRED_CHESTS,true);
+		metric(Config.REFUND_EXPIRED_CHESTS);
+
 		conf.addDefault(Config.ASYNC_CHUNK_LOADING, true);
+		metric(Config.ASYNC_CHUNK_LOADING);
+
+		conf.addDefault(Config.SHOW_GUI_AFTER_DEATH, "false");
+		metric(Config.SHOW_GUI_AFTER_DEATH);
+
+		conf.addDefault(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH, true);
+		metric(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH);
+
+		conf.addDefault(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP,false);
+		metric(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP);
+
+		conf.addDefault(Config.ALLOW_CHEST_IN_LAVA,true);
+		metric(Config.ALLOW_CHEST_IN_LAVA);
+
+		conf.addDefault(Config.ALLOW_CHEST_IN_VOID,true);
+		metric(Config.ALLOW_CHEST_IN_VOID);
+
+		conf.addDefault(Config.LOG_ANGELCHESTS, false);
+		metric(Config.LOG_ANGELCHESTS);
+
+		conf.addDefault(Config.CONSOLE_MESSAGE_ON_OPEN,true);
+		metric(Config.CONSOLE_MESSAGE_ON_OPEN);
+
+		conf.addDefault(Config.LOG_FILENAME,"{player}_{world}_{date}.log");
+		metric(Config.LOG_FILENAME);
+
+		conf.addDefault(Config.CHEST_FILENAME,"{player}_{world}_{x}_{y}_{z}.yml");
+		metric(Config.CHEST_FILENAME);
+
+		conf.addDefault(Config.COLLECT_XP,"true");
+		metric(Config.COLLECT_XP);
+
+		conf.addDefault(Config.PURGE_LOGS_OLDER_THAN_X_HOURS,48);
+		metric(Config.PURGE_LOGS_OLDER_THAN_X_HOURS);
+
+		conf.addDefault(Config.PURGE_LOGS_EVERY_X_HOURS,1);
+		metric(Config.PURGE_LOGS_EVERY_X_HOURS);
+
+		conf.addDefault(Config.UNLOCK_DURATION,0);
+		metric(Config.UNLOCK_DURATION);
+
+		conf.addDefault(Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT,"&cProtected for {time}");
+		metric(Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT);
+
+		conf.addDefault(Config.HOLOGRAM_PROTECTED_TEXT,"&cProtected");
+		metric(Config.HOLOGRAM_PROTECTED_TEXT);
+
+		conf.addDefault(Config.HOLOGRAM_UNPROTECTED_TEXT,"&aUnprotected");
+		metric(Config.HOLOGRAM_UNPROTECTED_TEXT);
+
+		conf.addDefault(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED,false);
+		metric(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED);
+
+		conf.addDefault(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST, true);
+		metric(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST);
+
+		conf.addDefault(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST, true);
+		metric(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST);
+
+		conf.addDefault(Config.PREFIX_MESSAGES, true);
+		metric(Config.PREFIX_MESSAGES);
+
+		conf.addDefault(Config.NEVER_REPLACE_BEDROCK,true);
+		metric(Config.NEVER_REPLACE_BEDROCK);
+
+		main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
+		metric(Config.DISABLED_MATERIALS, String.valueOf(main.disabledMaterials.size()));
+
+		main.disabledWorlds =  conf.getStringList(Config.DISABLED_WORLDS);
+		metric(Config.DISABLED_WORLDS, String.valueOf(main.disabledWorlds.size()));
+
+		main.disabledRegions =  conf.getStringList(Config.DISABLED_WORLDGUARD_REGIONS);
+		metric(Config.DISABLED_WORLDGUARD_REGIONS, String.valueOf(main.disabledRegions.size()));
+
+		conf.addDefault("tp-distance",2);
+
 		conf.addDefault(Config.GUI_BUTTON_BACK, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY0Zjc3OWE4ZTNmZmEyMzExNDNmYTY5Yjk2YjE0ZWUzNWMxNmQ2NjllMTljNzVmZDFhN2RhNGJmMzA2YyJ9fX0=");
 		conf.addDefault(Config.GUI_BUTTON_TELEPORT, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGZlYjM5ZDcxZWY4ZTZhNDI2NDY1OTMzOTNhNTc1M2NlMjZhMWJlZTI3YTBjYThhMzJjYjYzN2IxZmZhZSJ9fX0=");
 		conf.addDefault(Config.GUI_BUTTON_FETCH, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGZlYjM5ZDcxZWY4ZTZhNDI2NDY1OTMzOTNhNTc1M2NlMjZhMWJlZTI3YTBjYThhMzJjYjYzN2IxZmZhZSJ9fX0=");
@@ -168,39 +323,9 @@ public class ConfigUtils {
 		conf.addDefault(Config.ALIAS_ACTP, Arrays.asList("acteleport","angelchesttp","angelchestteleport"));
 		conf.addDefault(Config.ALIAS_ACUNLOCK, Arrays.asList("angelchestunlock","unlockchest","unlock"));
 		conf.addDefault(Config.ALIAS_ACRELOAD, Collections.singletonList("angelchestreload"));
-		conf.addDefault(Config.SHOW_GUI_AFTER_DEATH, "false");
-		conf.addDefault(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH, true);
-		conf.addDefault("tp-distance",2);
-		conf.addDefault("full-xp", false); // Currently not in config because there is no way to get players XP
-		conf.addDefault(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP,false);
-		conf.addDefault(Config.ALLOW_CHEST_IN_LAVA,true);
-		conf.addDefault(Config.ALLOW_CHEST_IN_VOID,true);
-		conf.addDefault(Config.LOG_ANGELCHESTS, false);
-		conf.addDefault(Config.LOG_FILENAME,"{player}_{world}_{date}.log");
-		conf.addDefault(Config.CHEST_FILENAME,"{player}_{world}_{x}_{y}_{z}.yml");
-		conf.addDefault(Config.COLLECT_XP,"true");
-		conf.addDefault(Config.PURGE_LOGS_OLDER_THAN_X_HOURS,48);
-		conf.addDefault(Config.PURGE_LOGS_EVERY_X_HOURS,1);
-		conf.addDefault(Config.UNLOCK_DURATION,0);
-		conf.addDefault(Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT,"&cProtected for {time}");
-		conf.addDefault(Config.HOLOGRAM_PROTECTED_TEXT,"&cProtected");
-		conf.addDefault(Config.HOLOGRAM_UNPROTECTED_TEXT,"&aUnprotected");
-		conf.addDefault(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED,false);
-		conf.addDefault(Config.MATERIAL_UNLOCKED,"ENDER_CHEST");
-		conf.addDefault(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST, true);
-		conf.addDefault(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST, true);
-		conf.addDefault(Config.PREFIX_MESSAGES, true);
-		conf.addDefault(Config.NEVER_REPLACE_BEDROCK,true);
-		main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
-		main.disabledWorlds =  conf.getStringList(Config.DISABLED_WORLDS);
-		main.disabledRegions =  conf.getStringList(Config.DISABLED_WORLDGUARD_REGIONS);
 		
 		List<String> dontSpawnOnTmp = conf.getStringList(Config.DONT_SPAWN_ON);
 		main.dontSpawnOn = new ArrayList<>();
-		
-		List<String> onlySpawnInTmp =  conf.getStringList(Config.ONLY_SPAWN_IN);
-		main.onlySpawnIn = new ArrayList<>();
-		
 		for(String string : dontSpawnOnTmp) {
 			Material mat = Material.getMaterial(string.toUpperCase());
 			if(mat==null) {			
@@ -211,12 +336,12 @@ public class ConfigUtils {
 				main.getLogger().warning(String.format("Invalid Block while parsing %s: %s", string, Config.DONT_SPAWN_ON));
 				continue;
 			}
-			//System.out.println(mat.name() + " added to blacklist");
 			main.dontSpawnOn.add(mat);
 		}
+		metric(Config.DONT_SPAWN_ON,main.dontSpawnOn.stream().map(Material::name).collect(Collectors.toList()));
 
-		if(false) return;
-		
+		List<String> onlySpawnInTmp =  conf.getStringList(Config.ONLY_SPAWN_IN);
+		main.onlySpawnIn = new ArrayList<>();
 		for(String string : onlySpawnInTmp) {
 			Material mat = Material.getMaterial(string.toUpperCase());
 			if(mat==null) {
@@ -227,11 +352,10 @@ public class ConfigUtils {
 				main.getLogger().warning(String.format("Invalid Block while parsing %s: %s", string, Config.ONLY_SPAWN_IN));
 				continue;
 			}
-			//System.out.println(mat.name() + " added to whitelist");
 			main.onlySpawnIn.add(mat);
 		}
+		metric(Config.ONLY_SPAWN_IN,main.onlySpawnIn.stream().map(Material::name).collect(Collectors.toList()));
 
-		
 		if(Material.getMaterial(conf.getString(Config.MATERIAL).toUpperCase())==null) {
 			main.getLogger().warning("Invalid Material: "+conf.getString(Config.MATERIAL)+" - falling back to CHEST");
 			main.chestMaterial = Material.CHEST;

@@ -16,7 +16,7 @@ public class FileUtils {
         boolean changed = false;
             // input the (modified) file content to the StringBuffer "input"
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            StringBuffer inputBuffer = new StringBuffer();
+            StringBuilder inputBuffer = new StringBuilder();
             String line;
 
             while ((line = bufferedReader.readLine()) != null) {

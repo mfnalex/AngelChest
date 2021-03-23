@@ -1,7 +1,6 @@
 package de.jeff_media.AngelChest;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -26,11 +25,9 @@ import de.jeff_media.AngelChest.hooks.WorldGuardHandler;
 import de.jeff_media.AngelChest.listeners.*;
 import de.jeff_media.AngelChest.config.ConfigUtils;
 import de.jeff_media.AngelChest.utils.DiscordVerificationUtils;
-import de.jeff_media.AngelChest.utils.FileUtils;
 import de.jeff_media.AngelChest.utils.GroupUtils;
 import de.jeff_media.AngelChest.utils.HookUtils;
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
-import de.jeff_media.discordverifier.DiscordVerifier;
 import io.papermc.lib.PaperLib;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.math.NumberUtils;
@@ -53,15 +50,18 @@ public class Main extends JavaPlugin {
 
 	private static final String SPIGOT_RESOURCE_ID_PLUS = "88214";
 	private static final String SPIGOT_RESOURCE_ID_FREE = "60383";
-	private static final int BSTATS_ID = 3194;
+	public static final int BSTATS_ID = 3194;
 	private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/angelchestplus/latest-version.txt";
 	private static final String UPDATECHECKER_LINK_DOWNLOAD_FREE = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_FREE;
 	private static final String UPDATECHECKER_LINK_DOWNLOAD_PLUS = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_PLUS;
 	private static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_PLUS+"/updates";
 	private static final String UPDATECHECKER_LINK_DONATE = "https://paypal.me/mfnalex";
+
 	@SuppressWarnings({"FieldCanBeLocal","FieldMayBeFinal","CanBeFinal"})
 	private String UID = "%%__USER__%%" ;
+	@SuppressWarnings({"FieldCanBeLocal","FieldMayBeFinal","CanBeFinal"})
 	private String NONCE = "%%__NONCE__%%" ;
+	@SuppressWarnings({"FieldCanBeLocal","FieldMayBeFinal","CanBeFinal"})
 	private String RESOURCE = "%%__RESOURCE__%%" ;
 
 	public HashMap<UUID, PendingConfirm> pendingConfirms;
@@ -97,6 +97,7 @@ public class Main extends JavaPlugin {
 	public Logger logger;
 	public Economy econ;
 	public Map<String, BlacklistEntry> itemBlacklist;
+	public Metrics metrics;
 
 	public EconomyStatus economyStatus = EconomyStatus.UNKNOWN;
 
@@ -145,6 +146,7 @@ public class Main extends JavaPlugin {
 
 		watchdog = new Watchdog(this);
 
+		metrics = new Metrics(this,BSTATS_ID);
 		ConfigUtils.reloadCompleteConfig(false);
 
 
@@ -187,13 +189,6 @@ public class Main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new EmergencyListener(),this);
 		guiListener = new GUIListener();
 		getServer().getPluginManager().registerEvents(guiListener,this);
-		
-		@SuppressWarnings("unused")
-		Metrics metrics = new Metrics(this,BSTATS_ID);
-		metrics.addCustomChart(new Metrics.SimplePie("using_plus_version", () -> String.valueOf(premium())));
-		metrics.addCustomChart(new Metrics.SimplePie(Config.MATERIAL, () -> chestMaterial.name()));
-		metrics.addCustomChart(new Metrics.SimplePie("auto_respawn", () -> getConfig().getBoolean(Config.AUTO_RESPAWN)+""));
-		metrics.addCustomChart(new Metrics.SimplePie("totem_works_everywhere", () -> getConfig().getBoolean(Config.TOTEM_OF_UNDYING_WORKS_EVERYWHERE)+""));
 		
 
 		if (debug) getLogger().info("Disabled Worlds: "+disabledWorlds.size());

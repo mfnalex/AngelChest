@@ -4,14 +4,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.javatuples.OrderedHashSet;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * The Watchdog keeps track of holograms and their UIDs. When the server starts, and a
@@ -25,8 +23,6 @@ public class Watchdog {
 
     private final Main main;
     final YamlConfiguration yaml;
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private final AtomicReference<OrderedHashSet<Entity>> armorStands = new AtomicReference<>(new OrderedHashSet());
 
     public Watchdog(Main main) {
         this.main=main;
@@ -107,9 +103,6 @@ public class Watchdog {
                 ioException.printStackTrace();
             }
         });
-        if(armorStands.get().size()!=0) {
-            main.debug("Watchdog could not save all armor stands. This is not important when the server does not crash.");
-        }
     }
 
     /**

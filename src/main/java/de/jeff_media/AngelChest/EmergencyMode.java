@@ -47,6 +47,13 @@ public class EmergencyMode {
         String[] text = BROKEN_CONFIG_FILE.clone();
 
         for(String file : Main.getInstance().invalidConfigFiles) {
+            for(Player player : Bukkit.getOnlinePlayers()) {
+                if(player.isOp()) {
+                    for(String line : text) {
+                        Main.getInstance().getLogger().warning(line.replaceAll("\\{filename}",file));
+                    }
+                }
+            }
             for (String line : text) {
                 Main.getInstance().getLogger().warning(line.replaceAll("\\{filename}",file));
             }
