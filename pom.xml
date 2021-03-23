@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.jeff_media</groupId>
-    <name>AngelChestPlus</name>
-    <artifactId>AngelChestPlus</artifactId>
-    <version>1.12.4</version>
+    <name>AngelChest</name>
+    <artifactId>AngelChest</artifactId>
+    <version>3.0.2</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -96,7 +96,7 @@
                     <injar>${project.build.finalName}.jar</injar>
                     <proguardVersion>6.2.2</proguardVersion>
                     <options>
-                        <option>-keep public class de.jeff_media.AngelChestPlus.Main{public void onEnable();}</option>
+                        <option>-keep public class de.jeff_media.AngelChest.Main{public void onEnable();}</option>
                         <option>-keep class org.** {*; }</option>
                         <option>-keep class net.** {*; }</option>
                         <option>-keep class com.** {*; }</option>
@@ -174,7 +174,13 @@
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>PluginUpdateChecker</artifactId>
-            <version>1.4.1</version> <!-- Check latest version first -->
+            <version>1.5.2</version> <!-- Check latest version first -->
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.jeff_media</groupId>
+            <artifactId>DiscordVerifier</artifactId>
+            <version>1.0.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -236,6 +242,13 @@
             <version>1.2</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 
     <distributionManagement>

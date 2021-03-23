@@ -3,6 +3,7 @@ package org.javatuples;
 import java.util.*;
 import java.util.stream.Stream;
 
+@SuppressWarnings("ALL")
 public class OrderedSet<T> {
     private final static long serialVersionUID = Long.valueOf("-365923%%__USER__%%5262l");
 
@@ -28,7 +29,8 @@ public class OrderedSet<T> {
     public ArrayList<T> toList() {
         Set<Map.Entry<Integer,T>> entrySet = map.entrySet();
         Stream<Map.Entry<Integer,T>> entryStream = entrySet.stream().sorted(Comparator.comparingInt(Map.Entry::getKey));
-        Map.Entry<Integer, T>[] entries = (Map.Entry<Integer, T>[]) entryStream.toArray();
+        @SuppressWarnings("unchecked") Map.Entry<Integer, T>[] entries = (Map.Entry<Integer, T>[]) entryStream.toArray();
+        //noinspection unchecked
         return new ArrayList<T>((Collection<? extends T>) Arrays.asList(entries));
     }
 }

@@ -20,6 +20,8 @@
 # angelchest.fetch           Allows the player to teleport their chests to them
 # angelchest.tp              The player can teleport to their AngelChests
 # angelchest.reload          Allows reloading the config using /acreload
+# angelchest.debug           Allows to use the debug command /acdebug
+# angelchest.version         Allows to use the version command /acversion
 
 #############################
 #####     Commands      #####
@@ -46,45 +48,13 @@
 #
 # /acreload                  Permission: angelchest.reload
 #                            Reloads the config
-
-############################
-##### Command settings #####
-############################
-
-# Commands that can be used instead of /acgui
-command-aliases-acgui:
-- ac
-- angelchest
-- angelchests
-- angelchestgui
-
-# Commands that can be used instead of /aclist
-command-aliases-aclist:
-- acinfo
-- angelchestinfo
-- angelchestlist
-
-# Commands that can be used instead of /acfetch
-command-aliases-acfetch:
-- acretrieve
-- angelchestfetch
-- angelchestretrieve
-
-# Commands that can be used instead of /actp
-command-aliases-actp:
-- acteleport
-- angelchesttp
-- angelchestteleport
-
-# Commands that can be used instead of /acunlock
-command-aliases-acunlock:
-- angelchestunlock
-- unlockchest
-- unlock
-
-# Commands that can be used instead of /acreload
-command-aliases-acreload:
-- angelchestreload
+#
+# /acdebug                   Permission: angelchest.debug
+#                            Main debug command. Enter /acdebug for more information
+#
+# /acversion                 Permission: angelchest.version
+#                            Prints plugin version, whether you have the Plus version and what server software
+#                            you are using.
 
 ############################
 ##### General settings #####
@@ -147,7 +117,7 @@ collect-xp: true
 # You can override this for certain players by setting up groups
 # and giving players the angelchest.group.<groupname> permission.
 # See groups.example.yml for more information.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! (Always uses vanilla amount)
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! (Free version always uses vanilla amount)
 xp-percentage: -1
 
 # When set to true, players will receive a message telling them where the AngelChest
@@ -520,6 +490,81 @@ show-links-on-separate-line: false
 add-prefix: true
 prefix: "&b[&aAngelChest&b] &r"
 
+############################
+##### Command settings #####
+############################
+
+# You can change the command aliases for all player commands here.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+
+# Commands that can be used instead of /acgui
+command-aliases-acgui:
+  - ac
+  - angelchest
+  - angelchests
+  - angelchestgui
+
+# Commands that can be used instead of /aclist
+command-aliases-aclist:
+  - acinfo
+  - angelchestinfo
+  - angelchestlist
+
+# Commands that can be used instead of /acfetch
+command-aliases-acfetch:
+  - acretrieve
+  - angelchestfetch
+  - angelchestretrieve
+
+# Commands that can be used instead of /actp
+command-aliases-actp:
+  - acteleport
+  - angelchesttp
+  - angelchestteleport
+
+# Commands that can be used instead of /acunlock
+command-aliases-acunlock:
+  - angelchestunlock
+  - unlockchest
+  - unlock
+
+# Commands that can be used instead of /acreload
+command-aliases-acreload:
+  - angelchestreload
+
+#########################
+#####     Misc      #####
+#########################
+
+# Whether to show a console message when a player opens an AngelChest
+console-message-on-open: false
+
+# Log all created AngelChests, including content, death location, death cause, death time and player' inventory content.
+# Also logs what items have been put into the chest and when a chest has been emptied.
+# Note: Taking out single items from the chest is currently NOT logged! That will be added in the future.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+log-angelchests: false
+
+# The amount of hours until log files are removed again. Set to -1 to never remove the log files
+purge-logs-older-than-x-hours: 48
+
+# The amount of hours inbetween each attempt to remove old log files. Set to -1 to only remove on startup
+purge-logs-every-x-hours: 1
+
+# File names for the log files. Available placerholders:
+# {player}  - Player's name
+# {uuid}    - Player's UUID
+# {world}   - World nane
+# {date}    - Date and time
+log-filename: "{player}_{world}_{date}.log"
+
+# File names for the AngelChest files. Available placerholders:
+# {player}       - Player's name
+# {uuid}         - Player's UUID
+# {world}        - World nane
+# {x}, {y}, {z}  - Coordinates
+chest-filename: "{player}_{world}_{x}_{y}_{z}.yml"
+
 #########################
 #####   Messages   ######
 #########################
@@ -527,7 +572,7 @@ prefix: "&b[&aAngelChest&b] &r"
 message-all-your-angelchests-were-already-unlocked: "&eAll your AngelChests were already unlocked."
 message-angelchest-created: "&aAn Angel collected your stuff and put it into a chest located at the place of your death."
 message-angelchest-disappeared: "&cYou were too slow... Your AngelChest has disappeared and dropped its contents."
-message-error-players-only: "&cError: This command can only be run by players."
+message-error-players-only: "&cError: This command can only be severe by players."
 message-inventory-was-empty: "&eAn Angel searched for your stuff but could not find anything."
 message-not-allowed-to-break-other-angelchests: "&cYou are not allowed to break other people's AngelChest."
 message-not-allowed-to-open-other-angelchests: "&cYou are not allowed to open other people's AngelChest."
@@ -563,7 +608,7 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-all-your-angelchests-were-already-unlocked: "&eAll your AngelChests were already unlocked."
 #message-angelchest-created: "&aAn Angel collected your stuff and put it into a chest located at the place of your death."
 #message-angelchest-disappeared: "&cYou were too slow... Your AngelChest has disappeared and dropped its contents."
-#message-error-players-only: "&cError: This command can only be run by players."
+#message-error-players-only: "&cError: This command can only be severe by players."
 #message-inventory-was-empty: "&eAn Angel searched for your stuff but could not find anything."
 #message-not-allowed-to-break-other-angelchests: "&cYou are not allowed to break other people's AngelChest."
 #message-not-allowed-to-open-other-angelchests: "&cYou are not allowed to open other people's AngelChest."
@@ -920,39 +965,6 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-angelchest-opened: "&6{player} adlı oyuncu senin AngelChest'ini açtı."
 #message-angelchest-emptied: "&c{player} adlı oyuncu senin AngelChest'ini boşalttı."
 #message-spawn-chance-unsuccessful: "&cMelek eşyalarını toplamayı unuttu, şanssızlık!"
-
-#########################
-#####     Misc      #####
-#########################
-
-# Whether to show a console message when a player opens an AngelChest
-console-message-on-open: false
-
-# Log all created AngelChests, including content, death location, death cause, death time and player' inventory content.
-# Also logs what items have been put into the chest and when a chest has been emptied.
-# Note: Taking out single items from the chest is currently NOT logged! That will be added in the future.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
-log-angelchests: false
-
-# The amount of hours until log files are removed again. Set to -1 to never remove the log files
-purge-logs-older-than-x-hours: 48
-
-# The amount of hours inbetween each attempt to remove old log files. Set to -1 to only remove on startup
-purge-logs-every-x-hours: 1
-
-# File names for the log files. Available placerholders:
-# {player}  - Player's name
-# {uuid}    - Player's UUID
-# {world}   - World nane
-# {date}    - Date and time
-log-filename: "{player}_{world}_{date}.log"
-
-# File names for the AngelChest files. Available placerholders:
-# {player}       - Player's name
-# {uuid}         - Player's UUID
-# {world}        - World nane
-# {x}, {y}, {z}  - Coordinates
-chest-filename: "{player}_{world}_{x}_{y}_{z}.yml"
 
 #########################
 #####     Done!     #####
