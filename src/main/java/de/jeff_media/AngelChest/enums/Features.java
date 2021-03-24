@@ -1,6 +1,7 @@
 package de.jeff_media.AngelChest.enums;
 
 public enum Features {
+    GENERIC,
     HOLOGRAM_SHOWS_PROTECTION_STATUS,
     UNLOCK_DURATION_PER_PLAYER,
     // --Commented out by Inspection (23.03.2021 14:12):DIFFERENT_MATERIAL_FOR_UNLOCKED_CHESTS,

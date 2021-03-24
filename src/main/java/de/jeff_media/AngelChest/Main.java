@@ -28,7 +28,7 @@ import de.jeff_media.AngelChest.utils.DiscordVerificationUtils;
 import de.jeff_media.AngelChest.utils.GroupUtils;
 import de.jeff_media.AngelChest.utils.HookUtils;
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
-import de.jeff_media.discordverifier.DiscordVerifier;
+import de.jeff_media.daddy.Daddy;
 import io.papermc.lib.PaperLib;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.math.NumberUtils;
@@ -104,10 +104,10 @@ public class Main extends JavaPlugin {
 	public EconomyStatus economyStatus = EconomyStatus.UNKNOWN;
 
 	private static Main instance;
-	private Boolean usingValidUID = null;
+
 
 	public Material getChestMaterial(AngelChest chest) {
-		if(premium() && !getConfig().getBoolean(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED)) { // Don't add feature
+		if(Daddy.allows(Features.GENERIC) && !getConfig().getBoolean(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED)) { // Don't add feature
 			return chestMaterial;
 		}
 		return chest.isProtected ? chestMaterial : chestMaterialUnlocked;
@@ -129,6 +129,7 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 
 		instance = this;
+		Daddy.init(this);
 
 		migrateFromAngelChestPlus1X();
 		ChestFileUpdater.updateChestFilesToNewDeathCause();
@@ -198,12 +199,12 @@ public class Main extends JavaPlugin {
 
 		setEconomyStatus();
 
-		char color = premium(Features.DONT_SHOW_NAG_MESSAGE) ? 'a' : '6';
-		for(String line : premium(Features.DONT_SHOW_NAG_MESSAGE) ? Messages.usingPlusVersion : Messages.usingFreeVersion) {
+		char color = Daddy.allows(Features.DONT_SHOW_NAG_MESSAGE) ? 'a' : '6';
+		for(String line : Daddy.allows(Features.DONT_SHOW_NAG_MESSAGE) ? Messages.usingPlusVersion : Messages.usingFreeVersion) {
 			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&"+color+line));
 		}
 
-		if(premium()) {
+		if(Daddy.allows(Features.GENERIC)) {
 			DiscordVerificationUtils.createVerificationFile(UID,NONCE,RESOURCE);
 		}
 		
@@ -349,7 +350,7 @@ public class Main extends JavaPlugin {
 					ac.destroy(true);
 					it.remove();
 				}
-				if(premium() && ac.isProtected && ac.unlockIn!=-1) { // Don't add feature here, gets called every second
+				if(Daddy.allows(Features.GENERIC) && ac.isProtected && ac.unlockIn!=-1) { // Don't add feature here, gets called every second
 					ac.unlockIn--;
 					if(ac.unlockIn==-1) {
 						ac.isProtected=false;
@@ -363,21 +364,7 @@ public class Main extends JavaPlugin {
 		}, 0, 20);
 	}
 
-	public @NotNull Boolean premium() {
-		if(usingValidUID !=null) return usingValidUID;
-		if(UID.equals("%%__USER__%%")) {
-			usingValidUID = false;
-		}
-		if(UID.matches("^[0-9]+$")) {
-			usingValidUID = true;
-		} else {
-			usingValidUID = false;
-		}
-		if(!usingValidUID) {
-			usingValidUID = DiscordVerifier.isVerified(this);
-		}
-		return usingValidUID;
-	}
+
 
 	public void loadAllAngelChestsFromFile() {
 		File dir = new File(getDataFolder().getPath() + File.separator + "angelchests");
@@ -418,7 +405,7 @@ public class Main extends JavaPlugin {
 	}
 
 	public @Nullable String isItemBlacklisted(ItemStack item) {
-		if(!premium()) { // Don't add feature here, gets called for every item on death
+		if(!Daddy.allows(Features.GENERIC)) { // Don't add feature here, gets called for every item on death
 			return null;
 		}
 		for(BlacklistEntry entry : itemBlacklist.values()) {
@@ -482,7 +469,7 @@ public class Main extends JavaPlugin {
 					UPDATECHECKER_LINK_DOWNLOAD_FREE,
 					UPDATECHECKER_LINK_CHANGELOG,
 					UPDATECHECKER_LINK_DONATE,
-					premium());
+					Daddy.allows(Features.GENERIC));
 		} else {
 			updateChecker.stop();
 		}
@@ -514,11 +501,4 @@ public class Main extends JavaPlugin {
 		return version;
 	}
 
-	public boolean premium(Features feature) {
-		boolean premium = premium();
-		if(!premium) {
-			debug("Not using AngelChestPlus, premium feature disabled: " + feature.name());
-		}
-		return premium;
-	}
 }

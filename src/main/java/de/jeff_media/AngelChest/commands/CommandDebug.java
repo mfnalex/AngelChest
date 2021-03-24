@@ -6,6 +6,8 @@ import de.jeff_media.AngelChest.config.Permissions;
 import de.jeff_media.AngelChest.data.AngelChest;
 import de.jeff_media.AngelChest.data.BlacklistEntry;
 import de.jeff_media.AngelChest.enums.BlacklistResult;
+import de.jeff_media.AngelChest.enums.Features;
+import de.jeff_media.daddy.Daddy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -125,7 +127,7 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
 
     private void blacklist(CommandSender commandSender, String[] args) {
 
-        if(!main.premium()) {
+        if(!Daddy.allows(Features.GENERIC)) {
             commandSender.sendMessage(main.messages.MSG_PREMIUMONLY);
             return;
         }

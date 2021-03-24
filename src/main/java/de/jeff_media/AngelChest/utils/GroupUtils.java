@@ -5,6 +5,7 @@ import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.data.Group;
 import de.jeff_media.AngelChest.enums.EconomyStatus;
 import de.jeff_media.AngelChest.enums.Features;
+import de.jeff_media.daddy.Daddy;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -92,7 +93,7 @@ public class GroupUtils {
     }
 
     public int getUnlockDurationPerPlayer(Player p) {
-        if(!main.premium(Features.UNLOCK_DURATION_PER_PLAYER)) {
+        if(!Daddy.allows(Features.UNLOCK_DURATION_PER_PLAYER)) {
             return -1;
         }
         if(yaml==null) {
@@ -139,7 +140,7 @@ public class GroupUtils {
     }
 
     public double getSpawnPricePerPlayer(Player p) {
-        if(!main.premium(Features.SPAWN_PRICE_PER_PLAYER)) {
+        if(!Daddy.allows(Features.SPAWN_PRICE_PER_PLAYER)) {
             return 0;
         }
         if(yaml==null) return getPercentagePrice(p,main.getConfig().getString(Config.PRICE));
@@ -162,7 +163,7 @@ public class GroupUtils {
     }
 
     public double getOpenPricePerPlayer(Player p) {
-        if(!main.premium(Features.PAY_TO_OPEN_ANGELCHEST)) {
+        if(!Daddy.allows(Features.PAY_TO_OPEN_ANGELCHEST)) {
             return 0;
         }
         if(yaml==null) return getPercentagePrice(p,main.getConfig().getString(Config.PRICE_OPEN));
@@ -185,7 +186,7 @@ public class GroupUtils {
     }
 
     public double getFetchPricePerPlayer(Player p) {
-        if(yaml==null || !main.premium(Features.FETCH_PRICE_PER_PLAYER)) return getPercentagePrice(p,main.getConfig().getString(Config.PRICE_FETCH));
+        if(yaml==null || !Daddy.allows(Features.FETCH_PRICE_PER_PLAYER)) return getPercentagePrice(p,main.getConfig().getString(Config.PRICE_FETCH));
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
         while(it.hasNext()) {
@@ -205,7 +206,7 @@ public class GroupUtils {
     }
 
     public double getTeleportPricePerPlayer(Player p) {
-        if(yaml==null || !main.premium(Features.TELEPORT_PRICE_PER_PLAYER)) return getPercentagePrice(p,main.getConfig().getString(Config.PRICE_TELEPORT));
+        if(yaml==null || !Daddy.allows(Features.TELEPORT_PRICE_PER_PLAYER)) return getPercentagePrice(p,main.getConfig().getString(Config.PRICE_TELEPORT));
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
         while(it.hasNext()) {
@@ -227,7 +228,7 @@ public class GroupUtils {
     public static double getPercentagePrice(Player p, String value) {
         Main main = Main.getInstance();
         if(value.endsWith("p")) {
-            if(!main.premium(Features.SET_PRICES_AS_PERCENTAGE)) {
+            if(!Daddy.allows(Features.SET_PRICES_AS_PERCENTAGE)) {
                 main.getLogger().warning("You are using percentage prices in your config file. This is only available in AngelChestPlus. See here: https://www.spigotmc.org/resources/%E2%AD%90-angelchestplus-%E2%AD%90.88214/");
                 return 0;
             }
@@ -247,7 +248,7 @@ public class GroupUtils {
     }
 
     public double getSpawnChancePerPlayer(Player p) {
-        if(!main.premium(Features.SPAWN_CHANCE)) return 1.0;
+        if(!Daddy.allows(Features.SPAWN_CHANCE)) return 1.0;
         if(yaml==null) return main.getConfig().getDouble(Config.SPAWN_CHANCE);
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;

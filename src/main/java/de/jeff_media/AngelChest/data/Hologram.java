@@ -9,6 +9,7 @@ import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.config.Config;
 import de.jeff_media.AngelChest.enums.Features;
 import de.jeff_media.AngelChest.utils.CommandUtils;
+import de.jeff_media.daddy.Daddy;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -57,7 +58,7 @@ public class Hologram {
             if (armorStand != null) {
 
                 line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
-                if(main.premium()) { // Don't add Feature here, this method gets called every second
+                if(Daddy.allows(Features.GENERIC)) { // Don't add Feature here, this method gets called every second
                     line = line.replaceAll("\\{protected}", getProtectedText(chest));
                 }
                 if (line.equals("")) {
@@ -107,7 +108,7 @@ public class Hologram {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
-            if(main.premium(Features.HOLOGRAM_SHOWS_PROTECTION_STATUS)) {
+            if(Daddy.allows(Features.HOLOGRAM_SHOWS_PROTECTION_STATUS)) {
                 line = line.replaceAll("\\{protected}", getProtectedText(chest));
             }
             boolean customNameVisible = true;

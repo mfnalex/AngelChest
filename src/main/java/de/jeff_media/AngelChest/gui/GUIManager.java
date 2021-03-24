@@ -4,11 +4,13 @@ import de.jeff_media.AngelChest.*;
 import de.jeff_media.AngelChest.config.Config;
 import de.jeff_media.AngelChest.config.Permissions;
 import de.jeff_media.AngelChest.data.AngelChest;
+import de.jeff_media.AngelChest.enums.Features;
 import de.jeff_media.AngelChest.enums.TeleportAction;
 import de.jeff_media.AngelChest.utils.CommandUtils;
 import de.jeff_media.AngelChest.utils.HeadCreator;
 import de.jeff_media.AngelChest.utils.Utils;
 import de.jeff_media.AngelChest.utils.XPUtils;
+import de.jeff_media.daddy.Daddy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -174,7 +176,7 @@ public class GUIManager {
             inventory.setItem(GUI.SLOT_PREVIEW_XP,getButton(Material.EXPERIENCE_BOTTLE,"§6"+ XPUtils.xpToString(angelChest.experience),null));
         }
 
-        if(main.premium()) { // Don't add feature here
+        if(Daddy.allows(Features.GENERIC)) { // Don't add feature here
             if (!isPreview && firstOpened && !player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
                 if (Bukkit.getPlayer(angelChest.owner) != null) {
                     Bukkit.getPlayer(angelChest.owner).sendMessage(main.messages.MSG_OPENED.replaceAll("\\{player}", player.getName()));

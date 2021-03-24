@@ -179,8 +179,8 @@
         </dependency>
         <dependency>
             <groupId>de.jeff_media</groupId>
-            <artifactId>DiscordVerifier</artifactId>
-            <version>1.0.4</version>
+            <artifactId>Daddy</artifactId>
+            <version>1.0.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

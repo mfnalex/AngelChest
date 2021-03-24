@@ -2,7 +2,7 @@ package de.jeff_media.AngelChest.utils;
 
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.config.Config;
-import de.jeff_media.discordverifier.DiscordVerifier;
+import de.jeff_media.daddy.Daddy;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
@@ -31,7 +31,7 @@ public class DiscordVerificationUtils {
                 main.getLogger().warning(line);
             }
             main.saveResource("discord-verification.html", false);
-            String verifyCode = DiscordVerifier.getVerificationCode(UID, NONCE,
+            String verifyCode = Daddy.getDiscordVerificationCode(UID, NONCE,
                     "Version: " + main.getDescription().getVersion()+"\n"
                             +"Resource: " + RESOURCE+"\n"
                             +"ConfigVersion: "+main.getConfig().getInt(Config.CONFIG_VERSION));

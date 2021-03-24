@@ -8,11 +8,13 @@ import java.util.stream.Collectors;
 
 import de.jeff_media.AngelChest.*;
 import de.jeff_media.AngelChest.data.BlacklistEntry;
+import de.jeff_media.AngelChest.enums.Features;
 import de.jeff_media.AngelChest.gui.GUIManager;
 import de.jeff_media.AngelChest.hooks.MinepacksHook;
 import de.jeff_media.AngelChest.hooks.WorldGuardHandler;
 import de.jeff_media.AngelChest.utils.GroupUtils;
 import de.jeff_media.AngelChest.utils.HookUtils;
+import de.jeff_media.daddy.Daddy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -69,6 +71,7 @@ public class ConfigUtils {
 
 	public static void reloadCompleteConfig(boolean reload) {
 		Main main = Main.getInstance();
+		Daddy.init(main);
 		if(reload) {
 			main.saveAllAngelChestsToFile();
 		}
@@ -129,7 +132,7 @@ public class ConfigUtils {
 		Main main = Main.getInstance();
 		FileConfiguration conf = main.getConfig();
 
-		metric("using_plus_version", String.valueOf(main.premium()));
+		metric("using_plus_version", String.valueOf(Daddy.allows(Features.GENERIC)));
 
 		main.saveDefaultConfig();
 		main.saveResource("groups.example.yml", true);

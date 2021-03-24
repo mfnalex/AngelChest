@@ -2,6 +2,8 @@ package de.jeff_media.AngelChest.commands;
 
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.config.Permissions;
+import de.jeff_media.AngelChest.enums.Features;
+import de.jeff_media.daddy.Daddy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,7 +24,7 @@ public class CommandVersion implements CommandExecutor {
         String[] version = new String[] {
                 "§6",
                 "§6===[§bAngelChest Version§6]===",
-                "§eAngelChest" + (Main.getInstance().premium() ? "Plus " : " ") + Main.getInstance().getDescription().getVersion(),
+                "§eAngelChest" + (Daddy.allows(Features.GENERIC) ? "Plus " : " ") + Main.getInstance().getDescription().getVersion(),
                 "§e" + Bukkit.getBukkitVersion(),
                 "§e" + Bukkit.getVersion()
         };

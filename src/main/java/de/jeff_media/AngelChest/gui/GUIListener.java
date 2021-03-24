@@ -3,11 +3,13 @@ package de.jeff_media.AngelChest.gui;
 import de.jeff_media.AngelChest.config.Config;
 import de.jeff_media.AngelChest.config.Permissions;
 import de.jeff_media.AngelChest.enums.EconomyStatus;
+import de.jeff_media.AngelChest.enums.Features;
 import de.jeff_media.AngelChest.enums.TeleportAction;
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.utils.CommandUtils;
 import de.jeff_media.AngelChest.utils.Utils;
 import de.jeff_media.ChestSortAPI.ChestSortEvent;
+import de.jeff_media.daddy.Daddy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -187,7 +189,7 @@ public class GUIListener implements @NotNull Listener {
                 for(HumanEntity viewer : event.getClickedInventory().getViewers().toArray(new HumanEntity[0])) {
                     viewer.closeInventory();
                 }
-                if(main.premium()) { // Don't add feature here
+                if(Daddy.allows(Features.GENERIC)) { // Don't add feature here
                     if (!player.getUniqueId().equals(guiHolder.getAngelChest().owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
                         if (Bukkit.getPlayer(guiHolder.getAngelChest().owner) != null) {
                             Bukkit.getPlayer(guiHolder.getAngelChest().owner).sendMessage(main.messages.MSG_EMPTIED.replaceAll("\\{player}", player.getName()));

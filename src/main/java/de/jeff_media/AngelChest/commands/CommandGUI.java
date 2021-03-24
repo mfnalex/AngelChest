@@ -2,6 +2,7 @@ package de.jeff_media.AngelChest.commands;
 
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.enums.Features;
+import de.jeff_media.daddy.Daddy;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,7 +20,7 @@ public class CommandGUI implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
 
-        if(!main.premium(Features.GUI)) {
+        if(!Daddy.allows(Features.GUI)) {
             sender.sendMessage(main.messages.MSG_PREMIUMONLY);
             return true;
         }

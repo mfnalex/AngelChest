@@ -110,7 +110,7 @@ public class Watchdog {
      * @return Watchdog File
      */
     private File getFile() {
-        return new File(main.getDataFolder()+File.separator + "wachdog");
+        return new File(main.getDataFolder()+File.separator + "watchdog");
     }
 
 

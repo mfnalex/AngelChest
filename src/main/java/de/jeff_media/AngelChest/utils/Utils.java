@@ -5,6 +5,7 @@ import de.jeff_media.AngelChest.data.AngelChest;
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.config.Config;
 import de.jeff_media.AngelChest.enums.Features;
+import de.jeff_media.daddy.Daddy;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -383,7 +384,7 @@ public class Utils {
     {
         Main main = Main.getInstance();
 
-        if(!main.premium(Features.SPAWN_CHANCE)) {
+        if(!Daddy.allows(Features.SPAWN_CHANCE)) {
             return true;
         }
 

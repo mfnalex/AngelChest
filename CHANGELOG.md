@@ -1,4 +1,6 @@
 ## 3.0.5
+- Fixed chests not being spawned when player dies at Y coordinates below 1
+- Fixed watchdog not removing armor stands in void correctly
 - Fixed exception regarding UpdateChecker
 
 ## 3.0.4
