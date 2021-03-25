@@ -1,6 +1,7 @@
 package de.jeff_media.AngelChest.utils;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class FileUtils {
 
@@ -35,8 +36,22 @@ public class FileUtils {
                 fileOut.write(inputBuffer.toString().getBytes());
                 fileOut.close();
             }
-
-
             return changed;
+    }
+
+    public static void appendLine(File file, String line) {
+        appendLine(file,new String[] {line});
+    }
+
+    public static void appendLine(File file, String[] lines) {
+        try {
+            Writer output = new OutputStreamWriter(new FileOutputStream(file,true), StandardCharsets.UTF_8);
+            for(String line : lines) {
+                output.append(line+System.lineSeparator());
+            }
+            output.close();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
 }

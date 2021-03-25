@@ -1,3 +1,12 @@
+## 3.1.0
+- Fixed premium version not being detected when Vault isn't installed
+- Added dump command to /acdebug
+  - If you have any problems using AngelChest, just run "/acdebug dump".
+  - It creates a .zip file containing your config files, latest.log and other useful information
+  - You can send this file to me so I can instantly check where the problem is
+  - It does NOT automatically upload anything, so don't worry about your privacy :)
+  - DO NOT share that zip file to people you don't trust as it contains your latest.log!!!!!!!!!
+
 ## 3.0.5
 - Fixed chests not being spawned when player dies at Y coordinates below 1
 - Fixed watchdog not removing armor stands in void correctly

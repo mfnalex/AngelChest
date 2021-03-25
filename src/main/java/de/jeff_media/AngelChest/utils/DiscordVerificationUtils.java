@@ -31,10 +31,7 @@ public class DiscordVerificationUtils {
                 main.getLogger().warning(line);
             }
             main.saveResource("discord-verification.html", false);
-            String verifyCode = Daddy.getDiscordVerificationCode(UID, NONCE,
-                    "Version: " + main.getDescription().getVersion()+"\n"
-                            +"Resource: " + RESOURCE+"\n"
-                            +"ConfigVersion: "+main.getConfig().getInt(Config.CONFIG_VERSION));
+            String verifyCode = Daddy.getDiscordVerificationCode();
             try {
                 FileUtils.replaceStringsInFile(verifyFile,"{verificationCode}",addLineBreaks(verifyCode));
             } catch (IOException ioException) {

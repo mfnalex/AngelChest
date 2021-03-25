@@ -1,6 +1,7 @@
 package de.jeff_media.AngelChest.commands;
 
 import de.jeff_media.AngelChest.Main;
+import de.jeff_media.AngelChest.config.ConfigDumper;
 import de.jeff_media.AngelChest.config.ConfigUtils;
 import de.jeff_media.AngelChest.config.Permissions;
 import de.jeff_media.AngelChest.data.AngelChest;
@@ -70,6 +71,9 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
                 case "checkconfig":
                     checkconfig(commandSender);
                     break;
+                case "dump":
+                    dump(commandSender);
+                    break;
             }
             return true;
         }
@@ -81,11 +85,16 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
                 "/acd blacklist §6Shows blacklist information",
                 "/acd checkconfig §6Checks config files for errors",
                 "/acd info §6Shows general debug information",
-                "/acd group §6Shows group information"
+                "/acd group §6Shows group information",
+                "/acd dump §6Dump debug information"
                 //"- config"
         });
 
         return true;
+    }
+
+    private void dump(CommandSender commandSender) {
+        ConfigDumper.dump(commandSender);
     }
 
     private void checkconfig(CommandSender commandSender) {
@@ -349,7 +358,7 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig"};
+        String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig","dump"};
         String[] blacklistCommands = {"info", "test"};
 
         // Debug

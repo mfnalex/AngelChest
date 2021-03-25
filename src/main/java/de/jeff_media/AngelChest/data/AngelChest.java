@@ -94,13 +94,22 @@ public class AngelChest {
         main.debug("Creating AngelChest from file " + file.getName());
         YamlConfiguration yaml;
         try {
-            yaml = YamlConfiguration.loadConfiguration(file);
+            yaml = new YamlConfiguration();
+            yaml.load(file);
         } catch (Throwable t) {
-            main.getLogger().warning("Could not load legacy AngelChest file " + file.getName());
+            main.getLogger().warning("Could not load AngelChest file " + file.getName());
             success = false;
-            t.printStackTrace();
+            if(main.debug) {
+                t.printStackTrace();
+            }
             return;
         }
+
+        /*if(!yaml.contains(ChestYaml.OWNER_UUID)) {
+            main.getLogger().warning("Could not load AngelChest file " + file.getName());
+            success = false;
+            return;
+        }*/
 
         this.main = Main.getInstance();
         this.owner = UUID.fromString(yaml.getString(ChestYaml.OWNER_UUID));

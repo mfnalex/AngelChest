@@ -73,7 +73,7 @@ public class ConfigUtils {
 		Main main = Main.getInstance();
 		Daddy.init(main);
 		if(reload) {
-			main.saveAllAngelChestsToFile();
+			main.saveAllAngelChestsToFile(true);
 		}
 		main.reloadConfig();
 		createConfig();
@@ -113,7 +113,10 @@ public class ConfigUtils {
 	}
 
 	static void metric(String name, String value) {
-		Main.getInstance().metrics.addCustomChart(new Metrics.SimplePie(name.replace('-','_').toLowerCase(), () -> value));
+		if(value.length()>2 && value.endsWith(".0")) value = value.substring(0,value.length()-2);
+		String finalValue = value;
+		Main.getInstance().metrics.addCustomChart(new Metrics.SimplePie(name.replace('-','_').toLowerCase(), () -> finalValue));
+		//System.out.println("Adding metric "+name+" -> "+value);
 	}
 
 	static void metric(String name) {

@@ -28,6 +28,7 @@ import de.jeff_media.AngelChest.utils.DiscordVerificationUtils;
 import de.jeff_media.AngelChest.utils.GroupUtils;
 import de.jeff_media.AngelChest.utils.HookUtils;
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
+import de.jeff_media.SpigotJeffMediaPlugin;
 import de.jeff_media.daddy.Daddy;
 import io.papermc.lib.PaperLib;
 import net.milkbowl.vault.economy.Economy;
@@ -48,7 +49,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Main extends JavaPlugin {
+public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 
 	private static final String SPIGOT_RESOURCE_ID_PLUS = "88214";
 	private static final String SPIGOT_RESOURCE_ID_FREE = "60383";
@@ -387,20 +388,22 @@ public class Main extends JavaPlugin {
 		gracefulShutdown = true;
 		if(emergencyMode) return;
 
-		saveAllAngelChestsToFile();
+		saveAllAngelChestsToFile(true);
 
 	}
 
-	public void saveAllAngelChestsToFile() {
+	public void saveAllAngelChestsToFile(boolean removeChests) {
 		// Destroy all Angel Chests, including hologram AND CONTENTS!
 		//for(Entry<Block,AngelChest> entry : angelChests.entrySet()) {
 		//	Utils.destroyAngelChest(entry.getKey(), entry.getValue(), this);
 		//}
 		for (Entry<Block, AngelChest> entry : angelChests.entrySet()) {
-			entry.getValue().saveToFile(true);
+			entry.getValue().saveToFile(removeChests);
 
 			// The following line isn't needed anymore but it doesn't hurt either
-			entry.getValue().hologram.destroy();
+			if(removeChests) {
+				entry.getValue().hologram.destroy();
+			}
 		}
 	}
 
@@ -501,4 +504,18 @@ public class Main extends JavaPlugin {
 		return version;
 	}
 
+	@Override
+	public String getUID() {
+		return UID;
+	}
+
+	@Override
+	public String getNONCE() {
+		return NONCE;
+	}
+
+	@Override
+	public String getRESOURCE() {
+		return RESOURCE;
+	}
 }
