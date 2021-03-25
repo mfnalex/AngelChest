@@ -1,3 +1,7 @@
+## 3.1.1
+- Fixed "use-different-material-when-unlocked" not working properly sometimes
+- Fixed UpdateChecker showing wrong version
+
 ## 3.1.0
 - Fixed premium version not being detected when Vault isn't installed
 - Added dump command to /acdebug

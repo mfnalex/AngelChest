@@ -108,7 +108,10 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 
 
 	public Material getChestMaterial(AngelChest chest) {
-		if(Daddy.allows(Features.GENERIC) && !getConfig().getBoolean(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED)) { // Don't add feature
+		if(!Daddy.allows(Features.GENERIC)) {
+			return chestMaterial;
+		}
+		if(!getConfig().getBoolean(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED)) {
 			return chestMaterial;
 		}
 		return chest.isProtected ? chestMaterial : chestMaterialUnlocked;
