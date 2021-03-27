@@ -6,10 +6,7 @@ import de.jeff_media.AngelChest.config.Permissions;
 import de.jeff_media.AngelChest.data.AngelChest;
 import de.jeff_media.AngelChest.enums.Features;
 import de.jeff_media.AngelChest.enums.TeleportAction;
-import de.jeff_media.AngelChest.utils.CommandUtils;
-import de.jeff_media.AngelChest.utils.HeadCreator;
-import de.jeff_media.AngelChest.utils.Utils;
-import de.jeff_media.AngelChest.utils.XPUtils;
+import de.jeff_media.AngelChest.utils.*;
 import de.jeff_media.daddy.Daddy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -156,7 +153,7 @@ public class GUIManager {
             if(hasOpen(player,inventory)) {
                 showMainGUI(player);
             }
-        }, 20L);
+        }, Ticks.fromSeconds(1));
     }
 
     public void showPreviewGUI(Player player, AngelChest angelChest, boolean isPreview, boolean firstOpened) {
@@ -205,7 +202,7 @@ public class GUIManager {
             if(hasOpen(player,inventory)) {
                 showChestGUI(player, holder, holder.getChestIdStartingAt1());
             }
-        }, 20L);
+        }, Ticks.fromSeconds(1));
     }
 
     public void showConfirmGUI(Player player, GUIHolder holder, TeleportAction action) {
@@ -228,7 +225,7 @@ public class GUIManager {
                 //main.debug("Null in repeating task in showConfirmGUI");
                 // TODO: No idea why it happens, but everything still works normally lol so fuck it.
             }
-        }, 20L);
+        }, Ticks.fromSeconds(1));
     }
 
     private ItemStack getPreviewButton() {

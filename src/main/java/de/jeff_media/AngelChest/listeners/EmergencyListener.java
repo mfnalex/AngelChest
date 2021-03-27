@@ -2,6 +2,7 @@ package de.jeff_media.AngelChest.listeners;
 
 import de.jeff_media.AngelChest.EmergencyMode;
 import de.jeff_media.AngelChest.Main;
+import de.jeff_media.AngelChest.utils.Ticks;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,7 +26,7 @@ public class EmergencyListener implements Listener {
                         text[j] = text[j].replaceAll("\\{filename}", file);
                     }
                     playerJoinEvent.getPlayer().sendMessage(text);
-                }, 10 + i);
+                }, Ticks.fromSeconds(0.5) + i);
             }
         }
     }

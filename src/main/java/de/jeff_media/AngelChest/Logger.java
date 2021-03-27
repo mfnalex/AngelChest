@@ -3,6 +3,7 @@ package de.jeff_media.AngelChest;
 import de.jeff_media.AngelChest.config.Config;
 import de.jeff_media.AngelChest.data.AngelChest;
 import de.jeff_media.AngelChest.enums.Features;
+import de.jeff_media.AngelChest.utils.Ticks;
 import de.jeff_media.daddy.Daddy;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -37,8 +38,8 @@ public class Logger {
         removeOlderThanXHours = main.getConfig().getDouble(Config.PURGE_LOGS_OLDER_THAN_X_HOURS);
         removeEveryXHours = main.getConfig().getDouble(Config.PURGE_LOGS_EVERY_X_HOURS);
 
-        long ticksBetweenChecks = (long) (removeEveryXHours*60*60*20);
-        maxOffsetBeforeRemoval = (long) (removeOlderThanXHours * 60 * 60 * 1000);
+        long ticksBetweenChecks = Ticks.fromHours(removeEveryXHours);
+        maxOffsetBeforeRemoval = Ticks.fromHours(removeOlderThanXHours);
         if(removeEveryXHours!=-1) {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(main, this::purgeLogs,ticksBetweenChecks,ticksBetweenChecks);
         }

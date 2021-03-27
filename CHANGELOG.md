@@ -1,3 +1,8 @@
+## 3.3.0
+- Changed obfuscation to comply with Spigot guidelines
+- Improved dead hologram detection by using NBT Tags
+- Added new command: /acd fixholograms (you will never need this command though)
+
 ## 3.2.0
 - Added "ignore-keep-inventory" option. You can set this to true if you have other plugins that make you keep your inventory on death but would rather get an AngelChest instead.
 

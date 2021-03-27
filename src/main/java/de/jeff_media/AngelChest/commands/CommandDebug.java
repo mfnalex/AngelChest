@@ -6,26 +6,35 @@ import de.jeff_media.AngelChest.config.ConfigUtils;
 import de.jeff_media.AngelChest.config.Permissions;
 import de.jeff_media.AngelChest.data.AngelChest;
 import de.jeff_media.AngelChest.data.BlacklistEntry;
+import de.jeff_media.AngelChest.data.Hologram;
 import de.jeff_media.AngelChest.enums.BlacklistResult;
 import de.jeff_media.AngelChest.enums.Features;
+import de.jeff_media.AngelChest.nbt.NBTTags;
+import de.jeff_media.AngelChest.nbt.NBTValues;
+import de.jeff_media.AngelChest.utils.HologramFixer;
 import de.jeff_media.daddy.Daddy;
+import de.jeff_media.nbtapi.NBTAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.javatuples.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Predicate;
 
 public class CommandDebug implements CommandExecutor, TabCompleter {
 
@@ -74,6 +83,12 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
                 case "dump":
                     dump(commandSender);
                     break;
+                case "fixholograms":
+                    fixholograms(commandSender,shift(args));
+                    break;
+                case "createhologram":
+                    createhologram(commandSender, shift(args));
+                    break;
             }
             return true;
         }
@@ -86,11 +101,54 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
                 "/acd checkconfig §6Checks config files for errors",
                 "/acd info §6Shows general debug information",
                 "/acd group §6Shows group information",
-                "/acd dump §6Dump debug information"
+                "/acd dump §6Dump debug information",
+                "/acd fixholograms [radius] §6Removes dead holograms"
                 //"- config"
         });
 
         return true;
+    }
+
+    private void createhologram(CommandSender commandSender, String[] args) {
+        Location loc = ((Player)commandSender).getLocation();
+        int rand = new Random().nextInt(Integer.MAX_VALUE);
+        ArmorStand entity = (ArmorStand) loc.getWorld().spawnEntity(loc,EntityType.ARMOR_STAND);
+        entity.setVisible(false);
+        entity.setCustomName(""+rand);
+        entity.setCustomNameVisible(true);
+        entity.setInvulnerable(true);
+        NBTAPI.addNBT(entity, NBTTags.IS_HOLOGRAM, NBTValues.TRUE);
+    }
+
+    private void fixholograms(CommandSender commandSender, String[] args) {
+        Integer radius = null;
+        //if(!(commandSender instanceof Player)) {
+            //commandSender.sendMessage(main.messages.MSG_PLAYERSONLY);
+        //    return;
+        //}
+        //Location location = ((Player) commandSender).getLocation();
+        /*if(args.length>0) {
+            try {
+                radius = Integer.parseInt(args[0]);
+            } catch (NumberFormatException exception) {
+                commandSender.sendMessage(ChatColor.RED + args[0] + " is not a valid number nor a valid world name.");
+                return;
+            }
+        }*/
+
+        int deadHolograms = 0;
+        for(World world : Bukkit.getWorlds()) {
+            deadHolograms += HologramFixer.removeDeadHolograms(world);
+        }
+
+        if(deadHolograms==0) {
+            commandSender.sendMessage(new String[] {
+                    ChatColor.GRAY+"There are no dead AngelChest holograms.",
+                    ChatColor.GRAY+"Please note that this command can only remove holograms in loaded chunks created in AngelChest 3.3.0 or later. Join my discord to get a command that can remove all dead holograms (including those created by other plugins): https://discord.jeff-media.de"
+            });
+        } else {
+            commandSender.sendMessage(ChatColor.GREEN+"Removed "+deadHolograms+" dead AngelChest holograms.");
+        }
     }
 
     private void dump(CommandSender commandSender) {
@@ -358,7 +416,7 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig","dump"};
+        String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig","dump","fixholograms"};
         String[] blacklistCommands = {"info", "test"};
 
         // Debug

@@ -24,12 +24,12 @@ import de.jeff_media.AngelChest.hooks.MinepacksHook;
 import de.jeff_media.AngelChest.hooks.WorldGuardHandler;
 import de.jeff_media.AngelChest.listeners.*;
 import de.jeff_media.AngelChest.config.ConfigUtils;
-import de.jeff_media.AngelChest.utils.DiscordVerificationUtils;
-import de.jeff_media.AngelChest.utils.GroupUtils;
-import de.jeff_media.AngelChest.utils.HookUtils;
+import de.jeff_media.AngelChest.nbt.NBTUtils;
+import de.jeff_media.AngelChest.utils.*;
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
 import de.jeff_media.SpigotJeffMediaPlugin;
 import de.jeff_media.daddy.Daddy;
+import de.jeff_media.nbtapi.NBTAPI;
 import io.papermc.lib.PaperLib;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.math.NumberUtils;
@@ -37,6 +37,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.ArmorStand;
@@ -101,6 +102,7 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 	public Economy econ;
 	public Map<String, BlacklistEntry> itemBlacklist;
 	public Metrics metrics;
+	public NBTUtils nbtUtils;
 
 	public EconomyStatus economyStatus = EconomyStatus.UNKNOWN;
 
@@ -134,6 +136,7 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 
 		instance = this;
 		Daddy.init(this);
+		NBTAPI.init(this);
 
 		migrateFromAngelChestPlus1X();
 		ChestFileUpdater.updateChestFilesToNewDeathCause();
@@ -194,6 +197,7 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 		getServer().getPluginManager().registerEvents(new BlockListener(),this);
 		getServer().getPluginManager().registerEvents(new PistonListener(),this);
 		getServer().getPluginManager().registerEvents(new EmergencyListener(),this);
+		getServer().getPluginManager().registerEvents(new WorldListener(),this);
 		guiListener = new GUIListener();
 		getServer().getPluginManager().registerEvents(guiListener,this);
 		
@@ -300,7 +304,7 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 					chest.hologram.update(chest);
 				}
 			}
-		}, 20L, 20L);
+		}, Ticks.fromSeconds(1), Ticks.fromSeconds(1));
 
 		// Track player positions
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
@@ -309,8 +313,9 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 					lastPlayerPositions.put(player.getUniqueId(), player.getLocation().getBlock());
 				}
 			}
-		}, 20L, 20L);
+		}, Ticks.fromSeconds(1), Ticks.fromSeconds(1));
 
+		// Fix broken AngelChests
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 
 			// The following might only be needed for chests destroyed by end crystals spawning during the init phase of the ender dragon
@@ -338,7 +343,7 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 					entry.setValue(new AngelChest(getAngelChest(block).saveToFile(true)));
 				}
 			}
-		}, 0L, 2 * 20);
+		}, 0L, Ticks.fromSeconds(2));
 
 		// Schedule DurationTimer
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
@@ -365,7 +370,14 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 					}
 				}
 			}
-		}, 0, 20);
+		}, 0, Ticks.fromSeconds(1));
+
+		// Remove dead holograms
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this,() -> {
+			for(World world : Bukkit.getWorlds()) {
+				HologramFixer.removeDeadHolograms(world);
+			}
+		}, Ticks.fromMinutes(1), Ticks.fromMinutes(1));
 	}
 
 
