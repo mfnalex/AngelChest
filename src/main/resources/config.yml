@@ -379,7 +379,7 @@ ignore-keep-inventory: false
 # try to lower the priority of AngelChest until the drops get detected.
 # If you have problems with the chest not spawning at all (but remaining in the player's inventory),
 # consider using a low priority (e.g. LOWEST)
-# Available priorities (from high to low): MONITOR, HIGHEST, HIGH, NORMAL (default), LOW, LOWEST
+# Available priorities (from high to low): MONITOR, HIGHEST, HIGH, NORMAL, LOW, LOWEST
 event-priority: HIGHEST
 
 #########################
