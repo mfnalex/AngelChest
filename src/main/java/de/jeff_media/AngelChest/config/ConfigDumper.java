@@ -135,6 +135,7 @@ public class ConfigDumper {
             for(Permission permission : main.getDescription().getPermissions()) {
                 appendLine(log,"- "+permission.getName()+": "+player.hasPermission(permission));
             }
+            appendLine(log,"- essentials.keepinv: "+player.hasPermission("essentials.keepinv"));
         }
 
         // Dump configs
