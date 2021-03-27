@@ -362,6 +362,11 @@ use-slimefun: true
 # to detect those as well and prevent those from being put into the chest.
 check-generic-soulbound: true
 
+# Some plugins make you keep your items on death, e.g. Essentials when you are /op.
+# AngelChest respects that, but you also set the following option to true to always
+# get a chest, regardless of the keepInventory flag.
+ignore-keep-inventory: false
+
 # You can define the priority on which AngelChest detects the player's drops. When you use plugins to
 # manipulate what items a player drops on death, consider setting this to a high value (e.g. HIGHEST
 # or MONITOR.

@@ -121,7 +121,7 @@ public class PlayerListener implements Listener {
 
         // TODO: Readd this to the config file maybe?
         if (event.getKeepInventory()) {
-            if (!main.getConfig().getBoolean("ignore-keep-inventory", false)) {
+            if (!main.getConfig().getBoolean(Config.IGNORE_KEEP_INVENTORY)) {
                 main.debug("Cancelled: event#getKeepInventory() == true");
                 main.debug("Please check if your kept your inventory on death!");
                 main.debug("This is probably because some other plugin tries to handle your inv on death.");

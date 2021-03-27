@@ -5,6 +5,7 @@ package de.jeff_media.AngelChest.config;
  */
 public class Config {
 
+    public static final String IGNORE_KEEP_INVENTORY = "ignore-keep-inventory";
     public static final String CHECK_FOR_UPDATES = "check-for-updates";
     public static final String CHECK_FOR_UPDATES_INTERVAL = "check-interval";
     public static final String CONFIG_VERSION = "config-version";

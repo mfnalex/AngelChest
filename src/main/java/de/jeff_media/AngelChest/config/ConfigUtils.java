@@ -142,6 +142,9 @@ public class ConfigUtils {
 		main.saveResource("blacklist.example.yml", true);
 		createDirectories();
 
+		conf.addDefault(Config.IGNORE_KEEP_INVENTORY,false);
+		metric(Config.IGNORE_KEEP_INVENTORY);
+
 		conf.addDefault(Config.XP_PERCENTAGE, -1);
 		metric(Config.XP_PERCENTAGE);
 

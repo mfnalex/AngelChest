@@ -1,3 +1,6 @@
+## 3.2.0
+- Added "ignore-keep-inventory" option. You can set this to true if you have other plugins that make you keep your inventory on death but would rather get an AngelChest instead.
+
 ## 3.1.2
 - Fixed exception when using other plugins that set certain drops to AIR instead of properly removing them
 
