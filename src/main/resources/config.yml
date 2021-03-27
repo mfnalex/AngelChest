@@ -365,6 +365,11 @@ check-generic-soulbound: true
 # Some plugins make you keep your items on death, e.g. Essentials when you are /op.
 # AngelChest respects that, but you also set the following option to true to always
 # get a chest, regardless of the keepInventory flag.
+# Note that many plugins (including EssentialsX) also clear your drops list for
+# totally retarded reasons, because that's not needed and prevents AngelChest
+# from detecting the drops. If you get the message that your inventory was empty
+# on death, try setting the "event-priority" below to LOWEST, then raise it slowly
+# to the highest possible value where it still works.
 ignore-keep-inventory: false
 
 # You can define the priority on which AngelChest detects the player's drops. When you use plugins to
