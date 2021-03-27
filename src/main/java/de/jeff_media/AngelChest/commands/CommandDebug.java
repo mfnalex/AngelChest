@@ -74,6 +74,8 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
                 case "dump":
                     dump(commandSender);
                     break;
+                case "corpse":
+                    corpse(commandSender);
             }
             return true;
         }
@@ -91,6 +93,19 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
         });
 
         return true;
+    }
+
+    private void corpse(CommandSender commandSender) {
+
+        Player player = (Player) commandSender;
+
+        try {
+            ReflectCorpse corpse = new ReflectCorpse("asdasd",player.getLocation());
+            corpse.spawn();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void dump(CommandSender commandSender) {

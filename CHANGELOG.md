@@ -1,3 +1,6 @@
+## 3.1.2
+- Fixed exception when using other plugins that set certain drops to AIR instead of properly removing them
+
 ## 3.1.1
 - Fixed "use-different-material-when-unlocked" not working properly sometimes
 - Fixed UpdateChecker showing wrong version

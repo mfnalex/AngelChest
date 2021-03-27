@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>3.1.1</version>
+    <version>3.1.2</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -105,33 +105,36 @@
             <url>https://repo.pcgamingfreaks.at/repository/maven-everything</url>
         </repository>
         <repository>
-            <id>skullcreator-repo</id>
-            <url>https://dl.bintray.com/deanveloper/SkullCreator</url>
-        </repository>
-        <repository>
             <id>CodeMC</id>
             <url>https://repo.codemc.org/repository/maven-public</url>
         </repository>
+        <!-- WorldGuard new -->
         <repository>
-            <id>enginehub-repo</id><!-- WorldGuard new -->
+            <id>enginehub-repo</id>
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
+        <!-- WorldGuard legacy -->
         <repository>
-            <id>sk89q-repo</id><!-- WorldGuard legacy -->
+            <id>sk89q-repo</id>
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <!-- PlaceholderAPI -->
         <repository>
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+        <!-- ProtocolLib -->
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>https://repo.dmulloy2.net/nexus/repository/public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
-
         <!-- Spigot and PaperLib -->
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -139,6 +142,7 @@
             <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>io.papermc</groupId>
             <artifactId>paperlib</artifactId>
@@ -152,12 +156,14 @@
             <artifactId>SpigotJeffMediaPlugin</artifactId>
             <version>1.0.0</version>
         </dependency>
+
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>PluginUpdateChecker</artifactId>
             <version>1.5.4</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>Daddy</artifactId>
@@ -172,19 +178,20 @@
             <version>1.2</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>org.zeroturnaround</groupId>
             <artifactId>zt-zip</artifactId>
             <version>1.14</version>
             <type>jar</type>
         </dependency>
-        <!-- Apache Commons is included in the Spigot API -->
-        <!--<dependency>
+
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version>
             <scope>compile</scope>
-        </dependency>-->
+        </dependency>
 
         <!-- bStats -->
         <dependency>
@@ -237,6 +244,11 @@
             <artifactId>placeholderapi</artifactId>
             <version>2.10.9</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>4.5.0</version>
         </dependency>
     </dependencies>
 

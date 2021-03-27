@@ -251,6 +251,7 @@ public class PlayerListener implements Listener {
         main.debug("===== ADDITIONAL DEATH DROP LIST END =====");
         for (ItemStack freshDrop : freshDrops) {
             for (ItemStack leftover : p.getInventory().addItem(freshDrop).values()) {
+                if(leftover == null || leftover.getAmount() == 0 || leftover.getType() == Material.AIR) continue;
                 p.getWorld().dropItemNaturally(p.getLocation(), leftover);
                 main.debug("Could not add item to AngelChest of player " + p.getName() + ": " + leftover + ", dropping it to world @ " + p.getLocation().toString());
             }

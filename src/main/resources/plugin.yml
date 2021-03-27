@@ -5,10 +5,23 @@ description: "${project.description}"
 prefix: ${spigot.prefix}
 api-version: "1.13"
 website: https://www.spigotmc.org/resources/1-13-angelchest.60383/
-authors: [mfnalex, JEFF Media GbR]
+authors:
+  - mfnalex
+  - JEFF Media GbR
 database: false
 load: POSTWORLD
-softdepend: [Multiverse-Core,Multiverse,Vault,WorldGuard,Slimefun,InventoryPages,Minepacks,PlaceholderAPI,EliteMobs,ChestSort]
+softdepend:
+  - Multiverse-Core
+  - Multiverse
+  - Vault
+  - WorldGuard
+  - Slimefun
+  - InventoryPages
+  - Minepacks
+  - PlaceholderAPI
+  - EliteMobs
+  - ChestSort
+  - ProtocolLib
 loadbefore: [AngelChestPlus]
 commands:
 #  acunlock:

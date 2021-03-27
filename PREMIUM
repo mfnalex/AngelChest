@@ -16,3 +16,7 @@ Per group prices for fetch / teleport / chest spawning / chest opening including
 Configurable amount of xp loss (percentage) per group
 More control over the holograms (only {protected} right now, might have to add {deathCause} too)
 Support for almost any third party plugin!
+
+----
+
+Corpses 1.14+ only
