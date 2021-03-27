@@ -12,6 +12,7 @@ import de.jeff_media.AngelChest.enums.Features;
 import de.jeff_media.AngelChest.gui.GUIManager;
 import de.jeff_media.AngelChest.hooks.MinepacksHook;
 import de.jeff_media.AngelChest.hooks.WorldGuardHandler;
+import de.jeff_media.AngelChest.nbt.NBTUtils;
 import de.jeff_media.AngelChest.utils.GroupUtils;
 import de.jeff_media.AngelChest.utils.HookUtils;
 import de.jeff_media.daddy.Daddy;
@@ -90,6 +91,7 @@ public class ConfigUtils {
 		main.minepacksHook = new MinepacksHook();
 		main.guiManager = new GUIManager();
 		main.itemBlacklist = loadItemBlacklist();
+		main.nbtUtils = new NBTUtils();
 		//main.debugger = new AngelChestDebugger(main);
 		if(reload) {
 			main.loadAllAngelChestsFromFile();

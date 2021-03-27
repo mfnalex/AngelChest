@@ -8,8 +8,11 @@ import java.util.UUID;
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.config.Config;
 import de.jeff_media.AngelChest.enums.Features;
+import de.jeff_media.AngelChest.nbt.NBTTags;
+import de.jeff_media.AngelChest.nbt.NBTValues;
 import de.jeff_media.AngelChest.utils.CommandUtils;
 import de.jeff_media.daddy.Daddy;
+import de.jeff_media.nbtapi.NBTAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -125,6 +128,8 @@ public class Hologram {
             as.setCustomName(line);
             as.setCustomNameVisible(customNameVisible);
             as.setVisible(false);
+
+            NBTAPI.addNBT(as, NBTTags.IS_HOLOGRAM, NBTValues.TRUE);
 
             lineNumber++;
         }

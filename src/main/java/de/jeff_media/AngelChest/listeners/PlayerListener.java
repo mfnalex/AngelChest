@@ -370,7 +370,7 @@ public class PlayerListener implements Listener {
             if (event.getEntity().isDead()) {
                 event.getEntity().spigot().respawn();
             }
-        }, 1L + (delay * 20));
+        }, 1L + Ticks.fromSeconds(delay));
     }
 
     @SuppressWarnings("unused")

@@ -1,5 +1,6 @@
 package de.jeff_media.AngelChest;
 
+import de.jeff_media.AngelChest.utils.Ticks;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
@@ -70,7 +71,7 @@ public class EmergencyMode {
             for(String line : text) {
                 Main.getInstance().getLogger().severe(line);
             }
-        },0,30*20L);
+        },0,Ticks.fromSeconds(30));
 
         Bukkit.getPluginManager().registerEvent(
                 PlayerJoinEvent.class,
@@ -78,7 +79,7 @@ public class EmergencyMode {
                 EventPriority.MONITOR,
                 ((listener, event) -> {
                     PlayerJoinEvent playerJoinEvent = (PlayerJoinEvent) event;
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> playerJoinEvent.getPlayer().sendMessage(text), 10L);
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> playerJoinEvent.getPlayer().sendMessage(text), Ticks.fromSeconds(0.5));
                 }),
                 Main.getInstance());
 
