@@ -2,6 +2,7 @@ package de.jeff_media.AngelChest.gui;
 
 import de.jeff_media.AngelChest.config.Config;
 import de.jeff_media.AngelChest.config.Permissions;
+import de.jeff_media.AngelChest.data.AngelChest;
 import de.jeff_media.AngelChest.enums.EconomyStatus;
 import de.jeff_media.AngelChest.enums.Features;
 import de.jeff_media.AngelChest.enums.TeleportAction;
@@ -159,11 +160,13 @@ public class GUIListener implements @NotNull Listener {
             //event.getClickedInventory().remove(clickedItem);
             int clickedSlot = event.getSlot();
 
-            File logfile = main.logger.getLogFile(guiHolder.getAngelChest().logfile);
+            AngelChest angelChest = guiHolder.getAngelChest();
+
+            File logfile = main.logger.getLogFile(angelChest.logfile);
 
             if(clickedSlot == GUI.SLOT_PREVIEW_XP) {
-                main.logger.logXPTaken(player,guiHolder.getAngelChest().experience,logfile);
-                Utils.applyXp(player, guiHolder.getAngelChest());
+                main.logger.logXPTaken(player,angelChest.experience,logfile);
+                Utils.applyXp(player, angelChest);
                 event.getClickedInventory().setItem(GUI.SLOT_PREVIEW_XP,null);
             } else {
                 // TEST START
@@ -180,25 +183,25 @@ public class GUIListener implements @NotNull Listener {
                 }
                 // TEST END
             }
-            GUIUtils.savePreviewInventoryToChest(event.getClickedInventory(), guiHolder.getAngelChest());
-            main.guiManager.updatePreviewInvs(player, guiHolder.getAngelChest());
+            GUIUtils.savePreviewInventoryToChest(event.getClickedInventory(), angelChest);
+            main.guiManager.updatePreviewInvs(player, angelChest);
             //GUIUtils.printPreviewIntentory(event.getClickedInventory().getContents());
 
-            if(guiHolder.getAngelChest().isEmpty()) {
+            if(angelChest.isEmpty()) {
                 main.logger.logLastItemTaken(player,logfile);
                 for(HumanEntity viewer : event.getClickedInventory().getViewers().toArray(new HumanEntity[0])) {
                     viewer.closeInventory();
                 }
                 if(Daddy.allows(Features.GENERIC)) { // Don't add feature here
-                    if (!player.getUniqueId().equals(guiHolder.getAngelChest().owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
-                        if (Bukkit.getPlayer(guiHolder.getAngelChest().owner) != null) {
-                            Bukkit.getPlayer(guiHolder.getAngelChest().owner).sendMessage(main.messages.MSG_EMPTIED.replaceAll("\\{player}", player.getName()));
+                    if (!player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
+                        if (Bukkit.getPlayer(angelChest.owner) != null) {
+                            Bukkit.getPlayer(angelChest.owner).sendMessage(main.messages.MSG_EMPTIED.replaceAll("\\{player}", player.getName()));
                         }
                     }
                 }
                 Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
-                    guiHolder.getAngelChest().destroy(false);
-                    guiHolder.getAngelChest().remove();
+                    angelChest.destroy(false);
+                    angelChest.remove();
                 },1L);
             }
 

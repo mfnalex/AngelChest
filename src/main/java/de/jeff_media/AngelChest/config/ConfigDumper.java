@@ -25,16 +25,9 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-import static de.jeff_media.AngelChest.utils.FileUtils.appendLine;
+import static de.jeff_media.AngelChest.utils.FileUtils.appendLines;
 
 public class ConfigDumper {
-
-    public String[] collectedInformation = new String[] {
-            "Used server software and version",
-            "AngelChest config files (config.yml, groups.yml, blacklist.yml)",
-            "Name and version of all installed plugins",
-            "latest.log file"
-    };
 
     public static void dump(CommandSender sender) {
         Main main = Main.getInstance();
@@ -75,67 +68,68 @@ public class ConfigDumper {
 
         // Server information
         sender.sendMessage("Saving server information to log.txt...");
-        appendLine(log,banner("Server information"));
-        appendLine(log,"Server Version: "+Bukkit.getVersion());
-        appendLine(log,"Bukkit API Version: "+Bukkit.getBukkitVersion());
-        appendLine(log,"Plugin version: " + main.getDescription().getName()+(Daddy.allows(Features.GENERIC) ? "Plus" : "")+ " "+main.getDescription().getVersion());
+        appendLines(log,banner("Server information"));
+        appendLines(log,"Server Version: "+Bukkit.getVersion());
+        appendLines(log,"Bukkit API Version: "+Bukkit.getBukkitVersion());
+        appendLines(log,"Plugin version: " + main.getDescription().getName()+(Daddy.allows(Features.GENERIC) ? "Plus" : "")+ " "+main.getDescription().getVersion());
 
         // Broken config files
         sender.sendMessage("Saving config check to log.txt...");
-        appendLine(log,"\n"+banner("Config check"));
+        appendLines(log,"\n"+banner("Config check"));
         if(main.invalidConfigFiles==null || main.invalidConfigFiles.length==0) {
-            appendLine(log,"Config OK.");
+            appendLines(log,"Config OK.");
         } else {
-            appendLine(log,"Broken config files: " + StringUtils.join(main.invalidConfigFiles,", "));
+            appendLines(log,"Broken config files: " + StringUtils.join(main.invalidConfigFiles,", "));
         }
         if(!blacklist.exists()) {
-            appendLine(log,"blacklist.yml does not exist");
+            appendLines(log,"blacklist.yml does not exist");
         }
         if(!groups.exists()) {
-            appendLine(log,"groups.yml does not exist");
+            appendLines(log,"groups.yml does not exist");
         }
 
         // Other plugins
         sender.sendMessage("Saving plugin list to log.txt...");
-        appendLine(log,"\n"+banner("Installed plugins"));
+        appendLines(log,"\n"+banner("Installed plugins"));
         for(Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-            appendLine(log,plugin.getName()+" "+plugin.getDescription().getVersion()
+            appendLines(log,plugin.getName()+" "+plugin.getDescription().getVersion()
                     + (plugin.isEnabled() ? "" : " (DISABLED)"));
         }
 
         // Gamerules
         sender.sendMessage("Saving relevant gamerules...");
-        appendLine(log,"\n"+banner("Gamerules"));
+        appendLines(log,"\n"+banner("Gamerules"));
         for(World world : Bukkit.getWorlds().stream()
                 .sorted(Comparator.comparing(World::getName))
                 .collect(Collectors.toList())) {
-            appendLine(log,world.getName() + "["+world.getUID().toString()+"]");
-            GameRule[] rules = new GameRule[] {GameRule.DO_ENTITY_DROPS, GameRule.KEEP_INVENTORY};
+            appendLines(log,world.getName() + "["+world.getUID().toString()+"]");
+            @SuppressWarnings("rawtypes") GameRule[] rules = new GameRule[] {GameRule.DO_ENTITY_DROPS, GameRule.KEEP_INVENTORY};
+            //noinspection rawtypes
             for(GameRule rule : rules) {
-                appendLine(log,"- "+rule.getName()+": "+world.getGameRuleValue(rule).toString());
+                appendLines(log,"- "+rule.getName()+": "+world.getGameRuleValue(rule).toString());
             }
         }
 
         // Scheduled tasks
         sender.sendMessage("Saving BukkitScheduler information to log.txt...");
-        appendLine(log,"\n"+banner("BukkitScheduler: Workers"));
+        appendLines(log,"\n"+banner("BukkitScheduler: Workers"));
         for(BukkitWorker worker : Bukkit.getScheduler().getActiveWorkers()) {
-            appendLine(log,worker.getOwner().getName()+": "+worker.getTaskId()+" ("+worker.toString()+")");
+            appendLines(log,worker.getOwner().getName()+": "+worker.getTaskId()+" ("+worker.toString()+")");
         }
-        appendLine(log,"\n"+banner("BukkitScheduler: Tasks"));
+        appendLines(log,"\n"+banner("BukkitScheduler: Tasks"));
         for(BukkitTask task : Bukkit.getScheduler().getPendingTasks()) {
-            appendLine(log, task.getOwner().getName()+": "+task.getTaskId()+" ("+task.toString()+")");
+            appendLines(log, task.getOwner().getName()+": "+task.getTaskId()+" ("+task.toString()+")");
         }
 
         // Online player's permissions
         sender.sendMessage("Saving online player's permissions to log.txt...");
-        appendLine(log,"\n"+banner("Player Permissions"));
+        appendLines(log,"\n"+banner("Player Permissions"));
         for(Player player : Bukkit.getOnlinePlayers()) {
-            appendLine(log,player.getName());
+            appendLines(log,player.getName());
             for(Permission permission : main.getDescription().getPermissions()) {
-                appendLine(log,"- "+permission.getName()+": "+player.hasPermission(permission));
+                appendLines(log,"- "+permission.getName()+": "+player.hasPermission(permission));
             }
-            appendLine(log,"- essentials.keepinv: "+player.hasPermission("essentials.keepinv"));
+            appendLines(log,"- essentials.keepinv: "+player.hasPermission("essentials.keepinv"));
         }
 
         // Dump configs
@@ -220,8 +214,8 @@ public class ConfigDumper {
 
         // Go for it
         for(String node : input.getKeys(true).stream().sorted().collect(Collectors.toList())) {
-            appendLine(output,"ᐁ "+StringUtils.center("  "+node+"  ",maxLength,". ")+" ᐁ");
-            appendLine(output,input.get(node)+"\n\n");
+            appendLines(output,"ᐁ "+StringUtils.center("  "+node+"  ",maxLength,". ")+" ᐁ");
+            appendLines(output,input.get(node)+"\n\n");
         }
     }
 

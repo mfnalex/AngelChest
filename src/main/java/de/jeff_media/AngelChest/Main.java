@@ -47,7 +47,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
@@ -61,11 +60,11 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 	private static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_PLUS+"/updates";
 	private static final String UPDATECHECKER_LINK_DONATE = "https://paypal.me/mfnalex";
 
-	@SuppressWarnings({"FieldCanBeLocal","FieldMayBeFinal","CanBeFinal"})
+	@SuppressWarnings({"FieldMayBeFinal","CanBeFinal"})
 	private String UID = "%%__USER__%%" ;
-	@SuppressWarnings({"FieldCanBeLocal","FieldMayBeFinal","CanBeFinal"})
+	@SuppressWarnings({"FieldMayBeFinal","CanBeFinal"})
 	private String NONCE = "%%__NONCE__%%" ;
-	@SuppressWarnings({"FieldCanBeLocal","FieldMayBeFinal","CanBeFinal"})
+	@SuppressWarnings({"FieldMayBeFinal","CanBeFinal"})
 	private String RESOURCE = "%%__RESOURCE__%%" ;
 
 	public HashMap<UUID, PendingConfirm> pendingConfirms;
@@ -135,7 +134,9 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 	public void onEnable() {
 
 		instance = this;
+		/*Daddy start*/
 		Daddy.init(this);
+		/*Daddy end*/
 		NBTAPI.init(this);
 
 		migrateFromAngelChestPlus1X();
@@ -213,7 +214,7 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 		}
 
 		if(Daddy.allows(Features.GENERIC)) {
-			DiscordVerificationUtils.createVerificationFile(UID,NONCE,RESOURCE);
+			DiscordVerificationUtils.createVerificationFile();
 		}
 		
 	}

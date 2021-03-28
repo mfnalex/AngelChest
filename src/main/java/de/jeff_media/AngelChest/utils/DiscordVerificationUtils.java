@@ -1,7 +1,6 @@
 package de.jeff_media.AngelChest.utils;
 
 import de.jeff_media.AngelChest.Main;
-import de.jeff_media.AngelChest.config.Config;
 import de.jeff_media.daddy.Daddy;
 import org.apache.commons.lang.StringUtils;
 
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DiscordVerificationUtils {
-    public static void createVerificationFile(String UID, String NONCE, String RESOURCE) {
+    public static void createVerificationFile() {
 
         Main main = Main.getInstance();
 
@@ -51,7 +50,7 @@ public class DiscordVerificationUtils {
             rest = rest.substring(maxLength-lengthUntilBegin);
             lengthUntilBegin=0;
         }
-        if(rest != null && rest.length()>0) {
+        if(rest.length()>0) {
             lines.add(rest);
         }
         String[] linesArray = lines.toArray(new String[0]);

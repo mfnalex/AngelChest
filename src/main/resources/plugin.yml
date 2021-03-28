@@ -4,7 +4,7 @@ version: ${project.version}
 description: "${project.description}"
 prefix: ${spigot.prefix}
 api-version: "1.13"
-website: https://www.spigotmc.org/resources/1-13-angelchest.60383/
+website: https://www.spigotmc.org/resources/angelchestplus.88214/
 authors:
   - mfnalex
   - JEFF Media GbR
