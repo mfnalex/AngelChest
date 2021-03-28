@@ -39,15 +39,15 @@ public class FileUtils {
             return changed;
     }
 
-    public static void appendLine(File file, String line) {
-        appendLine(file,new String[] {line});
+    public static void appendLines(File file, String line) {
+        appendLines(file,new String[] {line});
     }
 
-    public static void appendLine(File file, String[] lines) {
+    public static void appendLines(File file, String[] lines) {
         try {
             Writer output = new OutputStreamWriter(new FileOutputStream(file,true), StandardCharsets.UTF_8);
             for(String line : lines) {
-                output.append(line+System.lineSeparator());
+                output.append(line).append(System.lineSeparator());
             }
             output.close();
         } catch (IOException ioException) {

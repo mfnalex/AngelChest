@@ -3,14 +3,12 @@ package de.jeff_media.AngelChest.nbt;
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.nbtapi.NBTAPI;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 
 import java.util.UUID;
 
 public class NBTUtils {
 
-    private Main main;
+    private final Main main;
 
     public NBTUtils() {
         this.main= Main.getInstance();

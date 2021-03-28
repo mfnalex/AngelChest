@@ -6,7 +6,6 @@ import de.jeff_media.AngelChest.config.ConfigUtils;
 import de.jeff_media.AngelChest.config.Permissions;
 import de.jeff_media.AngelChest.data.AngelChest;
 import de.jeff_media.AngelChest.data.BlacklistEntry;
-import de.jeff_media.AngelChest.data.Hologram;
 import de.jeff_media.AngelChest.enums.BlacklistResult;
 import de.jeff_media.AngelChest.enums.Features;
 import de.jeff_media.AngelChest.nbt.NBTTags;
@@ -23,18 +22,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.javatuples.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.*;
-import java.util.function.Predicate;
 
 public class CommandDebug implements CommandExecutor, TabCompleter {
 

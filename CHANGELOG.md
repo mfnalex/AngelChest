@@ -1,3 +1,7 @@
+## 3.3.1
+- Improved overall performance
+- Fixed website link in plugin.yml
+
 ## 3.3.0
 - Changed obfuscation to comply with Spigot guidelines
 - Improved dead hologram detection by using NBT Tags

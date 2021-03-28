@@ -1,14 +1,7 @@
 package de.jeff_media.AngelChest.listeners;
 
 import de.jeff_media.AngelChest.Main;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.world.ChunkLoadEvent;
-import org.bukkit.event.world.WorldLoadEvent;
-
-import java.util.Collection;
-import java.util.function.Predicate;
 
 public class WorldListener implements Listener {
 
