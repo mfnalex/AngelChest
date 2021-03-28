@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class EmergencyListener implements Listener {
+public final class EmergencyListener implements Listener {
 
     @SuppressWarnings("unused")
     @EventHandler

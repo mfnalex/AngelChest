@@ -20,7 +20,7 @@ import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Logger {
+public final class Logger {
 
     final Main main;
     final String path;

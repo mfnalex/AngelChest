@@ -6,7 +6,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Rotatable;
 
-public class BlockDataUtils {
+public final class BlockDataUtils {
 
     protected static BlockFace getBlockDirection(Block b) {
         BlockFace dir;

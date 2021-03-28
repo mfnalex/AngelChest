@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
-public class BlacklistEntry {
+public final class BlacklistEntry {
 
     final String name;
     boolean wildcardFront = false;

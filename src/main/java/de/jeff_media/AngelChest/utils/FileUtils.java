@@ -3,7 +3,7 @@ package de.jeff_media.AngelChest.utils;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-public class FileUtils {
+public final class FileUtils {
 
     /**
      * Replaces strings in a file line by line.

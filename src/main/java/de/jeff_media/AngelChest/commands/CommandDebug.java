@@ -10,7 +10,9 @@ import de.jeff_media.AngelChest.enums.BlacklistResult;
 import de.jeff_media.AngelChest.enums.Features;
 import de.jeff_media.AngelChest.nbt.NBTTags;
 import de.jeff_media.AngelChest.nbt.NBTValues;
+import de.jeff_media.AngelChest.utils.BlacklistUtils;
 import de.jeff_media.AngelChest.utils.HologramFixer;
+import de.jeff_media.AngelChest.utils.Utils;
 import de.jeff_media.daddy.Daddy;
 import de.jeff_media.nbtapi.NBTAPI;
 import org.bukkit.Bukkit;
@@ -32,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.*;
 
-public class CommandDebug implements CommandExecutor, TabCompleter {
+public final class CommandDebug implements CommandExecutor, TabCompleter {
 
     private final Main main;
 
@@ -80,10 +82,10 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
                     dump(commandSender);
                     break;
                 case "fixholograms":
-                    fixholograms(commandSender,shift(args));
+                    fixholograms(commandSender);
                     break;
                 case "createhologram":
-                    createhologram(commandSender, shift(args));
+                    createhologram(commandSender);
                     break;
             }
             return true;
@@ -105,7 +107,7 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    private void createhologram(CommandSender commandSender, String[] args) {
+    private void createhologram(CommandSender commandSender) {
         Location loc = ((Player)commandSender).getLocation();
         int rand = new Random().nextInt(Integer.MAX_VALUE);
         ArmorStand entity = (ArmorStand) loc.getWorld().spawnEntity(loc,EntityType.ARMOR_STAND);
@@ -116,22 +118,7 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
         NBTAPI.addNBT(entity, NBTTags.IS_HOLOGRAM, NBTValues.TRUE);
     }
 
-    private void fixholograms(CommandSender commandSender, String[] args) {
-        Integer radius = null;
-        //if(!(commandSender instanceof Player)) {
-            //commandSender.sendMessage(main.messages.MSG_PLAYERSONLY);
-        //    return;
-        //}
-        //Location location = ((Player) commandSender).getLocation();
-        /*if(args.length>0) {
-            try {
-                radius = Integer.parseInt(args[0]);
-            } catch (NumberFormatException exception) {
-                commandSender.sendMessage(ChatColor.RED + args[0] + " is not a valid number nor a valid world name.");
-                return;
-            }
-        }*/
-
+    private void fixholograms(CommandSender commandSender) {
         int deadHolograms = 0;
         for(World world : Bukkit.getWorlds()) {
             deadHolograms += HologramFixer.removeDeadHolograms(world);
@@ -195,7 +182,34 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
             return;
         }
 
-        if (args.length > 0 && args[0].equalsIgnoreCase("info")) {
+        if(args.length > 0 && args[0].equalsIgnoreCase("add")) {
+            if(!(commandSender instanceof Player)) {
+                commandSender.sendMessage(main.messages.MSG_PLAYERSONLY);
+                return;
+            }
+            Player player = (Player) commandSender;
+            ItemStack item = player.getInventory().getItemInMainHand();
+
+            if(Utils.isEmpty(item)) {
+                player.sendMessage(ChatColor.RED+"You must hold an item in your hand.");
+                return;
+            }
+
+            if(args.length<2) {
+                player.sendMessage(ChatColor.RED+"You must specify a name for this blacklist entry.");
+                return;
+            }
+
+            String[] lines = BlacklistUtils.addToBlacklist(item,args[1]);
+            if(lines != null) {
+                player.sendMessage(ChatColor.GREEN+"Added following blacklist entry:");
+                player.sendMessage(lines);
+                ConfigUtils.reloadCompleteConfig(true);
+            } else {
+                player.sendMessage(ChatColor.RED+"Blacklist already contains an entry called \""+args[1]+"\"");
+            }
+
+        } else if (args.length > 0 && args[0].equalsIgnoreCase("info")) {
 
             args = shift(args);
 
@@ -283,6 +297,7 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
 
             commandSender.sendMessage(new String[]{
                     "§eAvailable blacklist commands:",
+                    "/acd blacklist add <name> §6Adds current item to to the blacklist as <name>",
                     "/acd blacklist info §6Shows material, name and lore of the current item including the blacklist definition it matches",
                     "/acd blacklist test <item> §6Shows whether the current item matches a given blacklist definition including the reason when it does not match"
             });
@@ -413,7 +428,7 @@ public class CommandDebug implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig","dump","fixholograms"};
-        String[] blacklistCommands = {"info", "test"};
+        String[] blacklistCommands = {"info", "test","add"};
 
         // Debug
         /*main.verbose("args.lengh = "+args.length);

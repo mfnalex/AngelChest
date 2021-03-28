@@ -3,7 +3,7 @@ package de.jeff_media.AngelChest.config;
 /**
  * Key names to use for the global config.yml
  */
-public class Config {
+public final class Config {
 
     public static final String IGNORE_KEEP_INVENTORY = "ignore-keep-inventory";
     public static final String CHECK_FOR_UPDATES = "check-for-updates";

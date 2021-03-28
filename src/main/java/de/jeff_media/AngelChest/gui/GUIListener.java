@@ -29,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.HashMap;
 
-public class GUIListener implements @NotNull Listener {
+public final class GUIListener implements @NotNull Listener {
 
     private final Main main;
 

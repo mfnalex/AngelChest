@@ -1,6 +1,6 @@
 package de.jeff_media.AngelChest.data;
 
-public class Group {
+public final class Group {
     public final int duration;
     public final int maxChests;
     public final String priceSpawn;

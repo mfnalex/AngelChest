@@ -3,7 +3,7 @@ package de.jeff_media.AngelChest.config;
 /**
  * Represents all permission names used by AngelChest. DO NOT USE HARDCODED VALUES
  */
-public class Permissions {
+public final class Permissions {
 
     public static final String ALLOW_PROTECT = "angelchest.protect";
     public static final String ALLOW_USE = "angelchest.use";

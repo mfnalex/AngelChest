@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents an AngelChest's Inventory
  */
-public class AngelChestHolder implements InventoryHolder {
+public final class AngelChestHolder implements InventoryHolder {
 
     Inventory inv;
 

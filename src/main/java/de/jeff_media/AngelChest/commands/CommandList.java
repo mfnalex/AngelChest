@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandList implements CommandExecutor {
+public final class CommandList implements CommandExecutor {
 	
 	final Main main;
 	

@@ -37,7 +37,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Handles player related events
  */
-public class PlayerListener implements Listener {
+public final class PlayerListener implements Listener {
 
     final Main main;
 

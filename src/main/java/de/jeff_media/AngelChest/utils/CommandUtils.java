@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static de.jeff_media.AngelChest.utils.Utils.getChestLocation;
 import static de.jeff_media.AngelChest.utils.Utils.getCardinalDirection;
 
-public class CommandUtils {
+public final class CommandUtils {
 
     public static void payMoney(OfflinePlayer p, double money, String reason) {
 

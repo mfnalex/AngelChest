@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public class GUIManager {
+public final class GUIManager {
 
     private final Main main;
 

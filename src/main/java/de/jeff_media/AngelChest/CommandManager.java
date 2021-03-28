@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
-public class CommandManager {
+public final class CommandManager {
 
     public static void registerCommand(String... aliases) {
         Main main = Main.getInstance();

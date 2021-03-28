@@ -1,6 +1,6 @@
 package de.jeff_media.AngelChest.utils;
 
-public class XPUtils {
+public final class XPUtils {
 
     // https://minecraft.gamepedia.com/Experience#Leveling_up
 

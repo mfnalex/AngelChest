@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
 
-public class GUIUtils {
+public final class GUIUtils {
 
     /**
      * Checks whether the clicked slot belongs to the spaces reserved for the player's items

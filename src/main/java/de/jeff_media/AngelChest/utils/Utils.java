@@ -21,7 +21,7 @@ import java.io.File;
 import java.util.*;
 
 
-public class Utils {
+public final class Utils {
 
     public static boolean isSafeSpot(Location location) {
 

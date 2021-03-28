@@ -10,7 +10,7 @@ import org.bukkit.plugin.Plugin;
 /**
  * Hooks into MinePacks
  */
-public class MinepacksHook {
+public final class MinepacksHook {
 
 	boolean disabled = false;
 	boolean skipReflection = false;

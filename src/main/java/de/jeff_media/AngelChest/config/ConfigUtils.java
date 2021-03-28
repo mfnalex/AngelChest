@@ -27,7 +27,7 @@ import org.sqlite.util.StringUtils;
 /**
  * Creates the default config and directories, handles reloading and adds the default values
  */
-public class ConfigUtils {
+public final class ConfigUtils {
 
 	@SuppressWarnings("SameParameterValue")
 	static void createDirectory(String name) {
@@ -72,7 +72,9 @@ public class ConfigUtils {
 
 	public static void reloadCompleteConfig(boolean reload) {
 		Main main = Main.getInstance();
+		/*Daddy start*/
 		Daddy.init(main);
+		/*Daddy end*/
 		if(reload) {
 			main.saveAllAngelChestsToFile(true);
 		}

@@ -19,7 +19,7 @@ import java.util.UUID;
  * crashes, and in that case, the world can easily get corrupted, so a lost AngelChest
  * will be the last problem a server admin will face after a crash.
  */
-public class Watchdog {
+public final class Watchdog {
 
     private final Main main;
     final YamlConfiguration yaml;

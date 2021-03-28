@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class HologramFixer {
+public final class HologramFixer {
 
     public static int removeDeadHolograms(World world) {
 
@@ -23,7 +23,8 @@ public class HologramFixer {
 
 
         Set<Pair<Integer,Integer>> deadLocations = new HashSet<>();
-        Iterator<Entity> it = armorStands.iterator();
+        @SuppressWarnings("unchecked") Iterator<Entity> it = armorStands.iterator();
+        //noinspection WhileLoopReplaceableByForEach
         while(it.hasNext()) {
             Entity entity = it.next();
             if(main.nbtUtils.isBrokenHologram((ArmorStand) entity)) {

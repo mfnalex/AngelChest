@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Hooks into InventoryPages
  */
-public class InventoryPagesHook {
+public final class InventoryPagesHook {
 
     final Main main;
     YamlConfiguration inventoryPagesConfig;

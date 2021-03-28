@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandGUI implements CommandExecutor {
+public final class CommandGUI implements CommandExecutor {
 
     final Main main;
 

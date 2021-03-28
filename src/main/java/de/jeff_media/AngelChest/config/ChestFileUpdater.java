@@ -5,7 +5,7 @@ import de.jeff_media.AngelChest.utils.FileUtils;
 
 import java.io.*;
 
-public class ChestFileUpdater {
+public final class ChestFileUpdater {
 
     public static void updateChestFilesToNewDeathCause() {
         Main main = Main.getInstance();

@@ -49,7 +49,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
-public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
+public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 
 	private static final String SPIGOT_RESOURCE_ID_PLUS = "88214";
 	private static final String SPIGOT_RESOURCE_ID_FREE = "60383";
@@ -60,11 +60,11 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 	private static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_PLUS+"/updates";
 	private static final String UPDATECHECKER_LINK_DONATE = "https://paypal.me/mfnalex";
 
-	@SuppressWarnings({"FieldMayBeFinal","CanBeFinal"})
+	@SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
 	private String UID = "%%__USER__%%" ;
-	@SuppressWarnings({"FieldMayBeFinal","CanBeFinal"})
+	@SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
 	private String NONCE = "%%__NONCE__%%" ;
-	@SuppressWarnings({"FieldMayBeFinal","CanBeFinal"})
+	@SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
 	private String RESOURCE = "%%__RESOURCE__%%" ;
 
 	public HashMap<UUID, PendingConfirm> pendingConfirms;
@@ -198,7 +198,6 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 		getServer().getPluginManager().registerEvents(new BlockListener(),this);
 		getServer().getPluginManager().registerEvents(new PistonListener(),this);
 		getServer().getPluginManager().registerEvents(new EmergencyListener(),this);
-		getServer().getPluginManager().registerEvents(new WorldListener(),this);
 		guiListener = new GUIListener();
 		getServer().getPluginManager().registerEvents(guiListener,this);
 		

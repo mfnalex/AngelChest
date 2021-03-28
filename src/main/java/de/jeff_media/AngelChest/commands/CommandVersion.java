@@ -10,7 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandVersion implements CommandExecutor {
+public final class CommandVersion implements CommandExecutor {
 
 
     @Override

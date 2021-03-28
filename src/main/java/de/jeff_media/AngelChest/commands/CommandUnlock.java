@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.javatuples.Triplet;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandUnlock implements CommandExecutor {
+public final class CommandUnlock implements CommandExecutor {
 	
 	final Main main;
 	

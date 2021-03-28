@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.javatuples.Triplet;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandFetchOrTeleport implements CommandExecutor {
+public final class CommandFetchOrTeleport implements CommandExecutor {
 
     final Main main;
 

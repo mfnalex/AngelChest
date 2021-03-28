@@ -33,7 +33,7 @@ import java.util.UUID;
 /**
  * Represents an AngelChest including its content and all other relevant information
  */
-public class AngelChest {
+public final class AngelChest {
 
     public ItemStack[] armorInv;
     public ItemStack[] storageInv;

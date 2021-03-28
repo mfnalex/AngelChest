@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Represents a complete AngelChest hologram
  */
-public class Hologram {
+public final class Hologram {
 
     public final ArrayList<UUID> armorStandUUIDs;
     public final String text;

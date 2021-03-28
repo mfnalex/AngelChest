@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
  * Contains all translatable messages. Loads translations from the config file, or falls back to hardcoded default values
  * DO NOT USE HARDCODED MESSAGES unless they will only be shown to console or server operators.
  */
-public class Messages {
+public final class Messages {
 
 	private final Main main;
 

@@ -15,7 +15,7 @@ import java.io.File;
 /**
  * Listens to block related events, e.g. messing with the actual Block where an AngelChest is located
  */
-public class BlockListener implements Listener {
+public final class BlockListener implements Listener {
 
     final Main main;
 

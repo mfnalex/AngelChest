@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Handles piston related events that could affect AngelChests
  */
-public class PistonListener implements Listener {
+public final class PistonListener implements Listener {
 
     final Main main;
 
