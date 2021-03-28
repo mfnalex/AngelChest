@@ -1,4 +1,5 @@
-## 3.3.1
+## 3.4.0
+- Added "/acd blacklist add" command to add the current item to the blacklist
 - Improved overall performance
 - Fixed website link in plugin.yml
 

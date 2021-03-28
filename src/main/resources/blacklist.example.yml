@@ -1,6 +1,5 @@
 # You can blacklist certain items from being put into the AngelChest.
-# All blacklisted items will not be touched by AngelChest. They will
-# behave just like they would normally do on death.
+# All blacklisted items will not be put into the AngelChest.
 #
 # You can define items by material, lore and/or name.
 # You can use * as wildcard at the beginning and/or end of
