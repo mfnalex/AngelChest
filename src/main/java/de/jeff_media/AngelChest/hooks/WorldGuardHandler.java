@@ -17,7 +17,7 @@ import java.util.Objects;
 /**
  * Hooks into WorldGuard 7+. If this fails, it tries to use the WorldGuardLegacyHandler for older versions.
  */
-public class WorldGuardHandler {
+public final class WorldGuardHandler {
 
 
     final Main main;

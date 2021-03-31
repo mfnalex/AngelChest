@@ -23,36 +23,6 @@ softdepend:
   - ChestSort
   - ProtocolLib
 loadbefore: [AngelChestPlus]
-commands:
-#  acunlock:
-#    permission: angelchest.protect
-#    description: "Unlocks your AngelChests"
-#    usage: /<command>s
-#  aclist:
-#    permission: angelchest.use
-#    description: "Lists info about your AngelChests"
-#    usage: "/<command>"
-#  acfetch:
-#    permission: angelchest.fetch
-#    description: "Remotely retrieves your AngelChest"
-#    usage: "/<command>"
-#  actp:
-#    permission: angelchest.tp
-#    description: "Teleports player to their AngelChest"
-#    usage: "/<command>"
-#  acreload:
-#    permission: angelchest.reload
-#    description: "Reloads AngelChest configuration"
-#    usage: "</command>"
-#  acgui:
-#    permission: angelchest.use
-#    description: "Opens AngelChest GUI"
-#    usage: "</command>"
-  acd:
-    permission: angelchest.debug
-    aliases: [acdebug]
-  acversion:
-    permission: angelchest.version
 permissions:
   angelchest.use:
     description: "Players with this permission will have their items put into a chest on death by an Angel"
@@ -67,6 +37,6 @@ permissions:
   angelchest.reload:
     description: "Allows to reload the configuration using /acreload"
   angelchest.debug:
-    description: "Allows to use the debug command /acd"
+    description: "Allows to use the debug command /acdebug"
   angelchest.version:
     description: "Allows to use the version command /acversion"

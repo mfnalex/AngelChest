@@ -1,6 +1,7 @@
 package de.jeff_media.AngelChest.commands;
 
 import de.jeff_media.AngelChest.Main;
+import de.jeff_media.AngelChest.config.Permissions;
 import de.jeff_media.AngelChest.enums.Features;
 import de.jeff_media.daddy.Daddy;
 import org.bukkit.command.Command;
@@ -9,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandGUI implements CommandExecutor {
+public final class CommandGUI implements CommandExecutor {
 
     final Main main;
 
@@ -25,8 +26,8 @@ public class CommandGUI implements CommandExecutor {
             return true;
         }
 
-        if(!sender.hasPermission("angelchest.use")) {
-            sender.sendMessage(main.getCommand("aclist").getPermissionMessage());
+        if(!sender.hasPermission(Permissions.ALLOW_USE)) {
+            sender.sendMessage(main.messages.MSG_NO_PERMISSION);
             return true;
         }
 

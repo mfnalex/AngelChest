@@ -1,5 +1,6 @@
 package de.jeff_media.AngelChest.gui;
 
+import com.google.common.base.Enums;
 import de.jeff_media.AngelChest.*;
 import de.jeff_media.AngelChest.config.Config;
 import de.jeff_media.AngelChest.config.Permissions;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public class GUIManager {
+public final class GUIManager {
 
     private final Main main;
 
@@ -75,7 +76,18 @@ public class GUIManager {
     }
 
     private ItemStack getChestItem(AngelChest angelChest, int id) {
-        ItemStack item = new ItemStack(main.getChestMaterial(angelChest));
+        ItemStack item;
+        Material material = main.getChestMaterial(angelChest);
+        if(material == Material.PLAYER_HEAD) {
+            if(main.getConfig().getBoolean(Config.HEAD_USES_PLAYER_NAME)) {
+                item = HeadCreator.getPlayerHead(angelChest.owner);
+            } else {
+                item = HeadCreator.getHead(main.getConfig().getString(Config.CUSTOM_HEAD_BASE64));
+            }
+        } else {
+            item = new ItemStack(main.getChestMaterial(angelChest));
+        }
+
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(getChestItemName(angelChest, id));
         meta.setLore(getChestItemLore(angelChest, id));
@@ -229,7 +241,7 @@ public class GUIManager {
     }
 
     private ItemStack getPreviewButton() {
-        return getButton(Material.BOOK,main.messages.GUI_PREVIEW,null);
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_PREVIEW),main.messages.GUI_PREVIEW,null);
     }
 
     private ItemStack getBackButton() {
@@ -237,7 +249,7 @@ public class GUIManager {
     }
 
     private ItemStack getInfoButton(AngelChest angelChest, int id) {
-        return getButton(Material.PAPER, main.messages.GUI_INFO, getChestItemLore(angelChest, id));
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_INFO), main.messages.GUI_INFO, getChestItemLore(angelChest, id));
     }
 
     private ItemStack getTPButton() {
@@ -264,24 +276,26 @@ public class GUIManager {
         return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_INFO), main.messages.GUI_INFO,
                 getLore(main.messages.GUI_INFO_LORE
                         .replaceAll("\\{price}", String.valueOf(price))
-                        .replaceAll("\\{currency}", CommandUtils.getCurrency(price, main))));
+                        .replaceAll("\\{currency}", CommandUtils.getCurrency(price))));
     }
 
     @SuppressWarnings("SameParameterValue")
     private ItemStack getButton(Material material, String name, @Nullable List<String> lore) {
-        ItemStack item = new ItemStack(material);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(name);
-        if (lore != null) meta.setLore(lore);
-        item.setItemMeta(meta);
-        return item;
+        return getButton(material.name(),name,lore);
     }
 
-    private ItemStack getButton(String head, String name, @Nullable List<String> lore) {
-        ItemStack item = HeadCreator.getHead(head);
+    private ItemStack getButton(String materialOrBase64, String name, @Nullable List<String> lore) {
+        ItemStack item;
+        Material material = Enums.getIfPresent(Material.class,materialOrBase64.toUpperCase()).orNull();
+        if(material != null) {
+            item = new ItemStack(material);
+        } else {
+            item = HeadCreator.getHead(materialOrBase64);
+        }
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(name);
         if (lore != null) meta.setLore(lore);
+        //meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         item.setItemMeta(meta);
         return item;
     }

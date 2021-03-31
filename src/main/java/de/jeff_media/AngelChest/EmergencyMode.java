@@ -7,7 +7,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class EmergencyMode {
+public final class EmergencyMode {
 
     public static final String[] FREE_VERSION_INSTALLED = {
             "§c ",

@@ -9,7 +9,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-public class ProtectionUtils {
+public final class ProtectionUtils {
 
     public static boolean playerMayBuildHere(Player p, Location loc) {
         Main main = Main.getInstance();

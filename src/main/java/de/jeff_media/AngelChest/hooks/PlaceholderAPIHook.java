@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Hooks into PlaceholderAPI
  */
-public class PlaceholderAPIHook extends PlaceholderExpansion {
+public final class PlaceholderAPIHook extends PlaceholderExpansion {
 
     final Main main;
 

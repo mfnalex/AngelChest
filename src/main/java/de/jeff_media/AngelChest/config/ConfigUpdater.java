@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * Updates the config file. When a new config file is shipped with AngelChest, it will save the new
  * file and replace all default values with the values that were set in the old config file.
  */
-public class ConfigUpdater {
+public final class ConfigUpdater {
 
 	// Lines STARTING WITH these names will get their values wrapped in double quotes
 	private static final String[] NODES_NEEDING_DOUBLE_QUOTES = {

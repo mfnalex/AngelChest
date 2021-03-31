@@ -1,5 +1,6 @@
 package de.jeff_media.AngelChest.commands;
 
+import de.jeff_media.AngelChest.config.Permissions;
 import de.jeff_media.AngelChest.data.AngelChest;
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.utils.CommandUtils;
@@ -10,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.javatuples.Triplet;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandUnlock implements CommandExecutor {
+public final class CommandUnlock implements CommandExecutor {
 	
 	final Main main;
 	
@@ -28,8 +29,8 @@ public class CommandUnlock implements CommandExecutor {
 
 		Player p = (Player) sender;
 
-		if(!sender.hasPermission("angelchest.protect")) {
-			sender.sendMessage(command.getPermissionMessage());
+		if(!sender.hasPermission(Permissions.ALLOW_USE) || !sender.hasPermission(Permissions.ALLOW_PROTECT)) {
+			sender.sendMessage(main.messages.MSG_NO_PERMISSION);
 			return true;
 		}
 

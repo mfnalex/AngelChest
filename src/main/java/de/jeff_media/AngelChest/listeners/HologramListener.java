@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 /**
  * Handles hologram / armor stand related events related to AngelChest
  */
-public class HologramListener implements Listener {
+public final class HologramListener implements Listener {
 	
 	final Main main;
 	

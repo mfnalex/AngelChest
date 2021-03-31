@@ -3,7 +3,7 @@ package de.jeff_media.AngelChest.config;
 /**
  * Key names to use for the global config.yml
  */
-public class Config {
+public final class Config {
 
     public static final String IGNORE_KEEP_INVENTORY = "ignore-keep-inventory";
     public static final String CHECK_FOR_UPDATES = "check-for-updates";
@@ -50,16 +50,19 @@ public class Config {
     public static final String HOLOGRAM_OFFSET = "hologram-offset";
     public static final String HOLOGRAM_OFFSET_PER_LINE = "hologram-offset-per-line";
     public static final String LINK_UNLOCK = "link-unlock";
-    public static final String LINK_UNLOCK_FOR = "link-unlock-for";
+    //public static final String LINK_UNLOCK_FOR = "link-unlock-for";
     public static final String LINK_FETCH = "link-fetch";
     public static final String LINK_TELEPORT = "link-teleport";
     public static final String HOLOGRAM_TEXT = "hologram-text";
     public static final String ANGELCHEST_INVENTORY_NAME = "angelchest-inventory-name";
     public static final String ANGELCHEST_LIST = "angelchest-list";
     public static final String GUI_BUTTON_BACK = "gui-button-back";
+    public static final String GUI_BUTTON_INFO = "gui-button-info";
     public static final String GUI_BUTTON_TELEPORT = "gui-button-teleport";
     public static final String GUI_BUTTON_FETCH = "gui-button-fetch";
     public static final String GUI_BUTTON_UNLOCK = "gui-button-unlock";
+    public static final String GUI_BUTTON_PREVIEW = "gui-button-preview";
+    public static final String GUI_BUTTON_PREVIEW_PLACEHOLDER = "gui-button-preview-placeholder";
     public static final String GUI_BUTTON_CONFIRM_INFO = "gui-button-confirm-info";
     public static final String GUI_BUTTON_CONFIRM_ACCEPT = "gui-button-confirm-accept";
     public static final String GUI_BUTTON_CONFIRM_DECLINE = "gui-button-confirm-decline";

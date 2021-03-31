@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DeathCause implements ConfigurationSerializable {
+public final class DeathCause implements ConfigurationSerializable {
 
     private final EntityDamageEvent.DamageCause damageCause;
     private String killerName;

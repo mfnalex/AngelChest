@@ -1,6 +1,6 @@
 package de.jeff_media.AngelChest.gui;
 
-public class GUI {
+public final class GUI {
 
     // Chest Menu
     public static final int SLOT_CHEST_BACK = 0;

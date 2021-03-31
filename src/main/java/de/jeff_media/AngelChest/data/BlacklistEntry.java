@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
-public class BlacklistEntry {
+public final class BlacklistEntry {
 
     final String name;
     boolean wildcardFront = false;
@@ -32,6 +32,7 @@ public class BlacklistEntry {
         Main main = Main.getInstance();
         main.debug("Reading Blacklist entry \""+this.name+"\"");
         String materialName = config.getString(name+".material","any");
+        assert materialName != null;
         if(materialName.equalsIgnoreCase("any")) {
             materialName = null;
         } else {
@@ -101,6 +102,7 @@ public class BlacklistEntry {
             }
         }
         ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : Bukkit.getItemFactory().getItemMeta(item.getType());
+        assert meta != null;
 
         // Exact name
         if(nameExact != null && nameExact.length()>0) {

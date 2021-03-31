@@ -6,7 +6,7 @@ import org.bukkit.entity.ArmorStand;
 
 import java.util.UUID;
 
-public class NBTUtils {
+public final class NBTUtils {
 
     private final Main main;
 

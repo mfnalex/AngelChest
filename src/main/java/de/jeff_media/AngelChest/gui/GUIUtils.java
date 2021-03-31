@@ -1,5 +1,8 @@
 package de.jeff_media.AngelChest.gui;
 
+import com.google.common.base.Enums;
+import de.jeff_media.AngelChest.Main;
+import de.jeff_media.AngelChest.config.Config;
 import de.jeff_media.AngelChest.data.AngelChest;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -7,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
 
-public class GUIUtils {
+public final class GUIUtils {
 
     /**
      * Checks whether the clicked slot belongs to the spaces reserved for the player's items
@@ -57,9 +60,19 @@ public class GUIUtils {
 
     public static void loadChestIntoPreviewInventory(AngelChest angelChest, Inventory inventory) {
 
+        ItemStack placeholder = new ItemStack(
+                Enums.getIfPresent(Material.class,
+                        Main.getInstance().getConfig().getString(Config.GUI_BUTTON_PREVIEW_PLACEHOLDER))
+                        .or(Material.GRAY_STAINED_GLASS_PANE)
+        );
+
+        //ItemMeta meta = placeholder.hasItemMeta() ? placeholder.getItemMeta() : Bukkit.getItemFactory().getItemMeta(placeholder.getType());
+        //meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        //placeholder.setItemMeta(meta);
+
         ItemStack[] itemStacks = new ItemStack[54];
         for(int i = 0; i < 54; i++) {
-            itemStacks[i] = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+            itemStacks[i] = placeholder.clone();
         }
 
         System.arraycopy(angelChest.armorInv, 0, itemStacks, 2, GUI.PREVIEW_ARMOR_SIZE);

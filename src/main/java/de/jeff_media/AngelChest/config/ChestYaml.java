@@ -4,7 +4,7 @@ package de.jeff_media.AngelChest.config;
  * Key names to use for the AngelChest YAML files
  * TODO: Actually use this
  */
-public class ChestYaml {
+public final class ChestYaml {
     public static final String LEGACY_BLOCK = "block";
     public static final String OWNER_UUID = "owner";
     @SuppressWarnings("unused")

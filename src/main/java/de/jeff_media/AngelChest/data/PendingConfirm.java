@@ -5,7 +5,7 @@ import de.jeff_media.AngelChest.enums.TeleportAction;
 /**
  * Represents a pending confirm when a player initiates an action that has a price and needs to be confirmed
  */
-public class PendingConfirm {
+public final class PendingConfirm {
 
     public final int chestId;
     public final TeleportAction action;

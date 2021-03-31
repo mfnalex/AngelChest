@@ -15,7 +15,7 @@ import java.io.File;
 /**
  * Listens to block related events, e.g. messing with the actual Block where an AngelChest is located
  */
-public class BlockListener implements Listener {
+public final class BlockListener implements Listener {
 
     final Main main;
 
@@ -56,6 +56,7 @@ public class BlockListener implements Listener {
         if (!main.isAngelChest(event.getBlock()))
             return;
         AngelChest angelChest = main.getAngelChest(event.getBlock());
+        assert angelChest != null;
         if (!angelChest.owner.equals(event.getPlayer().getUniqueId())
                 && !event.getPlayer().hasPermission("angelchest.protect.ignore") && angelChest.isProtected) {
             event.getPlayer().sendMessage(main.messages.MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS);

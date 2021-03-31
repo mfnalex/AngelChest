@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>3.3.0</version>
+    <version>3.4.0</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -53,7 +53,11 @@
                 <configuration>
                     <relocations>
                         <relocation>
-                            <pattern>de.jeff_media.PluginUpdateChecker</pattern>
+                            <pattern>de.jeff_media.daddy</pattern>
+                            <shadedPattern>${project.groupId}.${project.name}</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>de.jeff_media.pluginupdatechecker</pattern>
                             <shadedPattern>${project.groupId}.${project.name}</shadedPattern>
                         </relocation>
                         <relocation>
@@ -61,14 +65,43 @@
                             <shadedPattern>${project.groupId}.${project.name}</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>org.bstats</pattern>
+                            <pattern>com.google.gson</pattern>
+                            <shadedPattern>${project.groupId}.${project.name}.lib.com.google.gson</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.apache.commons.lang3</pattern>
+                            <shadedPattern>${project.groupId}.${project.name}.lib.org.apache.commons.lang3</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.intellij.lang.annotations</pattern>
+                            <shadedPattern>${project.groupId}.${project.name}.lib.org.intellij.lang.annotations</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.jetbrains.annotations</pattern>
+                            <shadedPattern>${project.groupId}.${project.name}.lib.org.jetbrains.annotations</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.javatuples</pattern>
+                            <shadedPattern>${project.groupId}.${project.name}.lib.org.javatuples</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.zeroturnaround.zip</pattern>
+                            <shadedPattern>${project.groupId}.${project.name}.lib.org.zeroturnaround.zip</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.bstats.bukkit</pattern>
                             <shadedPattern>${project.groupId}.${project.name}</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
-                            <shadedPattern>${project.groupId}.${project.name}.paperlib</shadedPattern> <!-- Replace this -->
+                            <shadedPattern>${project.groupId}.${project.name}.paperlib</shadedPattern>
                         </relocation>
                     </relocations>
+                    <artifactSet>
+                        <excludes>
+                            <exclude>org.slf4j</exclude>
+                        </excludes>
+                    </artifactSet>
                 </configuration>
                 <executions>
                     <execution>
@@ -78,6 +111,28 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <workingDirectory>${basedir}/../</workingDirectory>
+                    <arguments>
+                        <argument>-jar</argument>
+                        <argument>${basedir}/../PluginCompiler.jar</argument>
+                        <argument>AngelChest</argument>
+                    </arguments>
+                </configuration>
             </plugin>
         </plugins>
 
@@ -164,7 +219,7 @@
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>PluginUpdateChecker</artifactId>
-            <version>1.5.4</version>
+            <version>1.6.0</version>
             <scope>compile</scope>
         </dependency>
 
@@ -172,7 +227,7 @@
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>Daddy</artifactId>
-            <version>1.3.0</version>
+            <version>1.4.0</version>
             <scope>compile</scope>
         </dependency>
         <!-- /*Daddy end*/ -->
@@ -233,6 +288,7 @@
             <groupId>at.pcgamingfreaks</groupId>
             <artifactId>Minepacks-API</artifactId>
             <version>2.3.14</version>
+            <scope>provided</scope>
         </dependency>
         <dependency><!-- WorldGuard new -->
             <groupId>com.sk89q.worldguard</groupId>
@@ -243,8 +299,8 @@
         <dependency><!-- WorldGuard legacy -->
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-legacy</artifactId>
-            <scope>provided</scope>
             <version>6.2</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
@@ -258,11 +314,11 @@
             <version>2.10.9</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
             <version>4.5.0</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <distributionManagement>

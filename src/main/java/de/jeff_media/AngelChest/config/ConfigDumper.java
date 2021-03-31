@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 import static de.jeff_media.AngelChest.utils.FileUtils.appendLines;
 
-public class ConfigDumper {
+public final class ConfigDumper {
 
     public static void dump(CommandSender sender) {
         Main main = Main.getInstance();
@@ -106,6 +106,7 @@ public class ConfigDumper {
             @SuppressWarnings("rawtypes") GameRule[] rules = new GameRule[] {GameRule.DO_ENTITY_DROPS, GameRule.KEEP_INVENTORY};
             //noinspection rawtypes
             for(GameRule rule : rules) {
+                //noinspection unchecked
                 appendLines(log,"- "+rule.getName()+": "+world.getGameRuleValue(rule).toString());
             }
         }

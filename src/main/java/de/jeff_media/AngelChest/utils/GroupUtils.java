@@ -13,16 +13,11 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
-public class GroupUtils {
+public final class GroupUtils {
 
     final Main main;
     YamlConfiguration yaml;
     LinkedHashMap<String,Group> groups;
-
-    public int getNumberOfGroups() {
-        if(groups == null) return 0;
-        return groups.size();
-    }
 
     public GroupUtils(File yamlFile) {
         this.main=Main.getInstance();

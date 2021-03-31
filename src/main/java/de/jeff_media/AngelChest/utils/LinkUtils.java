@@ -6,7 +6,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 
-public class LinkUtils {
+public final class LinkUtils {
 
     protected static TextComponent getLinks(Player sendTo, @SuppressWarnings("unused") Player affectedPlayer, String preText, String commandTp, String commandUnlock, String commandFetch) {
 
@@ -38,6 +38,12 @@ public class LinkUtils {
         }
 
         return text;
+    }
+
+    public static TextComponent createURLLink(String text, String link) {
+        TextComponent tc = new TextComponent(text);
+        tc.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, link));
+        return tc;
     }
 
     private static TextComponent createCommandLink(String text, String command) {

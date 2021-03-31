@@ -1,6 +1,6 @@
 package de.jeff_media.AngelChest.utils;
 
-public class Ticks {
+public final class Ticks {
 
     public static long fromSeconds(double seconds) {
         return (long) (seconds*20);

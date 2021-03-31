@@ -1,5 +1,7 @@
 package de.jeff_media.AngelChest;
 
+import de.jeff_media.AngelChest.utils.FileUtils;
+import de.jeff_media.AngelChest.utils.ListUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
@@ -10,14 +12,31 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.List;
 
-public class CommandManager {
+public final class CommandManager {
 
-    public static void registerCommand(String... aliases) {
+    private static final String pathToCommandDescriptions = "assets/lang/commands/";
+
+    public static void registerCommand(String permission, String... aliases) {
         Main main = Main.getInstance();
+        main.debug("Registering command "+aliases[0]);
+        for(String alias : aliases) {
+            if(alias.equals(aliases[0])) continue;
+            main.debug("  Alias: "+alias);
+        }
         PluginCommand command = getCommand(aliases[0], main);
-
         command.setAliases(Arrays.asList(aliases));
+        try {
+            List<String> usage = FileUtils.readFileFromResources(pathToCommandDescriptions + aliases[0]+".usage");
+            List<String> description = FileUtils.readFileFromResources(pathToCommandDescriptions + aliases[0]+".description");
+            command.setDescription(ListUtils.getStringFromList(description,"\n"));
+            command.setUsage(ListUtils.getStringFromList(usage,System.lineSeparator()));
+            command.setPermissionMessage(main.messages.MSG_NO_PERMISSION);
+            command.setPermission(permission);
+        } catch(Exception e) {
+            main.getLogger().warning("Could not add usage/description to command "+aliases[0]);
+        }
         getCommandMap().register(main.getDescription().getName(), command);
     }
 

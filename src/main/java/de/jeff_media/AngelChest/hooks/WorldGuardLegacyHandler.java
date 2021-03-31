@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
  * Hooks into WorldGuard 6 and older.
  */
 @SuppressWarnings("JavaReflectionMemberAccess")
-public class WorldGuardLegacyHandler {
+public final class WorldGuardLegacyHandler {
 
     final WorldGuardPlugin wgLegacy;
     final WorldGuardHandler handler;

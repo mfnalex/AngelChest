@@ -1,5 +1,6 @@
 package de.jeff_media.AngelChest.commands;
 
+import de.jeff_media.AngelChest.config.Permissions;
 import de.jeff_media.AngelChest.utils.CommandUtils;
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.utils.Utils;
@@ -11,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandList implements CommandExecutor {
+public final class CommandList implements CommandExecutor {
 	
 	final Main main;
 	
@@ -27,8 +28,8 @@ public class CommandList implements CommandExecutor {
 
 		if(!command.getName().equalsIgnoreCase("aclist")) return false;
 		
-		if(!sender.hasPermission("angelchest.use")) {
-			sender.sendMessage(main.getCommand("aclist").getPermissionMessage());
+		if(!sender.hasPermission(Permissions.ALLOW_USE)) {
+			sender.sendMessage(main.messages.MSG_NO_PERMISSION);
 			return true;
 		}
 
@@ -47,7 +48,8 @@ public class CommandList implements CommandExecutor {
 
 			affectedPlayer = Bukkit.getPlayer(args[0]);
 		}
-		
+
+		assert sender instanceof Player;
 		Player p = (Player) sender;
 		if(affectedPlayer==null) affectedPlayer=p;
 		

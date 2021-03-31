@@ -443,13 +443,16 @@ hologram-offset-per-line: 0.25
 
 # PREMIUM FEATURE: THE WHOLE GUI IS ONLY AVAILABLE IN AngelChestPlus!
 
-# You can use base64 strings to customize the GUI buttons.
+# You can use custom materials or base64 strings to customize the GUI buttons.
 # You can for example use this website: https://minecraft-heads.com/custom-heads
 # At the bottom of each head's page, copy the string at Other -> Value
 gui-button-back: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY0Zjc3OWE4ZTNmZmEyMzExNDNmYTY5Yjk2YjE0ZWUzNWMxNmQ2NjllMTljNzVmZDFhN2RhNGJmMzA2YyJ9fX0="
+gui-button-info: "PAPER"
 gui-button-teleport: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGZlYjM5ZDcxZWY4ZTZhNDI2NDY1OTMzOTNhNTc1M2NlMjZhMWJlZTI3YTBjYThhMzJjYjYzN2IxZmZhZSJ9fX0="
 gui-button-fetch: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGZlYjM5ZDcxZWY4ZTZhNDI2NDY1OTMzOTNhNTc1M2NlMjZhMWJlZTI3YTBjYThhMzJjYjYzN2IxZmZhZSJ9fX0="
 gui-button-unlock: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGFkOTQzZDA2MzM0N2Y5NWFiOWU5ZmE3NTc5MmRhODRlYzY2NWViZDIyYjA1MGJkYmE1MTlmZjdkYTYxZGIifX19"
+gui-button-preview: "BOOK"
+gui-button-preview-placeholder: "GRAY_STAINED_GLASS_PANE"
 gui-button-confirm-info: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjZlNTIyZDkxODI1MjE0OWU2ZWRlMmVkZjNmZTBmMmMyYzU4ZmVlNmFjMTFjYjg4YzYxNzIwNzIxOGFlNDU5NSJ9fX0="
 gui-button-confirm-accept: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2UyYTUzMGY0MjcyNmZhN2EzMWVmYWI4ZTQzZGFkZWUxODg5MzdjZjgyNGFmODhlYThlNGM5M2E0OWM1NzI5NCJ9fX0="
 gui-button-confirm-decline: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTljZGI5YWYzOGNmNDFkYWE1M2JjOGNkYTc2NjVjNTA5NjMyZDE0ZTY3OGYwZjE5ZjI2M2Y0NmU1NDFkOGEzMCJ9fX0="
@@ -544,6 +547,10 @@ command-aliases-acunlock:
 command-aliases-acreload:
   - angelchestreload
 
+# Commands that can be used instead of /acdebug
+command-aliases-acdebug:
+  - acd
+
 #########################
 #####     Misc      #####
 #########################
@@ -607,6 +614,7 @@ message-unlocked-automatically: "&8Your AngelChest has been unlocked automatical
 message-angelchest-opened: "&6{player} has opened your AngelChest."
 message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
+message-no-permission: "&cYou do not have the permission to use this command."
 
 #########################
 ##### Translations ######
@@ -643,6 +651,7 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
+#message-no-permission: "&cYou do not have the permission to use this command."
 
 #Azerbaijan Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eBütün AngelChest'lərinin kilidi onsuzda açıqdır."
@@ -669,7 +678,8 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-unlocked-automatically: "&8AngelChest'inin kilidi avtomatik olaraq açıldı"
 #message-angelchest-opened: "&6{player} adlı oyunçu sənin AngelChest'ini açdı."
 #message-angelchest-emptied: "&c{player} adlı oyunçu sənin AngelChest'ini boşaltdı."
-#message-spawn-chance-unsuccessful: "&cMələk əşyalarını toplamağı unutdu, şanssızlıq!" 
+#message-spawn-chance-unsuccessful: "&cMələk əşyalarını toplamağı unutdu, şanssızlıq!"
+#message-no-permission: "&cYou do not have the permission to use this command."
 
 ##### Chinese Simplified 简体中文 - Thanks to qsefthuopq for translating! -> https://www.spigotmc.org/members/qsefthuopq.339953/
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天御之箱都已解锁."
@@ -698,6 +708,7 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
+#message-no-permission: "&cYou do not have the permission to use this command."
 
 ##### Chinese Traditional 繁體中文 - Thanks to maoding for translating! -> https://www.spigotmc.org/members/maoding.400505/
 #message-all-your-angelchests-were-already-unlocked: "&e所有的小天使箱子已被解鎖"
@@ -726,6 +737,7 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
+#message-no-permission: "&cYou do not have the permission to use this command."
 
 ##### Dutch - Thanks to Xeyame for translating -> https://github.com/Xeyame
 #message-all-your-angelchests-were-already-unlocked: "&eAl je AngerChests zijn al ontgrendeld."
@@ -754,6 +766,7 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
+#message-no-permission: "&cYou do not have the permission to use this command."
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/ 
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
@@ -782,6 +795,7 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
+#message-no-permission: "&cYou do not have the permission to use this command."
 
 ##### German
 #message-all-your-angelchests-were-already-unlocked: "&eAlle deine AngelChests waren bereits aufgeschlossen."
@@ -810,6 +824,7 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-angelchest-opened: "&6{player} hat deine AngelChest geöffnet."
 #message-angelchest-emptied: "&c{player} hat deine AngelChest geleert."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
+#message-no-permission: "&cYou do not have the permission to use this command."
 
 ##### Italian
 #message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChests sono già state sbloccate."
@@ -838,6 +853,7 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
+#message-no-permission: "&cYou do not have the permission to use this command."
 
 ##### Polish
 #message-all-your-angelchests-were-already-unlocked: "&eWszystkie twoje AnielskieSkrzynie zostały już odblokowane."
@@ -866,6 +882,7 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-angelchest-opened: "&6{player} otworzył twoją AnielskąSkrzynie."
 #message-angelchest-emptied: "&c{player} opróżnił twoją AnielskąSkrzynie."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
+#message-no-permission: "&cYou do not have the permission to use this command."
 
 ##### Portuguese
 #message-all-your-angelchests-were-already-unlocked: "&eTodos os seus AngelChests estavam desbloqueados."
@@ -894,6 +911,7 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
+#message-no-permission: "&cYou do not have the permission to use this command."
 
 ##### Russian - Thanks to @GEEK for translating
 #message-all-your-angelchests-were-already-unlocked: "&eВсе ваши Ангельские сундуки разблокированы."
@@ -922,6 +940,7 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-angelchest-opened: "&6{player} has opened your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
+#message-no-permission: "&cYou do not have the permission to use this command."
 
 ##### Spanish
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus AngelChest ya se encuentran desbloqueados."
@@ -950,6 +969,7 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-angelchest-opened: "&6{player} ha abierto tu AngelChest."
 #message-angelchest-emptied: "&c{player} ha vaciado tu AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
+#message-no-permission: "&cYou do not have the permission to use this command."
 
 ##### Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eTüm AngelChest'lerinin kilidi zaten açık."
@@ -977,6 +997,7 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 #message-angelchest-opened: "&6{player} adlı oyuncu senin AngelChest'ini açtı."
 #message-angelchest-emptied: "&c{player} adlı oyuncu senin AngelChest'ini boşalttı."
 #message-spawn-chance-unsuccessful: "&cMelek eşyalarını toplamayı unuttu, şanssızlık!"
+#message-no-permission: "&cYou do not have the permission to use this command."
 
 #########################
 #####     Done!     #####

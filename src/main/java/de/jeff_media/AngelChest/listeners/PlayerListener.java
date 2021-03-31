@@ -37,7 +37,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Handles player related events
  */
-public class PlayerListener implements Listener {
+public final class PlayerListener implements Listener {
 
     final Main main;
 
@@ -259,7 +259,7 @@ public class PlayerListener implements Listener {
 		// END DETECT ALL DROPS
 
         DeathCause deathCause = new DeathCause(p.getLastDamageCause());
-        AngelChest ac = new AngelChest(p, p.getUniqueId(), angelChestBlock, p.getInventory(), main.logger.getLogFileName(event),deathCause);
+        AngelChest ac = new AngelChest(p, angelChestBlock, main.logger.getLogFileName(event),deathCause);
         main.angelChests.put(angelChestBlock, ac);
 
 

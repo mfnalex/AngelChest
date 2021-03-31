@@ -16,7 +16,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.Nullable;
 
-public class HookUtils implements Listener {
+public final class HookUtils implements Listener {
 
     final Main main;
     final InventoryPagesHook inventoryPagesHook;

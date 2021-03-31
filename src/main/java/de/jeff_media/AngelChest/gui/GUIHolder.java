@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class GUIHolder implements InventoryHolder {
+public final class GUIHolder implements InventoryHolder {
 
     private final GUIContext context;
     private final ArrayList<AngelChest> chests;

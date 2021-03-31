@@ -7,9 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.jeff_media.AngelChest.commands.*;
-import de.jeff_media.AngelChest.config.ChestFileUpdater;
-import de.jeff_media.AngelChest.config.Config;
-import de.jeff_media.AngelChest.config.Messages;
+import de.jeff_media.AngelChest.config.*;
 import de.jeff_media.AngelChest.data.AngelChest;
 import de.jeff_media.AngelChest.data.BlacklistEntry;
 import de.jeff_media.AngelChest.data.PendingConfirm;
@@ -23,10 +21,9 @@ import de.jeff_media.AngelChest.hooks.PlaceholderAPIHook;
 import de.jeff_media.AngelChest.hooks.MinepacksHook;
 import de.jeff_media.AngelChest.hooks.WorldGuardHandler;
 import de.jeff_media.AngelChest.listeners.*;
-import de.jeff_media.AngelChest.config.ConfigUtils;
 import de.jeff_media.AngelChest.nbt.NBTUtils;
 import de.jeff_media.AngelChest.utils.*;
-import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
+import de.jeff_media.pluginupdatechecker.PluginUpdateChecker;
 import de.jeff_media.SpigotJeffMediaPlugin;
 import de.jeff_media.daddy.Daddy;
 import de.jeff_media.nbtapi.NBTAPI;
@@ -49,22 +46,22 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
-public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
+public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 
 	private static final String SPIGOT_RESOURCE_ID_PLUS = "88214";
 	private static final String SPIGOT_RESOURCE_ID_FREE = "60383";
 	public static final int BSTATS_ID = 3194;
 	private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/angelchestplus/latest-version.txt";
-	private static final String UPDATECHECKER_LINK_DOWNLOAD_FREE = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_FREE;
-	private static final String UPDATECHECKER_LINK_DOWNLOAD_PLUS = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_PLUS;
-	private static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_PLUS+"/updates";
-	private static final String UPDATECHECKER_LINK_DONATE = "https://paypal.me/mfnalex";
+	public static final String UPDATECHECKER_LINK_DOWNLOAD_FREE = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_FREE;
+	public static final String UPDATECHECKER_LINK_DOWNLOAD_PLUS = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_PLUS;
+	public static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_PLUS+"/updates";
+	public static final String UPDATECHECKER_LINK_DONATE = "https://paypal.me/mfnalex";
 
-	@SuppressWarnings({"FieldMayBeFinal","CanBeFinal"})
+	@SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
 	private String UID = "%%__USER__%%" ;
-	@SuppressWarnings({"FieldMayBeFinal","CanBeFinal"})
+	@SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
 	private String NONCE = "%%__NONCE__%%" ;
-	@SuppressWarnings({"FieldMayBeFinal","CanBeFinal"})
+	@SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
 	private String RESOURCE = "%%__RESOURCE__%%" ;
 
 	public HashMap<UUID, PendingConfirm> pendingConfirms;
@@ -74,7 +71,7 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 	public Material chestMaterial;
 	public Material chestMaterialUnlocked;
 	public String[] invalidConfigFiles;
-	PluginUpdateChecker updateChecker;
+	public PluginUpdateChecker updateChecker;
 
 	public boolean debug = false;
 	public boolean verbose = false;
@@ -175,21 +172,21 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 		registerCommands();
 		debug("Setting command executors...");
 		CommandFetchOrTeleport commandFetchOrTeleport = new CommandFetchOrTeleport();
-		this.getCommand("acunlock").setExecutor(new CommandUnlock());
-		this.getCommand("aclist").setExecutor(new CommandList());
-		this.getCommand("acfetch").setExecutor(commandFetchOrTeleport);
-		this.getCommand("actp").setExecutor(commandFetchOrTeleport);
-		this.getCommand("acreload").setExecutor(new CommandReload());
-		this.getCommand("acgui").setExecutor(new CommandGUI());
+		Objects.requireNonNull(this.getCommand("acunlock")).setExecutor(new CommandUnlock());
+		Objects.requireNonNull(this.getCommand("aclist")).setExecutor(new CommandList());
+		Objects.requireNonNull(this.getCommand("acfetch")).setExecutor(commandFetchOrTeleport);
+		Objects.requireNonNull(this.getCommand("actp")).setExecutor(commandFetchOrTeleport);
+		Objects.requireNonNull(this.getCommand("acreload")).setExecutor(new CommandReload());
+		Objects.requireNonNull(this.getCommand("acgui")).setExecutor(new CommandGUI());
 
 		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
 			new PlaceholderAPIHook(this).register();
 		}
 
 		CommandDebug commandDebug = new CommandDebug();
-		this.getCommand("acd").setExecutor(commandDebug);
-		this.getCommand("acd").setTabCompleter(commandDebug);
-		this.getCommand("acversion").setExecutor(new CommandVersion());
+		Objects.requireNonNull(this.getCommand("acdebug")).setExecutor(commandDebug);
+		Objects.requireNonNull(this.getCommand("acdebug")).setTabCompleter(commandDebug);
+		Objects.requireNonNull(this.getCommand("acversion")).setExecutor(new CommandVersion());
 
 
 		debug("Registering listeners");
@@ -198,7 +195,7 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 		getServer().getPluginManager().registerEvents(new BlockListener(),this);
 		getServer().getPluginManager().registerEvents(new PistonListener(),this);
 		getServer().getPluginManager().registerEvents(new EmergencyListener(),this);
-		getServer().getPluginManager().registerEvents(new WorldListener(),this);
+		getServer().getPluginManager().registerEvents(new UpdateCheckListener(),this);
 		guiListener = new GUIListener();
 		getServer().getPluginManager().registerEvents(guiListener,this);
 		
@@ -283,17 +280,22 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 	}
 
 	private void registerCommands() {
-		String[] commands = new String[] {"acgui","aclist","acfetch","actp","acunlock","acreload"};
-		for(String command : commands) {
-			ArrayList<String> newCommand = new ArrayList<>();
-			debug("Registering command "+command+" with aliases");
-			newCommand.add(command);
-			List<String> aliases = getConfig().getStringList("command-aliases-"+command);
-			for(String alias : aliases) {
-				newCommand.add(alias);
-				debug("- "+alias);
-			}
-			CommandManager.registerCommand(newCommand.toArray(new String[0]));
+		String[][] commands = new String[][]{
+				{"acgui", Permissions.ALLOW_USE},
+				{"aclist", Permissions.ALLOW_USE},
+				{"acfetch", Permissions.ALLOW_FETCH},
+				{"actp", Permissions.ALLOW_TELEPORT},
+				{"acunlock", Permissions.ALLOW_PROTECT},
+				{"acreload", Permissions.ALLOW_RELOAD},
+				{"acdebug", Permissions.DEBUG},
+				{"acversion", Permissions.VERSION}
+		};
+		for(String[] commandAndPermission : commands) {
+			ArrayList<String> command = new ArrayList<>();
+			command.add(commandAndPermission[0]);
+			List<String> aliases = getConfig().getStringList("command-aliases-"+commandAndPermission[0]);
+			command.addAll(aliases);
+			CommandManager.registerCommand(commandAndPermission[1],command.toArray(new String[0]));
 		}
 	}
 
@@ -341,7 +343,7 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 					// TODO: Disabled for now, but left behind if someone still has missing chests upon end crystal generation
 					Block block = entry.getKey();
 					debug("Fixing broken AngelChest at "+block.getLocation());
-					entry.setValue(new AngelChest(getAngelChest(block).saveToFile(true)));
+					entry.setValue(new AngelChest(Objects.requireNonNull(getAngelChest(block)).saveToFile(true)));
 				}
 			}
 		}, 0L, Ticks.fromSeconds(2));
@@ -495,12 +497,12 @@ public class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 
 		switch(getConfig().getString(Config.CHECK_FOR_UPDATES).toLowerCase()) {
 			case "true":
-				updateChecker.check((long) (getConfig().getDouble(Config.CHECK_FOR_UPDATES_INTERVAL) * 60 * 60));
+				updateChecker.check((long) (getConfig().getDouble(Config.CHECK_FOR_UPDATES_INTERVAL) * 60 * 60),null);
 				break;
 			case "false":
 				break;
 			default:
-				updateChecker.check();
+				updateChecker.check(null);
 		}
 	}
 

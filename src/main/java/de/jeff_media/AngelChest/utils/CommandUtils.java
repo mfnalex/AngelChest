@@ -9,7 +9,6 @@ import de.jeff_media.AngelChest.enums.EconomyStatus;
 import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -18,8 +17,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.javatuples.Triplet;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static de.jeff_media.AngelChest.utils.Utils.getChestLocation;
 import static de.jeff_media.AngelChest.utils.Utils.getCardinalDirection;
 
-public class CommandUtils {
+public final class CommandUtils {
 
     public static void payMoney(OfflinePlayer p, double money, String reason) {
 
@@ -139,9 +136,8 @@ public class CommandUtils {
         return new Triplet<>(chestIdStartingAt1, angelChestsFromThisPlayer.get(chestIdStartingAt1 - 1), affectedPlayer);
     }
 
-    public static void sendConfirmMessage(CommandSender sender, String command, double price, String message, Main main) {
-
-        TextComponent text = new TextComponent(message.replaceAll("\\{price}", String.valueOf(price)).replaceAll("\\{currency}", getCurrency(price, main)));
+    public static void sendConfirmMessage(CommandSender sender, String command, double price, String message) {
+        TextComponent text = new TextComponent(message.replaceAll("\\{price}", String.valueOf(price)).replaceAll("\\{currency}", getCurrency(price)));
         text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
         sender.spigot().sendMessage(text);
     }
@@ -152,7 +148,7 @@ public class CommandUtils {
     public static void fetchOrTeleport(Main main, Player player, AngelChest ac, int chestIdStartingAt1, TeleportAction action, boolean askForConfirmation) {
 
         if (!player.hasPermission(action.getPermission())) {
-            player.sendMessage(main.getCommand(action.getCommand()).getPermissionMessage());
+            player.sendMessage(main.messages.MSG_NO_PERMISSION);
             return;
         }
 
@@ -236,7 +232,7 @@ public class CommandUtils {
                 return true;
             } else {
                 main.pendingConfirms.put(p.getUniqueId(), newConfirm);
-                CommandUtils.sendConfirmMessage(p, confirmCommand, price, main.messages.MSG_CONFIRM, main);
+                CommandUtils.sendConfirmMessage(p, confirmCommand, price, main.messages.MSG_CONFIRM);
                 return false;
             }
         }
@@ -309,9 +305,9 @@ public class CommandUtils {
         p.teleport(tploc, TeleportCause.PLUGIN);
     }
 
-    public static String getCurrency(double money, Main main) {
+    public static String getCurrency(double money) {
 
-        Plugin v = main.getServer().getPluginManager().getPlugin("Vault");
+        /*Plugin v = main.getServer().getPluginManager().getPlugin("Vault");
         if (v == null) return "";
 
         RegisteredServiceProvider<Economy> rsp = main.getServer().getServicesManager().getRegistration(Economy.class);
@@ -321,9 +317,14 @@ public class CommandUtils {
 
         Economy econ = rsp.getProvider();
 
-        if (econ == null) return "";
+        if (econ == null) return "";*/
 
-        return money == 1 ? econ.currencyNameSingular() : econ.currencyNamePlural();
+        Main main = Main.getInstance();
+        if(main.economyStatus == EconomyStatus.ACTIVE) {
+            return money == 1 ? main.econ.currencyNameSingular() : main.econ.currencyNamePlural();
+        }
+
+        return "";
 
     }
 
