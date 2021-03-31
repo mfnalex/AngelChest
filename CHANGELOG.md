@@ -1,3 +1,9 @@
+## 3.5.0
+- Added API so other plugins can cancel the AngelChest creation
+- Added "random-item-loss" option (Plus version only)
+  - You can define an amount of item stacks that will randomly be lost on each death.
+  - You can either use a fixed value (e.g. 2 item stacks) or a percentage (e.g. 10% of all item stacks)
+
 ## 3.4.0
 - Added "/acd blacklist add" command to add the current item to the blacklist
 - Fixed GUI showing regular heads instead of custom heads when using PLAYER_HEAD as chest item
