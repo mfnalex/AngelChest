@@ -286,7 +286,7 @@ public final class AngelChest {
                 }
                 main.debug("===== RANDOM ITEM LOSS END =====");
             } else {
-                main.getLogger().warning("You are using random Item Loss, which is only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+                main.getLogger().warning("You are using random-item-loss, which is only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
             }
         }
 

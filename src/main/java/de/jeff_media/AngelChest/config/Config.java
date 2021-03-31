@@ -97,5 +97,5 @@ public final class Config {
     public static final String PREFIX = "prefix";
     public static final String SPAWN_CHANCE = "spawn-chance";
     public static final String NEVER_REPLACE_BEDROCK = "never-replace-bedrock";
-    public static final String ITEM_LOSS = "item-loss";
+    public static final String ITEM_LOSS = "random-item-loss";
 }

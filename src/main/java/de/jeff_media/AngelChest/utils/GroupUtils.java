@@ -38,7 +38,7 @@ public final class GroupUtils {
             double xpPercentage = yaml.getDouble(groupName+".xp-percentage",-2);
             int unlockDuration = yaml.getInt(groupName+".unlock-duration",-2);
             double spawnChance = yaml.getDouble(groupName+".spawn-chance",1.0);
-            String itemLoss = yaml.getString(groupName+".item-loss","-1");
+            String itemLoss = yaml.getString(groupName+".random-item-loss","-1");
 
             main.debug("Registering group "+groupName);
             Group group = new Group(angelchestDuration,chestsPerPlayer,priceSpawn,priceOpen,priceTeleport,priceFetch, xpPercentage, unlockDuration, spawnChance, itemLoss);
@@ -245,7 +245,7 @@ public final class GroupUtils {
         Main main = Main.getInstance();
         if(value.endsWith("p")) {
             if(!Daddy.allows(Features.ITEM_LOSS)) {
-                main.getLogger().warning("You are using percentage item loss in your config file. This is only available in AngelChestPlus. See here: "+Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+                main.getLogger().warning("You are using percentage random-item-loss in your config file. This is only available in AngelChestPlus. See here: "+Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
                 return 0;
             }
             double percentage = Double.parseDouble(value.substring(0,value.length()-1));

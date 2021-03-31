@@ -30,7 +30,7 @@ admin:
   price-fetch: 0
   xp-percentage: 1.0
   spawn-chance: 1.0
-  item-loss: 0
+  random-item-loss: 0
 mod:
   angelchest-duration: 1200
   unlock-duration: 0
@@ -46,8 +46,8 @@ noob:
   angelchest-duration: 300
   unlock-duration: 150
   spawn-chance: 1.0
-  item-loss: 1
+  random-item-loss: 1
 idiot:
   angelchest-duration: 150
   spawn-chance: 1.0
-  item-loss: 0.5p
+  random-item-loss: 0.5p

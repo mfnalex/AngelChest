@@ -1,6 +1,6 @@
 ## 3.5.0
 - Added API so other plugins can cancel the AngelChest creation
-- Added "item-loss" option (Plus version only)
+- Added "random-item-loss" option (Plus version only)
   - You can define an amount of item stacks that will randomly be lost on each death.
   - You can either use a fixed value (e.g. 2 item stacks) or a percentage (e.g. 10% of all item stacks)
 

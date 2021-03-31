@@ -125,7 +125,7 @@ spawn-chance: 1.0
 # You can also add the letter "p" to the end of the number to use percentages.
 # E.g. when using "0.2p", 20% of item stacks will be lost.
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
-item-loss: 0
+random-item-loss: 0
 
 # When set to true, players will receive a message telling them where the AngelChest
 # is located.
