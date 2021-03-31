@@ -30,7 +30,7 @@ public final class DiscordVerificationUtils {
                 main.getLogger().warning(line);
             }
             main.saveResource("discord-verification.html", false);
-            String verifyCode = "QnV5IHRoZSBwbHVnaW4gaWYgeW91IGxpa2UgaXQuLi4gaHR0cHM6Ly93d3cuc3BpZ290bWMub3JnL3Jlc291cmNlcy9hbmdlbGNoZXN0cGx1cy44ODIxNA==";
+            @SuppressWarnings("UnusedAssignment") String verifyCode = "QnV5IHRoZSBwbHVnaW4gaWYgeW91IGxpa2UgaXQuLi4gaHR0cHM6Ly93d3cuc3BpZ290bWMub3JnL3Jlc291cmNlcy9hbmdlbGNoZXN0cGx1cy44ODIxNA==";
             /*Daddy start*/
             verifyCode = Daddy.getDiscordVerificationCode();
             /*Daddy end*/

@@ -309,8 +309,6 @@ public final class Utils {
                             && y < location.getWorld().getMaxHeight()) {
                         //main.verbose("Possible chest loc: "+block.toString());
                         blocks.add(block);
-                    } else {
-                        //main.verbose("NO possible chest loc: "+block.toString());
                     }
                 }
             }

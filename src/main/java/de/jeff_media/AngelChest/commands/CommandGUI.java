@@ -1,6 +1,7 @@
 package de.jeff_media.AngelChest.commands;
 
 import de.jeff_media.AngelChest.Main;
+import de.jeff_media.AngelChest.config.Permissions;
 import de.jeff_media.AngelChest.enums.Features;
 import de.jeff_media.daddy.Daddy;
 import org.bukkit.command.Command;
@@ -25,7 +26,7 @@ public final class CommandGUI implements CommandExecutor {
             return true;
         }
 
-        if(!sender.hasPermission("angelchest.use")) {
+        if(!sender.hasPermission(Permissions.ALLOW_USE)) {
             sender.sendMessage(main.messages.MSG_NO_PERMISSION);
             return true;
         }

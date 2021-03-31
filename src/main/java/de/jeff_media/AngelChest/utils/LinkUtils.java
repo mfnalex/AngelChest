@@ -40,6 +40,12 @@ public final class LinkUtils {
         return text;
     }
 
+    public static TextComponent createURLLink(String text, String link) {
+        TextComponent tc = new TextComponent(text);
+        tc.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, link));
+        return tc;
+    }
+
     private static TextComponent createCommandLink(String text, String command) {
         // Hover text
 		/*ComponentBuilder hoverCB = new ComponentBuilder(

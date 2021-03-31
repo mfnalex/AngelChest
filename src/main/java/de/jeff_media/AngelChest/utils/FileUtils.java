@@ -70,7 +70,7 @@ public final class FileUtils {
             }
             bufferedReader.close();
         } catch (IOException exception) {
-
+            exception.printStackTrace();
         }
         return lines;
     }

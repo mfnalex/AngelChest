@@ -2,6 +2,8 @@
 - Added "/acd blacklist add" command to add the current item to the blacklist
 - Fixed GUI showing regular heads instead of custom heads when using PLAYER_HEAD as chest item
 - Made all GUI buttons configurable. You can either use normal material names (DIAMOND, CHEST, ...) or a base64 String for custom heads.
+- /acversion will now check for updates and includes a link to my discord for support
+- Made /acversion and /acdebug command aliases configurable
 - Improved overall performance
 - Fixed website link in plugin.yml
 

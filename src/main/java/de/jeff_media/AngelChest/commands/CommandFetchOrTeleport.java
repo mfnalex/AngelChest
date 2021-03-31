@@ -1,6 +1,5 @@
 package de.jeff_media.AngelChest.commands;
 
-import de.jeff_media.AngelChest.CommandManager;
 import de.jeff_media.AngelChest.data.AngelChest;
 import de.jeff_media.AngelChest.enums.TeleportAction;
 import de.jeff_media.AngelChest.Main;
@@ -11,8 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.javatuples.Triplet;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public final class CommandFetchOrTeleport implements CommandExecutor {
 

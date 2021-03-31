@@ -1,6 +1,5 @@
 package de.jeff_media.AngelChest.commands;
 
-import de.jeff_media.AngelChest.CommandManager;
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.config.ConfigDumper;
 import de.jeff_media.AngelChest.config.ConfigUtils;
@@ -46,7 +45,6 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
         if (!commandSender.hasPermission(Permissions.DEBUG)) {
-            //noinspection ConstantConditions
             commandSender.sendMessage(main.messages.MSG_NO_PERMISSION);
             return true;
         }
@@ -93,7 +91,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 "/acd info §6Shows general debug information",
                 "/acd group §6Shows group information",
                 "/acd dump §6Dump debug information",
-                "/acd fixholograms [radius] §6Removes dead holograms"
+                "/acd fixholograms §6Removes dead holograms"
                 //"- config"
         });
 
@@ -251,7 +249,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             commandSender.sendMessage(blacklisted == null ? "Not blacklisted" : "Blacklisted as \"" + blacklisted + "\"");
         } else if (args.length > 0 && args[0].equalsIgnoreCase("test")) {
             args = shift(args);
-            commandSender.sendMessage(new String[]{" ", "§6=== AngelChest Blacklist Test ==="});
+            commandSender.sendMessage(new String[]{" ", "§6===[§bAngelChest Blacklist Test§6]==="});
 
 
             if (!(commandSender instanceof Player)) {
