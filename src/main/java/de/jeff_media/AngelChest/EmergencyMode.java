@@ -23,7 +23,7 @@ public final class EmergencyMode {
             "§c§l! ! !W A R N I N G ! ! !",
             "§cAngelChest " + Main.getInstance().getDescription().getVersion()+" is only compatible with Minecraft versions 1.13 and newer.",
             "§cPlease use AngelChest version 2.22.2 for Minecraft 1.12:",
-            "§chttps://www.spigotmc.org/resources/1-12-1-16-angelchest.60383/history"
+            "§c"+Main.UPDATECHECKER_LINK_DOWNLOAD_FREE+"/history"
     };
 
     public static final String[] BROKEN_CONFIG_FILE = {
@@ -36,7 +36,7 @@ public final class EmergencyMode {
             "§cPlease delete the file and use a fresh copy to start editing it again.",
             "§cYou can validate YAML files here: http://www.yamllint.com/",
             "§cContact me on Discord if you need help:",
-            "§c-> https://discord.jeff-media.de <-",
+            "§c-> "+Main.DISCORD_LINK+" <-",
             "§c",
             "§c(This message is only shown to server operators)"
     };

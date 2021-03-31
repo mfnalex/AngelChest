@@ -10,6 +10,7 @@ public final class Group {
     public final double xpPercentage;
     public final int unlockDuration;
     public final double spawnChance;
+    public final String itemLoss;
   
     public Group(int duration,
                  int maxChests,
@@ -19,7 +20,8 @@ public final class Group {
                  String priceFetch,
                  double xpPercentage,
                  int unlockDuration,
-                 double spawnChance) {
+                 double spawnChance,
+                 String itemLoss) {
         this.duration = duration;
         this.maxChests = maxChests;
         this.priceSpawn=priceSpawn;
@@ -29,5 +31,6 @@ public final class Group {
         this.xpPercentage = xpPercentage;
         this.unlockDuration=unlockDuration;
         this.spawnChance = spawnChance;
+        this.itemLoss = itemLoss;
     }
 }

@@ -21,6 +21,7 @@ public enum Features {
     TELEPORT_PRICE_PER_PLAYER,
     SET_PRICES_AS_PERCENTAGE,
     SPAWN_CHANCE,
-    GUI
+    GUI,
+    ITEM_LOSS
 
 }

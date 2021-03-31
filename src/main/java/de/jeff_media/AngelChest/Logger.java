@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 
 public final class Logger {
 
@@ -181,24 +182,36 @@ public final class Logger {
         write("Please note that some plugins remove certain items on death (soulbound items etc.), while other plugins add certain drops (player heads etc.). That's why this log file show you three different item lists:",file);
         write("1. The original inventory as it was when the player died. This does not include 3rd party plugin drops, but includes items that would have been removed on death, e.g. curse of vanishing items.",file);
         write("2. The items the player would have dropped if AngelChest wouldn't be used. This does include 3rd party plugin drops but does not include non-droppable items like curse of vanishing items.",file);
-        write("3. The final AngelChest contents, which is a combination of 1. and 2.: it includes all custom drops and does not include non-droppable items.",file);
+        write("3. The final AngelChest contents, which is a combination of 1. and 2. and does not include randomly lost items: it includes all custom drops and does not include non-droppable items.",file);
         write("",file);
 
-        write("=== Player Inventory ===",file);
+        write("=== 1. Player Inventory ===",file);
         write("The player had the following items in his inventory at the time of his death:",file);
         for(ItemStack item : event.getEntity().getInventory().getContents()) {
             if(item==null) continue;
             write("> "+item.toString(),file);
         }
         write("",file);
-        write("=== Player Drops ===", file);
+        write("=== 2. Player Drops ===", file);
         write("The player would have dropped the following items at the time of this death:",file);
         for(ItemStack item : event.getDrops()) {
             if(item==null) continue;
             write("> "+item.toString(),file);
         }
+
+        Set<ItemStack> lostItems = ac.randomlyLostItems;
+        if(lostItems != null && lostItems.size()>0) {
+            write("", file);
+            write("=== Random Item loss ===", file);
+            write("The following items were lost due to random item loss:", file);
+            for (ItemStack item : lostItems) {
+                if (item == null) continue;
+                write("- " + item.toString(), file);
+            }
+        }
+
         write("",file);
-        write("=== AngelChest inventory ===",file);
+        write("=== 3. AngelChest inventory ===",file);
         write("The AngelChest contains the following items:",file);
         for(ItemStack item : ac.storageInv) {
             if(item==null) continue;

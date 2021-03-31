@@ -38,8 +38,8 @@ public final class CommandVersion implements CommandExecutor {
         };
 
         TextComponent discord = new TextComponent("(Click here for Discord support)");
-        discord.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,"https://discord.jeff-media.de"));
-        discord.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Discord: https://discord.jeff-media.de")));
+        discord.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,Main.DISCORD_LINK));
+        discord.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Discord: "+Main.DISCORD_LINK)));
         discord.setItalic(true);
         discord.setColor(ChatColor.GOLD);
 
@@ -61,7 +61,11 @@ public final class CommandVersion implements CommandExecutor {
         commandSender.spigot().sendMessage(discord);
         commandSender.sendMessage((String) null);
         //commandSender.spigot().sendMessage(links);
-        Main.getInstance().updateChecker.check(commandSender);
+        if(Main.getInstance().updateChecker == null) {
+            commandSender.sendMessage(ChatColor.RED+"Update checker is disabled.");
+        } else {
+            Main.getInstance().updateChecker.check(commandSender);
+        }
         return true;
     }
 }

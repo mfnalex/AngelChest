@@ -118,7 +118,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         if(deadHolograms==0) {
             commandSender.sendMessage(new String[] {
                     ChatColor.GRAY+"There are no dead AngelChest holograms.",
-                    ChatColor.GRAY+"Please note that this command can only remove holograms in loaded chunks created in AngelChest 3.3.0 or later. Join my discord to get a command that can remove all dead holograms (including those created by other plugins): https://discord.jeff-media.de"
+                    ChatColor.GRAY+"Please note that this command can only remove holograms in loaded chunks created in AngelChest 3.3.0 or later. Join my discord to get a command that can remove all dead holograms (including those created by other plugins): "+Main.DISCORD_LINK
             });
         } else {
             commandSender.sendMessage(ChatColor.GREEN+"Removed "+deadHolograms+" dead AngelChest holograms.");
@@ -331,16 +331,18 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(player);
         int unlockDuration = main.groupUtils.getUnlockDurationPerPlayer(player);
         double spawnChance = main.groupUtils.getSpawnChancePerPlayer(player);
+        int itemLoss = main.groupUtils.getItemLossPerPlayer(player);
 
-        commandSender.sendMessage("Max Chests: " + maxChests);
-        commandSender.sendMessage("Duration: " + duration);
-        commandSender.sendMessage("Price Spawn: " + priceSpawn);
-        commandSender.sendMessage("Price Open:" + priceOpen);
-        commandSender.sendMessage("Price Teleport: " + priceTeleport);
-        commandSender.sendMessage("Price Fetch:" + priceFetch);
-        commandSender.sendMessage("XP Percentage: " + xpPercentage);
-        commandSender.sendMessage("Unlock Duration: " + unlockDuration);
-        commandSender.sendMessage("Spawn Chance: " + spawnChance);
+        commandSender.sendMessage("§6Max Chests:§b " + maxChests);
+        commandSender.sendMessage("§6Duration:§b " + duration);
+        commandSender.sendMessage("§6Price Spawn:§b " + priceSpawn + " §8(depending on current balance)");
+        commandSender.sendMessage("§6Price Open:§b " + priceOpen + " §8(depending on current balance)");
+        commandSender.sendMessage("§6Price Teleport:§b " + priceTeleport + " §8(depending on current balance)");
+        commandSender.sendMessage("§6Price Fetch:§b " + priceFetch + " §8(depending on current balance)");
+        commandSender.sendMessage("§6XP Percentage:§b " + xpPercentage);
+        commandSender.sendMessage("§6Unlock Duration:§b " + unlockDuration);
+        commandSender.sendMessage("§6Spawn Chance:§b " + spawnChance);
+        commandSender.sendMessage("§6Item Loss:§b " + itemLoss+" §8(depending on current inv)");
 
     }
 

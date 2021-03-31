@@ -78,7 +78,7 @@ public final class Messages {
 			"If you like AngelChest, you will LOVE AngelChestPlus, so",
 			"please consider upgrading! Thank you for using AngelChest.",
 			"",
-			"https://www.spigotmc.org/resources/angelchestplus.88214/",
+			Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS,
 			"========================================================",
 	};
 

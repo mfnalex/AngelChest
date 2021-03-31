@@ -38,9 +38,10 @@ public final class GroupUtils {
             double xpPercentage = yaml.getDouble(groupName+".xp-percentage",-2);
             int unlockDuration = yaml.getInt(groupName+".unlock-duration",-2);
             double spawnChance = yaml.getDouble(groupName+".spawn-chance",1.0);
+            String itemLoss = yaml.getString(groupName+".item-loss","-1");
 
             main.debug("Registering group "+groupName);
-            Group group = new Group(angelchestDuration,chestsPerPlayer,priceSpawn,priceOpen,priceTeleport,priceFetch, xpPercentage, unlockDuration, spawnChance);
+            Group group = new Group(angelchestDuration,chestsPerPlayer,priceSpawn,priceOpen,priceTeleport,priceFetch, xpPercentage, unlockDuration, spawnChance, itemLoss);
 
             groups.put(groupName, group);
 
@@ -220,11 +221,50 @@ public final class GroupUtils {
         }
     }
 
+    public int getItemLossPerPlayer(Player p) {
+        if(yaml==null || !Daddy.allows(Features.ITEM_LOSS)) return getPercentageItemLoss(p,main.getConfig().getString(Config.ITEM_LOSS));
+        Iterator<String> it = groups.keySet().iterator();
+        Integer bestValueFound = null;
+        while(it.hasNext()) {
+            String group = it.next();
+            if(!p.hasPermission("angelchest.group."+group)) continue;
+            String itemLossPerPlayer = groups.get(group).itemLoss;
+            if(itemLossPerPlayer.equals("-1")) {
+                continue;
+            }
+            bestValueFound = bestValueFound == null ? getPercentageItemLoss(p,itemLossPerPlayer) : Math.min(getPercentageItemLoss(p,itemLossPerPlayer), bestValueFound);
+        }
+        if(bestValueFound!=null) {
+            return bestValueFound;
+        } else {
+            return getPercentageItemLoss(p,main.getConfig().getString(Config.ITEM_LOSS));
+        }
+    }
+
+    private static int getPercentageItemLoss(Player p, String value) {
+        Main main = Main.getInstance();
+        if(value.endsWith("p")) {
+            if(!Daddy.allows(Features.ITEM_LOSS)) {
+                main.getLogger().warning("You are using percentage item loss in your config file. This is only available in AngelChestPlus. See here: "+Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+                return 0;
+            }
+            double percentage = Double.parseDouble(value.substring(0,value.length()-1));
+            if(percentage<=0) {
+                return 0;
+            }
+            int result = (int) (InventoryUtils.getAmountOfItemStacks(p.getInventory())*percentage);
+            main.debug("GroupUtils -> Item Loss -> "+value+" contains a p, getting percentage for player "+p.getName()+": "+result);
+            return result;
+        } else {
+            return Integer.parseInt(value);
+        }
+    }
+
     public static double getPercentagePrice(Player p, String value) {
         Main main = Main.getInstance();
         if(value.endsWith("p")) {
             if(!Daddy.allows(Features.SET_PRICES_AS_PERCENTAGE)) {
-                main.getLogger().warning("You are using percentage prices in your config file. This is only available in AngelChestPlus. See here: https://www.spigotmc.org/resources/%E2%AD%90-angelchestplus-%E2%AD%90.88214/");
+                main.getLogger().warning("You are using percentage prices in your config file. This is only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
                 return 0;
             }
             double percentage = Double.parseDouble(value.substring(0,value.length()-1));

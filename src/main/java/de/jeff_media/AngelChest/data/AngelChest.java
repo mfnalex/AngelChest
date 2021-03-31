@@ -4,9 +4,12 @@ import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.config.ChestYaml;
 import de.jeff_media.AngelChest.config.Config;
 import de.jeff_media.AngelChest.enums.EconomyStatus;
+import de.jeff_media.AngelChest.enums.Features;
 import de.jeff_media.AngelChest.utils.CommandUtils;
 import de.jeff_media.AngelChest.utils.HeadCreator;
+import de.jeff_media.AngelChest.utils.InventoryUtils;
 import de.jeff_media.AngelChest.utils.Utils;
+import de.jeff_media.daddy.Daddy;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -21,10 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Represents an AngelChest including its content and all other relevant information
@@ -51,6 +51,7 @@ public final class AngelChest {
     public List<String> openedBy;
     public DeathCause deathCause;
     public List<ItemStack> blacklistedItems;
+    public Set<ItemStack> randomlyLostItems = null;
 
     double price = 0;
 
@@ -273,6 +274,21 @@ public final class AngelChest {
             }
         }
         main.debug("===== PLAYER INVENTORY CONTENTS END =====");
+
+        int randomItemLoss = main.groupUtils.getItemLossPerPlayer(player);
+        if(randomItemLoss > 0) {
+            if(Daddy.allows(Features.ITEM_LOSS)) {
+                main.debug("===== RANDOM ITEM LOSS START =====");
+                main.debug("Removed " + randomItemLoss + " item stacks randomly:");
+                randomlyLostItems = InventoryUtils.removeRandomItemsFromInventory(playerInventory, randomItemLoss);
+                for (ItemStack lostItem : randomlyLostItems) {
+                    main.debug(lostItem.toString());
+                }
+                main.debug("===== RANDOM ITEM LOSS END =====");
+            } else {
+                main.getLogger().warning("You are using random Item Loss, which is only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+            }
+        }
 
         armorInv = playerInventory.getArmorContents();
         storageInv = playerInventory.getStorageContents();

@@ -78,16 +78,6 @@ angelchest-duration: 600
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 unlock-duration: 0
 
-# Global chance for spawning an AngelChest
-# 1.0 = 100%, 0.5 = 50%, 0.01 = 1%
-# Example: setting this to 1.0 will always spawn a chest, setting it to
-# 0.5 will only spawn it with a probability of 50%
-# You can override this for certain players by setting up groups and
-# giving players the angelchest.group.<groupname> permission. See
-# groups.example.yml for more information.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
-spawn-chance: 1.0
-
 # The maximum amount of AngelChests a player may have at the same time.
 # If a player dies again so that they would exceed this number, the
 # first created AngelChest is destroyed and drops its contents.
@@ -119,6 +109,23 @@ collect-xp: true
 # See groups.example.yml for more information.
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! (Free version always uses vanilla amount)
 xp-percentage: -1
+
+# Global chance for spawning an AngelChest
+# 1.0 = 100%, 0.5 = 50%, 0.01 = 1%
+# Example: setting this to 1.0 will always spawn a chest, setting it to
+# 0.5 will only spawn it with a probability of 50%
+# You can override this for certain players by setting up groups and
+# giving players the angelchest.group.<groupname> permission. See
+# groups.example.yml for more information.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+spawn-chance: 1.0
+
+# You can define an amount of item stacks that will be randomly lost on death.
+# You can also adjust the item loss individually for each group. See groups.example.yml
+# You can also add the letter "p" to the end of the number to use percentages.
+# E.g. when using "0.2p", 20% of item stacks will be lost.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+item-loss: 0
 
 # When set to true, players will receive a message telling them where the AngelChest
 # is located.

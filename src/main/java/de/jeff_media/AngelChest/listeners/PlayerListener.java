@@ -14,10 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -165,16 +162,6 @@ public final class PlayerListener implements Listener {
             }
         }
 
-        // Don't do anything if player's inventory is empty anyway
-        // TODO: Player could die while having no items, but XP
-        if (event.getDrops() == null || event.getDrops().size() == 0) {
-            main.debug("Cancelled: event#getDrops == null || event#getDrops#size == 0");
-            main.debug("Either your inventory was empty, or another plugin set your");
-            main.debug("drops to zero.");
-            Utils.sendDelayedMessage(p, main.messages.MSG_INVENTORY_WAS_EMPTY, 1);
-            return;
-        }
-
         if (!main.getConfig().getBoolean(Config.ALLOW_ANGELCHEST_IN_PVP)) {
             if (event.getEntity().getKiller() != null && event.getEntity().getKiller() != event.getEntity()) {
                 main.debug("Cancelled: allow-angelchest-in-pvp is false and this seemed to be a pvp death");
@@ -263,16 +250,22 @@ public final class PlayerListener implements Listener {
             for (ItemStack leftover : p.getInventory().addItem(freshDrop).values()) {
                 if(leftover == null || leftover.getAmount() == 0 || leftover.getType() == Material.AIR) continue;
                 p.getWorld().dropItemNaturally(p.getLocation(), leftover);
-                main.debug("Could not add item to AngelChest of player " + p.getName() + ": " + leftover + ", dropping it to world @ " + p.getLocation().toString());
+                main.getLogger().info("Could not add item to already full AngelChest of player " + p.getName() + ": " + leftover + ", dropping it to world @ " + p.getLocation().toString());
             }
         }
 		// END DETECT ALL DROPS
 
+        /*
+        Creating the chest
+         */
         DeathCause deathCause = new DeathCause(p.getLastDamageCause());
         AngelChest ac = new AngelChest(p, angelChestBlock, main.logger.getLogFileName(event),deathCause);
         main.angelChests.put(angelChestBlock, ac);
 
 
+        /*
+        Experience
+         */
         if(Daddy.allows(Features.DISALLOW_XP_COLLECTION) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("false")) {
             // Do nothing
         } else if(Daddy.allows(Features.DISALLOW_XP_COLLECTION_IN_PVP) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("nopvp") &&
@@ -299,8 +292,27 @@ public final class PlayerListener implements Listener {
             event.setDroppedExp(0);
         }
 
+        /*
+        Check if player has any drops
+         */
+        // TODO: Player could die while having no items, but XP
+        if (ac.isEmpty()) {
+            main.debug("Cancelled: AngelChest would be empty.");
+            main.debug("Either your inventory and XP was empty, or another plugin set your");
+            main.debug("drops and XP to zero.");
+
+            ac.remove();
+            main.angelChests.remove(angelChestBlock);
+
+            Utils.sendDelayedMessage(p, main.messages.MSG_INVENTORY_WAS_EMPTY, 1);
+            return;
+        }
+
         main.logger.logDeath(event,ac);
 
+        /*
+        Clearing inventory
+         */
         // Delete players inventory except excluded items
         clearInventory(p.getInventory());
 
@@ -359,6 +371,9 @@ public final class PlayerListener implements Listener {
     private void clearInventory(Inventory inv) {
         for (int i = 0; i < inv.getSize(); i++) {
             if (main.hookUtils.keepOnDeath(inv.getItem(i))) {
+                continue;
+            }
+            if(main.isItemBlacklisted(inv.getItem(i)) != null) {
                 continue;
             }
             inv.setItem(i, null);

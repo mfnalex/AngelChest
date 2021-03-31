@@ -311,6 +311,9 @@ public final class ConfigUtils {
 		conf.addDefault(Config.NEVER_REPLACE_BEDROCK,true);
 		metric(Config.NEVER_REPLACE_BEDROCK);
 
+		conf.addDefault(Config.ITEM_LOSS, 0);
+		metric(Config.ITEM_LOSS);
+
 		main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
 		metric(Config.DISABLED_MATERIALS, String.valueOf(main.disabledMaterials.size()));
 

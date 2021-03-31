@@ -56,6 +56,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 	public static final String UPDATECHECKER_LINK_DOWNLOAD_PLUS = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_PLUS;
 	public static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID_PLUS+"/updates";
 	public static final String UPDATECHECKER_LINK_DONATE = "https://paypal.me/mfnalex";
+	public static final String DISCORD_LINK = "https://discord.jeff-media.de";
 
 	@SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
 	private String UID = "%%__USER__%%" ;
