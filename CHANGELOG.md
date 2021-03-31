@@ -1,3 +1,6 @@
+## 3.5.1
+- Fixed plugin not enabling because of changed package name (I was too stupid to update the plugin.yml file)
+
 ## 3.5.0
 - Added API so other plugins can cancel the AngelChest creation
 - Added "random-item-loss" option (Plus version only)
