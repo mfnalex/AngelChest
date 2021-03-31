@@ -4,8 +4,10 @@ import de.jeff_media.AngelChest.*;
 import de.jeff_media.AngelChest.config.Config;
 import de.jeff_media.AngelChest.config.Permissions;
 import de.jeff_media.AngelChest.data.AngelChest;
+import de.jeff_media.AngelChest.data.AngelChestHolder;
 import de.jeff_media.AngelChest.data.DeathCause;
 import de.jeff_media.AngelChest.enums.Features;
+import de.jeff_media.AngelChest.events.AngelChestCreateEvent;
 import de.jeff_media.AngelChest.utils.*;
 import de.jeff_media.daddy.Daddy;
 import org.bukkit.Bukkit;
@@ -235,6 +237,14 @@ public final class PlayerListener implements Listener {
 
         main.debug("FixedPlayerPosition: "+fixedPlayerPosition.toString());
         Block angelChestBlock = Utils.getChestLocation(fixedPlayerPosition);
+
+        // Calling Event
+        AngelChestCreateEvent angelChestCreateEvent = new AngelChestCreateEvent(p,angelChestBlock,p.getLastDamageCause().getCause());
+        Bukkit.getPluginManager().callEvent(angelChestCreateEvent);
+        if(angelChestCreateEvent.isCancelled()) {
+            main.debug("AngelChestCreateEvent has been cancelled!");
+            return;
+        }
 
         // DETECT ALL DROPS, EVEN FRESHLY ADDED
         ArrayList<ItemStack> freshDrops = new ArrayList<>();

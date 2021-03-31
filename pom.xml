@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>3.4.0</version>
+    <version>3.5.0</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -210,6 +210,12 @@
         </dependency>
 
         <!-- Own Libraries -->
+        <dependency>
+            <groupId>de.jeff_media</groupId>
+            <artifactId>AngelChestAPI</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>SpigotJeffMediaPlugin</artifactId>
