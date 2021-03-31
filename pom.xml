@@ -6,13 +6,13 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>3.5.0</version>
+    <version>3.5.1</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
         <spigot.website>https://www.spigotmc.org/resources/angelchestplus.88214/</spigot.website>
         <spigot.prefix>${project.name}</spigot.prefix>
-        <spigot.main>${project.groupId}.${project.name}.Main</spigot.main>
+        <spigot.main>${project.groupId}.angelchest.Main</spigot.main>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
