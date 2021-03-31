@@ -1,5 +1,7 @@
 ## 3.4.0
 - Added "/acd blacklist add" command to add the current item to the blacklist
+- Fixed GUI showing regular heads instead of custom heads when using PLAYER_HEAD as chest item
+- Made all GUI buttons configurable. You can either use normal material names (DIAMOND, CHEST, ...) or a base64 String for custom heads.
 - Improved overall performance
 - Fixed website link in plugin.yml
 

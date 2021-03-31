@@ -12,19 +12,54 @@ public final class Messages {
 
 	private final Main main;
 
-	public final String MSG_PLAYERSONLY,MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS,MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS,
-	MSG_ALL_YOUR_ANGELCHESTS_WERE_ALREADY_UNLOCKED, MSG_UNLOCKED_ONE_ANGELCHEST, MSG_UNLOCKED_MORE_ANGELCHESTS, MSG_INVENTORY_WAS_EMPTY,
-	MSG_ANGELCHEST_CREATED, MSG_ANGELCHEST_DISAPPEARED, MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS, MSG_YOU_GOT_YOUR_INVENTORY_BACK
-	, MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK, HOLOGRAM_TEXT, ANGELCHEST_INVENTORY_NAME, ANGELCHEST_LIST, MSG_ANGELCHEST_LOCATION, MSG_NOT_ENOUGH_MONEY,
-	MSG_PLEASE_SELECT_CHEST, MSG_ANGELCHEST_EXPLODED, MSG_NO_CHEST_IN_PVP, MSG_RETRIEVED, MSG_CONFIRM,
-	MSG_NOT_ENOUGH_MONEY_CHEST, MSG_PAID_OPEN, MSG_UNLOCKED_AUTOMATICALLY, MSG_OPENED, MSG_EMPTIED, MSG_SPAWN_CHANCE_UNSUCCESFULL;
-
+	public final String MSG_PLAYERSONLY;
+	public final String MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS;
+	public final String MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS;
+	public final String MSG_UNLOCKED_ONE_ANGELCHEST;
+	public final String MSG_INVENTORY_WAS_EMPTY;
+	public final String MSG_ANGELCHEST_CREATED;
+	public final String MSG_ANGELCHEST_DISAPPEARED;
+	public final String MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS;
+	public final String MSG_YOU_GOT_YOUR_INVENTORY_BACK;
+	public final String MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK;
+	public final String HOLOGRAM_TEXT;
+	public final String ANGELCHEST_INVENTORY_NAME;
+	public final String ANGELCHEST_LIST;
+	public final String MSG_ANGELCHEST_LOCATION;
+	public final String MSG_NOT_ENOUGH_MONEY;
+	public final String MSG_PLEASE_SELECT_CHEST;
+	public final String MSG_ANGELCHEST_EXPLODED;
+	public final String MSG_NO_CHEST_IN_PVP;
+	public final String MSG_RETRIEVED;
+	public final String MSG_CONFIRM;
+	public final String MSG_NOT_ENOUGH_MONEY_CHEST;
+	public final String MSG_PAID_OPEN;
+	public final String MSG_UNLOCKED_AUTOMATICALLY;
+	public final String MSG_OPENED;
+	public final String MSG_EMPTIED;
+	public final String MSG_SPAWN_CHANCE_UNSUCCESFULL;
 	public final String MSG_PREMIUMONLY;
+	public final String MSG_NO_PERMISSION;
 
-
-	public final String GUI_TITLE_MAIN, GUI_TITLE_CHEST, GUI_BACK, GUI_INFO, GUI_TELEPORT, GUI_FETCH, GUI_UNLOCK, GUI_ACCEPT, GUI_DECLINE, GUI_INFO_LORE, GUI_PREVIEW;
+	public final String GUI_TITLE_MAIN;
+	public final String GUI_TITLE_CHEST;
+	public final String GUI_BACK;
+	public final String GUI_INFO;
+	public final String GUI_TELEPORT;
+	public final String GUI_FETCH;
+	public final String GUI_UNLOCK;
+	public final String GUI_ACCEPT;
+	public final String GUI_DECLINE;
+	public final String GUI_INFO_LORE;
+	public final String GUI_PREVIEW;
 	
-	public final String LINK_TP, LINK_FETCH, LINK_UNLOCK, LINK_UNLOCK_FOR;
+	public final String LINK_TP;
+	public final String LINK_FETCH;
+	public final String LINK_UNLOCK;
+
+	//public final String LINK_UNLOCK_FOR;
+	//public final String MSG_ALL_YOUR_ANGELCHESTS_WERE_ALREADY_UNLOCKED;
+	//public final String MSG_UNLOCKED_MORE_ANGELCHESTS;
 
 	// The following messages shouldn't really appear
 	public final String ERR_NOTOWNER = ChatColor.RED+"You do not own this AngelChest.";
@@ -64,6 +99,8 @@ public final class Messages {
 
 		MSG_PREMIUMONLY = PREFIX + "§6This feature is only available in AngelChestPlus.";
 
+		MSG_NO_PERMISSION = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-no-permission","&cYou do not have the permission to use this command."));
+
 		MSG_SPAWN_CHANCE_UNSUCCESFULL = PREFIX + ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-spawn-chance-unsuccessful", "&cYour Angel forgot to collect your stuff, unlucky!"));
 		
     	MSG_PLAYERSONLY = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
@@ -78,8 +115,8 @@ public final class Messages {
 		MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS = PREFIX +  ChatColor.translateAlternateColorCodes('&', main.getConfig()
 				.getString("message-you-dont-have-any-angelchests", "&eYou don't have any AngelChests."));
 		
-		MSG_ALL_YOUR_ANGELCHESTS_WERE_ALREADY_UNLOCKED =PREFIX +  ChatColor.translateAlternateColorCodes('&', main.getConfig()
-				.getString("message-all-your-angelchests-were-already-unlocked", "&eAll your AngelChests were already unlocked."));
+		//MSG_ALL_YOUR_ANGELCHESTS_WERE_ALREADY_UNLOCKED =PREFIX +  ChatColor.translateAlternateColorCodes('&', main.getConfig()
+		//		.getString("message-all-your-angelchests-were-already-unlocked", "&eAll your AngelChests were already unlocked."));
 		
 		MSG_UNLOCKED_ONE_ANGELCHEST = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
 				.getString("message-unlocked-one-angelchest", "&aYou have unlocked your AngelChest."));
@@ -87,8 +124,8 @@ public final class Messages {
 		MSG_ANGELCHEST_DISAPPEARED = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
 				.getString("message-angelchest-disappeared", "&cYou were too slow... Your AngelChest has disappeared and dropped its contents."));
 		
-		MSG_UNLOCKED_MORE_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
-				.getString("message-unlocked-more-angelchests", "&aYou have unlocked %d AngelChests."));
+		//MSG_UNLOCKED_MORE_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
+		//		.getString("message-unlocked-more-angelchests", "&aYou have unlocked %d AngelChests."));
 		
 		MSG_INVENTORY_WAS_EMPTY =PREFIX +  ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-inventory-was-empty", "&eAn Angel searched for your stuff but could not find anything."));
 		
@@ -122,7 +159,7 @@ public final class Messages {
 		
 		LINK_UNLOCK = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.LINK_UNLOCK,"&5[Unlock]&r"));
 
-		LINK_UNLOCK_FOR = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.LINK_UNLOCK_FOR,"&5[Unlock for...]&r"));
+		//LINK_UNLOCK_FOR = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.LINK_UNLOCK_FOR,"&5[Unlock for...]&r"));
 
 		ERR_ALREADYUNLOCKED = PREFIX + getMsg("already-unlocked","&cThis AngelChest is already unlocked.");
 

@@ -56,6 +56,7 @@ public final class BlockListener implements Listener {
         if (!main.isAngelChest(event.getBlock()))
             return;
         AngelChest angelChest = main.getAngelChest(event.getBlock());
+        assert angelChest != null;
         if (!angelChest.owner.equals(event.getPlayer().getUniqueId())
                 && !event.getPlayer().hasPermission("angelchest.protect.ignore") && angelChest.isProtected) {
             event.getPlayer().sendMessage(main.messages.MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS);

@@ -7,9 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.jeff_media.AngelChest.commands.*;
-import de.jeff_media.AngelChest.config.ChestFileUpdater;
-import de.jeff_media.AngelChest.config.Config;
-import de.jeff_media.AngelChest.config.Messages;
+import de.jeff_media.AngelChest.config.*;
 import de.jeff_media.AngelChest.data.AngelChest;
 import de.jeff_media.AngelChest.data.BlacklistEntry;
 import de.jeff_media.AngelChest.data.PendingConfirm;
@@ -23,7 +21,6 @@ import de.jeff_media.AngelChest.hooks.PlaceholderAPIHook;
 import de.jeff_media.AngelChest.hooks.MinepacksHook;
 import de.jeff_media.AngelChest.hooks.WorldGuardHandler;
 import de.jeff_media.AngelChest.listeners.*;
-import de.jeff_media.AngelChest.config.ConfigUtils;
 import de.jeff_media.AngelChest.nbt.NBTUtils;
 import de.jeff_media.AngelChest.utils.*;
 import de.jeff_media.PluginUpdateChecker.PluginUpdateChecker;
@@ -187,8 +184,8 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 		}
 
 		CommandDebug commandDebug = new CommandDebug();
-		this.getCommand("acd").setExecutor(commandDebug);
-		this.getCommand("acd").setTabCompleter(commandDebug);
+		this.getCommand("acdebug").setExecutor(commandDebug);
+		this.getCommand("acdebug").setTabCompleter(commandDebug);
 		this.getCommand("acversion").setExecutor(new CommandVersion());
 
 
@@ -282,17 +279,25 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 	}
 
 	private void registerCommands() {
-		String[] commands = new String[] {"acgui","aclist","acfetch","actp","acunlock","acreload"};
-		for(String command : commands) {
-			ArrayList<String> newCommand = new ArrayList<>();
-			debug("Registering command "+command+" with aliases");
-			newCommand.add(command);
-			List<String> aliases = getConfig().getStringList("command-aliases-"+command);
+		String[][] commands = new String[][]{
+				{"acgui", Permissions.ALLOW_USE},
+				{"aclist", Permissions.ALLOW_USE},
+				{"acfetch", Permissions.ALLOW_FETCH},
+				{"actp", Permissions.ALLOW_TELEPORT},
+				{"acunlock", Permissions.ALLOW_PROTECT},
+				{"acreload", Permissions.ALLOW_RELOAD},
+				{"acdebug", Permissions.DEBUG}
+		};
+		for(String[] commandAndPermission : commands) {
+			ArrayList<String> command = new ArrayList<>();
+			debug("Registering command "+commandAndPermission+" with aliases");
+			command.add(commandAndPermission[0]);
+			List<String> aliases = getConfig().getStringList("command-aliases-"+commandAndPermission);
 			for(String alias : aliases) {
-				newCommand.add(alias);
+				command.add(alias);
 				debug("- "+alias);
 			}
-			CommandManager.registerCommand(newCommand.toArray(new String[0]));
+			CommandManager.registerCommand(commandAndPermission[1],command.toArray(new String[0]));
 		}
 	}
 

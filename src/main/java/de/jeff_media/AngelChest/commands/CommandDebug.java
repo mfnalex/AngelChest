@@ -1,5 +1,6 @@
 package de.jeff_media.AngelChest.commands;
 
+import de.jeff_media.AngelChest.CommandManager;
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.config.ConfigDumper;
 import de.jeff_media.AngelChest.config.ConfigUtils;
@@ -8,23 +9,17 @@ import de.jeff_media.AngelChest.data.AngelChest;
 import de.jeff_media.AngelChest.data.BlacklistEntry;
 import de.jeff_media.AngelChest.enums.BlacklistResult;
 import de.jeff_media.AngelChest.enums.Features;
-import de.jeff_media.AngelChest.nbt.NBTTags;
-import de.jeff_media.AngelChest.nbt.NBTValues;
 import de.jeff_media.AngelChest.utils.BlacklistUtils;
 import de.jeff_media.AngelChest.utils.HologramFixer;
 import de.jeff_media.AngelChest.utils.Utils;
 import de.jeff_media.daddy.Daddy;
-import de.jeff_media.nbtapi.NBTAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -51,7 +46,8 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
         if (!commandSender.hasPermission(Permissions.DEBUG)) {
-            commandSender.sendMessage(command.getPermissionMessage());
+            //noinspection ConstantConditions
+            commandSender.sendMessage(main.messages.MSG_NO_PERMISSION);
             return true;
         }
 
@@ -84,9 +80,6 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 case "fixholograms":
                     fixholograms(commandSender);
                     break;
-                case "createhologram":
-                    createhologram(commandSender);
-                    break;
             }
             return true;
         }
@@ -107,7 +100,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    private void createhologram(CommandSender commandSender) {
+    /*private void createhologram(CommandSender commandSender) {
         Location loc = ((Player)commandSender).getLocation();
         int rand = new Random().nextInt(Integer.MAX_VALUE);
         ArmorStand entity = (ArmorStand) loc.getWorld().spawnEntity(loc,EntityType.ARMOR_STAND);
@@ -116,7 +109,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         entity.setCustomNameVisible(true);
         entity.setInvulnerable(true);
         NBTAPI.addNBT(entity, NBTTags.IS_HOLOGRAM, NBTValues.TRUE);
-    }
+    }*/
 
     private void fixholograms(CommandSender commandSender) {
         int deadHolograms = 0;
@@ -233,6 +226,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             } else {
                 player = (Player) commandSender;
             }
+            assert player != null;
             ItemStack item = player.getInventory().getItemInMainHand();
             if (item == null) {
                 commandSender.sendMessage((isAnotherPlayer ? player.getName() : "You") + " must hold an item in the main hand.");

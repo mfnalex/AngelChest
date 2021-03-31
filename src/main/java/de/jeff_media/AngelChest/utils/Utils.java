@@ -15,6 +15,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -338,8 +339,7 @@ public final class Utils {
         return blocks;
     }
 
-    // from sk89q
-    public static String getCardinalDirection(Player player) {
+    public static @NotNull String getCardinalDirection(Player player) {
         double rotation = player.getLocation().getYaw() % 360;
         if (rotation < 0) {
             rotation += 360.0;
@@ -368,10 +368,10 @@ public final class Utils {
         if (292.5 <= rotation && rotation < 337.5) {
             return "SE";
         }
-        if (337.5 <= rotation && rotation < 360.0) {
+        /*if (337.5 <= rotation && rotation < 360.0) {
             return "S";
-        }
-        return null;
+        }*/
+        return "S";
 
     }
 

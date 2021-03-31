@@ -26,7 +26,7 @@ public final class CommandGUI implements CommandExecutor {
         }
 
         if(!sender.hasPermission("angelchest.use")) {
-            sender.sendMessage(main.getCommand("aclist").getPermissionMessage());
+            sender.sendMessage(main.messages.MSG_NO_PERMISSION);
             return true;
         }
 

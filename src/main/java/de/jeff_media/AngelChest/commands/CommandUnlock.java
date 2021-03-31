@@ -1,5 +1,6 @@
 package de.jeff_media.AngelChest.commands;
 
+import de.jeff_media.AngelChest.CommandManager;
 import de.jeff_media.AngelChest.data.AngelChest;
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.utils.CommandUtils;
@@ -29,7 +30,7 @@ public final class CommandUnlock implements CommandExecutor {
 		Player p = (Player) sender;
 
 		if(!sender.hasPermission("angelchest.protect")) {
-			sender.sendMessage(command.getPermissionMessage());
+			sender.sendMessage(main.messages.MSG_NO_PERMISSION);
 			return true;
 		}
 

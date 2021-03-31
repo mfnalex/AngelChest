@@ -1,5 +1,6 @@
 package de.jeff_media.AngelChest.commands;
 
+import de.jeff_media.AngelChest.CommandManager;
 import de.jeff_media.AngelChest.config.ConfigUtils;
 import de.jeff_media.AngelChest.config.Permissions;
 import org.bukkit.ChatColor;
@@ -14,7 +15,7 @@ public final class CommandReload implements CommandExecutor  {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
         if(!commandSender.hasPermission(Permissions.ALLOW_RELOAD)) {
-            commandSender.sendMessage(command.getPermissionMessage());
+            commandSender.sendMessage(main.messages.MSG_NO_PERMISSION);
             return true;
         }
 

@@ -1,5 +1,6 @@
 package de.jeff_media.AngelChest.commands;
 
+import de.jeff_media.AngelChest.CommandManager;
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.config.Permissions;
 import de.jeff_media.AngelChest.enums.Features;
@@ -17,7 +18,7 @@ public final class CommandVersion implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
 
         if(!commandSender.hasPermission(Permissions.VERSION)) {
-            commandSender.sendMessage(command.getPermissionMessage());
+            commandSender.sendMessage(main.messages.MSG_NO_PERMISSION);
             return true;
         }
 

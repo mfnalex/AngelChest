@@ -1,0 +1,7 @@
+/<command> on §6Enables debug mode
+/<command> off §6Disables debug mode
+/<command> blacklist §6Shows blacklist information
+/<command> checkconfig §6Checks config files for errors
+/<command> info §6Shows general debug information
+/<command> dump §6Dump debug information
+/<command> fixholograms §6Removes all dead holograms

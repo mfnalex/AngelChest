@@ -1,17 +1,15 @@
 package de.jeff_media.AngelChest.data;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import de.jeff_media.AngelChest.Main;
 import de.jeff_media.AngelChest.config.ChestYaml;
 import de.jeff_media.AngelChest.config.Config;
 import de.jeff_media.AngelChest.enums.EconomyStatus;
 import de.jeff_media.AngelChest.utils.CommandUtils;
+import de.jeff_media.AngelChest.utils.HeadCreator;
 import de.jeff_media.AngelChest.utils.Utils;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.Skull;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -23,11 +21,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -112,7 +108,7 @@ public final class AngelChest {
         }*/
 
         this.main = Main.getInstance();
-        this.owner = UUID.fromString(yaml.getString(ChestYaml.OWNER_UUID));
+        this.owner = UUID.fromString(Objects.requireNonNull(yaml.getString(ChestYaml.OWNER_UUID)));
         this.levels = yaml.getInt("levels", 0);
         this.isProtected = yaml.getBoolean("isProtected");
         this.secondsLeft = yaml.getInt("secondsLeft");
@@ -138,7 +134,7 @@ public final class AngelChest {
         int saveVersion = yaml.getInt("angelchest-saveversion", 1);
         if (saveVersion == 1) {
             try {
-                this.block = yaml.getLocation(ChestYaml.LEGACY_BLOCK).getBlock();
+                this.block = Objects.requireNonNull(yaml.getLocation(ChestYaml.LEGACY_BLOCK)).getBlock();
                 this.worldid = block.getWorld().getUID();
             } catch (Exception exception) {
                 success = false;
@@ -149,17 +145,17 @@ public final class AngelChest {
             }
             if (!success) return;
         } else {
-            this.worldid = UUID.fromString(yaml.getString("worldid"));
+            this.worldid = UUID.fromString(Objects.requireNonNull(yaml.getString("worldid")));
             if (main.getServer().getWorld(worldid) == null) {
                 success = false;
                 main.getLogger().warning("Failed to create AngelChest because no world with this id could be found");
                 return;
             }
-            this.block = main.getServer().getWorld(worldid).getBlockAt(yaml.getInt("x"), yaml.getInt("y"), yaml.getInt("z"));
+            this.block = Objects.requireNonNull(main.getServer().getWorld(worldid)).getBlockAt(yaml.getInt("x"), yaml.getInt("y"), yaml.getInt("z"));
         }
 
         //String hologramText = String.format(plugin.messages.HOLOGRAM_TEXT, plugin.getServer().getPlayer(owner).getName());
-        String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", main.getServer().getOfflinePlayer(owner).getName());
+        String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", Objects.requireNonNull(main.getServer().getOfflinePlayer(owner).getName()));
 
         if(!block.getWorld().isChunkLoaded(block.getX() >> 4,block.getZ() >> 4)) {
             main.debug("Chunk is not loaded, trying to load chunk async...");
@@ -181,7 +177,7 @@ public final class AngelChest {
         holder.setInventory(overflowInv);
         int iOverflow = 0;
         //noinspection SuspiciousToArrayCall
-        for (ItemStack is : yaml.getList("overflowInv").toArray(new ItemStack[54])) {
+        for (ItemStack is : Objects.requireNonNull(yaml.getList("overflowInv")).toArray(new ItemStack[54])) {
             if (is != null) overflowInv.setItem(iOverflow, is);
             iOverflow++;
         }
@@ -190,7 +186,7 @@ public final class AngelChest {
         armorInv = new ItemStack[4];
         int iArmor = 0;
         //noinspection SuspiciousToArrayCall
-        for (ItemStack is : yaml.getList("armorInv").toArray(new ItemStack[4])) {
+        for (ItemStack is : Objects.requireNonNull(yaml.getList("armorInv")).toArray(new ItemStack[4])) {
             if (is != null) armorInv[iArmor] = is;
             iArmor++;
         }
@@ -199,7 +195,7 @@ public final class AngelChest {
         storageInv = new ItemStack[36];
         int iStorage = 0;
         //noinspection SuspiciousToArrayCall
-        for (ItemStack is : yaml.getList("storageInv").toArray(new ItemStack[36])) {
+        for (ItemStack is : Objects.requireNonNull(yaml.getList("storageInv")).toArray(new ItemStack[36])) {
             if (is != null) storageInv[iStorage] = is;
             iStorage++;
         }
@@ -208,7 +204,7 @@ public final class AngelChest {
         extraInv = new ItemStack[1];
         int iExtra = 0;
         //noinspection SuspiciousToArrayCall
-        for (ItemStack is : yaml.getList("extraInv").toArray(new ItemStack[1])) {
+        for (ItemStack is : Objects.requireNonNull(yaml.getList("extraInv")).toArray(new ItemStack[1])) {
             if (is != null) extraInv[iExtra] = is;
             iExtra++;
         }
@@ -232,55 +228,55 @@ public final class AngelChest {
     /**
      * Creates a new AngelChest
      * @param player Player that this AngelChest belongs to
-     * @param owner UUID of the player that this AngelChest belongs to
-     * @param block Block where the AngelCHest should be created
-     * @param playerItems The player's inventory
+     * @param block Block where the AngelCcest should be created
      * @param logfile Name of the logfile for this AngelChest
      */
-    public AngelChest(Player player, UUID owner, Block block, PlayerInventory playerItems, String logfile, DeathCause deathCause) {
+    public AngelChest(Player player, Block block, String logfile, DeathCause deathCause) {
 
         main = Main.getInstance();
         main.debug("Creating AngelChest natively for player "+player.getName());
 
         this.main = Main.getInstance();
-        this.owner = owner;
+        this.owner = player.getUniqueId();
         this.block = block;
         this.logfile = logfile;
         this.openedBy = new ArrayList<>();
         this.price = main.groupUtils.getSpawnPricePerPlayer(player);
-        this.isProtected = main.getServer().getPlayer(owner).hasPermission("angelchest.protect");
+        this.isProtected = Objects.requireNonNull(main.getServer().getPlayer(owner)).hasPermission("angelchest.protect");
         this.secondsLeft = main.groupUtils.getDurationPerPlayer(main.getServer().getPlayer(owner));
         this.unlockIn = main.groupUtils.getUnlockDurationPerPlayer(main.getServer().getPlayer(owner));
         this.deathCause = deathCause;
         this.blacklistedItems = new ArrayList<>();
         if(secondsLeft<=0) infinite = true;
 
-        String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", main.getServer().getPlayer(owner).getName());
+        String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", player.getName());
         overflowInv = Bukkit.createInventory(null, 54, inventoryName);
         createChest(block,player.getUniqueId());
 
+        PlayerInventory playerInventory = player.getInventory();
+
         // Remove curse of vanishing equipment and Minepacks backpacks
         main.debug("===== PLAYER INVENTORY CONTENTS =====");
-        for (int i = 0; i<playerItems.getSize();i++) {
-            if (Utils.isEmpty(playerItems.getItem(i))) {
+        for (int i = 0; i<playerInventory.getSize();i++) {
+            if (Utils.isEmpty(playerInventory.getItem(i))) {
                 continue;
             }
-            String isBlacklisted = main.isItemBlacklisted(playerItems.getItem(i));
+            String isBlacklisted = main.isItemBlacklisted(playerInventory.getItem(i));
             if(isBlacklisted!=null) {
-                main.debug("Slot " + i + ": [BLACKLISTED: \""+isBlacklisted+"\"] " + playerItems.getItem(i));
-                blacklistedItems.add(playerItems.getItem(i));
-                playerItems.clear(i);
+                main.debug("Slot " + i + ": [BLACKLISTED: \""+isBlacklisted+"\"] " + playerInventory.getItem(i));
+                blacklistedItems.add(playerInventory.getItem(i));
+                playerInventory.clear(i);
             }
             else {
-                main.debug("Slot " + i + ": " + playerItems.getItem(i));
-                if (toBeRemoved(playerItems.getItem(i))) playerItems.setItem(i, null);
+                main.debug("Slot " + i + ": " + playerInventory.getItem(i));
+                if (toBeRemoved(playerInventory.getItem(i))) playerInventory.setItem(i, null);
             }
         }
         main.debug("===== PLAYER INVENTORY CONTENTS END =====");
 
-        armorInv = playerItems.getArmorContents();
-        storageInv = playerItems.getStorageContents();
-        extraInv = playerItems.getExtraContents();
+        armorInv = playerInventory.getArmorContents();
+        storageInv = playerInventory.getStorageContents();
+        extraInv = playerInventory.getExtraContents();
 
         removeKeptItems();
     }
@@ -293,7 +289,7 @@ public final class AngelChest {
         return main.getConfig().getString(Config.CHEST_FILENAME)
                 .replaceAll("\\{world}",block.getWorld().getName())
                 .replaceAll("\\{uuid}",owner.toString())
-                .replaceAll("\\{player}",Bukkit.getOfflinePlayer(owner).getName())
+                .replaceAll("\\{player}", Objects.requireNonNull(Bukkit.getOfflinePlayer(owner).getName()))
                 .replaceAll("\\{x}", String.valueOf(block.getX()))
                 .replaceAll("\\{y}", String.valueOf(block.getY()))
                 .replaceAll("\\{z}", String.valueOf(block.getZ()))
@@ -385,50 +381,12 @@ public final class AngelChest {
         block.setType(main.getChestMaterial(this));
 
         // Material is PLAYER_HEAD, so either use the custom texture, or the player skin's texture
-        if(main.getChestMaterial(this).name().equalsIgnoreCase("PLAYER_HEAD")) {
-            if(Material.getMaterial("PLAYER_HEAD") == null) {
+        if(main.getChestMaterial(this) == Material.PLAYER_HEAD) {
+            /*if(Material.getMaterial(Values.PLAYER_HEAD) == null) {
                 main.getLogger().warning("Using a custom PLAYER_HEAD as chest material is NOT SUPPORTED in versions < 1.13. Consider using another chest material.");
-            } else {
-                Skull state = (Skull) block.getState();
-
-                // Use the player skin's texture
-                if(main.getConfig().getBoolean(Config.HEAD_USES_PLAYER_NAME)) {
-                    main.debug("Player head = username");
-                    OfflinePlayer player = main.getServer().getOfflinePlayer(uuid);
-                    state.setOwningPlayer(player);
-                    state.update();
-                }
-                // Use a predefined texture
-                else {
-                    main.debug("Player head = base64");
-                    String base64 = main.getConfig().getString(Config.CUSTOM_HEAD_BASE64);
-                    GameProfile profile = new GameProfile(UUID.randomUUID(), "");
-                    profile.getProperties().put("textures", new Property("textures", base64));
-
-                    try {
-                        // Some reflection because Spigot cannot place ItemStacks in the world, which ne need to keep the SkullMeta
-
-                        Object nmsWorld = block.getWorld().getClass().getMethod("getHandle").invoke(block.getWorld());
-
-                        String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-                        Class<?> blockPositionClass = Class.forName("net.minecraft.server." + version + ".BlockPosition");
-                        Class<?> tileEntityClass = Class.forName("net.minecraft.server." + version + ".TileEntitySkull");
-
-
-                        Constructor<?> cons = blockPositionClass.getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE);
-                        Object blockPosition = cons.newInstance(block.getX(), block.getY(), block.getZ());
-
-                        Method getTileEntity = nmsWorld.getClass().getMethod("getTileEntity", blockPositionClass);
-                        Object tileEntity = tileEntityClass.cast(getTileEntity.invoke(nmsWorld, blockPosition));
-
-                        tileEntityClass.getMethod("setGameProfile", GameProfile.class).invoke(tileEntity, profile);
-
-                    } catch (IllegalArgumentException | IllegalAccessException | SecurityException | NoSuchMethodException | InvocationTargetException | ClassNotFoundException | InstantiationException e) {
-                        main.getLogger().warning("Could not set custom base64 player head.");
-                    }
-
-                }
-            }
+            } else {*/
+                HeadCreator.createHeadInWorld(block, uuid);
+            //}
         }
         if(createHologram) {
             createHologram(block, uuid);
@@ -442,7 +400,7 @@ public final class AngelChest {
     public void destroyChest(Block block) {
         main.debug("Destroying chest at "+block.getLocation()+toString());
         block.setType(Material.AIR);
-        block.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, block.getLocation(), 1);
+        Objects.requireNonNull(block.getLocation().getWorld()).spawnParticle(Particle.EXPLOSION_NORMAL, block.getLocation(), 1);
         hologram.destroy();
     }
 
@@ -465,7 +423,7 @@ public final class AngelChest {
         yaml.set("angelchest-saveversion", 2);
 
         // We are not using block objects to avoid problems with unloaded or removed worlds
-        yaml.set("worldid", block.getLocation().getWorld().getUID().toString());
+        yaml.set("worldid", Objects.requireNonNull(block.getLocation().getWorld()).getUID().toString());
         yaml.set("x", block.getX());
         yaml.set("y", block.getY());
         yaml.set("z", block.getZ());
@@ -522,7 +480,7 @@ public final class AngelChest {
                 if(price>0) {
                     player.sendMessage(main.messages.MSG_PAID_OPEN
                             .replaceAll("\\{price}", String.valueOf(price))
-                            .replaceAll("\\{currency}", CommandUtils.getCurrency(price, main))
+                            .replaceAll("\\{currency}", CommandUtils.getCurrency(price))
                     );
                 }
             }
@@ -598,7 +556,7 @@ public final class AngelChest {
      */
 	public void createHologram(Block block, UUID uuid) {
         String hologramText = main.messages.HOLOGRAM_TEXT
-                .replaceAll("\\{player}",main.getServer().getOfflinePlayer(uuid).getName())
+                .replaceAll("\\{player}", Objects.requireNonNull(main.getServer().getOfflinePlayer(uuid).getName()))
                 .replaceAll("\\{deathcause}",deathCause.getText());
 		hologram = new Hologram(block, hologramText, this);
 	}

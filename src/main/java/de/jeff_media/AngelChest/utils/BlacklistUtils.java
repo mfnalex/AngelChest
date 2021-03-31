@@ -34,6 +34,7 @@ public final class BlacklistUtils {
 
         Material material = item.getType();
         ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : Bukkit.getItemFactory().getItemMeta(material);
+        assert meta != null;
         String metaName = meta.hasDisplayName() ? meta.getDisplayName() : null;
         List<String> metaLore = meta.hasLore() ? meta.getLore() : null;
 
