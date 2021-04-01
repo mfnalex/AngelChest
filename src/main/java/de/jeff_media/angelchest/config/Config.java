@@ -98,4 +98,7 @@ public final class Config {
     public static final String SPAWN_CHANCE = "spawn-chance";
     public static final String NEVER_REPLACE_BEDROCK = "never-replace-bedrock";
     public static final String ITEM_LOSS = "random-item-loss";
+    public static final String DROP_HEADS = "drop-heads";
+    public static final String ONLY_DROP_HEADS_IN_PVP = "only-drop-heads-in-pvp";
+    public static final String DONT_STORE_HEADS_IN_ANGELCHEST = "dont-store-heads-in-angelchest";
 }

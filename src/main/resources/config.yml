@@ -250,6 +250,26 @@ check-for-updates: true
 check-interval: 4
 
 #########################
+####   Player heads  ####
+#########################
+
+# You can have AngelChest drop the player's head when they die.
+# Note: The head will only drop if the player has an AngelChest spawned.
+# That means that no heads will drop when the player does not have the
+# angelchest.use permission, if they don't have enough money for the chest,
+# or if they die in a blacklisted world / region.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+drop-heads: false
+
+# When set to true, heads are only dropped when a player dies in PvP
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+only-drop-heads-in-pvp: true
+
+# When set to true, heads are dropped next to the AngelChest instead of being put inside
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+dont-store-heads-in-angelchest: true
+
+#########################
 ####     Economy     ####
 #########################
 

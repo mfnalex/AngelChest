@@ -253,7 +253,7 @@ public final class ConfigUtils {
 		metric(Config.SHOW_GUI_AFTER_DEATH);
 
 		conf.addDefault(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH, true);
-		metric(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH);
+		metric("only_show_gui_if_player_can_tp",conf.getString(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH));
 
 		conf.addDefault(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP,false);
 		metric(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP);
@@ -314,6 +314,15 @@ public final class ConfigUtils {
 
 		conf.addDefault(Config.ITEM_LOSS, 0);
 		metric(Config.ITEM_LOSS);
+
+		conf.addDefault(Config.DROP_HEADS, false);
+		metric(Config.DROP_HEADS);
+
+		conf.addDefault(Config.ONLY_DROP_HEADS_IN_PVP, true);
+		metric(Config.ONLY_DROP_HEADS_IN_PVP);
+
+		conf.addDefault(Config.DONT_STORE_HEADS_IN_ANGELCHEST, true);
+		metric(Config.DONT_STORE_HEADS_IN_ANGELCHEST);
 
 		main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
 		metric(Config.DISABLED_MATERIALS, String.valueOf(main.disabledMaterials.size()));

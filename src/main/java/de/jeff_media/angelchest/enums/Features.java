@@ -22,6 +22,7 @@ public enum Features {
     SET_PRICES_AS_PERCENTAGE,
     SPAWN_CHANCE,
     GUI,
-    ITEM_LOSS
+    RANDOM_ITEM_LOSS,
+    DROP_HEADS
 
 }

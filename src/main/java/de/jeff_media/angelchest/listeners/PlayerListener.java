@@ -13,6 +13,7 @@ import de.jeff_media.daddy.Daddy;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -106,11 +107,22 @@ public final class PlayerListener implements Listener {
         }
     }
 
+    private static ItemStack getPlayerHead(OfflinePlayer player) {
+        return HeadCreator.getPlayerHead(player.getUniqueId());
+    }
+
+    private static void dropPlayerHead(Player player) {
+        ItemStack head = getPlayerHead(player);
+        player.getLocation().getWorld().dropItemNaturally(player.getLocation(),head);
+    }
+
     /**
      * Attempts to spawn an AngelChest on player death
      * @param event PlayerDeathEvent
      */
     private void spawnAngelChest(PlayerDeathEvent event) {
+
+        boolean isPvpDeath = event.getEntity().getKiller() != null && event.getEntity().getKiller() != event.getEntity();
 
         // Print out all plugins/listeners that listen to the PlayerDeathEvent
         if (main.debug) {
@@ -171,8 +183,11 @@ public final class PlayerListener implements Listener {
         }
 
         if (!main.getConfig().getBoolean(Config.ALLOW_ANGELCHEST_IN_PVP)) {
-            if (event.getEntity().getKiller() != null && event.getEntity().getKiller() != event.getEntity()) {
+            if (isPvpDeath) {
                 main.debug("Cancelled: allow-angelchest-in-pvp is false and this seemed to be a pvp death");
+                if(main.getConfig().getBoolean(Config.DROP_HEADS)) {
+                    dropPlayerHead(p);
+                }
 
                 Utils.sendDelayedMessage(p, main.messages.MSG_NO_CHEST_IN_PVP, 1);
                 return;
@@ -255,6 +270,26 @@ public final class PlayerListener implements Listener {
             freshDrops.add(drops[i]);
         }
         main.debug("===== ADDITIONAL DEATH DROP LIST END =====");
+
+        if(main.getConfig().getBoolean(Config.DROP_HEADS)) {
+            ItemStack head = null;
+            if(main.getConfig().getBoolean(Config.ONLY_DROP_HEADS_IN_PVP)) {
+                if(isPvpDeath) {
+                    head = getPlayerHead(p);
+                }
+            } else {
+                head = getPlayerHead(p);
+            }
+
+            if(head != null) {
+                if(main.getConfig().getBoolean(Config.DONT_STORE_HEADS_IN_ANGELCHEST)) {
+                    p.getLocation().getWorld().dropItemNaturally(p.getLocation(),head);
+                } else {
+                    freshDrops.add(head);
+                }
+            }
+        }
+
         for (ItemStack freshDrop : freshDrops) {
             for (ItemStack leftover : p.getInventory().addItem(freshDrop).values()) {
                 if(leftover == null || leftover.getAmount() == 0 || leftover.getType() == Material.AIR) continue;
@@ -313,11 +348,14 @@ public final class PlayerListener implements Listener {
             main.debug("drops and XP to zero.");
 
             ac.remove();
+            ac.destroy(true);
             main.angelChests.remove(angelChestBlock);
 
             Utils.sendDelayedMessage(p, main.messages.MSG_INVENTORY_WAS_EMPTY, 1);
             return;
         }
+
+        ac.createChest(ac.block,ac.owner);
 
         main.logger.logDeath(event,ac);
 
@@ -361,7 +399,7 @@ public final class PlayerListener implements Listener {
 
         //Utils.reloadAngelChest(ac,plugin);
 
-        AngelChestSpawnEvent angelChestSpawnEvent = new AngelChestSpawnEvent((de.jeff_media.angelchest.AngelChest) ac);
+        AngelChestSpawnEvent angelChestSpawnEvent = new AngelChestSpawnEvent(/* DO NOT REMOVE THE CAST! */(de.jeff_media.angelchest.AngelChest) ac);
         Bukkit.getPluginManager().callEvent(angelChestSpawnEvent);
     }
 
