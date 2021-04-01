@@ -217,26 +217,32 @@ public final class AngelChest {
         }
     }
 
+    //@Override
     public ItemStack[] getArmorInv() {
         return armorInv;
     }
 
+    //@Override
     public void setArmorInv(ItemStack[] armorInv) {
         this.armorInv = armorInv;
     }
 
+    //@Override
     public ItemStack[] getStorageInv() {
         return storageInv;
     }
 
+    //@Override
     public void setStorageInv(ItemStack[] storageInv) {
         this.storageInv = storageInv;
     }
 
+    //@Override
     public ItemStack[] getExtraInv() {
         return extraInv;
     }
 
+    //@Override
     public void setExtraInv(ItemStack[] extraInv) {
         this.extraInv = extraInv;
     }

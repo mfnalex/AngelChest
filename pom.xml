@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>3.5.2</version>
+    <version>3.5.4</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -84,10 +84,11 @@
                             <pattern>org.javatuples</pattern>
                             <shadedPattern>${project.groupId}.angelchest.lib.org.javatuples</shadedPattern>
                         </relocation>
-                        <relocation>
+                        <!-- Causes Exception because that library is shit when being relocated -->
+                        <!--<relocation>
                             <pattern>org.zeroturnaround.zip</pattern>
                             <shadedPattern>${project.groupId}.angelchest.lib.org.zeroturnaround.zip</shadedPattern>
-                        </relocation>
+                        </relocation>-->
                         <relocation>
                             <pattern>org.bstats.bukkit</pattern>
                             <shadedPattern>${project.groupId}.angelchest</shadedPattern>
