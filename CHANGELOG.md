@@ -1,3 +1,6 @@
+## 3.5.6
+- Added Hungarian translation (thanks to @Victor75007)
+
 ## 3.5.4
 - Fixed exception when using "/acd dump"
 - Fixed "class loading" exception
