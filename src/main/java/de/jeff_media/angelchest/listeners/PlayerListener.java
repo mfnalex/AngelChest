@@ -6,8 +6,8 @@ import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.DeathCause;
 import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
 import de.jeff_media.angelchest.utils.*;
-import de.jeff_media.angelchest.events.AngelChestCreateEvent;
 import de.jeff_media.daddy.Daddy;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -233,9 +233,9 @@ public final class PlayerListener implements Listener {
         Block angelChestBlock = Utils.getChestLocation(fixedPlayerPosition);
 
         // Calling Event
-        AngelChestCreateEvent angelChestCreateEvent = new AngelChestCreateEvent(p,angelChestBlock,p.getLastDamageCause().getCause());
-        Bukkit.getPluginManager().callEvent(angelChestCreateEvent);
-        if(angelChestCreateEvent.isCancelled()) {
+        AngelChestSpawnPrepareEvent angelChestSpawnPrepareEvent = new AngelChestSpawnPrepareEvent(p,angelChestBlock,p.getLastDamageCause().getCause(),event);
+        Bukkit.getPluginManager().callEvent(angelChestSpawnPrepareEvent);
+        if(angelChestSpawnPrepareEvent.isCancelled()) {
             main.debug("AngelChestCreateEvent has been cancelled!");
             return;
         }

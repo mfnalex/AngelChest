@@ -217,16 +217,61 @@ public final class AngelChest {
         }
     }
 
-    /*
-    /**
-     * Creates a new AngelChest
-     * @param player Player that this AngelChest belongs to
-     * @param block Block where the AngelChest should be created
-     * @param logfile Name of the logfile for this AngelChest
-     
-    public AngelChest(Player player, Block block, String logfile, DeathCause deathCause) {
-    	this(player, player.getUniqueId(), block, player.getInventory(),logfile,deathCause);
-    }*/
+    public ItemStack[] getArmorInv() {
+        return armorInv;
+    }
+
+    public void setArmorInv(ItemStack[] armorInv) {
+        this.armorInv = armorInv;
+    }
+
+    public ItemStack[] getStorageInv() {
+        return storageInv;
+    }
+
+    public void setStorageInv(ItemStack[] storageInv) {
+        this.storageInv = storageInv;
+    }
+
+    public ItemStack[] getExtraInv() {
+        return extraInv;
+    }
+
+    public void setExtraInv(ItemStack[] extraInv) {
+        this.extraInv = extraInv;
+    }
+
+    public boolean isProtected() {
+        return isProtected;
+    }
+
+    public void setProtected(boolean aProtected) {
+        isProtected = aProtected;
+    }
+
+    public int getSecondsLeft() {
+        return secondsLeft;
+    }
+
+    public void setSecondsLeft(int secondsLeft) {
+        this.secondsLeft = secondsLeft;
+    }
+
+    public int getUnlockIn() {
+        return unlockIn;
+    }
+
+    public void setUnlockIn(int unlockIn) {
+        this.unlockIn = unlockIn;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
 
     /**
      * Creates a new AngelChest
