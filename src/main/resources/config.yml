@@ -202,6 +202,7 @@ dont-spawn-on:
 only-spawn-in:
 - AIR
 - WATER
+- SNOW
 
 # When the block where the player died doesn't match "dont-spawn-on" and "only-spawn-in"
 # we will search for another block inside max-radius. Default is 10 blocks.

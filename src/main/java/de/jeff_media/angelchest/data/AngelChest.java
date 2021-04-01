@@ -11,9 +11,7 @@ import de.jeff_media.angelchest.utils.InventoryUtils;
 import de.jeff_media.angelchest.utils.Utils;
 import de.jeff_media.daddy.Daddy;
 import io.papermc.lib.PaperLib;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -31,7 +29,7 @@ import java.util.*;
 /**
  * Represents an AngelChest including its content and all other relevant information
  */
-public final class AngelChest {
+public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
     public ItemStack[] armorInv;
     public ItemStack[] storageInv;
@@ -217,66 +215,114 @@ public final class AngelChest {
         }
     }
 
-    //@Override
+    @Override
     public ItemStack[] getArmorInv() {
         return armorInv;
     }
 
-    //@Override
+    @Override
     public void setArmorInv(ItemStack[] armorInv) {
+        if(armorInv.length!=4) {
+            throw new IllegalArgumentException("Armor inventory must be an array of exactly 4 ItemStacks.");
+        }
         this.armorInv = armorInv;
     }
 
-    //@Override
+    @Override
     public ItemStack[] getStorageInv() {
         return storageInv;
     }
 
-    //@Override
+    @Override
     public void setStorageInv(ItemStack[] storageInv) {
+        if(storageInv.length!=36) {
+            throw new IllegalArgumentException("Storage inventory must be an array of exactly 36 ItemStacks.");
+        }
         this.storageInv = storageInv;
     }
 
-    //@Override
-    public ItemStack[] getExtraInv() {
-        return extraInv;
+    @Override
+    public ItemStack getOffhandItem() {
+        return extraInv[0];
     }
 
-    //@Override
-    public void setExtraInv(ItemStack[] extraInv) {
-        this.extraInv = extraInv;
+    @Override
+    public void setOffhandItem(ItemStack extraInv) {
+        this.extraInv[0] = extraInv;
     }
 
+    @Override
     public boolean isProtected() {
         return isProtected;
     }
 
+    @Override
     public void setProtected(boolean aProtected) {
         isProtected = aProtected;
     }
 
+    @Override
     public int getSecondsLeft() {
         return secondsLeft;
     }
 
+    @Override
     public void setSecondsLeft(int secondsLeft) {
         this.secondsLeft = secondsLeft;
     }
 
+    @Override
     public int getUnlockIn() {
         return unlockIn;
     }
 
+    @Override
     public void setUnlockIn(int unlockIn) {
         this.unlockIn = unlockIn;
     }
 
+    @Override
     public int getExperience() {
         return experience;
     }
 
+    @Override
     public void setExperience(int experience) {
         this.experience = experience;
+    }
+
+    @Override
+    public OfflinePlayer getPlayer() {
+        return Bukkit.getOfflinePlayer(owner);
+    }
+
+    @Override
+    public Block getBlock() {
+        return block;
+    }
+
+    @Override
+    public boolean isInfinite() {
+        return infinite;
+    }
+
+    @Override
+    public void setInfinite(boolean isInfinite) {
+        this.infinite = isInfinite;
+    }
+
+    @Override
+    public World getWorld() {
+        return Bukkit.getWorld(worldid);
+    }
+
+    @Override
+    public List<OfflinePlayer> getOpenedBy() {
+        List<OfflinePlayer> players = new ArrayList<>();
+        for(String uuid : openedBy) {
+            players.add(Bukkit.getOfflinePlayer(UUID.fromString(uuid)));
+        }
+        return players;
     }
 
     /**
@@ -369,6 +415,7 @@ public final class AngelChest {
      * Checks whether this AngelChest has been completely looted
      * @return true when AngelChest is empty, otherwise false
      */
+    @Override
     public boolean isEmpty() {
         for(ItemStack item : storageInv) {
             if(!Utils.isEmpty(item)) return false;

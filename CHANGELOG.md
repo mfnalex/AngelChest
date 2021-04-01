@@ -1,5 +1,7 @@
-## 3.5.6
+## 3.6.0
+- Improved API, many new features for third party plugins!
 - Added Hungarian translation (thanks to @Victor75007)
+- Improved automatic config updater
 
 ## 3.5.4
 - Fixed exception when using "/acd dump"
