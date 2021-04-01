@@ -1,3 +1,6 @@
+## 3.5.2
+- Fixed plugin not enabling AGAIN because of changed package name (sorry I was testing on Windows which doesn't differentiate between UPPER and lower case directory names)
+
 ## 3.5.1
 - Fixed plugin not enabling because of changed package name (I was too stupid to update the plugin.yml file)
 
