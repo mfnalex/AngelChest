@@ -6,6 +6,7 @@ import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.DeathCause;
 import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.angelchest.events.AngelChestSpawnEvent;
 import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
@@ -185,13 +186,6 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        if (!CommandUtils.hasEnoughMoney(event.getEntity(), main.getConfig().getDouble(Config.PRICE), main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, "AngelChest spawned")) {
-            return;
-        }
-
-        // Enable keep inventory to prevent drops (this is not preventing the drops at the moment due to spigot)
-        event.setKeepInventory(true);
-
         // Player died below world
         Block fixedPlayerPosition;
         if (p.getLocation().getBlockY() < 1) {
@@ -239,6 +233,14 @@ public final class PlayerListener implements Listener {
             main.debug("AngelChestCreateEvent has been cancelled!");
             return;
         }
+        angelChestBlock = angelChestSpawnPrepareEvent.getBlock();
+
+        if (!CommandUtils.hasEnoughMoney(event.getEntity(), main.getConfig().getDouble(Config.PRICE), main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, "AngelChest spawned")) {
+            return;
+        }
+
+        // Enable keep inventory to prevent drops (this is not preventing the drops at the moment due to spigot)
+        event.setKeepInventory(true);
 
         // DETECT ALL DROPS, EVEN FRESHLY ADDED
         ArrayList<ItemStack> freshDrops = new ArrayList<>();
@@ -358,6 +360,9 @@ public final class PlayerListener implements Listener {
         }
 
         //Utils.reloadAngelChest(ac,plugin);
+
+        AngelChestSpawnEvent angelChestSpawnEvent = new AngelChestSpawnEvent((de.jeff_media.angelchest.AngelChest) ac);
+        Bukkit.getPluginManager().callEvent(angelChestSpawnEvent);
     }
 
     /**

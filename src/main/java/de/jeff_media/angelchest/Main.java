@@ -25,10 +25,7 @@ import io.papermc.lib.PaperLib;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.ArmorStand;
@@ -46,7 +43,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
+public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, AngelChestPlugin {
 
 	private static final String SPIGOT_RESOURCE_ID_PLUS = "88214";
 	private static final String SPIGOT_RESOURCE_ID_FREE = "60383";
@@ -455,7 +452,6 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 	}
 	
 	public @Nullable AngelChest getAngelChest(Block block) {
-		debug("Getting AngelChest for block "+block.getLocation().toString());
 		if(angelChests.containsKey(block)) {
 			return angelChests.get(block);
 		}
@@ -523,6 +519,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 		return version;
 	}
 
+	// SpigotJeffMediaPlugin interface
 	@Override
 	public String getUID() {
 		return UID;
@@ -537,4 +534,30 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin {
 	public String getRESOURCE() {
 		return RESOURCE;
 	}
+
+	// AngelChestPlugin interface
+	@Override
+	public Set<de.jeff_media.angelchest.AngelChest> getAllAngelChests() {
+		Set<de.jeff_media.angelchest.AngelChest> chests = new HashSet<>();
+		for(AngelChest chest : angelChests.values()) {
+			chests.add(chest);
+		}
+		return chests;
+	}
+
+	@Override
+	public LinkedHashSet<de.jeff_media.angelchest.AngelChest> getAllAngelChestsFromPlayer(OfflinePlayer player) {
+		LinkedHashSet<de.jeff_media.angelchest.AngelChest> set = new LinkedHashSet<>();
+		for(de.jeff_media.angelchest.AngelChest chest : Utils.getAllAngelChestsFromPlayer(player)) {
+			set.add(chest);
+		}
+		return set;
+	}
+
+	@Override
+	public de.jeff_media.angelchest.AngelChest getAngelChestAtBlock(Block block) {
+		return getAngelChest(block);
+	}
+
+
 }

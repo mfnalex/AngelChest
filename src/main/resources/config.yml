@@ -202,6 +202,7 @@ dont-spawn-on:
 only-spawn-in:
 - AIR
 - WATER
+- SNOW
 
 # When the block where the player died doesn't match "dont-spawn-on" and "only-spawn-in"
 # we will search for another block inside max-radius. Default is 10 blocks.
@@ -831,6 +832,35 @@ message-no-permission: "&cYou do not have the permission to use this command."
 #message-angelchest-opened: "&6{player} hat deine AngelChest geöffnet."
 #message-angelchest-emptied: "&c{player} hat deine AngelChest geleert."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
+#message-no-permission: "&cYou do not have the permission to use this command."
+
+##### Hungarian
+#message-all-your-angelchests-were-already-unlocked: "&eAz összes AngyalLádád már fel van oldva."
+#message-angelchest-created: "&aEgy angyal összegyűjtötte a motyóid, és betette egy lezárt ládába a halálod helyszínén."
+#message-angelchest-disappeared: "&cTúl lassú voltál... Az AngyalLádád kiürült, földre dobta a motyóidat, majd eltűnt."
+#message-error-players-only: "&cHiba: Ezt a parancsot csak játékosként lehet futtatni."
+#message-inventory-was-empty: "&eEgy Angyal kereste a cuccaidat, de nem talált semmit."
+#message-not-allowed-to-break-other-angelchests: "&cNem törheted össze más játékos AngyalLádáját."
+#message-not-allowed-to-open-other-angelchests: "&cNem nyithatod ki más játékos AngyalLádáját."
+#message-unlocked-more-angelchests: "&aFeloldottál %d AngyalLádát."
+#message-unlocked-one-angelchest: "&aFeloldottad az AngyalLádád."
+#message-you-dont-have-any-angelchests: "&eNincs AngyalLádád."
+#message-you-got-part-of-your-inventory-back: "&eMegkaptad az eszköztárad egy részét, de néhány tétel még az AngyalLádában maradt."
+#message-you-got-your-inventory-back: "&aVisszakaptad az eszköztáradat!"
+#message-angelchest-location: "&eAngyalLádád helyszíne:"
+#message-not-enough-money: "&cNincs elég pénzed."
+#message-not-enough-money2: "&cEgy Angyal megpróbálta összegyűjteni a cuccaidat, de nincs pénzed, így nem lett elládázva."
+#message-please-select-chest: "&7Kérlek, add meg, melyik AngyalLádát szeretnéd kiválasztani."
+#message-already-unlocked: "&cEz az AngyalLáda már fel van oldva."
+#message-too-many-angelchests: "&cTúl sok AngyalLádád volt, s ezt már az Angyalod nem tudta kezelni, ezért a legrégebbi ládád felrobbant."
+#message-no-angelchest-in-pvp: "&cEgy Angyal megpróbálta összegyűjteni a motyóidat, de a gyilkos megjelenése miatt elrepült."
+#message-angelchest-retrieved: "&aAngyalLáda visszaszerezve!"
+#message-confirm: "&6{price}{currency} értéket készülsz elkölteni. Kattints erre az üzenetre, hogy folytasd."
+#message-paid-open: "&8Elköltöttél {price}{currency} összeget, hogy kinyisd az AngyalLádát."
+#message-unlocked-automatically: "&8Az AngyalLádád automatikusan fel lett oldva."
+#message-angelchest-opened: "&6{player} kinyitotta az AngyalLádád."
+#message-angelchest-emptied: "&c{player} kiürítette az AngyalLádád."
+#message-spawn-chance-unsuccessful: "&cAz Angyalod elfelejtette összegyűjteni a motyóidat. Balszerencse!"
 #message-no-permission: "&cYou do not have the permission to use this command."
 
 ##### Italian
