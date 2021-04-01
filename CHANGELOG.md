@@ -1,5 +1,6 @@
 ## 3.5.4
 - Fixed exception when using "/acd dump"
+- Fixed "class loading" exception
 
 ## 3.5.2
 - Fixed plugin not enabling AGAIN because of changed package name (sorry I was testing on Windows which doesn't differentiate between UPPER and lower case directory names)
