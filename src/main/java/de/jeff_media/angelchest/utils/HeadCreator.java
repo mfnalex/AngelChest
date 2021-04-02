@@ -28,18 +28,18 @@ public final class HeadCreator {
         return getHead(defaultBase64);
     }
 
-    public static ItemStack getHead(String base64) {
+    public static ItemStack getHead(final String base64) {
 
-        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta meta = (SkullMeta) head.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), "");
+        final ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        final SkullMeta meta = (SkullMeta) head.getItemMeta();
+        final GameProfile profile = new GameProfile(UUID.randomUUID(), "");
         profile.getProperties().put("textures", new Property("textures", base64));
-        Field profileField;
+        final Field profileField;
         try {
             profileField = meta.getClass().getDeclaredField("profile");
             profileField.setAccessible(true);
             profileField.set(meta, profile);
-        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+        } catch (final IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
             e.printStackTrace();
             return new ItemStack(Material.PLAYER_HEAD);
         }
@@ -48,52 +48,52 @@ public final class HeadCreator {
         return head;
     }
 
-    public static ItemStack getPlayerHead(UUID uuid) {
-        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta skullMeta = (SkullMeta) (head.hasItemMeta() ? head.getItemMeta() : Bukkit.getItemFactory().getItemMeta(Material.PLAYER_HEAD));
+    public static ItemStack getPlayerHead(final UUID uuid) {
+        final ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        final SkullMeta skullMeta = (SkullMeta) (head.hasItemMeta() ? head.getItemMeta() : Bukkit.getItemFactory().getItemMeta(Material.PLAYER_HEAD));
         skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
         head.setItemMeta(skullMeta);
         return head;
     }
 
-    public static void createHeadInWorld(Block block, UUID uuid) {
-        Main main = Main.getInstance();
-        Skull state = (Skull) block.getState();
+    public static void createHeadInWorld(final Block block, final UUID uuid) {
+        final Main main = Main.getInstance();
+        final Skull state = (Skull) block.getState();
 
         // Use the player skin's texture
-        if(main.getConfig().getBoolean(Config.HEAD_USES_PLAYER_NAME)) {
+        if (main.getConfig().getBoolean(Config.HEAD_USES_PLAYER_NAME)) {
             main.debug("Player head = username");
-            OfflinePlayer player = main.getServer().getOfflinePlayer(uuid);
+            final OfflinePlayer player = main.getServer().getOfflinePlayer(uuid);
             state.setOwningPlayer(player);
             state.update();
         }
         // Use a predefined texture
         else {
             main.debug("Player head = base64");
-            String base64 = main.getConfig().getString(Config.CUSTOM_HEAD_BASE64);
-            GameProfile profile = new GameProfile(UUID.randomUUID(), "");
+            final String base64 = main.getConfig().getString(Config.CUSTOM_HEAD_BASE64);
+            final GameProfile profile = new GameProfile(UUID.randomUUID(), "");
             profile.getProperties().put("textures", new Property("textures", base64));
 
             try {
                 // Some reflection because Spigot cannot place ItemStacks in the world, which ne need to keep the SkullMeta
                 // Caching those methods is not important because it only happens once on death
 
-                Object nmsWorld = block.getWorld().getClass().getMethod("getHandle").invoke(block.getWorld());
+                final Object nmsWorld = block.getWorld().getClass().getMethod("getHandle").invoke(block.getWorld());
 
-                String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-                Class<?> blockPositionClass = Class.forName("net.minecraft.server." + version + ".BlockPosition");
-                Class<?> tileEntityClass = Class.forName("net.minecraft.server." + version + ".TileEntitySkull");
+                final String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+                final Class<?> blockPositionClass = Class.forName("net.minecraft.server." + version + ".BlockPosition");
+                final Class<?> tileEntityClass = Class.forName("net.minecraft.server." + version + ".TileEntitySkull");
 
 
-                Constructor<?> cons = blockPositionClass.getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE);
-                Object blockPosition = cons.newInstance(block.getX(), block.getY(), block.getZ());
+                final Constructor<?> cons = blockPositionClass.getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE);
+                final Object blockPosition = cons.newInstance(block.getX(), block.getY(), block.getZ());
 
-                Method getTileEntity = nmsWorld.getClass().getMethod("getTileEntity", blockPositionClass);
-                Object tileEntity = tileEntityClass.cast(getTileEntity.invoke(nmsWorld, blockPosition));
+                final Method getTileEntity = nmsWorld.getClass().getMethod("getTileEntity", blockPositionClass);
+                final Object tileEntity = tileEntityClass.cast(getTileEntity.invoke(nmsWorld, blockPosition));
 
                 tileEntityClass.getMethod("setGameProfile", GameProfile.class).invoke(tileEntity, profile);
 
-            } catch (IllegalArgumentException | IllegalAccessException | SecurityException | NoSuchMethodException | InvocationTargetException | ClassNotFoundException | InstantiationException e) {
+            } catch (final IllegalArgumentException | IllegalAccessException | SecurityException | NoSuchMethodException | InvocationTargetException | ClassNotFoundException | InstantiationException e) {
                 main.getLogger().warning("Could not set custom base64 player head.");
             }
 

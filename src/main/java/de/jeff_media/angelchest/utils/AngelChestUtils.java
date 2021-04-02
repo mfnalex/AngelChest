@@ -16,7 +16,7 @@ import java.io.File;
 import java.util.*;
 
 public class AngelChestUtils {
-    public static boolean isSafeSpot(Location location) {
+    public static boolean isSafeSpot(final Location location) {
 
         if (location.getWorld().getEnvironment() == World.Environment.NETHER) {
             if (location.getBlockY() >= 128) return false;
@@ -35,12 +35,12 @@ public class AngelChestUtils {
         return false;
     }
 
-    public static List<Block> getPossibleTPLocations(Location location, int radius) {
-        List<Block> blocks = new ArrayList<>();
+    public static List<Block> getPossibleTPLocations(final Location location, final int radius) {
+        final List<Block> blocks = new ArrayList<>();
         for (int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
             for (int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
                 for (int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
-                    Block block = location.getWorld().getBlockAt(x, y, z);
+                    final Block block = location.getWorld().getBlockAt(x, y, z);
                     if (isSafeSpot(location))
                         blocks.add(block);
                 }
@@ -50,8 +50,8 @@ public class AngelChestUtils {
     }
 
     @SuppressWarnings("SameParameterValue")
-    static boolean isAboveLava(Location loc, int height) {
-        Block block = loc.getBlock();
+    static boolean isAboveLava(final Location loc, final int height) {
+        final Block block = loc.getBlock();
         for (int i = 0; i < height; i++) {
             if (block.getRelative(0, -i, 0).getType() == Material.LAVA) return true;
 
@@ -61,22 +61,22 @@ public class AngelChestUtils {
         return false;
     }
 
-    public static Block getChestLocation(Block playerLoc) {
+    public static Block getChestLocation(final Block playerLoc) {
         Block fixedAngelChestBlock = playerLoc;
 
         //if (!playerLoc.getType().equals(Material.AIR)) {
-            List<Block> blocksNearby = getPossibleChestLocations(playerLoc.getLocation());
+        final List<Block> blocksNearby = getPossibleChestLocations(playerLoc.getLocation());
 
-            if (blocksNearby.size() > 0) {
-                sortBlocksByDistance(playerLoc, blocksNearby);
-                fixedAngelChestBlock = blocksNearby.get(0);
-            }
+        if (!blocksNearby.isEmpty()) {
+            sortBlocksByDistance(playerLoc, blocksNearby);
+            fixedAngelChestBlock = blocksNearby.get(0);
+        }
         //}
 
-        if(Main.getInstance().getConfig().getBoolean(Config.NEVER_REPLACE_BEDROCK) && fixedAngelChestBlock.getType()==Material.BEDROCK) {
-            List<Block> nonBedrockBlocksNearby = getNonBedrockBlocks(playerLoc.getLocation());
-            if(nonBedrockBlocksNearby.size() > 0) {
-                sortBlocksByDistance(playerLoc,nonBedrockBlocksNearby);
+        if (Main.getInstance().getConfig().getBoolean(Config.NEVER_REPLACE_BEDROCK) && fixedAngelChestBlock.getType() == Material.BEDROCK) {
+            final List<Block> nonBedrockBlocksNearby = getNonBedrockBlocks(playerLoc.getLocation());
+            if (!nonBedrockBlocksNearby.isEmpty()) {
+                sortBlocksByDistance(playerLoc, nonBedrockBlocksNearby);
                 fixedAngelChestBlock = blocksNearby.get(0);
             }
         }
@@ -84,16 +84,16 @@ public class AngelChestUtils {
         return fixedAngelChestBlock;
     }
 
-    public static boolean tryToMergeInventories(Main main, AngelChest source, PlayerInventory dest) {
-        File file = Main.getInstance().logger.getLogFile(source.logfile);
-        Player player = (Player) dest.getHolder();
+    public static boolean tryToMergeInventories(final Main main, final AngelChest source, final PlayerInventory dest) {
+        final File file = Main.getInstance().logger.getLogFile(source.logfile);
+        final Player player = (Player) dest.getHolder();
         if (!Utils.isEmpty(source.overflowInv))
             return false; // Already applied inventory
 
-        ArrayList<ItemStack> overflow = new ArrayList<>();
-        ItemStack[] armor_merged = dest.getArmorContents();
-        ItemStack[] storage_merged = dest.getStorageContents();
-        ItemStack[] extra_merged = dest.getExtraContents();
+        final ArrayList<ItemStack> overflow = new ArrayList<>();
+        final ItemStack[] armor_merged = dest.getArmorContents();
+        final ItemStack[] storage_merged = dest.getStorageContents();
+        final ItemStack[] extra_merged = dest.getExtraContents();
 
         // Try to auto-equip armor
         for (int i = 0; i < armor_merged.length; i++) {
@@ -134,11 +134,11 @@ public class AngelChestUtils {
         dest.setExtraContents(extra_merged);
 
         // Try to place overflow items into empty storage slots
-        HashMap<Integer, ItemStack> unstorable = dest
+        final HashMap<Integer, ItemStack> unstorable = dest
                 .addItem(overflow.toArray(new ItemStack[0]));
         source.overflowInv.clear();
 
-        if (unstorable.size() == 0) {
+        if (unstorable.isEmpty()) {
             main.logger.logLastItemTaken(player, file);
             return true;
         }
@@ -147,8 +147,8 @@ public class AngelChestUtils {
                 .toArray(new ItemStack[0]));*/
         source.storageInv = new ItemStack[source.storageInv.length];
         int i = 0;
-        for(ItemStack item : unstorable.values()) {
-            if(item==null) continue;
+        for (final ItemStack item : unstorable.values()) {
+            if (item == null) continue;
             source.storageInv[i] = item;
             i++;
         }
@@ -156,13 +156,13 @@ public class AngelChestUtils {
         return false;
     }
 
-    public static ArrayList<AngelChest> getAllAngelChestsFromPlayer(UUID uuid ) {
+    public static ArrayList<AngelChest> getAllAngelChestsFromPlayer(final UUID uuid) {
         return getAllAngelChestsFromPlayer(Bukkit.getOfflinePlayer(uuid));
     }
 
-    public static ArrayList<AngelChest> getAllAngelChestsFromPlayer(OfflinePlayer p) {
-        ArrayList<AngelChest> angelChests = new ArrayList<>();
-        for (AngelChest angelChest : Main.getInstance().angelChests.values()) {
+    public static ArrayList<AngelChest> getAllAngelChestsFromPlayer(final OfflinePlayer p) {
+        final ArrayList<AngelChest> angelChests = new ArrayList<>();
+        for (final AngelChest angelChest : Main.getInstance().angelChests.values()) {
             if (!angelChest.owner.equals(p.getUniqueId()))
                 continue;
             angelChests.add(angelChest);
@@ -171,34 +171,34 @@ public class AngelChestUtils {
         return angelChests;
     }
 
-    public static void sortBlocksByDistance(Block angelChestBlock, List<Block> blocksNearby) {
+    public static void sortBlocksByDistance(final Block angelChestBlock, final List<Block> blocksNearby) {
         blocksNearby.sort((b1, b2) -> {
-            double dist1 = b1.getLocation().distance(angelChestBlock.getLocation());
-            double dist2 = b2.getLocation().distance(angelChestBlock.getLocation());
+            final double dist1 = b1.getLocation().distance(angelChestBlock.getLocation());
+            final double dist2 = b2.getLocation().distance(angelChestBlock.getLocation());
             return Double.compare(dist1, dist2);
         });
     }
 
-    private static boolean isAir(Material mat) {
-        return mat==Material.AIR || mat == Material.CAVE_AIR || mat.isAir();
+    private static boolean isAir(final Material mat) {
+        return mat == Material.AIR || mat == Material.CAVE_AIR || mat.isAir();
     }
 
-    public static List<Block> getPossibleChestLocations(Location location) {
-        Main main = Main.getInstance();
-        int radius = main.getConfig().getInt(Config.MAX_RADIUS);
-        List<Block> blocks = new ArrayList<>();
+    public static List<Block> getPossibleChestLocations(final Location location) {
+        final Main main = Main.getInstance();
+        final int radius = main.getConfig().getInt(Config.MAX_RADIUS);
+        final List<Block> blocks = new ArrayList<>();
         for (int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
             for (int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
                 for (int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
 
-                    Block block = location.getWorld().getBlockAt(x, y, z);
-                    Block oneBelow = location.getWorld().getBlockAt(x, y - 1, z);
+                    final Block block = location.getWorld().getBlockAt(x, y, z);
+                    final Block oneBelow = location.getWorld().getBlockAt(x, y - 1, z);
 
                     if (
-                            (isAir(block.getType()) || main.onlySpawnIn.contains(block.getType()) )
-                            && !main.dontSpawnOn.contains(oneBelow.getType())
-                            && y > 0
-                            && y < location.getWorld().getMaxHeight()) {
+                            (isAir(block.getType()) || main.onlySpawnIn.contains(block.getType()))
+                                    && !main.dontSpawnOn.contains(oneBelow.getType())
+                                    && y > 0
+                                    && y < location.getWorld().getMaxHeight()) {
                         //main.verbose("Possible chest loc: "+block.toString());
                         blocks.add(block);
                     }
@@ -208,15 +208,15 @@ public class AngelChestUtils {
         return blocks;
     }
 
-    public static List<Block> getNonBedrockBlocks(Location location) {
-        Main main = Main.getInstance();
-        int radius = main.getConfig().getInt(Config.MAX_RADIUS);
-        List<Block> blocks = new ArrayList<>();
+    public static List<Block> getNonBedrockBlocks(final Location location) {
+        final Main main = Main.getInstance();
+        final int radius = main.getConfig().getInt(Config.MAX_RADIUS);
+        final List<Block> blocks = new ArrayList<>();
         for (int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
             for (int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
                 for (int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
 
-                    Block block = location.getWorld().getBlockAt(x, y, z);
+                    final Block block = location.getWorld().getBlockAt(x, y, z);
 
                     if (block.getType() != Material.BEDROCK
                             && y > 0
@@ -229,7 +229,7 @@ public class AngelChestUtils {
         return blocks;
     }
 
-    public static @NotNull String getCardinalDirection(Player player) {
+    public static @NotNull String getCardinalDirection(final Player player) {
         double rotation = player.getLocation().getYaw() % 360;
         if (rotation < 0) {
             rotation += 360.0;
@@ -265,30 +265,29 @@ public class AngelChestUtils {
 
     }
 
-    public static boolean isEmpty(ItemStack[] items) {
+    public static boolean isEmpty(final ItemStack[] items) {
         if (items == null) return true;
         return (items.length == 0);
     }
 
-    public static boolean spawnChance(double chance)
-    {
-        Main main = Main.getInstance();
+    public static boolean spawnChance(final double chance) {
+        final Main main = Main.getInstance();
 
-        if(!Daddy.allows(Features.SPAWN_CHANCE)) {
+        if (!Daddy.allows(Features.SPAWN_CHANCE)) {
             return true;
         }
 
-        main.debug("spawn chance = "+chance);
+        main.debug("spawn chance = " + chance);
         if (chance >= 1.0) {
             main.debug("chance >= 1.0, return true");
             return true;
         }
-        int chancePercent = (int) (chance*100);
-        int random = new Random().nextInt(100); //Returns value between 0 and 99
-        main.debug("chancePercent = "+chancePercent);
+        final int chancePercent = (int) (chance * 100);
+        final int random = new Random().nextInt(100); //Returns value between 0 and 99
+        main.debug("chancePercent = " + chancePercent);
         main.debug("random = " + random);
         main.debug("(random must be smaller or equal to chancePercent to succeed)");
-        main.debug("return "+ (random <= chancePercent));
+        main.debug("return " + (random <= chancePercent));
         return random <= chancePercent;
     }
 }

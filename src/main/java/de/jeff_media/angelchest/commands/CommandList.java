@@ -12,33 +12,33 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 public final class CommandList implements CommandExecutor {
-	
-	final Main main;
-	
-	public CommandList() {
-		this.main = Main.getInstance();
-	}
 
-	@Override
-	public boolean onCommand(@NotNull CommandSender requester, Command command, @NotNull String alias, String[] args) {
+    final Main main;
 
-		if(!command.getName().equalsIgnoreCase("aclist")) return false;
-		
-		if(!requester.hasPermission(Permissions.USE)) {
-			requester.sendMessage(main.messages.MSG_NO_PERMISSION);
-			return true;
-		}
+    public CommandList() {
+        this.main = Main.getInstance();
+    }
 
-		CommandArgument commandArgument = CommandArgument.parse(CommandAction.LIST_CHESTS,requester,args);
-		if(commandArgument == null) return true;
-		
-		// Only send this message if the player has chests
-		if(!AngelChestUtils.getAllAngelChestsFromPlayer(commandArgument.getAffectedPlayer()).isEmpty()) {
-			requester.sendMessage(main.messages.MSG_ANGELCHEST_LOCATION);
-		}
+    @Override
+    public boolean onCommand(@NotNull final CommandSender requester, final Command command, @NotNull final String alias, final String[] args) {
 
-		CommandUtils.sendListOfAngelChests(main, requester, commandArgument.getAffectedPlayer());
+        if (!command.getName().equalsIgnoreCase("aclist")) return false;
 
-		return true;
-	}
+        if (!requester.hasPermission(Permissions.USE)) {
+            requester.sendMessage(main.messages.MSG_NO_PERMISSION);
+            return true;
+        }
+
+        final CommandArgument commandArgument = CommandArgument.parse(CommandAction.LIST_CHESTS, requester, args);
+        if (commandArgument == null) return true;
+
+        // Only send this message if the player has chests
+        if (!AngelChestUtils.getAllAngelChestsFromPlayer(commandArgument.getAffectedPlayer()).isEmpty()) {
+            requester.sendMessage(main.messages.MSG_ANGELCHEST_LOCATION);
+        }
+
+        CommandUtils.sendListOfAngelChests(main, requester, commandArgument.getAffectedPlayer());
+
+        return true;
+    }
 }

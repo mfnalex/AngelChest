@@ -10,9 +10,9 @@ import org.bukkit.command.CommandSender;
 
 public final class LinkUtils {
 
-    protected static TextComponent getLinks(CommandSender sendTo, @SuppressWarnings("unused") OfflinePlayer affectedPlayer, String preText, String commandTp, String commandUnlock, String commandFetch) {
+    protected static TextComponent getLinks(final CommandSender sendTo, @SuppressWarnings("unused") final OfflinePlayer affectedPlayer, String preText, final String commandTp, final String commandUnlock, final String commandFetch) {
 
-        Main main = Main.getInstance();
+        final Main main = Main.getInstance();
 
         String placeholder = " ";
         if ((sendTo.hasPermission(Permissions.TP) && commandTp != null)
@@ -21,20 +21,20 @@ public final class LinkUtils {
             if (main.getConfig().getBoolean(Config.SHOW_LINKS_ON_SEPARATE_LINE)) preText = preText + "\n";
         }
 
-        TextComponent text = new TextComponent(preText);
+        final TextComponent text = new TextComponent(preText);
 
         if (commandTp != null) {
-            TextComponent link = createCommandLink(main.messages.LINK_TP, commandTp);
+            final TextComponent link = createCommandLink(main.messages.LINK_TP, commandTp);
             text.addExtra(link);
             placeholder = " ";
         }
         if (commandFetch != null) {
-            TextComponent link = createCommandLink(main.messages.LINK_FETCH, commandFetch);
+            final TextComponent link = createCommandLink(main.messages.LINK_FETCH, commandFetch);
             text.addExtra(placeholder);
             text.addExtra(link);
         }
         if (commandUnlock != null) {
-            TextComponent link = createCommandLink(main.messages.LINK_UNLOCK, commandUnlock);
+            final TextComponent link = createCommandLink(main.messages.LINK_UNLOCK, commandUnlock);
             text.addExtra(placeholder);
             text.addExtra(link);
         }
@@ -50,13 +50,13 @@ public final class LinkUtils {
 //    }
 // --Commented out by Inspection STOP (31.03.2021 23:27)
 
-    private static TextComponent createCommandLink(String text, String command) {
+    private static TextComponent createCommandLink(final String text, final String command) {
         // Hover text
 		/*ComponentBuilder hoverCB = new ComponentBuilder(
                 text+" Link: ").bold(true)
                 .append(link).bold(false);*/
 
-        TextComponent tc = new TextComponent(text);
+        final TextComponent tc = new TextComponent(text);
         tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
         return tc;
     }

@@ -19,63 +19,70 @@ public final class DeathCause implements ConfigurationSerializable {
     private final EntityDamageEvent.DamageCause damageCause;
     private String killerName;
 
-    public DeathCause(EntityDamageEvent entityDamageEvent) {
-        Main main = Main.getInstance();
+    public DeathCause(final EntityDamageEvent entityDamageEvent) {
+        final Main main = Main.getInstance();
 
         // Some plugins do strange stuff and kill players without EntityDamageEvent
-        if(entityDamageEvent==null) {
+        if (entityDamageEvent == null) {
             damageCause = EntityDamageEvent.DamageCause.CUSTOM;
             this.killerName = null;
             return;
         }
 
         this.damageCause = entityDamageEvent.getCause();
-        this.killerName =null;
-        Entity victim = entityDamageEvent.getEntity();
+        this.killerName = null;
+        final Entity victim = entityDamageEvent.getEntity();
         Entity killer = main.killers.get(victim.getUniqueId());
 
-        if(killer != null) {
+        if (killer != null) {
             //noinspection SwitchStatementWithTooFewBranches
-            switch(killer.getType()) {
+            switch (killer.getType()) {
                 case PRIMED_TNT:
                     killerName = "TNT";
                     return;
             }
         }
 
-        if(killer instanceof Projectile) {
-            Projectile projectile = (Projectile) killer;
-            if(projectile.getShooter() instanceof Entity) {
+        if (killer instanceof Projectile) {
+            final Projectile projectile = (Projectile) killer;
+            if (projectile.getShooter() instanceof Entity) {
                 killer = (Entity) projectile.getShooter();
-                if(killer.getUniqueId().equals(victim.getUniqueId())) {
+                if (killer.getUniqueId().equals(victim.getUniqueId())) {
                     this.killerName = victim.getName();
                     return;
                 }
-            } else if(projectile.getShooter() instanceof BlockProjectileSource) {
-                BlockProjectileSource blockProjectileSource = (BlockProjectileSource) projectile.getShooter();
+            } else if (projectile.getShooter() instanceof BlockProjectileSource) {
+                final BlockProjectileSource blockProjectileSource = (BlockProjectileSource) projectile.getShooter();
                 this.killerName = blockProjectileSource.getBlock().getType().toString();
                 return;
             }
         }
 
-        if(killer!=null && !killer.getUniqueId().equals(victim.getUniqueId())) {
+        if (killer != null && !killer.getUniqueId().equals(victim.getUniqueId())) {
             this.killerName = killer.getType().name();
-            if(killer.getCustomName()!=null && !killer.getCustomName().equals("")) {
+            if (killer.getCustomName() != null && !killer.getCustomName().equals("")) {
                 this.killerName = killer.getCustomName();
             }
-            if(killer.getType() == EntityType.PLAYER) {
+            if (killer.getType() == EntityType.PLAYER) {
                 this.killerName = killer.getName();
             }
         }
     }
 
-    public DeathCause(EntityDamageEvent.DamageCause damageCause, @Nullable String killerName) {
-        this.damageCause=damageCause;
+    public DeathCause(final EntityDamageEvent.DamageCause damageCause, @Nullable final String killerName) {
+        this.damageCause = damageCause;
         this.killerName = killerName;
     }
 
+    @SuppressWarnings("unused")
+    public static DeathCause deserialize(final Map<String, Object> map) {
+        final EntityDamageEvent.DamageCause damageCause = Enums.getIfPresent(EntityDamageEvent.DamageCause.class, (String) map.get("damageCause")).or(EntityDamageEvent.DamageCause.VOID);
+        final String killer = (String) map.get("killer");
+        return new DeathCause(damageCause, killer);
+    }
+
     public String getText() {
-        if(killerName !=null) {
+        if (killerName != null) {
             return killerName;
         }
         return damageCause.name();
@@ -83,16 +90,9 @@ public final class DeathCause implements ConfigurationSerializable {
 
     @Override
     public @NotNull Map<String, Object> serialize() {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("damageCause",damageCause.toString());
+        final HashMap<String, Object> map = new HashMap<>();
+        map.put("damageCause", damageCause.toString());
         map.put("killer", killerName);
         return map;
-    }
-
-    @SuppressWarnings("unused")
-    public static DeathCause deserialize(Map<String, Object> map) {
-        EntityDamageEvent.DamageCause damageCause = Enums.getIfPresent(EntityDamageEvent.DamageCause.class, (String) map.get("damageCause")).or(EntityDamageEvent.DamageCause.VOID);
-        String killer = (String) map.get("killer");
-        return new DeathCause(damageCause,killer);
     }
 }

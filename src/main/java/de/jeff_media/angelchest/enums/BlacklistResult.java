@@ -11,7 +11,7 @@ public enum BlacklistResult {
         return name;
     }
 
-    public void setName(@Nullable String name) {
-        this.name=name;
+    public void setName(@Nullable final String name) {
+        this.name = name;
     }
 }

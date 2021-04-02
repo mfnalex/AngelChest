@@ -19,24 +19,24 @@ public final class CommandGUI implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
+    public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String alias, final String[] args) {
 
-        if(!Daddy.allows(Features.GUI)) {
+        if (!Daddy.allows(Features.GUI)) {
             sender.sendMessage(main.messages.MSG_PREMIUMONLY);
             return true;
         }
 
-        if(!sender.hasPermission(Permissions.USE)) {
+        if (!sender.hasPermission(Permissions.USE)) {
             sender.sendMessage(main.messages.MSG_NO_PERMISSION);
             return true;
         }
 
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage(main.messages.MSG_PLAYERSONLY);
             return true;
         }
 
-        Player player = (Player) sender;
+        final Player player = (Player) sender;
 
         main.guiManager.showMainGUI(player);
 

@@ -18,24 +18,24 @@ public class UpdateCheckListener implements @NotNull Listener {
     }
 
     @EventHandler
-    public void onUpdateCheckFinishedEvent(UpdateCheckFinishedEvent event) {
-        if(event.getRequester()==null) return;
-        CommandSender sender = event.getRequester();
-        if(!event.getPlugin().equals(main)) return;
+    public void onUpdateCheckFinishedEvent(final UpdateCheckFinishedEvent event) {
+        if (event.getRequester() == null) return;
+        final CommandSender sender = event.getRequester();
+        if (!event.getPlugin().equals(main)) return;
         /*if(!event.isNewVersionAvailable()) {
             sender.sendMessage("§aYou are running the latest version of §6"+main.getDescription().getName());
             return;
         }*/
-        if(sender instanceof Player) {
-            Player player = (Player) sender;
+        if (sender instanceof Player) {
+            final Player player = (Player) sender;
             main.updateChecker.sendUpdateMessageToPlayer(player);
 
-            if(!event.isNewVersionAvailable()) {
-                player.sendMessage(ChatColor.GREEN + "You are running the latest version of " + ChatColor.GOLD + main.getDescription().getName() + ChatColor.GREEN+".");
+            if (!event.isNewVersionAvailable()) {
+                player.sendMessage(ChatColor.GREEN + "You are running the latest version of " + ChatColor.GOLD + main.getDescription().getName() + ChatColor.GREEN + ".");
             }
 
         }
-            //main.updateChecker.printCheckResultToConsole();
+        //main.updateChecker.printCheckResultToConsole();
 
     }
 }

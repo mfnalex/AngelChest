@@ -18,8 +18,8 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
 
     final Main main;
 
-    public PlaceholderAPIHook(Main main) {
-        this.main=main;
+    public PlaceholderAPIHook(final Main main) {
+        this.main = main;
     }
 
     @Override
@@ -38,7 +38,7 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
     }
 
     @Override
-    public boolean canRegister(){
+    public boolean canRegister() {
         return true;
     }
 
@@ -48,18 +48,15 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
      * <br>We specify the value identifier in this method.
      * <br>Since version 2.9.1 can you use OfflinePlayers in your requests.
      *
-     * @param  player
-     *         A {@link org.bukkit.OfflinePlayer OfflinePlayer}.
-     * @param  identifier
-     *         A String containing the identifier/value.
-     *
+     * @param player     A {@link org.bukkit.OfflinePlayer OfflinePlayer}.
+     * @param identifier A String containing the identifier/value.
      * @return Possibly-null String of the requested identifier.
      */
     @Override
-    public String onRequest(OfflinePlayer player, String identifier){
+    public String onRequest(final OfflinePlayer player, final String identifier) {
 
         //UUID uuid = player.getUniqueId();
-        ArrayList<AngelChest> allChests = AngelChestUtils.getAllAngelChestsFromPlayer(player);
+        final ArrayList<AngelChest> allChests = AngelChestUtils.getAllAngelChestsFromPlayer(player);
 
         switch (identifier) {
             case "price":
@@ -72,8 +69,8 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
                 return Integer.toString(allChests.size());
         }
 
-        String[] split = identifier.split("_");
-        if(split.length!=2) {
+        final String[] split = identifier.split("_");
+        if (split.length != 2) {
             return null;
         }
         Integer id;
@@ -82,10 +79,10 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
             if (id == null) {
                 return null;
             }
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             return null;
         }
-        if(id < 1) return null;
+        if (id < 1) return null;
         id--;
 
         //noinspection SwitchStatementWithTooFewBranches
@@ -97,10 +94,10 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
                 return "true";
         }
 
-        if(id >= allChests.size()) {
+        if (id >= allChests.size()) {
             return "";
         }
-        switch(split[0]) {
+        switch (split[0]) {
             case "time":
                 return CommandUtils.getTimeLeft(allChests.get(id));
             case "world":

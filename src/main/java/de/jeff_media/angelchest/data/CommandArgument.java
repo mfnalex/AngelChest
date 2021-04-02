@@ -11,17 +11,17 @@ import org.jetbrains.annotations.Nullable;
 
 public class CommandArgument {
 
-    private CommandSender sender;
-    private String chest;
-    private OfflinePlayer affectedPlayer;
+    private final CommandSender sender;
+    private final String chest;
+    private final OfflinePlayer affectedPlayer;
 
-    private CommandArgument(CommandSender sender, String chest, OfflinePlayer affectedPlayer) {
+    private CommandArgument(final CommandSender sender, final String chest, final OfflinePlayer affectedPlayer) {
         this.sender = sender;
         this.chest = chest;
         this.affectedPlayer = affectedPlayer;
     }
 
-    public static @Nullable CommandArgument parse(CommandAction action, CommandSender requester, String[] args) {
+    public static @Nullable CommandArgument parse(final CommandAction action, final CommandSender requester, final String[] args) {
         OfflinePlayer chestOwner = null;
         String chest = null;
 
@@ -32,6 +32,7 @@ public class CommandArgument {
                 if (args.length >= 2) {
                     if (args[0].equalsIgnoreCase(requester.getName()) || requester.hasPermission(Permissions.OTHERS)) {
                         chest = args[1];
+                        //noinspection deprecation
                         chestOwner = Bukkit.getOfflinePlayer(args[0]);
                         if (chestOwner == null) {
                             requester.sendMessage(String.format(Main.getInstance().messages.MSG_UNKNOWN_PLAYER, args[0]));
@@ -50,7 +51,8 @@ public class CommandArgument {
             case LIST_CHESTS:
             default:
                 if (args.length == 1) {
-                    if(requester.hasPermission(Permissions.OTHERS)) {
+                    if (requester.hasPermission(Permissions.OTHERS)) {
+                        //noinspection deprecation
                         chestOwner = Bukkit.getOfflinePlayer(args[0]);
                         if (chestOwner == null) {
                             requester.sendMessage(String.format(Main.getInstance().messages.MSG_UNKNOWN_PLAYER, args[0]));
@@ -72,6 +74,12 @@ public class CommandArgument {
                 return null;
             }
         }
+
+        final Main main = Main.getInstance();
+        main.debug("===== CommandArgument Parser =====");
+        main.debug("Requester  = "+requester.getName());
+        main.debug("ChestOwner = "+chestOwner.getName());
+        main.debug("Chest      = "+chest);
 
         return new CommandArgument(requester, chest, chestOwner);
     }

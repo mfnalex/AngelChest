@@ -11,12 +11,12 @@ public final class AngelChestHolder implements InventoryHolder {
 
     Inventory inv;
 
-    public void setInventory(Inventory inv) {
-        this.inv=inv;
-    }
-
     @Override
     public @NotNull Inventory getInventory() {
         return inv;
+    }
+
+    public void setInventory(final Inventory inv) {
+        this.inv = inv;
     }
 }

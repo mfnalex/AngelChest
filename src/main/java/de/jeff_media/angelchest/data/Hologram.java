@@ -36,32 +36,88 @@ public final class Hologram {
     private final Main main;
     boolean usePapi = false;
 
-    private String getProtectedText(AngelChest chest) {
-        if(!chest.isProtected) {
-            return ChatColor.translateAlternateColorCodes('&',main.getConfig().getString(Config.HOLOGRAM_UNPROTECTED_TEXT));
+    /**
+     * Creates a hologram with one or more lines
+     *
+     * @param block Block where the hologram should be spawned
+     * @param text  The hologram text, lines separated by "\n"
+     * @param chest AngelChest this hologram belongs to
+     */
+    public Hologram(final Block block, final String text, final AngelChest chest) {
+        this.main = Main.getInstance();
+        final int totalLineNumbers = text.split("\n").length;
+        lineOffset = main.getConfig().getDouble(Config.HOLOGRAM_OFFSET_PER_LINE);
+        final Location location = block.getLocation()
+                .add(new Vector(0.5, -1.3 + main.getConfig().getDouble(Config.HOLOGRAM_OFFSET), 0.5))
+                .add(new Vector(0, lineOffset * totalLineNumbers, 0));
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            usePapi = true;
         }
-        if(chest.unlockIn!=-1) {
-            return ChatColor.translateAlternateColorCodes('&',main.getConfig().getString(Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT).replaceAll("\\{time}",CommandUtils.getUnlockTimeLeft(chest)));
+
+        main.debug("Creating hologram with text " + text + " at " + location.toString());
+        this.text = text;
+
+        armorStandUUIDs = new ArrayList<>();
+        int lineNumber = 0;
+
+        final Scanner scanner = new Scanner(text);
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
+            if (Daddy.allows(Features.HOLOGRAM_SHOWS_PROTECTION_STATUS)) {
+                line = line.replaceAll("\\{protected}", getProtectedText(chest));
+            }
+            boolean customNameVisible = true;
+            if (line.equals("")) {
+                line = " ";
+                customNameVisible = false;
+            }
+
+            final ArmorStand as = (ArmorStand) location.getWorld().spawnEntity(location.clone().add(new Vector(0, -lineOffset * lineNumber, 0)), EntityType.ARMOR_STAND); // Spawn the ArmorStand
+            armorStandUUIDs.add(as.getUniqueId());
+
+            as.setGravity(false);
+            as.setCanPickupItems(false);
+            as.setCustomName(line);
+            as.setCustomNameVisible(customNameVisible);
+            as.setVisible(false);
+
+            NBTAPI.addNBT(as, NBTTags.IS_HOLOGRAM, NBTValues.TRUE);
+
+            lineNumber++;
         }
-        return ChatColor.translateAlternateColorCodes('&',main.getConfig().getString(Config.HOLOGRAM_PROTECTED_TEXT));
+        scanner.close();
+        main.watchdog.save();
+    }
+
+    private String getProtectedText(final AngelChest chest) {
+        if (!chest.isProtected) {
+            return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.HOLOGRAM_UNPROTECTED_TEXT));
+        }
+        if (chest.unlockIn != -1) {
+            return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT).replaceAll("\\{time}", CommandUtils.getUnlockTimeLeft(chest)));
+        }
+        return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.HOLOGRAM_PROTECTED_TEXT));
     }
 
     /**
      * Updates the hologram. Called once per second
+     *
      * @param chest AngelChest this hologram belongs to
      */
-    public void update(AngelChest chest) {
+    public void update(final AngelChest chest) {
 
-        Scanner scanner = new Scanner(text);
+        final Scanner scanner = new Scanner(text);
         int lineNumber = 0;
         while (scanner.hasNextLine()) {
 
-            ArmorStand armorStand = getArmorStandByLineNumber(lineNumber);
-			String line = scanner.nextLine();
+            final ArmorStand armorStand = getArmorStandByLineNumber(lineNumber);
+            String line = scanner.nextLine();
             if (armorStand != null) {
 
                 line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
-                if(Daddy.allows(Features.GENERIC)) { // Don't add Feature here, this method gets called every second
+                if (Daddy.allows(Features.GENERIC)) { // Don't add Feature here, this method gets called every second
                     line = line.replaceAll("\\{protected}", getProtectedText(chest));
                 }
                 if (line.equals("")) {
@@ -84,64 +140,10 @@ public final class Hologram {
     }
 
     /**
-     * Creates a hologram with one or more lines
-     * @param block Block where the hologram should be spawned
-     * @param text The hologram text, lines separated by "\n"
-     * @param chest AngelChest this hologram belongs to
-     */
-    public Hologram(Block block, String text, AngelChest chest) {
-        this.main=Main.getInstance();
-        int totalLineNumbers = text.split("\n").length;
-        lineOffset = main.getConfig().getDouble(Config.HOLOGRAM_OFFSET_PER_LINE);
-        Location location = block.getLocation()
-                .add(new Vector(0.5, -1.3 + main.getConfig().getDouble(Config.HOLOGRAM_OFFSET), 0.5))
-                .add(new Vector(0,lineOffset * totalLineNumbers,0));
-
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            usePapi = true;
-        }
-
-        main.debug("Creating hologram with text " + text + " at " + location.toString());
-        this.text = text;
-
-        armorStandUUIDs = new ArrayList<>();
-        int lineNumber = 0;
-
-        Scanner scanner = new Scanner(text);
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
-            if(Daddy.allows(Features.HOLOGRAM_SHOWS_PROTECTION_STATUS)) {
-                line = line.replaceAll("\\{protected}", getProtectedText(chest));
-            }
-            boolean customNameVisible = true;
-            if (line.equals("")) {
-                line = " ";
-                customNameVisible = false;
-            }
-
-            ArmorStand as = (ArmorStand) location.getWorld().spawnEntity(location.clone().add(new Vector(0, -lineOffset*lineNumber, 0)), EntityType.ARMOR_STAND); // Spawn the ArmorStand
-            armorStandUUIDs.add(as.getUniqueId());
-
-            as.setGravity(false);
-            as.setCanPickupItems(false);
-            as.setCustomName(line);
-            as.setCustomNameVisible(customNameVisible);
-            as.setVisible(false);
-
-            NBTAPI.addNBT(as, NBTTags.IS_HOLOGRAM, NBTValues.TRUE);
-
-            lineNumber++;
-        }
-        scanner.close();
-        main.watchdog.save();
-    }
-
-    /**
      * Destroys all armor stands belonging to this hologram
      */
     public void destroy() {
-        for (ArmorStand armorStand : getArmorStands()) {
+        for (final ArmorStand armorStand : getArmorStands()) {
             if (armorStand != null) armorStand.remove();
 
             armorStandUUIDs.remove(armorStand.getUniqueId());
@@ -151,22 +153,24 @@ public final class Hologram {
 
     /**
      * Returns the armor stand that belongs to a specific line number
+     *
      * @param line line number, starting with 0
      * @return armor stand belonging to line number, null if it doesnt exist
      */
-    public @Nullable ArmorStand getArmorStandByLineNumber(int line) {
+    public @Nullable ArmorStand getArmorStandByLineNumber(final int line) {
         if (armorStandUUIDs.size() <= line) return null;
         return (ArmorStand) Bukkit.getEntity(armorStandUUIDs.get(line));
     }
 
     /**
      * Returns a list of all ArmorStands
+     *
      * @return list of all ArmorStands
      */
     public @NotNull List<ArmorStand> getArmorStands() {
-        ArrayList<ArmorStand> armorStands = new ArrayList<>();
-        for (UUID uuid : armorStandUUIDs) {
-            Entity entity = Bukkit.getEntity(uuid);
+        final ArrayList<ArmorStand> armorStands = new ArrayList<>();
+        for (final UUID uuid : armorStandUUIDs) {
+            final Entity entity = Bukkit.getEntity(uuid);
             if (entity instanceof ArmorStand) {
                 armorStands.add((ArmorStand) entity);
             }

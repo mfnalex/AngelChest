@@ -26,28 +26,24 @@ public final class GUIHolder implements InventoryHolder {
     // for use when a player previes another player's chest
     private AngelChest specialAngelChest;
 
-    public GUIHolder(Player player, GUIContext context) {
+    public GUIHolder(final Player player, final GUIContext context) {
         this.context = context;
         this.chests = AngelChestUtils.getAllAngelChestsFromPlayer(player);
         this.numberOfAngelChests = chests.size();
         this.player = player;
     }
 
-    public GUIHolder(Player player, GUIContext context, int chestIdStartingAt1) {
-        this(player,context);
+    public GUIHolder(final Player player, final GUIContext context, final int chestIdStartingAt1) {
+        this(player, context);
         this.chestIdStartingAt1 = chestIdStartingAt1;
-    }
-
-    public void setAction(CommandAction action) {
-        this.action=action;
     }
 
     public CommandAction getAction() {
         return action;
     }
 
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
+    public void setAction(final CommandAction action) {
+        this.action = action;
     }
 
     public ArrayList<AngelChest> getAngelChests() {
@@ -57,6 +53,10 @@ public final class GUIHolder implements InventoryHolder {
     @Override
     public @NotNull Inventory getInventory() {
         return inventory;
+    }
+
+    public void setInventory(final Inventory inventory) {
+        this.inventory = inventory;
     }
 
     public int getNumberOfAngelChests() {
@@ -71,14 +71,18 @@ public final class GUIHolder implements InventoryHolder {
         return chestIdStartingAt1;
     }
 
-    public void setChestIdStartingAt1(int chestIdStartingAt1) {
+    public void setChestIdStartingAt1(final int chestIdStartingAt1) {
         this.chestIdStartingAt1 = chestIdStartingAt1;
     }
 
     public @Nullable AngelChest getAngelChest() {
-        if(specialAngelChest != null) return specialAngelChest;
-        if(chestIdStartingAt1 == 0) return null;
-        return getAngelChests().get(chestIdStartingAt1 -1);
+        if (specialAngelChest != null) return specialAngelChest;
+        if (chestIdStartingAt1 == 0) return null;
+        return getAngelChests().get(chestIdStartingAt1 - 1);
+    }
+
+    public void setAngelChest(final AngelChest angelChest) {
+        this.specialAngelChest = angelChest;
     }
 
     public @Nullable AngelChest getSpecialAngelChest() {
@@ -89,12 +93,8 @@ public final class GUIHolder implements InventoryHolder {
         return isReadOnlyPreview;
     }
 
-    public void setReadOnlyPreview(boolean readOnlyPreview) {
+    public void setReadOnlyPreview(final boolean readOnlyPreview) {
         isReadOnlyPreview = readOnlyPreview;
-    }
-
-    public void setAngelChest(AngelChest angelChest) {
-        this.specialAngelChest = angelChest;
     }
 
     @SuppressWarnings("unused")

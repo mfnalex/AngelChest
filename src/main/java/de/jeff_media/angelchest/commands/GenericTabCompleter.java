@@ -23,36 +23,37 @@ public class GenericTabCompleter implements TabCompleter {
         this.main = Main.getInstance();
     }
 
-    private int getChests(UUID uuid) {
+    private int getChests(final UUID uuid) {
         return main.getAllAngelChestsFromPlayer(Bukkit.getOfflinePlayer(uuid)).size();
     }
 
     @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        List<String> list = new ArrayList<>();
-        UUID uuid = commandSender instanceof Player ? ((Player)commandSender).getUniqueId() : Main.consoleSenderUUID;
-        if(args.length==1) {
-            for(int i = 1; i <= getChests(uuid); i++) {
-                if(String.valueOf(i).startsWith(args[0])) {
+    public @Nullable List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String s, @NotNull final String[] args) {
+        final List<String> list = new ArrayList<>();
+        UUID uuid = commandSender instanceof Player ? ((Player) commandSender).getUniqueId() : Main.consoleSenderUUID;
+        if (args.length == 1) {
+            for (int i = 1; i <= getChests(uuid); i++) {
+                if (String.valueOf(i).startsWith(args[0])) {
                     list.add(String.valueOf(i));
                 }
             }
-            if(commandSender.hasPermission(Permissions.OTHERS)) {
-                for(Player player : Bukkit.getOnlinePlayers()) {
-                    if(player.getName().startsWith(args[0])) {
+            if (commandSender.hasPermission(Permissions.OTHERS)) {
+                for (final Player player : Bukkit.getOnlinePlayers()) {
+                    if (player.getName().startsWith(args[0])) {
                         list.add(player.getName());
                     }
                 }
             }
-        } else if(args.length==2) {
-            if(!commandSender.hasPermission(Permissions.OTHERS)) {
+        } else if (args.length == 2) {
+            if (!commandSender.hasPermission(Permissions.OTHERS)) {
                 return null;
             } else {
-                OfflinePlayer candidate = Bukkit.getOfflinePlayer(args[0]);
-                if(candidate == null) return null;
+                //noinspection deprecation
+                final OfflinePlayer candidate = Bukkit.getOfflinePlayer(args[0]);
+                if (candidate == null) return null;
                 uuid = candidate.getUniqueId();
-                for(int i = 1; i <= getChests(uuid); i++) {
-                    if(String.valueOf(i).startsWith(args[1])) {
+                for (int i = 1; i <= getChests(uuid); i++) {
+                    if (String.valueOf(i).startsWith(args[1])) {
                         list.add(String.valueOf(i));
                     }
                 }

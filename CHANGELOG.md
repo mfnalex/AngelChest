@@ -6,7 +6,7 @@
 - You can now run /aclist, /acunlock, /actp and /acfetch for other players (requires "angelchest.others" permission)
   - Also works for offline players! :)
 - The AngelChests in /aclist will now always be sorted by their creation time. Using /acfetch will no longer change the order of chests
-- Added TabCompletion for /aclist, /actp and /acfetch 
+- Added TabCompletion for /aclist, /acunlock, /actp and /acfetch 
 - Removed "This feature is only available in AngelChestPlus" from config.yml in the Plus version
 - Improved API
   - Added API option to check when a chest has been created
@@ -14,6 +14,7 @@
 - Fixed typos in some messages
 - Fixed broken chests being spawned when player has an empty inventory and 0 XP
 - Fixed "show-links-on-separate-line" not working when player doesn't have angelchest.tp or angelchest.fetch permission
+- Improved overall performance by refactoring EVERY single class file
 
 ## 3.6.0
 - Improved API, many new features for third party plugins!

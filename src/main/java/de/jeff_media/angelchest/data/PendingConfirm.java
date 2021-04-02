@@ -10,20 +10,20 @@ public final class PendingConfirm {
     public final int chestId;
     public final CommandAction action;
 
-    public PendingConfirm(int chestId, CommandAction action) {
-        this.chestId=chestId;
-        this.action=action;
+    public PendingConfirm(final int chestId, final CommandAction action) {
+        this.chestId = chestId;
+        this.action = action;
     }
 
     @Override
     public String toString() {
-        return "PendingConfirm{chestId="+chestId+",action="+action+"}";
+        return "PendingConfirm{chestId=" + chestId + ",action=" + action + "}";
     }
 
     @Override
-    public boolean equals(Object other) {
-        if(other instanceof PendingConfirm) {
-            PendingConfirm otherConfirm = (PendingConfirm) other;
+    public boolean equals(final Object other) {
+        if (other instanceof PendingConfirm) {
+            final PendingConfirm otherConfirm = (PendingConfirm) other;
             return this.chestId == otherConfirm.chestId && this.action == otherConfirm.action;
         }
         return false;

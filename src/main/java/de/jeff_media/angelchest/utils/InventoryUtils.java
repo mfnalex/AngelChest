@@ -10,11 +10,11 @@ import java.util.Set;
 
 public class InventoryUtils {
 
-    public static int getAmountOfItemStacks(PlayerInventory playerInventory) {
+    public static int getAmountOfItemStacks(final PlayerInventory playerInventory) {
         int stacks = 0;
 
-        for(ItemStack itemStack : playerInventory.getContents()) {
-            if(!Utils.isEmpty(itemStack)) {
+        for (final ItemStack itemStack : playerInventory.getContents()) {
+            if (!Utils.isEmpty(itemStack)) {
                 stacks++;
             }
         }
@@ -22,25 +22,25 @@ public class InventoryUtils {
         return stacks;
     }
 
-    public static ArrayList<Integer> getNonEmptySlots(PlayerInventory inventory) {
-        ArrayList<Integer> slots = new ArrayList<>();
-        for(int i = 0; i < inventory.getSize(); i++) {
-            if(!Utils.isEmpty(inventory.getItem(i))) {
+    public static ArrayList<Integer> getNonEmptySlots(final PlayerInventory inventory) {
+        final ArrayList<Integer> slots = new ArrayList<>();
+        for (int i = 0; i < inventory.getSize(); i++) {
+            if (!Utils.isEmpty(inventory.getItem(i))) {
                 slots.add(i);
             }
         }
         return slots;
     }
 
-    public static Set<ItemStack> removeRandomItemsFromInventory(PlayerInventory inventory, int amount) {
-        ArrayList<Integer> slots = getNonEmptySlots(inventory);
-        Set<ItemStack> removedItems = new HashSet<>();
+    public static Set<ItemStack> removeRandomItemsFromInventory(final PlayerInventory inventory, final int amount) {
+        final ArrayList<Integer> slots = getNonEmptySlots(inventory);
+        final Set<ItemStack> removedItems = new HashSet<>();
 
         int remaining = amount;
-        Random rand = new Random();
+        final Random rand = new Random();
 
-        while(remaining > 0 && slots.size() > 0) {
-            int slot = rand.nextInt(slots.size());
+        while (remaining > 0 && !slots.isEmpty()) {
+            final int slot = rand.nextInt(slots.size());
             removedItems.add(inventory.getItem(slots.get(slot)));
             inventory.clear(slots.get(slot));
             slots.remove(slot);

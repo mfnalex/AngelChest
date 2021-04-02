@@ -11,12 +11,12 @@ import org.bukkit.inventory.ItemStack;
 
 public final class ProtectionUtils {
 
-    public static boolean playerMayBuildHere(Player p, Location loc) {
-        Main main = Main.getInstance();
-        BlockPlaceEvent event = new BlockPlaceEvent(loc.getBlock(),loc.getBlock().getState(),loc.getBlock().getRelative(BlockFace.DOWN),new ItemStack(Material.DIRT),p,true, EquipmentSlot.HAND);
+    public static boolean playerMayBuildHere(final Player p, final Location loc) {
+        final Main main = Main.getInstance();
+        final BlockPlaceEvent event = new BlockPlaceEvent(loc.getBlock(), loc.getBlock().getState(), loc.getBlock().getRelative(BlockFace.DOWN), new ItemStack(Material.DIRT), p, true, EquipmentSlot.HAND);
         main.getServer().getPluginManager().callEvent(event);
-        if(event.isCancelled()) {
-            main.debug("AngelChest spawn prevented because player "+p.getName()+" is not allowed to place blocks at "+loc.toString());
+        if (event.isCancelled()) {
+            main.debug("AngelChest spawn prevented because player " + p.getName() + " is not allowed to place blocks at " + loc.toString());
             return false;
         }
         return true;

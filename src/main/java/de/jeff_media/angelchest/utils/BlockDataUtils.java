@@ -8,17 +8,17 @@ import org.bukkit.block.data.Rotatable;
 
 public final class BlockDataUtils {
 
-    protected static BlockFace getBlockDirection(Block b) {
+    protected static BlockFace getBlockDirection(final Block b) {
         BlockFace dir;
         try {
             // check for player skull
             dir = ((Rotatable) b.getBlockData()).getRotation();
             dir = dir.getOppositeFace();
-        } catch(Exception e) {
+        } catch (final Exception e) {
             try {
                 // check for chest
                 dir = ((Directional) b.getBlockData()).getFacing();
-            } catch(Exception e2) {
+            } catch (final Exception e2) {
                 // Can't get block rotation, probably because it doesn't support it
                 return BlockFace.NORTH;
             }
@@ -26,26 +26,26 @@ public final class BlockDataUtils {
         return dir;
     }
 
-    public static void setBlockDirection(Block b, BlockFace dir) {
+    public static void setBlockDirection(final Block b, final BlockFace dir) {
         try {
             // check for player skull
-            Rotatable blockData = ((Rotatable) b.getBlockData());
+            final Rotatable blockData = ((Rotatable) b.getBlockData());
             blockData.setRotation(dir.getOppositeFace());
             b.setBlockData(blockData);
-        } catch(Exception e) {
+        } catch (final Exception e) {
             try {
                 // check for chest
-                Directional blockData = ((Directional) b.getBlockData());
+                final Directional blockData = ((Directional) b.getBlockData());
                 blockData.setFacing(dir);
                 b.setBlockData(blockData);
-            } catch(Exception e2) {
+            } catch (final Exception e2) {
                 // Can't set block rotation, probably because it doesn't support it
             }
         }
     }
 
-    public static Location getLocationInDirection(Location loc, String directionPlayerIsFacing) {
-        Location newLoc = loc.clone();
+    public static Location getLocationInDirection(final Location loc, final String directionPlayerIsFacing) {
+        final Location newLoc = loc.clone();
         switch (directionPlayerIsFacing) {
             case "N":
                 newLoc.add(0, 0, -2);
@@ -78,7 +78,7 @@ public final class BlockDataUtils {
         return newLoc;
     }
 
-    public static BlockFace getChestFacingDirection(String directionPlayerIsFacing) {
+    public static BlockFace getChestFacingDirection(final String directionPlayerIsFacing) {
         // Set the relative direction of the block and offset the new chest location
         switch (directionPlayerIsFacing) {
             case "N":
