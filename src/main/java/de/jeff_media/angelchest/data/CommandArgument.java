@@ -73,10 +73,6 @@ public class CommandArgument {
             }
         }
 
-        System.out.println("Chest     = " + chest);
-        System.out.println("Requester = " + requester);
-        System.out.println("Player    = " + chestOwner);
-
         return new CommandArgument(requester, chest, chestOwner);
     }
 

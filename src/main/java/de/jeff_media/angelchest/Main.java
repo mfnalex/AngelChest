@@ -171,12 +171,14 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 		registerCommands();
 		debug("Setting command executors...");
 		CommandFetchOrTeleport commandFetchOrTeleport = new CommandFetchOrTeleport();
+		GenericTabCompleter genericTabCompleter = new GenericTabCompleter();
 		Objects.requireNonNull(this.getCommand("acunlock")).setExecutor(new CommandUnlock());
+		Objects.requireNonNull(this.getCommand("acunlock")).setTabCompleter(genericTabCompleter);
 		Objects.requireNonNull(this.getCommand("aclist")).setExecutor(new CommandList());
 		Objects.requireNonNull(this.getCommand("acfetch")).setExecutor(commandFetchOrTeleport);
-		Objects.requireNonNull(this.getCommand("acfetch")).setTabCompleter(commandFetchOrTeleport);
+		Objects.requireNonNull(this.getCommand("acfetch")).setTabCompleter(genericTabCompleter);
 		Objects.requireNonNull(this.getCommand("actp")).setExecutor(commandFetchOrTeleport);
-		Objects.requireNonNull(this.getCommand("actp")).setTabCompleter(commandFetchOrTeleport);
+		Objects.requireNonNull(this.getCommand("actp")).setTabCompleter(genericTabCompleter);
 		Objects.requireNonNull(this.getCommand("acreload")).setExecutor(new CommandReload());
 		Objects.requireNonNull(this.getCommand("acgui")).setExecutor(new CommandGUI());
 

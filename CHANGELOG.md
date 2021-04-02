@@ -2,9 +2,18 @@
 - Added option to drop player's head on death
   - Head can always drop or only on PvP deaths
   - Head can be put into the chest, or drop next to it
+- Added "angelchest.preview" permission to preview your AngelChests' contents in the GUI
+- You can now run /aclist, /acunlock, /actp and /acfetch for other players (requires "angelchest.others" permission)
+  - Also works for offline players! :)
+- The AngelChests in /aclist will now always be sorted by their creation time. Using /acfetch will no longer change the order of chests
+- Added TabCompletion for /aclist, /actp and /acfetch 
+- Removed "This feature is only available in AngelChestPlus" from config.yml in the Plus version
+- Improved API
+  - Added API option to check when a chest has been created
+  - Getting AngelChests (either all or by player) will now return a collection sorted by chest creation date/time
+- Fixed typos in some messages
 - Fixed broken chests being spawned when player has an empty inventory and 0 XP
-- You can now run /aclist, /acunlock, /actp and /acfetch for other players (requires angelchest.others permission) 
-- Improved Metrics
+- Fixed "show-links-on-separate-line" not working when player doesn't have angelchest.tp or angelchest.fetch permission
 
 ## 3.6.0
 - Improved API, many new features for third party plugins!
