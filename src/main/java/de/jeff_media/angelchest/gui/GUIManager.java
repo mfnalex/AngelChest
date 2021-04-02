@@ -143,7 +143,7 @@ public final class GUIManager {
         Inventory inventory = Bukkit.createInventory(holder, inventorySize, main.messages.GUI_TITLE_MAIN);
         holder.setInventory(inventory);
 
-        if (Utils.getAllAngelChestsFromPlayer(player).size() == 1) {
+        if (AngelChestUtils.getAllAngelChestsFromPlayer(player).size() == 1) {
             holder.setChestIdStartingAt1(1);
             main.guiManager.showChestGUI(player, holder, 1);
             return;
@@ -172,7 +172,7 @@ public final class GUIManager {
         GUIHolder holder = new GUIHolder(player,GUIContext.PREVIEW_MENU);
         Inventory inventory = Bukkit.createInventory(holder,54,main.messages.GUI_TITLE_MAIN);
         holder.setInventory(inventory);
-        holder.setChestIdStartingAt1(Utils.getAllAngelChestsFromPlayer(angelChest.owner).indexOf(angelChest));
+        holder.setChestIdStartingAt1(AngelChestUtils.getAllAngelChestsFromPlayer(angelChest.owner).indexOf(angelChest));
         holder.setAngelChest(angelChest);
         //holder.setChestIdStartingAt1(Utils.getAllAngelChestsFromPlayer(angelChest.owner,main).indexOf(angelChest)+1);
         /*inventory = */GUIUtils.loadChestIntoPreviewInventory(holder.getAngelChest(),inventory);

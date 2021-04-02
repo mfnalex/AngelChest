@@ -3,8 +3,8 @@ package de.jeff_media.angelchest.hooks;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.data.AngelChest;
+import de.jeff_media.angelchest.utils.AngelChestUtils;
 import de.jeff_media.angelchest.utils.CommandUtils;
-import de.jeff_media.angelchest.utils.Utils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +59,7 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
     public String onRequest(OfflinePlayer player, String identifier){
 
         //UUID uuid = player.getUniqueId();
-        ArrayList<AngelChest> allChests = Utils.getAllAngelChestsFromPlayer(player);
+        ArrayList<AngelChest> allChests = AngelChestUtils.getAllAngelChestsFromPlayer(player);
 
         switch (identifier) {
             case "price":

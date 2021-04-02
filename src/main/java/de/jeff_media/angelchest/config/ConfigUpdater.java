@@ -94,8 +94,7 @@ public final class ConfigUpdater {
 					updatedLine = null;
 				}
 			}
-
-			if(defaultLine.startsWith("-") || defaultLine.startsWith(" -") || defaultLine.startsWith("  -")) {
+			else if(defaultLine.startsWith("-") || defaultLine.startsWith(" -") || defaultLine.startsWith("  -")) {
 				debug(logger, "Not including default String list entry: "+defaultLine);
 				updatedLine = null;
 			}

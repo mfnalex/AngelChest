@@ -6,6 +6,8 @@ import de.jeff_media.angelchest.data.Group;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.Features;
 import de.jeff_media.daddy.Daddy;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -181,27 +183,27 @@ public final class GroupUtils {
         }
     }
 
-    public double getFetchPricePerPlayer(Player p) {
-        if(yaml==null || !Daddy.allows(Features.FETCH_PRICE_PER_PLAYER)) return getPercentagePrice(p,main.getConfig().getString(Config.PRICE_FETCH));
+    public double getFetchPricePerPlayer(CommandSender commandSender) {
+        if(yaml==null || !Daddy.allows(Features.FETCH_PRICE_PER_PLAYER)) return getPercentagePrice(commandSender,main.getConfig().getString(Config.PRICE_FETCH));
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
-            if(!p.hasPermission("angelchest.group."+group)) continue;
+            if(!commandSender.hasPermission("angelchest.group."+group)) continue;
             String pricePerPlayer = groups.get(group).priceFetch;
             if(pricePerPlayer.equals("-1")) {
                 continue;
             }
-            bestValueFound = bestValueFound == null ? getPercentagePrice(p,pricePerPlayer) : Math.min(getPercentagePrice(p,pricePerPlayer), bestValueFound);
+            bestValueFound = bestValueFound == null ? getPercentagePrice(commandSender,pricePerPlayer) : Math.min(getPercentagePrice(commandSender,pricePerPlayer), bestValueFound);
         }
         if(bestValueFound!=null) {
             return bestValueFound;
         } else {
-            return getPercentagePrice(p,main.getConfig().getString(Config.PRICE_FETCH));
+            return getPercentagePrice(commandSender,main.getConfig().getString(Config.PRICE_FETCH));
         }
     }
 
-    public double getTeleportPricePerPlayer(Player p) {
+    public double getTeleportPricePerPlayer(CommandSender p) {
         if(yaml==null || !Daddy.allows(Features.TELEPORT_PRICE_PER_PLAYER)) return getPercentagePrice(p,main.getConfig().getString(Config.PRICE_TELEPORT));
         Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
@@ -260,7 +262,7 @@ public final class GroupUtils {
         }
     }
 
-    public static double getPercentagePrice(Player p, String value) {
+    public static double getPercentagePrice(CommandSender commandSender, String value) {
         Main main = Main.getInstance();
         if(value.endsWith("p")) {
             if(!Daddy.allows(Features.SET_PRICES_AS_PERCENTAGE)) {
@@ -274,8 +276,8 @@ public final class GroupUtils {
             if(percentage<=0) {
                 return 0;
             }
-            double result = main.econ.getBalance(p)*percentage;
-            main.debug(value+" contains a p, getting percentage for player "+p.getName()+": "+result);
+            double result = commandSender instanceof Player ? main.econ.getBalance((OfflinePlayer) commandSender)*percentage : 0;
+            main.debug(value+" contains a p, getting percentage for player "+commandSender.getName()+": "+result);
             return result;
         } else {
             return Double.parseDouble(value);

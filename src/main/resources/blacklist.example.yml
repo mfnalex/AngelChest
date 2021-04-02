@@ -33,7 +33,7 @@
 # Use '&' for color codes. If you set ignoreColors to false, do NOT add the color code.
 # If you want to see the exact name and lore values for an item that you hold in your hand,
 # enter "/acd blacklist info" to get information about the current item.
-# If you wish to copy that text, you can also severe it from console like this: "/acd blacklist info <player>"
+# If you wish to copy that text, you can also use it from console like this: "/acd blacklist info <player>"
 # You can also use "/acd blacklist add" to add the current item with its exact name and lore to the blacklist.
 # Note: You MUST rename this file to blacklist.yml if you wish to use it.
 

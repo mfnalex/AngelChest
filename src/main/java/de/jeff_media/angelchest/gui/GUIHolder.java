@@ -2,7 +2,7 @@ package de.jeff_media.angelchest.gui;
 
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.TeleportAction;
-import de.jeff_media.angelchest.utils.Utils;
+import de.jeff_media.angelchest.utils.AngelChestUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -28,7 +28,7 @@ public final class GUIHolder implements InventoryHolder {
 
     public GUIHolder(Player player, GUIContext context) {
         this.context = context;
-        this.chests = Utils.getAllAngelChestsFromPlayer(player);
+        this.chests = AngelChestUtils.getAllAngelChestsFromPlayer(player);
         this.numberOfAngelChests = chests.size();
         this.player = player;
     }

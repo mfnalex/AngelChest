@@ -42,6 +42,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, AngelChestPlugin {
 
@@ -61,6 +62,8 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 	private String NONCE = "%%__NONCE__%%" ;
 	@SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
 	private String RESOURCE = "%%__RESOURCE__%%" ;
+
+	public static final UUID consoleSenderUUID = UUID.randomUUID();
 
 	public HashMap<UUID, PendingConfirm> pendingConfirms;
 	public LinkedHashMap<Block, AngelChest> angelChests;
@@ -173,7 +176,9 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 		Objects.requireNonNull(this.getCommand("acunlock")).setExecutor(new CommandUnlock());
 		Objects.requireNonNull(this.getCommand("aclist")).setExecutor(new CommandList());
 		Objects.requireNonNull(this.getCommand("acfetch")).setExecutor(commandFetchOrTeleport);
+		Objects.requireNonNull(this.getCommand("acfetch")).setTabCompleter(commandFetchOrTeleport);
 		Objects.requireNonNull(this.getCommand("actp")).setExecutor(commandFetchOrTeleport);
+		Objects.requireNonNull(this.getCommand("actp")).setTabCompleter(commandFetchOrTeleport);
 		Objects.requireNonNull(this.getCommand("acreload")).setExecutor(new CommandReload());
 		Objects.requireNonNull(this.getCommand("acgui")).setExecutor(new CommandGUI());
 
@@ -542,15 +547,17 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 		for(AngelChest chest : angelChests.values()) {
 			chests.add(chest);
 		}
+		chests.stream().sorted(Comparator.comparingLong(de.jeff_media.angelchest.AngelChest::getCreated)).collect(Collectors.toList());
 		return chests;
 	}
 
 	@Override
 	public LinkedHashSet<de.jeff_media.angelchest.AngelChest> getAllAngelChestsFromPlayer(OfflinePlayer player) {
 		LinkedHashSet<de.jeff_media.angelchest.AngelChest> set = new LinkedHashSet<>();
-		for(de.jeff_media.angelchest.AngelChest chest : Utils.getAllAngelChestsFromPlayer(player)) {
+		for(de.jeff_media.angelchest.AngelChest chest : AngelChestUtils.getAllAngelChestsFromPlayer(player)) {
 			set.add(chest);
 		}
+		set.stream().sorted(Comparator.comparingLong(de.jeff_media.angelchest.AngelChest::getCreated)).collect(Collectors.toList());
 		return set;
 	}
 

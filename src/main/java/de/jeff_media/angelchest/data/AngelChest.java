@@ -5,10 +5,7 @@ import de.jeff_media.angelchest.config.ChestYaml;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.Features;
-import de.jeff_media.angelchest.utils.CommandUtils;
-import de.jeff_media.angelchest.utils.HeadCreator;
-import de.jeff_media.angelchest.utils.InventoryUtils;
-import de.jeff_media.angelchest.utils.Utils;
+import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
@@ -52,6 +49,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public DeathCause deathCause;
     public List<ItemStack> blacklistedItems;
     public Set<ItemStack> randomlyLostItems = null;
+    public long created;
 
     double price = 0;
 
@@ -117,6 +115,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.unlockIn = yaml.getInt("unlockIn",-1);
         this.price = yaml.getDouble("price", main.getConfig().getDouble(Config.PRICE));
         this.logfile = yaml.getString("logfile",null);
+        this.created = yaml.getLong("created",0);
 
         if(yaml.isSet("deathCause")) {
             this.deathCause = yaml.getSerializable("deathCause", DeathCause.class);
@@ -325,6 +324,11 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         return players;
     }
 
+    @Override
+    public long getCreated() {
+        return created;
+    }
+
     /**
      * Creates a new AngelChest
      * @param player Player that this AngelChest belongs to
@@ -347,6 +351,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.unlockIn = main.groupUtils.getUnlockDurationPerPlayer(main.getServer().getPlayer(owner));
         this.deathCause = deathCause;
         this.blacklistedItems = new ArrayList<>();
+        this.created = System.currentTimeMillis();
         if(secondsLeft<=0) infinite = true;
 
         String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", player.getName());
@@ -550,6 +555,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         yaml.set("isProtected", isProtected);
         yaml.set("secondsLeft", secondsLeft);
         yaml.set("unlockIn", unlockIn);
+        yaml.set("created",created);
         yaml.set("experience", experience);
         yaml.set("levels", levels);
         yaml.set("price",price);
@@ -650,7 +656,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             CommandUtils.payMoney(Bukkit.getOfflinePlayer(owner),price, "AngelChest expired");
         }
 
-        int currentChestId = Utils.getAllAngelChestsFromPlayer(Bukkit.getOfflinePlayer(owner)).indexOf(this)+1;
+        int currentChestId = AngelChestUtils.getAllAngelChestsFromPlayer(Bukkit.getOfflinePlayer(owner)).indexOf(this)+1;
         Player player = Bukkit.getPlayer(owner);
         if(player != null && player.isOnline()) {
             Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> main.guiManager.updateGUI(player, currentChestId), 1L);

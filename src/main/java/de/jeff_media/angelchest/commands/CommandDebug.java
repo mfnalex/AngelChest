@@ -256,7 +256,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
 
 
             if (!(commandSender instanceof Player)) {
-                commandSender.sendMessage("You must be a player to severe this command.");
+                commandSender.sendMessage("You must be a player to use this command.");
                 return;
             }
             Player player = (Player) commandSender;

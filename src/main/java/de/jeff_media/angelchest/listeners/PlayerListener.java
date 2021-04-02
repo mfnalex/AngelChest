@@ -194,7 +194,7 @@ public final class PlayerListener implements Listener {
             }
         }
 
-        if (!Utils.spawnChance(main.groupUtils.getSpawnChancePerPlayer(event.getEntity())))
+        if (!AngelChestUtils.spawnChance(main.groupUtils.getSpawnChancePerPlayer(event.getEntity())))
         {
             main.debug("Cancelled: unlucky, spawnChance returned false!");
             Utils.sendDelayedMessage(p, main.messages.MSG_SPAWN_CHANCE_UNSUCCESFULL, 1);
@@ -239,7 +239,7 @@ public final class PlayerListener implements Listener {
         }
 
         main.debug("FixedPlayerPosition: "+fixedPlayerPosition.toString());
-        Block angelChestBlock = Utils.getChestLocation(fixedPlayerPosition);
+        Block angelChestBlock = AngelChestUtils.getChestLocation(fixedPlayerPosition);
 
         // Calling Event
         AngelChestSpawnPrepareEvent angelChestSpawnPrepareEvent = new AngelChestSpawnPrepareEvent(p,angelChestBlock,p.getLastDamageCause().getCause(),event);
@@ -377,7 +377,7 @@ public final class PlayerListener implements Listener {
         }
 
         int maxChests = main.groupUtils.getChestsPerPlayer(p);
-        ArrayList<AngelChest> chests = Utils.getAllAngelChestsFromPlayer(p);
+        ArrayList<AngelChest> chests = AngelChestUtils.getAllAngelChestsFromPlayer(p);
         //System.out.println(chests.size()+" chests.size");
         if (chests.size() > maxChests) {
             chests.get(0).destroy(true);
@@ -498,7 +498,7 @@ public final class PlayerListener implements Listener {
             main.debug("  No: no angelchest.use permission");
             return;
         }
-        ArrayList<AngelChest> chests = Utils.getAllAngelChestsFromPlayer(player);
+        ArrayList<AngelChest> chests = AngelChestUtils.getAllAngelChestsFromPlayer(player);
         if (chests.size() == 0) {
             main.debug("  No: no AngelChests");
             return;
@@ -577,7 +577,7 @@ public final class PlayerListener implements Listener {
         boolean succesfullyStoredEverything;
         //boolean isOwnChest = angelChest.owner == p.getUniqueId();
 
-        succesfullyStoredEverything = Utils.tryToMergeInventories(main, angelChest, p.getInventory());
+        succesfullyStoredEverything = AngelChestUtils.tryToMergeInventories(main, angelChest, p.getInventory());
         if (succesfullyStoredEverything) {
             p.sendMessage(main.messages.MSG_YOU_GOT_YOUR_INVENTORY_BACK);
 
@@ -630,9 +630,9 @@ public final class PlayerListener implements Listener {
 
             //Inventory inv = event.getInventory();
             if (Utils.isEmpty(angelChest.overflowInv)
-                    && Utils.isEmpty(angelChest.armorInv)
-                    && Utils.isEmpty(angelChest.extraInv)
-                    && Utils.isEmpty(angelChest.storageInv)) {
+                    && AngelChestUtils.isEmpty(angelChest.armorInv)
+                    && AngelChestUtils.isEmpty(angelChest.extraInv)
+                    && AngelChestUtils.isEmpty(angelChest.storageInv)) {
                 // plugin.angelChests.remove(Utils.getKeyByValue(plugin.angelChests,
                 // angelChest));
                 angelChest.destroy(false);

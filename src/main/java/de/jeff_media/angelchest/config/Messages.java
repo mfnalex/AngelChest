@@ -68,6 +68,13 @@ public final class Messages {
 
 	public final String PREFIX;
 
+	/*
+	Hardcoded
+	 */
+	public final String MSG_SU;
+	public final String MSG_MUST_SPECIFY_PLAYER;
+	public final String MSG_UNKNOWN_PLAYER;
+
 	public static final String[] usingFreeVersion = new String[] {
 			"========================================================",
 			"You are using the free version of AngelChest. There is",
@@ -104,7 +111,7 @@ public final class Messages {
 		MSG_SPAWN_CHANCE_UNSUCCESFULL = PREFIX + ChatColor.translateAlternateColorCodes('&',  main.getConfig().getString("message-spawn-chance-unsuccessful", "&cYour Angel forgot to collect your stuff, unlucky!"));
 		
     	MSG_PLAYERSONLY = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
-				.getString("message-error-players-only", "&cError: This command can only be severe by players."));
+				.getString("message-error-players-only", "&cError: This command can only be used by players."));
 		
 		MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
 				.getString("message-not-allowed-to-break-other-angelchests", "&cYou are not allowed to break other people's AngelChest."));
@@ -188,6 +195,13 @@ public final class Messages {
 		GUI_FETCH = getGui("gui-fetch","&6Fetch");
 		GUI_UNLOCK = getGui("gui-unlock","&6Unlock");
 		GUI_PREVIEW = getGui("gui-preview","&6Preview");
+
+		/*
+		Hardcoded
+		 */
+		MSG_SU = PREFIX + "§6Running command for player §7%s§6";
+		MSG_MUST_SPECIFY_PLAYER = PREFIX + "§cYou must specify a player when running this command from console.";
+		MSG_UNKNOWN_PLAYER = PREFIX + "§cCould not find player §7%s";
 	}
 
 

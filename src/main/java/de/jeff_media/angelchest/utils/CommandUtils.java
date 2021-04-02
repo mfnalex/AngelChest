@@ -2,6 +2,7 @@ package de.jeff_media.angelchest.utils;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
+import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.PendingConfirm;
 import de.jeff_media.angelchest.enums.EconomyStatus;
@@ -22,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class CommandUtils {
@@ -39,41 +41,17 @@ public final class CommandUtils {
         }
     }
 
-    public static boolean hasEnoughMoney(Player p, double money, String messageWhenNotEnoughMoney, String reason) {
+    public static boolean hasEnoughMoney(CommandSender sender, double money, String messageWhenNotEnoughMoney, String reason) {
 
         Main main = Main.getInstance();
 
-        main.debug("Checking if " + p.getName() + " has at least " + money + " money...");
+        main.debug("Checking if " + sender.getName() + " has at least " + money + " money...");
 
-        /*if (main.economyStatus == EconomyStatus.UNKNOWN) {
+        if(!(sender instanceof Player)) {
+            main.debug(sender.getName() + " is no player, so they should have enough money lol");
+            return true;
+        }
 
-            main.debug("  (btw we don't know yet if economy is working...)");
-
-            Plugin v = main.getServer().getPluginManager().getPlugin("Vault");
-
-            if (v == null) {
-                main.debug("yes: vault is null");
-                main.economyStatus = EconomyStatus.INACTIVE;
-                return true;
-            }
-
-            RegisteredServiceProvider<Economy> rsp = main.getServer().getServicesManager().getRegistration(Economy.class);
-            if (rsp == null) {
-                main.debug("yes: registered service provider<Economy> is null");
-                main.economyStatus = EconomyStatus.INACTIVE;
-                return true;
-            }
-
-            if (rsp.getProvider() == null) {
-                main.debug("yes: provider is null");
-                main.economyStatus = EconomyStatus.INACTIVE;
-                return true;
-            }
-
-            main.econ = rsp.getProvider();
-            main.economyStatus = EconomyStatus.ACTIVE;
-            main.debug("  (economy works, we will remember this!)");
-        } else */
         if (main.economyStatus != EconomyStatus.ACTIVE) {
             main.debug("We already know that economy support is not active, so all players have enough money!");
             return true;
@@ -84,13 +62,15 @@ public final class CommandUtils {
             return true;
         }
 
-        if (main.econ.getBalance(p) >= money) {
-            main.econ.withdrawPlayer(p, reason, money);
+        Player player = (Player) sender;
+
+        if (main.econ.getBalance(player) >= money) {
+            main.econ.withdrawPlayer(player, reason, money);
             main.debug("yes, enough money and paid");
             return true;
         } else {
             main.debug("no, not enough money - nothing paid");
-            p.sendMessage(messageWhenNotEnoughMoney);
+            player.sendMessage(messageWhenNotEnoughMoney);
             return false;
         }
 
@@ -101,19 +81,19 @@ public final class CommandUtils {
     AngelChest = affected chest
     Player = chest owner
      */
-    public static @Nullable Triplet<Integer, AngelChest, Player> argIdx2AngelChest(Main main, Player sendTo, Player affectedPlayer, String[] args) {
+    public static @Nullable Triplet<Integer, AngelChest, Player> argIdx2AngelChest(Main main, CommandSender sendTo, Player affectedPlayer, String chest) {
 
         int chestIdStartingAt1;
 
         // Get all AngelChests by this player
-        ArrayList<AngelChest> angelChestsFromThisPlayer = Utils.getAllAngelChestsFromPlayer(affectedPlayer);
+        ArrayList<AngelChest> angelChestsFromThisPlayer = AngelChestUtils.getAllAngelChestsFromPlayer(affectedPlayer);
 
         if (angelChestsFromThisPlayer.size() == 0) {
             sendTo.sendMessage(main.messages.MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS);
             return null;
         }
 
-        if (angelChestsFromThisPlayer.size() > 1 && args.length == 0) {
+        if (angelChestsFromThisPlayer.size() > 1 && chest == null) {
             sendTo.sendMessage(main.messages.MSG_PLEASE_SELECT_CHEST);
             sendListOfAngelChests(main, sendTo, affectedPlayer);
             return null;
@@ -121,8 +101,13 @@ public final class CommandUtils {
             chestIdStartingAt1 = 1;
         }
 
-        if (args.length > 0) {
-            chestIdStartingAt1 = Integer.parseInt(args[0]);
+        if (chest != null) {
+            try {
+                chestIdStartingAt1 = Integer.parseInt(chest);
+            } catch (NumberFormatException exception) {
+                sendTo.sendMessage(main.messages.ERR_INVALIDCHEST);
+                return null;
+            }
         }
 
         if (chestIdStartingAt1 > angelChestsFromThisPlayer.size() || chestIdStartingAt1 < 1) {
@@ -142,33 +127,38 @@ public final class CommandUtils {
     /**
      * If args is null, skip the confirmation stuff
      */
-    public static void fetchOrTeleport(Main main, Player player, AngelChest ac, int chestIdStartingAt1, TeleportAction action, boolean askForConfirmation) {
+    public static void fetchOrTeleport(Main main, Player sender, AngelChest ac, int chestIdStartingAt1, TeleportAction action, boolean askForConfirmation) {
 
-        if (!player.hasPermission(action.getPermission())) {
-            player.sendMessage(main.messages.MSG_NO_PERMISSION);
+        if (!sender.hasPermission(action.getPermission())) {
+            sender.sendMessage(main.messages.MSG_NO_PERMISSION);
             return;
         }
 
-        if (!ac.owner.equals(player.getUniqueId())) {
-            player.sendMessage(main.messages.ERR_NOTOWNER);
+        UUID uuid = ac.owner;
+        if(sender instanceof Player) {
+            uuid = ((Player) sender).getUniqueId();
+        }
+
+        if (!ac.owner.equals(uuid) && !sender.hasPermission(Permissions.OTHERS)) {
+            sender.sendMessage(main.messages.ERR_NOTOWNER);
             return;
         }
 
-        double price = action.getPrice(player);
+        double price = action.getPrice(sender);
 
         if (askForConfirmation && main.economyStatus != EconomyStatus.INACTIVE) {
-            if (!hasConfirmed(main, player, chestIdStartingAt1, price, action)) return;
+            if (!hasConfirmed(main, sender, chestIdStartingAt1, price, action)) return;
         }
 
-        if (price > 0 && !hasEnoughMoney(player, price, main.messages.MSG_NOT_ENOUGH_MONEY, action.getEconomyReason())) {
+        if (price > 0 && !hasEnoughMoney(sender, price, main.messages.MSG_NOT_ENOUGH_MONEY, action.getEconomyReason())) {
             return;
         }
         switch (action) {
             case TELEPORT_TO_CHEST:
-                teleportPlayerToChest(main, player, ac);
+                teleportPlayerToChest(main, sender, ac);
                 break;
             case FETCH_CHEST:
-                fetchChestToPlayer(main, player, ac);
+                fetchChestToPlayer(main, sender, ac);
                 break;
         }
     }
@@ -176,16 +166,16 @@ public final class CommandUtils {
 
     private static void fetchChestToPlayer(Main main, Player player, AngelChest ac) {
 
-        String dir = Utils.getCardinalDirection(player);
+        String dir = AngelChestUtils.getCardinalDirection(player);
         Location newLoc = BlockDataUtils.getLocationInDirection(player.getLocation(), dir);
         BlockFace facing = BlockDataUtils.getChestFacingDirection(dir);
 
-        Block newBlock = Utils.getChestLocation(newLoc.getBlock());
+        Block newBlock = AngelChestUtils.getChestLocation(newLoc.getBlock());
         Block oldBlock = ac.block;
 
         // Move the block in game
         ac.destroyChest(oldBlock);
-        ac.createChest(newBlock, player.getUniqueId());
+        ac.createChest(newBlock, ac.owner);
 
         // Make the chest face the player
         BlockDataUtils.setBlockDirection(newBlock, facing);
@@ -216,19 +206,20 @@ public final class CommandUtils {
         }
     }
 
-    private static boolean hasConfirmed(Main main, Player p, int chestIdStartingAt1, double price, TeleportAction action) {
+    private static boolean hasConfirmed(Main main, CommandSender p, int chestIdStartingAt1, double price, TeleportAction action) {
         main.debug("Creating confirm message for Chest ID " + chestIdStartingAt1);
         main.debug("Action: " + action.toString());
         String confirmCommand = String.format("/%s ", action.getCommand());
         confirmCommand += chestIdStartingAt1;
+        UUID uuid = p instanceof Player ? ((Player)p).getUniqueId() : Main.consoleSenderUUID;
         if (price > 0) {
             PendingConfirm newConfirm = new PendingConfirm(chestIdStartingAt1, action);
-            PendingConfirm oldConfirm = main.pendingConfirms.get(p.getUniqueId());
+            PendingConfirm oldConfirm = main.pendingConfirms.get(uuid);
             if (newConfirm.equals(oldConfirm)) {
-                main.pendingConfirms.remove(p.getUniqueId());
+                main.pendingConfirms.remove(uuid);
                 return true;
             } else {
-                main.pendingConfirms.put(p.getUniqueId(), newConfirm);
+                main.pendingConfirms.put(uuid, newConfirm);
                 CommandUtils.sendConfirmMessage(p, confirmCommand, price, main.messages.MSG_CONFIRM);
                 return false;
             }
@@ -283,8 +274,8 @@ public final class CommandUtils {
         }
 
         // Search for a safe spawn point
-        List<Block> possibleSpawnPoints = Utils.getPossibleTPLocations(tploc, main.getConfig().getInt(Config.MAX_RADIUS));
-        Utils.sortBlocksByDistance(tploc.getBlock(), possibleSpawnPoints);
+        List<Block> possibleSpawnPoints = AngelChestUtils.getPossibleTPLocations(tploc, main.getConfig().getInt(Config.MAX_RADIUS));
+        AngelChestUtils.sortBlocksByDistance(tploc.getBlock(), possibleSpawnPoints);
 
         if (possibleSpawnPoints.size() > 0) {
             tploc = possibleSpawnPoints.get(0).getLocation();
@@ -345,9 +336,9 @@ public final class CommandUtils {
         sendTo.sendMessage(main.messages.MSG_UNLOCKED_ONE_ANGELCHEST);
     }
 
-    public static void sendListOfAngelChests(Main main, Player sendTo, Player affectedPlayer) {
+    public static void sendListOfAngelChests(Main main, CommandSender sendTo, Player affectedPlayer) {
         // Get all AngelChests by this player
-        ArrayList<AngelChest> angelChestsFromThisPlayer = Utils.getAllAngelChestsFromPlayer(affectedPlayer);
+        ArrayList<AngelChest> angelChestsFromThisPlayer = AngelChestUtils.getAllAngelChestsFromPlayer(affectedPlayer);
 
         if (angelChestsFromThisPlayer.size() == 0) {
             sendTo.sendMessage(main.messages.MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS);
@@ -361,17 +352,17 @@ public final class CommandUtils {
 
 
             String affectedPlayerParameter = "";
-            if (!affectedPlayer.equals(sendTo)) affectedPlayerParameter = " " + affectedPlayer.getName();
+            if (!affectedPlayer.equals(sendTo)) affectedPlayerParameter = affectedPlayer.getName() + " ";
 
             b = angelChest.block;
             String tpCommand = null;
             String fetchCommand = null;
             String unlockCommand = null;
             if (sendTo.hasPermission("angelchest.tp")) {
-                tpCommand = "/actp " + chestIndex + affectedPlayerParameter;
+                tpCommand = "/actp " + affectedPlayerParameter + chestIndex;
             }
             if (sendTo.hasPermission("angelchest.fetch")) {
-                fetchCommand = "/acfetch " + chestIndex + affectedPlayerParameter;
+                fetchCommand = "/acfetch " + affectedPlayerParameter + chestIndex;
             }
             if (angelChest.isProtected) {
                 unlockCommand = "/acunlock " + chestIndex + affectedPlayerParameter;

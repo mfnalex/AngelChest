@@ -34,7 +34,7 @@ public final class CommandUnlock implements CommandExecutor {
 			return true;
 		}
 
-		Triplet<Integer, AngelChest,Player> chestResult = CommandUtils.argIdx2AngelChest(main, p, p, args);
+		Triplet<Integer, AngelChest,Player> chestResult = CommandUtils.argIdx2AngelChest(main, p, p, args.length == 0 ? null : args[0]);
 		if(chestResult == null) {
 			return true;
 		}

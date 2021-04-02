@@ -4,11 +4,12 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public final class LinkUtils {
 
-    protected static TextComponent getLinks(Player sendTo, @SuppressWarnings("unused") Player affectedPlayer, String preText, String commandTp, String commandUnlock, String commandFetch) {
+    protected static TextComponent getLinks(CommandSender sendTo, @SuppressWarnings("unused") Player affectedPlayer, String preText, String commandTp, String commandUnlock, String commandFetch) {
 
         Main main = Main.getInstance();
 

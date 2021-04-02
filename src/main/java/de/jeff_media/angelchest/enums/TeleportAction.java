@@ -1,6 +1,7 @@
 package de.jeff_media.angelchest.enums;
 
 import de.jeff_media.angelchest.Main;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
@@ -29,7 +30,7 @@ public enum TeleportAction {
         return economyReason;
     }
 
-    public double getPrice(Player player) {
+    public double getPrice(CommandSender player) {
         Main main = Main.getInstance();
         if(this == TELEPORT_TO_CHEST) {
             return main.groupUtils.getTeleportPricePerPlayer(player);
