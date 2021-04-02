@@ -1,3 +1,10 @@
+## 3.7.0
+- Added option to drop player's head on death
+  - Head can always drop or only on PvP deaths
+  - Head can be put into the chest, or drop next to it
+- Fixed broken chests being spawned when player has an empty inventory and 0 XP
+- Improved Metrics
+
 ## 3.6.0
 - Improved API, many new features for third party plugins!
 - Added Hungarian translation (thanks to @Victor75007)

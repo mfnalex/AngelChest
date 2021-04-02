@@ -351,7 +351,8 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
         String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", player.getName());
         overflowInv = Bukkit.createInventory(null, 54, inventoryName);
-        createChest(block,player.getUniqueId());
+        // TODO: We are doing this in the PlayerListener instead
+        //createChest(block,player.getUniqueId());
 
         PlayerInventory playerInventory = player.getInventory();
 
@@ -376,7 +377,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
         int randomItemLoss = main.groupUtils.getItemLossPerPlayer(player);
         if(randomItemLoss > 0) {
-            if(Daddy.allows(Features.ITEM_LOSS)) {
+            if(Daddy.allows(Features.RANDOM_ITEM_LOSS)) {
                 main.debug("===== RANDOM ITEM LOSS START =====");
                 main.debug("Removed " + randomItemLoss + " item stacks randomly:");
                 randomlyLostItems = InventoryUtils.removeRandomItemsFromInventory(playerInventory, randomItemLoss);

@@ -1,6 +1,8 @@
 package de.jeff_media.angelchest.config;
 
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.daddy.Daddy;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -86,6 +88,12 @@ public final class ConfigUpdater {
 		for(String defaultLine : getNewConfigAsArrayList(main)) {
 
 			String updatedLine = defaultLine;
+
+			if(Daddy.allows(Features.GENERIC)) {
+				if (updatedLine.startsWith("# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!")) {
+					updatedLine = null;
+				}
+			}
 
 			if(defaultLine.startsWith("-") || defaultLine.startsWith(" -") || defaultLine.startsWith("  -")) {
 				debug(logger, "Not including default String list entry: "+defaultLine);

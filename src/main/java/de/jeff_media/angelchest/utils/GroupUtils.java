@@ -222,7 +222,7 @@ public final class GroupUtils {
     }
 
     public int getItemLossPerPlayer(Player p) {
-        if(yaml==null || !Daddy.allows(Features.ITEM_LOSS)) return getPercentageItemLoss(p,main.getConfig().getString(Config.ITEM_LOSS));
+        if(yaml==null || !Daddy.allows(Features.RANDOM_ITEM_LOSS)) return getPercentageItemLoss(p,main.getConfig().getString(Config.ITEM_LOSS));
         Iterator<String> it = groups.keySet().iterator();
         Integer bestValueFound = null;
         while(it.hasNext()) {
@@ -244,7 +244,7 @@ public final class GroupUtils {
     private static int getPercentageItemLoss(Player p, String value) {
         Main main = Main.getInstance();
         if(value.endsWith("p")) {
-            if(!Daddy.allows(Features.ITEM_LOSS)) {
+            if(!Daddy.allows(Features.RANDOM_ITEM_LOSS)) {
                 main.getLogger().warning("You are using percentage random-item-loss in your config file. This is only available in AngelChestPlus. See here: "+Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
                 return 0;
             }
