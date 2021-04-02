@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.gui;
 
 import de.jeff_media.angelchest.data.AngelChest;
-import de.jeff_media.angelchest.enums.TeleportAction;
+import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.utils.AngelChestUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -19,7 +19,7 @@ public final class GUIHolder implements InventoryHolder {
 
     private final Player player;
     private int chestIdStartingAt1 = 0;
-    private TeleportAction action;
+    private CommandAction action;
     private Inventory inventory;
     private boolean isReadOnlyPreview = false;
 
@@ -38,11 +38,11 @@ public final class GUIHolder implements InventoryHolder {
         this.chestIdStartingAt1 = chestIdStartingAt1;
     }
 
-    public void setAction(TeleportAction action) {
+    public void setAction(CommandAction action) {
         this.action=action;
     }
 
-    public TeleportAction getAction() {
+    public CommandAction getAction() {
         return action;
     }
 

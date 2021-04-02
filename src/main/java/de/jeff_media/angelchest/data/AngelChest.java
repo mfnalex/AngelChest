@@ -3,6 +3,7 @@ package de.jeff_media.angelchest.data;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.ChestYaml;
 import de.jeff_media.angelchest.config.Config;
+import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.Features;
 import de.jeff_media.angelchest.utils.*;
@@ -346,7 +347,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.logfile = logfile;
         this.openedBy = new ArrayList<>();
         this.price = main.groupUtils.getSpawnPricePerPlayer(player);
-        this.isProtected = Objects.requireNonNull(main.getServer().getPlayer(owner)).hasPermission("angelchest.protect");
+        this.isProtected = Objects.requireNonNull(main.getServer().getPlayer(owner)).hasPermission(Permissions.PROTECT);
         this.secondsLeft = main.groupUtils.getDurationPerPlayer(main.getServer().getPlayer(owner));
         this.unlockIn = main.groupUtils.getUnlockDurationPerPlayer(main.getServer().getPlayer(owner));
         this.deathCause = deathCause;

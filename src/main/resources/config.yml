@@ -19,6 +19,8 @@
 # angelchest.protect.ignore  Players can open other player's locked AngelChests
 # angelchest.fetch           Allows the player to teleport their chests to them
 # angelchest.tp              The player can teleport to their AngelChests
+# angelchest.preview         Allows the player to preview their AngelChests' contents in /acgui
+# angelchest.others          Allows to run /aclist, /actp, /acfetch and /acunlock for other players
 # angelchest.reload          Allows reloading the config using /acreload
 # angelchest.debug           Allows to use the debug command /acdebug
 # angelchest.version         Allows to use the version command /acversion

@@ -26,7 +26,7 @@ public final class CommandGUI implements CommandExecutor {
             return true;
         }
 
-        if(!sender.hasPermission(Permissions.ALLOW_USE)) {
+        if(!sender.hasPermission(Permissions.USE)) {
             sender.sendMessage(main.messages.MSG_NO_PERMISSION);
             return true;
         }

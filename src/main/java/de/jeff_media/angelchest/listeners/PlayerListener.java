@@ -133,7 +133,7 @@ public final class PlayerListener implements Listener {
 
         main.debug("PlayerListener -> spawnAngelChest");
         Player p = event.getEntity();
-        if (!p.hasPermission("angelchest.use")) {
+        if (!p.hasPermission(Permissions.USE)) {
             main.debug("Cancelled: no permission (angelchest.use)");
             return;
         }
@@ -494,7 +494,7 @@ public final class PlayerListener implements Listener {
             return;
         }
         Player player = playerRespawnEvent.getPlayer();
-        if (!player.hasPermission(Permissions.ALLOW_USE)) {
+        if (!player.hasPermission(Permissions.USE)) {
             main.debug("  No: no angelchest.use permission");
             return;
         }
@@ -507,7 +507,7 @@ public final class PlayerListener implements Listener {
 
         if (main.getConfig().getBoolean(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH)) {
             main.debug(" Checking if player has fetch or tp permission...");
-            if (!player.hasPermission(Permissions.ALLOW_FETCH) && !player.hasPermission(Permissions.ALLOW_TELEPORT)) {
+            if (!player.hasPermission(Permissions.FETCH) && !player.hasPermission(Permissions.TP)) {
                 main.debug("  No: Neither angelchest.fetch nor angelchest.tp permission");
                 return;
             }
@@ -535,21 +535,26 @@ public final class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onAngelChestRightClick(PlayerInteractEvent event) {
         Player p = event.getPlayer();
-        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
+        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             return;
-        if(event.getHand() != EquipmentSlot.HAND)
+        }
+        if(event.getHand() != EquipmentSlot.HAND) {
             return;
-        if (event.getClickedBlock() == null)
+        }
+        if (event.getClickedBlock() == null) {
             return;
+        }
         Block block = event.getClickedBlock();
-        if (!main.isAngelChest(block))
+        if (!main.isAngelChest(block)) {
             return;
+        }
+        System.out.println(5);
         AngelChest angelChest = main.angelChests.get(block);
         // event.getPlayer().sendMessage("This is " + angelChest.owner.getName()+"'s
         // AngelChest.");
         // Test here if player is allowed to open THIS angelchest
         if (angelChest.isProtected && !event.getPlayer().getUniqueId().equals(angelChest.owner)
-                && !event.getPlayer().hasPermission("angelchest.protect.ignore")) {
+                && !event.getPlayer().hasPermission(Permissions.PROTECT_IGNORE)) {
             event.getPlayer().sendMessage(main.messages.MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS);
             event.setCancelled(true);
             return;
@@ -665,8 +670,8 @@ public final class PlayerListener implements Listener {
         if (as.get() == null) return;
 
         if (!as.get().owner.equals(event.getPlayer().getUniqueId())
-                && !event.getPlayer().hasPermission("angelchest.protect.ignore") && as.get().isProtected) {
-            event.getPlayer().sendMessage(main.messages.MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS);
+                && !event.getPlayer().hasPermission(Permissions.PROTECT_IGNORE) && as.get().isProtected) {
+            event.getPlayer().sendMessage(main.messages.MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS);
             event.setCancelled(true);
             return;
         }

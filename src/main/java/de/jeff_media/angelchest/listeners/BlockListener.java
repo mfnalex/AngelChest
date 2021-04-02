@@ -1,6 +1,7 @@
 package de.jeff_media.angelchest.listeners;
 
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.PistonMoveReaction;
@@ -60,7 +61,7 @@ public final class BlockListener implements Listener {
         AngelChest angelChest = main.getAngelChest(event.getBlock());
         assert angelChest != null;
         if (!angelChest.owner.equals(event.getPlayer().getUniqueId())
-                && !event.getPlayer().hasPermission("angelchest.protect.ignore") && angelChest.isProtected) {
+                && !event.getPlayer().hasPermission(Permissions.PROTECT_IGNORE) && angelChest.isProtected) {
             event.getPlayer().sendMessage(main.messages.MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS);
             event.setCancelled(true);
             return;

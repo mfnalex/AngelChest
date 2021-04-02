@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.data;
 
-import de.jeff_media.angelchest.enums.TeleportAction;
+import de.jeff_media.angelchest.enums.CommandAction;
 
 /**
  * Represents a pending confirm when a player initiates an action that has a price and needs to be confirmed
@@ -8,9 +8,9 @@ import de.jeff_media.angelchest.enums.TeleportAction;
 public final class PendingConfirm {
 
     public final int chestId;
-    public final TeleportAction action;
+    public final CommandAction action;
 
-    public PendingConfirm(int chestId, TeleportAction action) {
+    public PendingConfirm(int chestId, CommandAction action) {
         this.chestId=chestId;
         this.action=action;
     }

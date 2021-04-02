@@ -81,9 +81,9 @@ public final class Watchdog {
      * (i.e. graceful shutdown or /acreload)
      */
     public void save() {
-        if(main.gracefulShutdown) {
+        /*if(main.gracefulShutdown) {
             return;
-        }
+        }*/
         Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
             int unsavedArmorStands = getCurrentUnsavedArmorStands();
             if (unsavedArmorStands == 0) {

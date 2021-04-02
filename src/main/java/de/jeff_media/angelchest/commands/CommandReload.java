@@ -14,7 +14,7 @@ public final class CommandReload implements CommandExecutor  {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
-        if(!commandSender.hasPermission(Permissions.ALLOW_RELOAD)) {
+        if(!commandSender.hasPermission(Permissions.RELOAD)) {
             commandSender.sendMessage(Main.getInstance().messages.MSG_NO_PERMISSION);
             return true;
         }

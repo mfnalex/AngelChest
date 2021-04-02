@@ -1,22 +1,24 @@
 package de.jeff_media.angelchest.enums;
 
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.config.Permissions;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 /**
- * Represents a teleport related action (TP and Fetch)
+ * Represents a command related action (e.g. List, TP, Fetch, ...)
  */
-public enum TeleportAction {
+public enum CommandAction {
 
-    TELEPORT_TO_CHEST("angelchest.tp", "AngelChest TP","actp"),
-    FETCH_CHEST("angelchest.fetch", "AngelChest Fetch","acfetch");
+    TELEPORT_TO_CHEST(Permissions.TP, "AngelChest TP","actp"),
+    FETCH_CHEST(Permissions.FETCH, "AngelChest Fetch","acfetch"),
+    UNLOCK_CHEST(Permissions.PROTECT,"","acunlock"),
+    LIST_CHESTS(Permissions.USE,"","aclist");
 
     private final String permission;
     private final String economyReason;
     private final String command;
 
-    TeleportAction(String permission, String economyReason, String command) {
+    CommandAction(String permission, String economyReason, String command) {
         this.permission = permission;
         this.economyReason = economyReason;
         this.command = command;

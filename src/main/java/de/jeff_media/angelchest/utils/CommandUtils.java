@@ -6,7 +6,7 @@ import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.PendingConfirm;
 import de.jeff_media.angelchest.enums.EconomyStatus;
-import de.jeff_media.angelchest.enums.TeleportAction;
+import de.jeff_media.angelchest.enums.CommandAction;
 import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -81,7 +81,7 @@ public final class CommandUtils {
     AngelChest = affected chest
     Player = chest owner
      */
-    public static @Nullable Triplet<Integer, AngelChest, Player> argIdx2AngelChest(Main main, CommandSender sendTo, Player affectedPlayer, String chest) {
+    public static @Nullable Triplet<Integer, AngelChest, OfflinePlayer> argIdx2AngelChest(Main main, CommandSender sendTo, OfflinePlayer affectedPlayer, String chest) {
 
         int chestIdStartingAt1;
 
@@ -127,7 +127,7 @@ public final class CommandUtils {
     /**
      * If args is null, skip the confirmation stuff
      */
-    public static void fetchOrTeleport(Main main, Player sender, AngelChest ac, int chestIdStartingAt1, TeleportAction action, boolean askForConfirmation) {
+    public static void fetchOrTeleport(Main main, Player sender, AngelChest ac, int chestIdStartingAt1, CommandAction action, boolean askForConfirmation) {
 
         if (!sender.hasPermission(action.getPermission())) {
             sender.sendMessage(main.messages.MSG_NO_PERMISSION);
@@ -206,7 +206,7 @@ public final class CommandUtils {
         }
     }
 
-    private static boolean hasConfirmed(Main main, CommandSender p, int chestIdStartingAt1, double price, TeleportAction action) {
+    private static boolean hasConfirmed(Main main, CommandSender p, int chestIdStartingAt1, double price, CommandAction action) {
         main.debug("Creating confirm message for Chest ID " + chestIdStartingAt1);
         main.debug("Action: " + action.toString());
         String confirmCommand = String.format("/%s ", action.getCommand());
@@ -316,27 +316,29 @@ public final class CommandUtils {
 
     }
 
-    public static void unlockSingleChest(Main main, Player sendTo, Player affectedPlayer, AngelChest ac) {
+    public static void unlockSingleChest(Main main, CommandSender requester, OfflinePlayer affectedPlayer, AngelChest ac) {
 //		if(!p.hasPermission("angelchest.tp")) {
 //			p.sendMessage(plugin.getCommand("aclist").getPermissionMessage());
 //			return;
 //		}
-
+        /*
         if (!ac.owner.equals(affectedPlayer.getUniqueId())) {
             affectedPlayer.sendMessage(main.messages.ERR_NOTOWNER);
             return;
         }
+        */
+
         if (!ac.isProtected) {
-            affectedPlayer.sendMessage(main.messages.ERR_ALREADYUNLOCKED);
+            requester.sendMessage(main.messages.ERR_ALREADYUNLOCKED);
             return;
         }
 
         ac.unlock();
         ac.scheduleBlockChange();
-        sendTo.sendMessage(main.messages.MSG_UNLOCKED_ONE_ANGELCHEST);
+        requester.sendMessage(main.messages.MSG_UNLOCKED_ONE_ANGELCHEST);
     }
 
-    public static void sendListOfAngelChests(Main main, CommandSender sendTo, Player affectedPlayer) {
+    public static void sendListOfAngelChests(Main main, CommandSender sendTo, OfflinePlayer affectedPlayer) {
         // Get all AngelChests by this player
         ArrayList<AngelChest> angelChestsFromThisPlayer = AngelChestUtils.getAllAngelChestsFromPlayer(affectedPlayer);
 
@@ -358,10 +360,10 @@ public final class CommandUtils {
             String tpCommand = null;
             String fetchCommand = null;
             String unlockCommand = null;
-            if (sendTo.hasPermission("angelchest.tp")) {
+            if (sendTo.hasPermission(Permissions.TP)) {
                 tpCommand = "/actp " + affectedPlayerParameter + chestIndex;
             }
-            if (sendTo.hasPermission("angelchest.fetch")) {
+            if (sendTo.hasPermission(Permissions.FETCH)) {
                 fetchCommand = "/acfetch " + affectedPlayerParameter + chestIndex;
             }
             if (angelChest.isProtected) {

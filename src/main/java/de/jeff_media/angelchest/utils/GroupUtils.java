@@ -2,6 +2,7 @@ package de.jeff_media.angelchest.utils;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
+import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.Group;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.Features;
@@ -56,7 +57,7 @@ public final class GroupUtils {
         Double bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
-            if(!p.hasPermission("angelchest.group."+group)) continue;
+            if(!p.hasPermission(Permissions.PREFIX_GROUP+group)) continue;
             double valuePerPlayer = groups.get(group).xpPercentage;
             if(valuePerPlayer==-2) {
                 continue;
@@ -76,7 +77,7 @@ public final class GroupUtils {
         Integer bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
-            if(!p.hasPermission("angelchest.group."+group)) continue;
+            if(!p.hasPermission(Permissions.PREFIX_GROUP+group)) continue;
             int valuePerPlayer = groups.get(group).duration;
             if(valuePerPlayer==-1) {
                 continue;
@@ -102,7 +103,7 @@ public final class GroupUtils {
         Integer bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
-            if(!p.hasPermission("angelchest.group."+group)) continue;
+            if(!p.hasPermission(Permissions.PREFIX_GROUP+group)) continue;
             int valuePerPlayer = groups.get(group).unlockDuration;
             if(valuePerPlayer==-2) {
                 continue;
@@ -123,7 +124,7 @@ public final class GroupUtils {
         Integer bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
-            if(!p.hasPermission("angelchest.group."+group)) continue;
+            if(!p.hasPermission(Permissions.PREFIX_GROUP+group)) continue;
             int valuePerPlayer = groups.get(group).maxChests;
             if(valuePerPlayer==-1) {
                 continue;
@@ -146,7 +147,7 @@ public final class GroupUtils {
         Double bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
-            if(!p.hasPermission("angelchest.group."+group)) continue;
+            if(!p.hasPermission(Permissions.PREFIX_GROUP+group)) continue;
             String pricePerPlayer = groups.get(group).priceSpawn;
             if(pricePerPlayer.equals("-1")) {
                 continue;
@@ -169,7 +170,7 @@ public final class GroupUtils {
         Double bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
-            if(!p.hasPermission("angelchest.group."+group)) continue;
+            if(!p.hasPermission(Permissions.PREFIX_GROUP+group)) continue;
             String pricePerPlayer = groups.get(group).priceOpen;
             if(pricePerPlayer.equals("-1")) {
                 continue;
@@ -189,7 +190,7 @@ public final class GroupUtils {
         Double bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
-            if(!commandSender.hasPermission("angelchest.group."+group)) continue;
+            if(!commandSender.hasPermission(Permissions.PREFIX_GROUP+group)) continue;
             String pricePerPlayer = groups.get(group).priceFetch;
             if(pricePerPlayer.equals("-1")) {
                 continue;
@@ -209,7 +210,7 @@ public final class GroupUtils {
         Double bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
-            if(!p.hasPermission("angelchest.group."+group)) continue;
+            if(!p.hasPermission(Permissions.PREFIX_GROUP+group)) continue;
             String pricePerPlayer = groups.get(group).priceTeleport;
             if(pricePerPlayer.equals("-1")) {
                 continue;
@@ -229,7 +230,7 @@ public final class GroupUtils {
         Integer bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
-            if(!p.hasPermission("angelchest.group."+group)) continue;
+            if(!p.hasPermission(Permissions.PREFIX_GROUP+group)) continue;
             String itemLossPerPlayer = groups.get(group).itemLoss;
             if(itemLossPerPlayer.equals("-1")) {
                 continue;
@@ -291,7 +292,7 @@ public final class GroupUtils {
         Double bestValueFound = null;
         while(it.hasNext()) {
             String group = it.next();
-            if(!p.hasPermission("angelchest.group."+group)) continue;
+            if(!p.hasPermission(Permissions.PREFIX_GROUP+group)) continue;
             double spawnChancePlayer = groups.get(group).spawnChance;
             if(spawnChancePlayer>=1) return 1;
             if(spawnChancePlayer==-1) {

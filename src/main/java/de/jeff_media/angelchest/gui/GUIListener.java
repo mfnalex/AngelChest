@@ -7,7 +7,7 @@ import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.Features;
-import de.jeff_media.angelchest.enums.TeleportAction;
+import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.utils.CommandUtils;
 import de.jeff_media.angelchest.utils.Utils;
 import de.jeff_media.daddy.Daddy;
@@ -307,7 +307,7 @@ public final class GUIListener implements @NotNull Listener {
 
     @SuppressWarnings("unused")
     private void onGUIClickConfirmMenu(InventoryClickEvent event, Player player, GUIHolder holder, int clickedSlot) {
-        TeleportAction action = holder.getAction();
+        CommandAction action = holder.getAction();
         switch (clickedSlot) {
             case GUI.SLOT_CONFIRM_ACCEPT:
                 CommandUtils.fetchOrTeleport(main, player, holder.getAngelChest(), holder.getChestIdStartingAt1(), action, false);
@@ -337,25 +337,25 @@ public final class GUIListener implements @NotNull Listener {
                 break;
 
             case GUI.SLOT_CHEST_TP:
-                if (player.hasPermission(Permissions.ALLOW_TELEPORT)) {
-                    confirmOrTeleport(event, player, holder, TeleportAction.TELEPORT_TO_CHEST);
+                if (player.hasPermission(Permissions.TP)) {
+                    confirmOrTeleport(event, player, holder, CommandAction.TELEPORT_TO_CHEST);
                 }
                 break;
 
             case GUI.SLOT_CHEST_FETCH:
-                if (player.hasPermission(Permissions.ALLOW_FETCH)) {
-                    confirmOrTeleport(event, player, holder, TeleportAction.FETCH_CHEST);
+                if (player.hasPermission(Permissions.FETCH)) {
+                    confirmOrTeleport(event, player, holder, CommandAction.FETCH_CHEST);
                 }
                 break;
 
             case GUI.SLOT_CHEST_UNLOCK:
-                if (player.hasPermission(Permissions.ALLOW_PROTECT) && holder.getAngelChest().isProtected) {
+                if (player.hasPermission(Permissions.PROTECT) && holder.getAngelChest().isProtected) {
                     CommandUtils.unlockSingleChest(main, player, player, holder.getAngelChest());
                 }
                 break;
 
             case GUI.SLOT_CHEST_PREVIEW:
-                if (player.hasPermission(Permissions.ALLOW_PREVIEW)) {
+                if (player.hasPermission(Permissions.PREVIEW)) {
                     main.guiManager.showPreviewGUI(player, holder.getAngelChest(), true, false);
                 }
 
@@ -365,7 +365,7 @@ public final class GUIListener implements @NotNull Listener {
     }
 
     @SuppressWarnings("unused")
-    private void confirmOrTeleport(InventoryClickEvent event, Player player, GUIHolder holder, TeleportAction action) {
+    private void confirmOrTeleport(InventoryClickEvent event, Player player, GUIHolder holder, CommandAction action) {
         if (main.getConfig().getBoolean(Config.CONFIRM) && action.getPrice(player)>0.0d && main.economyStatus== EconomyStatus.ACTIVE) {
             main.guiManager.showConfirmGUI(player, holder, action);
         } else {

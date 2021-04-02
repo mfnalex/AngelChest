@@ -3,9 +3,11 @@ package de.jeff_media.angelchest.commands;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
-import de.jeff_media.angelchest.enums.TeleportAction;
+import de.jeff_media.angelchest.data.CommandArgument;
+import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.utils.CommandUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,42 +32,11 @@ public final class CommandFetchOrTeleport implements CommandExecutor, TabComplet
     @Override
     public boolean onCommand(@NotNull CommandSender requester, Command command, @NotNull String alias, String[] args) {
 
-        TeleportAction action;
+        CommandAction action;
         switch(command.getName()) {
-            case "actp": action = TeleportAction.TELEPORT_TO_CHEST; break;
-            case "acfetch": action = TeleportAction.FETCH_CHEST; break;
+            case "actp": action = CommandAction.TELEPORT_TO_CHEST; break;
+            case "acfetch": action = CommandAction.FETCH_CHEST; break;
             default: return false;
-        }
-
-        String chestOwnerName = null;
-        Player chestOwner = null;
-        String chest = null;
-
-        if(args.length>=2) {
-            if(args[0].equalsIgnoreCase(requester.getName()) || requester.hasPermission(Permissions.OTHERS)) {
-                chest = args[1];
-                chestOwner = Bukkit.getPlayer(args[0]);
-                if (chestOwner == null) {
-                    requester.sendMessage(String.format(main.messages.MSG_UNKNOWN_PLAYER, args[0]));
-                    return true;
-                }
-            } else {
-                requester.sendMessage(main.messages.MSG_NO_PERMISSION);
-                return true;
-            }
-        } else if(args.length==1) {
-            chest = args[0];
-        } else {
-            chest = null;
-        }
-
-        if(chestOwner==null) {
-            if(requester instanceof Player) {
-                chestOwner = (Player) requester;
-            } else {
-                requester.sendMessage(main.messages.MSG_MUST_SPECIFY_PLAYER);
-                return true;
-            }
         }
 
         if(!requester.hasPermission(action.getPermission())) {
@@ -73,18 +44,18 @@ public final class CommandFetchOrTeleport implements CommandExecutor, TabComplet
             return true;
         }
 
-        System.out.println("Chest = " + chest);
-        System.out.println("Sender = " + requester);
-        System.out.println("Owner = " + chestOwner);
+        CommandArgument commandArgument = CommandArgument.parse(action,requester, args);
+        if(commandArgument==null) {
+            return true;
+        }
 
-        Triplet<Integer, AngelChest,Player> chestResult = CommandUtils.argIdx2AngelChest(main, requester, chestOwner, chest);
+        Triplet<Integer, AngelChest,OfflinePlayer> chestResult = CommandUtils.argIdx2AngelChest(main, requester, commandArgument.getAffectedPlayer(), commandArgument.getChest());
         if(chestResult == null) {
             return true;
         }
 
         int chestIdStartingAt1 = chestResult.getValue0();
         AngelChest angelChest = chestResult.getValue1();
-        //Player player = chestResult.getValue2();
         CommandUtils.fetchOrTeleport(main,(Player) requester,angelChest,chestIdStartingAt1,action,true);
 
         return true;
@@ -115,7 +86,7 @@ public final class CommandFetchOrTeleport implements CommandExecutor, TabComplet
             if(!commandSender.hasPermission(Permissions.OTHERS)) {
                 return null;
             } else {
-                Player candidate = Bukkit.getPlayer(args[0]);
+                OfflinePlayer candidate = Bukkit.getOfflinePlayer(args[0]);
                 if(candidate == null) return null;
                 uuid = candidate.getUniqueId();
                 for(int i = 1; i <= getChests(uuid); i++) {

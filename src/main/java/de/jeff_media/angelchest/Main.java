@@ -77,8 +77,6 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 	public boolean debug = false;
 	public boolean verbose = false;
 
-	public boolean gracefulShutdown = false;
-
 	public List<String> disabledMaterials;
 	public List<String> disabledWorlds;
 	public List<String> disabledRegions;
@@ -284,12 +282,12 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 
 	private void registerCommands() {
 		String[][] commands = new String[][]{
-				{"acgui", Permissions.ALLOW_USE},
-				{"aclist", Permissions.ALLOW_USE},
-				{"acfetch", Permissions.ALLOW_FETCH},
-				{"actp", Permissions.ALLOW_TELEPORT},
-				{"acunlock", Permissions.ALLOW_PROTECT},
-				{"acreload", Permissions.ALLOW_RELOAD},
+				{"acgui", Permissions.USE},
+				{"aclist", Permissions.USE},
+				{"acfetch", Permissions.FETCH},
+				{"actp", Permissions.TP},
+				{"acunlock", Permissions.PROTECT},
+				{"acreload", Permissions.RELOAD},
 				{"acdebug", Permissions.DEBUG},
 				{"acversion", Permissions.VERSION}
 		};
@@ -406,7 +404,6 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 	}
 
 	public void onDisable() {
-		gracefulShutdown = true;
 		if(emergencyMode) return;
 
 		saveAllAngelChestsToFile(true);

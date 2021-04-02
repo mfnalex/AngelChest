@@ -6,7 +6,7 @@ import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.Features;
-import de.jeff_media.angelchest.enums.TeleportAction;
+import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
 import org.bukkit.Bukkit;
@@ -204,10 +204,10 @@ public final class GUIManager {
 
         inventory.setItem(GUI.SLOT_CHEST_BACK, getBackButton());
         inventory.setItem(GUI.SLOT_CHEST_INFO, getInfoButton(angelChest, id));
-        if(player.hasPermission(Permissions.ALLOW_TELEPORT)) inventory.setItem(GUI.SLOT_CHEST_TP, getTPButton());
-        if(player.hasPermission(Permissions.ALLOW_FETCH)) inventory.setItem(GUI.SLOT_CHEST_FETCH, getFetchButton());
-        if(player.hasPermission(Permissions.ALLOW_PROTECT) && angelChest.isProtected) inventory.setItem(GUI.SLOT_CHEST_UNLOCK, getUnlockButton());
-        if(player.hasPermission(Permissions.ALLOW_PREVIEW)) inventory.setItem(GUI.SLOT_CHEST_PREVIEW, getPreviewButton());
+        if(player.hasPermission(Permissions.TP)) inventory.setItem(GUI.SLOT_CHEST_TP, getTPButton());
+        if(player.hasPermission(Permissions.FETCH)) inventory.setItem(GUI.SLOT_CHEST_FETCH, getFetchButton());
+        if(player.hasPermission(Permissions.PROTECT) && angelChest.isProtected) inventory.setItem(GUI.SLOT_CHEST_UNLOCK, getUnlockButton());
+        if(player.hasPermission(Permissions.PREVIEW)) inventory.setItem(GUI.SLOT_CHEST_PREVIEW, getPreviewButton());
         player.openInventory(inventory);
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> {
@@ -217,7 +217,7 @@ public final class GUIManager {
         }, Ticks.fromSeconds(1));
     }
 
-    public void showConfirmGUI(Player player, GUIHolder holder, TeleportAction action) {
+    public void showConfirmGUI(Player player, GUIHolder holder, CommandAction action) {
         GUIHolder newHolder = new GUIHolder(player, GUIContext.CONFIRM_MENU, holder.getChestIdStartingAt1());
         newHolder.setAction(action);
         Inventory inventory = Bukkit.createInventory(newHolder, 9, getTitle(holder.getAngelChest(),holder.getChestIdStartingAt1()));

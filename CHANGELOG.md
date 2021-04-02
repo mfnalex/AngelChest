@@ -3,6 +3,7 @@
   - Head can always drop or only on PvP deaths
   - Head can be put into the chest, or drop next to it
 - Fixed broken chests being spawned when player has an empty inventory and 0 XP
+- You can now run /aclist, /acunlock, /actp and /acfetch for other players (requires angelchest.others permission) 
 - Improved Metrics
 
 ## 3.6.0

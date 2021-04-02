@@ -2,21 +2,22 @@ package de.jeff_media.angelchest.utils;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
+import de.jeff_media.angelchest.config.Permissions;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public final class LinkUtils {
 
-    protected static TextComponent getLinks(CommandSender sendTo, @SuppressWarnings("unused") Player affectedPlayer, String preText, String commandTp, String commandUnlock, String commandFetch) {
+    protected static TextComponent getLinks(CommandSender sendTo, @SuppressWarnings("unused") OfflinePlayer affectedPlayer, String preText, String commandTp, String commandUnlock, String commandFetch) {
 
         Main main = Main.getInstance();
 
         String placeholder = " ";
-        if ((sendTo.hasPermission("angelchest.tp") && commandTp != null)
-                || (sendTo.hasPermission("angelchest.fetch") && commandFetch != null)
-                || (sendTo.hasPermission("angelchest.lock") && commandUnlock != null)) {
+        if ((sendTo.hasPermission(Permissions.TP) && commandTp != null)
+                || (sendTo.hasPermission(Permissions.FETCH) && commandFetch != null)
+                || (sendTo.hasPermission(Permissions.PROTECT) && commandUnlock != null)) {
             if (main.getConfig().getBoolean(Config.SHOW_LINKS_ON_SEPARATE_LINE)) preText = preText + "\n";
         }
 
