@@ -1,3 +1,8 @@
+## 3.9.0
+- Added custom WorldGuard flag "allow-angelchest" (default: allow) (Plus version only)
+- Improved WorldGuard integration
+- Dropped support for WorldGuard older than WorldGuard 7.0.0 (since you are on 1.13+ anyway, you don't care about that)
+
 ## 3.8.0
 - Added option to display list of AngelChests on Join (default true): "show-location-on-join"
 

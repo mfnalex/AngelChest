@@ -173,11 +173,6 @@
             <id>enginehub-repo</id>
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
-        <!-- WorldGuard legacy -->
-        <repository>
-            <id>sk89q-repo</id>
-            <url>http://maven.sk89q.com/repo/</url>
-        </repository>
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -304,16 +299,16 @@
             <version>2.3.14</version>
             <scope>provided</scope>
         </dependency>
-        <dependency><!-- WorldGuard new -->
+        <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
-            <version>7.0.3</version>
+            <version>7.0.4</version>
             <scope>provided</scope>
         </dependency>
-        <dependency><!-- WorldGuard legacy -->
-            <groupId>com.sk89q.worldguard</groupId>
-            <artifactId>worldguard-legacy</artifactId>
-            <version>6.2</version>
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>7.2.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

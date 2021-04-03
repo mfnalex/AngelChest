@@ -8,7 +8,6 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
@@ -31,11 +30,8 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
     final Main main;
     public boolean disabled = false;
     public static StateFlag FLAG_ALLOW_ANGELCHEST = null;
-    WorldGuardPlugin wg;
-    RegionContainer container;
-    // This is for WorldGuard 7+ only.
-    // If an older version is installed, this class will redirect the check to the legacy handler
-    WorldGuardLegacyHandler legacyHandler = null;
+    WorldGuardPlugin worldGuardPlugin;
+    RegionContainer regionContainer;
 
     public WorldGuardHandler(final Main main) {
         this.main = main;
@@ -52,31 +48,28 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
             return;
         }
 
+        main.getLogger().info("Trying to hook into WorldGuard...");
+
         try {
             Class.forName("com.sk89q.worldguard.bukkit.WorldGuardPlugin").getMethod("inst");
-            wg = WorldGuardPlugin.inst();
+            worldGuardPlugin = WorldGuardPlugin.inst();
         } catch (final ClassNotFoundException | NoSuchMethodException e) {
-            //System.out.println("WorldGuard not found");
+            main.getLogger().severe("You are using a version of WorldGuard that does not implement all required API methods. You must use at least WorldGuard 7.0.0! WorldGuard integration is disabled.");
             disabled = true;
             return;
         }
 
         // Getting here means WorldGuard is installed
 
-        if (wg != null) {
+        if (worldGuardPlugin != null) {
             try {
                 // This only works on WorldGuard 7+
-                container = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(WorldGuard.getInstance(), "WorldGuard#getInstance is null")
+                regionContainer = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(WorldGuard.getInstance(), "WorldGuard#getInstance is null")
                         .getPlatform(), "WorldGuard#getInstance#getPlatform is null").getRegionContainer(), "WorldGuard#getInstance#getRegionContainer is null");
-                main.getLogger().info("Successfully hooked into WorldGuard 7+");
-
-
-            } catch (final NoClassDefFoundError e) {
-                // Ok, try again with version 6
-                legacyHandler = new WorldGuardLegacyHandler(this);
-            } catch (final NullPointerException e) {
+                main.getLogger().info("Successfully hooked into WorldGuard.");
+            } catch (final Throwable ignored) {
                 disabled = true;
-                main.getLogger().info("You are using a version of WorldGuard that does not fully support your Minecraft version. WorldGuard integration is disabled.");
+                main.getLogger().severe("You are using a version of WorldGuard that does not fully support your Minecraft version. WorldGuard integration is disabled.");
             }
         }
     }
@@ -120,14 +113,13 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
     @Override
     public boolean getAngelChestFlag(final Player player) {
         if(disabled) return true;
-        if(legacyHandler != null) return true;
-        if(wg == null) return true;
+        if(worldGuardPlugin == null) return true;
         if(FLAG_ALLOW_ANGELCHEST == null) return true;
         final Block block = player.getLocation().getBlock();
-        final RegionManager regions = container.get(BukkitAdapter.adapt(block.getWorld()));
+        final RegionManager regions = regionContainer.get(BukkitAdapter.adapt(block.getWorld()));
         final BlockVector3 position = BlockVector3.at(block.getX(),block.getY(), block.getZ());
         final ApplicableRegionSet set = regions.getApplicableRegions(position);
-        LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
+        LocalPlayer localPlayer = worldGuardPlugin.wrapPlayer(player);
         boolean allow = set.testState(localPlayer,FLAG_ALLOW_ANGELCHEST);
         if(allow) {
             return true;
@@ -149,11 +141,10 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
     @Override
     public boolean isBlacklisted(final Block block) {
         if (disabled) return false;
-        if (legacyHandler != null) return legacyHandler.isBlacklisted(block);
-        if (wg == null) return false;
+        if (worldGuardPlugin == null) return false;
         if (main.disabledRegions == null || main.disabledRegions.isEmpty()) return false;
 
-        final RegionManager regions = container.get(BukkitAdapter.adapt(block.getWorld()));
+        final RegionManager regions = regionContainer.get(BukkitAdapter.adapt(block.getWorld()));
         final List<String> regionList = regions.getApplicableRegionsIDs(getBlockVector3(block));
 
         main.debug("Checking Regions in WG7+");
