@@ -13,29 +13,29 @@ import java.util.Set;
 
 public final class HologramFixer {
 
-    public static int removeDeadHolograms(World world) {
+    public static int removeDeadHolograms(final World world) {
 
-        Main main = Main.getInstance();
+        final Main main = Main.getInstance();
 
         //noinspection rawtypes
-        Collection armorStands;
+        final Collection armorStands;
         armorStands = world.getEntitiesByClass(ArmorStand.class);
 
 
-        Set<Pair<Integer,Integer>> deadLocations = new HashSet<>();
-        @SuppressWarnings("unchecked") Iterator<Entity> it = armorStands.iterator();
+        final Set<Pair<Integer, Integer>> deadLocations = new HashSet<>();
+        @SuppressWarnings("unchecked") final Iterator<Entity> it = armorStands.iterator();
         //noinspection WhileLoopReplaceableByForEach
-        while(it.hasNext()) {
-            Entity entity = it.next();
-            if(main.nbtUtils.isBrokenHologram((ArmorStand) entity)) {
-                Pair<Integer,Integer> deadLocation = new Pair<>(entity.getLocation().getBlockX(),entity.getLocation().getBlockZ());
+        while (it.hasNext()) {
+            final Entity entity = it.next();
+            if (main.nbtUtils.isBrokenHologram((ArmorStand) entity)) {
+                final Pair<Integer, Integer> deadLocation = new Pair<>(entity.getLocation().getBlockX(), entity.getLocation().getBlockZ());
                 deadLocations.add(deadLocation);
                 entity.remove();
             }
         }
 
-        if(deadLocations.size()>0) {
-            main.debug("HologramFixer: Found and removed "+deadLocations.size()+" dead holograms in world "+world.getName());
+        if (!deadLocations.isEmpty()) {
+            main.debug("HologramFixer: Found and removed " + deadLocations.size() + " dead holograms in world " + world.getName());
         }
 
         return deadLocations.size();

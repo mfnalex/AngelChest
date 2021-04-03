@@ -19,6 +19,8 @@
 # angelchest.protect.ignore  Players can open other player's locked AngelChests
 # angelchest.fetch           Allows the player to teleport their chests to them
 # angelchest.tp              The player can teleport to their AngelChests
+# angelchest.preview         Allows the player to preview their AngelChests' contents in /acgui
+# angelchest.others          Allows to run /aclist, /actp, /acfetch and /acunlock for other players
 # angelchest.reload          Allows reloading the config using /acreload
 # angelchest.debug           Allows to use the debug command /acdebug
 # angelchest.version         Allows to use the version command /acversion
@@ -128,8 +130,13 @@ spawn-chance: 1.0
 random-item-loss: 0
 
 # When set to true, players will receive a message telling them where the AngelChest
-# is located.
+# is located, including clickable links to teleport, fetch or unlock the chest if
+# the player has permission for those commands.
 show-location: true
+
+# When set to true, players will receive the list of AngelChests again after
+# rejoining.
+show-location-on-join: true
 
 # Whether to show a message to the AngelChest owner when other players open or empty their chest
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
@@ -619,7 +626,7 @@ chest-filename: "{player}_{world}_{x}_{y}_{z}.yml"
 message-all-your-angelchests-were-already-unlocked: "&eAll your AngelChests were already unlocked."
 message-angelchest-created: "&aAn Angel collected your stuff and put it into a chest located at the place of your death."
 message-angelchest-disappeared: "&cYou were too slow... Your AngelChest has disappeared and dropped its contents."
-message-error-players-only: "&cError: This command can only be severe by players."
+message-error-players-only: "&cError: This command can only be used by players."
 message-inventory-was-empty: "&eAn Angel searched for your stuff but could not find anything."
 message-not-allowed-to-break-other-angelchests: "&cYou are not allowed to break other people's AngelChest."
 message-not-allowed-to-open-other-angelchests: "&cYou are not allowed to open other people's AngelChest."
@@ -656,7 +663,7 @@ message-no-permission: "&cYou do not have the permission to use this command."
 #message-all-your-angelchests-were-already-unlocked: "&eAll your AngelChests were already unlocked."
 #message-angelchest-created: "&aAn Angel collected your stuff and put it into a chest located at the place of your death."
 #message-angelchest-disappeared: "&cYou were too slow... Your AngelChest has disappeared and dropped its contents."
-#message-error-players-only: "&cError: This command can only be severe by players."
+#message-error-players-only: "&cError: This command can only be used by players."
 #message-inventory-was-empty: "&eAn Angel searched for your stuff but could not find anything."
 #message-not-allowed-to-break-other-angelchests: "&cYou are not allowed to break other people's AngelChest."
 #message-not-allowed-to-open-other-angelchests: "&cYou are not allowed to open other people's AngelChest."

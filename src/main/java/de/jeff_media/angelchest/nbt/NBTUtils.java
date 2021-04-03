@@ -11,12 +11,12 @@ public final class NBTUtils {
     private final Main main;
 
     public NBTUtils() {
-        this.main= Main.getInstance();
+        this.main = Main.getInstance();
     }
 
-    public boolean isBrokenHologram(ArmorStand armorStand) {
-        if(!NBTAPI.hasNBT(armorStand,NBTTags.IS_HOLOGRAM)) return false;
-        UUID uuid = armorStand.getUniqueId();
+    public boolean isBrokenHologram(final ArmorStand armorStand) {
+        if (!NBTAPI.hasNBT(armorStand, NBTTags.IS_HOLOGRAM)) return false;
+        final UUID uuid = armorStand.getUniqueId();
         return !main.getAllArmorStandUUIDs().contains(uuid);
     }
 }

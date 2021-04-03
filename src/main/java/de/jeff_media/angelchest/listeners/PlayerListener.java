@@ -30,6 +30,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
@@ -53,9 +54,18 @@ public final class PlayerListener implements Listener {
         this.main = Main.getInstance();
     }
 
+    private static ItemStack getPlayerHead(final OfflinePlayer player) {
+        return HeadCreator.getPlayerHead(player.getUniqueId());
+    }
+
+    private static void dropPlayerHead(final Player player) {
+        final ItemStack head = getPlayerHead(player);
+        player.getLocation().getWorld().dropItemNaturally(player.getLocation(), head);
+    }
+
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.MONITOR)
-    public void spawnAngelChestMonitor(PlayerDeathEvent event) {
+    public void spawnAngelChestMonitor(final PlayerDeathEvent event) {
         if (Utils.getEventPriority(main.getConfig().getString(Config.EVENT_PRIORITY)) == EventPriority.MONITOR) {
             main.debug("PlayerDeathEvent Priority MONITOR");
             spawnAngelChest(event);
@@ -64,7 +74,7 @@ public final class PlayerListener implements Listener {
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void spawnAngelChestHighest(PlayerDeathEvent event) {
+    public void spawnAngelChestHighest(final PlayerDeathEvent event) {
         if (Utils.getEventPriority(main.getConfig().getString(Config.EVENT_PRIORITY)) == EventPriority.HIGHEST) {
             main.debug("PlayerDeathEvent Priority HIGHEST");
             spawnAngelChest(event);
@@ -73,7 +83,7 @@ public final class PlayerListener implements Listener {
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGH)
-    public void spawnAngelChestHigh(PlayerDeathEvent event) {
+    public void spawnAngelChestHigh(final PlayerDeathEvent event) {
         if (Utils.getEventPriority(main.getConfig().getString(Config.EVENT_PRIORITY)) == EventPriority.HIGH) {
             main.debug("PlayerDeathEvent Priority HIGH");
             spawnAngelChest(event);
@@ -82,7 +92,7 @@ public final class PlayerListener implements Listener {
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.NORMAL)
-    public void spawnAngelChestNormal(PlayerDeathEvent event) {
+    public void spawnAngelChestNormal(final PlayerDeathEvent event) {
         if (Utils.getEventPriority(main.getConfig().getString(Config.EVENT_PRIORITY)) == EventPriority.NORMAL) {
             main.debug("PlayerDeathEvent Priority NORMAL");
             spawnAngelChest(event);
@@ -91,7 +101,7 @@ public final class PlayerListener implements Listener {
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.LOW)
-    public void spawnAngelChestLow(PlayerDeathEvent event) {
+    public void spawnAngelChestLow(final PlayerDeathEvent event) {
         if (Utils.getEventPriority(main.getConfig().getString(Config.EVENT_PRIORITY)) == EventPriority.LOW) {
             main.debug("PlayerDeathEvent Priority LOW");
             spawnAngelChest(event);
@@ -100,45 +110,36 @@ public final class PlayerListener implements Listener {
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.LOWEST)
-    public void spawnAngelChestLowest(PlayerDeathEvent event) {
+    public void spawnAngelChestLowest(final PlayerDeathEvent event) {
         if (Utils.getEventPriority(main.getConfig().getString(Config.EVENT_PRIORITY)) == EventPriority.LOWEST) {
             main.debug("PlayerDeathEvent Priority LOWEST");
             spawnAngelChest(event);
         }
     }
 
-    private static ItemStack getPlayerHead(OfflinePlayer player) {
-        return HeadCreator.getPlayerHead(player.getUniqueId());
-    }
-
-    private static void dropPlayerHead(Player player) {
-        ItemStack head = getPlayerHead(player);
-        player.getLocation().getWorld().dropItemNaturally(player.getLocation(),head);
-    }
-
     /**
      * Attempts to spawn an AngelChest on player death
+     *
      * @param event PlayerDeathEvent
      */
-    private void spawnAngelChest(PlayerDeathEvent event) {
+    private void spawnAngelChest(final PlayerDeathEvent event) {
 
-        boolean isPvpDeath = event.getEntity().getKiller() != null && event.getEntity().getKiller() != event.getEntity();
+        final boolean isPvpDeath = event.getEntity().getKiller() != null && event.getEntity().getKiller() != event.getEntity();
 
         // Print out all plugins/listeners that listen to the PlayerDeathEvent
         if (main.debug) {
-            for (RegisteredListener registeredListener : event.getHandlers().getRegisteredListeners()) {
+            for (final RegisteredListener registeredListener : event.getHandlers().getRegisteredListeners()) {
                 main.debug(registeredListener.getPlugin().getName() + ": " + registeredListener.getListener().getClass().getName() + " @ " + registeredListener.getPriority().name());
             }
         }
 
         main.debug("PlayerListener -> spawnAngelChest");
-        Player p = event.getEntity();
-        if (!p.hasPermission("angelchest.use")) {
+        final Player p = event.getEntity();
+        if (!p.hasPermission(Permissions.USE)) {
             main.debug("Cancelled: no permission (angelchest.use)");
             return;
         }
 
-        // TODO: Readd this to the config file maybe?
         if (event.getKeepInventory()) {
             if (!main.getConfig().getBoolean(Config.IGNORE_KEEP_INVENTORY)) {
                 main.debug("Cancelled: event#getKeepInventory() == true");
@@ -168,7 +169,7 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        if(Daddy.allows(Features.PROHIBIT_CHEST_IN_LAVA_OR_VOID)) {
+        if (Daddy.allows(Features.PROHIBIT_CHEST_IN_LAVA_OR_VOID)) {
             if (!main.getConfig().getBoolean(Config.ALLOW_CHEST_IN_LAVA)
                     && p.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
                 main.debug("Cancelled: Lava, allow-chest-in-lava: false");
@@ -185,8 +186,10 @@ public final class PlayerListener implements Listener {
         if (!main.getConfig().getBoolean(Config.ALLOW_ANGELCHEST_IN_PVP)) {
             if (isPvpDeath) {
                 main.debug("Cancelled: allow-angelchest-in-pvp is false and this seemed to be a pvp death");
-                if(main.getConfig().getBoolean(Config.DROP_HEADS)) {
-                    dropPlayerHead(p);
+                if (main.getConfig().getBoolean(Config.DROP_HEADS)) {
+                    if (Daddy.allows(Features.DROP_HEADS)) {
+                        dropPlayerHead(p);
+                    }
                 }
 
                 Utils.sendDelayedMessage(p, main.messages.MSG_NO_CHEST_IN_PVP, 1);
@@ -194,8 +197,7 @@ public final class PlayerListener implements Listener {
             }
         }
 
-        if (!Utils.spawnChance(main.groupUtils.getSpawnChancePerPlayer(event.getEntity())))
-        {
+        if (!AngelChestUtils.spawnChance(main.groupUtils.getSpawnChancePerPlayer(event.getEntity()))) {
             main.debug("Cancelled: unlucky, spawnChance returned false!");
             Utils.sendDelayedMessage(p, main.messages.MSG_SPAWN_CHANCE_UNSUCCESFULL, 1);
             return;
@@ -204,47 +206,47 @@ public final class PlayerListener implements Listener {
         // Player died below world
         Block fixedPlayerPosition;
         if (p.getLocation().getBlockY() < 1) {
-            main.debug("Fixing player position for "+p.getLocation().toString() + " because Y < 1");
+            main.debug("Fixing player position for " + p.getLocation().toString() + " because Y < 1");
             fixedPlayerPosition = null;
             // Void detection: use last known position
             if (main.getConfig().getBoolean(Config.VOID_DETECTION)) {
                 if (main.lastPlayerPositions.containsKey(p.getUniqueId())) {
                     fixedPlayerPosition = main.lastPlayerPositions.get(p.getUniqueId());
-                    main.debug("Using last known player position "+fixedPlayerPosition.getLocation().toString());
+                    main.debug("Using last known player position " + fixedPlayerPosition.getLocation().toString());
                 }
             }
             // Void detection disabled or no last known position: set to Y=1
             if (fixedPlayerPosition == null) {
-                Location ltmp = p.getLocation();
+                final Location ltmp = p.getLocation();
                 ltmp.setY(1);
                 fixedPlayerPosition = ltmp.getBlock();
-                main.debug("Void detection disabled or no last known player position, setting Y to 1 "+fixedPlayerPosition.getLocation().toString());
+                main.debug("Void detection disabled or no last known player position, setting Y to 1 " + fixedPlayerPosition.getLocation().toString());
             }
         } else {
             fixedPlayerPosition = p.getLocation().getBlock();
-            main.debug("Void fixing not needed for "+fixedPlayerPosition.getLocation().toString());
+            main.debug("Void fixing not needed for " + fixedPlayerPosition.getLocation().toString());
         }
 
         // Player died above build limit
         // Note: This has to be checked AFTER the "below world" check, because the lastPlayerPositions could return 256
-        if(fixedPlayerPosition.getY() >= p.getWorld().getMaxHeight()) {
-            main.debug("Fixing player position for "+p.getLocation().toString()+" because Y >= World#getMaxHeight()");
-            Location ltmp = p.getLocation();
-            ltmp.setY(p.getWorld().getMaxHeight()-1);
+        if (fixedPlayerPosition.getY() >= p.getWorld().getMaxHeight()) {
+            main.debug("Fixing player position for " + p.getLocation().toString() + " because Y >= World#getMaxHeight()");
+            final Location ltmp = p.getLocation();
+            ltmp.setY(p.getWorld().getMaxHeight() - 1);
             fixedPlayerPosition = ltmp.getBlock();
-            main.debug("Setting Y to World#getMaxHeight()-1 "+fixedPlayerPosition.getLocation().toString());
+            main.debug("Setting Y to World#getMaxHeight()-1 " + fixedPlayerPosition.getLocation().toString());
         } else {
             //fixedPlayerPosition = p.getLocation().getBlock();
-            main.debug("MaxHeight fixing not needed for "+fixedPlayerPosition.getLocation().toString());
+            main.debug("MaxHeight fixing not needed for " + fixedPlayerPosition.getLocation().toString());
         }
 
-        main.debug("FixedPlayerPosition: "+fixedPlayerPosition.toString());
-        Block angelChestBlock = Utils.getChestLocation(fixedPlayerPosition);
+        main.debug("FixedPlayerPosition: " + fixedPlayerPosition.toString());
+        Block angelChestBlock = AngelChestUtils.getChestLocation(fixedPlayerPosition);
 
         // Calling Event
-        AngelChestSpawnPrepareEvent angelChestSpawnPrepareEvent = new AngelChestSpawnPrepareEvent(p,angelChestBlock,p.getLastDamageCause().getCause(),event);
+        final AngelChestSpawnPrepareEvent angelChestSpawnPrepareEvent = new AngelChestSpawnPrepareEvent(p, angelChestBlock, p.getLastDamageCause().getCause(), event);
         Bukkit.getPluginManager().callEvent(angelChestSpawnPrepareEvent);
-        if(angelChestSpawnPrepareEvent.isCancelled()) {
+        if (angelChestSpawnPrepareEvent.isCancelled()) {
             main.debug("AngelChestCreateEvent has been cancelled!");
             return;
         }
@@ -258,9 +260,9 @@ public final class PlayerListener implements Listener {
         event.setKeepInventory(true);
 
         // DETECT ALL DROPS, EVEN FRESHLY ADDED
-        ArrayList<ItemStack> freshDrops = new ArrayList<>();
-        ItemStack[] drops = event.getDrops().toArray(new ItemStack[0]);
-        List<ItemStack> inventoryAsList = Arrays.asList(p.getInventory().getContents());
+        final ArrayList<ItemStack> freshDrops = new ArrayList<>();
+        final ItemStack[] drops = event.getDrops().toArray(new ItemStack[0]);
+        final List<ItemStack> inventoryAsList = Arrays.asList(p.getInventory().getContents());
 
         main.debug("===== ADDITIONAL DEATH DROP LIST =====");
         main.debug("The following items are in the drops list, but not in the inventory.");
@@ -271,39 +273,39 @@ public final class PlayerListener implements Listener {
         }
         main.debug("===== ADDITIONAL DEATH DROP LIST END =====");
 
-        if(main.getConfig().getBoolean(Config.DROP_HEADS)) {
-            ItemStack head = null;
-            if(main.getConfig().getBoolean(Config.ONLY_DROP_HEADS_IN_PVP)) {
-                if(isPvpDeath) {
-                    head = getPlayerHead(p);
+        if (main.getConfig().getBoolean(Config.DROP_HEADS) && Daddy.allows(Features.DROP_HEADS)) {
+            boolean dropHead = false;
+            if (main.getConfig().getBoolean(Config.ONLY_DROP_HEADS_IN_PVP)) {
+                if (isPvpDeath) {
+                    dropHead = true;
                 }
             } else {
-                head = getPlayerHead(p);
+                dropHead = true;
             }
 
-            if(head != null) {
-                if(main.getConfig().getBoolean(Config.DONT_STORE_HEADS_IN_ANGELCHEST)) {
-                    p.getLocation().getWorld().dropItemNaturally(p.getLocation(),head);
+            if (dropHead) {
+                if (main.getConfig().getBoolean(Config.DONT_STORE_HEADS_IN_ANGELCHEST)) {
+                    dropPlayerHead(p);
                 } else {
-                    freshDrops.add(head);
+                    freshDrops.add(getPlayerHead(p));
                 }
             }
         }
 
-        for (ItemStack freshDrop : freshDrops) {
-            for (ItemStack leftover : p.getInventory().addItem(freshDrop).values()) {
-                if(leftover == null || leftover.getAmount() == 0 || leftover.getType() == Material.AIR) continue;
+        for (final ItemStack freshDrop : freshDrops) {
+            for (final ItemStack leftover : p.getInventory().addItem(freshDrop).values()) {
+                if (leftover == null || leftover.getAmount() == 0 || leftover.getType() == Material.AIR) continue;
                 p.getWorld().dropItemNaturally(p.getLocation(), leftover);
                 main.getLogger().info("Could not add item to already full AngelChest of player " + p.getName() + ": " + leftover + ", dropping it to world @ " + p.getLocation().toString());
             }
         }
-		// END DETECT ALL DROPS
+        // END DETECT ALL DROPS
 
         /*
         Creating the chest
          */
-        DeathCause deathCause = new DeathCause(p.getLastDamageCause());
-        AngelChest ac = new AngelChest(p, angelChestBlock, main.logger.getLogFileName(event),deathCause);
+        final DeathCause deathCause = new DeathCause(p.getLastDamageCause());
+        final AngelChest ac = new AngelChest(p, angelChestBlock, main.logger.getLogFileName(event), deathCause);
         main.angelChests.put(angelChestBlock, ac);
 
 
@@ -311,37 +313,35 @@ public final class PlayerListener implements Listener {
         Experience
          */
         //noinspection StatementWithEmptyBody
-        if(Daddy.allows(Features.DISALLOW_XP_COLLECTION) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("false")) {
+        if (Daddy.allows(Features.DISALLOW_XP_COLLECTION) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("false")) {
             // Do nothing
         } else //noinspection StatementWithEmptyBody
-            if(Daddy.allows(Features.DISALLOW_XP_COLLECTION_IN_PVP) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("nopvp") &&
-                (event.getEntity().getKiller() != null && event.getEntity().getKiller() != event.getEntity())) {
-            // Do nothing
-        }
-        else if (!event.getKeepLevel() && event.getDroppedExp() != 0) {
-            double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(p);
-            main.debug("Player has xpPercentage of " + xpPercentage);
-            if (xpPercentage == -1 || !Daddy.allows(Features.PERCENTAL_XP_LOSS)) {
-                ac.experience = event.getDroppedExp();
-            } else {
-                float currentXP = XPUtils.getTotalXPRequiredForLevel(p.getLevel());
-                main.debug("currentXP = " + currentXP + " (for this level)");
-                main.debug("p.getEXP = " + p.getExp());
-                double remainingXP = p.getExp() * XPUtils.getXPRequiredForNextLevel(p.getLevel());
-                main.debug("Remaining XP = " + remainingXP);
-                double totalXP = currentXP + remainingXP;
-                main.debug("Total XP = " + totalXP);
-                double adjustedXP = totalXP * xpPercentage;
-                main.debug("adjustedXP = " + adjustedXP);
-                ac.experience = (int) adjustedXP;
+            if (Daddy.allows(Features.DISALLOW_XP_COLLECTION_IN_PVP) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("nopvp") &&
+                    (event.getEntity().getKiller() != null && event.getEntity().getKiller() != event.getEntity())) {
+                // Do nothing
+            } else if (!event.getKeepLevel() && event.getDroppedExp() != 0) {
+                final double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(p);
+                main.debug("Player has xpPercentage of " + xpPercentage);
+                if (xpPercentage == -1 || !Daddy.allows(Features.PERCENTAL_XP_LOSS)) {
+                    ac.experience = event.getDroppedExp();
+                } else {
+                    final float currentXP = XPUtils.getTotalXPRequiredForLevel(p.getLevel());
+                    main.debug("currentXP = " + currentXP + " (for this level)");
+                    main.debug("p.getEXP = " + p.getExp());
+                    final double remainingXP = p.getExp() * XPUtils.getXPRequiredForNextLevel(p.getLevel());
+                    main.debug("Remaining XP = " + remainingXP);
+                    final double totalXP = currentXP + remainingXP;
+                    main.debug("Total XP = " + totalXP);
+                    final double adjustedXP = totalXP * xpPercentage;
+                    main.debug("adjustedXP = " + adjustedXP);
+                    ac.experience = (int) adjustedXP;
+                }
+                event.setDroppedExp(0);
             }
-            event.setDroppedExp(0);
-        }
 
         /*
         Check if player has any drops
          */
-        // TODO: Player could die while having no items, but XP
         if (ac.isEmpty()) {
             main.debug("Cancelled: AngelChest would be empty.");
             main.debug("Either your inventory and XP was empty, or another plugin set your");
@@ -355,9 +355,9 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        ac.createChest(ac.block,ac.owner);
+        ac.createChest(ac.block, ac.owner);
 
-        main.logger.logDeath(event,ac);
+        main.logger.logDeath(event, ac);
 
         /*
         Clearing inventory
@@ -376,8 +376,8 @@ public final class PlayerListener implements Listener {
             Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> CommandUtils.sendListOfAngelChests(main, p, p), 2);
         }
 
-        int maxChests = main.groupUtils.getChestsPerPlayer(p);
-        ArrayList<AngelChest> chests = Utils.getAllAngelChestsFromPlayer(p);
+        final int maxChests = main.groupUtils.getChestsPerPlayer(p);
+        final ArrayList<AngelChest> chests = AngelChestUtils.getAllAngelChestsFromPlayer(p);
         //System.out.println(chests.size()+" chests.size");
         if (chests.size() > maxChests) {
             chests.get(0).destroy(true);
@@ -389,7 +389,7 @@ public final class PlayerListener implements Listener {
 
         }
 
-        if(Daddy.allows(Features.DONT_PROTECT_ANGELCHESTS_IN_PVP)) {
+        if (Daddy.allows(Features.DONT_PROTECT_ANGELCHESTS_IN_PVP)) {
             if (main.getConfig().getBoolean(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP)) {
                 if (event.getEntity().getKiller() != null && event.getEntity().getKiller() != event.getEntity()) {
                     ac.isProtected = false;
@@ -399,33 +399,38 @@ public final class PlayerListener implements Listener {
 
         //Utils.reloadAngelChest(ac,plugin);
 
-        AngelChestSpawnEvent angelChestSpawnEvent = new AngelChestSpawnEvent(/* DO NOT REMOVE THE CAST! */(de.jeff_media.angelchest.AngelChest) ac);
+        @SuppressWarnings("RedundantCast") final AngelChestSpawnEvent angelChestSpawnEvent = new AngelChestSpawnEvent(
+                /* DO NOT REMOVE THE CAST!                      */
+                /* It would result in a MethodNotFoundException */
+                (de.jeff_media.angelchest.AngelChest) ac);
         Bukkit.getPluginManager().callEvent(angelChestSpawnEvent);
     }
 
     /**
      * Keeps track of the correlation between killed player and damaging entity
+     *
      * @param event EntityDamageByEntityEvent
      */
     @SuppressWarnings("unused")
     @EventHandler
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        UUID player = event.getEntity().getUniqueId();
-        Entity killer = event.getDamager();
-        main.killers.put(player,killer);
+    public void onEntityDamageByEntity(final EntityDamageByEntityEvent event) {
+        final UUID player = event.getEntity().getUniqueId();
+        final Entity killer = event.getDamager();
+        main.killers.put(player, killer);
         Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> main.killers.remove(player), 1L);
     }
 
     /**
      * Remove all items from inventory that should not be kept on death
+     *
      * @param inv inventory
      */
-    private void clearInventory(Inventory inv) {
+    private void clearInventory(final Inventory inv) {
         for (int i = 0; i < inv.getSize(); i++) {
             if (main.hookUtils.keepOnDeath(inv.getItem(i))) {
                 continue;
             }
-            if(main.isItemBlacklisted(inv.getItem(i)) != null) {
+            if (main.isItemBlacklisted(inv.getItem(i)) != null) {
                 continue;
             }
             inv.setItem(i, null);
@@ -435,13 +440,14 @@ public final class PlayerListener implements Listener {
 
     /**
      * Handles auto-respawning the player
+     *
      * @param event PlayerDeathEvent
      */
     @SuppressWarnings("unused")
     @EventHandler
-    public void onDeath(PlayerDeathEvent event) {
+    public void onDeath(final PlayerDeathEvent event) {
         if (!main.getConfig().getBoolean(Config.AUTO_RESPAWN)) return;
-        int delay = main.getConfig().getInt(Config.AUTO_RESPAWN_DELAY);
+        final int delay = main.getConfig().getInt(Config.AUTO_RESPAWN_DELAY);
 
         Bukkit.getScheduler().runTaskLater(main, () -> {
             if (event.getEntity().isDead()) {
@@ -452,11 +458,11 @@ public final class PlayerListener implements Listener {
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onDeathBecauseTotemNotEquipped(EntityResurrectEvent e) {
+    public void onDeathBecauseTotemNotEquipped(final EntityResurrectEvent e) {
         main.debug("EntityResurrectEvent");
         if (!(e.getEntity() instanceof Player)) return;
 
-        if(!e.isCancelled()) {
+        if (!e.isCancelled()) {
             main.debug("  R: Not cancelled");
             return;
         }
@@ -466,18 +472,18 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        Player p = (Player) e.getEntity();
+        final Player p = (Player) e.getEntity();
 
 
-        for (ItemStack is : p.getInventory()) {
+        for (final ItemStack is : p.getInventory()) {
             if (is == null) continue;
             if (is.getType().name().equals("TOTEM_OF_UNDYING") || is.getType().name().equals("TOTEM")) {
                 e.setCancelled(false);
                 is.setAmount(is.getAmount() - 1);
-                ItemStack offHand = p.getInventory().getItemInOffHand();
-                if(offHand != null && offHand.getAmount()!=0 && offHand.getType()!= Material.AIR) {
+                final ItemStack offHand = p.getInventory().getItemInOffHand();
+                if (offHand != null && offHand.getAmount() != 0 && offHand.getType() != Material.AIR) {
                     final ItemStack finalOffHand = offHand.clone();
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(main,() -> p.getInventory().setItemInOffHand(finalOffHand),1L);
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> p.getInventory().setItemInOffHand(finalOffHand), 1L);
                 }
                 return;
             }
@@ -487,27 +493,27 @@ public final class PlayerListener implements Listener {
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerRespawn(PlayerRespawnEvent playerRespawnEvent) {
+    public void onPlayerRespawn(final PlayerRespawnEvent playerRespawnEvent) {
         main.debug("Player Respawn: Show GUI to player?");
-        if(!Daddy.allows(Features.GUI)) {
+        if (!Daddy.allows(Features.GUI)) {
             main.debug("  No: not using premium version");
             return;
         }
-        Player player = playerRespawnEvent.getPlayer();
-        if (!player.hasPermission(Permissions.ALLOW_USE)) {
+        final Player player = playerRespawnEvent.getPlayer();
+        if (!player.hasPermission(Permissions.USE)) {
             main.debug("  No: no angelchest.use permission");
             return;
         }
-        ArrayList<AngelChest> chests = Utils.getAllAngelChestsFromPlayer(player);
-        if (chests.size() == 0) {
+        final ArrayList<AngelChest> chests = AngelChestUtils.getAllAngelChestsFromPlayer(player);
+        if (chests.isEmpty()) {
             main.debug("  No: no AngelChests");
             return;
         }
-        String showGUIAfterDeath = main.getConfig().getString(Config.SHOW_GUI_AFTER_DEATH).toLowerCase();
+        final String showGUIAfterDeath = main.getConfig().getString(Config.SHOW_GUI_AFTER_DEATH).toLowerCase();
 
         if (main.getConfig().getBoolean(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH)) {
             main.debug(" Checking if player has fetch or tp permission...");
-            if (!player.hasPermission(Permissions.ALLOW_FETCH) && !player.hasPermission(Permissions.ALLOW_TELEPORT)) {
+            if (!player.hasPermission(Permissions.FETCH) && !player.hasPermission(Permissions.TP)) {
                 main.debug("  No: Neither angelchest.fetch nor angelchest.tp permission");
                 return;
             }
@@ -533,31 +539,35 @@ public final class PlayerListener implements Listener {
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onAngelChestRightClick(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
-        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
+    public void onAngelChestRightClick(final PlayerInteractEvent event) {
+        final Player p = event.getPlayer();
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
-        if(event.getHand() != EquipmentSlot.HAND)
+        }
+        if (event.getHand() != EquipmentSlot.HAND) {
             return;
-        if (event.getClickedBlock() == null)
+        }
+        if (event.getClickedBlock() == null) {
             return;
-        Block block = event.getClickedBlock();
-        if (!main.isAngelChest(block))
+        }
+        final Block block = event.getClickedBlock();
+        if (!main.isAngelChest(block)) {
             return;
-        AngelChest angelChest = main.angelChests.get(block);
+        }
+        final AngelChest angelChest = main.angelChests.get(block);
         // event.getPlayer().sendMessage("This is " + angelChest.owner.getName()+"'s
         // AngelChest.");
         // Test here if player is allowed to open THIS angelchest
         if (angelChest.isProtected && !event.getPlayer().getUniqueId().equals(angelChest.owner)
-                && !event.getPlayer().hasPermission("angelchest.protect.ignore")) {
+                && !event.getPlayer().hasPermission(Permissions.PROTECT_IGNORE)) {
             event.getPlayer().sendMessage(main.messages.MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS);
             event.setCancelled(true);
             return;
         }
 
-        boolean firstOpened = !angelChest.openedBy.contains(p.getUniqueId().toString());
+        final boolean firstOpened = !angelChest.openedBy.contains(p.getUniqueId().toString());
 
-        if(!angelChest.hasPaidForOpening(p)) {
+        if (!angelChest.hasPaidForOpening(p)) {
             return;
         }
 
@@ -570,19 +580,19 @@ public final class PlayerListener implements Listener {
         event.setCancelled(true);
     }
 
-    void openAngelChest(Player p, AngelChest angelChest, boolean firstOpened) {
+    void openAngelChest(final Player p, final AngelChest angelChest, boolean firstOpened) {
 
         Utils.applyXp(p, angelChest);
 
-        boolean succesfullyStoredEverything;
+        final boolean succesfullyStoredEverything;
         //boolean isOwnChest = angelChest.owner == p.getUniqueId();
 
-        succesfullyStoredEverything = Utils.tryToMergeInventories(main, angelChest, p.getInventory());
+        succesfullyStoredEverything = AngelChestUtils.tryToMergeInventories(main, angelChest, p.getInventory());
         if (succesfullyStoredEverything) {
             p.sendMessage(main.messages.MSG_YOU_GOT_YOUR_INVENTORY_BACK);
 
             // This is another player's chest
-            if(Daddy.allows(Features.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_ANGELCHEST)) {
+            if (Daddy.allows(Features.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_ANGELCHEST)) {
                 if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
                     if (Bukkit.getPlayer(angelChest.owner) != null) {
                         Bukkit.getPlayer(angelChest.owner).sendMessage(main.messages.MSG_EMPTIED.replaceAll("\\{player}", p.getName()));
@@ -599,7 +609,7 @@ public final class PlayerListener implements Listener {
             p.sendMessage(main.messages.MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK);
 
             // This is another player's chest
-            if(Daddy.allows(Features.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_ANGELCHEST)) {
+            if (Daddy.allows(Features.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_ANGELCHEST)) {
                 if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
                     if (Bukkit.getPlayer(angelChest.owner) != null) {
                         if (firstOpened) {
@@ -621,18 +631,18 @@ public final class PlayerListener implements Listener {
 
     @SuppressWarnings("unused")
     @EventHandler
-    public void onAngelChestClose(InventoryCloseEvent event) {
+    public void onAngelChestClose(final InventoryCloseEvent event) {
 
-        for (AngelChest angelChest : main.angelChests.values()) {
+        for (final AngelChest angelChest : main.angelChests.values()) {
             if (!angelChest.overflowInv.equals(event.getInventory())) {
                 continue;
             }
 
             //Inventory inv = event.getInventory();
             if (Utils.isEmpty(angelChest.overflowInv)
-                    && Utils.isEmpty(angelChest.armorInv)
-                    && Utils.isEmpty(angelChest.extraInv)
-                    && Utils.isEmpty(angelChest.storageInv)) {
+                    && AngelChestUtils.isEmpty(angelChest.armorInv)
+                    && AngelChestUtils.isEmpty(angelChest.extraInv)
+                    && AngelChestUtils.isEmpty(angelChest.storageInv)) {
                 // plugin.angelChests.remove(Utils.getKeyByValue(plugin.angelChests,
                 // angelChest));
                 angelChest.destroy(false);
@@ -648,15 +658,15 @@ public final class PlayerListener implements Listener {
 
     @SuppressWarnings("unused")
     @EventHandler
-    public void onArmorStandRightClick(PlayerInteractAtEntityEvent event) {
+    public void onArmorStandRightClick(final PlayerInteractAtEntityEvent event) {
         if (event.getRightClicked() == null) {
             return;
         }
-        if (!event.getRightClicked().getType().equals(EntityType.ARMOR_STAND)) {
+        if (event.getRightClicked().getType() != EntityType.ARMOR_STAND) {
 
             return;
         }
-        AtomicReference<AngelChest> as = new AtomicReference<>();
+        final AtomicReference<AngelChest> as = new AtomicReference<>();
         if (main.isAngelChestHologram(event.getRightClicked())) {
             as.set(main.getAngelChestByHologram((ArmorStand) event.getRightClicked()));
             //System.out.println("GETBYHOLOGRAM1");
@@ -665,19 +675,35 @@ public final class PlayerListener implements Listener {
         if (as.get() == null) return;
 
         if (!as.get().owner.equals(event.getPlayer().getUniqueId())
-                && !event.getPlayer().hasPermission("angelchest.protect.ignore") && as.get().isProtected) {
-            event.getPlayer().sendMessage(main.messages.MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS);
+                && !event.getPlayer().hasPermission(Permissions.PROTECT_IGNORE) && as.get().isProtected) {
+            event.getPlayer().sendMessage(main.messages.MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS);
             event.setCancelled(true);
             return;
         }
-        boolean firstOpened = !as.get().openedBy.contains(event.getPlayer().getUniqueId().toString());
+        final boolean firstOpened = !as.get().openedBy.contains(event.getPlayer().getUniqueId().toString());
 
-        if(!as.get().hasPaidForOpening(event.getPlayer())) {
+        if (!as.get().hasPaidForOpening(event.getPlayer())) {
             return;
-        }        if(event.getPlayer().isSneaking()) {
+        }
+        if (event.getPlayer().isSneaking()) {
             main.guiManager.showPreviewGUI(event.getPlayer(), as.get(), false, firstOpened);
         } else {
             openAngelChest(event.getPlayer(), as.get(), firstOpened);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerJoin(final PlayerJoinEvent playerJoinEvent) {
+        if(main.getConfig().getBoolean(Config.SHOW_LOCATION_ON_JOIN)) {
+            final Player player = playerJoinEvent.getPlayer();
+            if(player.hasPermission(Permissions.USE)) {
+                if (!main.getAllAngelChestsFromPlayer(player).isEmpty()) {
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+                        player.sendMessage(main.messages.MSG_ANGELCHEST_LOCATION);
+                        CommandUtils.sendListOfAngelChests(main, player, player);
+                    }, 3l);
+                }
+            }
         }
     }
 

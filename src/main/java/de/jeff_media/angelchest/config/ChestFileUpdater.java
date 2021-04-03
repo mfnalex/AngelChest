@@ -9,11 +9,11 @@ import java.io.IOException;
 public final class ChestFileUpdater {
 
     public static void updateChestFilesToNewDeathCause() {
-        Main main = Main.getInstance();
+        final Main main = Main.getInstance();
 
-        if(!main.getDataFolder().exists()) return;
-        if(!new File(main.getDataFolder(),"angelchests").exists()) return;
-        for(File file : new File(main.getDataFolder(),"angelchests").listFiles()) {
+        if (!main.getDataFolder().exists()) return;
+        if (!new File(main.getDataFolder(), "angelchests").exists()) return;
+        for (final File file : new File(main.getDataFolder(), "angelchests").listFiles()) {
             /*boolean changed = false;
             try {
                 // input the (modified) file content to the StringBuffer "input"
@@ -43,11 +43,11 @@ public final class ChestFileUpdater {
                 main.getLogger().severe("Problem updating AngelChest file "+file2.getName());
             }*/
             try {
-                if(FileUtils.replaceStringsInFile(file,"de.jeff_media.AngelChestPlus.data.DeathCause","de.jeff_media.AngelChest.data.DeathCause")) {
-                    main.getLogger().info("Updated old AngelChest file "+ file.getName());
+                if (FileUtils.replaceStringsInFile(file, "de.jeff_media.AngelChestPlus.data.DeathCause", "de.jeff_media.AngelChest.data.DeathCause")) {
+                    main.getLogger().info("Updated old AngelChest file " + file.getName());
                 }
-            } catch (IOException ioException) {
-                main.getLogger().severe("There was a problem updating AngelChest file "+file.getName()+":");
+            } catch (final IOException ioException) {
+                main.getLogger().severe("There was a problem updating AngelChest file " + file.getName() + ":");
                 ioException.printStackTrace();
             }
         }

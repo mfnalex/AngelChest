@@ -32,8 +32,12 @@ permissions:
     description: "Players with this permission can open other player's protected AngelChests"
   angelchest.tp:
     description: "Allows players to teleport to their AngelChests"
+  angelchest.preview:
+    description: "Allows to view your AngelChests' contents using /acgui"
   angelchest.fetch:
     description: "Allows players to teleport their AngelChests to them"
+  angelchest.others:
+    description: "Allows you to run /aclist, /actp and /acfetch for other players"
   angelchest.reload:
     description: "Allows to reload the configuration using /acreload"
   angelchest.debug:

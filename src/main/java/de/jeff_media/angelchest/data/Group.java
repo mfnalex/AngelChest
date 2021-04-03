@@ -11,25 +11,25 @@ public final class Group {
     public final int unlockDuration;
     public final double spawnChance;
     public final String itemLoss;
-  
-    public Group(int duration,
-                 int maxChests,
-                 String priceSpawn,
-                 String priceOpen,
-                 String priceTeleport,
-                 String priceFetch,
-                 double xpPercentage,
-                 int unlockDuration,
-                 double spawnChance,
-                 String itemLoss) {
+
+    public Group(final int duration,
+                 final int maxChests,
+                 final String priceSpawn,
+                 final String priceOpen,
+                 final String priceTeleport,
+                 final String priceFetch,
+                 final double xpPercentage,
+                 final int unlockDuration,
+                 final double spawnChance,
+                 final String itemLoss) {
         this.duration = duration;
         this.maxChests = maxChests;
-        this.priceSpawn=priceSpawn;
+        this.priceSpawn = priceSpawn;
         this.priceOpen = priceOpen;
-        this.priceTeleport=priceTeleport;
-        this.priceFetch=priceFetch;
+        this.priceTeleport = priceTeleport;
+        this.priceFetch = priceFetch;
         this.xpPercentage = xpPercentage;
-        this.unlockDuration=unlockDuration;
+        this.unlockDuration = unlockDuration;
         this.spawnChance = spawnChance;
         this.itemLoss = itemLoss;
     }

@@ -25,10 +25,10 @@ public final class InventoryPagesHook {
     public InventoryPagesHook() {
         this.main = Main.getInstance();
 
-        File inventoryPagesConfigFile = new File(main.getDataFolder() + File.separator + ".." + File.separator + "InventoryPages" + File.separator + "config.yml");
+        final File inventoryPagesConfigFile = new File(main.getDataFolder() + File.separator + ".." + File.separator + "InventoryPages" + File.separator + "config.yml");
 
-        if(!inventoryPagesConfigFile.exists()) {
-            disabled=true;
+        if (!inventoryPagesConfigFile.exists()) {
+            disabled = true;
             return;
         }
 
@@ -54,41 +54,42 @@ public final class InventoryPagesHook {
 
     /**
      * Checks if an ItemStack belongs to InventoryPages.
+     *
      * @param item The ItemStack to check
      * @return true if it belongs to InventoryPages, otherwise false
      */
-    public boolean isButton(@Nullable ItemStack item/*, int slot, @NotNull Inventory inv*/) {
+    public boolean isButton(@Nullable final ItemStack item/*, int slot, @NotNull Inventory inv*/) {
 
-        if(disabled) return false;
+        if (disabled) return false;
 
-        if(item==null) return false;
-        if(!item.hasItemMeta()) return false;
+        if (item == null) return false;
+        if (!item.hasItemMeta()) return false;
 
         /*if(!(inv instanceof PlayerInventory)) {
             return false;
         }*/
 
         // When using &f as color, we manually have to add this to the string because it gets removed by InventoryPages
-        if(prevName.startsWith("§f")) prevName = prevName.substring(2);
-        if(nextName.startsWith("§f")) nextName = nextName.substring(2);
-        if(noPageName.startsWith("§f")) noPageName = noPageName.substring(2);
+        if (prevName.startsWith("§f")) prevName = prevName.substring(2);
+        if (nextName.startsWith("§f")) nextName = nextName.substring(2);
+        if (noPageName.startsWith("§f")) noPageName = noPageName.substring(2);
 
         //if(slot == prevSlot ) {
-            if(item.getType() == prevMat && (item.getItemMeta().getDisplayName().equals(prevName))) {
-                return true;
-            }
-            if(item.getType() == noPageMat && item.getItemMeta().getDisplayName().equals(noPageName)) {
-                return true;
-            }
+        if (item.getType() == prevMat && (item.getItemMeta().getDisplayName().equals(prevName))) {
+            return true;
+        }
+        if (item.getType() == noPageMat && item.getItemMeta().getDisplayName().equals(noPageName)) {
+            return true;
+        }
         //}
 
         //if(slot == nextSlot  ) {
-            if(item.getType() == nextMat && item.getItemMeta().getDisplayName().equals(nextName)) {
-                return true;
-            }
-            if(item.getType() == noPageMat && item.getItemMeta().getDisplayName().equals(noPageName)) {
-                return true;
-            }
+        if (item.getType() == nextMat && item.getItemMeta().getDisplayName().equals(nextName)) {
+            return true;
+        }
+        if (item.getType() == noPageMat && item.getItemMeta().getDisplayName().equals(noPageName)) {
+            return true;
+        }
         //}
 
         return false;

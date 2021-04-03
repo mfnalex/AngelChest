@@ -12,11 +12,11 @@ import java.util.List;
 public final class DiscordVerificationUtils {
     public static void createVerificationFile() {
 
-        Main main = Main.getInstance();
+        final Main main = Main.getInstance();
 
-        File verifyFile = new File(main.getDataFolder(),"discord-verification.html");
-        if(!verifyFile.exists()) {
-            for(String line : new String[] {
+        final File verifyFile = new File(main.getDataFolder(), "discord-verification.html");
+        if (!verifyFile.exists()) {
+            for (final String line : new String[]{
                     "§b=====================================================",
                     "§b                 Discord Verification",
                     "§b",
@@ -24,7 +24,7 @@ public final class DiscordVerificationUtils {
                     "§bDiscord support, you have to verify your copy of",
                     "§bAngelChestPlus. Just take a look at the following file:",
                     "§b",
-                    "§b"+verifyFile.getAbsolutePath(),
+                    "§b" + verifyFile.getAbsolutePath(),
                     "§b====================================================="
             }) {
                 main.getLogger().warning(line);
@@ -35,28 +35,28 @@ public final class DiscordVerificationUtils {
             verifyCode = Daddy.getDiscordVerificationCode();
             /*Daddy end*/
             try {
-                FileUtils.replaceStringsInFile(verifyFile,"{verificationCode}",addLineBreaks(verifyCode));
-            } catch (IOException ioException) {
+                FileUtils.replaceStringsInFile(verifyFile, "{verificationCode}", addLineBreaks(verifyCode));
+            } catch (final IOException ioException) {
                 main.getLogger().severe("Could not update discord-verification.html");
             }
         }
     }
 
-    private static String addLineBreaks(String code) {
+    private static String addLineBreaks(final String code) {
         final int maxLength = 80;
         int lengthUntilBegin = 19;
         String rest = code;
-        List<String> lines = new ArrayList<>();
+        final List<String> lines = new ArrayList<>();
 
-        while(rest.length()>maxLength-lengthUntilBegin) {
-            lines.add(rest.substring(0,maxLength-lengthUntilBegin));
-            rest = rest.substring(maxLength-lengthUntilBegin);
-            lengthUntilBegin=0;
+        while (rest.length() > maxLength - lengthUntilBegin) {
+            lines.add(rest.substring(0, maxLength - lengthUntilBegin));
+            rest = rest.substring(maxLength - lengthUntilBegin);
+            lengthUntilBegin = 0;
         }
-        if(rest.length()>0) {
+        if (!rest.isEmpty()) {
             lines.add(rest);
         }
-        String[] linesArray = lines.toArray(new String[0]);
-        return StringUtils.join(linesArray,"\n");
+        final String[] linesArray = lines.toArray(new String[0]);
+        return StringUtils.join(linesArray, "\n");
     }
 }

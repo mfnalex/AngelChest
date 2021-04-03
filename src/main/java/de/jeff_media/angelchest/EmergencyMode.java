@@ -12,7 +12,7 @@ public final class EmergencyMode {
     public static final String[] FREE_VERSION_INSTALLED = {
             "§c ",
             "§c§l! ! !W A R N I N G ! ! !",
-            "§cYou have installed AngelChest "+Main.getInstance().getDescription().getVersion()+" but did not remove the old version.",
+            "§cYou have installed AngelChest " + Main.getInstance().getDescription().getVersion() + " but did not remove the old version.",
             "§cThe plugin will not work correctly until you remove the old .jar file.",
             "§cMake sure to properly RESTART (NOT RELOAD) your server afterwards!",
             "§cYou do NOT have to remove the old AngelChest config folder, it gets updated automatically."
@@ -21,9 +21,9 @@ public final class EmergencyMode {
     public static final String[] UNSUPPORTED_MC_VERSION_1_12 = {
             "§c ",
             "§c§l! ! !W A R N I N G ! ! !",
-            "§cAngelChest " + Main.getInstance().getDescription().getVersion()+" is only compatible with Minecraft versions 1.13 and newer.",
+            "§cAngelChest " + Main.getInstance().getDescription().getVersion() + " is only compatible with Minecraft versions 1.13 and newer.",
             "§cPlease use AngelChest version 2.22.2 for Minecraft 1.12:",
-            "§c"+Main.UPDATECHECKER_LINK_DOWNLOAD_FREE+"/history"
+            "§c" + Main.UPDATECHECKER_LINK_DOWNLOAD_FREE + "/history"
     };
 
     public static final String[] BROKEN_CONFIG_FILE = {
@@ -36,49 +36,50 @@ public final class EmergencyMode {
             "§cPlease delete the file and use a fresh copy to start editing it again.",
             "§cYou can validate YAML files here: http://www.yamllint.com/",
             "§cContact me on Discord if you need help:",
-            "§c-> "+Main.DISCORD_LINK+" <-",
+            "§c-> " + Main.DISCORD_LINK + " <-",
             "§c",
             "§c(This message is only shown to server operators)"
     };
 
     public static void warnBrokenConfig() {
 
-        if(Main.getInstance().invalidConfigFiles==null) return;
+        if (Main.getInstance().invalidConfigFiles == null) return;
 
-        String[] text = BROKEN_CONFIG_FILE.clone();
+        final String[] text = BROKEN_CONFIG_FILE.clone();
 
-        for(String file : Main.getInstance().invalidConfigFiles) {
-            for(Player player : Bukkit.getOnlinePlayers()) {
-                if(player.isOp()) {
-                    for(String line : text) {
-                        Main.getInstance().getLogger().warning(line.replaceAll("\\{filename}",file));
+        for (final String file : Main.getInstance().invalidConfigFiles) {
+            for (final Player player : Bukkit.getOnlinePlayers()) {
+                if (player.isOp()) {
+                    for (final String line : text) {
+                        Main.getInstance().getLogger().warning(line.replaceAll("\\{filename}", file));
                     }
                 }
             }
-            for (String line : text) {
-                Main.getInstance().getLogger().warning(line.replaceAll("\\{filename}",file));
+            for (final String line : text) {
+                Main.getInstance().getLogger().warning(line.replaceAll("\\{filename}", file));
             }
         }
     }
 
 
-    public static void severe(String[] text) {
+    public static void severe(final String[] text) {
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), () -> {
-            for(Player player : Bukkit.getOnlinePlayers()) {
+            for (final Player player : Bukkit.getOnlinePlayers()) {
                 player.sendMessage(text);
             }
-            for(String line : text) {
+            for (final String line : text) {
                 Main.getInstance().getLogger().severe(line);
             }
-        },0, Ticks.fromSeconds(30));
+        }, 0, Ticks.fromSeconds(30));
 
         Bukkit.getPluginManager().registerEvent(
                 PlayerJoinEvent.class,
-                new Listener() { },
+                new Listener() {
+                },
                 EventPriority.MONITOR,
                 ((listener, event) -> {
-                    PlayerJoinEvent playerJoinEvent = (PlayerJoinEvent) event;
+                    final PlayerJoinEvent playerJoinEvent = (PlayerJoinEvent) event;
                     Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> playerJoinEvent.getPlayer().sendMessage(text), Ticks.fromSeconds(0.5));
                 }),
                 Main.getInstance());

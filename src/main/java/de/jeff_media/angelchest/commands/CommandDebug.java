@@ -39,13 +39,13 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         this.main = Main.getInstance();
     }
 
-    private static String[] shift(String[] args) {
+    private static String[] shift(final String[] args) {
         return Arrays.stream(args).skip(1).toArray(String[]::new);
     }
 
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+    public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String s, @NotNull final String[] args) {
 
         if (!commandSender.hasPermission(Permissions.DEBUG)) {
             commandSender.sendMessage(main.messages.MSG_NO_PERMISSION);
@@ -112,45 +112,45 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         NBTAPI.addNBT(entity, NBTTags.IS_HOLOGRAM, NBTValues.TRUE);
     }*/
 
-    private void fixholograms(CommandSender commandSender) {
+    private void fixholograms(final CommandSender commandSender) {
         int deadHolograms = 0;
-        for(World world : Bukkit.getWorlds()) {
+        for (final World world : Bukkit.getWorlds()) {
             deadHolograms += HologramFixer.removeDeadHolograms(world);
         }
 
-        if(deadHolograms==0) {
-            commandSender.sendMessage(new String[] {
-                    ChatColor.GRAY+"There are no dead AngelChest holograms.",
-                    ChatColor.GRAY+"Please note that this command can only remove holograms in loaded chunks created in AngelChest 3.3.0 or later. Join my discord to get a command that can remove all dead holograms (including those created by other plugins): "+Main.DISCORD_LINK
+        if (deadHolograms == 0) {
+            commandSender.sendMessage(new String[]{
+                    ChatColor.GRAY + "There are no dead AngelChest holograms.",
+                    ChatColor.GRAY + "Please note that this command can only remove holograms in loaded chunks created in AngelChest 3.3.0 or later. Join my discord to get a command that can remove all dead holograms (including those created by other plugins): " + Main.DISCORD_LINK
             });
         } else {
-            commandSender.sendMessage(ChatColor.GREEN+"Removed "+deadHolograms+" dead AngelChest holograms.");
+            commandSender.sendMessage(ChatColor.GREEN + "Removed " + deadHolograms + " dead AngelChest holograms.");
         }
     }
 
-    private void dump(CommandSender commandSender) {
+    private void dump(final CommandSender commandSender) {
         ConfigDumper.dump(commandSender);
     }
 
-    private void checkconfig(CommandSender commandSender) {
+    private void checkconfig(final CommandSender commandSender) {
         commandSender.sendMessage("§6");
         commandSender.sendMessage("§6===[§bAngelChest ConfigCheck§6]===");
         commandSender.sendMessage("§6Please not that you have to run /acreload after making changes to your config.");
-        List<String> errors = main.invalidConfigFiles == null ? new ArrayList<>() : Arrays.asList(main.invalidConfigFiles);
+        final List<String> errors = main.invalidConfigFiles == null ? new ArrayList<>() : Arrays.asList(main.invalidConfigFiles);
         if (main.invalidConfigFiles == null) {
             commandSender.sendMessage("§aAll your config files are valid.");
         } else {
             commandSender.sendMessage("§cSome of your config files are invalid.");
         }
 
-        if(errors.contains("config.yml")) {
+        if (errors.contains("config.yml")) {
             commandSender.sendMessage("§e- config.yml: §cinvalid");
         } else {
             commandSender.sendMessage("§e- config.yml: §avalid");
         }
 
         if (new File(main.getDataFolder(), "groups.yml").exists()) {
-            if(errors.contains("groups.yml")) {
+            if (errors.contains("groups.yml")) {
                 commandSender.sendMessage("§e- groups.yml: §cinvalid");
             } else {
                 commandSender.sendMessage("§e- groups.yml: §avalid");
@@ -159,7 +159,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             commandSender.sendMessage("§e- groups.yml: §6does not exist");
         }
         if (new File(main.getDataFolder(), "blacklist.yml").exists()) {
-            if(errors.contains("blacklist.yml")) {
+            if (errors.contains("blacklist.yml")) {
                 commandSender.sendMessage("§e- blacklist.yml: §cinvalid");
             } else {
                 commandSender.sendMessage("§e- blacklist.yml: §avalid");
@@ -169,38 +169,38 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         }
     }
 
-    private void blacklist(CommandSender commandSender, String[] args) {
+    private void blacklist(final CommandSender commandSender, String[] args) {
 
-        if(!Daddy.allows(Features.GENERIC)) {
+        if (!Daddy.allows(Features.GENERIC)) {
             commandSender.sendMessage(main.messages.MSG_PREMIUMONLY);
             return;
         }
 
-        if(args.length > 0 && args[0].equalsIgnoreCase("add")) {
-            if(!(commandSender instanceof Player)) {
+        if (args.length > 0 && args[0].equalsIgnoreCase("add")) {
+            if (!(commandSender instanceof Player)) {
                 commandSender.sendMessage(main.messages.MSG_PLAYERSONLY);
                 return;
             }
-            Player player = (Player) commandSender;
-            ItemStack item = player.getInventory().getItemInMainHand();
+            final Player player = (Player) commandSender;
+            final ItemStack item = player.getInventory().getItemInMainHand();
 
-            if(Utils.isEmpty(item)) {
-                player.sendMessage(ChatColor.RED+"You must hold an item in your hand.");
+            if (Utils.isEmpty(item)) {
+                player.sendMessage(ChatColor.RED + "You must hold an item in your hand.");
                 return;
             }
 
-            if(args.length<2) {
-                player.sendMessage(ChatColor.RED+"You must specify a name for this blacklist entry.");
+            if (args.length < 2) {
+                player.sendMessage(ChatColor.RED + "You must specify a name for this blacklist entry.");
                 return;
             }
 
-            String[] lines = BlacklistUtils.addToBlacklist(item,args[1]);
-            if(lines != null) {
-                player.sendMessage(ChatColor.GREEN+"Added following blacklist entry:");
+            final String[] lines = BlacklistUtils.addToBlacklist(item, args[1]);
+            if (lines != null) {
+                player.sendMessage(ChatColor.GREEN + "Added following blacklist entry:");
                 player.sendMessage(lines);
                 ConfigUtils.reloadCompleteConfig(true);
             } else {
-                player.sendMessage(ChatColor.RED+"Blacklist already contains an entry called \""+args[1]+"\"");
+                player.sendMessage(ChatColor.RED + "Blacklist already contains an entry called \"" + args[1] + "\"");
             }
 
         } else if (args.length > 0 && args[0].equalsIgnoreCase("info")) {
@@ -214,7 +214,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 commandSender.sendMessage("Use this command as player or specify a player name.");
                 return;
             }
-            Player player;
+            final Player player;
             boolean isAnotherPlayer = false;
             if (args.length > 0) {
                 if (Bukkit.getPlayer(args[0]) == null) {
@@ -228,12 +228,12 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 player = (Player) commandSender;
             }
             assert player != null;
-            ItemStack item = player.getInventory().getItemInMainHand();
+            final ItemStack item = player.getInventory().getItemInMainHand();
             if (item == null) {
                 commandSender.sendMessage((isAnotherPlayer ? player.getName() : "You") + " must hold an item in the main hand.");
                 return;
             }
-            ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : Bukkit.getItemFactory().getItemMeta(item.getType());
+            final ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : Bukkit.getItemFactory().getItemMeta(item.getType());
 
             commandSender.sendMessage("§e===[§6Material§e]===");
             commandSender.sendMessage(item.getType().name().toUpperCase());
@@ -241,14 +241,14 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             commandSender.sendMessage(meta.hasDisplayName() ? "\"" + meta.getDisplayName().replaceAll("§", "&") + "\"" : " ");
             commandSender.sendMessage("§e===[§6Lore§e]===");
             if (meta.hasLore()) {
-                for (String line : meta.getLore()) {
+                for (final String line : meta.getLore()) {
                     commandSender.sendMessage("- \"" + line.replaceAll("§", "&") + "\"");
                 }
             } else {
                 commandSender.sendMessage(" ");
             }
             commandSender.sendMessage("§e===[§6Blacklist Status§e]===");
-            String blacklisted = main.isItemBlacklisted(item);
+            final String blacklisted = main.isItemBlacklisted(item);
             commandSender.sendMessage(blacklisted == null ? "Not blacklisted" : "Blacklisted as \"" + blacklisted + "\"");
         } else if (args.length > 0 && args[0].equalsIgnoreCase("test")) {
             args = shift(args);
@@ -256,29 +256,29 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
 
 
             if (!(commandSender instanceof Player)) {
-                commandSender.sendMessage("You must be a player to severe this command.");
+                commandSender.sendMessage("You must be a player to use this command.");
                 return;
             }
-            Player player = (Player) commandSender;
+            final Player player = (Player) commandSender;
 
             if (args.length == 0) {
                 commandSender.sendMessage("You must specify a blacklist definition (e.g. \"exampleAllHelmets\" from the example blacklist).");
                 return;
             }
 
-            BlacklistEntry blacklistEntry = main.itemBlacklist.get(args[0].toLowerCase());
+            final BlacklistEntry blacklistEntry = main.itemBlacklist.get(args[0].toLowerCase());
             if (blacklistEntry == null) {
                 commandSender.sendMessage("Blacklist definition \"" + args[0] + "\" not found.");
                 return;
             }
 
-            ItemStack item = player.getInventory().getItemInMainHand();
+            final ItemStack item = player.getInventory().getItemInMainHand();
             if (item == null) {
                 commandSender.sendMessage("You must hold an item in the main hand.");
                 return;
             }
 
-            BlacklistResult result = blacklistEntry.matches(item);
+            final BlacklistResult result = blacklistEntry.matches(item);
 
             if (result == BlacklistResult.MATCH) {
                 commandSender.sendMessage("§aThis item matches the blacklist definition \"" + result.getName() + "\"");
@@ -300,15 +300,15 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
 
     }
 
-    private void debug(CommandSender commandSender, boolean enabled) {
+    private void debug(final CommandSender commandSender, final boolean enabled) {
         ConfigUtils.reloadCompleteConfig(true);
         main.debug = enabled;
         main.getConfig().set("debug", enabled);
         commandSender.sendMessage(ChatColor.GRAY + "AngelChest debug mode has been " + (enabled ? "enabled" : "disabled"));
     }
 
-    private void group(CommandSender commandSender, String[] args) {
-        Player player;
+    private void group(final CommandSender commandSender, final String[] args) {
+        final Player player;
         if (args.length == 0) {
             if (!(commandSender instanceof Player)) {
                 commandSender.sendMessage("Use this command as player or specify a player name.");
@@ -325,16 +325,16 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             }
         }
 
-        int maxChests = main.groupUtils.getChestsPerPlayer(player);
-        int duration = main.groupUtils.getDurationPerPlayer(player);
-        double priceSpawn = main.groupUtils.getSpawnPricePerPlayer(player);
-        double priceOpen = main.groupUtils.getOpenPricePerPlayer(player);
-        double priceTeleport = main.groupUtils.getTeleportPricePerPlayer(player);
-        double priceFetch = main.groupUtils.getFetchPricePerPlayer(player);
-        double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(player);
-        int unlockDuration = main.groupUtils.getUnlockDurationPerPlayer(player);
-        double spawnChance = main.groupUtils.getSpawnChancePerPlayer(player);
-        int itemLoss = main.groupUtils.getItemLossPerPlayer(player);
+        final int maxChests = main.groupUtils.getChestsPerPlayer(player);
+        final int duration = main.groupUtils.getDurationPerPlayer(player);
+        final double priceSpawn = main.groupUtils.getSpawnPricePerPlayer(player);
+        final double priceOpen = main.groupUtils.getOpenPricePerPlayer(player);
+        final double priceTeleport = main.groupUtils.getTeleportPricePerPlayer(player);
+        final double priceFetch = main.groupUtils.getFetchPricePerPlayer(player);
+        final double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(player);
+        final int unlockDuration = main.groupUtils.getUnlockDurationPerPlayer(player);
+        final double spawnChance = main.groupUtils.getSpawnChancePerPlayer(player);
+        final int itemLoss = main.groupUtils.getItemLossPerPlayer(player);
 
         commandSender.sendMessage("§6Max Chests:§b " + maxChests);
         commandSender.sendMessage("§6Duration:§b " + duration);
@@ -345,36 +345,36 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         commandSender.sendMessage("§6XP Percentage:§b " + xpPercentage);
         commandSender.sendMessage("§6Unlock Duration:§b " + unlockDuration);
         commandSender.sendMessage("§6Spawn Chance:§b " + spawnChance);
-        commandSender.sendMessage("§6Item Loss:§b " + itemLoss+" §8(depending on current inv)");
+        commandSender.sendMessage("§6Item Loss:§b " + itemLoss + " §8(depending on current inv)");
 
     }
 
-    private void info(CommandSender commandSender) {
-        int expectedAngelChests = main.angelChests.size();
+    private void info(final CommandSender commandSender) {
+        final int expectedAngelChests = main.angelChests.size();
         int realAngelChests = 0;
-        int expectedHolograms = main.getAllArmorStandUUIDs().size();
+        final int expectedHolograms = main.getAllArmorStandUUIDs().size();
         int realHolograms = 0;
 
-        for (AngelChest angelChest : main.angelChests.values()) {
+        for (final AngelChest angelChest : main.angelChests.values()) {
             if (angelChest != null) {
                 realAngelChests++;
             }
         }
 
-        for (UUID uuid : main.getAllArmorStandUUIDs()) {
+        for (final UUID uuid : main.getAllArmorStandUUIDs()) {
             if (Bukkit.getEntity(uuid) != null) {
                 realHolograms++;
             }
         }
 
-        String text1 = "AngelChests: %d (%d), Holograms: %d (%d)";
-        String text2 = "Watchdog: %d Holograms";
+        final String text1 = "AngelChests: %d (%d), Holograms: %d (%d)";
+        final String text2 = "Watchdog: %d Holograms";
 
         commandSender.sendMessage(String.format(text1, realAngelChests, expectedAngelChests, realHolograms, expectedHolograms));
         commandSender.sendMessage(String.format(text2, main.watchdog.getCurrentUnsavedArmorStands()));
     }
 
-    private void config(CommandSender commandSender, String[] args) {
+    private void config(final CommandSender commandSender, final String[] args) {
         if (args.length == 0) {
             commandSender.sendMessage(new String[]{
                     "Available config commands:" +
@@ -394,11 +394,11 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
     }
 
     @SuppressWarnings("EmptyMethod")
-    private void setConfig(CommandSender commandSender, String[] args) {
+    private void setConfig(final CommandSender commandSender, String[] args) {
         if (args.length >= 2) {
-            String node = args[0].toLowerCase();
+            final String node = args[0].toLowerCase();
             args = shift(args);
-            String value = String.join(" ", args);
+            final String value = String.join(" ", args);
             main.getConfig().set(node, value);
             commandSender.sendMessage(String.format("Set \"%s\" to \"%s\"", node, value));
         } else {
@@ -407,25 +407,25 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
     }
 
     @SuppressWarnings("EmptyMethod")
-    private void getConfig(CommandSender commandSender, String[] args) {
+    private void getConfig(final CommandSender commandSender, final String[] args) {
         if (args.length == 1) {
-            String node = args[0].toLowerCase();
+            final String node = args[0].toLowerCase();
             commandSender.sendMessage(String.format("%s = %s", node, main.getConfig().get(node).toString()));
         } else {
             commandSender.sendMessage("Usage: /acd config get <option>");
         }
     }
 
-    private @Nullable List<String> getMatching(String[] commands, String entered) {
-        List<String> list = new ArrayList<>(Arrays.asList(commands));
+    private @Nullable List<String> getMatching(final String[] commands, final String entered) {
+        final List<String> list = new ArrayList<>(Arrays.asList(commands));
         list.removeIf(current -> !current.startsWith(entered));
         return list;
     }
 
     @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig","dump","fixholograms"};
-        String[] blacklistCommands = {"info", "test","add"};
+    public @Nullable List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String s, @NotNull final String[] args) {
+        final String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig", "dump", "fixholograms"};
+        final String[] blacklistCommands = {"info", "test", "add"};
 
         // Debug
         /*main.verbose("args.lengh = "+args.length);
@@ -443,9 +443,9 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             return getMatching(blacklistCommands, args[1]);
         }
         if (args.length == 3 && args[0].equalsIgnoreCase("blacklist") && args[1].equalsIgnoreCase("test")) {
-            String[] definedItems = new String[main.itemBlacklist.size()];
+            final String[] definedItems = new String[main.itemBlacklist.size()];
             int i = 0;
-            for (BlacklistEntry blacklistEntry : main.itemBlacklist.values()) {
+            for (final BlacklistEntry blacklistEntry : main.itemBlacklist.values()) {
                 definedItems[i] = blacklistEntry.getName();
                 i++;
             }

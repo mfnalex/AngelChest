@@ -21,14 +21,14 @@ import java.util.UUID;
  */
 public final class Watchdog {
 
-    private final Main main;
     final YamlConfiguration yaml;
+    private final Main main;
 
-    public Watchdog(Main main) {
-        this.main=main;
+    public Watchdog(final Main main) {
+        this.main = main;
         // If the Watchdog file exists, we have to delete all leftover holograms
-        if(getFile().exists()) {
-            main.getLogger().warning("Found watchdog file at "+getFile().getAbsolutePath());
+        if (getFile().exists()) {
+            main.getLogger().warning("Found watchdog file at " + getFile().getAbsolutePath());
             main.getLogger().warning("Did the server not shutdown correctly?");
             main.getLogger().warning("Fixing leftover AngelChests ...");
             yaml = YamlConfiguration.loadConfiguration(getFile());
@@ -45,13 +45,13 @@ public final class Watchdog {
      * TODO: Also restore the AngelChests
      */
     private void restore() {
-        List<String> leftoverArmorStandUUIDs = yaml.getStringList("armorstands");
-        main.debug(String.format("Removing %d leftover armor stands...",leftoverArmorStandUUIDs.size()));
-        for(String entry : leftoverArmorStandUUIDs) {
-            UUID uuid = UUID.fromString(entry);
-            Entity entity = Bukkit.getEntity(uuid);
-            if(entity instanceof ArmorStand) {
-                main.debug("Removed leftover armor stand "+entry +": "+entity.getCustomName());
+        final List<String> leftoverArmorStandUUIDs = yaml.getStringList("armorstands");
+        main.debug(String.format("Removing %d leftover armor stands...", leftoverArmorStandUUIDs.size()));
+        for (final String entry : leftoverArmorStandUUIDs) {
+            final UUID uuid = UUID.fromString(entry);
+            final Entity entity = Bukkit.getEntity(uuid);
+            if (entity instanceof ArmorStand) {
+                main.debug("Removed leftover armor stand " + entry + ": " + entity.getCustomName());
                 entity.remove();
             }
         }
@@ -59,6 +59,7 @@ public final class Watchdog {
 
     /**
      * Returns the amount of unsaved armor stands
+     *
      * @return amount of unsaved armor stands
      */
     public int getCurrentUnsavedArmorStands() {
@@ -69,9 +70,9 @@ public final class Watchdog {
      * Removes the Watchdog file
      */
     public void removeFile() {
-        if(getFile().exists()) {
-            if(!getFile().delete()) {
-                main.getLogger().severe("Could not delete file "+getFile().getAbsolutePath());
+        if (getFile().exists()) {
+            if (!getFile().delete()) {
+                main.getLogger().severe("Could not delete file " + getFile().getAbsolutePath());
             }
         }
     }
@@ -81,36 +82,37 @@ public final class Watchdog {
      * (i.e. graceful shutdown or /acreload)
      */
     public void save() {
-        if(main.gracefulShutdown) {
+        /*if(main.gracefulShutdown) {
+            return;
+        }*/
+        //Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+        final int unsavedArmorStands = getCurrentUnsavedArmorStands();
+        if (unsavedArmorStands == 0) {
+            main.debug("Removing watchdog file: 0 unsaved armor stands");
+            removeFile();
             return;
         }
-        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
-            int unsavedArmorStands = getCurrentUnsavedArmorStands();
-            if (unsavedArmorStands == 0) {
-                main.debug("Removing watchdog file: 0 unsaved armor stands");
-                removeFile();
-                return;
-            }
-            main.debug("Saving watchdog file: " + unsavedArmorStands + " unsaved armor stands");
-            List<String> list = new ArrayList<>();
-            for (UUID uuid : main.getAllArmorStandUUIDs()) {
-                list.add(uuid.toString());
-            }
-            yaml.set("armorstands", list);
-            try {
-                yaml.save(getFile());
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        });
+        main.debug("Saving watchdog file: " + unsavedArmorStands + " unsaved armor stands");
+        final List<String> list = new ArrayList<>();
+        for (final UUID uuid : main.getAllArmorStandUUIDs()) {
+            list.add(uuid.toString());
+        }
+        yaml.set("armorstands", list);
+        try {
+            yaml.save(getFile());
+        } catch (final IOException ioException) {
+            ioException.printStackTrace();
+        }
+        //});
     }
 
     /**
      * Returns the Watchdog File
+     *
      * @return Watchdog File
      */
     private File getFile() {
-        return new File(main.getDataFolder()+File.separator + "watchdog");
+        return new File(main.getDataFolder() + File.separator + "watchdog");
     }
 
 

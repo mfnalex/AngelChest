@@ -21,14 +21,14 @@ public final class CommandVersion implements CommandExecutor {
 
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+    public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String alias, @NotNull final String[] args) {
 
-        if(!commandSender.hasPermission(Permissions.VERSION)) {
+        if (!commandSender.hasPermission(Permissions.VERSION)) {
             commandSender.sendMessage(Main.getInstance().messages.MSG_NO_PERMISSION);
             return true;
         }
 
-        String[] output = new String[] {
+        final String[] output = new String[]{
                 "§6===[§bAngelChest Version§6]===",
                 "§eAngelChest" + (Daddy.allows(Features.GENERIC) ? "Plus " : " ") + Main.getInstance().getDescription().getVersion(),
                 //"§e" + Bukkit.getBukkitVersion(),
@@ -36,9 +36,9 @@ public final class CommandVersion implements CommandExecutor {
                 null,
         };
 
-        TextComponent discord = new TextComponent("(Click here for Discord support)");
-        discord.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,Main.DISCORD_LINK));
-        discord.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Discord: "+Main.DISCORD_LINK)));
+        final TextComponent discord = new TextComponent("(Click here for Discord support)");
+        discord.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, Main.DISCORD_LINK));
+        discord.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Discord: " + Main.DISCORD_LINK)));
         discord.setItalic(true);
         discord.setColor(ChatColor.GOLD);
 
@@ -60,8 +60,8 @@ public final class CommandVersion implements CommandExecutor {
         commandSender.spigot().sendMessage(discord);
         commandSender.sendMessage((String) null);
         //commandSender.spigot().sendMessage(links);
-        if(Main.getInstance().updateChecker == null) {
-            commandSender.sendMessage(ChatColor.RED+"Update checker is disabled.");
+        if (Main.getInstance().updateChecker == null) {
+            commandSender.sendMessage(ChatColor.RED + "Update checker is disabled.");
         } else {
             Main.getInstance().updateChecker.check(commandSender);
         }

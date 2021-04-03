@@ -101,4 +101,5 @@ public final class Config {
     public static final String DROP_HEADS = "drop-heads";
     public static final String ONLY_DROP_HEADS_IN_PVP = "only-drop-heads-in-pvp";
     public static final String DONT_STORE_HEADS_IN_ANGELCHEST = "dont-store-heads-in-angelchest";
+    public static final String SHOW_LOCATION_ON_JOIN = "show-location-on-join";
 }

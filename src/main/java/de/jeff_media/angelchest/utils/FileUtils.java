@@ -17,11 +17,11 @@ public final class FileUtils {
      * @param replace  String for replacement
      * @return true if the file has been changed, otherwise false
      */
-    public static boolean replaceStringsInFile(File file, String toSearch, String replace) throws IOException {
+    public static boolean replaceStringsInFile(final File file, final String toSearch, final String replace) throws IOException {
 
         boolean changed = false;
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-        StringBuilder inputBuffer = new StringBuilder();
+        final BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+        final StringBuilder inputBuffer = new StringBuilder();
         String line;
 
         while ((line = bufferedReader.readLine()) != null) {
@@ -36,40 +36,40 @@ public final class FileUtils {
 
         if (changed) {
             // write the new string with the replaced line OVER the same file
-            FileOutputStream fileOut = new FileOutputStream(file);
+            final FileOutputStream fileOut = new FileOutputStream(file);
             fileOut.write(inputBuffer.toString().getBytes());
             fileOut.close();
         }
         return changed;
     }
 
-    public static void appendLines(File file, String line) {
+    public static void appendLines(final File file, final String line) {
         appendLines(file, new String[]{line});
     }
 
-    public static void appendLines(File file, String[] lines) {
+    public static void appendLines(final File file, final String[] lines) {
         try {
-            Writer output = new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8);
-            for (String line : lines) {
+            final Writer output = new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8);
+            for (final String line : lines) {
                 output.append(line).append(System.lineSeparator());
             }
             output.close();
-        } catch (IOException ioException) {
+        } catch (final IOException ioException) {
             ioException.printStackTrace();
         }
     }
 
-    public static List<String> readFileFromResources(String fileName) {
-        InputStream input = Main.getInstance().getResource(fileName);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
-        List<String> lines = new ArrayList<>();
+    public static List<String> readFileFromResources(final String fileName) {
+        final InputStream input = Main.getInstance().getResource(fileName);
+        final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+        final List<String> lines = new ArrayList<>();
         String line;
         try {
             while ((line = bufferedReader.readLine()) != null) {
                 lines.add(line);
             }
             bufferedReader.close();
-        } catch (IOException exception) {
+        } catch (final IOException exception) {
             exception.printStackTrace();
         }
         return lines;

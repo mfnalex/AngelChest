@@ -2,8 +2,10 @@ package de.jeff_media.angelchest.commands;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.data.AngelChest;
-import de.jeff_media.angelchest.enums.TeleportAction;
+import de.jeff_media.angelchest.data.CommandArgument;
+import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.utils.CommandUtils;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,36 +22,38 @@ public final class CommandFetchOrTeleport implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String alias, String[] args) {
+    public boolean onCommand(@NotNull final CommandSender requester, final Command command, @NotNull final String alias, final String[] args) {
 
-        TeleportAction action;
-        switch(command.getName()) {
-            case "actp": action = TeleportAction.TELEPORT_TO_CHEST; break;
-            case "acfetch": action = TeleportAction.FETCH_CHEST; break;
-            default: return false;
+        final CommandAction action;
+        switch (command.getName()) {
+            case "actp":
+                action = CommandAction.TELEPORT_TO_CHEST;
+                break;
+            case "acfetch":
+                action = CommandAction.FETCH_CHEST;
+                break;
+            default:
+                return false;
         }
 
-        if(!(sender instanceof Player)) {
-            sender.sendMessage(main.messages.MSG_PLAYERSONLY);
+        if (!requester.hasPermission(action.getPermission())) {
+            requester.sendMessage(main.messages.MSG_NO_PERMISSION);
             return true;
         }
 
-        Player p = (Player) sender;
-
-        if(!sender.hasPermission(action.getPermission())) {
-            sender.sendMessage(main.messages.MSG_NO_PERMISSION);
+        final CommandArgument commandArgument = CommandArgument.parse(action, requester, args);
+        if (commandArgument == null) {
             return true;
         }
 
-        Triplet<Integer, AngelChest,Player> chestResult = CommandUtils.argIdx2AngelChest(main, p, p, args);
-        if(chestResult == null) {
+        final Triplet<Integer, AngelChest, OfflinePlayer> chestResult = CommandUtils.argIdx2AngelChest(main, requester, commandArgument.getAffectedPlayer(), commandArgument.getChest());
+        if (chestResult == null) {
             return true;
         }
 
-        int chestIdStartingAt1 = chestResult.getValue0();
-        AngelChest angelChest = chestResult.getValue1();
-        Player player = chestResult.getValue2();
-        CommandUtils.fetchOrTeleport(main,player,angelChest,chestIdStartingAt1,action,true);
+        final int chestIdStartingAt1 = chestResult.getValue0();
+        final AngelChest angelChest = chestResult.getValue1();
+        CommandUtils.fetchOrTeleport(main, (Player) requester, angelChest, chestIdStartingAt1, action, true);
 
         return true;
     }
