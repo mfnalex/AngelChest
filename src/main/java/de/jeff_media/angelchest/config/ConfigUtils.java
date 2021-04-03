@@ -7,6 +7,7 @@ import de.jeff_media.angelchest.enums.Features;
 import de.jeff_media.angelchest.gui.GUIManager;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
 import de.jeff_media.angelchest.hooks.WorldGuardHandler;
+import de.jeff_media.angelchest.hooks.WorldGuardWrapper;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.GroupUtils;
 import de.jeff_media.angelchest.utils.HookUtils;
@@ -88,7 +89,7 @@ public final class ConfigUtils {
         main.pendingConfirms = new HashMap<>();
         final File groupsFile = new File(main.getDataFolder() + File.separator + "groups.yml");
         main.groupUtils = new GroupUtils(groupsFile);
-        main.worldGuardHandler = new WorldGuardHandler(main);
+        main.worldGuardWrapper = WorldGuardWrapper.init();
         main.hookUtils = new HookUtils();
         main.minepacksHook = new MinepacksHook();
         main.guiManager = new GUIManager();
@@ -326,6 +327,9 @@ public final class ConfigUtils {
 
         conf.addDefault(Config.SHOW_LOCATION_ON_JOIN, true);
         metric(Config.SHOW_LOCATION_ON_JOIN);
+
+        conf.addDefault(Config.FLAG_ALLOW_ANGELCHEST_DEFAULT_VALUE, true);
+        metric(Config.FLAG_ALLOW_ANGELCHEST_DEFAULT_VALUE);
 
         main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
         metric(Config.DISABLED_MATERIALS, String.valueOf(main.disabledMaterials.size()));

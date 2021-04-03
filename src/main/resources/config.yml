@@ -352,7 +352,17 @@ disabled-materials:
 disabled-worlds:
 
 ##########################
-#### Disabled regions ####
+#### WorldGuard Flags ####
+##########################
+
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# AngelChestPlus currently has one custom WorldGuard flag:
+
+# allow-angelchest:
+#       Whether or not spawning of AngelChests is allowed in a region (Default: allow)
+
+##########################
+####    WorldGuard    ####
 ##########################
 
 # You can disable AngelChest for certain WorldGuard region. Each region's name has to

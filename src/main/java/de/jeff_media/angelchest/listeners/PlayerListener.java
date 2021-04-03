@@ -158,8 +158,13 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        if (main.worldGuardHandler.isBlacklisted(p.getLocation().getBlock())) {
+        if (main.worldGuardWrapper.isBlacklisted(p.getLocation().getBlock())) {
             main.debug("Cancelled: region disabled.");
+            return;
+        }
+
+        if(!main.worldGuardWrapper.getAngelChestFlag(p)) {
+            main.debug("Cancelled: World Guard flag \"allow-angelchest\" is \"deny\"");
             return;
         }
 

@@ -23,6 +23,6 @@ public enum Features {
     SPAWN_CHANCE,
     GUI,
     RANDOM_ITEM_LOSS,
-    DROP_HEADS
+    WORLD_GUARD_FLAGS, DROP_HEADS
 
 }

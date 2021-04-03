@@ -15,6 +15,7 @@ import de.jeff_media.angelchest.gui.GUIManager;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
 import de.jeff_media.angelchest.hooks.PlaceholderAPIHook;
 import de.jeff_media.angelchest.hooks.WorldGuardHandler;
+import de.jeff_media.angelchest.hooks.WorldGuardWrapper;
 import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
@@ -74,7 +75,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     public List<Material> onlySpawnIn;
     public Messages messages;
     public GroupUtils groupUtils;
-    public WorldGuardHandler worldGuardHandler;
+    public WorldGuardWrapper worldGuardWrapper;
     public HookUtils hookUtils;
     public Watchdog watchdog;
     public MinepacksHook minepacksHook;
@@ -129,9 +130,18 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     }
 
     @Override
+    public void onLoad() {
+        instance = this;
+        /*try {
+            Class.forName("com.sk89q.worldguard.protection.flags.registry.FlagConflictException");*/
+            WorldGuardWrapper.tryToRegisterFlags();
+        /*} catch (NoClassDefFoundError | ClassNotFoundException ignored) {
+
+        }*/
+    }
+    @Override
     public void onEnable() {
 
-        instance = this;
         /*Daddy start*/
         Daddy.init(this);
         /*Daddy end*/
