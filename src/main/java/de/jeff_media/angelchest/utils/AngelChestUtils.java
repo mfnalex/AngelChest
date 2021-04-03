@@ -16,10 +16,13 @@ import java.io.File;
 import java.util.*;
 
 public class AngelChestUtils {
+
+    private static final int MAX_NETHER_HEIGHT = 128;
+
     public static boolean isSafeSpot(final Location location) {
 
         if (location.getWorld().getEnvironment() == World.Environment.NETHER) {
-            if (location.getBlockY() >= 128) return false;
+            if (location.getBlockY() >= MAX_NETHER_HEIGHT) return false;
         }
         if (isAboveLava(location, 10)) return false;
 
@@ -229,6 +232,7 @@ public class AngelChestUtils {
         return blocks;
     }
 
+    @SuppressWarnings("MagicNumber")
     public static @NotNull String getCardinalDirection(final Player player) {
         double rotation = player.getLocation().getYaw() % 360;
         if (rotation < 0) {

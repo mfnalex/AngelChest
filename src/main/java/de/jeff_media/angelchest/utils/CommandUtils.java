@@ -28,6 +28,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class CommandUtils {
 
+    static final int CHUNK_SIZE = 16;
+
     public static void payMoney(final OfflinePlayer p, final double money, final String reason) {
 
         final Main main = Main.getInstance();
@@ -230,8 +232,8 @@ public final class CommandUtils {
     private static boolean areChunksLoadedNearby(final Location loc, final Main main) {
         boolean allChunksLoaded = true;
         //ArrayList<Location> locs = new ArrayList<>();
-        for (int x = -16; x <= 16; x += 16) {
-            for (int z = -16; z <= 16; z += 16) {
+        for (int x = -CHUNK_SIZE; x <= CHUNK_SIZE; x += CHUNK_SIZE) {
+            for (int z = -CHUNK_SIZE; z <= CHUNK_SIZE; z += CHUNK_SIZE) {
                 if (!isChunkLoaded(loc.add(x, 0, z))) {
                     main.debug("Chunk at " + loc.add(x, 0, z) + " is not loaded yet, waiting...");
                     allChunksLoaded = false;
@@ -288,6 +290,7 @@ public final class CommandUtils {
         final Location headloc = tploc.clone();
         headloc.add(0, 1, 0);
         tploc.setDirection(acloc.toVector().subtract(headloc.toVector()));
+        //noinspection MagicNumber
         tploc.add(0.5, 0, 0.5);
 
         p.teleport(tploc, TeleportCause.PLUGIN);

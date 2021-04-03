@@ -1,8 +1,6 @@
 package de.jeff_media.angelchest.config;
 
 import de.jeff_media.angelchest.Main;
-import de.jeff_media.angelchest.enums.Features;
-import de.jeff_media.daddy.Daddy;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
