@@ -1,3 +1,6 @@
+## 3.8.0
+- Added option to display list of AngelChests on Join (default true): "show-location-on-join"
+
 ## 3.7.0
 - Added option to drop player's head on death
   - Head can always drop or only on PvP deaths

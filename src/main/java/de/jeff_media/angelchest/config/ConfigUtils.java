@@ -324,6 +324,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.DONT_STORE_HEADS_IN_ANGELCHEST, true);
         metric(Config.DONT_STORE_HEADS_IN_ANGELCHEST);
 
+        conf.addDefault(Config.SHOW_LOCATION_ON_JOIN, true);
+        metric(Config.SHOW_LOCATION_ON_JOIN);
+
         main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
         metric(Config.DISABLED_MATERIALS, String.valueOf(main.disabledMaterials.size()));
 

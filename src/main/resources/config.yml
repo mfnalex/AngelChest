@@ -130,8 +130,13 @@ spawn-chance: 1.0
 random-item-loss: 0
 
 # When set to true, players will receive a message telling them where the AngelChest
-# is located.
+# is located, including clickable links to teleport, fetch or unlock the chest if
+# the player has permission for those commands.
 show-location: true
+
+# When set to true, players will receive the list of AngelChests again after
+# rejoining.
+show-location-on-join: true
 
 # Whether to show a message to the AngelChest owner when other players open or empty their chest
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!

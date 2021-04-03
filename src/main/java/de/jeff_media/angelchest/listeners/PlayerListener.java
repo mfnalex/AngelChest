@@ -30,6 +30,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
@@ -688,6 +689,21 @@ public final class PlayerListener implements Listener {
             main.guiManager.showPreviewGUI(event.getPlayer(), as.get(), false, firstOpened);
         } else {
             openAngelChest(event.getPlayer(), as.get(), firstOpened);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerJoin(final PlayerJoinEvent playerJoinEvent) {
+        if(main.getConfig().getBoolean(Config.SHOW_LOCATION_ON_JOIN)) {
+            final Player player = playerJoinEvent.getPlayer();
+            if(player.hasPermission(Permissions.USE)) {
+                if (!main.getAllAngelChestsFromPlayer(player).isEmpty()) {
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+                        player.sendMessage(main.messages.MSG_ANGELCHEST_LOCATION);
+                        CommandUtils.sendListOfAngelChests(main, player, player);
+                    }, 3l);
+                }
+            }
         }
     }
 
