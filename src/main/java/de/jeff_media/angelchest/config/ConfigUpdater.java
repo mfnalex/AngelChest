@@ -89,11 +89,11 @@ public final class ConfigUpdater {
 
             String updatedLine = defaultLine;
 
-            if (Daddy.allows(Features.GENERIC)) {
+            /*if (Daddy.allows(Features.GENERIC)) {
                 if (updatedLine.startsWith("# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!")) {
                     updatedLine = null;
                 }
-            } else if (defaultLine.startsWith("-") || defaultLine.startsWith(" -") || defaultLine.startsWith("  -")) {
+            } else*/ if (defaultLine.startsWith("-") || defaultLine.startsWith(" -") || defaultLine.startsWith("  -")) {
                 debug(logger, "Not including default String list entry: " + defaultLine);
                 updatedLine = null;
             } else if (lineContainsIgnoredNode(defaultLine)) {

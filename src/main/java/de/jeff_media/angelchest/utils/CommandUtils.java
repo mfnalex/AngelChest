@@ -367,7 +367,7 @@ public final class CommandUtils {
                 fetchCommand = "/acfetch " + affectedPlayerParameter + chestIndex;
             }
             if (angelChest.isProtected) {
-                unlockCommand = "/acunlock " + chestIndex + affectedPlayerParameter;
+                unlockCommand = "/acunlock " + affectedPlayerParameter + chestIndex;
             }
 
             String text;

@@ -14,6 +14,7 @@
 - Fixed typos in some messages
 - Fixed broken chests being spawned when player has an empty inventory and 0 XP
 - Fixed "show-links-on-separate-line" not working when player doesn't have angelchest.tp or angelchest.fetch permission
+- Fixed watchdog file not being removed on graceful shutdown
 - Improved overall performance by refactoring EVERY single class file
 
 ## 3.6.0
