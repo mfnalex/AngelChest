@@ -665,8 +665,8 @@ message-angelchest-opened: "&6{player} has opened your AngelChest."
 message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 message-no-permission: "&cYou do not have the permission to use this command."
-message-invulnerable: "&aYou are invulnerable for {time}."
-message-vulnerable: "&cYou are no longer invulnerable."
+message-invulnerable: "&a&lYou are invulnerable for {time}."
+message-vulnerable: "&c&lYou are no longer invulnerable."
 
 #########################
 ##### Translations ######
@@ -704,6 +704,8 @@ message-vulnerable: "&cYou are no longer invulnerable."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 #message-no-permission: "&cYou do not have the permission to use this command."
+#message-invulnerable: "&a&lYou are invulnerable for {time}."
+#message-vulnerable: "&c&lYou are no longer invulnerable."
 
 #Azerbaijan Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eBütün AngelChest'lərinin kilidi onsuzda açıqdır."
@@ -732,6 +734,8 @@ message-vulnerable: "&cYou are no longer invulnerable."
 #message-angelchest-emptied: "&c{player} adlı oyunçu sənin AngelChest'ini boşaltdı."
 #message-spawn-chance-unsuccessful: "&cMələk əşyalarını toplamağı unutdu, şanssızlıq!"
 #message-no-permission: "&cYou do not have the permission to use this command."
+#message-invulnerable: "&a&lYou are invulnerable for {time}."
+#message-vulnerable: "&c&lYou are no longer invulnerable."
 
 ##### Chinese Simplified 简体中文 - Thanks to qsefthuopq for translating! -> https://www.spigotmc.org/members/qsefthuopq.339953/
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天御之箱都已解锁."
@@ -761,6 +765,8 @@ message-vulnerable: "&cYou are no longer invulnerable."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 #message-no-permission: "&cYou do not have the permission to use this command."
+#message-invulnerable: "&a&lYou are invulnerable for {time}."
+#message-vulnerable: "&c&lYou are no longer invulnerable."
 
 ##### Chinese Traditional 繁體中文 - Thanks to maoding for translating! -> https://www.spigotmc.org/members/maoding.400505/
 #message-all-your-angelchests-were-already-unlocked: "&e所有的小天使箱子已被解鎖"
@@ -790,6 +796,8 @@ message-vulnerable: "&cYou are no longer invulnerable."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 #message-no-permission: "&cYou do not have the permission to use this command."
+#message-invulnerable: "&a&lYou are invulnerable for {time}."
+#message-vulnerable: "&c&lYou are no longer invulnerable."
 
 ##### Dutch - Thanks to Xeyame for translating -> https://github.com/Xeyame
 #message-all-your-angelchests-were-already-unlocked: "&eAl je AngerChests zijn al ontgrendeld."
@@ -819,6 +827,8 @@ message-vulnerable: "&cYou are no longer invulnerable."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 #message-no-permission: "&cYou do not have the permission to use this command."
+#message-invulnerable: "&a&lYou are invulnerable for {time}."
+#message-vulnerable: "&c&lYou are no longer invulnerable."
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/ 
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
@@ -848,6 +858,8 @@ message-vulnerable: "&cYou are no longer invulnerable."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 #message-no-permission: "&cYou do not have the permission to use this command."
+#message-invulnerable: "&a&lYou are invulnerable for {time}."
+#message-vulnerable: "&c&lYou are no longer invulnerable."
 
 ##### German
 #message-all-your-angelchests-were-already-unlocked: "&eAlle deine AngelChests waren bereits aufgeschlossen."
@@ -877,6 +889,8 @@ message-vulnerable: "&cYou are no longer invulnerable."
 #message-angelchest-emptied: "&c{player} hat deine AngelChest geleert."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 #message-no-permission: "&cYou do not have the permission to use this command."
+#message-invulnerable: "&a&lDu bist unverwundbar für {time}."
+#message-vulnerable: "&c&lDu bist nicht mehr unverwundbar."
 
 ##### Hungarian
 #message-all-your-angelchests-were-already-unlocked: "&eAz összes AngyalLádád már fel van oldva."
@@ -906,6 +920,8 @@ message-vulnerable: "&cYou are no longer invulnerable."
 #message-angelchest-emptied: "&c{player} kiürítette az AngyalLádád."
 #message-spawn-chance-unsuccessful: "&cAz Angyalod elfelejtette összegyűjteni a motyóidat. Balszerencse!"
 #message-no-permission: "&cYou do not have the permission to use this command."
+#message-invulnerable: "&a&lYou are invulnerable for {time}."
+#message-vulnerable: "&c&lYou are no longer invulnerable."
 
 ##### Italian
 #message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChests sono già state sbloccate."
@@ -935,6 +951,8 @@ message-vulnerable: "&cYou are no longer invulnerable."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 #message-no-permission: "&cYou do not have the permission to use this command."
+#message-invulnerable: "&a&lYou are invulnerable for {time}."
+#message-vulnerable: "&c&lYou are no longer invulnerable."
 
 ##### Polish
 #message-all-your-angelchests-were-already-unlocked: "&eWszystkie twoje AnielskieSkrzynie zostały już odblokowane."
@@ -964,6 +982,8 @@ message-vulnerable: "&cYou are no longer invulnerable."
 #message-angelchest-emptied: "&c{player} opróżnił twoją AnielskąSkrzynie."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 #message-no-permission: "&cYou do not have the permission to use this command."
+#message-invulnerable: "&a&lYou are invulnerable for {time}."
+#message-vulnerable: "&c&lYou are no longer invulnerable."
 
 ##### Portuguese
 #message-all-your-angelchests-were-already-unlocked: "&eTodos os seus AngelChests estavam desbloqueados."
@@ -993,6 +1013,8 @@ message-vulnerable: "&cYou are no longer invulnerable."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 #message-no-permission: "&cYou do not have the permission to use this command."
+#message-invulnerable: "&a&lYou are invulnerable for {time}."
+#message-vulnerable: "&c&lYou are no longer invulnerable."
 
 ##### Russian - Thanks to @GEEK for translating
 #message-all-your-angelchests-were-already-unlocked: "&eВсе ваши Ангельские сундуки разблокированы."
@@ -1022,6 +1044,8 @@ message-vulnerable: "&cYou are no longer invulnerable."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 #message-no-permission: "&cYou do not have the permission to use this command."
+#message-invulnerable: "&a&lYou are invulnerable for {time}."
+#message-vulnerable: "&c&lYou are no longer invulnerable."
 
 ##### Spanish
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus AngelChest ya se encuentran desbloqueados."
@@ -1051,6 +1075,8 @@ message-vulnerable: "&cYou are no longer invulnerable."
 #message-angelchest-emptied: "&c{player} ha vaciado tu AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 #message-no-permission: "&cYou do not have the permission to use this command."
+#message-invulnerable: "&a&lYou are invulnerable for {time}."
+#message-vulnerable: "&c&lYou are no longer invulnerable."
 
 ##### Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eTüm AngelChest'lerinin kilidi zaten açık."
@@ -1079,6 +1105,8 @@ message-vulnerable: "&cYou are no longer invulnerable."
 #message-angelchest-emptied: "&c{player} adlı oyuncu senin AngelChest'ini boşalttı."
 #message-spawn-chance-unsuccessful: "&cMelek eşyalarını toplamayı unuttu, şanssızlık!"
 #message-no-permission: "&cYou do not have the permission to use this command."
+#message-invulnerable: "&a&lYou are invulnerable for {time}."
+#message-vulnerable: "&c&lYou are no longer invulnerable."
 
 #########################
 #####     Done!     #####

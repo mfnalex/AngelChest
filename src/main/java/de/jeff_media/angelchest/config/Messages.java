@@ -175,9 +175,9 @@ public final class Messages {
 
         MSG_UNLOCKED_AUTOMATICALLY = PREFIX + getMsg("unlocked-automatically", "&8Your AngelChest has been unlocked automatically.");
 
-        MSG_ACTIONBAR_INVULNERABLE = getMsg("invulnerable","&aYou are invulnerable for {time}.");
+        MSG_ACTIONBAR_INVULNERABLE = getMsg("invulnerable","&a&lYou are invulnerable for {time}.");
 
-        MSG_ACTIONBAR_VULNERABLE = getMsg("vulnerable","&cYou are no longer invulnerable.");
+        MSG_ACTIONBAR_VULNERABLE = getMsg("vulnerable","&c&lYou are no longer invulnerable.");
 
         GUI_TITLE_CHEST = getGui(Config.GUI_TITLE_CHEST, "§4§l[§c§lAngelChest§4§l] §c#{id} §4| §c{time}");
 
