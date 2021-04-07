@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.nbt;
 
 import de.jeff_media.angelchest.Main;
-import de.jeff_media.nbtapi.NBTAPI;
+import de.jeff_media.jefflib.NBTAPI;
 import org.bukkit.entity.ArmorStand;
 
 import java.util.UUID;

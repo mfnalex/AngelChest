@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest;
 
-import de.jeff_media.angelchest.utils.Ticks;
+import de.jeff_media.jefflib.Ticks;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;

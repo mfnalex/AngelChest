@@ -7,7 +7,7 @@ import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
 import de.jeff_media.angelchest.utils.CommandUtils;
 import de.jeff_media.daddy.Daddy;
-import de.jeff_media.nbtapi.NBTAPI;
+import de.jeff_media.jefflib.NBTAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

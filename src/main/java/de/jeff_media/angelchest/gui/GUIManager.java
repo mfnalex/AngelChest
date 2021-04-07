@@ -9,6 +9,7 @@ import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.Features;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
+import de.jeff_media.jefflib.Ticks;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
