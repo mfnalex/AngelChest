@@ -17,6 +17,7 @@
 #   xp-percentage: <percentage of how much XP to keep> (e.g. 1 = 100%, 0.5 = 50%, -1 = vanilla behaviour)
 #   spawn-chance: <spawn chance of an angelchest> (e.g 1.0 = 100%, 0.5 = 50%, 0.01 = 1%)
 #   item-loss: <number of item stacks randomly lost> (e.g. 2 = 2 item stacks or 0.5p = 50% of player's item stacks)
+#   invulnerability-after-tp: <amount of seconds> (e.g. 60 = one minute invulnerability after TPing to your chest, 0 = no invulnerability)
 #
 # Note: You MUST rename this file to groups.yml if you wish to use it.
 
@@ -31,6 +32,7 @@ admin:
   xp-percentage: 1.0
   spawn-chance: 1.0
   random-item-loss: 0
+  invulnerability-after-tp: 5
 mod:
   angelchest-duration: 1200
   unlock-duration: 0

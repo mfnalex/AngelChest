@@ -304,7 +304,7 @@ public final class CommandUtils {
         player.teleport(tploc, TeleportCause.PLUGIN);
 
         // Add invulnerability
-        final int seconds = main.getConfig().getInt(Config.INVULNERABILITY_AFTER_TP);
+        final int seconds = main.groupUtils.getInvulnerabilityTimePerPlayer(player);
         if(seconds > 0 && Daddy.allows(Features.INVULNERABILITY_ON_TP)) {
 
             main.debug("Making player "+player.getName()+" invulnerable for "+main.getConfig().getDouble(Config.INVULNERABILITY_AFTER_TP)+" seconds");
