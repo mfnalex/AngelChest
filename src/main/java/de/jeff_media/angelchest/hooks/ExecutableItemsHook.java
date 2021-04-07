@@ -28,7 +28,7 @@ public final class ExecutableItemsHook {
                 executableItemsAPIClass = Class.forName("com.ssomar.executableitems.api.ExecutableItemsAPI");
                 //noinspection unchecked
                 isExecutableItemMethod = executableItemsAPIClass.getDeclaredMethod("isExecutableItem", ItemStack.class);
-                @SuppressWarnings("rawtypes") Class itemClass = Class.forName("com.ssomar.executableitems.items.Item");
+                @SuppressWarnings("rawtypes") final Class itemClass = Class.forName("com.ssomar.executableitems.items.Item");
                 //noinspection unchecked
                 getExecutableItemConfigMethod = executableItemsAPIClass.getDeclaredMethod("getExecutableItemConfig", ItemStack.class);
                 //noinspection unchecked

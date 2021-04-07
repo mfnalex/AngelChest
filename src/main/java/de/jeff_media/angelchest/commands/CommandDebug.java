@@ -245,16 +245,6 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         }
     }
 
-    @SuppressWarnings("EmptyMethod")
-    private void getConfig(final CommandSender commandSender, final String[] args) {
-        if (args.length == 1) {
-            final String node = args[0].toLowerCase();
-            commandSender.sendMessage(String.format("%s = %s", node, main.getConfig().get(node).toString()));
-        } else {
-            commandSender.sendMessage("Usage: /acd config get <option>");
-        }
-    }
-
     private @Nullable List<String> getMatching(final String[] commands, final String entered) {
         final List<String> list = new ArrayList<>(Arrays.asList(commands));
         list.removeIf(current->!current.startsWith(entered));
