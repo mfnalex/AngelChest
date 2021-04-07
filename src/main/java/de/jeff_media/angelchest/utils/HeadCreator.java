@@ -58,6 +58,12 @@ public final class HeadCreator {
 
     public static void createHeadInWorld(final Block block, final UUID uuid) {
         final Main main = Main.getInstance();
+        if(!(block.getState() instanceof Skull)) {
+            main.getLogger().severe("Okay wtf this shouldnt happen. I tried to get the BlockState of a skull but it's not a skull.");
+            main.getLogger().severe("I will now just fix it, BUT if you see this error message more than once, PLEASE let me know!");
+            main.getLogger().severe("https://discord.jeff-media.de");
+            block.setType(Material.PLAYER_HEAD);
+        }
         final Skull state = (Skull) block.getState();
 
         // Use the player skin's texture
