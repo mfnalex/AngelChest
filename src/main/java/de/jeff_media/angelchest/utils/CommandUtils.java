@@ -2,11 +2,19 @@ package de.jeff_media.angelchest.utils;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
+import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.PendingConfirm;
 import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.EconomyStatus;
+import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.angelchest.listeners.InvulnerabilityListener;
+import de.jeff_media.angelchest.nbt.NBTTags;
+import de.jeff_media.angelchest.nbt.NBTValues;
+import de.jeff_media.daddy.Daddy;
+import de.jeff_media.jefflib.NBTAPI;
+import de.jeff_media.jefflib.Ticks;
 import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -248,7 +256,7 @@ public final class CommandUtils {
         return loc.getWorld().isChunkLoaded(loc.getBlockX() >> 4, loc.getBlockZ() >> 4);
     }
 
-    private static void doActualTeleport(final Main main, final Player p, final AngelChest ac) {
+    private static void doActualTeleport(final Main main, final Player player, final AngelChest ac) {
         final Location acloc = ac.block.getLocation();
         Location tploc = acloc.clone();
         final double tpDistance = main.getConfig().getDouble("tp-distance");
@@ -293,7 +301,48 @@ public final class CommandUtils {
         //noinspection MagicNumber
         tploc.add(0.5, 0, 0.5);
 
-        p.teleport(tploc, TeleportCause.PLUGIN);
+        player.teleport(tploc, TeleportCause.PLUGIN);
+
+        // Add invulnerability
+        final int seconds = main.getConfig().getInt(Config.INVULNERABILITY_AFTER_TP);
+        if(seconds > 0 && Daddy.allows(Features.INVULNERABILITY_ON_TP)) {
+
+            main.debug("Making player "+player.getName()+" invulnerable for "+main.getConfig().getDouble(Config.INVULNERABILITY_AFTER_TP)+" seconds");
+            if(NBTAPI.hasNBT(player,NBTTags.IS_INVULNERABLE)) {
+                InvulnerabilityListener.removeGod(player);
+                if(main.invulnerableTasks.containsKey(player.getUniqueId())) {
+                    Bukkit.getScheduler().cancelTask(main.invulnerableTasks.get(player.getUniqueId()));
+                }
+            }
+            NBTAPI.addNBT(player, NBTTags.IS_INVULNERABLE, NBTValues.TRUE);
+
+            final AtomicInteger secondsLeft = new AtomicInteger(seconds);
+            final AtomicInteger finalTask = new AtomicInteger(-1);
+            finalTask.set(Bukkit.getScheduler().scheduleSyncRepeatingTask(main,() -> {
+                if(player == null || !player.isOnline()) {
+                    if(finalTask.get() != -1) {
+                        Bukkit.getScheduler().cancelTask(finalTask.get());
+                    }
+                }
+
+                if(secondsLeft.getAndDecrement()>0) {
+                    Messages.sendActionBar(player,main.messages.MSG_ACTIONBAR_INVULNERABLE.replace("{time}",getFormattedTime(secondsLeft.get(),false)));
+                } else {
+                    if(finalTask != null) {
+                        Bukkit.getScheduler().cancelTask(finalTask.get());
+                        Messages.sendActionBar(player,main.messages.MSG_ACTIONBAR_VULNERABLE);
+                        InvulnerabilityListener.removeGod(player);
+                    }
+                }
+            },0,20));
+            main.invulnerableTasks.put(player.getUniqueId(),finalTask.get());
+        } else if(seconds <= 0) {
+            main.debug("Invulnerability time is set to 0.");
+        } else {
+            if(!Daddy.allows(Features.INVULNERABILITY_ON_TP)) {
+                Messages.sendPremiumOnlyConsoleMessage(Config.INVULNERABILITY_AFTER_TP);
+            }
+        }
     }
 
     public static String getCurrency(final double money) {
@@ -387,36 +436,17 @@ public final class CommandUtils {
         }
     }
 
-    // TODO: Make this generic to getTimeLeft(AngelChest)
     public static String getUnlockTimeLeft(final AngelChest angelChest) {
-        final int remaining = angelChest.unlockIn;
-        final int sec = remaining % 60;
-        final int min = (remaining / 60) % 60;
-        final int hour = (remaining / 60) / 60;
-
-        final String time;
-        if (hour > 0) {
-            time = String.format("%02d:%02d:%02d",
-                    hour, min, sec
-            );
-
-        } else {
-            time = String.format("%02d:%02d",
-                    min, sec
-            );
-        }
-
-        return time;
+        return getFormattedTime(angelChest.getUnlockIn(),false);
     }
 
-    public static String getTimeLeft(final AngelChest angelChest) {
-        final int remaining = angelChest.secondsLeft;
-        final int sec = remaining % 60;
-        final int min = (remaining / 60) % 60;
-        final int hour = (remaining / 60) / 60;
+    public static String getFormattedTime(final int seconds, boolean infinite) {
+        final int sec = seconds % 60;
+        final int min = (seconds / 60) % 60;
+        final int hour = (seconds / 60) / 60;
 
         final String time;
-        if (angelChest.infinite) {
+        if (infinite) {
             //text = String.format("[%d] §aX:§f %d §aY:§f %d §aZ:§f %d | %s ",
             //		chestIndex, b.getX(), b.getY(), b.getZ(), b.getWorld().getName()
             time = "∞";
@@ -433,6 +463,10 @@ public final class CommandUtils {
         }
 
         return time;
+    }
+
+    public static String getTimeLeft(final AngelChest angelChest) {
+        return getFormattedTime(angelChest.getSecondsLeft(), angelChest.isInfinite());
     }
 
     /*

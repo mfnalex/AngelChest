@@ -103,4 +103,5 @@ public final class Config {
     public static final String DONT_STORE_HEADS_IN_ANGELCHEST = "dont-store-heads-in-angelchest";
     public static final String SHOW_LOCATION_ON_JOIN = "show-location-on-join";
     public static final String FLAG_ALLOW_ANGELCHEST_DEFAULT_VALUE = "flag-allow-angelchest-default-value";
+    public static final String INVULNERABILITY_AFTER_TP = "invulnerability-after-tp";
 }

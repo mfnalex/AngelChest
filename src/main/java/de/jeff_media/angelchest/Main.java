@@ -20,11 +20,9 @@ import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
-import de.jeff_media.jefflib.JeffLib;
-import de.jeff_media.jefflib.NBTAPI;
-import de.jeff_media.jefflib.Ticks;
+import de.jeff_media.jefflib.*;
+import de.jeff_media.jefflib.VersionUtil.BukkitVersion;
 import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
-import de.jeff_media.pluginupdatechecker.PluginUpdateChecker;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bstats.bukkit.Metrics;
@@ -60,6 +58,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     public static final String UPDATECHECKER_LINK_DOWNLOAD_FREE = "https://www.spigotmc.org/resources/" + SPIGOT_RESOURCE_ID_FREE;
     private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/angelchestplus/latest-version.txt";
     private static Main instance;
+    public HashMap<UUID,Integer> invulnerableTasks;
     public HashMap<UUID, PendingConfirm> pendingConfirms;
     public LinkedHashMap<Block, AngelChest> angelChests;
     public HashMap<UUID, Block> lastPlayerPositions;
@@ -102,7 +101,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     }
 
     // Returns 16 for 1.16, etc.
-    public static int getMcVersion() {
+    /*public static int getMcVersion() {
         final Pattern p = Pattern.compile("^1\\.(\\d*)\\.");
         final Matcher m = p.matcher((Bukkit.getBukkitVersion()));
         int version = -1;
@@ -111,7 +110,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
                 version = Integer.parseInt(m.group(1));
         }
         return version;
-    }
+    }*/
 
     public Material getChestMaterial(final AngelChest chest) {
         if (!Daddy.allows(Features.GENERIC)) {
@@ -151,7 +150,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 
         migrateFromAngelChestPlus1X();
         ChestFileUpdater.updateChestFilesToNewDeathCause();
-        if (getMcVersion() < 13) {
+        if (VersionUtil.getServerBukkitVersion().isLowerThan(VersionUtil.v1_13_2_R01)) {
             EmergencyMode.severe(EmergencyMode.UNSUPPORTED_MC_VERSION_1_12);
             emergencyMode = true;
             return;
@@ -173,6 +172,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 
         angelChests = new LinkedHashMap<>();
         lastPlayerPositions = new HashMap<>();
+        invulnerableTasks = new HashMap<>();
         killers = new HashMap<>();
         logger = new Logger();
 
@@ -213,6 +213,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         getServer().getPluginManager().registerEvents(new PistonListener(), this);
         getServer().getPluginManager().registerEvents(new EmergencyListener(), this);
         getServer().getPluginManager().registerEvents(new UpdateCheckListener(), this);
+        getServer().getPluginManager().registerEvents(new InvulnerabilityListener(), this);
         guiListener = new GUIListener();
         getServer().getPluginManager().registerEvents(guiListener, this);
 

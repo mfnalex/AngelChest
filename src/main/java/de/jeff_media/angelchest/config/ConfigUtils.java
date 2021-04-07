@@ -289,6 +289,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.UNLOCK_DURATION, 0);
         metric(Config.UNLOCK_DURATION);
 
+        conf.addDefault(Config.INVULNERABILITY_AFTER_TP,0);
+        metric(Config.INVULNERABILITY_AFTER_TP);
+
         conf.addDefault(Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT, "&cProtected for {time}");
         metric(Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT);
 

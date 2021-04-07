@@ -21,8 +21,8 @@ public final class EmergencyMode {
     public static final String[] UNSUPPORTED_MC_VERSION_1_12 = {
             "§c ",
             "§c§l! ! !W A R N I N G ! ! !",
-            "§cAngelChest " + Main.getInstance().getDescription().getVersion() + " is only compatible with Minecraft versions 1.13 and newer.",
-            "§cPlease use AngelChest version 2.22.2 for Minecraft 1.12:",
+            "§cAngelChest " + Main.getInstance().getDescription().getVersion() + " is only compatible with Minecraft versions 1.13.2 and newer.",
+            "§cPlease use AngelChest version 2.22.2 for Minecraft 1.12.X - 1.13.1:",
             "§c" + Main.UPDATECHECKER_LINK_DOWNLOAD_FREE + "/history"
     };
 

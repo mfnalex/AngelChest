@@ -1,4 +1,5 @@
-## 3.9.1
+## 3.10.0
+- Added option to give players invulnerability for X seconds when teleporting to their chests (Plus version only)
 - Fixed rare exception in onEnable when using PLAYER_HEAD as material
 
 ## 3.9.0

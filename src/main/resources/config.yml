@@ -196,6 +196,11 @@ allow-chest-in-lava: true
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 allow-chest-in-void: true
 
+# When set to a value above 0, players will get invulnerability for this amount of seconds
+# after teleporting themselves to their chest.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+invulnerability-after-tp: 0
+
 # You probably don't want your AngelChest to spawn on blocks like GRASS_PATH, FARMLAND, etc.
 # as that would destroy those blocks. You can blacklist them here so AngelChest searches
 # for a spot nearby.
@@ -660,6 +665,8 @@ message-angelchest-opened: "&6{player} has opened your AngelChest."
 message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 message-no-permission: "&cYou do not have the permission to use this command."
+message-invulnerable: "&aYou are invulnerable for {time}."
+message-vulnerable: "&cYou are no longer invulnerable."
 
 #########################
 ##### Translations ######

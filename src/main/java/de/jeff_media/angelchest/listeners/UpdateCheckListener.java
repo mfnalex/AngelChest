@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.listeners;
 
 import de.jeff_media.angelchest.Main;
-import de.jeff_media.pluginupdatechecker.events.UpdateCheckFinishedEvent;
+import de.jeff_media.jefflib.events.UpdateCheckFinishedEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

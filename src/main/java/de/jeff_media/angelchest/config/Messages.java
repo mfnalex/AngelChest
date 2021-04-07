@@ -1,8 +1,11 @@
 package de.jeff_media.angelchest.config;
 
 import de.jeff_media.angelchest.Main;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 /**
  * Contains all translatable messages. Loads translations from the config file, or falls back to hardcoded default values
@@ -29,6 +32,8 @@ public final class Messages {
             "been unlocked successfully. Have fun!",
             "========================================================",
     };
+    public final String MSG_ACTIONBAR_INVULNERABLE;
+    public final String MSG_ACTIONBAR_VULNERABLE;
     public final String MSG_PLAYERSONLY;
     public final String MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS;
     public final String MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS;
@@ -170,6 +175,10 @@ public final class Messages {
 
         MSG_UNLOCKED_AUTOMATICALLY = PREFIX + getMsg("unlocked-automatically", "&8Your AngelChest has been unlocked automatically.");
 
+        MSG_ACTIONBAR_INVULNERABLE = getMsg("invulnerable","&aYou are invulnerable for {time}.");
+
+        MSG_ACTIONBAR_VULNERABLE = getMsg("vulnerable","&cYou are no longer invulnerable.");
+
         GUI_TITLE_CHEST = getGui(Config.GUI_TITLE_CHEST, "§4§l[§c§lAngelChest§4§l] §c#{id} §4| §c{time}");
 
         GUI_TITLE_MAIN = getGui(Config.GUI_TITLE_MAIN, "§4§l[§c§lAngelChest§4§l]");
@@ -203,5 +212,14 @@ public final class Messages {
 
     private String getGui(final String path, final String defaultText) {
         return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(path, defaultText));
+    }
+
+    public static void sendActionBar(final Player receiver, final String message) {
+        if(receiver == null || !receiver.isOnline()) return;
+        receiver.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+    }
+
+    public static void sendPremiumOnlyConsoleMessage(String configNode) {
+        Main.getInstance().getLogger().warning("You are using the config option \""+configNode+"\". This is only available in AngelChestPlus, see here: "+Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
     }
 }
