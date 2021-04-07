@@ -22,7 +22,8 @@ softdepend:
   - EliteMobs
   - ChestSort
   - ProtocolLib
-loadbefore: [AngelChestPlus]
+  - ExecutableItems
+loadbefore: [ AngelChestPlus ]
 permissions:
   angelchest.use:
     description: "Players with this permission will have their items put into a chest on death by an Angel"

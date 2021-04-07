@@ -23,42 +23,9 @@ public final class HeadCreator {
     @SuppressWarnings({"FieldCanBeLocal", "FieldMayBeFinal", "CanBeFinal"})
     private static String defaultBase64 = "SSBkb24ndCBsaWtlIHBlb3BsZSB3aG8gdHJ5IHRvIHN0ZWFsIG15IHBsdWdpbnMuIEl0J3Mgb3BlbiBzb3VyY2UgYnJvLCBzbyB3aHkgZG8geW91IGV2ZW4gYm90aGVyIGFib3V0IHNlbmRpbmcgdGhlIC5qYXIgZmlsZSBhd2F5PyBBdCBsZWFzdCBoYXZlIG90aGVyIHBlb3BsZSBjb21waWxlIGl0IHRoZW1zZWx2ZXMuLi4=eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90Z%%__USER__%%Xh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNThiYzhmYTcxNmN%%__NONCE__%%hZGQwMDRiODI4Y2IyN2NjMGY2ZjZhZGUzYmU0MTUxMTY4OGNhOWVjZWZmZDE2NDdmYjkifX19SSBkb24ndCBsaWtlIHBlb3BsZSB3aG8gdHJ5IHRvIHN0ZWFsIG15IHBsdWdpbnMuIEl0J3Mgb3BlbiBzb3VyY2UgYnJvLCBzbyB3aHkgZG8geW91IGV2ZW4gYm90aGVyIGFib3V0IHNlbmRpbmcgdGhlIC5qYXIgZmlsZSBhd2F5PyBBdCBsZWFzdCBoYXZlIG90aGVyIHBlb3BsZSBjb21waWxlIGl0IHRoZW1zZWx2ZXMuLi4=";
 
-    @SuppressWarnings("unused")
-    public static ItemStack getHead() {
-        return getHead(defaultBase64);
-    }
-
-    public static ItemStack getHead(final String base64) {
-
-        final ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-        final SkullMeta meta = (SkullMeta) head.getItemMeta();
-        final GameProfile profile = new GameProfile(UUID.randomUUID(), "");
-        profile.getProperties().put("textures", new Property("textures", base64));
-        final Field profileField;
-        try {
-            profileField = meta.getClass().getDeclaredField("profile");
-            profileField.setAccessible(true);
-            profileField.set(meta, profile);
-        } catch (final IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-            e.printStackTrace();
-            return new ItemStack(Material.PLAYER_HEAD);
-        }
-
-        head.setItemMeta(meta);
-        return head;
-    }
-
-    public static ItemStack getPlayerHead(final UUID uuid) {
-        final ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-        final SkullMeta skullMeta = (SkullMeta) (head.hasItemMeta() ? head.getItemMeta() : Bukkit.getItemFactory().getItemMeta(Material.PLAYER_HEAD));
-        skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
-        head.setItemMeta(skullMeta);
-        return head;
-    }
-
     public static void createHeadInWorld(final Block block, final UUID uuid) {
         final Main main = Main.getInstance();
-        if(!(block.getState() instanceof Skull)) {
+        if (!(block.getState() instanceof Skull)) {
             main.getLogger().severe("Okay wtf this shouldnt happen. I tried to get the BlockState of a skull but it's not a skull.");
             main.getLogger().severe("I will now just fix it, BUT if you see this error message more than once, PLEASE let me know!");
             main.getLogger().severe("https://discord.jeff-media.de");
@@ -104,5 +71,38 @@ public final class HeadCreator {
             }
 
         }
+    }
+
+    public static ItemStack getHead(final String base64) {
+
+        final ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        final SkullMeta meta = (SkullMeta) head.getItemMeta();
+        final GameProfile profile = new GameProfile(UUID.randomUUID(), "");
+        profile.getProperties().put("textures", new Property("textures", base64));
+        final Field profileField;
+        try {
+            profileField = meta.getClass().getDeclaredField("profile");
+            profileField.setAccessible(true);
+            profileField.set(meta, profile);
+        } catch (final IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+            e.printStackTrace();
+            return new ItemStack(Material.PLAYER_HEAD);
+        }
+
+        head.setItemMeta(meta);
+        return head;
+    }
+
+    @SuppressWarnings("unused")
+    public static ItemStack getHead() {
+        return getHead(defaultBase64);
+    }
+
+    public static ItemStack getPlayerHead(final UUID uuid) {
+        final ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        final SkullMeta skullMeta = (SkullMeta) (head.hasItemMeta() ? head.getItemMeta() : Bukkit.getItemFactory().getItemMeta(Material.PLAYER_HEAD));
+        skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
+        head.setItemMeta(skullMeta);
+        return head;
     }
 }

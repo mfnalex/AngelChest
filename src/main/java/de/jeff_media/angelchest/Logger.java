@@ -24,10 +24,10 @@ import java.util.Set;
 public final class Logger {
 
     final Main main;
-    final String path;
-    final double removeOlderThanXHours;
-    final double removeEveryXHours;
     final long maxOffsetBeforeRemoval;
+    final String path;
+    final double removeEveryXHours;
+    final double removeOlderThanXHours;
 
     public Logger() {
         main = Main.getInstance();
@@ -47,32 +47,13 @@ public final class Logger {
         purgeLogs();
     }
 
-    public void purgeLogs() {
-        if (removeOlderThanXHours == -1) return;
-        main.debug("Checking for old log files...");
-        final long now = new Date().getTime();
-        final File logFolder = new File(path);
-        int purged = 0;
-        int purgedSuccessfully = 0;
-        for (final File logfile : logFolder.listFiles()) {
-            final long diff = now - logfile.lastModified();
-            if (diff > maxOffsetBeforeRemoval) {
-                main.debug("Deleting log file " + logfile.getName() + " because it is older than " + removeOlderThanXHours + " hours...");
-                if (!logfile.delete()) {
-                    main.getLogger().warning("Could not delete log file " + logfile.getName());
-                } else {
-                    purgedSuccessfully++;
-                }
-                purged++;
-            }
-        }
-        if (purged > 0) {
-            if (purged == purgedSuccessfully) {
-                main.getLogger().info("Removed " + purged + " old log files.");
-            } else {
-                main.getLogger().warning("Attempted to remove " + purged + " old log files, but could only remove " + purgedSuccessfully);
-            }
-        }
+    public File getLogFile(final PlayerDeathEvent event) {
+
+        return new File(path + File.separator + getLogFileName(event));
+    }
+
+    public File getLogFile(final String name) {
+        return new File(path + File.separator + name);
     }
 
     public String getLogFileName(final PlayerDeathEvent event) {
@@ -81,48 +62,7 @@ public final class Logger {
         final String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
         //String filename = String.format("%s_%s_%s",event.getEntity().getLocation().getWorld().getName(),player,timestamp);
         //return filename+".log";
-        return main.getConfig().getString(Config.LOG_FILENAME)
-                .replaceAll("\\{player}", player)
-                .replaceAll("\\{uuid}", uuid)
-                .replaceAll("\\{world}", event.getEntity().getLocation().getWorld().getName())
-                .replaceAll("\\{date}", timestamp);
-    }
-
-    public File getLogFile(final PlayerDeathEvent event) {
-
-        return new File(path + File.separator + getLogFileName(event));
-    }
-
-    private void write(final String text, final File file) {
-        try {
-            final FileWriter fw = new FileWriter(file, true);
-            final BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(text);
-            bw.newLine();
-            bw.close();
-        } catch (final IOException e) {
-            main.getLogger().severe("Could not write to logfile " + file.getAbsolutePath());
-            e.printStackTrace();
-        }
-    }
-
-    private void writeWithTime(final String text, final File file) {
-        final FileWriter fw;
-        final String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        try {
-            fw = new FileWriter(file, true);
-            final BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(String.format("[%s] %s", timestamp, text));
-            bw.newLine();
-            bw.close();
-        } catch (final IOException e) {
-            main.getLogger().severe("Could not write to logfile " + file.getAbsolutePath());
-            e.printStackTrace();
-        }
-    }
-
-    public File getLogFile(final String name) {
-        return new File(path + File.separator + name);
+        return main.getConfig().getString(Config.LOG_FILENAME).replaceAll("\\{player}", player).replaceAll("\\{uuid}", uuid).replaceAll("\\{world}", event.getEntity().getLocation().getWorld().getName()).replaceAll("\\{date}", timestamp);
     }
 
     private String loc2string(final Location location) {
@@ -131,30 +71,6 @@ public final class Logger {
         final int z = location.getBlockZ();
         final String world = location.getWorld().getName();
         return String.format("%d %d %d @ %s", x, y, z, world);
-    }
-
-    public void logXPTaken(final Player player, final int xp, final File file) {
-        if (!Daddy.allows(Features.GENERIC)) return; // Don't add feature here
-        writeWithTime(String.format("Player \"%s\" took XP: %d", player.getName(), xp), file);
-    }
-
-    public void logItemTaken(final Player player, @Nullable final ItemStack item, final File file) {
-        if (!Daddy.allows(Features.GENERIC)) return; // Don't add feature here
-        if (item == null) return;
-        writeWithTime(String.format("Player \"%s\" took item: %s", player.getName(), item.toString()), file);
-    }
-
-    public void logPaidForChest(final Player player, final double price, final File file) {
-        if (!Daddy.allows(Features.GENERIC)) return; // Don't add feature here
-        writeWithTime(String.format("Player \"%s\" paid %f to open this AngelChest for the first time.", player.getName(), price), file);
-    }
-
-    public void logLastItemTaken(final Player player, final File file) {
-        if (!Daddy.allows(Features.GENERIC)) return; // Don't add feature here
-        write("", file);
-        writeWithTime(String.format("Player \"%s\" took the last item. Removing AngelChest!", player.getName()), file);
-        write("", file);
-        write("=== AngelChest removed ===", file);
     }
 
     public void logDeath(final PlayerDeathEvent event, final AngelChest ac) {
@@ -230,5 +146,85 @@ public final class Logger {
             write("> " + item.toString(), file);
         }
         write("", file);
+    }
+
+    public void logItemTaken(final Player player, @Nullable final ItemStack item, final File file) {
+        if (!Daddy.allows(Features.GENERIC)) return; // Don't add feature here
+        if (item == null) return;
+        writeWithTime(String.format("Player \"%s\" took item: %s", player.getName(), item.toString()), file);
+    }
+
+    public void logLastItemTaken(final Player player, final File file) {
+        if (!Daddy.allows(Features.GENERIC)) return; // Don't add feature here
+        write("", file);
+        writeWithTime(String.format("Player \"%s\" took the last item. Removing AngelChest!", player.getName()), file);
+        write("", file);
+        write("=== AngelChest removed ===", file);
+    }
+
+    public void logPaidForChest(final Player player, final double price, final File file) {
+        if (!Daddy.allows(Features.GENERIC)) return; // Don't add feature here
+        writeWithTime(String.format("Player \"%s\" paid %f to open this AngelChest for the first time.", player.getName(), price), file);
+    }
+
+    public void logXPTaken(final Player player, final int xp, final File file) {
+        if (!Daddy.allows(Features.GENERIC)) return; // Don't add feature here
+        writeWithTime(String.format("Player \"%s\" took XP: %d", player.getName(), xp), file);
+    }
+
+    public void purgeLogs() {
+        if (removeOlderThanXHours == -1) return;
+        main.debug("Checking for old log files...");
+        final long now = new Date().getTime();
+        final File logFolder = new File(path);
+        int purged = 0;
+        int purgedSuccessfully = 0;
+        for (final File logfile : logFolder.listFiles()) {
+            final long diff = now - logfile.lastModified();
+            if (diff > maxOffsetBeforeRemoval) {
+                main.debug("Deleting log file " + logfile.getName() + " because it is older than " + removeOlderThanXHours + " hours...");
+                if (!logfile.delete()) {
+                    main.getLogger().warning("Could not delete log file " + logfile.getName());
+                } else {
+                    purgedSuccessfully++;
+                }
+                purged++;
+            }
+        }
+        if (purged > 0) {
+            if (purged == purgedSuccessfully) {
+                main.getLogger().info("Removed " + purged + " old log files.");
+            } else {
+                main.getLogger().warning("Attempted to remove " + purged + " old log files, but could only remove " + purgedSuccessfully);
+            }
+        }
+    }
+
+    private void write(final String text, final File file) {
+        try {
+            final FileWriter fw = new FileWriter(file, true);
+            final BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(text);
+            bw.newLine();
+            bw.close();
+        } catch (final IOException e) {
+            main.getLogger().severe("Could not write to logfile " + file.getAbsolutePath());
+            e.printStackTrace();
+        }
+    }
+
+    private void writeWithTime(final String text, final File file) {
+        final FileWriter fw;
+        final String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        try {
+            fw = new FileWriter(file, true);
+            final BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(String.format("[%s] %s", timestamp, text));
+            bw.newLine();
+            bw.close();
+        } catch (final IOException e) {
+            main.getLogger().severe("Could not write to logfile " + file.getAbsolutePath());
+            e.printStackTrace();
+        }
     }
 }

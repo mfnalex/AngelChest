@@ -41,6 +41,35 @@ public final class Watchdog {
     }
 
     /**
+     * Returns the amount of unsaved armor stands
+     *
+     * @return amount of unsaved armor stands
+     */
+    public int getCurrentUnsavedArmorStands() {
+        return main.getAllArmorStandUUIDs().size();
+    }
+
+    /**
+     * Returns the Watchdog File
+     *
+     * @return Watchdog File
+     */
+    private File getFile() {
+        return new File(main.getDataFolder() + File.separator + "watchdog");
+    }
+
+    /**
+     * Removes the Watchdog file
+     */
+    public void removeFile() {
+        if (getFile().exists()) {
+            if (!getFile().delete()) {
+                main.getLogger().severe("Could not delete file " + getFile().getAbsolutePath());
+            }
+        }
+    }
+
+    /**
      * Removes leftover armor stands.
      * TODO: Also restore the AngelChests
      */
@@ -53,26 +82,6 @@ public final class Watchdog {
             if (entity instanceof ArmorStand) {
                 main.debug("Removed leftover armor stand " + entry + ": " + entity.getCustomName());
                 entity.remove();
-            }
-        }
-    }
-
-    /**
-     * Returns the amount of unsaved armor stands
-     *
-     * @return amount of unsaved armor stands
-     */
-    public int getCurrentUnsavedArmorStands() {
-        return main.getAllArmorStandUUIDs().size();
-    }
-
-    /**
-     * Removes the Watchdog file
-     */
-    public void removeFile() {
-        if (getFile().exists()) {
-            if (!getFile().delete()) {
-                main.getLogger().severe("Could not delete file " + getFile().getAbsolutePath());
             }
         }
     }
@@ -104,15 +113,6 @@ public final class Watchdog {
             ioException.printStackTrace();
         }
         //});
-    }
-
-    /**
-     * Returns the Watchdog File
-     *
-     * @return Watchdog File
-     */
-    private File getFile() {
-        return new File(main.getDataFolder() + File.separator + "watchdog");
     }
 
 

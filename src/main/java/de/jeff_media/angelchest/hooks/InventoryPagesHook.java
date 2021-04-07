@@ -15,12 +15,10 @@ import java.io.File;
 public final class InventoryPagesHook {
 
     final Main main;
+    boolean disabled = false;
     YamlConfiguration inventoryPagesConfig;
-
     Material prevMat, nextMat, noPageMat;
     String prevName, nextName, noPageName;
-
-    boolean disabled = false;
 
     public InventoryPagesHook() {
         this.main = Main.getInstance();

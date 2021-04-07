@@ -9,14 +9,11 @@ import org.bukkit.command.CommandSender;
  */
 public enum CommandAction {
 
-    TELEPORT_TO_CHEST(Permissions.TP, "AngelChest TP", "actp"),
-    FETCH_CHEST(Permissions.FETCH, "AngelChest Fetch", "acfetch"),
-    UNLOCK_CHEST(Permissions.PROTECT, "", "acunlock"),
-    LIST_CHESTS(Permissions.USE, "", "aclist");
+    TELEPORT_TO_CHEST(Permissions.TP, "AngelChest TP", "actp"), FETCH_CHEST(Permissions.FETCH, "AngelChest Fetch", "acfetch"), UNLOCK_CHEST(Permissions.PROTECT, "", "acunlock"), LIST_CHESTS(Permissions.USE, "", "aclist");
 
-    private final String permission;
-    private final String economyReason;
     private final String command;
+    private final String economyReason;
+    private final String permission;
 
     CommandAction(final String permission, final String economyReason, final String command) {
         this.permission = permission;
@@ -24,12 +21,16 @@ public enum CommandAction {
         this.command = command;
     }
 
-    public String getPermission() {
-        return permission;
+    public String getCommand() {
+        return command;
     }
 
     public String getEconomyReason() {
         return economyReason;
+    }
+
+    public String getPermission() {
+        return permission;
     }
 
     public double getPrice(final CommandSender player) {
@@ -41,10 +42,6 @@ public enum CommandAction {
         } else {
             return 0.0D;
         }
-    }
-
-    public String getCommand() {
-        return command;
     }
 
 }

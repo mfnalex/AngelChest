@@ -5,8 +5,8 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.data.BlacklistEntry;
 import de.jeff_media.angelchest.enums.Features;
 import de.jeff_media.angelchest.gui.GUIManager;
+import de.jeff_media.angelchest.hooks.ExecutableItemsHook;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
-import de.jeff_media.angelchest.hooks.WorldGuardHandler;
 import de.jeff_media.angelchest.hooks.WorldGuardWrapper;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.GroupUtils;
@@ -30,110 +30,6 @@ import java.util.stream.Collectors;
  * Creates the default config and directories, handles reloading and adds the default values
  */
 public final class ConfigUtils {
-
-    @SuppressWarnings("SameParameterValue")
-    static void createDirectory(final String name) {
-        final File folder = new File(Main.getInstance().getDataFolder().getPath() + File.separator + name);
-        if (!folder.getAbsoluteFile().exists()) {
-            folder.mkdirs();
-        }
-    }
-
-    static void createDirectories() {
-        createDirectory("angelchests");
-        createDirectory("logs");
-    }
-
-    public static void validateConfigFiles() {
-        Main.getInstance().invalidConfigFiles = getBrokenConfigFiles();
-        EmergencyMode.warnBrokenConfig();
-    }
-
-    public static @Nullable String[] getBrokenConfigFiles() {
-        final ArrayList<String> files = new ArrayList<>();
-        for (final String fileName : new String[]{"config.yml", "blacklist.yml", "groups.yml"}) {
-            Main.getInstance().debug("Checking if file is broken: " + fileName);
-            final File file = new File(Main.getInstance().getDataFolder(), fileName);
-
-            if (!file.exists()) continue;
-
-            final YamlConfiguration config = new YamlConfiguration();
-            try {
-                config.load(file);
-                Main.getInstance().debug("- Valid file: " + fileName);
-            } catch (final FileNotFoundException e) {
-                Main.getInstance().debug("- Missing file: " + fileName);
-            } catch (final InvalidConfigurationException | IOException e) {
-                files.add(fileName);
-                Main.getInstance().debug("- Broken file: " + fileName);
-            }
-        }
-        return files.isEmpty() ? null : files.toArray(new String[0]);
-    }
-
-    public static void reloadCompleteConfig(final boolean reload) {
-        final Main main = Main.getInstance();
-        /*Daddy start*/
-        Daddy.init(main);
-        /*Daddy end*/
-        if (reload) {
-            main.saveAllAngelChestsToFile(true);
-        }
-        main.reloadConfig();
-        createConfig();
-        ConfigUpdater.updateConfig();
-        main.initUpdateChecker();
-        main.debug = main.getConfig().getBoolean(Config.DEBUG, false);
-        main.verbose = main.getConfig().getBoolean(Config.VERBOSE, false);
-        main.messages = new Messages(main);
-        main.pendingConfirms = new HashMap<>();
-        final File groupsFile = new File(main.getDataFolder() + File.separator + "groups.yml");
-        main.groupUtils = new GroupUtils(groupsFile);
-        main.worldGuardWrapper = WorldGuardWrapper.init();
-        main.hookUtils = new HookUtils();
-        main.minepacksHook = new MinepacksHook();
-        main.guiManager = new GUIManager();
-        main.itemBlacklist = loadItemBlacklist();
-        main.nbtUtils = new NBTUtils();
-        //main.debugger = new AngelChestDebugger(main);
-        if (reload) {
-            main.loadAllAngelChestsFromFile();
-        }
-        validateConfigFiles();
-    }
-
-    private static Map<String, BlacklistEntry> loadItemBlacklist() {
-        final Main main = Main.getInstance();
-        final Map<String, BlacklistEntry> set = new HashMap<>();
-        final File yamlFile = new File(main.getDataFolder() + File.separator + "blacklist.yml");
-        if (!yamlFile.exists()) {
-            main.getLogger().info("blacklist.yml does not exist, disabling item blacklist.");
-            return set;
-        }
-        final YamlConfiguration yaml = YamlConfiguration.loadConfiguration(yamlFile);
-        for (final String node : yaml.getKeys(false)) {
-            set.put(node.toLowerCase(), new BlacklistEntry(node, yaml));
-        }
-        return set;
-    }
-
-    static void metric(final String name, String value) {
-        if (value.length() > 2 && value.endsWith(".0")) value = value.substring(0, value.length() - 2);
-        final String finalValue = value;
-        Main.getInstance().metrics.addCustomChart(new Metrics.SimplePie(name.replace('-', '_').toLowerCase(), () -> finalValue));
-        //System.out.println("Adding metric "+name+" -> "+value);
-    }
-
-    static void metric(final String name) {
-        metric(name, Main.getInstance().getConfig().getString(name));
-    }
-
-    static void metric(final String name, final List<String> values) {
-        Collections.sort(values);
-        final String value = StringUtils.join(values, ",");
-        metric(name, value);
-    }
-
 
     static void createConfig() {
 
@@ -289,7 +185,7 @@ public final class ConfigUtils {
         conf.addDefault(Config.UNLOCK_DURATION, 0);
         metric(Config.UNLOCK_DURATION);
 
-        conf.addDefault(Config.INVULNERABILITY_AFTER_TP,0);
+        conf.addDefault(Config.INVULNERABILITY_AFTER_TP, 0);
         metric(Config.INVULNERABILITY_AFTER_TP);
 
         conf.addDefault(Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT, "&cProtected for {time}");
@@ -333,6 +229,9 @@ public final class ConfigUtils {
 
         conf.addDefault(Config.FLAG_ALLOW_ANGELCHEST_DEFAULT_VALUE, true);
         metric(Config.FLAG_ALLOW_ANGELCHEST_DEFAULT_VALUE);
+
+        conf.addDefault(Config.USE_EXECUTABLEITEMS, true);
+        metric(Config.USE_EXECUTABLEITEMS);
 
         main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
         metric(Config.DISABLED_MATERIALS, String.valueOf(main.disabledMaterials.size()));
@@ -416,5 +315,109 @@ public final class ConfigUtils {
             }
         }
 
+    }
+
+    static void createDirectories() {
+        createDirectory("angelchests");
+        createDirectory("logs");
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    static void createDirectory(final String name) {
+        final File folder = new File(Main.getInstance().getDataFolder().getPath() + File.separator + name);
+        if (!folder.getAbsoluteFile().exists()) {
+            folder.mkdirs();
+        }
+    }
+
+    public static @Nullable String[] getBrokenConfigFiles() {
+        final ArrayList<String> files = new ArrayList<>();
+        for (final String fileName : new String[] {"config.yml", "blacklist.yml", "groups.yml"}) {
+            Main.getInstance().debug("Checking if file is broken: " + fileName);
+            final File file = new File(Main.getInstance().getDataFolder(), fileName);
+
+            if (!file.exists()) continue;
+
+            final YamlConfiguration config = new YamlConfiguration();
+            try {
+                config.load(file);
+                Main.getInstance().debug("- Valid file: " + fileName);
+            } catch (final FileNotFoundException e) {
+                Main.getInstance().debug("- Missing file: " + fileName);
+            } catch (final InvalidConfigurationException | IOException e) {
+                files.add(fileName);
+                Main.getInstance().debug("- Broken file: " + fileName);
+            }
+        }
+        return files.isEmpty() ? null : files.toArray(new String[0]);
+    }
+
+    private static Map<String, BlacklistEntry> loadItemBlacklist() {
+        final Main main = Main.getInstance();
+        final Map<String, BlacklistEntry> set = new HashMap<>();
+        final File yamlFile = new File(main.getDataFolder() + File.separator + "blacklist.yml");
+        if (!yamlFile.exists()) {
+            main.getLogger().info("blacklist.yml does not exist, disabling item blacklist.");
+            return set;
+        }
+        final YamlConfiguration yaml = YamlConfiguration.loadConfiguration(yamlFile);
+        for (final String node : yaml.getKeys(false)) {
+            set.put(node.toLowerCase(), new BlacklistEntry(node, yaml));
+        }
+        return set;
+    }
+
+    static void metric(final String name, String value) {
+        if (value.length() > 2 && value.endsWith(".0")) value = value.substring(0, value.length() - 2);
+        final String finalValue = value;
+        Main.getInstance().metrics.addCustomChart(new Metrics.SimplePie(name.replace('-', '_').toLowerCase(), ()->finalValue));
+        //System.out.println("Adding metric "+name+" -> "+value);
+    }
+
+    static void metric(final String name) {
+        metric(name, Main.getInstance().getConfig().getString(name));
+    }
+
+    static void metric(final String name, final List<String> values) {
+        Collections.sort(values);
+        final String value = StringUtils.join(values, ",");
+        metric(name, value);
+    }
+
+    public static void reloadCompleteConfig(final boolean reload) {
+        final Main main = Main.getInstance();
+        /*Daddy start*/
+        Daddy.init(main);
+        /*Daddy end*/
+        ExecutableItemsHook.init();
+        if (reload) {
+            main.saveAllAngelChestsToFile(true);
+        }
+        main.reloadConfig();
+        createConfig();
+        ConfigUpdater.updateConfig();
+        main.initUpdateChecker();
+        main.debug = main.getConfig().getBoolean(Config.DEBUG, false);
+        main.verbose = main.getConfig().getBoolean(Config.VERBOSE, false);
+        main.messages = new Messages(main);
+        main.pendingConfirms = new HashMap<>();
+        final File groupsFile = new File(main.getDataFolder() + File.separator + "groups.yml");
+        main.groupUtils = new GroupUtils(groupsFile);
+        main.worldGuardWrapper = WorldGuardWrapper.init();
+        main.hookUtils = new HookUtils();
+        main.minepacksHook = new MinepacksHook();
+        main.guiManager = new GUIManager();
+        main.itemBlacklist = loadItemBlacklist();
+        main.nbtUtils = new NBTUtils();
+        //main.debugger = new AngelChestDebugger(main);
+        if (reload) {
+            main.loadAllAngelChestsFromFile();
+        }
+        validateConfigFiles();
+    }
+
+    public static void validateConfigFiles() {
+        Main.getInstance().invalidConfigFiles = getBrokenConfigFiles();
+        EmergencyMode.warnBrokenConfig();
     }
 }

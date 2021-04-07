@@ -28,13 +28,9 @@ public final class CommandVersion implements CommandExecutor {
             return true;
         }
 
-        final String[] output = new String[]{
-                "§6===[§bAngelChest Version§6]===",
-                "§eAngelChest" + (Daddy.allows(Features.GENERIC) ? "Plus " : " ") + Main.getInstance().getDescription().getVersion(),
+        final String[] output = new String[] {"§6===[§bAngelChest Version§6]===", "§eAngelChest" + (Daddy.allows(Features.GENERIC) ? "Plus " : " ") + Main.getInstance().getDescription().getVersion(),
                 //"§e" + Bukkit.getBukkitVersion(),
-                "§e" + Bukkit.getVersion(),
-                null,
-        };
+                "§e" + Bukkit.getVersion(), null,};
 
         final TextComponent discord = new TextComponent("(Click here for Discord support)");
         discord.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, Main.DISCORD_LINK));

@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>3.10.0</version>
+    <version>3.11.0</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -280,10 +280,15 @@
             <version>2.10.9</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Plugins that are not available in repositories. They will be accessed via Reflection. -->
+        <!-- It is not needed that you have them installed. -->
         <!--<dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>4.5.0</version>
+            <groupId>doesnt.matter</groupId>
+            <artifactId>ExecutableItems</artifactId>
+            <version>doesnt.matter</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/ExecutableItems.jar</systemPath>
         </dependency>-->
     </dependencies>
 

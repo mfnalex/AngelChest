@@ -13,15 +13,15 @@ import java.util.List;
 
 public final class BlacklistEntry {
 
-    final String name;
+    final boolean ignoreColors;
     final List<String> loreContains;
     final List<String> loreExact;
+    final String name;
     final String nameContains;
     final String nameExact;
-    final boolean ignoreColors;
-    boolean wildcardFront = false;
-    boolean wildcardEnd = false;
     String material;
+    boolean wildcardEnd = false;
+    boolean wildcardFront = false;
 
     public BlacklistEntry(final String name, final FileConfiguration config) {
         this.name = name;
@@ -77,19 +77,6 @@ public final class BlacklistEntry {
             result.append("\n").append(line).append("\n");
         }
         return result.toString();
-    }
-
-    private boolean materialMatches(final Material type) {
-        if (wildcardFront && wildcardEnd) {
-            return type.name().contains(material);
-        }
-        if (wildcardEnd) {
-            return type.name().startsWith(material);
-        }
-        if (wildcardFront) {
-            return type.name().endsWith(material);
-        }
-        return type.name().equals(material);
     }
 
     public BlacklistResult matches(final ItemStack item) {
@@ -172,6 +159,19 @@ public final class BlacklistEntry {
         final BlacklistResult result = BlacklistResult.MATCH;
         result.setName(name);
         return result;
+    }
+
+    private boolean materialMatches(final Material type) {
+        if (wildcardFront && wildcardEnd) {
+            return type.name().contains(material);
+        }
+        if (wildcardEnd) {
+            return type.name().startsWith(material);
+        }
+        if (wildcardFront) {
+            return type.name().endsWith(material);
+        }
+        return type.name().equals(material);
     }
 
 }

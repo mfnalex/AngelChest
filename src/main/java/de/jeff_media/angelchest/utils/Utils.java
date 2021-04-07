@@ -18,20 +18,38 @@ import org.jetbrains.annotations.Nullable;
 
 public final class Utils {
 
+    public static void applyXp(final Player p, final AngelChest angelChest) {
+        if (angelChest.experience > 0) {
+            p.giveExp(angelChest.experience);
+            angelChest.experience = 0;
+        }
+    }
+
+    public static void dropExp(final Block block, final int xp) {
+        final ExperienceOrb orb = (ExperienceOrb) block.getWorld().spawnEntity(block.getLocation(), EntityType.EXPERIENCE_ORB);
+        orb.setExperience(xp);
+    }
+
+    public static void dropItems(final Block block, final ItemStack[] invContent) {
+        for (final ItemStack itemStack : invContent) {
+            if (isEmpty(itemStack)) continue;
+            block.getWorld().dropItem(block.getLocation(), itemStack);
+        }
+    }
+
+    public static EventPriority getEventPriority(final String configuredPriority) {
+        return Enums.getIfPresent(EventPriority.class, configuredPriority).or(EventPriority.NORMAL);
+    }
+
     public static boolean isEmpty(final Inventory inv) {
 
-        if (inv.getContents() == null)
-            return true;
-        if (inv.getContents().length == 0)
-            return true;
+        if (inv.getContents() == null) return true;
+        if (inv.getContents().length == 0) return true;
 
         for (final ItemStack itemStack : inv.getContents()) {
-            if (itemStack == null)
-                continue;
-            if (itemStack.getAmount() == 0)
-                continue;
-            if (itemStack.getType() == Material.AIR)
-                continue;
+            if (itemStack == null) continue;
+            if (itemStack.getAmount() == 0) continue;
+            if (itemStack.getType() == Material.AIR) continue;
             return false;
         }
 
@@ -46,10 +64,8 @@ public final class Utils {
      * @return true if ItemStack is null, amount is 0 or material is AIR
      */
     public static boolean isEmpty(@Nullable final ItemStack itemStack) {
-        if (itemStack == null)
-            return true;
-        if (itemStack.getAmount() == 0)
-            return true;
+        if (itemStack == null) return true;
+        if (itemStack.getAmount() == 0) return true;
         return itemStack.getType() == Material.AIR;
     }
 
@@ -68,40 +84,13 @@ public final class Utils {
         return true;
     }
 
-    public static EventPriority getEventPriority(final String configuredPriority) {
-        return Enums.getIfPresent(EventPriority.class, configuredPriority).or(EventPriority.NORMAL);
-    }
-
-    public static void dropItems(final Block block, final ItemStack[] invContent) {
-        for (final ItemStack itemStack : invContent) {
-            if (isEmpty(itemStack))
-                continue;
-            block.getWorld().dropItem(block.getLocation(), itemStack);
-        }
-    }
-
-    public static void dropExp(final Block block, final int xp) {
-        final ExperienceOrb orb = (ExperienceOrb) block.getWorld().spawnEntity(block.getLocation(), EntityType.EXPERIENCE_ORB);
-        orb.setExperience(xp);
-    }
-
     public static void sendDelayedMessage(final Player p, final String message, final long delay) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
-            if (p == null)
-                return;
-            if (!(p instanceof Player))
-                return;
-            if (!p.isOnline())
-                return;
+        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), ()->{
+            if (p == null) return;
+            if (!(p instanceof Player)) return;
+            if (!p.isOnline()) return;
             p.sendMessage(message);
         }, delay);
-    }
-
-    public static void applyXp(final Player p, final AngelChest angelChest) {
-        if (angelChest.experience > 0) {
-            p.giveExp(angelChest.experience);
-            angelChest.experience = 0;
-        }
     }
 
 }

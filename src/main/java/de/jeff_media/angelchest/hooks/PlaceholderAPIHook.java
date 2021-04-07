@@ -23,8 +23,8 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
     }
 
     @Override
-    public @NotNull String getIdentifier() {
-        return "angelchest";
+    public boolean canRegister() {
+        return true;
     }
 
     @Override
@@ -33,13 +33,13 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
     }
 
     @Override
-    public @NotNull String getVersion() {
-        return "GENERIC";
+    public @NotNull String getIdentifier() {
+        return "angelchest";
     }
 
     @Override
-    public boolean canRegister() {
-        return true;
+    public @NotNull String getVersion() {
+        return "GENERIC";
     }
 
     /**

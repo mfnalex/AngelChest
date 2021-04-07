@@ -13,80 +13,62 @@ import org.bukkit.entity.Player;
  */
 public final class Messages {
 
-    public static final String[] usingFreeVersion = new String[]{
-            "========================================================",
-            "You are using the free version of AngelChest. There is",
-            "also a premium version available, called AngelChestPlus.",
-            "It includes TONS of new features and exclusive Discord",
-            "support. The free version will still receive bugfixes,",
-            "but there won't be ANY new features!",
-            "If you like AngelChest, you will LOVE AngelChestPlus, so",
-            "please consider upgrading! Thank you for using AngelChest.",
-            "",
-            Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS,
-            "========================================================",
-    };
-    public static final String[] usingPlusVersion = new String[]{
-            "========================================================",
-            "Thanks for buying AngelChestPlus! Premium features have",
-            "been unlocked successfully. Have fun!",
-            "========================================================",
-    };
-    public final String MSG_ACTIONBAR_INVULNERABLE;
-    public final String MSG_ACTIONBAR_VULNERABLE;
-    public final String MSG_PLAYERSONLY;
-    public final String MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS;
-    public final String MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS;
-    public final String MSG_UNLOCKED_ONE_ANGELCHEST;
-    public final String MSG_INVENTORY_WAS_EMPTY;
-    public final String MSG_ANGELCHEST_CREATED;
-    public final String MSG_ANGELCHEST_DISAPPEARED;
-    public final String MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS;
-    public final String MSG_YOU_GOT_YOUR_INVENTORY_BACK;
-    public final String MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK;
-    public final String HOLOGRAM_TEXT;
+    public static final String[] usingFreeVersion = new String[] {"========================================================", "You are using the free version of AngelChest. There is", "also a premium version available, called AngelChestPlus.", "It includes TONS of new features and exclusive Discord", "support. The free version will still receive bugfixes,", "but there won't be ANY new features!", "If you like AngelChest, you will LOVE AngelChestPlus, so", "please consider upgrading! Thank you for using AngelChest.", "", Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS, "========================================================",};
+    public static final String[] usingPlusVersion = new String[] {"========================================================", "Thanks for buying AngelChestPlus! Premium features have", "been unlocked successfully. Have fun!", "========================================================",};
     public final String ANGELCHEST_INVENTORY_NAME;
     public final String ANGELCHEST_LIST;
-    public final String MSG_ANGELCHEST_LOCATION;
-    public final String MSG_NOT_ENOUGH_MONEY;
-    public final String MSG_PLEASE_SELECT_CHEST;
-    public final String MSG_ANGELCHEST_EXPLODED;
-    public final String MSG_NO_CHEST_IN_PVP;
-    public final String MSG_RETRIEVED;
-    public final String MSG_CONFIRM;
-    public final String MSG_NOT_ENOUGH_MONEY_CHEST;
-    public final String MSG_PAID_OPEN;
-    public final String MSG_UNLOCKED_AUTOMATICALLY;
-    public final String MSG_OPENED;
-    public final String MSG_EMPTIED;
-    public final String MSG_SPAWN_CHANCE_UNSUCCESFULL;
-    public final String MSG_PREMIUMONLY;
-    public final String MSG_NO_PERMISSION;
-    public final String GUI_TITLE_MAIN;
-    public final String GUI_TITLE_CHEST;
-    public final String GUI_BACK;
-    public final String GUI_INFO;
-    public final String GUI_TELEPORT;
-    public final String GUI_FETCH;
-    public final String GUI_UNLOCK;
+    public final String ERR_ALREADYUNLOCKED;
+    public final String ERR_INVALIDCHEST = ChatColor.RED + "Invalid AngelChest!";
+    // The following messages shouldn't really appear
+    public final String ERR_NOTOWNER = ChatColor.RED + "You do not own this AngelChest.";
     public final String GUI_ACCEPT;
+    public final String GUI_BACK;
     public final String GUI_DECLINE;
+    public final String GUI_FETCH;
+    public final String GUI_INFO;
     public final String GUI_INFO_LORE;
     public final String GUI_PREVIEW;
-    public final String LINK_TP;
+    public final String GUI_TELEPORT;
+    public final String GUI_TITLE_CHEST;
+    public final String GUI_TITLE_MAIN;
+    public final String GUI_UNLOCK;
+    public final String HOLOGRAM_TEXT;
     public final String LINK_FETCH;
-
+    public final String LINK_TP;
     //public final String LINK_UNLOCK_FOR;
     //public final String MSG_ALL_YOUR_ANGELCHESTS_WERE_ALREADY_UNLOCKED;
     //public final String MSG_UNLOCKED_MORE_ANGELCHESTS;
     public final String LINK_UNLOCK;
-    // The following messages shouldn't really appear
-    public final String ERR_NOTOWNER = ChatColor.RED + "You do not own this AngelChest.";
-    public final String ERR_ALREADYUNLOCKED;
-    public final String ERR_INVALIDCHEST = ChatColor.RED + "Invalid AngelChest!";
-    public final String PREFIX;
+    public final String MSG_ACTIONBAR_INVULNERABLE;
+    public final String MSG_ACTIONBAR_VULNERABLE;
+    public final String MSG_ANGELCHEST_CREATED;
+    public final String MSG_ANGELCHEST_DISAPPEARED;
+    public final String MSG_ANGELCHEST_EXPLODED;
+    public final String MSG_ANGELCHEST_LOCATION;
+    public final String MSG_CONFIRM;
+    public final String MSG_EMPTIED;
+    public final String MSG_INVENTORY_WAS_EMPTY;
     public final String MSG_MUST_SPECIFY_PLAYER;
+    public final String MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS;
+    public final String MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS;
+    public final String MSG_NOT_ENOUGH_MONEY;
+    public final String MSG_NOT_ENOUGH_MONEY_CHEST;
+    public final String MSG_NO_CHEST_IN_PVP;
+    public final String MSG_NO_PERMISSION;
+    public final String MSG_OPENED;
+    public final String MSG_PAID_OPEN;
+    public final String MSG_PLAYERSONLY;
+    public final String MSG_PLEASE_SELECT_CHEST;
+    public final String MSG_PREMIUMONLY;
+    public final String MSG_RETRIEVED;
+    public final String MSG_SPAWN_CHANCE_UNSUCCESFULL;
     public final String MSG_UNKNOWN_PLAYER;
+    public final String MSG_UNLOCKED_AUTOMATICALLY;
+    public final String MSG_UNLOCKED_ONE_ANGELCHEST;
+    public final String MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS;
+    public final String MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK;
+    public final String MSG_YOU_GOT_YOUR_INVENTORY_BACK;
+    public final String PREFIX;
     private final Main main;
 
     public Messages(final Main main) {
@@ -103,26 +85,20 @@ public final class Messages {
 
         MSG_SPAWN_CHANCE_UNSUCCESFULL = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-spawn-chance-unsuccessful", "&cYour Angel forgot to collect your stuff, unlucky!"));
 
-        MSG_PLAYERSONLY = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
-                .getString("message-error-players-only", "&cError: This command can only be used by players."));
+        MSG_PLAYERSONLY = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-error-players-only", "&cError: This command can only be used by players."));
 
-        MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
-                .getString("message-not-allowed-to-break-other-angelchests", "&cYou are not allowed to break other people's AngelChest."));
+        MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-not-allowed-to-break-other-angelchests", "&cYou are not allowed to break other people's AngelChest."));
 
-        MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
-                .getString("message-not-allowed-to-open-other-angelchests", "&cYou are not allowed to open other people's AngelChest."));
+        MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-not-allowed-to-open-other-angelchests", "&cYou are not allowed to open other people's AngelChest."));
 
-        MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
-                .getString("message-you-dont-have-any-angelchests", "&eYou don't have any AngelChests."));
+        MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-you-dont-have-any-angelchests", "&eYou don't have any AngelChests."));
 
         //MSG_ALL_YOUR_ANGELCHESTS_WERE_ALREADY_UNLOCKED =PREFIX +  ChatColor.translateAlternateColorCodes('&', main.getConfig()
         //		.getString("message-all-your-angelchests-were-already-unlocked", "&eAll your AngelChests were already unlocked."));
 
-        MSG_UNLOCKED_ONE_ANGELCHEST = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
-                .getString("message-unlocked-one-angelchest", "&aYou have unlocked your AngelChest."));
+        MSG_UNLOCKED_ONE_ANGELCHEST = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-unlocked-one-angelchest", "&aYou have unlocked your AngelChest."));
 
-        MSG_ANGELCHEST_DISAPPEARED = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
-                .getString("message-angelchest-disappeared", "&cYou were too slow... Your AngelChest has disappeared and dropped its contents."));
+        MSG_ANGELCHEST_DISAPPEARED = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-angelchest-disappeared", "&cYou were too slow... Your AngelChest has disappeared and dropped its contents."));
 
         //MSG_UNLOCKED_MORE_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig()
         //		.getString("message-unlocked-more-angelchests", "&aYou have unlocked %d AngelChests."));
@@ -175,9 +151,9 @@ public final class Messages {
 
         MSG_UNLOCKED_AUTOMATICALLY = PREFIX + getMsg("unlocked-automatically", "&8Your AngelChest has been unlocked automatically.");
 
-        MSG_ACTIONBAR_INVULNERABLE = getMsg("invulnerable","&a&lYou are invulnerable for {time}.");
+        MSG_ACTIONBAR_INVULNERABLE = getMsg("invulnerable", "&a&lYou are invulnerable for {time}.");
 
-        MSG_ACTIONBAR_VULNERABLE = getMsg("vulnerable","&c&lYou are no longer invulnerable.");
+        MSG_ACTIONBAR_VULNERABLE = getMsg("vulnerable", "&c&lYou are no longer invulnerable.");
 
         GUI_TITLE_CHEST = getGui(Config.GUI_TITLE_CHEST, "§4§l[§c§lAngelChest§4§l] §c#{id} §4| §c{time}");
 
@@ -206,20 +182,20 @@ public final class Messages {
         receiver.sendMessage(message);
     }
 
-    private String getMsg(final String path, final String defaultText) {
-        return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-" + path, defaultText));
+    public static void sendActionBar(final Player receiver, final String message) {
+        if (receiver == null || !receiver.isOnline()) return;
+        receiver.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+    }
+
+    public static void sendPremiumOnlyConsoleMessage(final String configNode) {
+        Main.getInstance().getLogger().warning("You are using the config option \"" + configNode + "\". This is only available in AngelChestPlus, see here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
     }
 
     private String getGui(final String path, final String defaultText) {
         return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(path, defaultText));
     }
 
-    public static void sendActionBar(final Player receiver, final String message) {
-        if(receiver == null || !receiver.isOnline()) return;
-        receiver.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
-    }
-
-    public static void sendPremiumOnlyConsoleMessage(String configNode) {
-        Main.getInstance().getLogger().warning("You are using the config option \""+configNode+"\". This is only available in AngelChestPlus, see here: "+Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+    private String getMsg(final String path, final String defaultText) {
+        return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-" + path, defaultText));
     }
 }

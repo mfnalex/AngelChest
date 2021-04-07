@@ -27,11 +27,11 @@ import java.util.Objects;
 public final class WorldGuardHandler extends WorldGuardWrapper {
 
 
+    public static StateFlag FLAG_ALLOW_ANGELCHEST = null;
     final Main main;
     public boolean disabled = false;
-    public static StateFlag FLAG_ALLOW_ANGELCHEST = null;
-    WorldGuardPlugin worldGuardPlugin;
     RegionContainer regionContainer;
+    WorldGuardPlugin worldGuardPlugin;
 
     public WorldGuardHandler(final Main main) {
         this.main = main;
@@ -64,8 +64,7 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
         if (worldGuardPlugin != null) {
             try {
                 // This only works on WorldGuard 7+
-                regionContainer = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(WorldGuard.getInstance(), "WorldGuard#getInstance is null")
-                        .getPlatform(), "WorldGuard#getInstance#getPlatform is null").getRegionContainer(), "WorldGuard#getInstance#getRegionContainer is null");
+                regionContainer = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(WorldGuard.getInstance(), "WorldGuard#getInstance is null").getPlatform(), "WorldGuard#getInstance#getPlatform is null").getRegionContainer(), "WorldGuard#getInstance#getRegionContainer is null");
                 main.getLogger().info("Successfully hooked into WorldGuard.");
             } catch (final Throwable ignored) {
                 disabled = true;
@@ -76,7 +75,7 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
 
     public static void tryToRegisterFlags() {
 
-        Main main = Main.getInstance();
+        final Main main = Main.getInstance();
         //main.debug("Trying to register WorldGuard Flags");
 
         // Check if WorldGuard is installed AND IF ITS A SUPPORTED VERSION (7+)
@@ -93,14 +92,14 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
         }
 
         // Flags start
-        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
+        final FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
-            StateFlag flag = new StateFlag("allow-angelchest", true);
+            final StateFlag flag = new StateFlag("allow-angelchest", true);
             registry.register(flag);
             FLAG_ALLOW_ANGELCHEST = flag;
-        } catch (Exception weDontUseflagConflictExceptionBecauseItThrowsNoClassDefFoundErrorWhenWorldGuardIsNotInstalled) {
-            Flag<?> existing = registry.get("allow-angelchest");
-            if(existing instanceof StateFlag) {
+        } catch (final Exception weDontUseflagConflictExceptionBecauseItThrowsNoClassDefFoundErrorWhenWorldGuardIsNotInstalled) {
+            final Flag<?> existing = registry.get("allow-angelchest");
+            if (existing instanceof StateFlag) {
                 FLAG_ALLOW_ANGELCHEST = (StateFlag) existing;
             } else {
                 main.getLogger().warning("Could not register WorldGuard flag \"allow-angelchest\"");
@@ -112,24 +111,28 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
 
     @Override
     public boolean getAngelChestFlag(final Player player) {
-        if(disabled) return true;
-        if(worldGuardPlugin == null) return true;
-        if(FLAG_ALLOW_ANGELCHEST == null) return true;
+        if (disabled) return true;
+        if (worldGuardPlugin == null) return true;
+        if (FLAG_ALLOW_ANGELCHEST == null) return true;
         final Block block = player.getLocation().getBlock();
         final RegionManager regions = regionContainer.get(BukkitAdapter.adapt(block.getWorld()));
-        final BlockVector3 position = BlockVector3.at(block.getX(),block.getY(), block.getZ());
+        final BlockVector3 position = BlockVector3.at(block.getX(), block.getY(), block.getZ());
         final ApplicableRegionSet set = regions.getApplicableRegions(position);
-        LocalPlayer localPlayer = worldGuardPlugin.wrapPlayer(player);
-        boolean allow = set.testState(localPlayer,FLAG_ALLOW_ANGELCHEST);
-        if(allow) {
+        final LocalPlayer localPlayer = worldGuardPlugin.wrapPlayer(player);
+        final boolean allow = set.testState(localPlayer, FLAG_ALLOW_ANGELCHEST);
+        if (allow) {
             return true;
         } else {
-            if(!Daddy.allows(Features.WORLD_GUARD_FLAGS)) {
-                main.getLogger().warning("You are using AngelChest's WorldGuard flags, which are only available in AngelChestPlus. See here: "+main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+            if (!Daddy.allows(Features.WORLD_GUARD_FLAGS)) {
+                main.getLogger().warning("You are using AngelChest's WorldGuard flags, which are only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
                 return true;
             }
             return false;
         }
+    }
+
+    BlockVector3 getBlockVector3(final Block block) {
+        return BlockVector3.at(block.getX(), block.getY(), block.getZ());
     }
 
     /**
@@ -157,9 +160,5 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
             }
         }
         return false;
-    }
-
-    BlockVector3 getBlockVector3(final Block block) {
-        return BlockVector3.at(block.getX(), block.getY(), block.getZ());
     }
 }

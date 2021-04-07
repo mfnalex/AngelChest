@@ -43,132 +43,6 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         return Arrays.stream(args).skip(1).toArray(String[]::new);
     }
 
-
-    @Override
-    public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String s, @NotNull final String[] args) {
-
-        if (!commandSender.hasPermission(Permissions.DEBUG)) {
-            commandSender.sendMessage(main.messages.MSG_NO_PERMISSION);
-            return true;
-        }
-
-        if (args.length > 0) {
-            switch (args[0].toLowerCase()) {
-                case "on":
-                    debug(commandSender, true);
-                    break;
-                case "off":
-                    debug(commandSender, false);
-                    break;
-                case "blacklist":
-                    blacklist(commandSender, shift(args));
-                    break;
-                case "config":
-                    config(commandSender, shift(args));
-                    break;
-                case "info":
-                    info(commandSender);
-                    break;
-                case "group":
-                    group(commandSender, shift(args));
-                    break;
-                case "checkconfig":
-                    checkconfig(commandSender);
-                    break;
-                case "dump":
-                    dump(commandSender);
-                    break;
-                case "fixholograms":
-                    fixholograms(commandSender);
-                    break;
-            }
-            return true;
-        }
-
-        commandSender.sendMessage(new String[]{
-                "§eAvailable debug commands:",
-                "/acd on §6Enables debug mode",
-                "/acd off §6Disables debug mode",
-                "/acd blacklist §6Shows blacklist information",
-                "/acd checkconfig §6Checks config files for errors",
-                "/acd info §6Shows general debug information",
-                "/acd group §6Shows group information",
-                "/acd dump §6Dump debug information",
-                "/acd fixholograms §6Removes dead holograms"
-                //"- config"
-        });
-
-        return true;
-    }
-
-    /*private void createhologram(CommandSender commandSender) {
-        Location loc = ((Player)commandSender).getLocation();
-        int rand = new Random().nextInt(Integer.MAX_VALUE);
-        ArmorStand entity = (ArmorStand) loc.getWorld().spawnEntity(loc,EntityType.ARMOR_STAND);
-        entity.setVisible(false);
-        entity.setCustomName(""+rand);
-        entity.setCustomNameVisible(true);
-        entity.setInvulnerable(true);
-        NBTAPI.addNBT(entity, NBTTags.IS_HOLOGRAM, NBTValues.TRUE);
-    }*/
-
-    private void fixholograms(final CommandSender commandSender) {
-        int deadHolograms = 0;
-        for (final World world : Bukkit.getWorlds()) {
-            deadHolograms += HologramFixer.removeDeadHolograms(world);
-        }
-
-        if (deadHolograms == 0) {
-            commandSender.sendMessage(new String[]{
-                    ChatColor.GRAY + "There are no dead AngelChest holograms.",
-                    ChatColor.GRAY + "Please note that this command can only remove holograms in loaded chunks created in AngelChest 3.3.0 or later. Join my discord to get a command that can remove all dead holograms (including those created by other plugins): " + Main.DISCORD_LINK
-            });
-        } else {
-            commandSender.sendMessage(ChatColor.GREEN + "Removed " + deadHolograms + " dead AngelChest holograms.");
-        }
-    }
-
-    private void dump(final CommandSender commandSender) {
-        ConfigDumper.dump(commandSender);
-    }
-
-    private void checkconfig(final CommandSender commandSender) {
-        commandSender.sendMessage("§6");
-        commandSender.sendMessage("§6===[§bAngelChest ConfigCheck§6]===");
-        commandSender.sendMessage("§6Please not that you have to run /acreload after making changes to your config.");
-        final List<String> errors = main.invalidConfigFiles == null ? new ArrayList<>() : Arrays.asList(main.invalidConfigFiles);
-        if (main.invalidConfigFiles == null) {
-            commandSender.sendMessage("§aAll your config files are valid.");
-        } else {
-            commandSender.sendMessage("§cSome of your config files are invalid.");
-        }
-
-        if (errors.contains("config.yml")) {
-            commandSender.sendMessage("§e- config.yml: §cinvalid");
-        } else {
-            commandSender.sendMessage("§e- config.yml: §avalid");
-        }
-
-        if (new File(main.getDataFolder(), "groups.yml").exists()) {
-            if (errors.contains("groups.yml")) {
-                commandSender.sendMessage("§e- groups.yml: §cinvalid");
-            } else {
-                commandSender.sendMessage("§e- groups.yml: §avalid");
-            }
-        } else {
-            commandSender.sendMessage("§e- groups.yml: §6does not exist");
-        }
-        if (new File(main.getDataFolder(), "blacklist.yml").exists()) {
-            if (errors.contains("blacklist.yml")) {
-                commandSender.sendMessage("§e- blacklist.yml: §cinvalid");
-            } else {
-                commandSender.sendMessage("§e- blacklist.yml: §avalid");
-            }
-        } else {
-            commandSender.sendMessage("§e- blacklist.yml: §6does not exist");
-        }
-    }
-
     private void blacklist(final CommandSender commandSender, String[] args) {
 
         if (!Daddy.allows(Features.GENERIC)) {
@@ -252,7 +126,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             commandSender.sendMessage(blacklisted == null ? "Not blacklisted" : "Blacklisted as \"" + blacklisted + "\"");
         } else if (args.length > 0 && args[0].equalsIgnoreCase("test")) {
             args = shift(args);
-            commandSender.sendMessage(new String[]{" ", "§6===[§bAngelChest Blacklist Test§6]==="});
+            commandSender.sendMessage(new String[] {" ", "§6===[§bAngelChest Blacklist Test§6]==="});
 
 
             if (!(commandSender instanceof Player)) {
@@ -290,14 +164,61 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
 
         } else {
 
-            commandSender.sendMessage(new String[]{
+            commandSender.sendMessage(new String[] {
                     "§eAvailable blacklist commands:",
                     "/acd blacklist add <name> §6Adds current item to to the blacklist as <name>",
                     "/acd blacklist info §6Shows material, name and lore of the current item including the blacklist definition it matches",
-                    "/acd blacklist test <item> §6Shows whether the current item matches a given blacklist definition including the reason when it does not match"
-            });
+                    "/acd blacklist test <item> §6Shows whether the current item matches a given blacklist definition including the reason when it does not match"});
         }
 
+    }
+
+    /*private void createhologram(CommandSender commandSender) {
+        Location loc = ((Player)commandSender).getLocation();
+        int rand = new Random().nextInt(Integer.MAX_VALUE);
+        ArmorStand entity = (ArmorStand) loc.getWorld().spawnEntity(loc,EntityType.ARMOR_STAND);
+        entity.setVisible(false);
+        entity.setCustomName(""+rand);
+        entity.setCustomNameVisible(true);
+        entity.setInvulnerable(true);
+        NBTAPI.addNBT(entity, NBTTags.IS_HOLOGRAM, NBTValues.TRUE);
+    }*/
+
+    private void checkconfig(final CommandSender commandSender) {
+        commandSender.sendMessage("§6");
+        commandSender.sendMessage("§6===[§bAngelChest ConfigCheck§6]===");
+        commandSender.sendMessage("§6Please not that you have to run /acreload after making changes to your config.");
+        final List<String> errors = main.invalidConfigFiles == null ? new ArrayList<>() : Arrays.asList(main.invalidConfigFiles);
+        if (main.invalidConfigFiles == null) {
+            commandSender.sendMessage("§aAll your config files are valid.");
+        } else {
+            commandSender.sendMessage("§cSome of your config files are invalid.");
+        }
+
+        if (errors.contains("config.yml")) {
+            commandSender.sendMessage("§e- config.yml: §cinvalid");
+        } else {
+            commandSender.sendMessage("§e- config.yml: §avalid");
+        }
+
+        if (new File(main.getDataFolder(), "groups.yml").exists()) {
+            if (errors.contains("groups.yml")) {
+                commandSender.sendMessage("§e- groups.yml: §cinvalid");
+            } else {
+                commandSender.sendMessage("§e- groups.yml: §avalid");
+            }
+        } else {
+            commandSender.sendMessage("§e- groups.yml: §6does not exist");
+        }
+        if (new File(main.getDataFolder(), "blacklist.yml").exists()) {
+            if (errors.contains("blacklist.yml")) {
+                commandSender.sendMessage("§e- blacklist.yml: §cinvalid");
+            } else {
+                commandSender.sendMessage("§e- blacklist.yml: §avalid");
+            }
+        } else {
+            commandSender.sendMessage("§e- blacklist.yml: §6does not exist");
+        }
     }
 
     private void debug(final CommandSender commandSender, final boolean enabled) {
@@ -305,6 +226,39 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         main.debug = enabled;
         main.getConfig().set("debug", enabled);
         commandSender.sendMessage(ChatColor.GRAY + "AngelChest debug mode has been " + (enabled ? "enabled" : "disabled"));
+    }
+
+    private void dump(final CommandSender commandSender) {
+        ConfigDumper.dump(commandSender);
+    }
+
+    private void fixholograms(final CommandSender commandSender) {
+        int deadHolograms = 0;
+        for (final World world : Bukkit.getWorlds()) {
+            deadHolograms += HologramFixer.removeDeadHolograms(world);
+        }
+
+        if (deadHolograms == 0) {
+            commandSender.sendMessage(new String[] {ChatColor.GRAY + "There are no dead AngelChest holograms.", ChatColor.GRAY + "Please note that this command can only remove holograms in loaded chunks created in AngelChest 3.3.0 or later. Join my discord to get a command that can remove all dead holograms (including those created by other plugins): " + Main.DISCORD_LINK});
+        } else {
+            commandSender.sendMessage(ChatColor.GREEN + "Removed " + deadHolograms + " dead AngelChest holograms.");
+        }
+    }
+
+    @SuppressWarnings("EmptyMethod")
+    private void getConfig(final CommandSender commandSender, final String[] args) {
+        if (args.length == 1) {
+            final String node = args[0].toLowerCase();
+            commandSender.sendMessage(String.format("%s = %s", node, main.getConfig().get(node).toString()));
+        } else {
+            commandSender.sendMessage("Usage: /acd config get <option>");
+        }
+    }
+
+    private @Nullable List<String> getMatching(final String[] commands, final String entered) {
+        final List<String> list = new ArrayList<>(Arrays.asList(commands));
+        list.removeIf(current->!current.startsWith(entered));
+        return list;
     }
 
     private void group(final CommandSender commandSender, final String[] args) {
@@ -374,52 +328,58 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         commandSender.sendMessage(String.format(text2, main.watchdog.getCurrentUnsavedArmorStands()));
     }
 
-    private void config(final CommandSender commandSender, final String[] args) {
-        if (args.length == 0) {
-            commandSender.sendMessage(new String[]{
-                    "Available config commands:" +
-                            "- get <option>",
-                    "- set <type> <option> <value>"
-            });
+    @Override
+    public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String s, @NotNull final String[] args) {
+
+        if (!commandSender.hasPermission(Permissions.DEBUG)) {
+            commandSender.sendMessage(main.messages.MSG_NO_PERMISSION);
+            return true;
         }
 
-        switch (args[0].toLowerCase()) {
-            case "set":
-                setConfig(commandSender, shift(args));
-                break;
-            case "get":
-                getConfig(commandSender, shift(args));
-                break;
-        }
-    }
+        if (args.length > 0) {
+            switch (args[0].toLowerCase()) {
+                case "on":
+                    debug(commandSender, true);
+                    break;
+                case "off":
+                    debug(commandSender, false);
+                    break;
+                case "blacklist":
+                    blacklist(commandSender, shift(args));
+                    break;
 
-    @SuppressWarnings("EmptyMethod")
-    private void setConfig(final CommandSender commandSender, String[] args) {
-        if (args.length >= 2) {
-            final String node = args[0].toLowerCase();
-            args = shift(args);
-            final String value = String.join(" ", args);
-            main.getConfig().set(node, value);
-            commandSender.sendMessage(String.format("Set \"%s\" to \"%s\"", node, value));
-        } else {
-            commandSender.sendMessage("Usage: /acd config set <option> <value>");
+                case "info":
+                    info(commandSender);
+                    break;
+                case "group":
+                    group(commandSender, shift(args));
+                    break;
+                case "checkconfig":
+                    checkconfig(commandSender);
+                    break;
+                case "dump":
+                    dump(commandSender);
+                    break;
+                case "fixholograms":
+                    fixholograms(commandSender);
+                    break;
+            }
+            return true;
         }
-    }
 
-    @SuppressWarnings("EmptyMethod")
-    private void getConfig(final CommandSender commandSender, final String[] args) {
-        if (args.length == 1) {
-            final String node = args[0].toLowerCase();
-            commandSender.sendMessage(String.format("%s = %s", node, main.getConfig().get(node).toString()));
-        } else {
-            commandSender.sendMessage("Usage: /acd config get <option>");
-        }
-    }
+        commandSender.sendMessage(new String[] {
+                "§eAvailable debug commands:",
+                "/acd on §6Enables debug mode",
+                "/acd off §6Disables debug mode",
+                "/acd blacklist §6Shows blacklist information",
+                "/acd checkconfig §6Checks config files for errors",
+                "/acd info §6Shows general debug information",
+                "/acd group §6Shows group information",
+                "/acd dump §6Dump debug information",
+                "/acd fixholograms §6Removes dead holograms"
+        });
 
-    private @Nullable List<String> getMatching(final String[] commands, final String entered) {
-        final List<String> list = new ArrayList<>(Arrays.asList(commands));
-        list.removeIf(current -> !current.startsWith(entered));
-        return list;
+        return true;
     }
 
     @Override
@@ -453,5 +413,18 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         }
 
         return null;
+    }
+
+    @SuppressWarnings("EmptyMethod")
+    private void setConfig(final CommandSender commandSender, String[] args) {
+        if (args.length >= 2) {
+            final String node = args[0].toLowerCase();
+            args = shift(args);
+            final String value = String.join(" ", args);
+            main.getConfig().set(node, value);
+            commandSender.sendMessage(String.format("Set \"%s\" to \"%s\"", node, value));
+        } else {
+            commandSender.sendMessage("Usage: /acd config set <option> <value>");
+        }
     }
 }

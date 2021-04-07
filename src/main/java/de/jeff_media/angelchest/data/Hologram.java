@@ -47,9 +47,7 @@ public final class Hologram {
         this.main = Main.getInstance();
         final int totalLineNumbers = text.split("\n").length;
         lineOffset = main.getConfig().getDouble(Config.HOLOGRAM_OFFSET_PER_LINE);
-        final Location location = block.getLocation()
-                .add(new Vector(0.5, -1.3 + main.getConfig().getDouble(Config.HOLOGRAM_OFFSET), 0.5))
-                .add(new Vector(0, lineOffset * totalLineNumbers, 0));
+        final Location location = block.getLocation().add(new Vector(0.5, -1.3 + main.getConfig().getDouble(Config.HOLOGRAM_OFFSET), 0.5)).add(new Vector(0, lineOffset * totalLineNumbers, 0));
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             usePapi = true;
@@ -89,6 +87,45 @@ public final class Hologram {
         }
         scanner.close();
         main.watchdog.save();
+    }
+
+    /**
+     * Destroys all armor stands belonging to this hologram
+     */
+    public void destroy() {
+        for (final ArmorStand armorStand : getArmorStands()) {
+            if (armorStand != null) armorStand.remove();
+
+            armorStandUUIDs.remove(armorStand.getUniqueId());
+        }
+        main.watchdog.save();
+    }
+
+    /**
+     * Returns the armor stand that belongs to a specific line number
+     *
+     * @param line line number, starting with 0
+     * @return armor stand belonging to line number, null if it doesnt exist
+     */
+    public @Nullable ArmorStand getArmorStandByLineNumber(final int line) {
+        if (armorStandUUIDs.size() <= line) return null;
+        return (ArmorStand) Bukkit.getEntity(armorStandUUIDs.get(line));
+    }
+
+    /**
+     * Returns a list of all ArmorStands
+     *
+     * @return list of all ArmorStands
+     */
+    public @NotNull List<ArmorStand> getArmorStands() {
+        final ArrayList<ArmorStand> armorStands = new ArrayList<>();
+        for (final UUID uuid : armorStandUUIDs) {
+            final Entity entity = Bukkit.getEntity(uuid);
+            if (entity instanceof ArmorStand) {
+                armorStands.add((ArmorStand) entity);
+            }
+        }
+        return armorStands;
     }
 
     private String getProtectedText(final AngelChest chest) {
@@ -137,45 +174,6 @@ public final class Hologram {
 
             lineNumber++;
         }
-    }
-
-    /**
-     * Destroys all armor stands belonging to this hologram
-     */
-    public void destroy() {
-        for (final ArmorStand armorStand : getArmorStands()) {
-            if (armorStand != null) armorStand.remove();
-
-            armorStandUUIDs.remove(armorStand.getUniqueId());
-        }
-        main.watchdog.save();
-    }
-
-    /**
-     * Returns the armor stand that belongs to a specific line number
-     *
-     * @param line line number, starting with 0
-     * @return armor stand belonging to line number, null if it doesnt exist
-     */
-    public @Nullable ArmorStand getArmorStandByLineNumber(final int line) {
-        if (armorStandUUIDs.size() <= line) return null;
-        return (ArmorStand) Bukkit.getEntity(armorStandUUIDs.get(line));
-    }
-
-    /**
-     * Returns a list of all ArmorStands
-     *
-     * @return list of all ArmorStands
-     */
-    public @NotNull List<ArmorStand> getArmorStands() {
-        final ArrayList<ArmorStand> armorStands = new ArrayList<>();
-        for (final UUID uuid : armorStandUUIDs) {
-            final Entity entity = Bukkit.getEntity(uuid);
-            if (entity instanceof ArmorStand) {
-                armorStands.add((ArmorStand) entity);
-            }
-        }
-        return armorStands;
     }
 
 }

@@ -7,17 +7,12 @@ import de.jeff_media.angelchest.enums.CommandAction;
  */
 public final class PendingConfirm {
 
-    public final int chestId;
     public final CommandAction action;
+    public final int chestId;
 
     public PendingConfirm(final int chestId, final CommandAction action) {
         this.chestId = chestId;
         this.action = action;
-    }
-
-    @Override
-    public String toString() {
-        return "PendingConfirm{chestId=" + chestId + ",action=" + action + "}";
     }
 
     @Override
@@ -27,6 +22,11 @@ public final class PendingConfirm {
             return this.chestId == otherConfirm.chestId && this.action == otherConfirm.action;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "PendingConfirm{chestId=" + chestId + ",action=" + action + "}";
     }
 
 }

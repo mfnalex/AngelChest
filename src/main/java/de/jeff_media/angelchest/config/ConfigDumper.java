@@ -27,6 +27,10 @@ import java.util.stream.Collectors;
 
 public final class ConfigDumper {
 
+    private static String banner(final String header) {
+        return StringUtils.center(" " + header + " ", 60, "=");
+    }
+
     public static void dump(final CommandSender sender) {
         final Main main = Main.getInstance();
         final File dumpDir = new File(main.getDataFolder(), "dump.zip");
@@ -90,18 +94,15 @@ public final class ConfigDumper {
         sender.sendMessage("Saving plugin list to log.txt...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Installed plugins"));
         for (final Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-            de.jeff_media.angelchest.utils.FileUtils.appendLines(log, plugin.getName() + " " + plugin.getDescription().getVersion()
-                    + (plugin.isEnabled() ? "" : " (DISABLED)"));
+            de.jeff_media.angelchest.utils.FileUtils.appendLines(log, plugin.getName() + " " + plugin.getDescription().getVersion() + (plugin.isEnabled() ? "" : " (DISABLED)"));
         }
 
         // Gamerules
         sender.sendMessage("Saving relevant gamerules...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Gamerules"));
-        for (final World world : Bukkit.getWorlds().stream()
-                .sorted(Comparator.comparing(World::getName))
-                .collect(Collectors.toList())) {
+        for (final World world : Bukkit.getWorlds().stream().sorted(Comparator.comparing(World::getName)).collect(Collectors.toList())) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, world.getName() + "[" + world.getUID().toString() + "]");
-            @SuppressWarnings("rawtypes") final GameRule[] rules = new GameRule[]{GameRule.DO_ENTITY_DROPS, GameRule.KEEP_INVENTORY};
+            @SuppressWarnings("rawtypes") final GameRule[] rules = new GameRule[] {GameRule.DO_ENTITY_DROPS, GameRule.KEEP_INVENTORY};
             //noinspection rawtypes
             for (final GameRule rule : rules) {
                 //noinspection unchecked
@@ -183,9 +184,7 @@ public final class ConfigDumper {
         // Latest.log
         sender.sendMessage("Copying latest.log...");
         try {
-            org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(
-                    new File(new File(main.getDataFolder().getParentFile().getParentFile(), "logs"), "latest.log"),
-                    new File(dumpDir, "latest.log"));
+            org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(new File(new File(main.getDataFolder().getParentFile().getParentFile(), "logs"), "latest.log"), new File(dumpDir, "latest.log"));
         } catch (final IOException ioException) {
             ioException.printStackTrace();
         }
@@ -193,10 +192,6 @@ public final class ConfigDumper {
         ZipUtil.unexplode(dumpDir);
         sender.sendMessage("Cleaning up...");
         sender.sendMessage("Done!");
-    }
-
-    private static String banner(final String header) {
-        return StringUtils.center(" " + header + " ", 60, "=");
     }
 
     private static void dumpYaml(final FileConfiguration input, final File output) {

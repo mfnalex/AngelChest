@@ -19,13 +19,30 @@ public final class GUIUtils {
      * @return true if it belongs to the player inventory, false if it belongs to the GUI
      */
     public static boolean isLootableInPreview(final int slot) {
-        return
-                (slot >= GUI.PREVIEW_ARMOR_SIZE && slot < GUI.PREVIEW_ARMOR_SIZE + GUI.PREVIEW_ARMOR_SIZE)
-                        || (slot >= GUI.SLOT_PREVIEW_OFFHAND && slot < GUI.SLOT_PREVIEW_OFFHAND + GUI.PREVIEW_OFFHAND_SIZE)
-                        || (slot >= GUI.SLOT_PREVIEW_STORAGE_START && slot < GUI.SLOT_PREVIEW_STORAGE_START + GUI.PREVIEW_STORAGE_SIZE)
-                        || (slot >= GUI.SLOT_PREVIEW_HOTBAR_START && slot < GUI.SLOT_PREVIEW_HOTBAR_START + GUI.PREVIEW_HOTBAR_SIZE)
-                        || slot == GUI.SLOT_PREVIEW_XP;
+        return (slot >= GUI.PREVIEW_ARMOR_SIZE && slot < GUI.PREVIEW_ARMOR_SIZE + GUI.PREVIEW_ARMOR_SIZE) || (slot >= GUI.SLOT_PREVIEW_OFFHAND && slot < GUI.SLOT_PREVIEW_OFFHAND + GUI.PREVIEW_OFFHAND_SIZE) || (slot >= GUI.SLOT_PREVIEW_STORAGE_START && slot < GUI.SLOT_PREVIEW_STORAGE_START + GUI.PREVIEW_STORAGE_SIZE) || (slot >= GUI.SLOT_PREVIEW_HOTBAR_START && slot < GUI.SLOT_PREVIEW_HOTBAR_START + GUI.PREVIEW_HOTBAR_SIZE) || slot == GUI.SLOT_PREVIEW_XP;
 
+    }
+
+    public static void loadChestIntoPreviewInventory(final AngelChest angelChest, final Inventory inventory) {
+
+        final ItemStack placeholder = new ItemStack(Enums.getIfPresent(Material.class, Main.getInstance().getConfig().getString(Config.GUI_BUTTON_PREVIEW_PLACEHOLDER)).or(Material.GRAY_STAINED_GLASS_PANE));
+
+        //ItemMeta meta = placeholder.hasItemMeta() ? placeholder.getItemMeta() : Bukkit.getItemFactory().getItemMeta(placeholder.getType());
+        //meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        //placeholder.setItemMeta(meta);
+
+        final ItemStack[] itemStacks = new ItemStack[54];
+        for (int i = 0; i < 54; i++) {
+            itemStacks[i] = placeholder.clone();
+        }
+
+        System.arraycopy(angelChest.armorInv, 0, itemStacks, 2, GUI.PREVIEW_ARMOR_SIZE);
+        System.arraycopy(angelChest.extraInv, 0, itemStacks, 7, GUI.PREVIEW_OFFHAND_SIZE);
+        System.arraycopy(angelChest.storageInv, 0, itemStacks, 45, GUI.PREVIEW_HOTBAR_SIZE);
+        System.arraycopy(angelChest.storageInv, 9, itemStacks, 9, GUI.PREVIEW_STORAGE_SIZE);
+        for (int i = 0; i < 54; i++) {
+            inventory.setItem(i, itemStacks[i]);
+        }
     }
 
     public static void savePreviewInventoryToChest(final Inventory inventory, final AngelChest angelChest) {
@@ -56,32 +73,6 @@ public final class GUIUtils {
         }
         for (int i = 0; i < GUI.PREVIEW_STORAGE_SIZE; i++) {
             angelChest.storageInv[i + GUI.PREVIEW_HOTBAR_SIZE] = inventory.getItem(i + GUI.SLOT_PREVIEW_STORAGE_START);
-        }
-    }
-
-    public static void loadChestIntoPreviewInventory(final AngelChest angelChest, final Inventory inventory) {
-
-        final ItemStack placeholder = new ItemStack(
-                Enums.getIfPresent(Material.class,
-                        Main.getInstance().getConfig().getString(Config.GUI_BUTTON_PREVIEW_PLACEHOLDER))
-                        .or(Material.GRAY_STAINED_GLASS_PANE)
-        );
-
-        //ItemMeta meta = placeholder.hasItemMeta() ? placeholder.getItemMeta() : Bukkit.getItemFactory().getItemMeta(placeholder.getType());
-        //meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        //placeholder.setItemMeta(meta);
-
-        final ItemStack[] itemStacks = new ItemStack[54];
-        for (int i = 0; i < 54; i++) {
-            itemStacks[i] = placeholder.clone();
-        }
-
-        System.arraycopy(angelChest.armorInv, 0, itemStacks, 2, GUI.PREVIEW_ARMOR_SIZE);
-        System.arraycopy(angelChest.extraInv, 0, itemStacks, 7, GUI.PREVIEW_OFFHAND_SIZE);
-        System.arraycopy(angelChest.storageInv, 0, itemStacks, 45, GUI.PREVIEW_HOTBAR_SIZE);
-        System.arraycopy(angelChest.storageInv, 9, itemStacks, 9, GUI.PREVIEW_STORAGE_SIZE);
-        for (int i = 0; i < 54; i++) {
-            inventory.setItem(i, itemStacks[i]);
         }
     }
 

@@ -26,21 +26,22 @@ public final class BlockDataUtils {
         return dir;
     }
 
-    public static void setBlockDirection(final Block b, final BlockFace dir) {
-        try {
-            // check for player skull
-            final Rotatable blockData = ((Rotatable) b.getBlockData());
-            blockData.setRotation(dir.getOppositeFace());
-            b.setBlockData(blockData);
-        } catch (final Exception e) {
-            try {
-                // check for chest
-                final Directional blockData = ((Directional) b.getBlockData());
-                blockData.setFacing(dir);
-                b.setBlockData(blockData);
-            } catch (final Exception e2) {
-                // Can't set block rotation, probably because it doesn't support it
-            }
+    public static BlockFace getChestFacingDirection(final String directionPlayerIsFacing) {
+        // Set the relative direction of the block and offset the new chest location
+        switch (directionPlayerIsFacing) {
+            case "N":
+            case "NE":
+                return BlockFace.SOUTH;
+            case "E":
+            case "SE":
+                return BlockFace.WEST;
+            case "W":
+            case "NW":
+                return BlockFace.EAST;
+            case "S":
+            case "SW":
+            default:
+                return BlockFace.NORTH;
         }
     }
 
@@ -78,22 +79,21 @@ public final class BlockDataUtils {
         return newLoc;
     }
 
-    public static BlockFace getChestFacingDirection(final String directionPlayerIsFacing) {
-        // Set the relative direction of the block and offset the new chest location
-        switch (directionPlayerIsFacing) {
-            case "N":
-            case "NE":
-                return BlockFace.SOUTH;
-            case "E":
-            case "SE":
-                return BlockFace.WEST;
-            case "W":
-            case "NW":
-                return BlockFace.EAST;
-            case "S":
-            case "SW":
-            default:
-                return BlockFace.NORTH;
+    public static void setBlockDirection(final Block b, final BlockFace dir) {
+        try {
+            // check for player skull
+            final Rotatable blockData = ((Rotatable) b.getBlockData());
+            blockData.setRotation(dir.getOppositeFace());
+            b.setBlockData(blockData);
+        } catch (final Exception e) {
+            try {
+                // check for chest
+                final Directional blockData = ((Directional) b.getBlockData());
+                blockData.setFacing(dir);
+                b.setBlockData(blockData);
+            } catch (final Exception e2) {
+                // Can't set block rotation, probably because it doesn't support it
+            }
         }
     }
 

@@ -13,13 +13,13 @@ import java.util.ArrayList;
 
 public final class GUIHolder implements InventoryHolder {
 
-    private final GUIContext context;
     private final ArrayList<AngelChest> chests;
+    private final GUIContext context;
     private final int numberOfAngelChests;
 
     private final Player player;
-    private int chestIdStartingAt1 = 0;
     private CommandAction action;
+    private int chestIdStartingAt1 = 0;
     private Inventory inventory;
     private boolean isReadOnlyPreview = false;
 
@@ -46,8 +46,30 @@ public final class GUIHolder implements InventoryHolder {
         this.action = action;
     }
 
+    public @Nullable AngelChest getAngelChest() {
+        if (specialAngelChest != null) return specialAngelChest;
+        if (chestIdStartingAt1 == 0) return null;
+        return getAngelChests().get(chestIdStartingAt1 - 1);
+    }
+
+    public void setAngelChest(final AngelChest angelChest) {
+        this.specialAngelChest = angelChest;
+    }
+
     public ArrayList<AngelChest> getAngelChests() {
         return chests;
+    }
+
+    public int getChestIdStartingAt1() {
+        return chestIdStartingAt1;
+    }
+
+    public void setChestIdStartingAt1(final int chestIdStartingAt1) {
+        this.chestIdStartingAt1 = chestIdStartingAt1;
+    }
+
+    public @Nullable GUIContext getContext() {
+        return context;
     }
 
     @Override
@@ -63,26 +85,9 @@ public final class GUIHolder implements InventoryHolder {
         return numberOfAngelChests;
     }
 
-    public @Nullable GUIContext getContext() {
-        return context;
-    }
-
-    public int getChestIdStartingAt1() {
-        return chestIdStartingAt1;
-    }
-
-    public void setChestIdStartingAt1(final int chestIdStartingAt1) {
-        this.chestIdStartingAt1 = chestIdStartingAt1;
-    }
-
-    public @Nullable AngelChest getAngelChest() {
-        if (specialAngelChest != null) return specialAngelChest;
-        if (chestIdStartingAt1 == 0) return null;
-        return getAngelChests().get(chestIdStartingAt1 - 1);
-    }
-
-    public void setAngelChest(final AngelChest angelChest) {
-        this.specialAngelChest = angelChest;
+    @SuppressWarnings("unused")
+    public Player getPlayer() {
+        return player;
     }
 
     public @Nullable AngelChest getSpecialAngelChest() {
@@ -95,11 +100,6 @@ public final class GUIHolder implements InventoryHolder {
 
     public void setReadOnlyPreview(final boolean readOnlyPreview) {
         isReadOnlyPreview = readOnlyPreview;
-    }
-
-    @SuppressWarnings("unused")
-    public Player getPlayer() {
-        return player;
     }
 
 }

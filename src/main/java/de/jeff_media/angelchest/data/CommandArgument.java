@@ -11,9 +11,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class CommandArgument {
 
-    private final CommandSender sender;
-    private final String chest;
     private final OfflinePlayer affectedPlayer;
+    private final String chest;
+    private final CommandSender sender;
 
     private CommandArgument(final CommandSender sender, final String chest, final OfflinePlayer affectedPlayer) {
         this.sender = sender;
@@ -77,23 +77,23 @@ public class CommandArgument {
 
         final Main main = Main.getInstance();
         main.debug("===== CommandArgument Parser =====");
-        main.debug("Requester  = "+requester.getName());
-        main.debug("ChestOwner = "+chestOwner.getName());
-        main.debug("Chest      = "+chest);
+        main.debug("Requester  = " + requester.getName());
+        main.debug("ChestOwner = " + chestOwner.getName());
+        main.debug("Chest      = " + chest);
 
         return new CommandArgument(requester, chest, chestOwner);
     }
 
-    public CommandSender getRequester() {
-        return sender;
+    public OfflinePlayer getAffectedPlayer() {
+        return affectedPlayer;
     }
 
     public @Nullable String getChest() {
         return chest;
     }
 
-    public OfflinePlayer getAffectedPlayer() {
-        return affectedPlayer;
+    public CommandSender getRequester() {
+        return sender;
     }
 
 }

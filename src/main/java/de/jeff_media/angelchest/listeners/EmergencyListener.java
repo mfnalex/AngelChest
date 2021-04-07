@@ -21,7 +21,7 @@ public final class EmergencyListener implements Listener {
             for (final String file : Main.getInstance().invalidConfigFiles) {
                 final String[] text = EmergencyMode.BROKEN_CONFIG_FILE.clone();
                 i++;
-                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), ()->{
                     for (int j = 0; j < text.length; j++) {
                         text[j] = text[j].replaceAll("\\{filename}", file);
                     }

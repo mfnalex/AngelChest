@@ -29,33 +29,31 @@ import java.util.*;
  */
 public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
-    public ItemStack[] armorInv;
-    public ItemStack[] storageInv;
-    public ItemStack[] extraInv;
-    public Inventory overflowInv;
-    public boolean success = true;
-    public Block block;
-    public UUID worldid;
-    public UUID owner;
-    public Hologram hologram;
-    public boolean isProtected;
-    public int secondsLeft;
-    public int unlockIn;
-    public int experience = 0;
-    public int levels = 0;
-    public boolean infinite = false;
-    public Main main;
-    public String logfile;
-    public List<String> openedBy;
-    public DeathCause deathCause;
-    public List<ItemStack> blacklistedItems;
-    public Set<ItemStack> randomlyLostItems = null;
-    public long created;
-
-    double price = 0;
-
     private static final int MAX_INVENTORY_SIZE = 54;
     private static final int STORAGE_INVENTORY_SIZE = 36;
+    public ItemStack[] armorInv;
+    public List<ItemStack> blacklistedItems;
+    public Block block;
+    public long created;
+    public DeathCause deathCause;
+    public int experience = 0;
+    public ItemStack[] extraInv;
+    public Hologram hologram;
+    public boolean infinite = false;
+    public boolean isProtected;
+    public int levels = 0;
+    public String logfile;
+    public Main main;
+    public List<String> openedBy;
+    public Inventory overflowInv;
+    public UUID owner;
+    public Set<ItemStack> randomlyLostItems = null;
+    public int secondsLeft;
+    public ItemStack[] storageInv;
+    public boolean success = true;
+    public int unlockIn;
+    public UUID worldid;
+    double price = 0;
 
     /**
      * Loads an AngelChest from a YAML file
@@ -126,7 +124,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             this.worldid = UUID.fromString(Objects.requireNonNull(yaml.getString(ChestYaml.WORLD_UID)));
             if (main.getServer().getWorld(worldid) == null) {
                 success = false;
-                main.debug("Failed to create AngelChest because no world with this id ("+worldid.toString()+") could be found");
+                main.debug("Failed to create AngelChest because no world with this id (" + worldid.toString() + ") could be found");
                 return;
             }
             this.block = Objects.requireNonNull(main.getServer().getWorld(worldid)).getBlockAt(yaml.getInt(ChestYaml.BLOCK_X), yaml.getInt(ChestYaml.BLOCK_Y), yaml.getInt(ChestYaml.BLOCK_Z));
@@ -263,240 +261,6 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         removeKeptItems();
     }
 
-    public void scheduleBlockChange() {
-        scheduleBlockChange(true);
-    }
-
-    public void scheduleBlockChange(final boolean firstTry) {
-        if (firstTry) {
-            main.debug("scheduleBlockChange: " + block.toString());
-        }
-        if (main.chestMaterial == main.chestMaterialUnlocked) {
-            main.debug("scheduleBlockChange abort: matching materials");
-            return;
-        }
-        final int x = block.getX();
-        final int z = block.getZ();
-
-        if (!block.getWorld().isChunkLoaded(x >> 4, z >> 4)) {
-            if (firstTry) {
-                main.debug("Tried to change block for chest in unloaded chunk because of unlocking, will do so once chunk is loaded.");
-            }
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> scheduleBlockChange(false), 1L);
-        } else {
-            main.debug("Changed block for chest because of unlocking.");
-            createChest(block, owner, false);
-        }
-
-    }
-
-    @Override
-    public ItemStack[] getArmorInv() {
-        return armorInv;
-    }
-
-    @Override
-    public void setArmorInv(final ItemStack[] armorInv) {
-        if (armorInv.length != 4) {
-            throw new IllegalArgumentException("Armor inventory must be an array of exactly 4 ItemStacks.");
-        }
-        this.armorInv = armorInv;
-    }
-
-    @Override
-    public ItemStack[] getStorageInv() {
-        return storageInv;
-    }
-
-    @Override
-    public void setStorageInv(final ItemStack[] storageInv) {
-        if (storageInv.length != STORAGE_INVENTORY_SIZE) {
-            throw new IllegalArgumentException("Storage inventory must be an array of exactly 36 ItemStacks.");
-        }
-        this.storageInv = storageInv;
-    }
-
-    @Override
-    public ItemStack getOffhandItem() {
-        return extraInv[0];
-    }
-
-    @Override
-    public void setOffhandItem(final ItemStack extraInv) {
-        this.extraInv[0] = extraInv;
-    }
-
-    @Override
-    public boolean isProtected() {
-        return isProtected;
-    }
-
-    @Override
-    public void setProtected(final boolean aProtected) {
-        isProtected = aProtected;
-    }
-
-    @Override
-    public int getSecondsLeft() {
-        return secondsLeft;
-    }
-
-    @Override
-    public void setSecondsLeft(final int secondsLeft) {
-        this.secondsLeft = secondsLeft;
-    }
-
-    @Override
-    public int getUnlockIn() {
-        return unlockIn;
-    }
-
-    @Override
-    public void setUnlockIn(final int unlockIn) {
-        this.unlockIn = unlockIn;
-    }
-
-    @Override
-    public int getExperience() {
-        return experience;
-    }
-
-    @Override
-    public void setExperience(final int experience) {
-        this.experience = experience;
-    }
-
-    @Override
-    public OfflinePlayer getPlayer() {
-        return Bukkit.getOfflinePlayer(owner);
-    }
-
-    @Override
-    public Block getBlock() {
-        return block;
-    }
-
-    @Override
-    public boolean isInfinite() {
-        return infinite;
-    }
-
-    @Override
-    public void setInfinite(final boolean isInfinite) {
-        this.infinite = isInfinite;
-    }
-
-    @Override
-    public World getWorld() {
-        return Bukkit.getWorld(worldid);
-    }
-
-    @Override
-    public List<OfflinePlayer> getOpenedBy() {
-        final List<OfflinePlayer> players = new ArrayList<>();
-        for (final String uuid : openedBy) {
-            players.add(Bukkit.getOfflinePlayer(UUID.fromString(uuid)));
-        }
-        return players;
-    }
-
-    @Override
-    public long getCreated() {
-        return created;
-    }
-
-    /**
-     * Returns the filename where this AngelChest is saved
-     *
-     * @return filename for this AngelChest
-     */
-    public String getFileName() {
-        return main.getConfig().getString(Config.CHEST_FILENAME)
-                .replaceAll("\\{world}", block.getWorld().getName())
-                .replaceAll("\\{uuid}", owner.toString())
-                .replaceAll("\\{player}", Objects.requireNonNull(Bukkit.getOfflinePlayer(owner).getName()))
-                .replaceAll("\\{x}", String.valueOf(block.getX()))
-                .replaceAll("\\{y}", String.valueOf(block.getY()))
-                .replaceAll("\\{z}", String.valueOf(block.getZ()))
-                ;
-    }
-
-    /**
-     * Checks whether this AngelChest has been completely looted
-     *
-     * @return true when AngelChest is empty, otherwise false
-     */
-    @Override
-    public boolean isEmpty() {
-        for (final ItemStack item : storageInv) {
-            if (!Utils.isEmpty(item)) return false;
-        }
-        for (final ItemStack item : armorInv) {
-            if (!Utils.isEmpty(item)) return false;
-        }
-        for (final ItemStack item : extraInv) {
-            if (!Utils.isEmpty(item)) return false;
-        }
-        for (final ItemStack item : overflowInv) {
-            if (!Utils.isEmpty(item)) return false;
-        }
-        return experience <= 0;
-    }
-
-    /**
-     * Removes all items that the player kept on death, and all other items that should not
-     * appear in the chest (e.g. curse of vanishing, soulbound items, ...)
-     */
-    private void removeKeptItems() {
-
-        for (int i = 0; i < armorInv.length; i++) {
-            if (main.hookUtils.keepOnDeath(armorInv[i])
-                    || main.hookUtils.removeOnDeath(armorInv[i])) {
-                armorInv[i] = null;
-            }
-        }
-        for (int i = 0; i < storageInv.length; i++) {
-            if (main.hookUtils.keepOnDeath(storageInv[i])
-                    || main.hookUtils.removeOnDeath(storageInv[i])) {
-                storageInv[i] = null;
-            }
-        }
-        for (int i = 0; i < extraInv.length; i++) {
-            if (main.hookUtils.keepOnDeath(extraInv[i])
-                    || main.hookUtils.removeOnDeath(extraInv[i])) {
-                extraInv[i] = null;
-            }
-        }
-    }
-
-    /**
-     * Checks whether this item should be removed from the inventory
-     *
-     * @param item The item to check
-     * @return true when this item should be removed, otherwise false
-     */
-    private boolean toBeRemoved(final ItemStack item) {
-        if (item == null) return false;
-        if (main.getConfig().getBoolean(Config.REMOVE_CURSE_OF_VANISHING)
-                && item.getEnchantments().containsKey(Enchantment.VANISHING_CURSE)) {
-            return true;
-        }
-        if (main.getConfig().getBoolean(Config.REMOVE_CURSE_OF_BINDING)
-                && item.getEnchantments().containsKey(Enchantment.BINDING_CURSE)) {
-            return true;
-        }
-        if (main.minepacksHook.isMinepacksBackpack(item)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    @Override
-    public String toString() {
-        return "AngelChest{block=" + block.toString() + ",owner=" + owner.toString() + "}";
-    }
-
     public void createChest(final Block block, final UUID uuid) {
         createChest(block, uuid, true);
     }
@@ -525,6 +289,66 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     }
 
     /**
+     * Creates the hologram above the AngelChest
+     *
+     * @param block Block where the hologram should be spawned
+     * @param uuid  Owner of this AngelChest
+     */
+    public void createHologram(final Block block, final UUID uuid) {
+        final String hologramText = main.messages.HOLOGRAM_TEXT.replaceAll("\\{player}", Objects.requireNonNull(main.getServer().getOfflinePlayer(uuid).getName())).replaceAll("\\{deathcause}", deathCause.getText());
+        hologram = new Hologram(block, hologramText, this);
+    }
+
+    /**
+     * Removes the Block from the world. Attempts to load the chunk first.
+     *
+     * @param refund Whether the owner should get the price back they paid to have the chest spawned.
+     */
+    public void destroy(final boolean refund) {
+        main.debug("Destroying AngelChest");
+
+        if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
+            main.debug("Chunk is not loaded, trying to load chunk async...");
+            PaperLib.getChunkAtAsync(block.getLocation());
+            if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
+                main.debug("The chunk is still unloaded... Trying to load chunk synced...");
+                block.getChunk().load();
+                if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
+                    main.debug("The chunk is still unloaded... destroying the chest will probably fail.");
+                }
+            }
+        }
+
+
+        if (!main.isAngelChest(block)) return;
+
+        // remove the physical chest
+        destroyChest(block);
+        hologram.destroy();
+
+        // drop contents
+        Utils.dropItems(block, armorInv);
+        Utils.dropItems(block, storageInv);
+        Utils.dropItems(block, extraInv);
+        //Utils.dropItems(block, overflowInv);
+
+        if (experience > 0) {
+            Utils.dropExp(block, experience);
+        }
+
+        if (refund && main.getConfig().getBoolean(Config.REFUND_EXPIRED_CHESTS) && price > 0) {
+            CommandUtils.payMoney(Bukkit.getOfflinePlayer(owner), price, "AngelChest expired");
+        }
+
+        final int currentChestId = AngelChestUtils.getAllAngelChestsFromPlayer(Bukkit.getOfflinePlayer(owner)).indexOf(this) + 1;
+        final Player player = Bukkit.getPlayer(owner);
+        if (player != null && player.isOnline()) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->main.guiManager.updateGUI(player, currentChestId), 1L);
+        }
+
+    }
+
+    /**
      * Removes the chest block from the world and displays explosion particles.
      *
      * @param block Block where the AngelChest was spawned
@@ -536,11 +360,210 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         hologram.destroy();
     }
 
+    @Override
+    public ItemStack[] getArmorInv() {
+        return armorInv;
+    }
+
+    @Override
+    public void setArmorInv(final ItemStack[] armorInv) {
+        if (armorInv.length != 4) {
+            throw new IllegalArgumentException("Armor inventory must be an array of exactly 4 ItemStacks.");
+        }
+        this.armorInv = armorInv;
+    }
+
+    @Override
+    public Block getBlock() {
+        return block;
+    }
+
+    @Override
+    public long getCreated() {
+        return created;
+    }
+
+    @Override
+    public int getExperience() {
+        return experience;
+    }
+
+    @Override
+    public void setExperience(final int experience) {
+        this.experience = experience;
+    }
+
     /**
-     * Unlocks this AngelChest for ALL players.
+     * Returns the filename where this AngelChest is saved
+     *
+     * @return filename for this AngelChest
      */
-    public void unlock() {
-        this.isProtected = false;
+    public String getFileName() {
+        return main.getConfig().getString(Config.CHEST_FILENAME).replaceAll("\\{world}", block.getWorld().getName()).replaceAll("\\{uuid}", owner.toString()).replaceAll("\\{player}", Objects.requireNonNull(Bukkit.getOfflinePlayer(owner).getName())).replaceAll("\\{x}", String.valueOf(block.getX())).replaceAll("\\{y}", String.valueOf(block.getY())).replaceAll("\\{z}", String.valueOf(block.getZ()));
+    }
+
+    @Override
+    public ItemStack getOffhandItem() {
+        return extraInv[0];
+    }
+
+    @Override
+    public void setOffhandItem(final ItemStack extraInv) {
+        this.extraInv[0] = extraInv;
+    }
+
+    @Override
+    public List<OfflinePlayer> getOpenedBy() {
+        final List<OfflinePlayer> players = new ArrayList<>();
+        for (final String uuid : openedBy) {
+            players.add(Bukkit.getOfflinePlayer(UUID.fromString(uuid)));
+        }
+        return players;
+    }
+
+    @Override
+    public OfflinePlayer getPlayer() {
+        return Bukkit.getOfflinePlayer(owner);
+    }
+
+    @Override
+    public int getSecondsLeft() {
+        return secondsLeft;
+    }
+
+    @Override
+    public void setSecondsLeft(final int secondsLeft) {
+        this.secondsLeft = secondsLeft;
+    }
+
+    @Override
+    public ItemStack[] getStorageInv() {
+        return storageInv;
+    }
+
+    @Override
+    public void setStorageInv(final ItemStack[] storageInv) {
+        if (storageInv.length != STORAGE_INVENTORY_SIZE) {
+            throw new IllegalArgumentException("Storage inventory must be an array of exactly 36 ItemStacks.");
+        }
+        this.storageInv = storageInv;
+    }
+
+    @Override
+    public int getUnlockIn() {
+        return unlockIn;
+    }
+
+    @Override
+    public void setUnlockIn(final int unlockIn) {
+        this.unlockIn = unlockIn;
+    }
+
+    @Override
+    public World getWorld() {
+        return Bukkit.getWorld(worldid);
+    }
+
+    /**
+     * Attempts to charge the player for opening the chest. Each player will only be charged once per chest.
+     *
+     * @param player The player that attempted to open the chest
+     * @return true if the player successfully paid now or has already paid, otherwise false
+     */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public boolean hasPaidForOpening(final Player player) {
+        main.debug("Checking whether " + player + " already paid to open this chest...");
+        if (openedBy.contains(player.getUniqueId().toString())) {
+            main.debug("Yes, they did!");
+            return true;
+        }
+        final double price = main.groupUtils.getOpenPricePerPlayer(player);
+        main.debug("No, they didn't... It will cost " + price);
+        main.logger.logPaidForChest(player, price, main.logger.getLogFile(logfile));
+        if (CommandUtils.hasEnoughMoney(player, price, main.messages.MSG_NOT_ENOUGH_MONEY, "AngelChest opened")) {
+            openedBy.add(player.getUniqueId().toString());
+            if (main.economyStatus == EconomyStatus.ACTIVE) {
+                if (price > 0) {
+                    player.sendMessage(main.messages.MSG_PAID_OPEN.replaceAll("\\{price}", String.valueOf(price)).replaceAll("\\{currency}", CommandUtils.getCurrency(price)));
+                }
+            }
+            return true;
+        }
+        player.sendMessage(main.messages.MSG_NOT_ENOUGH_MONEY);
+        return false;
+    }
+
+    /**
+     * Checks whether this AngelChest has been completely looted
+     *
+     * @return true when AngelChest is empty, otherwise false
+     */
+    @Override
+    public boolean isEmpty() {
+        for (final ItemStack item : storageInv) {
+            if (!Utils.isEmpty(item)) return false;
+        }
+        for (final ItemStack item : armorInv) {
+            if (!Utils.isEmpty(item)) return false;
+        }
+        for (final ItemStack item : extraInv) {
+            if (!Utils.isEmpty(item)) return false;
+        }
+        for (final ItemStack item : overflowInv) {
+            if (!Utils.isEmpty(item)) return false;
+        }
+        return experience <= 0;
+    }
+
+    @Override
+    public boolean isInfinite() {
+        return infinite;
+    }
+
+    @Override
+    public void setInfinite(final boolean isInfinite) {
+        this.infinite = isInfinite;
+    }
+
+    @Override
+    public boolean isProtected() {
+        return isProtected;
+    }
+
+    @Override
+    public void setProtected(final boolean aProtected) {
+        isProtected = aProtected;
+    }
+
+    /**
+     * Removes this AngelChest from the memory
+     */
+    public void remove() {
+        main.debug("Removing AngelChest");
+        main.angelChests.remove(block);
+    }
+
+    /**
+     * Removes all items that the player kept on death, and all other items that should not
+     * appear in the chest (e.g. curse of vanishing, soulbound items, ...)
+     */
+    private void removeKeptItems() {
+
+        for (int i = 0; i < armorInv.length; i++) {
+            if (main.hookUtils.keepOnDeath(armorInv[i]) || main.hookUtils.removeOnDeath(armorInv[i])) {
+                armorInv[i] = null;
+            }
+        }
+        for (int i = 0; i < storageInv.length; i++) {
+            if (main.hookUtils.keepOnDeath(storageInv[i]) || main.hookUtils.removeOnDeath(storageInv[i])) {
+                storageInv[i] = null;
+            }
+        }
+        for (int i = 0; i < extraInv.length; i++) {
+            if (main.hookUtils.keepOnDeath(extraInv[i]) || main.hookUtils.removeOnDeath(extraInv[i])) {
+                extraInv[i] = null;
+            }
+        }
     }
 
     /**
@@ -550,8 +573,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @return File where the AngelChest has been saved to
      */
     public File saveToFile(final boolean removeChest) {
-        final File yamlFile = new File(main.getDataFolder() + File.separator + "angelchests",
-                this.getFileName());
+        final File yamlFile = new File(main.getDataFolder() + File.separator + "angelchests", this.getFileName());
         final YamlConfiguration yaml = YamlConfiguration.loadConfiguration(yamlFile);
         yaml.set(ChestYaml.SAVE_VERSION, 2);
 
@@ -593,109 +615,64 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         return yamlFile;
     }
 
-    /**
-     * Attempts to charge the player for opening the chest. Each player will only be charged once per chest.
-     *
-     * @param player The player that attempted to open the chest
-     * @return true if the player successfully paid now or has already paid, otherwise false
-     */
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    public boolean hasPaidForOpening(final Player player) {
-        main.debug("Checking whether " + player + " already paid to open this chest...");
-        if (openedBy.contains(player.getUniqueId().toString())) {
-            main.debug("Yes, they did!");
-            return true;
+    public void scheduleBlockChange() {
+        scheduleBlockChange(true);
+    }
+
+    public void scheduleBlockChange(final boolean firstTry) {
+        if (firstTry) {
+            main.debug("scheduleBlockChange: " + block.toString());
         }
-        final double price = main.groupUtils.getOpenPricePerPlayer(player);
-        main.debug("No, they didn't... It will cost " + price);
-        main.logger.logPaidForChest(player, price, main.logger.getLogFile(logfile));
-        if (CommandUtils.hasEnoughMoney(player, price, main.messages.MSG_NOT_ENOUGH_MONEY, "AngelChest opened")) {
-            openedBy.add(player.getUniqueId().toString());
-            if (main.economyStatus == EconomyStatus.ACTIVE) {
-                if (price > 0) {
-                    player.sendMessage(main.messages.MSG_PAID_OPEN
-                            .replaceAll("\\{price}", String.valueOf(price))
-                            .replaceAll("\\{currency}", CommandUtils.getCurrency(price))
-                    );
-                }
+        if (main.chestMaterial == main.chestMaterialUnlocked) {
+            main.debug("scheduleBlockChange abort: matching materials");
+            return;
+        }
+        final int x = block.getX();
+        final int z = block.getZ();
+
+        if (!block.getWorld().isChunkLoaded(x >> 4, z >> 4)) {
+            if (firstTry) {
+                main.debug("Tried to change block for chest in unloaded chunk because of unlocking, will do so once chunk is loaded.");
             }
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->scheduleBlockChange(false), 1L);
+        } else {
+            main.debug("Changed block for chest because of unlocking.");
+            createChest(block, owner, false);
+        }
+
+    }
+
+    /**
+     * Checks whether this item should be removed from the inventory
+     *
+     * @param item The item to check
+     * @return true when this item should be removed, otherwise false
+     */
+    private boolean toBeRemoved(final ItemStack item) {
+        if (item == null) return false;
+        if (main.getConfig().getBoolean(Config.REMOVE_CURSE_OF_VANISHING) && item.getEnchantments().containsKey(Enchantment.VANISHING_CURSE)) {
             return true;
         }
-        player.sendMessage(main.messages.MSG_NOT_ENOUGH_MONEY);
+        if (main.getConfig().getBoolean(Config.REMOVE_CURSE_OF_BINDING) && item.getEnchantments().containsKey(Enchantment.BINDING_CURSE)) {
+            return true;
+        }
+        if (main.minepacksHook.isMinepacksBackpack(item)) {
+            return true;
+        }
+
         return false;
     }
 
-    /**
-     * Removes the Block from the world. Attempts to load the chunk first.
-     *
-     * @param refund Whether the owner should get the price back they paid to have the chest spawned.
-     */
-    public void destroy(final boolean refund) {
-        main.debug("Destroying AngelChest");
-
-        if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-            main.debug("Chunk is not loaded, trying to load chunk async...");
-            PaperLib.getChunkAtAsync(block.getLocation());
-            if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-                main.debug("The chunk is still unloaded... Trying to load chunk synced...");
-                block.getChunk().load();
-                if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-                    main.debug("The chunk is still unloaded... destroying the chest will probably fail.");
-                }
-            }
-        }
-
-
-        if (!main.isAngelChest(block))
-            return;
-
-        // remove the physical chest
-        destroyChest(block);
-        hologram.destroy();
-
-        // drop contents
-        Utils.dropItems(block, armorInv);
-        Utils.dropItems(block, storageInv);
-        Utils.dropItems(block, extraInv);
-        //Utils.dropItems(block, overflowInv);
-
-        if (experience > 0) {
-            Utils.dropExp(block, experience);
-        }
-
-        if (refund
-                && main.getConfig().getBoolean(Config.REFUND_EXPIRED_CHESTS)
-                && price > 0) {
-            CommandUtils.payMoney(Bukkit.getOfflinePlayer(owner), price, "AngelChest expired");
-        }
-
-        final int currentChestId = AngelChestUtils.getAllAngelChestsFromPlayer(Bukkit.getOfflinePlayer(owner)).indexOf(this) + 1;
-        final Player player = Bukkit.getPlayer(owner);
-        if (player != null && player.isOnline()) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> main.guiManager.updateGUI(player, currentChestId), 1L);
-        }
-
+    @Override
+    public String toString() {
+        return "AngelChest{block=" + block.toString() + ",owner=" + owner.toString() + "}";
     }
 
     /**
-     * Removes this AngelChest from the memory
+     * Unlocks this AngelChest for ALL players.
      */
-    public void remove() {
-        main.debug("Removing AngelChest");
-        main.angelChests.remove(block);
-    }
-
-    /**
-     * Creates the hologram above the AngelChest
-     *
-     * @param block Block where the hologram should be spawned
-     * @param uuid  Owner of this AngelChest
-     */
-    public void createHologram(final Block block, final UUID uuid) {
-        final String hologramText = main.messages.HOLOGRAM_TEXT
-                .replaceAll("\\{player}", Objects.requireNonNull(main.getServer().getOfflinePlayer(uuid).getName()))
-                .replaceAll("\\{deathcause}", deathCause.getText());
-        hologram = new Hologram(block, hologramText, this);
+    public void unlock() {
+        this.isProtected = false;
     }
 
 }

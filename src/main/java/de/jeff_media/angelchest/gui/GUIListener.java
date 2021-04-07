@@ -38,15 +38,6 @@ public final class GUIListener implements @NotNull Listener {
     }
 
     @SuppressWarnings("unused")
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onChestSortEvent(final ChestSortEvent event) {
-        if (event.getInventory() != null && event.getInventory().getHolder() != null && event.getInventory().getHolder() instanceof GUIHolder) {
-            main.debug("Prevented ChestSort from sorting AngelChest GUI");
-            event.setCancelled(true);
-        }
-    }
-
-    @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void cancel(final InventoryDragEvent event) {
         if (event.getInventory() == null) return;
@@ -88,6 +79,177 @@ public final class GUIListener implements @NotNull Listener {
         }
         //main.debug("[GUIListener] "+"cancel(InventoryMoveItemEvent): cancelled -> true (3)");
         //event.setCancelled(true);
+    }
+
+    @SuppressWarnings("unused")
+    private void confirmOrTeleport(final InventoryClickEvent event, final Player player, final GUIHolder holder, final CommandAction action) {
+        if (main.getConfig().getBoolean(Config.CONFIRM) && action.getPrice(player) > 0.0d && main.economyStatus == EconomyStatus.ACTIVE) {
+            main.guiManager.showConfirmGUI(player, holder, action);
+        } else {
+            CommandUtils.fetchOrTeleport(main, player, holder.getAngelChest(), holder.getChestIdStartingAt1(), action, false);
+            player.closeInventory();
+        }
+    }
+
+    public boolean isAngelChestPreviewGUI(final InventoryView view) {
+        if (view.getTopInventory() != null) {
+            return view.getTopInventory().getHolder() instanceof GUIHolder;
+        }
+        return false;
+    }
+
+    @SuppressWarnings("unused")
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onChestSortEvent(final ChestSortEvent event) {
+        if (event.getInventory() != null && event.getInventory().getHolder() != null && event.getInventory().getHolder() instanceof GUIHolder) {
+            main.debug("Prevented ChestSort from sorting AngelChest GUI");
+            event.setCancelled(true);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onGUIClick(final InventoryClickEvent event) {
+
+        // Cancel all clicks in GUI except Preview Menu
+        if (event.getView() != null && event.getView().getTopInventory() != null && event.getView().getTopInventory().getHolder() instanceof GUIHolder) {
+            final GUIHolder tmpGUIHolder = (GUIHolder) event.getView().getTopInventory().getHolder();
+            if (tmpGUIHolder.getContext() != null) {
+                if (tmpGUIHolder.getContext() != GUIContext.PREVIEW_MENU || (tmpGUIHolder.getContext() == GUIContext.PREVIEW_MENU && tmpGUIHolder.isReadOnlyPreview())) {
+                    event.setCancelled(true);
+                    //main.debug("[GUIListener] "+"onGUIClick: abort: generic");
+                }
+            }
+        }
+
+        if (event.getView() != null && event.getView().getTopInventory() != null && event.getView().getTopInventory().getHolder() instanceof GUIHolder) {
+            final GUIHolder holder = (GUIHolder) event.getView().getTopInventory().getHolder();
+            if (holder.getContext() == GUIContext.PREVIEW_MENU) {
+                if (!holder.isReadOnlyPreview()) {
+                    if (event.getClickedInventory() != null && event.getView().getTopInventory() != null && event.getClickedInventory().equals(event.getView().getTopInventory())) {
+                        //main.debug("[GUIListener] " + "onGUIClick: abort: this is a writeable preview context");
+                        return;
+                    }
+                }
+            }
+
+        }
+
+        if (!(event.getWhoClicked() instanceof Player)) return;
+        final InventoryView view = event.getView();
+
+        if (event.getInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
+            if (event.getInventory().getHolder() instanceof GUIHolder) {
+                //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (1)");
+                event.setCancelled(true);
+            }
+        }
+
+        if (event.getClickedInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
+            if (event.getClickedInventory().getHolder() instanceof GUIHolder) {
+                //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (2)");
+                event.setCancelled(true);
+            }
+        }
+
+        if (view == null) return;
+        if (view.getTopInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
+            if (view.getTopInventory().getHolder() instanceof GUIHolder) {
+                //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (3)");
+                event.setCancelled(true);
+            }
+        }
+
+        if (view.getBottomInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
+            if (view.getBottomInventory().getHolder() instanceof GUIHolder) {
+                //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (4)");
+                event.setCancelled(true);
+            }
+        }
+
+        if (view.getTopInventory() != null && event.getClickedInventory() != null && event.getView().getTopInventory() != null && event.getView().getTopInventory().getHolder() instanceof GUIHolder && event.getClickedInventory() != null && event.getView().getBottomInventory() != null && event.getClickedInventory().equals(event.getView().getBottomInventory()) && event.isShiftClick()) {
+            //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (5)");
+            event.setCancelled(true);
+        }
+
+        if (event.getClickedInventory() == null) return;
+        if (!(event.getClickedInventory().getHolder() instanceof GUIHolder)) return;
+
+        final GUIHolder holder = (GUIHolder) event.getClickedInventory().getHolder();
+        final Player player = (Player) event.getWhoClicked();
+        final int clickedSlot = event.getSlot();
+
+        switch (holder.getContext()) {
+            case MAIN_MENU:
+                onGUIClickMainMenu(event, player, holder, clickedSlot);
+                break;
+            case CHEST_MENU:
+                onGUIClickChestMenu(event, player, holder, clickedSlot);
+                break;
+            case CONFIRM_MENU:
+                onGUIClickConfirmMenu(event, player, holder, clickedSlot);
+                break;
+        }
+
+    }
+
+    private void onGUIClickChestMenu(final InventoryClickEvent event, final Player player, final GUIHolder holder, final int clickedSlot) {
+        switch (clickedSlot) {
+            case GUI.SLOT_CHEST_BACK:
+                main.guiManager.showMainGUI(player);
+                break;
+
+            case GUI.SLOT_CHEST_TP:
+                if (player.hasPermission(Permissions.TP)) {
+                    confirmOrTeleport(event, player, holder, CommandAction.TELEPORT_TO_CHEST);
+                }
+                break;
+
+            case GUI.SLOT_CHEST_FETCH:
+                if (player.hasPermission(Permissions.FETCH)) {
+                    confirmOrTeleport(event, player, holder, CommandAction.FETCH_CHEST);
+                }
+                break;
+
+            case GUI.SLOT_CHEST_UNLOCK:
+                if (player.hasPermission(Permissions.PROTECT) && holder.getAngelChest().isProtected) {
+                    CommandUtils.unlockSingleChest(main, player, holder.getAngelChest());
+                }
+                break;
+
+            case GUI.SLOT_CHEST_PREVIEW:
+                if (player.hasPermission(Permissions.PREVIEW)) {
+                    main.guiManager.showPreviewGUI(player, holder.getAngelChest(), true, false);
+                }
+
+            default:
+                break;
+        }
+    }
+
+    @SuppressWarnings("unused")
+    private void onGUIClickConfirmMenu(final InventoryClickEvent event, final Player player, final GUIHolder holder, final int clickedSlot) {
+        final CommandAction action = holder.getAction();
+        switch (clickedSlot) {
+            case GUI.SLOT_CONFIRM_ACCEPT:
+                CommandUtils.fetchOrTeleport(main, player, holder.getAngelChest(), holder.getChestIdStartingAt1(), action, false);
+                player.closeInventory();
+                break;
+            case GUI.SLOT_CONFIRM_DECLINE:
+                player.closeInventory();
+                player.closeInventory();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @SuppressWarnings("unused")
+    private void onGUIClickMainMenu(final InventoryClickEvent event, final Player player, final GUIHolder holder, final int clickedSlot) {
+        final int clickedID = clickedSlot + 1;
+        if (clickedID > holder.getNumberOfAngelChests()) return;
+        holder.setChestIdStartingAt1(clickedID);
+        main.guiManager.showChestGUI(player, holder, clickedID);
     }
 
     /*
@@ -199,7 +361,7 @@ public final class GUIListener implements @NotNull Listener {
                         }
                     }
                 }
-                Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->{
                     angelChest.destroy(false);
                     angelChest.remove();
                 }, 1L);
@@ -208,169 +370,6 @@ public final class GUIListener implements @NotNull Listener {
             event.setCancelled(true);
         } else {
             event.setCancelled(true);
-        }
-    }
-
-    public boolean isAngelChestPreviewGUI(final InventoryView view) {
-        if (view.getTopInventory() != null) {
-            return view.getTopInventory().getHolder() instanceof GUIHolder;
-        }
-        return false;
-    }
-
-    @SuppressWarnings("unused")
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onGUIClick(final InventoryClickEvent event) {
-
-        // Cancel all clicks in GUI except Preview Menu
-        if (event.getView() != null && event.getView().getTopInventory() != null && event.getView().getTopInventory().getHolder() instanceof GUIHolder) {
-            final GUIHolder tmpGUIHolder = (GUIHolder) event.getView().getTopInventory().getHolder();
-            if (tmpGUIHolder.getContext() != null) {
-                if (tmpGUIHolder.getContext() != GUIContext.PREVIEW_MENU
-                        || (tmpGUIHolder.getContext() == GUIContext.PREVIEW_MENU && tmpGUIHolder.isReadOnlyPreview())) {
-                    event.setCancelled(true);
-                    //main.debug("[GUIListener] "+"onGUIClick: abort: generic");
-                }
-            }
-        }
-
-        if (event.getView() != null && event.getView().getTopInventory() != null && event.getView().getTopInventory().getHolder() instanceof GUIHolder) {
-            final GUIHolder holder = (GUIHolder) event.getView().getTopInventory().getHolder();
-            if (holder.getContext() == GUIContext.PREVIEW_MENU) {
-                if (!holder.isReadOnlyPreview()) {
-                    if (event.getClickedInventory() != null && event.getView().getTopInventory() != null && event.getClickedInventory().equals(event.getView().getTopInventory())) {
-                        //main.debug("[GUIListener] " + "onGUIClick: abort: this is a writeable preview context");
-                        return;
-                    }
-                }
-            }
-
-        }
-
-        if (!(event.getWhoClicked() instanceof Player)) return;
-        final InventoryView view = event.getView();
-
-        if (event.getInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
-            if (event.getInventory().getHolder() instanceof GUIHolder) {
-                //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (1)");
-                event.setCancelled(true);
-            }
-        }
-
-        if (event.getClickedInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
-            if (event.getClickedInventory().getHolder() instanceof GUIHolder) {
-                //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (2)");
-                event.setCancelled(true);
-            }
-        }
-
-        if (view == null) return;
-        if (view.getTopInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
-            if (view.getTopInventory().getHolder() instanceof GUIHolder) {
-                //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (3)");
-                event.setCancelled(true);
-            }
-        }
-
-        if (view.getBottomInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
-            if (view.getBottomInventory().getHolder() instanceof GUIHolder) {
-                //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (4)");
-                event.setCancelled(true);
-            }
-        }
-
-        if (view.getTopInventory() != null && event.getClickedInventory() != null && event.getView().getTopInventory() != null && event.getView().getTopInventory().getHolder() instanceof GUIHolder && event.getClickedInventory() != null && event.getView().getBottomInventory() != null && event.getClickedInventory().equals(event.getView().getBottomInventory()) && event.isShiftClick()) {
-            //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (5)");
-            event.setCancelled(true);
-        }
-
-        if (event.getClickedInventory() == null) return;
-        if (!(event.getClickedInventory().getHolder() instanceof GUIHolder)) return;
-
-        final GUIHolder holder = (GUIHolder) event.getClickedInventory().getHolder();
-        final Player player = (Player) event.getWhoClicked();
-        final int clickedSlot = event.getSlot();
-
-        switch (holder.getContext()) {
-            case MAIN_MENU:
-                onGUIClickMainMenu(event, player, holder, clickedSlot);
-                break;
-            case CHEST_MENU:
-                onGUIClickChestMenu(event, player, holder, clickedSlot);
-                break;
-            case CONFIRM_MENU:
-                onGUIClickConfirmMenu(event, player, holder, clickedSlot);
-                break;
-        }
-
-    }
-
-    @SuppressWarnings("unused")
-    private void onGUIClickConfirmMenu(final InventoryClickEvent event, final Player player, final GUIHolder holder, final int clickedSlot) {
-        final CommandAction action = holder.getAction();
-        switch (clickedSlot) {
-            case GUI.SLOT_CONFIRM_ACCEPT:
-                CommandUtils.fetchOrTeleport(main, player, holder.getAngelChest(), holder.getChestIdStartingAt1(), action, false);
-                player.closeInventory();
-                break;
-            case GUI.SLOT_CONFIRM_DECLINE:
-                player.closeInventory();
-                player.closeInventory();
-                break;
-            default:
-                break;
-        }
-    }
-
-    @SuppressWarnings("unused")
-    private void onGUIClickMainMenu(final InventoryClickEvent event, final Player player, final GUIHolder holder, final int clickedSlot) {
-        final int clickedID = clickedSlot + 1;
-        if (clickedID > holder.getNumberOfAngelChests()) return;
-        holder.setChestIdStartingAt1(clickedID);
-        main.guiManager.showChestGUI(player, holder, clickedID);
-    }
-
-    private void onGUIClickChestMenu(final InventoryClickEvent event, final Player player, final GUIHolder holder, final int clickedSlot) {
-        switch (clickedSlot) {
-            case GUI.SLOT_CHEST_BACK:
-                main.guiManager.showMainGUI(player);
-                break;
-
-            case GUI.SLOT_CHEST_TP:
-                if (player.hasPermission(Permissions.TP)) {
-                    confirmOrTeleport(event, player, holder, CommandAction.TELEPORT_TO_CHEST);
-                }
-                break;
-
-            case GUI.SLOT_CHEST_FETCH:
-                if (player.hasPermission(Permissions.FETCH)) {
-                    confirmOrTeleport(event, player, holder, CommandAction.FETCH_CHEST);
-                }
-                break;
-
-            case GUI.SLOT_CHEST_UNLOCK:
-                if (player.hasPermission(Permissions.PROTECT) && holder.getAngelChest().isProtected) {
-                    CommandUtils.unlockSingleChest(main, player, holder.getAngelChest());
-                }
-                break;
-
-            case GUI.SLOT_CHEST_PREVIEW:
-                if (player.hasPermission(Permissions.PREVIEW)) {
-                    main.guiManager.showPreviewGUI(player, holder.getAngelChest(), true, false);
-                }
-
-            default:
-                break;
-        }
-    }
-
-    @SuppressWarnings("unused")
-    private void confirmOrTeleport(final InventoryClickEvent event, final Player player, final GUIHolder holder, final CommandAction action) {
-        if (main.getConfig().getBoolean(Config.CONFIRM) && action.getPrice(player) > 0.0d && main.economyStatus == EconomyStatus.ACTIVE) {
-            main.guiManager.showConfirmGUI(player, holder, action);
-        } else {
-            CommandUtils.fetchOrTeleport(main, player, holder.getAngelChest(), holder.getChestIdStartingAt1(), action, false);
-            player.closeInventory();
         }
     }
 }

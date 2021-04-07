@@ -12,8 +12,8 @@ import org.bukkit.plugin.Plugin;
 public final class MinepacksHook {
 
     boolean disabled = false;
-    boolean skipReflection = false;
     MinepacksPlugin minepacks = null;
+    boolean skipReflection = false;
 
     /**
      * Checks whether an ItemStack is a MinePacks backpack

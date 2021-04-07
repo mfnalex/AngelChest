@@ -19,8 +19,8 @@ import java.util.LinkedHashMap;
 public final class GroupUtils {
 
     final Main main;
-    YamlConfiguration yaml;
     LinkedHashMap<String, Group> groups;
+    YamlConfiguration yaml;
 
     public GroupUtils(final File yamlFile) {
         this.main = Main.getInstance();
@@ -31,18 +31,19 @@ public final class GroupUtils {
         this.yaml = YamlConfiguration.loadConfiguration(yamlFile);
         groups = new LinkedHashMap<>();
 
+        final String DOT = ".";
         for (final String groupName : yaml.getKeys(false)) {
-            final int angelchestDuration = yaml.getInt(groupName + ".angelchest-duration", -1);
-            final int chestsPerPlayer = yaml.getInt(groupName + ".max-allowed-angelchests", -1);
-            final String priceSpawn = yaml.getString(groupName + ".price-spawn", "-1");
-            final String priceOpen = yaml.getString(groupName + ".price-open", "-1");
-            final String priceFetch = yaml.getString(groupName + ".price-fetch", "-1");
-            final String priceTeleport = yaml.getString(groupName + ".price-teleport", "-1");
-            final double xpPercentage = yaml.getDouble(groupName + ".xp-percentage", -2);
-            final int unlockDuration = yaml.getInt(groupName + ".unlock-duration", -2);
-            final double spawnChance = yaml.getDouble(groupName + ".spawn-chance", 1.0);
-            final String itemLoss = yaml.getString(groupName + ".random-item-loss", "-1");
-            final int invulnerabilityAfterTP = yaml.getInt(groupName + "." + Config.INVULNERABILITY_AFTER_TP,-1);
+            final int angelchestDuration = yaml.getInt(groupName + DOT + Config.ANGELCHEST_DURATION, -1);
+            final int chestsPerPlayer = yaml.getInt(groupName + DOT + Config.MAX_ALLOWED_ANGELCHESTS, -1);
+            final String priceSpawn = yaml.getString(groupName + DOT + Config.PRICE, "-1");
+            final String priceOpen = yaml.getString(groupName + DOT + Config.PRICE_OPEN, "-1");
+            final String priceFetch = yaml.getString(groupName + DOT + Config.PRICE_FETCH, "-1");
+            final String priceTeleport = yaml.getString(groupName + DOT + Config.PRICE_TELEPORT, "-1");
+            final double xpPercentage = yaml.getDouble(groupName + DOT + Config.XP_PERCENTAGE, -2);
+            final int unlockDuration = yaml.getInt(groupName + DOT + Config.UNLOCK_DURATION, -2);
+            final double spawnChance = yaml.getDouble(groupName + DOT + Config.SPAWN_CHANCE, 1.0);
+            final String itemLoss = yaml.getString(groupName + DOT + Config.ITEM_LOSS, "-1");
+            final int invulnerabilityAfterTP = yaml.getInt(groupName + "." + Config.INVULNERABILITY_AFTER_TP, -1);
 
             main.debug("Registering group " + groupName);
             final Group group = new Group(angelchestDuration, chestsPerPlayer, priceSpawn, priceOpen, priceTeleport, priceFetch, xpPercentage, unlockDuration, spawnChance, itemLoss, invulnerabilityAfterTP);
@@ -93,73 +94,6 @@ public final class GroupUtils {
         }
     }
 
-    public double getXPPercentagePerPlayer(final Player p) {
-        if (yaml == null) return main.getConfig().getDouble(Config.XP_PERCENTAGE);
-        final Iterator<String> it = groups.keySet().iterator();
-        Double bestValueFound = null;
-        while (it.hasNext()) {
-            final String group = it.next();
-            if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
-            final double valuePerPlayer = groups.get(group).xpPercentage;
-            if (valuePerPlayer == -2) {
-                continue;
-            }
-            bestValueFound = bestValueFound == null ? valuePerPlayer : Math.max(valuePerPlayer, bestValueFound);
-        }
-        if (bestValueFound != null) {
-            return bestValueFound;
-        } else {
-            return main.getConfig().getDouble(Config.XP_PERCENTAGE);
-        }
-    }
-
-    public int getDurationPerPlayer(final Player p) {
-        if (yaml == null) return main.getConfig().getInt(Config.ANGELCHEST_DURATION);
-        final Iterator<String> it = groups.keySet().iterator();
-        Integer bestValueFound = null;
-        while (it.hasNext()) {
-            final String group = it.next();
-            if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
-            final int valuePerPlayer = groups.get(group).duration;
-            if (valuePerPlayer == -1) {
-                continue;
-            }
-            bestValueFound = bestValueFound == null ? valuePerPlayer : Math.max(valuePerPlayer, bestValueFound);
-        }
-        if (bestValueFound != null) {
-            return bestValueFound;
-        } else {
-            return main.getConfig().getInt(Config.ANGELCHEST_DURATION);
-        }
-    }
-
-    public int getUnlockDurationPerPlayer(final Player p) {
-        if (!Daddy.allows(Features.UNLOCK_DURATION_PER_PLAYER)) {
-            return -1;
-        }
-        if (yaml == null) {
-            if (main.getConfig().getInt(Config.UNLOCK_DURATION) == 0) return -1;
-            return main.getConfig().getInt(Config.UNLOCK_DURATION);
-        }
-        final Iterator<String> it = groups.keySet().iterator();
-        Integer bestValueFound = null;
-        while (it.hasNext()) {
-            final String group = it.next();
-            if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
-            final int valuePerPlayer = groups.get(group).unlockDuration;
-            if (valuePerPlayer == -2) {
-                continue;
-            }
-            if (valuePerPlayer == -1) return -1; // Important! This is different from the other methods!
-            bestValueFound = bestValueFound == null ? valuePerPlayer : Math.max(valuePerPlayer, bestValueFound);
-        }
-        if (bestValueFound != null) {
-            return bestValueFound;
-        } else {
-            return main.getConfig().getInt(Config.UNLOCK_DURATION);
-        }
-    }
-
     public int getChestsPerPlayer(final Player p) {
         if (yaml == null) return main.getConfig().getInt(Config.MAX_ALLOWED_ANGELCHESTS);
         final Iterator<String> it = groups.keySet().iterator();
@@ -180,49 +114,23 @@ public final class GroupUtils {
         }
     }
 
-    public double getSpawnPricePerPlayer(final Player p) {
-        if (!Daddy.allows(Features.SPAWN_PRICE_PER_PLAYER)) {
-            return 0;
-        }
-        if (yaml == null) return getPercentagePrice(p, main.getConfig().getString(Config.PRICE));
+    public int getDurationPerPlayer(final Player p) {
+        if (yaml == null) return main.getConfig().getInt(Config.ANGELCHEST_DURATION);
         final Iterator<String> it = groups.keySet().iterator();
-        Double bestValueFound = null;
+        Integer bestValueFound = null;
         while (it.hasNext()) {
             final String group = it.next();
             if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
-            final String pricePerPlayer = groups.get(group).priceSpawn;
-            if (pricePerPlayer.equals("-1")) {
+            final int valuePerPlayer = groups.get(group).duration;
+            if (valuePerPlayer == -1) {
                 continue;
             }
-            bestValueFound = bestValueFound == null ? getPercentagePrice(p, pricePerPlayer) : Math.min(getPercentagePrice(p, pricePerPlayer), bestValueFound);
+            bestValueFound = bestValueFound == null ? valuePerPlayer : Math.max(valuePerPlayer, bestValueFound);
         }
         if (bestValueFound != null) {
             return bestValueFound;
         } else {
-            return getPercentagePrice(p, main.getConfig().getString(Config.PRICE));
-        }
-    }
-
-    public double getOpenPricePerPlayer(final Player p) {
-        if (!Daddy.allows(Features.PAY_TO_OPEN_ANGELCHEST)) {
-            return 0;
-        }
-        if (yaml == null) return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_OPEN));
-        final Iterator<String> it = groups.keySet().iterator();
-        Double bestValueFound = null;
-        while (it.hasNext()) {
-            final String group = it.next();
-            if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
-            final String pricePerPlayer = groups.get(group).priceOpen;
-            if (pricePerPlayer.equals("-1")) {
-                continue;
-            }
-            bestValueFound = bestValueFound == null ? getPercentagePrice(p, pricePerPlayer) : Math.min(getPercentagePrice(p, pricePerPlayer), bestValueFound);
-        }
-        if (bestValueFound != null) {
-            return bestValueFound;
-        } else {
-            return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_OPEN));
+            return main.getConfig().getInt(Config.ANGELCHEST_DURATION);
         }
     }
 
@@ -267,27 +175,6 @@ public final class GroupUtils {
         }
     }
 
-    public double getTeleportPricePerPlayer(final CommandSender p) {
-        if (yaml == null || !Daddy.allows(Features.TELEPORT_PRICE_PER_PLAYER))
-            return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_TELEPORT));
-        final Iterator<String> it = groups.keySet().iterator();
-        Double bestValueFound = null;
-        while (it.hasNext()) {
-            final String group = it.next();
-            if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
-            final String pricePerPlayer = groups.get(group).priceTeleport;
-            if (pricePerPlayer.equals("-1")) {
-                continue;
-            }
-            bestValueFound = bestValueFound == null ? getPercentagePrice(p, pricePerPlayer) : Math.min(getPercentagePrice(p, pricePerPlayer), bestValueFound);
-        }
-        if (bestValueFound != null) {
-            return bestValueFound;
-        } else {
-            return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_TELEPORT));
-        }
-    }
-
     public int getItemLossPerPlayer(final Player p) {
         if (yaml == null || !Daddy.allows(Features.RANDOM_ITEM_LOSS))
             return getPercentageItemLoss(p, main.getConfig().getString(Config.ITEM_LOSS));
@@ -306,6 +193,29 @@ public final class GroupUtils {
             return bestValueFound;
         } else {
             return getPercentageItemLoss(p, main.getConfig().getString(Config.ITEM_LOSS));
+        }
+    }
+
+    public double getOpenPricePerPlayer(final Player p) {
+        if (!Daddy.allows(Features.PAY_TO_OPEN_ANGELCHEST)) {
+            return 0;
+        }
+        if (yaml == null) return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_OPEN));
+        final Iterator<String> it = groups.keySet().iterator();
+        Double bestValueFound = null;
+        while (it.hasNext()) {
+            final String group = it.next();
+            if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+            final String pricePerPlayer = groups.get(group).priceOpen;
+            if (pricePerPlayer.equals("-1")) {
+                continue;
+            }
+            bestValueFound = bestValueFound == null ? getPercentagePrice(p, pricePerPlayer) : Math.min(getPercentagePrice(p, pricePerPlayer), bestValueFound);
+        }
+        if (bestValueFound != null) {
+            return bestValueFound;
+        } else {
+            return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_OPEN));
         }
     }
 
@@ -328,6 +238,97 @@ public final class GroupUtils {
             return bestValueFound;
         } else {
             return main.getConfig().getDouble(Config.SPAWN_CHANCE);
+        }
+    }
+
+    public double getSpawnPricePerPlayer(final Player p) {
+        if (!Daddy.allows(Features.SPAWN_PRICE_PER_PLAYER)) {
+            return 0;
+        }
+        if (yaml == null) return getPercentagePrice(p, main.getConfig().getString(Config.PRICE));
+        final Iterator<String> it = groups.keySet().iterator();
+        Double bestValueFound = null;
+        while (it.hasNext()) {
+            final String group = it.next();
+            if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+            final String pricePerPlayer = groups.get(group).priceSpawn;
+            if (pricePerPlayer.equals("-1")) {
+                continue;
+            }
+            bestValueFound = bestValueFound == null ? getPercentagePrice(p, pricePerPlayer) : Math.min(getPercentagePrice(p, pricePerPlayer), bestValueFound);
+        }
+        if (bestValueFound != null) {
+            return bestValueFound;
+        } else {
+            return getPercentagePrice(p, main.getConfig().getString(Config.PRICE));
+        }
+    }
+
+    public double getTeleportPricePerPlayer(final CommandSender p) {
+        if (yaml == null || !Daddy.allows(Features.TELEPORT_PRICE_PER_PLAYER))
+            return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_TELEPORT));
+        final Iterator<String> it = groups.keySet().iterator();
+        Double bestValueFound = null;
+        while (it.hasNext()) {
+            final String group = it.next();
+            if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+            final String pricePerPlayer = groups.get(group).priceTeleport;
+            if (pricePerPlayer.equals("-1")) {
+                continue;
+            }
+            bestValueFound = bestValueFound == null ? getPercentagePrice(p, pricePerPlayer) : Math.min(getPercentagePrice(p, pricePerPlayer), bestValueFound);
+        }
+        if (bestValueFound != null) {
+            return bestValueFound;
+        } else {
+            return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_TELEPORT));
+        }
+    }
+
+    public int getUnlockDurationPerPlayer(final Player p) {
+        if (!Daddy.allows(Features.UNLOCK_DURATION_PER_PLAYER)) {
+            return -1;
+        }
+        if (yaml == null) {
+            if (main.getConfig().getInt(Config.UNLOCK_DURATION) == 0) return -1;
+            return main.getConfig().getInt(Config.UNLOCK_DURATION);
+        }
+        final Iterator<String> it = groups.keySet().iterator();
+        Integer bestValueFound = null;
+        while (it.hasNext()) {
+            final String group = it.next();
+            if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+            final int valuePerPlayer = groups.get(group).unlockDuration;
+            if (valuePerPlayer == -2) {
+                continue;
+            }
+            if (valuePerPlayer == -1) return -1; // Important! This is different from the other methods!
+            bestValueFound = bestValueFound == null ? valuePerPlayer : Math.max(valuePerPlayer, bestValueFound);
+        }
+        if (bestValueFound != null) {
+            return bestValueFound;
+        } else {
+            return main.getConfig().getInt(Config.UNLOCK_DURATION);
+        }
+    }
+
+    public double getXPPercentagePerPlayer(final Player p) {
+        if (yaml == null) return main.getConfig().getDouble(Config.XP_PERCENTAGE);
+        final Iterator<String> it = groups.keySet().iterator();
+        Double bestValueFound = null;
+        while (it.hasNext()) {
+            final String group = it.next();
+            if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+            final double valuePerPlayer = groups.get(group).xpPercentage;
+            if (valuePerPlayer == -2) {
+                continue;
+            }
+            bestValueFound = bestValueFound == null ? valuePerPlayer : Math.max(valuePerPlayer, bestValueFound);
+        }
+        if (bestValueFound != null) {
+            return bestValueFound;
+        } else {
+            return main.getConfig().getDouble(Config.XP_PERCENTAGE);
         }
     }
 

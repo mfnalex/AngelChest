@@ -1,3 +1,7 @@
+## 3.11.0
+- Added support for ExecutableItems' "Keep on Death" enchantment
+- When using invulnerability, the player will no longer be protected from /kill or void damage
+
 ## 3.10.0
 - Added option to give players invulnerability for X seconds when teleporting to their chests (Plus version only)
 - Fixed rare exception in onEnable when using PLAYER_HEAD as material

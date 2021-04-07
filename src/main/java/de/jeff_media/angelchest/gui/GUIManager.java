@@ -7,7 +7,10 @@ import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.Features;
-import de.jeff_media.angelchest.utils.*;
+import de.jeff_media.angelchest.utils.AngelChestUtils;
+import de.jeff_media.angelchest.utils.CommandUtils;
+import de.jeff_media.angelchest.utils.HeadCreator;
+import de.jeff_media.angelchest.utils.XPUtils;
 import de.jeff_media.daddy.Daddy;
 import de.jeff_media.jefflib.Ticks;
 import org.bukkit.Bukkit;
@@ -39,50 +42,29 @@ public final class GUIManager {
         return 54;
     }
 
-    public void updatePreviewInvs(final Player originalPlayer, final AngelChest angelChest) {
-        for (final Player player : Bukkit.getOnlinePlayers()) {
-            if (player.equals(originalPlayer)) continue;
-            if (player.getOpenInventory() == null) continue;
-            if (player.getOpenInventory().getTopInventory() == null) continue;
-            if (!(player.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder)) continue;
-            final GUIHolder guiHolder = (GUIHolder) player.getOpenInventory().getTopInventory().getHolder();
-            if (guiHolder.getSpecialAngelChest() != null && guiHolder.getSpecialAngelChest().equals(angelChest)) {
-                main.debug("This AngelChest " + angelChest.toString() + " is also in use by " + player.getName() + ", updating...");
-                if (!angelChest.isEmpty()) {
-                    showPreviewGUI(player, angelChest, guiHolder.isReadOnlyPreview(), false);
-                } else {
-                    player.closeInventory();
-                }
-            }
-        }
+    private ItemStack getBackButton() {
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_BACK), main.messages.GUI_BACK, null);
     }
 
-    public void updateGUI(final Player player, final int brokenChestId) {
-        if (player.getOpenInventory() == null) return;
-        if (player.getOpenInventory().getTopInventory() == null) return;
-        if (!(player.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder)) return;
+    @SuppressWarnings("SameParameterValue")
+    private ItemStack getButton(final Material material, final String name, @Nullable final List<String> lore) {
+        return getButton(material.name(), name, lore);
+    }
 
-        final GUIHolder holder = (GUIHolder) player.getOpenInventory().getTopInventory().getHolder();
-
-        if (holder.getContext() == GUIContext.MAIN_MENU) {
-            showMainGUI(player);
-            return;
-        }
-
-        final int selectedChest = holder.getChestIdStartingAt1();
-        if (selectedChest < brokenChestId) {
-            //noinspection UnnecessaryReturnStatement
-            return;
-        } else if (brokenChestId == selectedChest) {
-            showMainGUI(player);
+    private ItemStack getButton(final String materialOrBase64, final String name, @Nullable final List<String> lore) {
+        final ItemStack item;
+        final Material material = Enums.getIfPresent(Material.class, materialOrBase64.toUpperCase()).orNull();
+        if (material != null) {
+            item = new ItemStack(material);
         } else {
-            holder.setChestIdStartingAt1(holder.getChestIdStartingAt1() - 1);
-            if (holder.getContext() == GUIContext.CHEST_MENU) {
-                showChestGUI(player, holder, holder.getChestIdStartingAt1());
-            } else if (holder.getContext() == GUIContext.CONFIRM_MENU) {
-                showConfirmGUI(player, holder, holder.getAction());
-            }
+            item = HeadCreator.getHead(materialOrBase64);
         }
+        final ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(name);
+        if (lore != null) meta.setLore(lore);
+        //meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        item.setItemMeta(meta);
+        return item;
     }
 
     private ItemStack getChestItem(final AngelChest angelChest, final int id) {
@@ -105,26 +87,105 @@ public final class GUIManager {
         return item;
     }
 
+    private List<String> getChestItemLore(final AngelChest angelChest, @SuppressWarnings("unused") final int id) {
+
+        final String[] lore = new String[] {String.format("§4%s", CommandUtils.getTimeLeft(angelChest)), String.format("§aX: §f%d", angelChest.block.getX()), String.format("§aY: §f%d", angelChest.block.getY()), String.format("§aZ: §f%d", angelChest.block.getZ()), String.format(/*"§aWorld: "+*/"§f%s", angelChest.block.getWorld().getName())};
+        return Arrays.asList(lore);
+    }
+
     private String getChestItemName(@SuppressWarnings("unused") final AngelChest angelChest, final int id) {
         return String.format("§6AngelChest #%d", id);
     }
 
-    private List<String> getChestItemLore(final AngelChest angelChest, @SuppressWarnings("unused") final int id) {
+    private ItemStack getConfirmAcceptButton() {
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_ACCEPT), main.messages.GUI_ACCEPT, null);
+    }
 
-        final String[] lore = new String[]{
-                String.format("§4%s", CommandUtils.getTimeLeft(angelChest)),
-                String.format("§aX: §f%d", angelChest.block.getX()),
-                String.format("§aY: §f%d", angelChest.block.getY()),
-                String.format("§aZ: §f%d", angelChest.block.getZ()),
-                String.format(/*"§aWorld: "+*/"§f%s", angelChest.block.getWorld().getName())
-        };
-        return Arrays.asList(lore);
+    private ItemStack getConfirmDeclineButton() {
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_DECLINE), main.messages.GUI_DECLINE, null);
+    }
+
+    private ItemStack getConfirmInfoButton(final double price) {
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_INFO), main.messages.GUI_INFO, getLore(main.messages.GUI_INFO_LORE.replaceAll("\\{price}", String.valueOf(price)).replaceAll("\\{currency}", CommandUtils.getCurrency(price))));
+    }
+
+    private ItemStack getFetchButton() {
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_FETCH), main.messages.GUI_FETCH, null);
+    }
+
+    private ItemStack getInfoButton(final AngelChest angelChest, final int id) {
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_INFO), main.messages.GUI_INFO, getChestItemLore(angelChest, id));
+    }
+
+    private List<String> getLore(final String text) {
+        return Arrays.asList(text.split("\n"));
+    }
+
+    private ItemStack getPreviewButton() {
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_PREVIEW), main.messages.GUI_PREVIEW, null);
+    }
+
+    private ItemStack getTPButton() {
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_TELEPORT), main.messages.GUI_TELEPORT, null);
+    }
+
+    private String getTitle(final AngelChest chest, final int id) {
+        return main.messages.GUI_TITLE_CHEST.replaceAll("\\{id}", String.valueOf(id)).replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
+
+    }
+
+    private ItemStack getUnlockButton() {
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_UNLOCK), main.messages.GUI_UNLOCK, null);
     }
 
     private boolean hasOpen(final Player player, final Inventory inventory) {
         if (player.getOpenInventory() == null) return false;
         if (player.getOpenInventory().getTopInventory() == null) return false;
         return player.getOpenInventory().getTopInventory().equals(inventory);
+    }
+
+    public void showChestGUI(final Player player, final GUIHolder holder, final int id) {
+        final AngelChest angelChest = holder.getAngelChest();
+        final GUIHolder newHolder = new GUIHolder(player, GUIContext.CHEST_MENU, id);
+        final Inventory inventory = Bukkit.createInventory(newHolder, 9, getTitle(holder.getAngelChest(), holder.getChestIdStartingAt1()));
+        newHolder.setInventory(inventory);
+
+        inventory.setItem(GUI.SLOT_CHEST_BACK, getBackButton());
+        inventory.setItem(GUI.SLOT_CHEST_INFO, getInfoButton(angelChest, id));
+        if (player.hasPermission(Permissions.TP)) inventory.setItem(GUI.SLOT_CHEST_TP, getTPButton());
+        if (player.hasPermission(Permissions.FETCH)) inventory.setItem(GUI.SLOT_CHEST_FETCH, getFetchButton());
+        if (player.hasPermission(Permissions.PROTECT) && angelChest.isProtected)
+            inventory.setItem(GUI.SLOT_CHEST_UNLOCK, getUnlockButton());
+        if (player.hasPermission(Permissions.PREVIEW)) inventory.setItem(GUI.SLOT_CHEST_PREVIEW, getPreviewButton());
+        player.openInventory(inventory);
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->{
+            if (hasOpen(player, inventory)) {
+                showChestGUI(player, holder, holder.getChestIdStartingAt1());
+            }
+        }, Ticks.fromSeconds(1));
+    }
+
+    public void showConfirmGUI(final Player player, final GUIHolder holder, final CommandAction action) {
+        final GUIHolder newHolder = new GUIHolder(player, GUIContext.CONFIRM_MENU, holder.getChestIdStartingAt1());
+        newHolder.setAction(action);
+        final Inventory inventory = Bukkit.createInventory(newHolder, 9, getTitle(holder.getAngelChest(), holder.getChestIdStartingAt1()));
+        newHolder.setInventory(inventory);
+
+        inventory.setItem(GUI.SLOT_CONFIRM_INFO, getConfirmInfoButton(action.getPrice(player)));
+        inventory.setItem(GUI.SLOT_CONFIRM_ACCEPT, getConfirmAcceptButton());
+        inventory.setItem(GUI.SLOT_CONFIRM_DECLINE, getConfirmDeclineButton());
+        player.openInventory(inventory);
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->{
+            try {
+                if (hasOpen(player, inventory)) {
+                    showConfirmGUI(player, holder, holder.getAction());
+                }
+            } catch (final NullPointerException ignored) {
+                //main.debug("Null in repeating task in showConfirmGUI");
+            }
+        }, Ticks.fromSeconds(1));
     }
 
     public void showLatestChestGUI(final Player player) {
@@ -162,7 +223,7 @@ public final class GUIManager {
 
         player.openInventory(inventory);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->{
             if (hasOpen(player, inventory)) {
                 showMainGUI(player);
             }
@@ -198,119 +259,50 @@ public final class GUIManager {
         player.openInventory(inventory);
     }
 
-    public void showChestGUI(final Player player, final GUIHolder holder, final int id) {
-        final AngelChest angelChest = holder.getAngelChest();
-        final GUIHolder newHolder = new GUIHolder(player, GUIContext.CHEST_MENU, id);
-        final Inventory inventory = Bukkit.createInventory(newHolder, 9, getTitle(holder.getAngelChest(), holder.getChestIdStartingAt1()));
-        newHolder.setInventory(inventory);
+    public void updateGUI(final Player player, final int brokenChestId) {
+        if (player.getOpenInventory() == null) return;
+        if (player.getOpenInventory().getTopInventory() == null) return;
+        if (!(player.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder)) return;
 
-        inventory.setItem(GUI.SLOT_CHEST_BACK, getBackButton());
-        inventory.setItem(GUI.SLOT_CHEST_INFO, getInfoButton(angelChest, id));
-        if (player.hasPermission(Permissions.TP)) inventory.setItem(GUI.SLOT_CHEST_TP, getTPButton());
-        if (player.hasPermission(Permissions.FETCH)) inventory.setItem(GUI.SLOT_CHEST_FETCH, getFetchButton());
-        if (player.hasPermission(Permissions.PROTECT) && angelChest.isProtected)
-            inventory.setItem(GUI.SLOT_CHEST_UNLOCK, getUnlockButton());
-        if (player.hasPermission(Permissions.PREVIEW)) inventory.setItem(GUI.SLOT_CHEST_PREVIEW, getPreviewButton());
-        player.openInventory(inventory);
+        final GUIHolder holder = (GUIHolder) player.getOpenInventory().getTopInventory().getHolder();
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
-            if (hasOpen(player, inventory)) {
-                showChestGUI(player, holder, holder.getChestIdStartingAt1());
-            }
-        }, Ticks.fromSeconds(1));
-    }
-
-    public void showConfirmGUI(final Player player, final GUIHolder holder, final CommandAction action) {
-        final GUIHolder newHolder = new GUIHolder(player, GUIContext.CONFIRM_MENU, holder.getChestIdStartingAt1());
-        newHolder.setAction(action);
-        final Inventory inventory = Bukkit.createInventory(newHolder, 9, getTitle(holder.getAngelChest(), holder.getChestIdStartingAt1()));
-        newHolder.setInventory(inventory);
-
-        inventory.setItem(GUI.SLOT_CONFIRM_INFO, getConfirmInfoButton(action.getPrice(player)));
-        inventory.setItem(GUI.SLOT_CONFIRM_ACCEPT, getConfirmAcceptButton());
-        inventory.setItem(GUI.SLOT_CONFIRM_DECLINE, getConfirmDeclineButton());
-        player.openInventory(inventory);
-
-        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
-            try {
-                if (hasOpen(player, inventory)) {
-                    showConfirmGUI(player, holder, holder.getAction());
-                }
-            } catch (final NullPointerException ignored) {
-                //main.debug("Null in repeating task in showConfirmGUI");
-                // TODO: No idea why it happens, but everything still works normally lol so fuck it.
-            }
-        }, Ticks.fromSeconds(1));
-    }
-
-    private ItemStack getPreviewButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_PREVIEW), main.messages.GUI_PREVIEW, null);
-    }
-
-    private ItemStack getBackButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_BACK), main.messages.GUI_BACK, null);
-    }
-
-    private ItemStack getInfoButton(final AngelChest angelChest, final int id) {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_INFO), main.messages.GUI_INFO, getChestItemLore(angelChest, id));
-    }
-
-    private ItemStack getTPButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_TELEPORT), main.messages.GUI_TELEPORT, null);
-    }
-
-    private ItemStack getFetchButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_FETCH), main.messages.GUI_FETCH, null);
-    }
-
-    private ItemStack getUnlockButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_UNLOCK), main.messages.GUI_UNLOCK, null);
-    }
-
-    private ItemStack getConfirmAcceptButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_ACCEPT), main.messages.GUI_ACCEPT, null);
-    }
-
-    private ItemStack getConfirmDeclineButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_DECLINE), main.messages.GUI_DECLINE, null);
-    }
-
-    private ItemStack getConfirmInfoButton(final double price) {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_INFO), main.messages.GUI_INFO,
-                getLore(main.messages.GUI_INFO_LORE
-                        .replaceAll("\\{price}", String.valueOf(price))
-                        .replaceAll("\\{currency}", CommandUtils.getCurrency(price))));
-    }
-
-    @SuppressWarnings("SameParameterValue")
-    private ItemStack getButton(final Material material, final String name, @Nullable final List<String> lore) {
-        return getButton(material.name(), name, lore);
-    }
-
-    private ItemStack getButton(final String materialOrBase64, final String name, @Nullable final List<String> lore) {
-        final ItemStack item;
-        final Material material = Enums.getIfPresent(Material.class, materialOrBase64.toUpperCase()).orNull();
-        if (material != null) {
-            item = new ItemStack(material);
-        } else {
-            item = HeadCreator.getHead(materialOrBase64);
+        if (holder.getContext() == GUIContext.MAIN_MENU) {
+            showMainGUI(player);
+            return;
         }
-        final ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(name);
-        if (lore != null) meta.setLore(lore);
-        //meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        item.setItemMeta(meta);
-        return item;
+
+        final int selectedChest = holder.getChestIdStartingAt1();
+        if (selectedChest < brokenChestId) {
+            //noinspection UnnecessaryReturnStatement
+            return;
+        } else if (brokenChestId == selectedChest) {
+            showMainGUI(player);
+        } else {
+            holder.setChestIdStartingAt1(holder.getChestIdStartingAt1() - 1);
+            if (holder.getContext() == GUIContext.CHEST_MENU) {
+                showChestGUI(player, holder, holder.getChestIdStartingAt1());
+            } else if (holder.getContext() == GUIContext.CONFIRM_MENU) {
+                showConfirmGUI(player, holder, holder.getAction());
+            }
+        }
     }
 
-    private List<String> getLore(final String text) {
-        return Arrays.asList(text.split("\n"));
-    }
-
-    private String getTitle(final AngelChest chest, final int id) {
-        return main.messages.GUI_TITLE_CHEST.replaceAll("\\{id}", String.valueOf(id))
-                .replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
-
+    public void updatePreviewInvs(final Player originalPlayer, final AngelChest angelChest) {
+        for (final Player player : Bukkit.getOnlinePlayers()) {
+            if (player.equals(originalPlayer)) continue;
+            if (player.getOpenInventory() == null) continue;
+            if (player.getOpenInventory().getTopInventory() == null) continue;
+            if (!(player.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder)) continue;
+            final GUIHolder guiHolder = (GUIHolder) player.getOpenInventory().getTopInventory().getHolder();
+            if (guiHolder.getSpecialAngelChest() != null && guiHolder.getSpecialAngelChest().equals(angelChest)) {
+                main.debug("This AngelChest " + angelChest.toString() + " is also in use by " + player.getName() + ", updating...");
+                if (!angelChest.isEmpty()) {
+                    showPreviewGUI(player, angelChest, guiHolder.isReadOnlyPreview(), false);
+                } else {
+                    player.closeInventory();
+                }
+            }
+        }
     }
 
 

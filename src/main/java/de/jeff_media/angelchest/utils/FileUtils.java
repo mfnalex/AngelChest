@@ -9,6 +9,38 @@ import java.util.List;
 
 public final class FileUtils {
 
+    public static void appendLines(final File file, final String line) {
+        appendLines(file, new String[] {line});
+    }
+
+    public static void appendLines(final File file, final String[] lines) {
+        try {
+            final Writer output = new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8);
+            for (final String line : lines) {
+                output.append(line).append(System.lineSeparator());
+            }
+            output.close();
+        } catch (final IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
+    public static List<String> readFileFromResources(final String fileName) {
+        final InputStream input = Main.getInstance().getResource(fileName);
+        final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+        final List<String> lines = new ArrayList<>();
+        String line;
+        try {
+            while ((line = bufferedReader.readLine()) != null) {
+                lines.add(line);
+            }
+            bufferedReader.close();
+        } catch (final IOException exception) {
+            exception.printStackTrace();
+        }
+        return lines;
+    }
+
     /**
      * Replaces strings in a file line by line.
      *
@@ -41,37 +73,5 @@ public final class FileUtils {
             fileOut.close();
         }
         return changed;
-    }
-
-    public static void appendLines(final File file, final String line) {
-        appendLines(file, new String[]{line});
-    }
-
-    public static void appendLines(final File file, final String[] lines) {
-        try {
-            final Writer output = new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8);
-            for (final String line : lines) {
-                output.append(line).append(System.lineSeparator());
-            }
-            output.close();
-        } catch (final IOException ioException) {
-            ioException.printStackTrace();
-        }
-    }
-
-    public static List<String> readFileFromResources(final String fileName) {
-        final InputStream input = Main.getInstance().getResource(fileName);
-        final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
-        final List<String> lines = new ArrayList<>();
-        String line;
-        try {
-            while ((line = bufferedReader.readLine()) != null) {
-                lines.add(line);
-            }
-            bufferedReader.close();
-        } catch (final IOException exception) {
-            exception.printStackTrace();
-        }
-        return lines;
     }
 }

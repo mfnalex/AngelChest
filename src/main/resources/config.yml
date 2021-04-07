@@ -205,16 +205,16 @@ invulnerability-after-tp: 0
 # as that would destroy those blocks. You can blacklist them here so AngelChest searches
 # for a spot nearby.
 dont-spawn-on:
-- FARMLAND
-- GRASS_PATH
-- LAVA
+  - FARMLAND
+  - GRASS_PATH
+  - LAVA
 
 # You can specify inside which existing blocks the AngelChest may spawn. If the block where
 # the player died is not in this list, AngelChest searches for a spot nearby.
 only-spawn-in:
-- AIR
-- WATER
-- SNOW
+  - AIR
+  - WATER
+  - SNOW
 
 # When the block where the player died doesn't match "dont-spawn-on" and "only-spawn-in"
 # we will search for another block inside max-radius. Default is 10 blocks.
@@ -407,6 +407,10 @@ only-spawn-chests-if-player-may-build: false
 # When you have Slimefun installed, AngelChest can check for "Soulbound" items
 # and prevent those from being put into the chest.
 use-slimefun: true
+
+# When you have ExecutableItems installed, AngelChest can check for "Keep on Death"
+# items and prevent those from being put into the chest.
+use-executableitems: true
 
 # There are many other plugins adding "Soulbound" items. AngelChest can try
 # to detect those as well and prevent those from being put into the chest.
