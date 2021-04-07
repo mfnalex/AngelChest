@@ -20,10 +20,11 @@ import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
+import de.jeff_media.jefflib.JeffLib;
 import de.jeff_media.jefflib.NBTAPI;
 import de.jeff_media.jefflib.Ticks;
+import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
 import de.jeff_media.pluginupdatechecker.PluginUpdateChecker;
-import io.papermc.lib.PaperLib;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bstats.bukkit.Metrics;
@@ -146,7 +147,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         /*Daddy start*/
         Daddy.init(this);
         /*Daddy end*/
-        NBTAPI.init(this);
+        JeffLib.init(this);
 
         migrateFromAngelChestPlus1X();
         ChestFileUpdater.updateChestFilesToNewDeathCause();

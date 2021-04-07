@@ -8,7 +8,7 @@ import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.Features;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
-import io.papermc.lib.PaperLib;
+import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;

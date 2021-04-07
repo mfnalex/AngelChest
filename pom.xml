@@ -65,10 +65,6 @@
                             <shadedPattern>${project.groupId}.angelchest</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>de.jeff_media.nbtapi</pattern>
-                            <shadedPattern>${project.groupId}.angelchest</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>com.google.gson</pattern>
                             <shadedPattern>${project.groupId}.angelchest.thirdparty.com.google.gson</shadedPattern>
                         </relocation>
