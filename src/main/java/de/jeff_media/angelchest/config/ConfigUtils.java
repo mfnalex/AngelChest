@@ -233,6 +233,18 @@ public final class ConfigUtils {
         conf.addDefault(Config.USE_EXECUTABLEITEMS, true);
         metric(Config.USE_EXECUTABLEITEMS);
 
+        conf.addDefault(Config.ALLOW_TP_ACROSS_WORLDS, true);
+        metric(Config.ALLOW_TP_ACROSS_WORLDS);
+
+        conf.addDefault(Config.ALLOW_FETCH_ACROSS_WORLDS, true);
+        metric(Config.ALLOW_FETCH_ACROSS_WORLDS);
+
+        conf.addDefault(Config.MAX_TP_DISTANCE, 0);
+        metric(Config.MAX_TP_DISTANCE);
+
+        conf.addDefault(Config.MAX_FETCH_DISTANCE,0);
+        metric(Config.MAX_FETCH_DISTANCE);
+
         main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
         metric(Config.DISABLED_MATERIALS, String.valueOf(main.disabledMaterials.size()));
 

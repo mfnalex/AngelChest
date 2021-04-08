@@ -227,6 +227,21 @@ public final class CommandUtils {
 
         final double price = action.getPrice(sender);
 
+        UUID playerWorld = sender.getWorld().getUID();
+        UUID chestWorld = ac.worldid;
+        if(action == CommandAction.TELEPORT_TO_CHEST && !main.groupUtils.getAllowTpAcrossWorlds(sender)) {
+            if(!playerWorld.equals(chestWorld)) {
+                sender.sendMessage(main.messages.MSG_TP_ACROSS_WORLDS_NOT_ALLOWED);
+                return;
+            }
+        }
+        if(action == CommandAction.FETCH_CHEST && !main.groupUtils.getAllowFetchAcrossWorlds(sender)) {
+            if(!playerWorld.equals(chestWorld)) {
+                sender.sendMessage(main.messages.MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED);
+                return;
+            }
+        }
+
         if (askForConfirmation && main.economyStatus != EconomyStatus.INACTIVE) {
             if (!hasConfirmed(main, sender, chestIdStartingAt1, price, action)) return;
         }

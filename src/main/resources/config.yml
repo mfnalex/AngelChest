@@ -321,6 +321,23 @@ price-fetch: 0
 # by entering the same command again or by clicking on a text message in the chat
 confirm: true
 
+#################################
+#### Max. TP/Fetch distance #####
+#################################
+
+# If the following options are set to false, players will have to be in the same
+# world to teleport to or to fetch their chests
+allow-tp-across-worlds: true
+allow-fetch-across-worlds: true
+
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# You can set a max distance for players who want to tp to or fetch their AngelChest.
+# If set to 0, players can teleport/fetch regardless of the distance to their chest.
+# When using this, consider to disallow TPing or fetching between worlds because
+# otherwise players could just bypass this by going into another world.
+max-tp-distance: 0
+max-fetch-distance: 0
+
 #########################
 #### Disabled items  ####
 #########################
@@ -671,6 +688,8 @@ message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, u
 message-no-permission: "&cYou do not have the permission to use this command."
 message-invulnerable: "&a&lYou are invulnerable for {time}."
 message-vulnerable: "&c&lYou are no longer invulnerable."
+message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 
 #########################
 ##### Translations ######

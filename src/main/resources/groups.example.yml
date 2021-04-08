@@ -18,6 +18,10 @@
 #   spawn-chance: <spawn chance of an angelchest> (e.g 1.0 = 100%, 0.5 = 50%, 0.01 = 1%)
 #   item-loss: <number of item stacks randomly lost> (e.g. 2 = 2 item stacks or 0.5p = 50% of player's item stacks)
 #   invulnerability-after-tp: <amount of seconds> (e.g. 60 = one minute invulnerability after TPing to your chest, 0 = no invulnerability)
+#   allow-tp-across-worlds: true|false
+#   allow-fetch-across-worlds: true|false
+#   max-tp-distance: <blocks> (e.g. 0 = unlimited, 200 = player can only teleport if they are within 200 blocks of the chest)
+#   max-fetch-distance: <blocks> (same as max-tp-distance)
 #
 # Note: You MUST rename this file to groups.yml if you wish to use it.
 
@@ -33,6 +37,10 @@ admin:
   spawn-chance: 1.0
   random-item-loss: 0
   invulnerability-after-tp: 5
+  allow-tp-across-worlds: true
+  allow-fetch-across-worlds: true
+  max-tp-distance: 0
+  max-fetch-distance: 0
 mod:
   angelchest-duration: 1200
   unlock-duration: 0

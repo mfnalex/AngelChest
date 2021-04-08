@@ -15,6 +15,8 @@ public final class Messages {
 
     public static final String[] usingFreeVersion = new String[] {"========================================================", "You are using the free version of AngelChest. There is", "also a premium version available, called AngelChestPlus.", "It includes TONS of new features and exclusive Discord", "support. The free version will still receive bugfixes,", "but there won't be ANY new features!", "If you like AngelChest, you will LOVE AngelChestPlus, so", "please consider upgrading! Thank you for using AngelChest.", "", Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS, "========================================================",};
     public static final String[] usingPlusVersion = new String[] {"========================================================", "Thanks for buying AngelChestPlus! Premium features have", "been unlocked successfully. Have fun!", "========================================================",};
+    public final String MSG_TP_ACROSS_WORLDS_NOT_ALLOWED;
+    public final String MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED;
     public final String ANGELCHEST_INVENTORY_NAME;
     public final String ANGELCHEST_LIST;
     public final String ERR_ALREADYUNLOCKED;
@@ -150,6 +152,10 @@ public final class Messages {
         MSG_PAID_OPEN = PREFIX + getMsg("paid-open", "&8You spent {price}{currency} to open your AngelChest.");
 
         MSG_UNLOCKED_AUTOMATICALLY = PREFIX + getMsg("unlocked-automatically", "&8Your AngelChest has been unlocked automatically.");
+
+        MSG_TP_ACROSS_WORLDS_NOT_ALLOWED = PREFIX + getMsg("tp-across-worlds-not-allowed","&cYou cannot teleport across worlds.");
+
+        MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED = PREFIX + getMsg("fetch-across-worlds-not-allowed","&cYou cannot fetch across worlds.");
 
         MSG_ACTIONBAR_INVULNERABLE = getMsg("invulnerable", "&a&lYou are invulnerable for {time}.");
 

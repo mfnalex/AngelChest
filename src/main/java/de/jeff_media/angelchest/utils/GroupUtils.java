@@ -43,10 +43,14 @@ public final class GroupUtils {
             final int unlockDuration = yaml.getInt(groupName + DOT + Config.UNLOCK_DURATION, -2);
             final double spawnChance = yaml.getDouble(groupName + DOT + Config.SPAWN_CHANCE, 1.0);
             final String itemLoss = yaml.getString(groupName + DOT + Config.ITEM_LOSS, "-1");
-            final int invulnerabilityAfterTP = yaml.getInt(groupName + "." + Config.INVULNERABILITY_AFTER_TP, -1);
+            final int invulnerabilityAfterTP = yaml.getInt(groupName + DOT + Config.INVULNERABILITY_AFTER_TP, -1);
+            final Boolean allowTpAcrossWorlds = yaml.isSet(groupName + DOT + Config.ALLOW_TP_ACROSS_WORLDS) ? yaml.getBoolean(groupName + DOT + Config.ALLOW_TP_ACROSS_WORLDS) : null;
+            final Boolean allowFetchAcrossWorlds = yaml.isSet(groupName + DOT + Config.ALLOW_FETCH_ACROSS_WORLDS) ? yaml.getBoolean(groupName + DOT + Config.ALLOW_FETCH_ACROSS_WORLDS) : null;
+            final Integer maxTpDistance = yaml.isSet(groupName + DOT + Config.MAX_TP_DISTANCE) ? yaml.getInt(groupName + DOT + Config.MAX_TP_DISTANCE) : null;
+            final Integer maxFetchDistance = yaml.isSet(groupName + DOT + Config.MAX_FETCH_DISTANCE) ? yaml.getInt(groupName + DOT + Config.MAX_FETCH_DISTANCE) : null;
 
             main.debug("Registering group " + groupName);
-            final Group group = new Group(angelchestDuration, chestsPerPlayer, priceSpawn, priceOpen, priceTeleport, priceFetch, xpPercentage, unlockDuration, spawnChance, itemLoss, invulnerabilityAfterTP);
+            final Group group = new Group(angelchestDuration, chestsPerPlayer, priceSpawn, priceOpen, priceTeleport, priceFetch, xpPercentage, unlockDuration, spawnChance, itemLoss, invulnerabilityAfterTP, allowTpAcrossWorlds, allowFetchAcrossWorlds, maxTpDistance, maxFetchDistance);
 
             groups.put(groupName, group);
 
@@ -92,6 +96,34 @@ public final class GroupUtils {
         } else {
             return Double.parseDouble(value);
         }
+    }
+
+    public boolean getAllowTpAcrossWorlds(final CommandSender commandSender) {
+        if(yaml == null) return main.getConfig().getBoolean(Config.ALLOW_TP_ACROSS_WORLDS);
+        final Iterator<String> it = groups.keySet().iterator();
+        Boolean bestValueFound = null;
+        while(it.hasNext()) {
+            final String group = it.next();
+            if (!commandSender.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+            if(groups.get(group).allowTpAcrossWorlds == null) continue;
+            if(groups.get(group).allowTpAcrossWorlds) return true;
+            bestValueFound = false;
+        }
+        return bestValueFound == null ? main.getConfig().getBoolean(Config.ALLOW_TP_ACROSS_WORLDS) : false;
+    }
+
+    public boolean getAllowFetchAcrossWorlds(final CommandSender commandSender) {
+        if(yaml == null) return main.getConfig().getBoolean(Config.ALLOW_FETCH_ACROSS_WORLDS);
+        final Iterator<String> it = groups.keySet().iterator();
+        Boolean bestValueFound = null;
+        while(it.hasNext()) {
+            final String group = it.next();
+            if (!commandSender.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+            if(groups.get(group).allowFetchAcrossWorlds == null) continue;
+            if(groups.get(group).allowFetchAcrossWorlds) return true;
+            bestValueFound = false;
+        }
+        return bestValueFound == null ? main.getConfig().getBoolean(Config.ALLOW_FETCH_ACROSS_WORLDS) : false;
     }
 
     public int getChestsPerPlayer(final Player p) {

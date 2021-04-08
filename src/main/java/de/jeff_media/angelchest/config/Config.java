@@ -105,4 +105,8 @@ public final class Config {
     public static final String VERBOSE = "verbose";
     public static final String VOID_DETECTION = "void-detection";
     public static final String XP_PERCENTAGE = "xp-percentage";
+    public static final String ALLOW_TP_ACROSS_WORLDS = "allow-tp-across-worlds";
+    public static final String ALLOW_FETCH_ACROSS_WORLDS = "allow-fetch-across-worlds";
+    public static final String MAX_TP_DISTANCE = "max-tp-distance";
+    public static final String MAX_FETCH_DISTANCE = "max-fetch-distance";
 }

@@ -279,6 +279,8 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         final int unlockDuration = main.groupUtils.getUnlockDurationPerPlayer(player);
         final double spawnChance = main.groupUtils.getSpawnChancePerPlayer(player);
         final int itemLoss = main.groupUtils.getItemLossPerPlayer(player);
+        final boolean allowTPAcrossWorlds = main.groupUtils.getAllowTpAcrossWorlds(player);
+        final boolean allowFetchAcrossWorlds = main.groupUtils.getAllowFetchAcrossWorlds(player);
 
         commandSender.sendMessage("§6Max Chests:§b " + maxChests);
         commandSender.sendMessage("§6Duration:§b " + duration);
@@ -290,6 +292,8 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         commandSender.sendMessage("§6Unlock Duration:§b " + unlockDuration);
         commandSender.sendMessage("§6Spawn Chance:§b " + spawnChance);
         commandSender.sendMessage("§6Item Loss:§b " + itemLoss + " §8(depending on current inv)");
+        commandSender.sendMessage("§6TP across worlds:§b "+allowTPAcrossWorlds);
+        commandSender.sendMessage("§6Fetch across worlds:§b "+allowFetchAcrossWorlds);
 
     }
 
