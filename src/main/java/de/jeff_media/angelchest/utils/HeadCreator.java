@@ -25,12 +25,40 @@ public final class HeadCreator {
 
     public static void createHeadInWorld(final Block block, final UUID uuid) {
         final Main main = Main.getInstance();
-        if (!(block.getState() instanceof Skull)) {
-            main.getLogger().severe("Okay wtf this shouldnt happen. I tried to get the BlockState of a skull but it's not a skull.");
-            main.getLogger().severe("I will now just fix it, BUT if you see this error message more than once, PLEASE let me know!");
-            main.getLogger().severe("https://discord.jeff-media.de");
-            block.setType(Material.PLAYER_HEAD);
+
+        if(main.isOutsideOfNormalWorld(block)) return;
+
+        /*if(block.getY() < 0 || block.getY() >= block.getWorld().getMaxHeight()) {
+            main.debug("Prevented a head from being spawned at "+block.toString() +" because that is either below Y=0 or above the maximum build height.");
+            main.debug("The chest will still be usable through its hologram though.");
+            main.debug("Note: This SHOULD only happen when a player fetches their chest into the void. If you have a problem with this possibility,");
+            main.debug("Let me know.");
+            return;
         }
+        if (!(block.getState() instanceof Skull)) {
+            main.getLogger().warning("Okay wtf this shouldnt happen. I tried to get the BlockState of a skull but it's not a skull.");
+            main.getLogger().warning("I will now just fix it, BUT if you see this error message more than once, PLEASE let me know!");
+            main.getLogger().warning("https://discord.jeff-media.de");
+            block.setType(Material.PLAYER_HEAD);
+
+            if (!(block.getState() instanceof Skull)) {
+                main.getLogger().severe("Still couldn't place the PLAYER_HEAD in the world. We'll give up and use a regular chest");
+                main.getLogger().severe("so that the plugin can at least get enabled. Please enter /acd dump and send me");
+                main.getLogger().severe("dump.zip on Discord, you can see the link 3 lines above.");
+                main.getLogger().severe("More information: ");
+                main.getLogger().severe(block.toString());
+                main.getLogger().severe(block.getState().toString());
+                main.getLogger().severe(block.getType().name());
+                block.setType(Material.CHEST);
+                return;
+            }
+        }*/
+
+        if(!(block.getState() instanceof Skull)) {
+            main.getLogger().severe("Could not spawn head at "+block.toString());
+            return;
+        }
+
         final Skull state = (Skull) block.getState();
 
         // Use the player skin's texture

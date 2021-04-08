@@ -1,3 +1,12 @@
+## 3.11.2
+- Added Indonesian translation
+- Updated Spanish translation
+
+## 3.11.1
+- Fixed exception when player fetches their chest into the void or above the max build height
+  - If one of those chests persisted through server restart, it prevented AngelChest from enabling.
+  - This is now fixed, you don't have to worry about users abusing fetching.
+
 ## 3.11.0
 - Added support for ExecutableItems' "Keep on Death" enchantment
 - When using invulnerability, the player will no longer be protected from /kill or void damage
