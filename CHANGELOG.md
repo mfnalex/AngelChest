@@ -1,4 +1,8 @@
-## 3.11.2
+## 3.12.0
+- Added "allow-tp-across-world" and "allow-fetch-across-worlds" option
+  - Can also be changed per group
+- Added "max-tp-distance" and "max-fetch-distance" (Plus version only)
+  - Can also be changed per group
 - Added Indonesian translation
 - Updated Spanish translation
 

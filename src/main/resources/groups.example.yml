@@ -6,6 +6,10 @@
 # e.g. the highest duration, highest amount of chests and
 # lowest prices.
 #
+# NOTE: SOME OF THOSE OPTIONS ARE ONLY AVAILABLE IN THE PREMIUM VERSION (AngelChestPlus)
+# Every option here has an identical option in the config.yml. You can find information
+# there whether one of the options is premium only or also available in the free version.
+#
 # Available options:
 #   angelchest-duration: <duration in seconds> (e.g. 600)
 #   unlock-duration: <duration in seconds> (e.g. 300, 0 = never unlock automatically)

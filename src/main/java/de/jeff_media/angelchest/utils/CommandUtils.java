@@ -227,17 +227,39 @@ public final class CommandUtils {
 
         final double price = action.getPrice(sender);
 
-        UUID playerWorld = sender.getWorld().getUID();
-        UUID chestWorld = ac.worldid;
+        // Allow TP / Fetch across worlds
+        final UUID playerWorld = sender.getWorld().getUID();
+        final UUID chestWorld = ac.worldid;
         if(action == CommandAction.TELEPORT_TO_CHEST && !main.groupUtils.getAllowTpAcrossWorlds(sender)) {
             if(!playerWorld.equals(chestWorld)) {
                 sender.sendMessage(main.messages.MSG_TP_ACROSS_WORLDS_NOT_ALLOWED);
+                main.debug("Forbidden TP across worlds detected.");
+                main.debug("Player World: " + playerWorld.toString());
+                main.debug("Chest  World: " + chestWorld.toString());
                 return;
             }
         }
-        if(action == CommandAction.FETCH_CHEST && !main.groupUtils.getAllowFetchAcrossWorlds(sender)) {
-            if(!playerWorld.equals(chestWorld)) {
+        if (action == CommandAction.FETCH_CHEST && !main.groupUtils.getAllowFetchAcrossWorlds(sender)) {
+            if (!playerWorld.equals(chestWorld)) {
                 sender.sendMessage(main.messages.MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED);
+                main.debug("Forbidden Fetch across worlds detected.");
+                main.debug("Player World: " + playerWorld.toString());
+                main.debug("Chest  World: " + chestWorld.toString());
+                return;
+            }
+        }
+        // Max TP / Fetch distance
+        if (playerWorld.equals(chestWorld)) {
+            final double distance = sender.getLocation().distance(ac.block.getLocation());
+            main.debug("Fetch / TP in same world. Distance: " + distance);
+            final int maxTpDistance = main.groupUtils.getMaxTpDistance(sender);
+            final int maxFetchDistance = main.groupUtils.getMaxFetchDistance(sender);
+            if (action == CommandAction.TELEPORT_TO_CHEST && maxTpDistance > 0 && distance > maxTpDistance) {
+                sender.sendMessage(main.messages.MSG_MAX_TP_DISTANCE.replace("{distance}", String.valueOf(maxTpDistance)));
+                return;
+            }
+            if (action == CommandAction.FETCH_CHEST && maxFetchDistance > 0 && distance > maxFetchDistance) {
+                sender.sendMessage(main.messages.MSG_MAX_FETCH_DISTANCE.replace("{distance}", String.valueOf(maxFetchDistance)));
                 return;
             }
         }

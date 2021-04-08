@@ -198,6 +198,8 @@ allow-chest-in-void: true
 
 # When set to a value above 0, players will get invulnerability for this amount of seconds
 # after teleporting themselves to their chest.
+# Consider to only use this when you set a price for teleporting the chest, otherwise it
+# could be abused.
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 invulnerability-after-tp: 0
 
@@ -330,11 +332,11 @@ confirm: true
 allow-tp-across-worlds: true
 allow-fetch-across-worlds: true
 
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 # You can set a max distance for players who want to tp to or fetch their AngelChest.
 # If set to 0, players can teleport/fetch regardless of the distance to their chest.
 # When using this, consider to disallow TPing or fetching between worlds because
 # otherwise players could just bypass this by going into another world.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! Free version will always use 0
 max-tp-distance: 0
 max-fetch-distance: 0
 
@@ -690,6 +692,8 @@ message-invulnerable: "&a&lYou are invulnerable for {time}."
 message-vulnerable: "&c&lYou are no longer invulnerable."
 message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
 message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 #########################
 ##### Translations ######

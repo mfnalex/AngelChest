@@ -17,6 +17,8 @@ public final class Messages {
     public static final String[] usingPlusVersion = new String[] {"========================================================", "Thanks for buying AngelChestPlus! Premium features have", "been unlocked successfully. Have fun!", "========================================================",};
     public final String MSG_TP_ACROSS_WORLDS_NOT_ALLOWED;
     public final String MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED;
+    public final String MSG_MAX_FETCH_DISTANCE;
+    public final String MSG_MAX_TP_DISTANCE;
     public final String ANGELCHEST_INVENTORY_NAME;
     public final String ANGELCHEST_LIST;
     public final String ERR_ALREADYUNLOCKED;
@@ -153,9 +155,13 @@ public final class Messages {
 
         MSG_UNLOCKED_AUTOMATICALLY = PREFIX + getMsg("unlocked-automatically", "&8Your AngelChest has been unlocked automatically.");
 
-        MSG_TP_ACROSS_WORLDS_NOT_ALLOWED = PREFIX + getMsg("tp-across-worlds-not-allowed","&cYou cannot teleport across worlds.");
+        MSG_TP_ACROSS_WORLDS_NOT_ALLOWED = PREFIX + getMsg("tp-across-worlds-not-allowed", "&cYou cannot teleport across worlds.");
 
-        MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED = PREFIX + getMsg("fetch-across-worlds-not-allowed","&cYou cannot fetch across worlds.");
+        MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED = PREFIX + getMsg("fetch-across-worlds-not-allowed", "&cYou cannot fetch across worlds.");
+
+        MSG_MAX_TP_DISTANCE = PREFIX + getMsg("max-tp-distance", "&cYou cannot teleport to AngelChests more than {distance} blocks away.");
+
+        MSG_MAX_FETCH_DISTANCE = PREFIX + getMsg("max-fetch-distance", "&cYou cannot fetch AngelChests more than {distance} blocks away.");
 
         MSG_ACTIONBAR_INVULNERABLE = getMsg("invulnerable", "&a&lYou are invulnerable for {time}.");
 

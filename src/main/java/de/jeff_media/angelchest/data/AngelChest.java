@@ -216,6 +216,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.main = Main.getInstance();
         this.owner = player.getUniqueId();
         this.block = block;
+        this.worldid = block.getWorld().getUID();
         this.logfile = logfile;
         this.openedBy = new ArrayList<>();
         this.price = main.groupUtils.getSpawnPricePerPlayer(player);

@@ -281,6 +281,8 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         final int itemLoss = main.groupUtils.getItemLossPerPlayer(player);
         final boolean allowTPAcrossWorlds = main.groupUtils.getAllowTpAcrossWorlds(player);
         final boolean allowFetchAcrossWorlds = main.groupUtils.getAllowFetchAcrossWorlds(player);
+        final int maxTpDistance = main.groupUtils.getMaxTpDistance(player);
+        final int maxFetchDistance = main.groupUtils.getMaxFetchDistance(player);
 
         commandSender.sendMessage("§6Max Chests:§b " + maxChests);
         commandSender.sendMessage("§6Duration:§b " + duration);
@@ -292,8 +294,10 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         commandSender.sendMessage("§6Unlock Duration:§b " + unlockDuration);
         commandSender.sendMessage("§6Spawn Chance:§b " + spawnChance);
         commandSender.sendMessage("§6Item Loss:§b " + itemLoss + " §8(depending on current inv)");
-        commandSender.sendMessage("§6TP across worlds:§b "+allowTPAcrossWorlds);
-        commandSender.sendMessage("§6Fetch across worlds:§b "+allowFetchAcrossWorlds);
+        commandSender.sendMessage("§6TP across worlds:§b " + allowTPAcrossWorlds);
+        commandSender.sendMessage("§6Fetch across worlds:§b " + allowFetchAcrossWorlds);
+        commandSender.sendMessage("§6Max TP distance:§b " + maxTpDistance);
+        commandSender.sendMessage("§6Max Fetch distance:§b " + maxFetchDistance);
 
     }
 
@@ -407,18 +411,5 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         }
 
         return null;
-    }
-
-    @SuppressWarnings("EmptyMethod")
-    private void setConfig(final CommandSender commandSender, String[] args) {
-        if (args.length >= 2) {
-            final String node = args[0].toLowerCase();
-            args = shift(args);
-            final String value = String.join(" ", args);
-            main.getConfig().set(node, value);
-            commandSender.sendMessage(String.format("Set \"%s\" to \"%s\"", node, value));
-        } else {
-            commandSender.sendMessage("Usage: /acd config set <option> <value>");
-        }
     }
 }

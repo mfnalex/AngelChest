@@ -2,6 +2,7 @@ package de.jeff_media.angelchest.utils;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
+import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.Group;
 import de.jeff_media.angelchest.enums.EconomyStatus;
@@ -98,32 +99,86 @@ public final class GroupUtils {
         }
     }
 
+    public boolean getAllowFetchAcrossWorlds(final CommandSender commandSender) {
+        if (yaml == null) return main.getConfig().getBoolean(Config.ALLOW_FETCH_ACROSS_WORLDS);
+        final Iterator<String> it = groups.keySet().iterator();
+        Boolean bestValueFound = null;
+        while (it.hasNext()) {
+            final String group = it.next();
+            if (!commandSender.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+            if (groups.get(group).allowFetchAcrossWorlds == null) continue;
+            if (groups.get(group).allowFetchAcrossWorlds) return true;
+            bestValueFound = false;
+        }
+        return bestValueFound == null && main.getConfig().getBoolean(Config.ALLOW_FETCH_ACROSS_WORLDS);
+    }
+
     public boolean getAllowTpAcrossWorlds(final CommandSender commandSender) {
         if(yaml == null) return main.getConfig().getBoolean(Config.ALLOW_TP_ACROSS_WORLDS);
         final Iterator<String> it = groups.keySet().iterator();
         Boolean bestValueFound = null;
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             final String group = it.next();
             if (!commandSender.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
-            if(groups.get(group).allowTpAcrossWorlds == null) continue;
-            if(groups.get(group).allowTpAcrossWorlds) return true;
+            if (groups.get(group).allowTpAcrossWorlds == null) continue;
+            if (groups.get(group).allowTpAcrossWorlds) return true;
             bestValueFound = false;
         }
-        return bestValueFound == null ? main.getConfig().getBoolean(Config.ALLOW_TP_ACROSS_WORLDS) : false;
+        return bestValueFound == null && main.getConfig().getBoolean(Config.ALLOW_TP_ACROSS_WORLDS);
     }
 
-    public boolean getAllowFetchAcrossWorlds(final CommandSender commandSender) {
-        if(yaml == null) return main.getConfig().getBoolean(Config.ALLOW_FETCH_ACROSS_WORLDS);
+    public int getMaxFetchDistance(final CommandSender commandSender) {
+        final int result = getMaxFetchDistancePremium(commandSender);
+        if (!Daddy.allows(Features.MAX_TP_FETCH_DISTANCE)) {
+            Messages.sendPremiumOnlyConsoleMessage(Config.MAX_FETCH_DISTANCE);
+            return 0;
+        }
+        return result;
+    }
+
+    private int getMaxFetchDistancePremium(final CommandSender commandSender) {
+
+        if (yaml == null) return main.getConfig().getInt(Config.MAX_FETCH_DISTANCE);
         final Iterator<String> it = groups.keySet().iterator();
-        Boolean bestValueFound = null;
-        while(it.hasNext()) {
+        Integer bestValueFound = null;
+        while (it.hasNext()) {
             final String group = it.next();
             if (!commandSender.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
-            if(groups.get(group).allowFetchAcrossWorlds == null) continue;
-            if(groups.get(group).allowFetchAcrossWorlds) return true;
-            bestValueFound = false;
+            if (groups.get(group).maxFetchDistance == null) continue;
+            if (bestValueFound == null) {
+                bestValueFound = groups.get(group).maxFetchDistance;
+                continue;
+            }
+            bestValueFound = Math.max(bestValueFound, groups.get(group).maxFetchDistance);
         }
-        return bestValueFound == null ? main.getConfig().getBoolean(Config.ALLOW_FETCH_ACROSS_WORLDS) : false;
+        return bestValueFound == null ? main.getConfig().getInt(Config.MAX_FETCH_DISTANCE) : bestValueFound;
+
+    }
+
+    public int getMaxTpDistance(final CommandSender commandSender) {
+        final int result = getMaxTpDistancePremium(commandSender);
+        if (!Daddy.allows(Features.MAX_TP_FETCH_DISTANCE)) {
+            Messages.sendPremiumOnlyConsoleMessage(Config.MAX_TP_DISTANCE);
+            return 0;
+        }
+        return result;
+    }
+
+    public int getMaxTpDistancePremium(final CommandSender commandSender) {
+        if (yaml == null) return main.getConfig().getInt(Config.MAX_TP_DISTANCE);
+        final Iterator<String> it = groups.keySet().iterator();
+        Integer bestValueFound = null;
+        while (it.hasNext()) {
+            final String group = it.next();
+            if (!commandSender.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+            if (groups.get(group).maxTpDistance == null) continue;
+            if (bestValueFound == null) {
+                bestValueFound = groups.get(group).maxTpDistance;
+                continue;
+            }
+            bestValueFound = Math.max(bestValueFound, groups.get(group).maxTpDistance);
+        }
+        return bestValueFound == null ? main.getConfig().getInt(Config.MAX_TP_DISTANCE) : bestValueFound;
     }
 
     public int getChestsPerPlayer(final Player p) {
