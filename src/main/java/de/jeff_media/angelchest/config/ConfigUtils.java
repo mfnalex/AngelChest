@@ -415,7 +415,8 @@ public final class ConfigUtils {
         main.pendingConfirms = new HashMap<>();
         final File groupsFile = new File(main.getDataFolder() + File.separator + "groups.yml");
         main.groupUtils = new GroupUtils(groupsFile);
-        main.worldGuardWrapper = WorldGuardWrapper.init();
+        // TODO: Reload WorldGuardWrapper only on reload, not on startup
+        //main.worldGuardWrapper = WorldGuardWrapper.init();
         main.hookUtils = new HookUtils();
         main.minepacksHook = new MinepacksHook();
         main.guiManager = new GUIManager();

@@ -733,6 +733,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cYou do not have the permission to use this command."
 #message-invulnerable: "&a&lYou are invulnerable for {time}."
 #message-vulnerable: "&c&lYou are no longer invulnerable."
+#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 #Azerbaijan Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eBütün AngelChest'lərinin kilidi onsuzda açıqdır."
@@ -763,6 +767,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cYou do not have the permission to use this command."
 #message-invulnerable: "&a&lYou are invulnerable for {time}."
 #message-vulnerable: "&c&lYou are no longer invulnerable."
+#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 ##### Chinese Simplified 简体中文 - Thanks to qsefthuopq for translating! -> https://www.spigotmc.org/members/qsefthuopq.339953/
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天御之箱都已解锁."
@@ -794,6 +802,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cYou do not have the permission to use this command."
 #message-invulnerable: "&a&lYou are invulnerable for {time}."
 #message-vulnerable: "&c&lYou are no longer invulnerable."
+#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 ##### Chinese Traditional 繁體中文 - Thanks to maoding for translating! -> https://www.spigotmc.org/members/maoding.400505/
 #message-all-your-angelchests-were-already-unlocked: "&e所有的小天使箱子已被解鎖"
@@ -825,6 +837,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cYou do not have the permission to use this command."
 #message-invulnerable: "&a&lYou are invulnerable for {time}."
 #message-vulnerable: "&c&lYou are no longer invulnerable."
+#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 ##### Dutch - Thanks to Xeyame for translating -> https://github.com/Xeyame
 #message-all-your-angelchests-were-already-unlocked: "&eAl je AngerChests zijn al ontgrendeld."
@@ -856,6 +872,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cYou do not have the permission to use this command."
 #message-invulnerable: "&a&lYou are invulnerable for {time}."
 #message-vulnerable: "&c&lYou are no longer invulnerable."
+#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/ 
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
@@ -887,6 +907,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cYou do not have the permission to use this command."
 #message-invulnerable: "&a&lYou are invulnerable for {time}."
 #message-vulnerable: "&c&lYou are no longer invulnerable."
+#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 ##### German
 #message-all-your-angelchests-were-already-unlocked: "&eAlle deine AngelChests waren bereits aufgeschlossen."
@@ -918,6 +942,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cYou do not have the permission to use this command."
 #message-invulnerable: "&a&lDu bist unverwundbar für {time}."
 #message-vulnerable: "&c&lDu bist nicht mehr unverwundbar."
+#message-tp-across-worlds-not-allowed: "&cDu kannst dich nicht zwischen den Welten teleportieren."
+#message-fetch-across-worlds-not-allowed: "&cDu kannst deine AngelChest nicht zwischen verschiedenen Welten herbeirufen."
+#message-max-tp-distance: "&cDu kannst dich nicht zu AngelChests teleportieren die weiter als {distance} Blöcke entfernt sind."
+#message-max-fetch-distance: "&cDu kannst keine AngelChests herbeirufen die weiter als {distance} Blöcke entfernt sind."
 
 ##### Hungarian
 #message-all-your-angelchests-were-already-unlocked: "&eAz összes AngyalLádád már fel van oldva."
@@ -949,6 +977,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cYou do not have the permission to use this command."
 #message-invulnerable: "&a&lYou are invulnerable for {time}."
 #message-vulnerable: "&c&lYou are no longer invulnerable."
+#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 ##### Indonesian
 #message-all-your-angelchests-were-already-unlocked: "&eSemua AngelChest kamu sudah tidak terkunci."
@@ -980,6 +1012,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cKamu tidak memiliki permission untuk menggunakan perintah ini."
 #message-invulnerable: "&a&lKamu kebal selama {time}."
 #message-vulnerable: "&c&lKamu sudah tidak kebal lagi."
+#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 ##### Italian
 #message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChests sono già state sbloccate."
@@ -1011,6 +1047,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cYou do not have the permission to use this command."
 #message-invulnerable: "&a&lYou are invulnerable for {time}."
 #message-vulnerable: "&c&lYou are no longer invulnerable."
+#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 ##### Polish
 #message-all-your-angelchests-were-already-unlocked: "&eWszystkie twoje AnielskieSkrzynie zostały już odblokowane."
@@ -1042,6 +1082,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cYou do not have the permission to use this command."
 #message-invulnerable: "&a&lYou are invulnerable for {time}."
 #message-vulnerable: "&c&lYou are no longer invulnerable."
+#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 ##### Portuguese
 #message-all-your-angelchests-were-already-unlocked: "&eTodos os seus AngelChests estavam desbloqueados."
@@ -1073,6 +1117,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cYou do not have the permission to use this command."
 #message-invulnerable: "&a&lYou are invulnerable for {time}."
 #message-vulnerable: "&c&lYou are no longer invulnerable."
+#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 ##### Russian - Thanks to @GEEK for translating
 #message-all-your-angelchests-were-already-unlocked: "&eВсе ваши Ангельские сундуки разблокированы."
@@ -1104,6 +1152,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cYou do not have the permission to use this command."
 #message-invulnerable: "&a&lYou are invulnerable for {time}."
 #message-vulnerable: "&c&lYou are no longer invulnerable."
+#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 ##### Spanish
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus AngelChest ya se encuentran desbloqueados."
@@ -1135,6 +1187,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cNo tienes permiso para usar este comando."
 #message-invulnerable: "&a&lEres invulnerable por {time}."
 #message-vulnerable: "&c&lYa no eres invulnerable."
+#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 ##### Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eTüm AngelChest'lerinin kilidi zaten açık."
@@ -1165,6 +1221,10 @@ message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance}
 #message-no-permission: "&cYou do not have the permission to use this command."
 #message-invulnerable: "&a&lYou are invulnerable for {time}."
 #message-vulnerable: "&c&lYou are no longer invulnerable."
+#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
+#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 
 #########################
 #####     Done!     #####

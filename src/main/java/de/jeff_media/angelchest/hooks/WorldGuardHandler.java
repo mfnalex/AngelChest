@@ -55,6 +55,9 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
             worldGuardPlugin = WorldGuardPlugin.inst();
         } catch (final ClassNotFoundException | NoSuchMethodException e) {
             main.getLogger().severe("You are using a version of WorldGuard that does not implement all required API methods. You must use at least WorldGuard 7.0.0! WorldGuard integration is disabled.");
+            if(main.debug) {
+                e.printStackTrace();
+            }
             disabled = true;
             return;
         }

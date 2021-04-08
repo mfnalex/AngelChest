@@ -402,12 +402,12 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        if (main.worldGuardWrapper.isBlacklisted(p.getLocation().getBlock())) {
+        if (Main.getWorldGuardWrapper().isBlacklisted(p.getLocation().getBlock())) {
             main.debug("Cancelled: region disabled.");
             return;
         }
 
-        if (!main.worldGuardWrapper.getAngelChestFlag(p)) {
+        if (!Main.getWorldGuardWrapper().getAngelChestFlag(p)) {
             main.debug("Cancelled: World Guard flag \"allow-angelchest\" is \"deny\"");
             return;
         }

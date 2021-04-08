@@ -1,3 +1,7 @@
+## 3.12.2
+- Fixed WorldGuard integration not working when there are unresolved circular dependencies between AngelChest, WorldGuard and another plugin
+- Added new messages from 3.12.0 to the default translations (they are still untranslated though)
+
 ## 3.12.1
 - Fixed AngelChests automatically unlocking after 1 second when using "unlock-duration: 0" in groups.yml
 - Fixed "angelchest-duration: 0" in groups.yml not overriding higher values for infinite chests

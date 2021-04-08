@@ -85,7 +85,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     public PluginUpdateChecker updateChecker;
     public boolean verbose = false;
     public Watchdog watchdog;
-    public WorldGuardWrapper worldGuardWrapper;
+    private static WorldGuardWrapper worldGuardWrapper;
     boolean emergencyMode = false;
     @SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
     private String NONCE = "%%__NONCE__%%";
@@ -96,6 +96,14 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 
     public static Main getInstance() {
         return instance;
+    }
+
+    public static WorldGuardWrapper getWorldGuardWrapper() {
+        // We have to do this because softdepend doesn't assure that AngelChest enables after WorldGuard
+        if(worldGuardWrapper == null) {
+            worldGuardWrapper = WorldGuardWrapper.init();
+        }
+        return worldGuardWrapper;
     }
 
     public void debug(final String t) {
