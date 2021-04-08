@@ -41,7 +41,7 @@ public final class GroupUtils {
             final String priceFetch = yaml.getString(groupName + DOT + Config.PRICE_FETCH, "-1");
             final String priceTeleport = yaml.getString(groupName + DOT + Config.PRICE_TELEPORT, "-1");
             final double xpPercentage = yaml.getDouble(groupName + DOT + Config.XP_PERCENTAGE, -2);
-            final int unlockDuration = yaml.getInt(groupName + DOT + Config.UNLOCK_DURATION, -2);
+            final int unlockDuration = yaml.getInt(groupName + DOT + Config.UNLOCK_DURATION, -1);
             final double spawnChance = yaml.getDouble(groupName + DOT + Config.SPAWN_CHANCE, 1.0);
             final String itemLoss = yaml.getString(groupName + DOT + Config.ITEM_LOSS, "-1");
             final int invulnerabilityAfterTP = yaml.getInt(groupName + DOT + Config.INVULNERABILITY_AFTER_TP, -1);
@@ -211,6 +211,9 @@ public final class GroupUtils {
             final int valuePerPlayer = groups.get(group).duration;
             if (valuePerPlayer == -1) {
                 continue;
+            }
+            if (valuePerPlayer == 0) {
+                return 0;
             }
             bestValueFound = bestValueFound == null ? valuePerPlayer : Math.max(valuePerPlayer, bestValueFound);
         }
@@ -389,7 +392,7 @@ public final class GroupUtils {
             if (valuePerPlayer == -2) {
                 continue;
             }
-            if (valuePerPlayer == -1) return -1; // Important! This is different from the other methods!
+            if (valuePerPlayer == 0) return -1; // Important! This is different from the other methods!
             bestValueFound = bestValueFound == null ? valuePerPlayer : Math.max(valuePerPlayer, bestValueFound);
         }
         if (bestValueFound != null) {

@@ -421,13 +421,13 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 
     private void scheduleRepeatingTasks() {
         // Rename holograms
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, ()->{
+        /*Bukkit.getScheduler().scheduleSyncRepeatingTask(this, ()->{
             for (final AngelChest chest : angelChests.values()) {
                 if (chest != null && chest.hologram != null) {
                     chest.hologram.update(chest);
                 }
             }
-        }, Ticks.fromSeconds(1), Ticks.fromSeconds(1));
+        }, Ticks.fromSeconds(1), Ticks.fromSeconds(1));*/
 
         // Track player positions
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, ()->{
@@ -467,21 +467,22 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
             }
         }, 0L, Ticks.fromSeconds(2));
 
-        // Schedule DurationTimer
+        // Holograms, Durations
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, ()->{
             final Iterator<AngelChest> it = angelChests.values().iterator();
             while (it.hasNext()) {
                 final AngelChest ac = it.next();
                 if (ac == null) continue;
                 ac.secondsLeft--;
-                if (ac.secondsLeft <= 0 && !ac.infinite) {
+                if (ac.secondsLeft < 0 && !ac.infinite) {
                     if (getServer().getPlayer(ac.owner) != null) {
                         Messages.send(getServer().getPlayer(ac.owner), messages.MSG_ANGELCHEST_DISAPPEARED);
                     }
                     ac.destroy(true);
                     it.remove();
+                    continue;
                 }
-                if (Daddy.allows(Features.GENERIC) && ac.isProtected && ac.unlockIn != -1) { // Don't add feature here, gets called every second
+                if (Daddy.allows(Features.GENERIC) && ac.isProtected && ac.unlockIn > -1) { // Don't add feature here, gets called every second
                     ac.unlockIn--;
                     if (ac.unlockIn == -1) {
                         ac.isProtected = false;
@@ -490,6 +491,9 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
                             Messages.send(getServer().getPlayer(ac.owner), messages.MSG_UNLOCKED_AUTOMATICALLY);
                         }
                     }
+                }
+                if (ac.hologram != null) {
+                    ac.hologram.update(ac);
                 }
             }
         }, 0, Ticks.fromSeconds(1));

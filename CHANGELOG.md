@@ -1,3 +1,8 @@
+## 3.12.1
+- Fixed AngelChests automatically unlocking after 1 second when using "unlock-duration: 0" in groups.yml
+- Fixed "angelchest-duration: 0" in groups.yml not overriding higher values for infinite chests  
+- Improved Holograms and fixed "Your AngelChest has been unlocked automatically" message being one second off from the hologram
+
 ## 3.12.0
 - Added "allow-tp-across-world" and "allow-fetch-across-worlds" option
   - Can also be changed per group

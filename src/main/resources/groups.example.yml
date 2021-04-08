@@ -11,7 +11,7 @@
 # there whether one of the options is premium only or also available in the free version.
 #
 # Available options:
-#   angelchest-duration: <duration in seconds> (e.g. 600)
+#   angelchest-duration: <duration in seconds> (e.g. 600, 0 = infinite chest)
 #   unlock-duration: <duration in seconds> (e.g. 300, 0 = never unlock automatically)
 #   max-allowed-angelchests: <number of chests> (e.g. 10)
 #   price-spawn: <price for spawning the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
