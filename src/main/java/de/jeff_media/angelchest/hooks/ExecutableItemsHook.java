@@ -11,15 +11,19 @@ import java.lang.reflect.Method;
 
 public final class ExecutableItemsHook {
 
-    @SuppressWarnings("rawtypes") private static Class executableItemsAPIClass = null;
-    private static boolean isExecutableItemsInstalled = false;
+    @SuppressWarnings("rawtypes")
+    private static Class executableItemsAPIClass = null;
     private static Method getExecutableItemConfigMethod = null;
     private static Method isExecutableItemMethod = null;
+    private static boolean isExecutableItemsInstalled = false;
     private static Method isKeepItemOnDeathMethod = null;
 
     /**
      * Yeah, I know. I don't care. Just don't look at it, alright?
+     * If you think that this has performance problems, get a new computer because it doesn't slow ANYTHING down.
      * This is the only way without forcing devs to download the ExecutableItems .jar manually.
+     * If you think I should just ask all volunteers to download the .jar, I would get no pull requests at all.
+     * If you think I should use jitpack.io: the API is not in the public ExecutableItems repo, at least I didnt find it.
      */
     public static void init() {
         final Plugin plugin = Bukkit.getPluginManager().getPlugin("ExecutableItems");

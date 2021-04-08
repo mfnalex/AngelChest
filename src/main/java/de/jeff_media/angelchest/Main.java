@@ -208,12 +208,8 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     }
 
     public boolean isBrokenAngelChest(final Block block, final AngelChest chest) {
-        if(isOutsideOfNormalWorld(block)) return false;
+        if (isOutsideOfNormalWorld(block)) return false;
         return block.getType() != getChestMaterial(chest);
-    }
-
-    public boolean isOutsideOfNormalWorld(final Block block) {
-        return block.getY() < 0 || block.getY() >= block.getWorld().getMaxHeight();
     }
 
     public @Nullable String isItemBlacklisted(final ItemStack item) {
@@ -227,6 +223,10 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
             }
         }
         return null;
+    }
+
+    public boolean isOutsideOfNormalWorld(final Block block) {
+        return block.getY() < 0 || block.getY() >= block.getWorld().getMaxHeight();
     }
 
     public void loadAllAngelChestsFromFile() {

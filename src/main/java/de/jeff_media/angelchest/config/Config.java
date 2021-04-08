@@ -99,8 +99,8 @@ public final class Config {
     public static final String SPAWN_CHANCE = "spawn-chance";
     public static final String TOTEM_OF_UNDYING_WORKS_EVERYWHERE = "totem-of-undying-works-everywhere";
     public static final String UNLOCK_DURATION = "unlock-duration";
-    public static final String USE_EXECUTABLEITEMS = "use-executableitems";
     public static final String USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED = "use-different-material-when-unlocked";
+    public static final String USE_EXECUTABLEITEMS = "use-executableitems";
     public static final String USE_SLIMEFUN = "use-slimefun";
     public static final String VERBOSE = "verbose";
     public static final String VOID_DETECTION = "void-detection";

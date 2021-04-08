@@ -26,7 +26,7 @@ public final class HeadCreator {
     public static void createHeadInWorld(final Block block, final UUID uuid) {
         final Main main = Main.getInstance();
 
-        if(main.isOutsideOfNormalWorld(block)) return;
+        if (main.isOutsideOfNormalWorld(block)) return;
 
         /*if(block.getY() < 0 || block.getY() >= block.getWorld().getMaxHeight()) {
             main.debug("Prevented a head from being spawned at "+block.toString() +" because that is either below Y=0 or above the maximum build height.");
@@ -54,8 +54,8 @@ public final class HeadCreator {
             }
         }*/
 
-        if(!(block.getState() instanceof Skull)) {
-            main.getLogger().severe("Could not spawn head at "+block.toString());
+        if (!(block.getState() instanceof Skull)) {
+            main.getLogger().severe("Could not spawn head at " + block.toString());
             return;
         }
 
