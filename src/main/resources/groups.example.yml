@@ -20,7 +20,7 @@
 #   price-fetch: <price for fetching the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
 #   xp-percentage: <percentage of how much XP to keep> (e.g. 1 = 100%, 0.5 = 50%, -1 = vanilla behaviour)
 #   spawn-chance: <spawn chance of an angelchest> (e.g 1.0 = 100%, 0.5 = 50%, 0.01 = 1%)
-#   item-loss: <number of item stacks randomly lost> (e.g. 2 = 2 item stacks or 0.5p = 50% of player's item stacks)
+#   random-item-loss: <number of item stacks randomly lost> (e.g. 2 = 2 item stacks or 0.5p = 50% of player's item stacks)
 #   invulnerability-after-tp: <amount of seconds> (e.g. 60 = one minute invulnerability after TPing to your chest, 0 = no invulnerability)
 #   allow-tp-across-worlds: true|false
 #   allow-fetch-across-worlds: true|false

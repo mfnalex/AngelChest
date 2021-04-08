@@ -1,6 +1,7 @@
 ## 3.12.1
 - Fixed AngelChests automatically unlocking after 1 second when using "unlock-duration: 0" in groups.yml
-- Fixed "angelchest-duration: 0" in groups.yml not overriding higher values for infinite chests  
+- Fixed "angelchest-duration: 0" in groups.yml not overriding higher values for infinite chests
+- Fixed typo in groups.yml (it's called "random-item-loss", not "item-loss")
 - Improved Holograms and fixed "Your AngelChest has been unlocked automatically" message being one second off from the hologram
 
 ## 3.12.0
