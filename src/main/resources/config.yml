@@ -435,6 +435,15 @@ use-executableitems: true
 # to detect those as well and prevent those from being put into the chest.
 check-generic-soulbound: true
 
+# EliteMobs' soulbound feature is a bit different. Those items will NOT be
+# kept on death, but they would be detected by the generic soulbound detection.
+# If you set the following option to false, EliteMobs' soulbound items will
+# behave like "normal" soulbound items, meaning they will be kept in your
+# inventory on death. If the option is set to true, the items will behave
+# like normally when using EliteMobs: the items will go into the chest like
+# regular items.
+exempt-elitemobs-soulbound-items-from-generic-soulbound-detection: true
+
 # Some plugins make you keep your items on death, e.g. Essentials when you are /op.
 # AngelChest respects that, but you can also set the following option to true to always
 # get a chest, regardless of the keepInventory flag.
@@ -453,6 +462,8 @@ ignore-keep-inventory: false
 # If you have problems with the chest not spawning at all (but remaining in the player's inventory),
 # consider using a low priority (e.g. LOWEST)
 # Available priorities (from high to low): MONITOR, HIGHEST, HIGH, NORMAL, LOW, LOWEST
+# I HIGHLY SUGGEST YOU LEAVE THIS ON HIGHEST! ONLY CHANGE THIS IF KNOW WHAT YOU ARE DOING!
+# WHEN IN DOUBT, CONTACT ME ON DISCORD: https://discord.jeff-media.de
 event-priority: HIGHEST
 
 #########################

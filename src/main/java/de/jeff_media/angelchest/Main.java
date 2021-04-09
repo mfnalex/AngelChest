@@ -12,6 +12,7 @@ import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.Features;
 import de.jeff_media.angelchest.gui.GUIListener;
 import de.jeff_media.angelchest.gui.GUIManager;
+import de.jeff_media.angelchest.hooks.GenericHooks;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
 import de.jeff_media.angelchest.hooks.PlaceholderAPIHook;
 import de.jeff_media.angelchest.hooks.WorldGuardWrapper;
@@ -19,11 +20,10 @@ import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
-import de.jeff_media.jefflib.JeffLib;
-import de.jeff_media.jefflib.PluginUpdateChecker;
-import de.jeff_media.jefflib.Ticks;
-import de.jeff_media.jefflib.VersionUtil;
+import de.jeff_media.jefflib.*;
 import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
+import de.jeff_media.jefflib.updatechecker.UpdateChecker;
+import de.jeff_media.jefflib.updatechecker.UserAgentBuilder;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.*;
@@ -69,7 +69,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     public GroupUtils groupUtils;
     public GUIListener guiListener;
     public GUIManager guiManager;
-    public HookUtils hookUtils;
+    public GenericHooks genericHooks;
     public String[] invalidConfigFiles;
     public HashMap<UUID, Integer> invulnerableTasks;
     public Map<String, BlacklistEntry> itemBlacklist;
@@ -82,9 +82,9 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     public NBTUtils nbtUtils;
     public List<Material> onlySpawnIn;
     public HashMap<UUID, PendingConfirm> pendingConfirms;
-    public PluginUpdateChecker updateChecker;
     public boolean verbose = false;
     public Watchdog watchdog;
+    public boolean disableDeathEvent = false;
     private static WorldGuardWrapper worldGuardWrapper;
     boolean emergencyMode = false;
     @SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
@@ -183,20 +183,30 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     }
 
     public void initUpdateChecker() {
-        if (updateChecker == null) {
-            updateChecker = new PluginUpdateChecker(this, UPDATECHECKER_LINK_API, UPDATECHECKER_LINK_DOWNLOAD_PLUS, UPDATECHECKER_LINK_DOWNLOAD_FREE, UPDATECHECKER_LINK_CHANGELOG, UPDATECHECKER_LINK_DONATE, Daddy.allows(Features.GENERIC));
-        } else {
-            updateChecker.stop();
-        }
+        UpdateChecker.init(this,UPDATECHECKER_LINK_API)
+                .setDonationLink(UPDATECHECKER_LINK_DONATE)
+                .setChangelogLink(UPDATECHECKER_LINK_CHANGELOG)
+                .setPaidDownloadLink(UPDATECHECKER_LINK_DOWNLOAD_PLUS)
+                .setFreeDownloadLink(UPDATECHECKER_LINK_DOWNLOAD_FREE)
+                .setColoredConsoleOutput(true)
+                .setUserAgent(UserAgentBuilder.getDefaultUserAgent().addUsingPaidVersion().addSpigotUserId())
+                .setNamePaidVersion("Plus")
+                .setNameFreeVersion("Free")
+                .setNotifyRequesters(true)
+                .setNotifyOpsOnJoin(true)
+                .setTimeout(10000);
+
 
         switch (getConfig().getString(Config.CHECK_FOR_UPDATES).toLowerCase()) {
             case "true":
-                updateChecker.check((long) (getConfig().getDouble(Config.CHECK_FOR_UPDATES_INTERVAL) * 60 * 60), null);
+                UpdateChecker.getInstance()
+                        .checkEveryXHours(getConfig().getDouble(Config.CHECK_FOR_UPDATES_INTERVAL))
+                        .checkNow();
                 break;
             case "false":
                 break;
             default:
-                updateChecker.check(null);
+                UpdateChecker.getInstance().checkNow();
         }
     }
 
@@ -368,7 +378,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
         getServer().getPluginManager().registerEvents(new PistonListener(), this);
         getServer().getPluginManager().registerEvents(new EmergencyListener(), this);
-        getServer().getPluginManager().registerEvents(new UpdateCheckListener(), this);
+        //getServer().getPluginManager().registerEvents(new UpdateCheckListener(), this);
         getServer().getPluginManager().registerEvents(new InvulnerabilityListener(), this);
         guiListener = new GUIListener();
         getServer().getPluginManager().registerEvents(guiListener, this);
@@ -393,12 +403,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     @Override
     public void onLoad() {
         instance = this;
-        /*try {
-            Class.forName("com.sk89q.worldguard.protection.flags.registry.FlagConflictException");*/
         WorldGuardWrapper.tryToRegisterFlags();
-        /*} catch (NoClassDefFoundError | ClassNotFoundException ignored) {
-
-        }*/
     }
 
     private void registerCommands() {

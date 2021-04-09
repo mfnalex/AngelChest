@@ -71,7 +71,7 @@ public final class PlayerListener implements Listener {
      */
     private void clearInventory(final Inventory inv) {
         for (int i = 0; i < inv.getSize(); i++) {
-            if (main.hookUtils.keepOnDeath(inv.getItem(i))) {
+            if (main.genericHooks.keepOnDeath(inv.getItem(i))) {
                 continue;
             }
             if (main.isItemBlacklisted(inv.getItem(i)) != null) {
@@ -365,6 +365,11 @@ public final class PlayerListener implements Listener {
      * @param event PlayerDeathEvent
      */
     private void spawnAngelChest(final PlayerDeathEvent event) {
+
+        if(main.disableDeathEvent) {
+            main.debug("PlayerDeathEvent: Doing nothing, AngelChest has been disabled for debug reasons!");
+            return;
+        }
 
         //final long startTime = System.nanoTime();
 

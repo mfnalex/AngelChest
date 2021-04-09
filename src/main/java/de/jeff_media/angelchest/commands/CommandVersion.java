@@ -1,9 +1,11 @@
 package de.jeff_media.angelchest.commands;
 
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.Features;
 import de.jeff_media.daddy.Daddy;
+import de.jeff_media.jefflib.updatechecker.UpdateChecker;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -13,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public final class CommandVersion implements CommandExecutor {
@@ -30,7 +33,7 @@ public final class CommandVersion implements CommandExecutor {
 
         final String[] output = new String[] {"§6===[§bAngelChest Version§6]===", "§eAngelChest" + (Daddy.allows(Features.GENERIC) ? "Plus " : " ") + Main.getInstance().getDescription().getVersion(),
                 //"§e" + Bukkit.getBukkitVersion(),
-                "§e" + Bukkit.getVersion(), null,};
+                "§e" + Bukkit.getVersion(), "",};
 
         final TextComponent discord = new TextComponent("(Click here for Discord support)");
         discord.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, Main.DISCORD_LINK));
@@ -38,28 +41,16 @@ public final class CommandVersion implements CommandExecutor {
         discord.setItalic(true);
         discord.setColor(ChatColor.GOLD);
 
-        /*TextComponent links = new TextComponent("");
-
-        if(Daddy.allows(Features.GENERIC)) {
-            links.addExtra(LinkUtils.createURLLink("§6§lDownload", Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS));
-            links.addExtra(PLACEHOLDER);
-        } else {
-            links.addExtra(LinkUtils.createURLLink("§6§lDownload (Plus)", Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS));
-            links.addExtra(PLACEHOLDER);
-            links.addExtra(LinkUtils.createURLLink("§6§lDownload (Free)", Main.UPDATECHECKER_LINK_DOWNLOAD_FREE));
-            links.addExtra(PLACEHOLDER);
-        }
-        links.addExtra(LinkUtils.createURLLink("§6§lDonate", Main.UPDATECHECKER_LINK_DONATE));
-        links.addExtra(PLACEHOLDER);
-        links.addExtra(LinkUtils.createURLLink("§6§lDiscord","https://discord.jeff-media.de"));*/
         commandSender.sendMessage(output);
-        commandSender.spigot().sendMessage(discord);
-        commandSender.sendMessage((String) null);
-        //commandSender.spigot().sendMessage(links);
-        if (Main.getInstance().updateChecker == null) {
-            commandSender.sendMessage(ChatColor.RED + "Update checker is disabled.");
+        if(commandSender instanceof Player) {
+            commandSender.spigot().sendMessage(discord);
         } else {
-            Main.getInstance().updateChecker.check(commandSender);
+            commandSender.sendMessage(ChatColor.GOLD+"Discord support: https://discord.jeff-media.de");
+        }
+
+        if(!Main.getInstance().getConfig().getString(Config.CHECK_FOR_UPDATES).equalsIgnoreCase("false")) {
+            commandSender.sendMessage("");
+            UpdateChecker.getInstance().checkNow(commandSender);
         }
         return true;
     }

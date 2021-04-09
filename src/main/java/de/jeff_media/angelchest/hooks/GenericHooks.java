@@ -1,4 +1,4 @@
-package de.jeff_media.angelchest.utils;
+package de.jeff_media.angelchest.hooks;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
@@ -16,18 +16,19 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.Nullable;
 
-public final class HookUtils implements Listener {
+public final class GenericHooks implements Listener {
 
-    final @Nullable Plugin eliteMobsPlugin;
+    //final @Nullable Plugin eliteMobsPlugin;
     final InventoryPagesHook inventoryPagesHook;
     final Main main;
+    private  @Nullable Plugin eliteMobsPlugin = null;
+    private Boolean isEliteMobsInstalled = null;
     //ArrayList<Entity> hologramsToBeSpawned = new ArrayList<Entity>();
     //boolean hologramToBeSpawned = false;
 
-    public HookUtils() {
+    public GenericHooks() {
         this.main = Main.getInstance();
         this.inventoryPagesHook = new InventoryPagesHook();
-        this.eliteMobsPlugin = Bukkit.getPluginManager().getPlugin("EliteMobs");
     }
 
     boolean isDisabledMaterial(final ItemStack item) {
@@ -39,32 +40,40 @@ public final class HookUtils implements Listener {
         return false;
     }
 
+    /*
+     * Okay, the EliteMobs Soulbound is a bit different from other plugins.
+     * Other plugins lets you keep those items. EliteMobs only makes it unusable for other players
+     * and it should drop normally. So it makes sense to just let those items stay in the chest, right?
+     */
     boolean isEliteMobsSoulBound(final ItemStack item) {
 
+        if(isEliteMobsInstalled == null) {
+            main.debug("Checking if EliteMobs is installed...");
+            eliteMobsPlugin = Bukkit.getPluginManager().getPlugin("EliteMobs");
+            if (eliteMobsPlugin == null) {
+                isEliteMobsInstalled = false;
+                main.debug("It's not. Disabling EliteMobs integration.");
+                return false;
+            } else {
+                main.debug("It is. Enabling EliteMobs integration via PDC values.");
+                isEliteMobsInstalled = true;
+            }
+        }
+
+        if(isEliteMobsInstalled == false) return false;
+
         if (item == null) return false;
-        //main.debug("Checking if "+item.toString()+" is EliteMobs soulbound...");
 
         if (!item.hasItemMeta()) {
-            //main.debug("NO: No item meta");
             return false;
         }
-        if (eliteMobsPlugin == null) {
-            //main.debug("NO: EliteMobs == null");
-            return false;
-        }
-
 
         final ItemMeta meta = item.getItemMeta();
         final PersistentDataContainer pdc = meta.getPersistentDataContainer();
         if (pdc.has(new NamespacedKey(eliteMobsPlugin, "soulbind"), PersistentDataType.STRING)) {
-            main.debug(item.toString() + " is a EliteMobs soulbound item");
+            main.debug(item.toString() + " is a EliteMobs soulbound item, which means we must treat it like a normal item because EliteMobs soulbound items are NOT kept on death, they drop like normal items!");
             return true;
         }
-        /*main.debug("NO: NamespacedKey not found.");
-        main.debug("Debugging PDC:");
-        for(NamespacedKey key : pdc.getKeys()) {
-            main.debug("- "+key);
-        }*/
         return false;
     }
 
@@ -77,6 +86,11 @@ public final class HookUtils implements Listener {
 
         if (meta.getLore() == null) {
             return false;
+        }
+        if(main.getConfig().getBoolean(Config.EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION)) {
+            if (isEliteMobsSoulBound(item)) {
+                return false; // EliteMobs Soulbound items have Soulboud in the lore BUT ARE NOT KEPT ON DEATH BUT DROP NORMALLY
+            }
         }
 
         for (final String line : meta.getLore()) {
@@ -117,7 +131,7 @@ public final class HookUtils implements Listener {
     public boolean keepOnDeath(final ItemStack item) {
         if (item == null) return false;
         if (isSlimefunSoulbound(item)) return true;
-        if (isEliteMobsSoulBound(item)) return true;
+        //if (isEliteMobsSoulBound(item)) return true; // EliteMobs soulbound items are normally NOT kept on death but drop normally
         if (isNativeSoulbound(item)) return true;
         if (ExecutableItemsHook.isKeptOnDeath(item)) return true;
         return false;

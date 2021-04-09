@@ -5,10 +5,14 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 /**
- * Used to catch NoClassDefFound etc. stuff because the WorldGuardAPI
+ * Used to catch NoClassDefFound etc. when WorldGuard is not installed
  */
 public class WorldGuardWrapper {
 
+    /**
+     * When WorldGuard is installed and is a supported version, it returns a WorldGuardHandler, otherwise a WorldGuardWrapper
+     * @return WorldGuardHandler or WorldGuardWrapper
+     */
     public static WorldGuardWrapper init() {
         WorldGuardWrapper handler;
         try {
@@ -19,6 +23,9 @@ public class WorldGuardWrapper {
         return handler;
     }
 
+    /**
+     * Flags have to be registered because a WorldGuard is available in case of circular soft-dependencies
+     */
     public static void tryToRegisterFlags() {
         try {
             WorldGuardHandler.tryToRegisterFlags();

@@ -1,3 +1,9 @@
+## 3.12.3
+- Added config option to decide whether EliteMobs soulbound should behave like Soulbound items from other plugins (keep on death) or like EliteMobs would handle them (they are dropped on death)
+- Fixed Discord verification code not generating properly
+- Updated to my new UpdateChecker API
+- Added debug command to disable/enable AngelChest handling deaths: /acd disableac|enableac
+
 ## 3.12.2
 - Fixed WorldGuard integration not working when there are unresolved circular dependencies between AngelChest, WorldGuard and another plugin
 - Added new messages from 3.12.0 to the default translations (they are still untranslated though)

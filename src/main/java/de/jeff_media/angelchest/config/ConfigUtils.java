@@ -7,10 +7,9 @@ import de.jeff_media.angelchest.enums.Features;
 import de.jeff_media.angelchest.gui.GUIManager;
 import de.jeff_media.angelchest.hooks.ExecutableItemsHook;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
-import de.jeff_media.angelchest.hooks.WorldGuardWrapper;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.GroupUtils;
-import de.jeff_media.angelchest.utils.HookUtils;
+import de.jeff_media.angelchest.hooks.GenericHooks;
 import de.jeff_media.daddy.Daddy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Material;
@@ -245,6 +244,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.MAX_FETCH_DISTANCE,0);
         metric(Config.MAX_FETCH_DISTANCE);
 
+        conf.addDefault(Config.EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION,true);
+        metric(Config.EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION);
+
         main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
         metric(Config.DISABLED_MATERIALS, String.valueOf(main.disabledMaterials.size()));
 
@@ -417,7 +419,7 @@ public final class ConfigUtils {
         main.groupUtils = new GroupUtils(groupsFile);
         // TODO: Reload WorldGuardWrapper only on reload, not on startup
         //main.worldGuardWrapper = WorldGuardWrapper.init();
-        main.hookUtils = new HookUtils();
+        main.genericHooks = new GenericHooks();
         main.minepacksHook = new MinepacksHook();
         main.guiManager = new GUIManager();
         main.itemBlacklist = loadItemBlacklist();

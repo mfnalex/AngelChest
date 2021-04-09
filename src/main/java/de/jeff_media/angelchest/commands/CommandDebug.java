@@ -338,31 +338,37 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             switch (args[0].toLowerCase()) {
                 case "on":
                     debug(commandSender, true);
-                    break;
+                    return true;
                 case "off":
                     debug(commandSender, false);
-                    break;
+                    return true;
                 case "blacklist":
                     blacklist(commandSender, shift(args));
-                    break;
-
+                    return true;
                 case "info":
                     info(commandSender);
-                    break;
+                    return true;
                 case "group":
                     group(commandSender, shift(args));
-                    break;
+                    return true;
                 case "checkconfig":
                     checkconfig(commandSender);
-                    break;
+                    return true;
                 case "dump":
                     dump(commandSender);
-                    break;
+                    return true;
                 case "fixholograms":
                     fixholograms(commandSender);
-                    break;
+                    return true;
+                case "disableac":
+                    main.disableDeathEvent = true;
+                    commandSender.sendMessage("§cDisabled AngelChest spawning");
+                    return true;
+                case "enableac":
+                    main.disableDeathEvent = false;
+                    commandSender.sendMessage("§aEnabled AngelChest spawning");
+                    return true;
             }
-            return true;
         }
 
         commandSender.sendMessage(new String[] {
@@ -374,7 +380,9 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 "/acd info §6Shows general debug information",
                 "/acd group §6Shows group information",
                 "/acd dump §6Dump debug information",
-                "/acd fixholograms §6Removes dead holograms"
+                "/acd fixholograms §6Removes dead holograms",
+                "/acd disableac §6Disables AngelChest spawning",
+                "/acd enableac §6Enables AngelChest spawning"
         });
 
         return true;
@@ -382,7 +390,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String s, @NotNull final String[] args) {
-        final String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig", "dump", "fixholograms"};
+        final String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig", "dump", "fixholograms","disableac","enableac"};
         final String[] blacklistCommands = {"info", "test", "add"};
 
         // Debug

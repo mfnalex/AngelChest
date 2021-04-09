@@ -241,11 +241,11 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             }
             final String isBlacklisted = main.isItemBlacklisted(playerInventory.getItem(i));
             if (isBlacklisted != null) {
-                main.debug("Slot " + i + ": [BLACKLISTED: \"" + isBlacklisted + "\"] " + playerInventory.getItem(i));
+                if(main.debug) main.debug("Slot " + i + ": [BLACKLISTED: \"" + isBlacklisted + "\"] " + playerInventory.getItem(i));
                 blacklistedItems.add(playerInventory.getItem(i));
                 playerInventory.clear(i);
             } else {
-                main.debug("Slot " + i + ": " + playerInventory.getItem(i));
+                if(main.debug) main.debug("Slot " + i + ": " + playerInventory.getItem(i));
                 if (toBeRemoved(playerInventory.getItem(i))) playerInventory.setItem(i, null);
             }
         }
@@ -562,17 +562,17 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     private void removeKeptItems() {
 
         for (int i = 0; i < armorInv.length; i++) {
-            if (main.hookUtils.keepOnDeath(armorInv[i]) || main.hookUtils.removeOnDeath(armorInv[i])) {
+            if (main.genericHooks.keepOnDeath(armorInv[i]) || main.genericHooks.removeOnDeath(armorInv[i])) {
                 armorInv[i] = null;
             }
         }
         for (int i = 0; i < storageInv.length; i++) {
-            if (main.hookUtils.keepOnDeath(storageInv[i]) || main.hookUtils.removeOnDeath(storageInv[i])) {
+            if (main.genericHooks.keepOnDeath(storageInv[i]) || main.genericHooks.removeOnDeath(storageInv[i])) {
                 storageInv[i] = null;
             }
         }
         for (int i = 0; i < extraInv.length; i++) {
-            if (main.hookUtils.keepOnDeath(extraInv[i]) || main.hookUtils.removeOnDeath(extraInv[i])) {
+            if (main.genericHooks.keepOnDeath(extraInv[i]) || main.genericHooks.removeOnDeath(extraInv[i])) {
                 extraInv[i] = null;
             }
         }
