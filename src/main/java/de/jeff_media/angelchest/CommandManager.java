@@ -12,10 +12,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public final class CommandManager {
 
+    // First argument is the alias
+    public static final HashMap<String, Boolean> toggleableCommandAliases = new HashMap<>();
     private static final String pathToCommandDescriptions = "assets/lang/commands/";
 
     private static PluginCommand getCommand(final String name, final Plugin plugin) {
@@ -58,6 +61,20 @@ public final class CommandManager {
             main.debug("  Alias: " + alias);
         }
         final PluginCommand command = getCommand(aliases[0], main);
+
+        if (aliases.length > 1) {
+            for (int i = 1; i < aliases.length; i++) {
+                if (aliases[i].toLowerCase().endsWith("[enable]")) {
+                    aliases[i] = aliases[i].substring(0, aliases[i].length() - 8);
+                    toggleableCommandAliases.put(aliases[i], true);
+                }
+                if (aliases[i].toLowerCase().endsWith("[disable]")) {
+                    aliases[i] = aliases[i].substring(0, aliases[i].length() - 9);
+                    toggleableCommandAliases.put(aliases[i], false);
+                }
+            }
+        }
+
         command.setAliases(Arrays.asList(aliases));
         try {
             final List<String> usage = FileUtils.readFileFromResources(pathToCommandDescriptions + aliases[0] + ".usage");

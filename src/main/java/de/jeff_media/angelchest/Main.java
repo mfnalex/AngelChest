@@ -361,6 +361,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         Objects.requireNonNull(this.getCommand("actp")).setTabCompleter(genericTabCompleter);
         Objects.requireNonNull(this.getCommand("acreload")).setExecutor(new CommandReload());
         Objects.requireNonNull(this.getCommand("acgui")).setExecutor(new CommandGUI());
+        Objects.requireNonNull(this.getCommand("actoggle")).setExecutor(new CommandToggle());
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceholderAPIHook(this).register();
@@ -407,7 +408,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     }
 
     private void registerCommands() {
-        final String[][] commands = new String[][] {{"acgui", Permissions.USE}, {"aclist", Permissions.USE}, {"acfetch", Permissions.FETCH}, {"actp", Permissions.TP}, {"acunlock", Permissions.PROTECT}, {"acreload", Permissions.RELOAD}, {"acdebug", Permissions.DEBUG}, {"acversion", Permissions.VERSION}};
+        final String[][] commands = new String[][] {{"acgui", Permissions.USE}, {"aclist", Permissions.USE}, {"acfetch", Permissions.FETCH}, {"actp", Permissions.TP}, {"acunlock", Permissions.PROTECT}, {"acreload", Permissions.RELOAD}, {"acdebug", Permissions.DEBUG}, {"acversion", Permissions.VERSION}, {"actoggle", Permissions.TOGGLE}};
         for (final String[] commandAndPermission : commands) {
             final ArrayList<String> command = new ArrayList<>();
             command.add(commandAndPermission[0]);

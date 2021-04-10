@@ -244,6 +244,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.MAX_FETCH_DISTANCE,0);
         metric(Config.MAX_FETCH_DISTANCE);
 
+        conf.addDefault(Config.USING_ACTOGGLE_BREAKS_EXISTING_CHESTS, true);
+        metric(Config.USING_ACTOGGLE_BREAKS_EXISTING_CHESTS);
+
         conf.addDefault(Config.EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION,true);
         metric(Config.EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION);
 

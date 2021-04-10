@@ -20,6 +20,7 @@
 # angelchest.fetch           Allows the player to teleport their chests to them
 # angelchest.tp              The player can teleport to their AngelChests
 # angelchest.preview         Allows the player to preview their AngelChests' contents in /acgui
+# angelchest.toggle          Allows to enable/disable AngelChest per player
 # angelchest.others          Allows to run /aclist, /actp, /acfetch and /acunlock for other players
 # angelchest.reload          Allows reloading the config using /acreload
 # angelchest.debug           Allows to use the debug command /acdebug
@@ -47,6 +48,9 @@
 #
 # /acunlock [chestID]        Permission: angelchest.protect
 #                            Unlocks one of your AngelChests if you have the angelchest.protect permission
+#
+# /actoggle                  Permission: angelchest.toggle
+#                            Enables/disables AngelChest for this player
 #
 # /acreload                  Permission: angelchest.reload
 #                            Reloads the config
@@ -243,6 +247,12 @@ auto-respawn: false
 
 # When auto-respawn is true, you can define a delay in seconds before the player is respawned.
 auto-respawn-delay: 10
+
+# When a player decides to disable AngelChests from spawning using /actoggle and the following option
+# is set to true, then all existing AngelChests from this player will be broken and drop its
+# contents. If the player had to pay money for having the chest spawned and you set "refund-expired-chests"
+# to true, the player still will not be refunden as it was their own decision to have their chests broken.
+using-actoggle-breaks-existing-chests: true
 
 # When true, AngelChest loads all chunks asynchronously to avoid lags when players are teleporting
 # to one of their chests. This only works on Paper and its forks, but you do NOT have to disable
@@ -627,6 +637,14 @@ command-aliases-acunlock:
   - unlockchest
   - unlock
 
+# Commands than can be used instead of /actoggle
+# This one is a little different.
+# If the alias ends with [enable], it will enable AngelChest for this player instead of toggling it
+# If the alias ends with [disable], it will disable AngelChest for this player instead of toggling it
+command-aliases-actoggle:
+  - acon[enable]
+  - acoff[disable]
+
 # Commands that can be used instead of /acreload
 command-aliases-acreload:
   - angelchestreload
@@ -705,6 +723,8 @@ message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest 
 message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+message-angelchest-disabled: "&cYou are no longer protected by Angels."
+message-angelchest-enabled: "&aYou are now protected by Angels."
 
 #########################
 ##### Translations ######

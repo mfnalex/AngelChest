@@ -110,4 +110,5 @@ public final class Config {
     public static final String MAX_TP_DISTANCE = "max-tp-distance";
     public static final String MAX_FETCH_DISTANCE = "max-fetch-distance";
     public static final String EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION = "exempt-elitemobs-soulbound-items-from-generic-soulbound-detection";
+    public static final String USING_ACTOGGLE_BREAKS_EXISTING_CHESTS = "using-actoggle-breaks-existing-chests";
 }

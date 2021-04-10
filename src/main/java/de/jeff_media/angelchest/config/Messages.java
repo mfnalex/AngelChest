@@ -72,6 +72,8 @@ public final class Messages {
     public final String MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS;
     public final String MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK;
     public final String MSG_YOU_GOT_YOUR_INVENTORY_BACK;
+    public final String MSG_ANGELCHEST_ENABLED;
+    public final String MSG_ANGELCHEST_DISABLED;
     public final String PREFIX;
     private final Main main;
 
@@ -166,6 +168,10 @@ public final class Messages {
         MSG_ACTIONBAR_INVULNERABLE = getMsg("invulnerable", "&a&lYou are invulnerable for {time}.");
 
         MSG_ACTIONBAR_VULNERABLE = getMsg("vulnerable", "&c&lYou are no longer invulnerable.");
+
+        MSG_ANGELCHEST_DISABLED = PREFIX + getMsg("angelchest-disabled","&cYou are no longer protected by Angels.");
+
+        MSG_ANGELCHEST_ENABLED = PREFIX + getMsg("angelchest-enabled","&aYou are now protected by Angels.");
 
         GUI_TITLE_CHEST = getGui(Config.GUI_TITLE_CHEST, "§4§l[§c§lAngelChest§4§l] §c#{id} §4| §c{time}");
 

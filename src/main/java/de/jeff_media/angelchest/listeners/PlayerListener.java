@@ -8,8 +8,10 @@ import de.jeff_media.angelchest.data.DeathCause;
 import de.jeff_media.angelchest.enums.Features;
 import de.jeff_media.angelchest.events.AngelChestSpawnEvent;
 import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
+import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
+import de.jeff_media.jefflib.NBTAPI;
 import de.jeff_media.jefflib.Ticks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -386,6 +388,11 @@ public final class PlayerListener implements Listener {
         final Player p = event.getEntity();
         if (!p.hasPermission(Permissions.USE)) {
             main.debug("Cancelled: no permission (angelchest.use)");
+            return;
+        }
+
+        if(NBTAPI.hasNBT(p, NBTTags.HAS_ANGELCHEST_DISABLED)) {
+            main.debug("Cancelled: this player disabled AngelChest using /actoggle");
             return;
         }
 

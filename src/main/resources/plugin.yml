@@ -38,6 +38,8 @@ permissions:
     description: "Allows to view your AngelChests' contents using /acgui"
   angelchest.fetch:
     description: "Allows players to teleport their AngelChests to them"
+  angelchest.toggle:
+    description: "Allows players to enable/disable having AngelChests spawned using /actoggle"
   angelchest.others:
     description: "Allows you to run /aclist, /actp and /acfetch for other players"
   angelchest.reload:
