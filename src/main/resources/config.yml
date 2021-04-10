@@ -637,11 +637,12 @@ command-aliases-acunlock:
   - unlockchest
   - unlock
 
-# Commands than can be used instead of /actoggle
-# This one is a little different.
+# Commands than can be used instead of /actoggle. This one is a little different.
 # If the alias ends with [enable], it will enable AngelChest for this player instead of toggling it
 # If the alias ends with [disable], it will disable AngelChest for this player instead of toggling it
+# Of course players only have to type the alias without [enable], [disable]
 command-aliases-actoggle:
+  - angelchesttoggle
   - acon[enable]
   - acoff[disable]
 
@@ -768,6 +769,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 #message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+#message-angelchest-disabled: "&cYou are no longer protected by Angels."
+#message-angelchest-enabled: "&aYou are now protected by Angels."
 
 ##### Azerbaijan Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eBütün AngelChest'lərinin kilidi onsuzda açıqdır."
@@ -802,6 +805,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 #message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+#message-angelchest-disabled: "&cYou are no longer protected by Angels."
+#message-angelchest-enabled: "&aYou are now protected by Angels."
 
 ##### Bulgarian
 #message-all-your-angelchests-were-already-unlocked: "&eВсичките Ваши AngelChest-ове бяха отключени."
@@ -837,6 +842,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cНе може да вземете своя AngelChest, защото е в друг свят."
 #message-max-tp-distance: "&cНе може да се телепортирате до AngelChest, който е на повече от {distance} блока разстояние."
 #message-max-fetch-distance: "&cНе може да взимате AngelChests, които са на повече от {distance} блока разстояние."
+#message-angelchest-disabled: "&cАнгелите вече не Ви защитават."
+#message-angelchest-enabled: "&aАнгелите вече Ви защитават."
 
 ##### Chinese Simplified 简体中文 - Thanks to qsefthuopq for translating! -> https://www.spigotmc.org/members/qsefthuopq.339953/
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天御之箱都已解锁."
@@ -872,6 +879,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 #message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+#message-angelchest-disabled: "&cYou are no longer protected by Angels."
+#message-angelchest-enabled: "&aYou are now protected by Angels."
 
 ##### Chinese Traditional 繁體中文 - Thanks to maoding for translating! -> https://www.spigotmc.org/members/maoding.400505/
 #message-all-your-angelchests-were-already-unlocked: "&e所有的小天使箱子已被解鎖"
@@ -907,6 +916,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 #message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+#message-angelchest-disabled: "&cYou are no longer protected by Angels."
+#message-angelchest-enabled: "&aYou are now protected by Angels."
 
 ##### Dutch - Thanks to Xeyame for translating -> https://github.com/Xeyame
 #message-all-your-angelchests-were-already-unlocked: "&eAl je AngerChests zijn al ontgrendeld."
@@ -942,6 +953,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 #message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+#message-angelchest-disabled: "&cYou are no longer protected by Angels."
+#message-angelchest-enabled: "&aYou are now protected by Angels."
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/ 
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
@@ -977,6 +990,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 #message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+#message-angelchest-disabled: "&cYou are no longer protected by Angels."
+#message-angelchest-enabled: "&aYou are now protected by Angels."
 
 ##### German
 #message-all-your-angelchests-were-already-unlocked: "&eAlle deine AngelChests waren bereits aufgeschlossen."
@@ -1012,6 +1027,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cDu kannst deine AngelChest nicht zwischen verschiedenen Welten herbeirufen."
 #message-max-tp-distance: "&cDu kannst dich nicht zu AngelChests teleportieren die weiter als {distance} Blöcke entfernt sind."
 #message-max-fetch-distance: "&cDu kannst keine AngelChests herbeirufen die weiter als {distance} Blöcke entfernt sind."
+#message-angelchest-disabled: "&cDu wirst nicht länger von Engeln beschützt."
+#message-angelchest-enabled: "&aDu wirst jetzt von Engeln beschützt."
 
 ##### Hungarian
 #message-all-your-angelchests-were-already-unlocked: "&eAz összes AngyalLádád már fel van oldva."
@@ -1047,6 +1064,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 #message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+#message-angelchest-disabled: "&cYou are no longer protected by Angels."
+#message-angelchest-enabled: "&aYou are now protected by Angels."
 
 ##### Indonesian
 #message-all-your-angelchests-were-already-unlocked: "&eSemua AngelChest kamu sudah tidak terkunci."
@@ -1082,6 +1101,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 #message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+#message-angelchest-disabled: "&cYou are no longer protected by Angels."
+#message-angelchest-enabled: "&aYou are now protected by Angels."
 
 ##### Italian
 #message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChests sono già state sbloccate."
@@ -1117,6 +1138,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 #message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+#message-angelchest-disabled: "&cYou are no longer protected by Angels."
+#message-angelchest-enabled: "&aYou are now protected by Angels."
 
 ##### Polish
 #message-all-your-angelchests-were-already-unlocked: "&eWszystkie twoje AnielskieSkrzynie zostały już odblokowane."
@@ -1152,6 +1175,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 #message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+#message-angelchest-disabled: "&cYou are no longer protected by Angels."
+#message-angelchest-enabled: "&aYou are now protected by Angels."
 
 ##### Portuguese
 #message-all-your-angelchests-were-already-unlocked: "&eTodos os seus AngelChests estavam desbloqueados."
@@ -1187,6 +1212,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 #message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+#message-angelchest-disabled: "&cYou are no longer protected by Angels."
+#message-angelchest-enabled: "&aYou are now protected by Angels."
 
 ##### Russian - Thanks to @GEEK for translating
 #message-all-your-angelchests-were-already-unlocked: "&eВсе ваши Ангельские сундуки разблокированы."
@@ -1222,6 +1249,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 #message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+#message-angelchest-disabled: "&cYou are no longer protected by Angels."
+#message-angelchest-enabled: "&aYou are now protected by Angels."
 
 ##### Spanish
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus AngelChest ya se encuentran desbloqueados."
@@ -1257,6 +1286,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 #message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+#message-angelchest-disabled: "&cYou are no longer protected by Angels."
+#message-angelchest-enabled: "&aYou are now protected by Angels."
 
 ##### Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eTüm AngelChest'lerinin kilidi zaten açık."
@@ -1291,6 +1322,8 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
 #message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
+#message-angelchest-disabled: "&cYou are no longer protected by Angels."
+#message-angelchest-enabled: "&aYou are now protected by Angels."
 
 #########################
 #####     Done!     #####

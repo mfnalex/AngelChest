@@ -64,12 +64,13 @@ public class CommandToggle implements CommandExecutor {
         } else {
             if(main.getConfig().getBoolean(Config.USING_ACTOGGLE_BREAKS_EXISTING_CHESTS)) {
                 boolean hasChests = false;
-                Iterator<AngelChest> it = main.angelChests.values().iterator();
+                Iterator<Map.Entry<Block,AngelChest>> it = main.angelChests.entrySet().iterator();
                 while (it.hasNext()) {
-                    AngelChest chest = it.next();
-                    if (!chest.owner.equals(player.getUniqueId())) continue;
+                    Map.Entry<Block,AngelChest> entry = it.next();
+                    if (!entry.getValue().owner.equals(player.getUniqueId())) continue;
                     hasChests = true;
-                    chest.destroy(false);
+                    entry.getValue().destroy(false);
+                    it.remove();
                 }
                 if (hasChests) {
                     player.sendMessage(main.messages.MSG_ANGELCHEST_EXPLODED);

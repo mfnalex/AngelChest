@@ -1,5 +1,11 @@
-## 3.12.4
+## 3.13.0
+- Added command /actoggle so players can disable/enable AngelChest spawning for themselves (Plus version only)
+  - Toggling requires permission "angelchest.toggle"
+  - They still need the angelchest.use permission to get AngelChests
+  - You can decide whether disabling AngelChest for a player also breaks their already existing AngelChests  
+  - You can set aliases to directly enable or disable it. Just see the config.yml
 - Added Bulgarian translation
+- Updated Dutch translation
 
 ## 3.12.3
 - Added config option to decide whether EliteMobs soulbound should behave like Soulbound items from other plugins (keep on death) or like EliteMobs would handle them (they are dropped on death)
