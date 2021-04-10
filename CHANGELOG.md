@@ -1,3 +1,6 @@
+## 3.12.4
+- Added Bulgarian translation
+
 ## 3.12.3
 - Added config option to decide whether EliteMobs soulbound should behave like Soulbound items from other plugins (keep on death) or like EliteMobs would handle them (they are dropped on death)
 - Fixed Discord verification code not generating properly
