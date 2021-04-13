@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>3.13.0</version>
+    <version>3.13.1</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -55,6 +55,10 @@
                         <relocation>
                             <pattern>de.jeff_media.jefflib</pattern>
                             <shadedPattern>${project.groupId}.angelchest</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>de.jeff_media.updatechecker</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.updatechecker</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>de.jeff_media.daddy</pattern>
@@ -190,6 +194,12 @@
             <groupId>de.jeff_media</groupId>
             <artifactId>JeffLib</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.jeff_media</groupId>
+            <artifactId>SpigotUpdateChecker</artifactId>
+            <version>1.2.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

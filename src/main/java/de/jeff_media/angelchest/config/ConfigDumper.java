@@ -69,14 +69,14 @@ public final class ConfigDumper {
         }
 
         // Server information
-        sender.sendMessage("Saving server information to log.txt...");
+        sender.sendMessage("Saving server informationp...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, banner("Server information"));
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Server Version: " + Bukkit.getVersion());
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Bukkit API Version: " + Bukkit.getBukkitVersion());
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Plugin version: " + main.getDescription().getName() + (Daddy.allows(Features.GENERIC) ? "Plus" : "") + " " + main.getDescription().getVersion());
 
         // Broken config files
-        sender.sendMessage("Saving config check to log.txt...");
+        sender.sendMessage("Saving config checkp...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Config check"));
         if (main.invalidConfigFiles == null || main.invalidConfigFiles.length == 0) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Config OK.");
@@ -91,7 +91,7 @@ public final class ConfigDumper {
         }
 
         // Other plugins
-        sender.sendMessage("Saving plugin list to log.txt...");
+        sender.sendMessage("Saving plugin list...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Installed plugins"));
         for (final Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, plugin.getName() + " " + plugin.getDescription().getVersion() + (plugin.isEnabled() ? "" : " (DISABLED)"));
@@ -110,19 +110,10 @@ public final class ConfigDumper {
             }
         }
 
-        // Scheduled tasks
-        sender.sendMessage("Saving BukkitScheduler information to log.txt...");
-        de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("BukkitScheduler: Workers"));
-        for (final BukkitWorker worker : Bukkit.getScheduler().getActiveWorkers()) {
-            de.jeff_media.angelchest.utils.FileUtils.appendLines(log, worker.getOwner().getName() + ": " + worker.getTaskId() + " (" + worker.toString() + ")");
-        }
-        de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("BukkitScheduler: Tasks"));
-        for (final BukkitTask task : Bukkit.getScheduler().getPendingTasks()) {
-            de.jeff_media.angelchest.utils.FileUtils.appendLines(log, task.getOwner().getName() + ": " + task.getTaskId() + " (" + task.toString() + ")");
-        }
+
 
         // Online player's permissions
-        sender.sendMessage("Saving online player's permissions to log.txt...");
+        sender.sendMessage("Saving online player's permissionsp...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Player Permissions"));
         for (final Player player : Bukkit.getOnlinePlayers()) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, player.getName());
@@ -130,6 +121,17 @@ public final class ConfigDumper {
                 de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "- " + permission.getName() + ": " + player.hasPermission(permission));
             }
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "- essentials.keepinv: " + player.hasPermission("essentials.keepinv"));
+        }
+
+        // Scheduled tasks
+        sender.sendMessage("Saving BukkitScheduler informationp...");
+        de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("BukkitScheduler: Workers"));
+        for (final BukkitWorker worker : Bukkit.getScheduler().getActiveWorkers()) {
+            de.jeff_media.angelchest.utils.FileUtils.appendLines(log, worker.getOwner().getName() + ": " + worker.getTaskId() + " (" + worker.toString() + ")");
+        }
+        de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("BukkitScheduler: Tasks"));
+        for (final BukkitTask task : Bukkit.getScheduler().getPendingTasks()) {
+            de.jeff_media.angelchest.utils.FileUtils.appendLines(log, task.getOwner().getName() + ": " + task.getTaskId() + " (" + task.toString() + ")");
         }
 
         // Dump configs
@@ -188,6 +190,18 @@ public final class ConfigDumper {
         } catch (final IOException ioException) {
             ioException.printStackTrace();
         }
+
+        // debug.log
+        if(new File(main.getDataFolder(),"debug.log").exists()) {
+            sender.sendMessage("Copying debug.log...");
+            try {
+                org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(new File(main.getDataFolder(),"debug.log"), new File(dumpDir, "debug.log"));
+            } catch (final IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+
+
         sender.sendMessage("Compressing all files into zip archive...");
         ZipUtil.unexplode(dumpDir);
         sender.sendMessage("Cleaning up...");

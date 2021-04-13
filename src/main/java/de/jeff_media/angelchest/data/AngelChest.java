@@ -234,33 +234,33 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         final PlayerInventory playerInventory = player.getInventory();
 
         // Remove curse of vanishing equipment and Minepacks backpacks
-        main.debug("===== PLAYER INVENTORY CONTENTS =====");
+        LogUtils.debugBanner(new String[] {"PLAYER INVENTORY CONTENTS"});
         for (int i = 0; i < playerInventory.getSize(); i++) {
             if (Utils.isEmpty(playerInventory.getItem(i))) {
                 continue;
             }
             final String isBlacklisted = main.isItemBlacklisted(playerInventory.getItem(i));
             if (isBlacklisted != null) {
-                if(main.debug) main.debug("Slot " + i + ": [BLACKLISTED: \"" + isBlacklisted + "\"] " + playerInventory.getItem(i));
+                main.debug("Slot " + i + ": [BLACKLISTED: \"" + isBlacklisted + "\"] " + playerInventory.getItem(i)+"\n");
                 blacklistedItems.add(playerInventory.getItem(i));
                 playerInventory.clear(i);
             } else {
-                if(main.debug) main.debug("Slot " + i + ": " + playerInventory.getItem(i));
+                main.debug("Slot " + i + ": " + playerInventory.getItem(i)+"\n");
                 if (toBeRemoved(playerInventory.getItem(i))) playerInventory.setItem(i, null);
             }
         }
-        main.debug("===== PLAYER INVENTORY CONTENTS END =====");
+        LogUtils.debugBanner(new String[] {"PLAYER INVENTORY CONTENTS END"});
 
         final int randomItemLoss = main.groupUtils.getItemLossPerPlayer(player);
         if (randomItemLoss > 0) {
             if (Daddy.allows(Features.RANDOM_ITEM_LOSS)) {
-                main.debug("===== RANDOM ITEM LOSS START =====");
+                LogUtils.debugBanner(new String[] {"RANDOM ITEM LOSS"});
                 main.debug("Removed " + randomItemLoss + " item stacks randomly:");
                 randomlyLostItems = InventoryUtils.removeRandomItemsFromInventory(playerInventory, randomItemLoss);
                 for (final ItemStack lostItem : randomlyLostItems) {
-                    main.debug(lostItem.toString());
+                    main.debug(lostItem.toString()+"\n");
                 }
-                main.debug("===== RANDOM ITEM LOSS END =====");
+                LogUtils.debugBanner(new String[] {"RANDOM ITEM LOSS END"});
             } else {
                 main.getLogger().warning("You are using random-item-loss, which is only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
             }

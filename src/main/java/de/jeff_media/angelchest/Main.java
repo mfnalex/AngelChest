@@ -18,16 +18,22 @@ import de.jeff_media.angelchest.hooks.PlaceholderAPIHook;
 import de.jeff_media.angelchest.hooks.WorldGuardWrapper;
 import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
-import de.jeff_media.angelchest.utils.*;
+import de.jeff_media.angelchest.utils.AngelChestUtils;
+import de.jeff_media.angelchest.utils.DiscordVerificationUtils;
+import de.jeff_media.angelchest.utils.GroupUtils;
+import de.jeff_media.angelchest.utils.HologramFixer;
 import de.jeff_media.daddy.Daddy;
-import de.jeff_media.jefflib.*;
+import de.jeff_media.jefflib.JeffLib;
+import de.jeff_media.jefflib.Ticks;
+import de.jeff_media.jefflib.VersionUtil;
 import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
-import de.jeff_media.jefflib.updatechecker.UpdateChecker;
-import de.jeff_media.jefflib.updatechecker.UserAgentBuilder;
+import de.jeff_media.updatechecker.UpdateChecker;
+import de.jeff_media.updatechecker.UserAgentBuilder;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -39,8 +45,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.logging.FileHandler;
 import java.util.stream.Collectors;
 
 public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, AngelChestPlugin {
@@ -56,20 +64,23 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     public static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/" + SPIGOT_RESOURCE_ID_PLUS + "/updates";
     private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/angelchestplus/latest-version.txt";
     private static Main instance;
+    private static WorldGuardWrapper worldGuardWrapper;
     public LinkedHashMap<Block, AngelChest> angelChests;
     public Material chestMaterial;
     public Material chestMaterialUnlocked;
     public boolean debug = false;
+    //public java.util.logging.Logger debugLogger;
+    public boolean disableDeathEvent = false;
     public List<String> disabledMaterials;
     public List<String> disabledRegions;
     public List<String> disabledWorlds;
     public List<Material> dontSpawnOn;
     public Economy econ;
     public EconomyStatus economyStatus = EconomyStatus.UNKNOWN;
+    public GenericHooks genericHooks;
     public GroupUtils groupUtils;
     public GUIListener guiListener;
     public GUIManager guiManager;
-    public GenericHooks genericHooks;
     public String[] invalidConfigFiles;
     public HashMap<UUID, Integer> invulnerableTasks;
     public Map<String, BlacklistEntry> itemBlacklist;
@@ -84,8 +95,6 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     public HashMap<UUID, PendingConfirm> pendingConfirms;
     public boolean verbose = false;
     public Watchdog watchdog;
-    public boolean disableDeathEvent = false;
-    private static WorldGuardWrapper worldGuardWrapper;
     boolean emergencyMode = false;
     @SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
     private String NONCE = "%%__NONCE__%%";
@@ -100,14 +109,21 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 
     public static WorldGuardWrapper getWorldGuardWrapper() {
         // We have to do this because softdepend doesn't assure that AngelChest enables after WorldGuard
-        if(worldGuardWrapper == null) {
+        if (worldGuardWrapper == null) {
             worldGuardWrapper = WorldGuardWrapper.init();
         }
         return worldGuardWrapper;
     }
 
-    public void debug(final String t) {
-        if (debug) getLogger().info("[DEBUG] " + t);
+    public void debug(final String... text) {
+        if (debug) {
+            for (String line : text) {
+                getLogger().info("[DEBUG] " + line);
+            }
+        }
+        /*for (String line : text) {
+            debugLogger.info(line);
+        }*/
     }
 
     // AngelChestPlugin interface
@@ -183,7 +199,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     }
 
     public void initUpdateChecker() {
-        UpdateChecker.init(this,UPDATECHECKER_LINK_API)
+        UpdateChecker.init(this, UPDATECHECKER_LINK_API)
                 .setDonationLink(UPDATECHECKER_LINK_DONATE)
                 .setChangelogLink(UPDATECHECKER_LINK_CHANGELOG)
                 .setPaidDownloadLink(UPDATECHECKER_LINK_DOWNLOAD_PLUS)
@@ -404,6 +420,17 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     @Override
     public void onLoad() {
         instance = this;
+
+        /*debugLogger = java.util.logging.Logger.getLogger("AngelChest Debug");
+        try {
+            FileHandler fileHandler = new FileHandler(getDataFolder() + File.separator + "debug.log");
+            fileHandler.setFormatter(new DebugFormatter());
+            debugLogger.addHandler(fileHandler);
+            debugLogger.setUseParentHandlers(false);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }*/
+
         WorldGuardWrapper.tryToRegisterFlags();
     }
 
@@ -434,14 +461,6 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     }
 
     private void scheduleRepeatingTasks() {
-        // Rename holograms
-        /*Bukkit.getScheduler().scheduleSyncRepeatingTask(this, ()->{
-            for (final AngelChest chest : angelChests.values()) {
-                if (chest != null && chest.hologram != null) {
-                    chest.hologram.update(chest);
-                }
-            }
-        }, Ticks.fromSeconds(1), Ticks.fromSeconds(1));*/
 
         // Track player positions
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, ()->{
@@ -469,10 +488,6 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 
                     continue;
                 }
-				/*if(!isAngelChest(entry.getKey())) {
-					entry.getValue().destroy();
-					debug("Removing block from list because it's no AngelChest");
-				}*/
                 if (isBrokenAngelChest(entry.getKey(), entry.getValue())) {
                     final Block block = entry.getKey();
                     debug("Fixing broken AngelChest at " + block.getLocation());

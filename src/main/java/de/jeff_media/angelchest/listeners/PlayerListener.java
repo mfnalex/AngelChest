@@ -368,6 +368,11 @@ public final class PlayerListener implements Listener {
      */
     private void spawnAngelChest(final PlayerDeathEvent event) {
 
+        final Player p = event.getEntity();
+
+        main.debug("\n");
+        LogUtils.debugBanner(new String[] {"PlayerDeathEvent","Player: "+p.getName(),"Location: "+p.getLocation()});
+
         if(main.disableDeathEvent) {
             main.debug("PlayerDeathEvent: Doing nothing, AngelChest has been disabled for debug reasons!");
             return;
@@ -375,7 +380,7 @@ public final class PlayerListener implements Listener {
 
         //final long startTime = System.nanoTime();
 
-        final boolean isPvpDeath = event.getEntity().getKiller() != null && event.getEntity().getKiller() != event.getEntity();
+        final boolean isPvpDeath = p.getKiller() != null && p.getKiller() != p;
 
         // Print out all plugins/listeners that listen to the PlayerDeathEvent
         if (main.debug) {
@@ -385,7 +390,7 @@ public final class PlayerListener implements Listener {
         }
 
         main.debug("PlayerListener -> spawnAngelChest");
-        final Player p = event.getEntity();
+
         if (!p.hasPermission(Permissions.USE)) {
             main.debug("Cancelled: no permission (angelchest.use)");
             return;
@@ -401,7 +406,7 @@ public final class PlayerListener implements Listener {
                 main.debug("Cancelled: event#getKeepInventory() == true");
                 main.debug("Please check if your kept your inventory on death!");
                 main.debug("This is probably because some other plugin tries to handle your inv on death.");
-                main.debug(event.getEntity().getDisplayName() + " is OP: " + event.getEntity().isOp());
+                main.debug(p.getDisplayName() + " is OP: " + p.isOp());
                 return;
             } else {
                 main.debug("event#getKeepInventory() == true but we ignore it because of config settings");
@@ -455,7 +460,7 @@ public final class PlayerListener implements Listener {
             }
         }
 
-        if (!AngelChestUtils.spawnChance(main.groupUtils.getSpawnChancePerPlayer(event.getEntity()))) {
+        if (!AngelChestUtils.spawnChance(main.groupUtils.getSpawnChancePerPlayer(p))) {
             main.debug("Cancelled: unlucky, spawnChance returned false!");
             Utils.sendDelayedMessage(p, main.messages.MSG_SPAWN_CHANCE_UNSUCCESFULL, 1);
             return;
@@ -510,7 +515,7 @@ public final class PlayerListener implements Listener {
         }
         angelChestBlock = angelChestSpawnPrepareEvent.getBlock();
 
-        if (!CommandUtils.hasEnoughMoney(event.getEntity(), main.getConfig().getDouble(Config.PRICE), main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, "AngelChest spawned")) {
+        if (!CommandUtils.hasEnoughMoney(p, main.getConfig().getDouble(Config.PRICE), main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, "AngelChest spawned")) {
             return;
         }
 
@@ -522,14 +527,15 @@ public final class PlayerListener implements Listener {
         final ItemStack[] drops = event.getDrops().toArray(new ItemStack[0]);
         final List<ItemStack> inventoryAsList = Arrays.asList(p.getInventory().getContents());
 
-        main.debug("===== ADDITIONAL DEATH DROP LIST =====");
+        LogUtils.debugBanner(new String[]{"ADDITIONAL DEATH DROP LIST"});
         main.debug("The following items are in the drops list, but not in the inventory.");
         for (int i = 0; i < drops.length; i++) {
             if (inventoryAsList.contains(drops[i])) continue;
             main.debug(String.format("Drop %d: %s", i, drops[i]));
+            main.debug(" ");
             freshDrops.add(drops[i]);
         }
-        main.debug("===== ADDITIONAL DEATH DROP LIST END =====");
+        LogUtils.debugBanner(new String[]{"ADDITIONAL DEATH DROP LIST END"});
 
         if (main.getConfig().getBoolean(Config.DROP_HEADS) && Daddy.allows(Features.DROP_HEADS)) {
             boolean dropHead = false;
@@ -574,7 +580,7 @@ public final class PlayerListener implements Listener {
         if (Daddy.allows(Features.DISALLOW_XP_COLLECTION) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("false")) {
             // Do nothing
         } else //noinspection StatementWithEmptyBody
-            if (Daddy.allows(Features.DISALLOW_XP_COLLECTION_IN_PVP) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("nopvp") && (event.getEntity().getKiller() != null && event.getEntity().getKiller() != event.getEntity())) {
+            if (Daddy.allows(Features.DISALLOW_XP_COLLECTION_IN_PVP) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("nopvp") && (p.getKiller() != null && p.getKiller() != p)) {
                 // Do nothing
             } else if (!event.getKeepLevel() && event.getDroppedExp() != 0) {
                 final double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(p);
@@ -648,7 +654,7 @@ public final class PlayerListener implements Listener {
 
         if (Daddy.allows(Features.DONT_PROTECT_ANGELCHESTS_IN_PVP)) {
             if (main.getConfig().getBoolean(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP)) {
-                if (event.getEntity().getKiller() != null && event.getEntity().getKiller() != event.getEntity()) {
+                if (p.getKiller() != null && p.getKiller() != p) {
                     ac.isProtected = false;
                 }
             }
@@ -666,6 +672,9 @@ public final class PlayerListener implements Listener {
         long durationMilli = TimeUtils.nanoSecondsToMilliSeconds(durationNano);
         double tickPercentage = TimeUtils.milliSecondsToTickPercentage(durationMilli);
         main.debug("AngelChest creation took " +durationNano + " ns or " + durationMilli +" ms or "+tickPercentage+" % of tick.");*/
+
+        LogUtils.debugBanner(new String[] {"PlayerDeathEvent END"});
+        main.debug(" ");
     }
 
     @SuppressWarnings("unused")

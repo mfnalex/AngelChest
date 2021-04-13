@@ -5,7 +5,7 @@ import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.Features;
 import de.jeff_media.daddy.Daddy;
-import de.jeff_media.jefflib.updatechecker.UpdateChecker;
+import de.jeff_media.updatechecker.UpdateChecker;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;

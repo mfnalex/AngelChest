@@ -1,3 +1,8 @@
+## 3.13.1
+- Added description and usage for the /actoggle command
+- Improved Debug messages to be better readable
+- Improved UpdateChecker
+
 ## 3.13.0
 - Added command /actoggle so players can disable/enable AngelChest spawning for themselves (Plus version only)
   - Toggling requires permission "angelchest.toggle"
