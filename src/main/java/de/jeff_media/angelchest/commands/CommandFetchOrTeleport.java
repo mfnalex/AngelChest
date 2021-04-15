@@ -1,6 +1,7 @@
 package de.jeff_media.angelchest.commands;
 
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.CommandArgument;
 import de.jeff_media.angelchest.enums.CommandAction;
@@ -37,7 +38,7 @@ public final class CommandFetchOrTeleport implements CommandExecutor {
         }
 
         if (!requester.hasPermission(action.getPermission())) {
-            requester.sendMessage(main.messages.MSG_NO_PERMISSION);
+            Messages.send(requester,main.messages.MSG_NO_PERMISSION);
             return true;
         }
 

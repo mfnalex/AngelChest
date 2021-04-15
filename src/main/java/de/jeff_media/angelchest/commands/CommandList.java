@@ -1,6 +1,7 @@
 package de.jeff_media.angelchest.commands;
 
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.CommandArgument;
 import de.jeff_media.angelchest.enums.CommandAction;
@@ -25,7 +26,7 @@ public final class CommandList implements CommandExecutor {
         if (!command.getName().equalsIgnoreCase("aclist")) return false;
 
         if (!requester.hasPermission(Permissions.USE)) {
-            requester.sendMessage(main.messages.MSG_NO_PERMISSION);
+            Messages.send(requester,main.messages.MSG_NO_PERMISSION);
             return true;
         }
 
@@ -34,7 +35,7 @@ public final class CommandList implements CommandExecutor {
 
         // Only send this message if the player has chests
         if (!AngelChestUtils.getAllAngelChestsFromPlayer(commandArgument.getAffectedPlayer()).isEmpty()) {
-            requester.sendMessage(main.messages.MSG_ANGELCHEST_LOCATION);
+            Messages.send(requester,main.messages.MSG_ANGELCHEST_LOCATION);
         }
 
         CommandUtils.sendListOfAngelChests(main, requester, commandArgument.getAffectedPlayer());

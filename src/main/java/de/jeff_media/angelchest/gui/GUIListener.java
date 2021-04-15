@@ -3,6 +3,7 @@ package de.jeff_media.angelchest.gui;
 import de.jeff_media.ChestSortAPI.ChestSortEvent;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
+import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.CommandAction;
@@ -356,8 +357,9 @@ public final class GUIListener implements @NotNull Listener {
                 }
                 if (Daddy.allows(Features.GENERIC)) { // Don't add feature here
                     if (!player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
-                        if (Bukkit.getPlayer(angelChest.owner) != null) {
-                            Bukkit.getPlayer(angelChest.owner).sendMessage(main.messages.MSG_EMPTIED.replaceAll("\\{player}", player.getName()));
+                        Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
+                        if (tmpPlayer != null) {
+                            Messages.send(tmpPlayer,main.messages.MSG_EMPTIED.replaceAll("\\{player}", player.getName()));
                         }
                     }
                 }

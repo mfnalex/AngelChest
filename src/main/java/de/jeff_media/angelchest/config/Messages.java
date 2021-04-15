@@ -74,6 +74,9 @@ public final class Messages {
     public final String MSG_YOU_GOT_YOUR_INVENTORY_BACK;
     public final String MSG_ANGELCHEST_ENABLED;
     public final String MSG_ANGELCHEST_DISABLED;
+    public final String MSG_ANGELCHEST_FETCHED;
+    public final String MSG_ANGELCHEST_TELEPORTED;
+    public final String MSG_MIN_DISTANCE;
     public final String PREFIX;
     private final Main main;
 
@@ -173,6 +176,12 @@ public final class Messages {
 
         MSG_ANGELCHEST_ENABLED = PREFIX + getMsg("angelchest-enabled","&aYou are now protected by Angels.");
 
+        MSG_ANGELCHEST_FETCHED = PREFIX + getMsg("angelchest-fetched", "&aAngelChest fetched succesfully.");
+
+        MSG_ANGELCHEST_TELEPORTED = PREFIX + getMsg("angelchest-teleported", "&aSuccessfully teleported you to your AngelChest.");
+
+        MSG_MIN_DISTANCE = PREFIX + getMsg("min-distance", "&cYou already are nearby your AngelChest.");
+
         GUI_TITLE_CHEST = getGui(Config.GUI_TITLE_CHEST, "§4§l[§c§lAngelChest§4§l] §c#{id} §4| §c{time}");
 
         GUI_TITLE_MAIN = getGui(Config.GUI_TITLE_MAIN, "§4§l[§c§lAngelChest§4§l]");
@@ -194,6 +203,13 @@ public final class Messages {
         MSG_UNKNOWN_PLAYER = PREFIX + "§cCould not find player §7%s";
     }
 
+    public static void send(final CommandSender receiver, final String... message) {
+        if(receiver == null) return;
+        for(String line : message) {
+            send(receiver,line);
+        }
+    }
+
     public static void send(final CommandSender receiver, final String message) {
         if (receiver == null) return;
         if (message.equals("")) return;
@@ -201,7 +217,7 @@ public final class Messages {
     }
 
     public static void sendActionBar(final Player receiver, final String message) {
-        if (receiver == null || !receiver.isOnline()) return;
+        if (receiver == null || !receiver.isOnline() || message == null || message.equals("")) return;
         receiver.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
     }
 

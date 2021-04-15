@@ -2,6 +2,7 @@ package de.jeff_media.angelchest.commands;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
+import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.Features;
 import de.jeff_media.daddy.Daddy;
@@ -27,7 +28,7 @@ public final class CommandVersion implements CommandExecutor {
     public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String alias, @NotNull final String[] args) {
 
         if (!commandSender.hasPermission(Permissions.VERSION)) {
-            commandSender.sendMessage(Main.getInstance().messages.MSG_NO_PERMISSION);
+            Messages.send(commandSender,Main.getInstance().messages.MSG_NO_PERMISSION);
             return true;
         }
 
@@ -41,15 +42,15 @@ public final class CommandVersion implements CommandExecutor {
         discord.setItalic(true);
         discord.setColor(ChatColor.GOLD);
 
-        commandSender.sendMessage(output);
+        Messages.send(commandSender,output);
         if(commandSender instanceof Player) {
             commandSender.spigot().sendMessage(discord);
         } else {
-            commandSender.sendMessage(ChatColor.GOLD+"Discord support: https://discord.jeff-media.de");
+            Messages.send(commandSender,ChatColor.GOLD+"Discord support: https://discord.jeff-media.de");
         }
 
         if(!Main.getInstance().getConfig().getString(Config.CHECK_FOR_UPDATES).equalsIgnoreCase("false")) {
-            commandSender.sendMessage("");
+            Messages.send(commandSender,"");
             UpdateChecker.getInstance().checkNow(commandSender);
         }
         return true;

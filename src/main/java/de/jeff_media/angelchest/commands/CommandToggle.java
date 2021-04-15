@@ -3,6 +3,7 @@ package de.jeff_media.angelchest.commands;
 import de.jeff_media.angelchest.CommandManager;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
+import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.Features;
 import de.jeff_media.angelchest.nbt.NBTTags;
@@ -31,12 +32,12 @@ public class CommandToggle implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
 
         if(!Daddy.allows(Features.ACTOGGLE)) {
-            commandSender.sendMessage(main.messages.MSG_PREMIUMONLY);
+            Messages.send(commandSender,main.messages.MSG_PREMIUMONLY);
             return true;
         }
 
         if(!(commandSender instanceof Player)) {
-            commandSender.sendMessage(main.messages.MSG_PLAYERSONLY);
+            Messages.send(commandSender,main.messages.MSG_PLAYERSONLY);
             return true;
         }
 
@@ -60,7 +61,7 @@ public class CommandToggle implements CommandExecutor {
     private void toggle(Player player, boolean enable) {
         if(enable) {
             NBTAPI.removeNBT(player, NBTTags.HAS_ANGELCHEST_DISABLED);
-            player.sendMessage(main.messages.MSG_ANGELCHEST_ENABLED);
+            Messages.send(player,main.messages.MSG_ANGELCHEST_ENABLED);
         } else {
             if(main.getConfig().getBoolean(Config.USING_ACTOGGLE_BREAKS_EXISTING_CHESTS)) {
                 boolean hasChests = false;
@@ -73,11 +74,11 @@ public class CommandToggle implements CommandExecutor {
                     it.remove();
                 }
                 if (hasChests) {
-                    player.sendMessage(main.messages.MSG_ANGELCHEST_EXPLODED);
+                    Messages.send(player,main.messages.MSG_ANGELCHEST_EXPLODED);
                 }
             }
             NBTAPI.addNBT(player,NBTTags.HAS_ANGELCHEST_DISABLED, NBTValues.TRUE);
-            player.sendMessage(main.messages.MSG_ANGELCHEST_DISABLED);
+            Messages.send(player,main.messages.MSG_ANGELCHEST_DISABLED);
         }
     }
 }

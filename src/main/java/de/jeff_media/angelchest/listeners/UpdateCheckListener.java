@@ -22,7 +22,7 @@
 //        final CommandSender sender = event.getRequester();
 //        if (!event.getPlugin().equals(main)) return;
 //        /*if(!event.isNewVersionAvailable()) {
-//            sender.sendMessage("§aYou are running the latest version of §6"+main.getDescription().getName());
+//            Messages.send(sender,("§aYou are running the latest version of §6"+main.getDescription().getName());
 //            return;
 //        }*/
 //        if (sender instanceof Player) {
@@ -30,7 +30,7 @@
 //            main.updateChecker.sendUpdateMessageToPlayer(player);
 //
 //            if (!event.isNewVersionAvailable()) {
-//                player.sendMessage(ChatColor.GREEN + "You are running the latest version of " + ChatColor.GOLD + main.getDescription().getName() + ChatColor.GREEN + ".");
+//                Messages.send(player,ChatColor.GREEN + "You are running the latest version of " + ChatColor.GOLD + main.getDescription().getName() + ChatColor.GREEN + ".");
 //            }
 //
 //        }

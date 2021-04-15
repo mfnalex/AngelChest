@@ -3,6 +3,7 @@ package de.jeff_media.angelchest.commands;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.ConfigDumper;
 import de.jeff_media.angelchest.config.ConfigUtils;
+import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.BlacklistEntry;
@@ -46,53 +47,53 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
     private void blacklist(final CommandSender commandSender, String[] args) {
 
         if (!Daddy.allows(Features.GENERIC)) {
-            commandSender.sendMessage(main.messages.MSG_PREMIUMONLY);
+            Messages.send(commandSender,main.messages.MSG_PREMIUMONLY);
             return;
         }
 
         if (args.length > 0 && args[0].equalsIgnoreCase("add")) {
             if (!(commandSender instanceof Player)) {
-                commandSender.sendMessage(main.messages.MSG_PLAYERSONLY);
+                Messages.send(commandSender,main.messages.MSG_PLAYERSONLY);
                 return;
             }
             final Player player = (Player) commandSender;
             final ItemStack item = player.getInventory().getItemInMainHand();
 
             if (Utils.isEmpty(item)) {
-                player.sendMessage(ChatColor.RED + "You must hold an item in your hand.");
+                Messages.send(player,ChatColor.RED + "You must hold an item in your hand.");
                 return;
             }
 
             if (args.length < 2) {
-                player.sendMessage(ChatColor.RED + "You must specify a name for this blacklist entry.");
+                Messages.send(player,ChatColor.RED + "You must specify a name for this blacklist entry.");
                 return;
             }
 
             final String[] lines = BlacklistUtils.addToBlacklist(item, args[1]);
             if (lines != null) {
-                player.sendMessage(ChatColor.GREEN + "Added following blacklist entry:");
-                player.sendMessage(lines);
+                Messages.send(player,ChatColor.GREEN + "Added following blacklist entry:");
+                Messages.send(player,lines);
                 ConfigUtils.reloadCompleteConfig(true);
             } else {
-                player.sendMessage(ChatColor.RED + "Blacklist already contains an entry called \"" + args[1] + "\"");
+                Messages.send(player,ChatColor.RED + "Blacklist already contains an entry called \"" + args[1] + "\"");
             }
 
         } else if (args.length > 0 && args[0].equalsIgnoreCase("info")) {
 
             args = shift(args);
 
-            commandSender.sendMessage(" ");
-            commandSender.sendMessage("§6===[§bAngelChest Blacklist Info§6]===");
+            Messages.send(commandSender," ");
+            Messages.send(commandSender,"§6===[§bAngelChest Blacklist Info§6]===");
 
             if (!(commandSender instanceof Player) && args.length == 0) {
-                commandSender.sendMessage("Use this command as player or specify a player name.");
+                Messages.send(commandSender,"Use this command as player or specify a player name.");
                 return;
             }
             final Player player;
             boolean isAnotherPlayer = false;
             if (args.length > 0) {
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    commandSender.sendMessage("Player " + args[0] + " not found.");
+                    Messages.send(commandSender,"Player " + args[0] + " not found.");
                     return;
                 } else {
                     player = Bukkit.getPlayer(args[0]);
@@ -104,67 +105,67 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             assert player != null;
             final ItemStack item = player.getInventory().getItemInMainHand();
             if (item == null) {
-                commandSender.sendMessage((isAnotherPlayer ? player.getName() : "You") + " must hold an item in the main hand.");
+                Messages.send(commandSender,(isAnotherPlayer ? player.getName() : "You") + " must hold an item in the main hand.");
                 return;
             }
             final ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : Bukkit.getItemFactory().getItemMeta(item.getType());
 
-            commandSender.sendMessage("§e===[§6Material§e]===");
-            commandSender.sendMessage(item.getType().name().toUpperCase());
-            commandSender.sendMessage("§e===[§6Item Name§e]===");
-            commandSender.sendMessage(meta.hasDisplayName() ? "\"" + meta.getDisplayName().replaceAll("§", "&") + "\"" : " ");
-            commandSender.sendMessage("§e===[§6Lore§e]===");
+            Messages.send(commandSender,"§e===[§6Material§e]===");
+            Messages.send(commandSender,item.getType().name().toUpperCase());
+            Messages.send(commandSender,"§e===[§6Item Name§e]===");
+            Messages.send(commandSender,meta.hasDisplayName() ? "\"" + meta.getDisplayName().replaceAll("§", "&") + "\"" : " ");
+            Messages.send(commandSender,"§e===[§6Lore§e]===");
             if (meta.hasLore()) {
                 for (final String line : meta.getLore()) {
-                    commandSender.sendMessage("- \"" + line.replaceAll("§", "&") + "\"");
+                    Messages.send(commandSender,"- \"" + line.replaceAll("§", "&") + "\"");
                 }
             } else {
-                commandSender.sendMessage(" ");
+                Messages.send(commandSender," ");
             }
-            commandSender.sendMessage("§e===[§6Blacklist Status§e]===");
+            Messages.send(commandSender,"§e===[§6Blacklist Status§e]===");
             final String blacklisted = main.isItemBlacklisted(item);
-            commandSender.sendMessage(blacklisted == null ? "Not blacklisted" : "Blacklisted as \"" + blacklisted + "\"");
+            Messages.send(commandSender,blacklisted == null ? "Not blacklisted" : "Blacklisted as \"" + blacklisted + "\"");
         } else if (args.length > 0 && args[0].equalsIgnoreCase("test")) {
             args = shift(args);
-            commandSender.sendMessage(new String[] {" ", "§6===[§bAngelChest Blacklist Test§6]==="});
+            Messages.send(commandSender,new String[] {" ", "§6===[§bAngelChest Blacklist Test§6]==="});
 
 
             if (!(commandSender instanceof Player)) {
-                commandSender.sendMessage("You must be a player to use this command.");
+                Messages.send(commandSender,"You must be a player to use this command.");
                 return;
             }
             final Player player = (Player) commandSender;
 
             if (args.length == 0) {
-                commandSender.sendMessage("You must specify a blacklist definition (e.g. \"exampleAllHelmets\" from the example blacklist).");
+                Messages.send(commandSender,"You must specify a blacklist definition (e.g. \"exampleAllHelmets\" from the example blacklist).");
                 return;
             }
 
             final BlacklistEntry blacklistEntry = main.itemBlacklist.get(args[0].toLowerCase());
             if (blacklistEntry == null) {
-                commandSender.sendMessage("Blacklist definition \"" + args[0] + "\" not found.");
+                Messages.send(commandSender,"Blacklist definition \"" + args[0] + "\" not found.");
                 return;
             }
 
             final ItemStack item = player.getInventory().getItemInMainHand();
             if (item == null) {
-                commandSender.sendMessage("You must hold an item in the main hand.");
+                Messages.send(commandSender,"You must hold an item in the main hand.");
                 return;
             }
 
             final BlacklistResult result = blacklistEntry.matches(item);
 
             if (result == BlacklistResult.MATCH) {
-                commandSender.sendMessage("§aThis item matches the blacklist definition \"" + result.getName() + "\"");
+                Messages.send(commandSender,"§aThis item matches the blacklist definition \"" + result.getName() + "\"");
             } else {
-                commandSender.sendMessage("§cThis item does not match the blacklist definition \"" + main.itemBlacklist.get(args[0].toLowerCase()).getName() + "\"");
-                commandSender.sendMessage("§eReason: " + result.name());
+                Messages.send(commandSender,"§cThis item does not match the blacklist definition \"" + main.itemBlacklist.get(args[0].toLowerCase()).getName() + "\"");
+                Messages.send(commandSender,"§eReason: " + result.name());
             }
 
 
         } else {
 
-            commandSender.sendMessage(new String[] {
+            Messages.send(commandSender,new String[] {
                     "§eAvailable blacklist commands:",
                     "/acd blacklist add <name> §6Adds current item to to the blacklist as <name>",
                     "/acd blacklist info §6Shows material, name and lore of the current item including the blacklist definition it matches",
@@ -185,39 +186,39 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
     }*/
 
     private void checkconfig(final CommandSender commandSender) {
-        commandSender.sendMessage("§6");
-        commandSender.sendMessage("§6===[§bAngelChest ConfigCheck§6]===");
-        commandSender.sendMessage("§6Please not that you have to run /acreload after making changes to your config.");
+        Messages.send(commandSender,"§6");
+        Messages.send(commandSender,"§6===[§bAngelChest ConfigCheck§6]===");
+        Messages.send(commandSender,"§6Please not that you have to run /acreload after making changes to your config.");
         final List<String> errors = main.invalidConfigFiles == null ? new ArrayList<>() : Arrays.asList(main.invalidConfigFiles);
         if (main.invalidConfigFiles == null) {
-            commandSender.sendMessage("§aAll your config files are valid.");
+            Messages.send(commandSender,"§aAll your config files are valid.");
         } else {
-            commandSender.sendMessage("§cSome of your config files are invalid.");
+            Messages.send(commandSender,"§cSome of your config files are invalid.");
         }
 
         if (errors.contains("config.yml")) {
-            commandSender.sendMessage("§e- config.yml: §cinvalid");
+            Messages.send(commandSender,"§e- config.yml: §cinvalid");
         } else {
-            commandSender.sendMessage("§e- config.yml: §avalid");
+            Messages.send(commandSender,"§e- config.yml: §avalid");
         }
 
         if (new File(main.getDataFolder(), "groups.yml").exists()) {
             if (errors.contains("groups.yml")) {
-                commandSender.sendMessage("§e- groups.yml: §cinvalid");
+                Messages.send(commandSender,"§e- groups.yml: §cinvalid");
             } else {
-                commandSender.sendMessage("§e- groups.yml: §avalid");
+                Messages.send(commandSender,"§e- groups.yml: §avalid");
             }
         } else {
-            commandSender.sendMessage("§e- groups.yml: §6does not exist");
+            Messages.send(commandSender,"§e- groups.yml: §6does not exist");
         }
         if (new File(main.getDataFolder(), "blacklist.yml").exists()) {
             if (errors.contains("blacklist.yml")) {
-                commandSender.sendMessage("§e- blacklist.yml: §cinvalid");
+                Messages.send(commandSender,"§e- blacklist.yml: §cinvalid");
             } else {
-                commandSender.sendMessage("§e- blacklist.yml: §avalid");
+                Messages.send(commandSender,"§e- blacklist.yml: §avalid");
             }
         } else {
-            commandSender.sendMessage("§e- blacklist.yml: §6does not exist");
+            Messages.send(commandSender,"§e- blacklist.yml: §6does not exist");
         }
     }
 
@@ -225,7 +226,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         ConfigUtils.reloadCompleteConfig(true);
         main.debug = enabled;
         main.getConfig().set("debug", enabled);
-        commandSender.sendMessage(ChatColor.GRAY + "AngelChest debug mode has been " + (enabled ? "enabled" : "disabled"));
+        Messages.send(commandSender,ChatColor.GRAY + "AngelChest debug mode has been " + (enabled ? "enabled" : "disabled"));
     }
 
     private void dump(final CommandSender commandSender) {
@@ -239,9 +240,9 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         }
 
         if (deadHolograms == 0) {
-            commandSender.sendMessage(new String[] {ChatColor.GRAY + "There are no dead AngelChest holograms.", ChatColor.GRAY + "Please note that this command can only remove holograms in loaded chunks created in AngelChest 3.3.0 or later. Join my discord to get a command that can remove all dead holograms (including those created by other plugins): " + Main.DISCORD_LINK});
+            Messages.send(commandSender,new String[] {ChatColor.GRAY + "There are no dead AngelChest holograms.", ChatColor.GRAY + "Please note that this command can only remove holograms in loaded chunks created in AngelChest 3.3.0 or later. Join my discord to get a command that can remove all dead holograms (including those created by other plugins): " + Main.DISCORD_LINK});
         } else {
-            commandSender.sendMessage(ChatColor.GREEN + "Removed " + deadHolograms + " dead AngelChest holograms.");
+            Messages.send(commandSender,ChatColor.GREEN + "Removed " + deadHolograms + " dead AngelChest holograms.");
         }
     }
 
@@ -255,14 +256,14 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         final Player player;
         if (args.length == 0) {
             if (!(commandSender instanceof Player)) {
-                commandSender.sendMessage("Use this command as player or specify a player name.");
+                Messages.send(commandSender,"Use this command as player or specify a player name.");
                 return;
             } else {
                 player = (Player) commandSender;
             }
         } else {
             if (Bukkit.getPlayer(args[0]) == null) {
-                commandSender.sendMessage("Player " + args[0] + " not found.");
+                Messages.send(commandSender,"Player " + args[0] + " not found.");
                 return;
             } else {
                 player = Bukkit.getPlayer(args[0]);
@@ -284,20 +285,20 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         final int maxTpDistance = main.groupUtils.getMaxTpDistance(player);
         final int maxFetchDistance = main.groupUtils.getMaxFetchDistance(player);
 
-        commandSender.sendMessage("§6Max Chests:§b " + maxChests);
-        commandSender.sendMessage("§6Duration:§b " + duration);
-        commandSender.sendMessage("§6Price Spawn:§b " + priceSpawn + " §8(depending on current balance)");
-        commandSender.sendMessage("§6Price Open:§b " + priceOpen + " §8(depending on current balance)");
-        commandSender.sendMessage("§6Price Teleport:§b " + priceTeleport + " §8(depending on current balance)");
-        commandSender.sendMessage("§6Price Fetch:§b " + priceFetch + " §8(depending on current balance)");
-        commandSender.sendMessage("§6XP Percentage:§b " + xpPercentage);
-        commandSender.sendMessage("§6Unlock Duration:§b " + unlockDuration);
-        commandSender.sendMessage("§6Spawn Chance:§b " + spawnChance);
-        commandSender.sendMessage("§6Item Loss:§b " + itemLoss + " §8(depending on current inv)");
-        commandSender.sendMessage("§6TP across worlds:§b " + allowTPAcrossWorlds);
-        commandSender.sendMessage("§6Fetch across worlds:§b " + allowFetchAcrossWorlds);
-        commandSender.sendMessage("§6Max TP distance:§b " + maxTpDistance);
-        commandSender.sendMessage("§6Max Fetch distance:§b " + maxFetchDistance);
+        Messages.send(commandSender,"§6Max Chests:§b " + maxChests);
+        Messages.send(commandSender,"§6Duration:§b " + duration);
+        Messages.send(commandSender,"§6Price Spawn:§b " + priceSpawn + " §8(depending on current balance)");
+        Messages.send(commandSender,"§6Price Open:§b " + priceOpen + " §8(depending on current balance)");
+        Messages.send(commandSender,"§6Price Teleport:§b " + priceTeleport + " §8(depending on current balance)");
+        Messages.send(commandSender,"§6Price Fetch:§b " + priceFetch + " §8(depending on current balance)");
+        Messages.send(commandSender,"§6XP Percentage:§b " + xpPercentage);
+        Messages.send(commandSender,"§6Unlock Duration:§b " + unlockDuration);
+        Messages.send(commandSender,"§6Spawn Chance:§b " + spawnChance);
+        Messages.send(commandSender,"§6Item Loss:§b " + itemLoss + " §8(depending on current inv)");
+        Messages.send(commandSender,"§6TP across worlds:§b " + allowTPAcrossWorlds);
+        Messages.send(commandSender,"§6Fetch across worlds:§b " + allowFetchAcrossWorlds);
+        Messages.send(commandSender,"§6Max TP distance:§b " + maxTpDistance);
+        Messages.send(commandSender,"§6Max Fetch distance:§b " + maxFetchDistance);
 
     }
 
@@ -322,15 +323,15 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         final String text1 = "AngelChests: %d (%d), Holograms: %d (%d)";
         final String text2 = "Watchdog: %d Holograms";
 
-        commandSender.sendMessage(String.format(text1, realAngelChests, expectedAngelChests, realHolograms, expectedHolograms));
-        commandSender.sendMessage(String.format(text2, main.watchdog.getCurrentUnsavedArmorStands()));
+        Messages.send(commandSender,String.format(text1, realAngelChests, expectedAngelChests, realHolograms, expectedHolograms));
+        Messages.send(commandSender,String.format(text2, main.watchdog.getCurrentUnsavedArmorStands()));
     }
 
     @Override
     public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String s, @NotNull final String[] args) {
 
         if (!commandSender.hasPermission(Permissions.DEBUG)) {
-            commandSender.sendMessage(main.messages.MSG_NO_PERMISSION);
+            Messages.send(commandSender,main.messages.MSG_NO_PERMISSION);
             return true;
         }
 
@@ -362,16 +363,16 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                     return true;
                 case "disableac":
                     main.disableDeathEvent = true;
-                    commandSender.sendMessage("§cDisabled AngelChest spawning");
+                    Messages.send(commandSender,"§cDisabled AngelChest spawning");
                     return true;
                 case "enableac":
                     main.disableDeathEvent = false;
-                    commandSender.sendMessage("§aEnabled AngelChest spawning");
+                    Messages.send(commandSender,"§aEnabled AngelChest spawning");
                     return true;
             }
         }
 
-        commandSender.sendMessage(new String[] {
+        Messages.send(commandSender,new String[] {
                 "§eAvailable debug commands:",
                 "/acd on §6Enables debug mode",
                 "/acd off §6Disables debug mode",

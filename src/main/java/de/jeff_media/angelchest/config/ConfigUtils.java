@@ -250,6 +250,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION,true);
         metric(Config.EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION);
 
+        conf.addDefault(Config.MIN_DISTANCE, 0);
+        metric(Config.MIN_DISTANCE);
+
         main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
         metric(Config.DISABLED_MATERIALS, String.valueOf(main.disabledMaterials.size()));
 

@@ -1,6 +1,7 @@
 package de.jeff_media.angelchest.data;
 
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.CommandAction;
 import org.bukkit.Bukkit;
@@ -35,11 +36,11 @@ public class CommandArgument {
                         //noinspection deprecation
                         chestOwner = Bukkit.getOfflinePlayer(args[0]);
                         if (chestOwner == null) {
-                            requester.sendMessage(String.format(Main.getInstance().messages.MSG_UNKNOWN_PLAYER, args[0]));
+                            Messages.send(requester,String.format(Main.getInstance().messages.MSG_UNKNOWN_PLAYER, args[0]));
                             return null;
                         }
                     } else {
-                        requester.sendMessage(Main.getInstance().messages.MSG_NO_PERMISSION);
+                        Messages.send(requester,Main.getInstance().messages.MSG_NO_PERMISSION);
                         return null;
                     }
                 } else if (args.length == 1) {
@@ -55,12 +56,12 @@ public class CommandArgument {
                         //noinspection deprecation
                         chestOwner = Bukkit.getOfflinePlayer(args[0]);
                         if (chestOwner == null) {
-                            requester.sendMessage(String.format(Main.getInstance().messages.MSG_UNKNOWN_PLAYER, args[0]));
+                            Messages.send(requester,String.format(Main.getInstance().messages.MSG_UNKNOWN_PLAYER, args[0]));
                             return null;
                         }
                         chest = null;
                     } else {
-                        requester.sendMessage(Main.getInstance().messages.MSG_NO_PERMISSION);
+                        Messages.send(requester,Main.getInstance().messages.MSG_NO_PERMISSION);
                         return null;
                     }
                 }
@@ -70,7 +71,7 @@ public class CommandArgument {
             if (requester instanceof Player) {
                 chestOwner = (Player) requester;
             } else {
-                requester.sendMessage(Main.getInstance().messages.MSG_MUST_SPECIFY_PLAYER);
+                Messages.send(requester,Main.getInstance().messages.MSG_MUST_SPECIFY_PLAYER);
                 return null;
             }
         }

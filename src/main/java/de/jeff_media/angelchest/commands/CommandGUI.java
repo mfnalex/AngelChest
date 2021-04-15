@@ -1,6 +1,7 @@
 package de.jeff_media.angelchest.commands;
 
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.Features;
 import de.jeff_media.daddy.Daddy;
@@ -22,17 +23,17 @@ public final class CommandGUI implements CommandExecutor {
     public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String alias, final String[] args) {
 
         if (!Daddy.allows(Features.GUI)) {
-            sender.sendMessage(main.messages.MSG_PREMIUMONLY);
+            Messages.send(sender,main.messages.MSG_PREMIUMONLY);
             return true;
         }
 
         if (!sender.hasPermission(Permissions.USE)) {
-            sender.sendMessage(main.messages.MSG_NO_PERMISSION);
+            Messages.send(sender,main.messages.MSG_NO_PERMISSION);
             return true;
         }
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage(main.messages.MSG_PLAYERSONLY);
+            Messages.send(sender,main.messages.MSG_PLAYERSONLY);
             return true;
         }
 

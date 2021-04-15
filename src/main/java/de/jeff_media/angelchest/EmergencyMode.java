@@ -1,5 +1,6 @@
 package de.jeff_media.angelchest;
 
+import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.jefflib.Ticks;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ public final class EmergencyMode {
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), ()->{
             for (final Player player : Bukkit.getOnlinePlayers()) {
-                player.sendMessage(text);
+                Messages.send(player,text);
             }
             for (final String line : text) {
                 Main.getInstance().getLogger().severe(line);
@@ -27,7 +28,7 @@ public final class EmergencyMode {
         Bukkit.getPluginManager().registerEvent(PlayerJoinEvent.class, new Listener() {
         }, EventPriority.MONITOR, ((listener, event)->{
             final PlayerJoinEvent playerJoinEvent = (PlayerJoinEvent) event;
-            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), ()->playerJoinEvent.getPlayer().sendMessage(text), Ticks.fromSeconds(0.5));
+            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), ()->Messages.send(playerJoinEvent.getPlayer(),text), Ticks.fromSeconds(0.5));
         }), Main.getInstance());
 
 

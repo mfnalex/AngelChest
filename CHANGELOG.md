@@ -1,3 +1,9 @@
+## 3.14.0
+- Added "min-distance" for fetch and teleporting to avoid fetching or teleporting to chests that are already nearby
+- Added messages when teleporting to or fetching a chest (can be disabled, see below)
+- You can disable all messages sent by AngelChest by setting it to an empty string ("")
+- Updated Chinese and Chinese (Traditional) translation
+
 ## 3.13.1
 - Added description and usage for the /actoggle command
 - Improved Debug messages to be better readable

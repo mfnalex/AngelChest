@@ -2,6 +2,7 @@ package de.jeff_media.angelchest.utils;
 
 import com.google.common.base.Enums;
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.data.AngelChest;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -89,7 +90,7 @@ public final class Utils {
             if (p == null) return;
             if (!(p instanceof Player)) return;
             if (!p.isOnline()) return;
-            p.sendMessage(message);
+            Messages.send(p,message);
         }, delay);
     }
 

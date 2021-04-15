@@ -2,6 +2,7 @@ package de.jeff_media.angelchest.listeners;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
+import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.DeathCause;
@@ -99,7 +100,7 @@ public final class PlayerListener implements Listener {
                 angelChest.destroy(false);
 
                 main.debug("Inventory empty, removing chest");
-                // event.getPlayer().sendMessage("You have emptied an AngelChest. It is now
+                // Messages.send(event.getPlayer(),"You have emptied an AngelChest. It is now
                 // gone.");
             }
 
@@ -125,11 +126,11 @@ public final class PlayerListener implements Listener {
             return;
         }
         final AngelChest angelChest = main.angelChests.get(block);
-        // event.getPlayer().sendMessage("This is " + angelChest.owner.getName()+"'s
+        // Messages.send(event.getPlayer(),"This is " + angelChest.owner.getName()+"'s
         // AngelChest.");
         // Test here if player is allowed to open THIS angelchest
         if (angelChest.isProtected && !event.getPlayer().getUniqueId().equals(angelChest.owner) && !event.getPlayer().hasPermission(Permissions.PROTECT_IGNORE)) {
-            event.getPlayer().sendMessage(main.messages.MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS);
+            Messages.send(event.getPlayer(),main.messages.MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS);
             event.setCancelled(true);
             return;
         }
@@ -168,7 +169,7 @@ public final class PlayerListener implements Listener {
         if (as.get() == null) return;
 
         if (!as.get().owner.equals(event.getPlayer().getUniqueId()) && !event.getPlayer().hasPermission(Permissions.PROTECT_IGNORE) && as.get().isProtected) {
-            event.getPlayer().sendMessage(main.messages.MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS);
+            Messages.send(event.getPlayer(),main.messages.MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS);
             event.setCancelled(true);
             return;
         }
@@ -258,7 +259,7 @@ public final class PlayerListener implements Listener {
             if (player.hasPermission(Permissions.USE)) {
                 if (!main.getAllAngelChestsFromPlayer(player).isEmpty()) {
                     Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->{
-                        player.sendMessage(main.messages.MSG_ANGELCHEST_LOCATION);
+                        Messages.send(player,main.messages.MSG_ANGELCHEST_LOCATION);
                         CommandUtils.sendListOfAngelChests(main, player, player);
                     }, 3L);
                 }
@@ -321,13 +322,14 @@ public final class PlayerListener implements Listener {
 
         succesfullyStoredEverything = AngelChestUtils.tryToMergeInventories(main, angelChest, p.getInventory());
         if (succesfullyStoredEverything) {
-            p.sendMessage(main.messages.MSG_YOU_GOT_YOUR_INVENTORY_BACK);
+            Messages.send(p,main.messages.MSG_YOU_GOT_YOUR_INVENTORY_BACK);
 
             // This is another player's chest
             if (Daddy.allows(Features.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_ANGELCHEST)) {
                 if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
-                    if (Bukkit.getPlayer(angelChest.owner) != null) {
-                        Bukkit.getPlayer(angelChest.owner).sendMessage(main.messages.MSG_EMPTIED.replaceAll("\\{player}", p.getName()));
+                    Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
+                    if (tmpPlayer != null) {
+                        Messages.send(tmpPlayer,main.messages.MSG_EMPTIED.replaceAll("\\{player}", p.getName()));
                     }
                 }
             }
@@ -338,14 +340,15 @@ public final class PlayerListener implements Listener {
                 main.getLogger().info(p.getName() + " emptied the AngelChest of " + Bukkit.getOfflinePlayer(angelChest.owner).getName() + " at " + angelChest.block.getLocation());
             }
         } else {
-            p.sendMessage(main.messages.MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK);
+            Messages.send(p,main.messages.MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK);
 
             // This is another player's chest
             if (Daddy.allows(Features.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_ANGELCHEST)) {
                 if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
-                    if (Bukkit.getPlayer(angelChest.owner) != null) {
+                    Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
+                    if (tmpPlayer != null) {
                         if (firstOpened) {
-                            Bukkit.getPlayer(angelChest.owner).sendMessage(main.messages.MSG_OPENED.replaceAll("\\{player}", p.getName()));
+                            Messages.send(tmpPlayer,main.messages.MSG_OPENED.replaceAll("\\{player}", p.getName()));
                             firstOpened = false;
                         }
                     }
@@ -646,8 +649,8 @@ public final class PlayerListener implements Listener {
             chests.get(0).destroy(true);
             chests.get(0).remove();
             Bukkit.getScheduler().runTaskLater(main, ()->{
-                p.sendMessage(" ");
-                p.sendMessage(main.messages.MSG_ANGELCHEST_EXPLODED);
+                Messages.send(p," ");
+                Messages.send(p,main.messages.MSG_ANGELCHEST_EXPLODED);
             }, 3L);
 
         }

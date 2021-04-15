@@ -3,6 +3,7 @@ package de.jeff_media.angelchest.data;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.ChestYaml;
 import de.jeff_media.angelchest.config.Config;
+import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.Features;
@@ -496,12 +497,12 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             openedBy.add(player.getUniqueId().toString());
             if (main.economyStatus == EconomyStatus.ACTIVE) {
                 if (price > 0) {
-                    player.sendMessage(main.messages.MSG_PAID_OPEN.replaceAll("\\{price}", String.valueOf(price)).replaceAll("\\{currency}", CommandUtils.getCurrency(price)));
+                    Messages.send(player,main.messages.MSG_PAID_OPEN.replaceAll("\\{price}", String.valueOf(price)).replaceAll("\\{currency}", CommandUtils.getCurrency(price)));
                 }
             }
             return true;
         }
-        player.sendMessage(main.messages.MSG_NOT_ENOUGH_MONEY);
+        Messages.send(player,main.messages.MSG_NOT_ENOUGH_MONEY);
         return false;
     }
 

@@ -14,6 +14,7 @@ import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
 import de.jeff_media.daddy.Daddy;
 import de.jeff_media.jefflib.NBTAPI;
+import de.jeff_media.jefflib.Ticks;
 import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -64,12 +65,12 @@ public final class CommandUtils {
         final ArrayList<AngelChest> angelChestsFromThisPlayer = AngelChestUtils.getAllAngelChestsFromPlayer(affectedPlayer);
 
         if (angelChestsFromThisPlayer.isEmpty()) {
-            sendTo.sendMessage(main.messages.MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS);
+            Messages.send(sendTo,main.messages.MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS);
             return null;
         }
 
         if (angelChestsFromThisPlayer.size() > 1 && chest == null) {
-            sendTo.sendMessage(main.messages.MSG_PLEASE_SELECT_CHEST);
+            Messages.send(sendTo,main.messages.MSG_PLEASE_SELECT_CHEST);
             sendListOfAngelChests(main, sendTo, affectedPlayer);
             return null;
         } else {
@@ -80,13 +81,13 @@ public final class CommandUtils {
             try {
                 chestIdStartingAt1 = Integer.parseInt(chest);
             } catch (final NumberFormatException exception) {
-                sendTo.sendMessage(main.messages.ERR_INVALIDCHEST);
+                Messages.send(sendTo,main.messages.ERR_INVALIDCHEST);
                 return null;
             }
         }
 
         if (chestIdStartingAt1 > angelChestsFromThisPlayer.size() || chestIdStartingAt1 < 1) {
-            sendTo.sendMessage(main.messages.ERR_INVALIDCHEST);
+            Messages.send(sendTo,main.messages.ERR_INVALIDCHEST);
             return null;
         }
 
@@ -165,13 +166,13 @@ public final class CommandUtils {
                 if (secondsLeft.getAndDecrement() > 0) {
                     Messages.sendActionBar(player, main.messages.MSG_ACTIONBAR_INVULNERABLE.replace("{time}", getFormattedTime(secondsLeft.get(), false)));
                 } else {
-                    if (finalTask != null) {
+                    if (finalTask.get() != -1) {
                         Bukkit.getScheduler().cancelTask(finalTask.get());
                         Messages.sendActionBar(player, main.messages.MSG_ACTIONBAR_VULNERABLE);
                         InvulnerabilityListener.removeGod(player);
                     }
                 }
-            }, 0, 20));
+            }, 0, Ticks.fromSeconds(1)));
             main.invulnerableTasks.put(player.getUniqueId(), finalTask.get());
         } else if (seconds <= 0) {
             main.debug("Invulnerability time is set to 0.");
@@ -202,7 +203,7 @@ public final class CommandUtils {
         main.angelChests.put(newBlock, main.angelChests.remove(oldBlock));
         main.angelChests.get(newBlock).block = newBlock;
 
-        player.sendMessage(main.messages.MSG_RETRIEVED);
+        Messages.send(player,main.messages.MSG_RETRIEVED);
     }
 
     /**
@@ -211,17 +212,14 @@ public final class CommandUtils {
     public static void fetchOrTeleport(final Main main, final Player sender, final AngelChest ac, final int chestIdStartingAt1, final CommandAction action, final boolean askForConfirmation) {
 
         if (!sender.hasPermission(action.getPermission())) {
-            sender.sendMessage(main.messages.MSG_NO_PERMISSION);
+            Messages.send(sender,main.messages.MSG_NO_PERMISSION);
             return;
         }
 
-        UUID uuid = ac.owner;
-        if (sender instanceof Player) {
-            uuid = sender.getUniqueId();
-        }
+        final UUID uuid = sender.getUniqueId();
 
         if (!ac.owner.equals(uuid) && !sender.hasPermission(Permissions.OTHERS)) {
-            sender.sendMessage(main.messages.ERR_NOTOWNER);
+            Messages.send(sender,main.messages.ERR_NOTOWNER);
             return;
         }
 
@@ -232,7 +230,7 @@ public final class CommandUtils {
         final UUID chestWorld = ac.worldid;
         if(action == CommandAction.TELEPORT_TO_CHEST && !main.groupUtils.getAllowTpAcrossWorlds(sender)) {
             if(!playerWorld.equals(chestWorld)) {
-                sender.sendMessage(main.messages.MSG_TP_ACROSS_WORLDS_NOT_ALLOWED);
+                Messages.send(sender,main.messages.MSG_TP_ACROSS_WORLDS_NOT_ALLOWED);
                 main.debug("Forbidden TP across worlds detected.");
                 main.debug("Player World: " + playerWorld.toString());
                 main.debug("Chest  World: " + chestWorld.toString());
@@ -241,25 +239,34 @@ public final class CommandUtils {
         }
         if (action == CommandAction.FETCH_CHEST && !main.groupUtils.getAllowFetchAcrossWorlds(sender)) {
             if (!playerWorld.equals(chestWorld)) {
-                sender.sendMessage(main.messages.MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED);
+                Messages.send(sender,main.messages.MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED);
                 main.debug("Forbidden Fetch across worlds detected.");
                 main.debug("Player World: " + playerWorld.toString());
                 main.debug("Chest  World: " + chestWorld.toString());
                 return;
             }
         }
-        // Max TP / Fetch distance
+        // Max / Min TP / Fetch distance
         if (playerWorld.equals(chestWorld)) {
             final double distance = sender.getLocation().distance(ac.block.getLocation());
             main.debug("Fetch / TP in same world. Distance: " + distance);
+
+            // Max distance
             final int maxTpDistance = main.groupUtils.getMaxTpDistance(sender);
             final int maxFetchDistance = main.groupUtils.getMaxFetchDistance(sender);
             if (action == CommandAction.TELEPORT_TO_CHEST && maxTpDistance > 0 && distance > maxTpDistance) {
-                sender.sendMessage(main.messages.MSG_MAX_TP_DISTANCE.replace("{distance}", String.valueOf(maxTpDistance)));
+                Messages.send(sender,main.messages.MSG_MAX_TP_DISTANCE.replace("{distance}", String.valueOf(maxTpDistance)));
                 return;
             }
             if (action == CommandAction.FETCH_CHEST && maxFetchDistance > 0 && distance > maxFetchDistance) {
-                sender.sendMessage(main.messages.MSG_MAX_FETCH_DISTANCE.replace("{distance}", String.valueOf(maxFetchDistance)));
+                Messages.send(sender,main.messages.MSG_MAX_FETCH_DISTANCE.replace("{distance}", String.valueOf(maxFetchDistance)));
+                return;
+            }
+
+            // Min distance
+            final int minDistance = main.getConfig().getInt(Config.MIN_DISTANCE);
+            if(minDistance > 0 && distance < minDistance) {
+                Messages.send(sender,main.messages.MSG_MIN_DISTANCE);
                 return;
             }
         }
@@ -274,9 +281,11 @@ public final class CommandUtils {
         switch (action) {
             case TELEPORT_TO_CHEST:
                 teleportPlayerToChest(main, sender, ac);
+                Messages.send(sender,main.messages.MSG_ANGELCHEST_TELEPORTED);
                 break;
             case FETCH_CHEST:
                 fetchChestToPlayer(main, sender, ac);
+                Messages.send(sender,main.messages.MSG_ANGELCHEST_FETCHED);
                 break;
         }
     }
@@ -383,7 +392,7 @@ public final class CommandUtils {
             return true;
         } else {
             main.debug("no, not enough money - nothing paid");
-            player.sendMessage(messageWhenNotEnoughMoney);
+            Messages.send(player,messageWhenNotEnoughMoney);
             return false;
         }
 
@@ -418,7 +427,7 @@ public final class CommandUtils {
         final ArrayList<AngelChest> angelChestsFromThisPlayer = AngelChestUtils.getAllAngelChestsFromPlayer(affectedPlayer);
 
         if (angelChestsFromThisPlayer.isEmpty()) {
-            sendTo.sendMessage(main.messages.MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS);
+            Messages.send(sendTo,main.messages.MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS);
             return;
         }
 
@@ -479,7 +488,7 @@ public final class CommandUtils {
 
     public static void unlockSingleChest(final Main main, final CommandSender requester, final AngelChest ac) {
 //		if(!p.hasPermission("angelchest.tp")) {
-//			p.sendMessage(plugin.getCommand("aclist").getPermissionMessage());
+//			Messages.send(p,plugin.getCommand("aclist").getPermissionMessage());
 //			return;
 //		}
         /*
@@ -490,13 +499,13 @@ public final class CommandUtils {
         */
 
         if (!ac.isProtected) {
-            requester.sendMessage(main.messages.ERR_ALREADYUNLOCKED);
+            Messages.send(requester,main.messages.ERR_ALREADYUNLOCKED);
             return;
         }
 
         ac.unlock();
         ac.scheduleBlockChange();
-        requester.sendMessage(main.messages.MSG_UNLOCKED_ONE_ANGELCHEST);
+        Messages.send(requester,main.messages.MSG_UNLOCKED_ONE_ANGELCHEST);
     }
 
     /*
@@ -514,11 +523,11 @@ public final class CommandUtils {
         }
 
         if (chestsUnlocked == 0) {
-            p.sendMessage(main.messages.MSG_ALL_YOUR_ANGELCHESTS_WERE_ALREADY_UNLOCKED);
+            Messages.send(p,main.messages.MSG_ALL_YOUR_ANGELCHESTS_WERE_ALREADY_UNLOCKED);
         } else if (chestsUnlocked == 1) {
-            p.sendMessage(main.messages.MSG_UNLOCKED_ONE_ANGELCHEST);
+            Messages.send(p,main.messages.MSG_UNLOCKED_ONE_ANGELCHEST);
         } else {
-            p.sendMessage(String.format(main.messages.MSG_UNLOCKED_MORE_ANGELCHESTS, chestsUnlocked));
+            Messages.send(p,String.format(main.messages.MSG_UNLOCKED_MORE_ANGELCHESTS, chestsUnlocked));
         }
     }*/
 }
