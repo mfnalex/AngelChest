@@ -8,7 +8,7 @@ import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.PendingConfirm;
 import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.EconomyStatus;
-import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.listeners.InvulnerabilityListener;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
@@ -117,6 +117,9 @@ public final class CommandUtils {
                 default:
                     break;
             }
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () ->{
+                SoundUtils.playTpFetchSound(player,ac.getBlock().getLocation(), CommandAction.TELEPORT_TO_CHEST);
+            }, 1L);
         } catch (final Throwable ignored) {
 
         }
@@ -143,7 +146,7 @@ public final class CommandUtils {
 
         // Add invulnerability
         final int seconds = main.groupUtils.getInvulnerabilityTimePerPlayer(player);
-        if (seconds > 0 && Daddy.allows(Features.INVULNERABILITY_ON_TP)) {
+        if (seconds > 0 && Daddy.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
 
             main.debug("Making player " + player.getName() + " invulnerable for " + main.getConfig().getDouble(Config.INVULNERABILITY_AFTER_TP) + " seconds");
             if (NBTAPI.hasNBT(player, NBTTags.IS_INVULNERABLE)) {
@@ -177,7 +180,7 @@ public final class CommandUtils {
         } else if (seconds <= 0) {
             main.debug("Invulnerability time is set to 0.");
         } else {
-            if (!Daddy.allows(Features.INVULNERABILITY_ON_TP)) {
+            if (!Daddy.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
                 Messages.sendPremiumOnlyConsoleMessage(Config.INVULNERABILITY_AFTER_TP);
             }
         }
@@ -286,6 +289,7 @@ public final class CommandUtils {
             case FETCH_CHEST:
                 fetchChestToPlayer(main, sender, ac);
                 Messages.send(sender,main.messages.MSG_ANGELCHEST_FETCHED);
+                SoundUtils.playTpFetchSound(sender, sender.getLocation(), CommandAction.FETCH_CHEST);
                 break;
         }
     }

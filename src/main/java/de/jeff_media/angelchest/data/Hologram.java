@@ -2,7 +2,7 @@ package de.jeff_media.angelchest.data;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
-import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
 import de.jeff_media.angelchest.utils.CommandUtils;
@@ -63,7 +63,7 @@ public final class Hologram {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
-            if (Daddy.allows(Features.HOLOGRAM_SHOWS_PROTECTION_STATUS)) {
+            if (Daddy.allows(PremiumFeatures.HOLOGRAM_SHOWS_PROTECTION_STATUS)) {
                 line = line.replaceAll("\\{protected}", getProtectedText(chest));
             }
             boolean customNameVisible = true;
@@ -154,7 +154,7 @@ public final class Hologram {
             if (armorStand != null) {
 
                 line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
-                if (Daddy.allows(Features.GENERIC)) { // Don't add Feature here, this method gets called every second
+                if (Daddy.allows(PremiumFeatures.GENERIC)) { // Don't add Feature here, this method gets called every second
                     line = line.replaceAll("\\{protected}", getProtectedText(chest));
                 }
                 if (line.equals("")) {

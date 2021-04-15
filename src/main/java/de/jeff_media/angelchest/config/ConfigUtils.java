@@ -3,7 +3,7 @@ package de.jeff_media.angelchest.config;
 import de.jeff_media.angelchest.EmergencyMode;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.data.BlacklistEntry;
-import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIManager;
 import de.jeff_media.angelchest.hooks.ExecutableItemsHook;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
@@ -35,7 +35,7 @@ public final class ConfigUtils {
         final Main main = Main.getInstance();
         final FileConfiguration conf = main.getConfig();
 
-        metric("using_plus_version", String.valueOf(Daddy.allows(Features.GENERIC)));
+        metric("using_plus_version", String.valueOf(Daddy.allows(PremiumFeatures.GENERIC)));
 
         main.saveDefaultConfig();
         main.saveResource("groups.example.yml", true);
@@ -252,6 +252,27 @@ public final class ConfigUtils {
 
         conf.addDefault(Config.MIN_DISTANCE, 0);
         metric(Config.MIN_DISTANCE);
+
+        /*
+    play-sound-on-tp: true
+play-sound-on-fetch: true
+sound-effect: ENTITY_EXPERIENCE_ORB_PICKUP
+sound-volume: 1.0
+sound-pitch: 1.0
+sound-channel: BLOCKS
+     */
+
+        conf.addDefault(Config.PLAY_SOUND_ON_TP, true);
+
+        conf.addDefault(Config.PLAY_SOUND_ON_FETCH, true);
+
+        conf.addDefault(Config.SOUND_EFFECT, "ENTITY_EXPERIENCE_ORB_PICKUP");
+
+        conf.addDefault(Config.SOUND_VOLUME, 1.0);
+
+        conf.addDefault(Config.SOUND_PITCH, 1.0);
+
+        conf.addDefault(Config.SOUND_CHANNEL, "BLOCKS");
 
         main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
         metric(Config.DISABLED_MATERIALS, String.valueOf(main.disabledMaterials.size()));

@@ -112,4 +112,11 @@ public final class Config {
     public static final String EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION = "exempt-elitemobs-soulbound-items-from-generic-soulbound-detection";
     public static final String USING_ACTOGGLE_BREAKS_EXISTING_CHESTS = "using-actoggle-breaks-existing-chests";
     public static final String MIN_DISTANCE = "min-distance";
+    public static final String PLAY_SOUND_ON_TP = "play-sound-on-tp";
+    public static final String PLAY_SOUND_ON_FETCH = "play-sound-on-fetch";
+    public static final String SOUND_EFFECT = "sound-effect";
+    public static final String SOUND_VOLUME = "sound-volume";
+    public static final String SOUND_PITCH = "sound-pitch";
+    public static final String SOUND_CHANNEL = "sound-channel";
+
 }

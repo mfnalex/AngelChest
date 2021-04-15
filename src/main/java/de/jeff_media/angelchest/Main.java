@@ -9,7 +9,7 @@ import de.jeff_media.angelchest.data.DeathCause;
 import de.jeff_media.angelchest.data.PendingConfirm;
 import de.jeff_media.angelchest.enums.BlacklistResult;
 import de.jeff_media.angelchest.enums.EconomyStatus;
-import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIListener;
 import de.jeff_media.angelchest.gui.GUIManager;
 import de.jeff_media.angelchest.hooks.GenericHooks;
@@ -33,7 +33,6 @@ import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -45,10 +44,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.logging.FileHandler;
 import java.util.stream.Collectors;
 
 public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, AngelChestPlugin {
@@ -174,7 +171,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     }
 
     public Material getChestMaterial(final AngelChest chest) {
-        if (!Daddy.allows(Features.GENERIC)) {
+        if (!Daddy.allows(PremiumFeatures.GENERIC)) {
             return chestMaterial;
         }
         if (!getConfig().getBoolean(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED)) {
@@ -247,7 +244,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     }
 
     public @Nullable String isItemBlacklisted(final ItemStack item) {
-        if (!Daddy.allows(Features.GENERIC)) { // Don't add feature here, gets called for every item on death
+        if (!Daddy.allows(PremiumFeatures.GENERIC)) { // Don't add feature here, gets called for every item on death
             return null;
         }
         for (final BlacklistEntry entry : itemBlacklist.values()) {
@@ -406,12 +403,12 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 
         setEconomyStatus();
 
-        final char color = Daddy.allows(Features.DONT_SHOW_NAG_MESSAGE) ? 'a' : '6';
-        for (final String line : Daddy.allows(Features.DONT_SHOW_NAG_MESSAGE) ? Messages.usingPlusVersion : Messages.usingFreeVersion) {
+        final char color = Daddy.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? 'a' : '6';
+        for (final String line : Daddy.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? Messages.usingPlusVersion : Messages.usingFreeVersion) {
             getLogger().info(ChatColor.translateAlternateColorCodes('&', "&" + color + line));
         }
 
-        if (Daddy.allows(Features.GENERIC)) {
+        if (Daddy.allows(PremiumFeatures.GENERIC)) {
             DiscordVerificationUtils.createVerificationFile();
         }
 
@@ -511,7 +508,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
                     it.remove();
                     continue;
                 }
-                if (Daddy.allows(Features.GENERIC) && ac.isProtected && ac.unlockIn > -1) { // Don't add feature here, gets called every second
+                if (Daddy.allows(PremiumFeatures.GENERIC) && ac.isProtected && ac.unlockIn > -1) { // Don't add feature here, gets called every second
                     ac.unlockIn--;
                     if (ac.unlockIn == -1) {
                         ac.isProtected = false;

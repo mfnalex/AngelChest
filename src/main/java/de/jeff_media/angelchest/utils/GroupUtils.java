@@ -6,7 +6,7 @@ import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.Group;
 import de.jeff_media.angelchest.enums.EconomyStatus;
-import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.daddy.Daddy;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -61,7 +61,7 @@ public final class GroupUtils {
     private static int getPercentageItemLoss(final Player p, final String value) {
         final Main main = Main.getInstance();
         if (value.endsWith("p")) {
-            if (!Daddy.allows(Features.RANDOM_ITEM_LOSS)) {
+            if (!Daddy.allows(PremiumFeatures.RANDOM_ITEM_LOSS)) {
                 main.getLogger().warning("You are using percentage random-item-loss in your config file. This is only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
                 return 0;
             }
@@ -80,7 +80,7 @@ public final class GroupUtils {
     public static double getPercentagePrice(final CommandSender commandSender, final String value) {
         final Main main = Main.getInstance();
         if (value.endsWith("p")) {
-            if (!Daddy.allows(Features.SET_PRICES_AS_PERCENTAGE)) {
+            if (!Daddy.allows(PremiumFeatures.SET_PRICES_AS_PERCENTAGE)) {
                 main.getLogger().warning("You are using percentage prices in your config file. This is only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
                 return 0;
             }
@@ -129,7 +129,7 @@ public final class GroupUtils {
 
     public int getMaxFetchDistance(final CommandSender commandSender) {
         final int result = getMaxFetchDistancePremium(commandSender);
-        if (!Daddy.allows(Features.MAX_TP_FETCH_DISTANCE)) {
+        if (!Daddy.allows(PremiumFeatures.MAX_TP_FETCH_DISTANCE)) {
             Messages.sendPremiumOnlyConsoleMessage(Config.MAX_FETCH_DISTANCE);
             return 0;
         }
@@ -157,7 +157,7 @@ public final class GroupUtils {
 
     public int getMaxTpDistance(final CommandSender commandSender) {
         final int result = getMaxTpDistancePremium(commandSender);
-        if (!Daddy.allows(Features.MAX_TP_FETCH_DISTANCE)) {
+        if (!Daddy.allows(PremiumFeatures.MAX_TP_FETCH_DISTANCE)) {
             Messages.sendPremiumOnlyConsoleMessage(Config.MAX_TP_DISTANCE);
             return 0;
         }
@@ -225,7 +225,7 @@ public final class GroupUtils {
     }
 
     public double getFetchPricePerPlayer(final CommandSender commandSender) {
-        if (yaml == null || !Daddy.allows(Features.FETCH_PRICE_PER_PLAYER))
+        if (yaml == null || !Daddy.allows(PremiumFeatures.FETCH_PRICE_PER_PLAYER))
             return getPercentagePrice(commandSender, main.getConfig().getString(Config.PRICE_FETCH));
         final Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
@@ -266,7 +266,7 @@ public final class GroupUtils {
     }
 
     public int getItemLossPerPlayer(final Player p) {
-        if (yaml == null || !Daddy.allows(Features.RANDOM_ITEM_LOSS))
+        if (yaml == null || !Daddy.allows(PremiumFeatures.RANDOM_ITEM_LOSS))
             return getPercentageItemLoss(p, main.getConfig().getString(Config.ITEM_LOSS));
         final Iterator<String> it = groups.keySet().iterator();
         Integer bestValueFound = null;
@@ -287,7 +287,7 @@ public final class GroupUtils {
     }
 
     public double getOpenPricePerPlayer(final Player p) {
-        if (!Daddy.allows(Features.PAY_TO_OPEN_ANGELCHEST)) {
+        if (!Daddy.allows(PremiumFeatures.PAY_TO_OPEN_ANGELCHEST)) {
             return 0;
         }
         if (yaml == null) return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_OPEN));
@@ -310,7 +310,7 @@ public final class GroupUtils {
     }
 
     public double getSpawnChancePerPlayer(final Player p) {
-        if (!Daddy.allows(Features.SPAWN_CHANCE)) return 1.0;
+        if (!Daddy.allows(PremiumFeatures.SPAWN_CHANCE)) return 1.0;
         if (yaml == null) return main.getConfig().getDouble(Config.SPAWN_CHANCE);
         final Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
@@ -332,7 +332,7 @@ public final class GroupUtils {
     }
 
     public double getSpawnPricePerPlayer(final Player p) {
-        if (!Daddy.allows(Features.SPAWN_PRICE_PER_PLAYER)) {
+        if (!Daddy.allows(PremiumFeatures.SPAWN_PRICE_PER_PLAYER)) {
             return 0;
         }
         if (yaml == null) return getPercentagePrice(p, main.getConfig().getString(Config.PRICE));
@@ -355,7 +355,7 @@ public final class GroupUtils {
     }
 
     public double getTeleportPricePerPlayer(final CommandSender p) {
-        if (yaml == null || !Daddy.allows(Features.TELEPORT_PRICE_PER_PLAYER))
+        if (yaml == null || !Daddy.allows(PremiumFeatures.TELEPORT_PRICE_PER_PLAYER))
             return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_TELEPORT));
         final Iterator<String> it = groups.keySet().iterator();
         Double bestValueFound = null;
@@ -376,7 +376,7 @@ public final class GroupUtils {
     }
 
     public int getUnlockDurationPerPlayer(final Player p) {
-        if (!Daddy.allows(Features.UNLOCK_DURATION_PER_PLAYER)) {
+        if (!Daddy.allows(PremiumFeatures.UNLOCK_DURATION_PER_PLAYER)) {
             return -1;
         }
         if (yaml == null) {

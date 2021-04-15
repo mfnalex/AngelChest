@@ -13,7 +13,7 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
-import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.daddy.Daddy;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -126,7 +126,7 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
         if (allow) {
             return true;
         } else {
-            if (!Daddy.allows(Features.WORLD_GUARD_FLAGS)) {
+            if (!Daddy.allows(PremiumFeatures.WORLD_GUARD_FLAGS)) {
                 main.getLogger().warning("You are using AngelChest's WorldGuard flags, which are only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
                 return true;
             }

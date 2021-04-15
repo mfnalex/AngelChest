@@ -6,7 +6,7 @@ import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.EconomyStatus;
-import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
 import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
@@ -254,7 +254,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
         final int randomItemLoss = main.groupUtils.getItemLossPerPlayer(player);
         if (randomItemLoss > 0) {
-            if (Daddy.allows(Features.RANDOM_ITEM_LOSS)) {
+            if (Daddy.allows(PremiumFeatures.RANDOM_ITEM_LOSS)) {
                 LogUtils.debugBanner(new String[] {"RANDOM ITEM LOSS"});
                 main.debug("Removed " + randomItemLoss + " item stacks randomly:");
                 randomlyLostItems = InventoryUtils.removeRandomItemsFromInventory(playerInventory, randomItemLoss);

@@ -5,7 +5,7 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.data.AngelChest;
-import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
 import de.jeff_media.daddy.Daddy;
@@ -31,7 +31,7 @@ public class CommandToggle implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
 
-        if(!Daddy.allows(Features.ACTOGGLE)) {
+        if(!Daddy.allows(PremiumFeatures.ACTOGGLE)) {
             Messages.send(commandSender,main.messages.MSG_PREMIUMONLY);
             return true;
         }

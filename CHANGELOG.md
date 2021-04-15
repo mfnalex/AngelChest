@@ -1,3 +1,6 @@
+## 3.15.0
+- Added option to play custom sound effects when fetching or teleporting to an AngelChest
+
 ## 3.14.0
 - Added "min-distance" for fetch and teleporting to avoid fetching or teleporting to chests that are already nearby
 - Added messages when teleporting to or fetching a chest (can be disabled, see below)

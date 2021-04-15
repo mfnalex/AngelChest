@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.config;
 
 import de.jeff_media.angelchest.Main;
-import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.daddy.Daddy;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -73,7 +73,7 @@ public final class ConfigDumper {
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, banner("Server information"));
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Server Version: " + Bukkit.getVersion());
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Bukkit API Version: " + Bukkit.getBukkitVersion());
-        de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Plugin version: " + main.getDescription().getName() + (Daddy.allows(Features.GENERIC) ? "Plus" : "") + " " + main.getDescription().getVersion());
+        de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Plugin version: " + main.getDescription().getName() + (Daddy.allows(PremiumFeatures.GENERIC) ? "Plus" : "") + " " + main.getDescription().getVersion());
 
         // Broken config files
         Messages.send(sender,"Saving config checkp...");

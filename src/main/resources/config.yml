@@ -355,6 +355,23 @@ max-fetch-distance: 0
 # having to pay the price again.
 min-distance: 0
 
+#################################
+#### Sounds for TP / Fetch  #####
+#################################
+
+# You can have sound effects when fetching or teleporting to your chests, if you feel like it.
+# See here for the sound names of the current version:
+# https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! Free version will always use 0
+play-sound-on-tp: true
+play-sound-on-fetch: true
+sound-effect: ENTITY_EXPERIENCE_ORB_PICKUP
+sound-volume: 1.0
+sound-pitch: 1.0
+sound-channel: BLOCKS
+
+
+
 #########################
 #### Disabled items  ####
 #########################

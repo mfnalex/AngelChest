@@ -8,7 +8,7 @@ import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.BlacklistEntry;
 import de.jeff_media.angelchest.enums.BlacklistResult;
-import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.utils.BlacklistUtils;
 import de.jeff_media.angelchest.utils.HologramFixer;
 import de.jeff_media.angelchest.utils.Utils;
@@ -46,7 +46,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
 
     private void blacklist(final CommandSender commandSender, String[] args) {
 
-        if (!Daddy.allows(Features.GENERIC)) {
+        if (!Daddy.allows(PremiumFeatures.GENERIC)) {
             Messages.send(commandSender,main.messages.MSG_PREMIUMONLY);
             return;
         }

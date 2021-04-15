@@ -6,7 +6,7 @@ import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.DeathCause;
-import de.jeff_media.angelchest.enums.Features;
+import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.events.AngelChestSpawnEvent;
 import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
 import de.jeff_media.angelchest.nbt.NBTTags;
@@ -141,7 +141,7 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        if (p.isSneaking() && Daddy.allows(Features.OPEN_GUI_VIA_SHIFT_RIGHTCLICK)) {
+        if (p.isSneaking() && Daddy.allows(PremiumFeatures.OPEN_GUI_VIA_SHIFT_RIGHTCLICK)) {
             main.guiManager.showPreviewGUI(p, angelChest, false, firstOpened);
         } else {
             openAngelChest(p, angelChest, firstOpened);
@@ -271,7 +271,7 @@ public final class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerRespawn(final PlayerRespawnEvent playerRespawnEvent) {
         main.debug("Player Respawn: Show GUI to player?");
-        if (!Daddy.allows(Features.GUI)) {
+        if (!Daddy.allows(PremiumFeatures.GUI)) {
             main.debug("  No: not using premium version");
             return;
         }
@@ -325,7 +325,7 @@ public final class PlayerListener implements Listener {
             Messages.send(p,main.messages.MSG_YOU_GOT_YOUR_INVENTORY_BACK);
 
             // This is another player's chest
-            if (Daddy.allows(Features.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_ANGELCHEST)) {
+            if (Daddy.allows(PremiumFeatures.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_ANGELCHEST)) {
                 if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
                     Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                     if (tmpPlayer != null) {
@@ -343,7 +343,7 @@ public final class PlayerListener implements Listener {
             Messages.send(p,main.messages.MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK);
 
             // This is another player's chest
-            if (Daddy.allows(Features.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_ANGELCHEST)) {
+            if (Daddy.allows(PremiumFeatures.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_ANGELCHEST)) {
                 if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
                     Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                     if (tmpPlayer != null) {
@@ -437,7 +437,7 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        if (Daddy.allows(Features.PROHIBIT_CHEST_IN_LAVA_OR_VOID)) {
+        if (Daddy.allows(PremiumFeatures.PROHIBIT_CHEST_IN_LAVA_OR_VOID)) {
             if (!main.getConfig().getBoolean(Config.ALLOW_CHEST_IN_LAVA) && p.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
                 main.debug("Cancelled: Lava, allow-chest-in-lava: false");
                 return;
@@ -453,7 +453,7 @@ public final class PlayerListener implements Listener {
             if (isPvpDeath) {
                 main.debug("Cancelled: allow-angelchest-in-pvp is false and this seemed to be a pvp death");
                 if (main.getConfig().getBoolean(Config.DROP_HEADS)) {
-                    if (Daddy.allows(Features.DROP_HEADS)) {
+                    if (Daddy.allows(PremiumFeatures.DROP_HEADS)) {
                         dropPlayerHead(p);
                     }
                 }
@@ -540,7 +540,7 @@ public final class PlayerListener implements Listener {
         }
         LogUtils.debugBanner(new String[]{"ADDITIONAL DEATH DROP LIST END"});
 
-        if (main.getConfig().getBoolean(Config.DROP_HEADS) && Daddy.allows(Features.DROP_HEADS)) {
+        if (main.getConfig().getBoolean(Config.DROP_HEADS) && Daddy.allows(PremiumFeatures.DROP_HEADS)) {
             boolean dropHead = false;
             if (main.getConfig().getBoolean(Config.ONLY_DROP_HEADS_IN_PVP)) {
                 if (isPvpDeath) {
@@ -580,15 +580,15 @@ public final class PlayerListener implements Listener {
         Experience
          */
         //noinspection StatementWithEmptyBody
-        if (Daddy.allows(Features.DISALLOW_XP_COLLECTION) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("false")) {
+        if (Daddy.allows(PremiumFeatures.DISALLOW_XP_COLLECTION) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("false")) {
             // Do nothing
         } else //noinspection StatementWithEmptyBody
-            if (Daddy.allows(Features.DISALLOW_XP_COLLECTION_IN_PVP) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("nopvp") && (p.getKiller() != null && p.getKiller() != p)) {
+            if (Daddy.allows(PremiumFeatures.DISALLOW_XP_COLLECTION_IN_PVP) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("nopvp") && (p.getKiller() != null && p.getKiller() != p)) {
                 // Do nothing
             } else if (!event.getKeepLevel() && event.getDroppedExp() != 0) {
                 final double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(p);
                 main.debug("Player has xpPercentage of " + xpPercentage);
-                if (xpPercentage == -1 || !Daddy.allows(Features.PERCENTAL_XP_LOSS)) {
+                if (xpPercentage == -1 || !Daddy.allows(PremiumFeatures.PERCENTAL_XP_LOSS)) {
                     ac.experience = event.getDroppedExp();
                 } else {
                     final float currentXP = XPUtils.getTotalXPRequiredForLevel(p.getLevel());
@@ -655,7 +655,7 @@ public final class PlayerListener implements Listener {
 
         }
 
-        if (Daddy.allows(Features.DONT_PROTECT_ANGELCHESTS_IN_PVP)) {
+        if (Daddy.allows(PremiumFeatures.DONT_PROTECT_ANGELCHESTS_IN_PVP)) {
             if (main.getConfig().getBoolean(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP)) {
                 if (p.getKiller() != null && p.getKiller() != p) {
                     ac.isProtected = false;
