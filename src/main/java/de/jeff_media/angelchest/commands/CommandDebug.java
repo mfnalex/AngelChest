@@ -34,11 +34,7 @@ import java.util.UUID;
 
 public final class CommandDebug implements CommandExecutor, TabCompleter {
 
-    private final Main main;
-
-    public CommandDebug() {
-        this.main = Main.getInstance();
-    }
+    private final Main main = Main.getInstance();
 
     private static String[] shift(final String[] args) {
         return Arrays.stream(args).skip(1).toArray(String[]::new);

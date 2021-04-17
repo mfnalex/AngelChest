@@ -26,15 +26,13 @@ import java.util.Objects;
  */
 public final class WorldGuardHandler extends WorldGuardWrapper {
 
-
     public static StateFlag FLAG_ALLOW_ANGELCHEST = null;
-    final Main main;
+    private final Main main = Main.getInstance();
     public boolean disabled = false;
     RegionContainer regionContainer;
     WorldGuardPlugin worldGuardPlugin;
 
-    public WorldGuardHandler(final Main main) {
-        this.main = main;
+    public WorldGuardHandler() {
 
         if (main.getConfig().getBoolean(Config.DISABLE_WORLDGUARD_INTEGRATION)) {
             disabled = true;

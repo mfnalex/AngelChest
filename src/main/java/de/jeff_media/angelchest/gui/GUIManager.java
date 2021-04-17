@@ -27,12 +27,7 @@ import java.util.List;
 
 public final class GUIManager {
 
-    private final Main main;
-
-    public GUIManager() {
-        this.main = Main.getInstance();
-
-    }
+    private final Main main = Main.getInstance();
 
     private static int getInventorySize(final int numberOfChests) {
         if (numberOfChests <= 9) return 9;

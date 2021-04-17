@@ -377,7 +377,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         Objects.requireNonNull(this.getCommand("actoggle")).setExecutor(new CommandToggle());
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new PlaceholderAPIHook(this).register();
+            new PlaceholderAPIHook().register();
         }
 
         final CommandDebug commandDebug = new CommandDebug();

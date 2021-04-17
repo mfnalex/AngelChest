@@ -22,11 +22,7 @@ import java.util.Map;
 
 public class CommandToggle implements CommandExecutor {
 
-    private final Main main;
-
-    public CommandToggle() {
-        this.main = Main.getInstance();
-    }
+    private final Main main = Main.getInstance();
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {

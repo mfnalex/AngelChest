@@ -14,15 +14,13 @@ import java.io.File;
  */
 public final class InventoryPagesHook {
 
-    final Main main;
+    private final Main main = Main.getInstance();
     boolean disabled = false;
     YamlConfiguration inventoryPagesConfig;
     Material prevMat, nextMat, noPageMat;
     String prevName, nextName, noPageName;
 
     public InventoryPagesHook() {
-        this.main = Main.getInstance();
-
         final File inventoryPagesConfigFile = new File(main.getDataFolder() + File.separator + ".." + File.separator + "InventoryPages" + File.separator + "config.yml");
 
         if (!inventoryPagesConfigFile.exists()) {

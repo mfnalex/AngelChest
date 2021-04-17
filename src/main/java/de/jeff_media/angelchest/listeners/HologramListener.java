@@ -10,11 +10,7 @@ import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
  */
 public final class HologramListener implements Listener {
 
-    final Main main;
-
-    public HologramListener() {
-        this.main = Main.getInstance();
-    }
+    private final Main main = Main.getInstance();
 
     /**
      * Prevents AngelChest holograms from being manipulated

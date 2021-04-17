@@ -21,11 +21,7 @@ import java.io.File;
  */
 public final class BlockListener implements Listener {
 
-    final Main main;
-
-    public BlockListener() {
-        this.main = Main.getInstance();
-    }
+    private final Main main = Main.getInstance();
 
     /**
      * Called when an AngelChest's block is being broken.

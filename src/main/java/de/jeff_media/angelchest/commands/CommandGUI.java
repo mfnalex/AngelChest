@@ -13,11 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class CommandGUI implements CommandExecutor {
 
-    final Main main;
-
-    public CommandGUI() {
-        this.main = Main.getInstance();
-    }
+    private final Main main = Main.getInstance();
 
     @Override
     public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String alias, final String[] args) {

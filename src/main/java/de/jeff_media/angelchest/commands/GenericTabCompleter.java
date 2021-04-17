@@ -17,11 +17,8 @@ import java.util.UUID;
 
 public class GenericTabCompleter implements TabCompleter {
 
-    private final Main main;
+    private final Main main = Main.getInstance();
 
-    public GenericTabCompleter() {
-        this.main = Main.getInstance();
-    }
 
     private int getChests(final UUID uuid) {
         return main.getAllAngelChestsFromPlayer(Bukkit.getOfflinePlayer(uuid)).size();

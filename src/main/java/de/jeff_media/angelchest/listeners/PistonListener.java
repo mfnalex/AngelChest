@@ -16,11 +16,7 @@ import java.util.List;
  */
 public final class PistonListener implements Listener {
 
-    final Main main;
-
-    public PistonListener() {
-        this.main = Main.getInstance();
-    }
+    private final Main main = Main.getInstance();
 
     /**
      * Prevents pistons from moving or destroying AngelChest blocks

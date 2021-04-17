@@ -16,11 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class CommandFetchOrTeleport implements CommandExecutor {
 
-    final Main main;
-
-    public CommandFetchOrTeleport() {
-        this.main = Main.getInstance();
-    }
+    private final Main main = Main.getInstance();
 
     @Override
     public boolean onCommand(@NotNull final CommandSender requester, final Command command, @NotNull final String alias, final String[] args) {

@@ -16,7 +16,7 @@ public class WorldGuardWrapper {
     public static WorldGuardWrapper init() {
         WorldGuardWrapper handler;
         try {
-            handler = new WorldGuardHandler(Main.getInstance());
+            handler = new WorldGuardHandler();
         } catch (final Throwable t) {
             handler = new WorldGuardWrapper();
         }

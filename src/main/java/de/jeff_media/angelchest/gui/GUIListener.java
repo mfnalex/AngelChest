@@ -32,11 +32,7 @@ import java.util.HashMap;
 
 public final class GUIListener implements @NotNull Listener {
 
-    private final Main main;
-
-    public GUIListener() {
-        this.main = Main.getInstance();
-    }
+    private final Main main = Main.getInstance();
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

@@ -14,15 +14,14 @@ public final class EmergencyListener implements Listener {
     @SuppressWarnings("unused")
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent playerJoinEvent) {
-
-        if (Main.getInstance().invalidConfigFiles == null) return;
-
+        Main mainInstance = Main.getInstance();
+        if (mainInstance.invalidConfigFiles == null) return;
         if (playerJoinEvent.getPlayer().isOp()) {
             int i = 0;
-            for (final String file : Main.getInstance().invalidConfigFiles) {
+            for (final String file : mainInstance.invalidConfigFiles) {
                 final String[] text = EmergencyMode.BROKEN_CONFIG_FILE.clone();
                 i++;
-                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), ()->{
+                Bukkit.getScheduler().scheduleSyncDelayedTask(mainInstance, ()->{
                     for (int j = 0; j < text.length; j++) {
                         text[j] = text[j].replaceAll("\\{filename}", file);
                     }

@@ -19,12 +19,11 @@ import java.util.LinkedHashMap;
 
 public final class GroupUtils {
 
-    final Main main;
+    private final Main main = Main.getInstance();
     LinkedHashMap<String, Group> groups;
     YamlConfiguration yaml;
 
     public GroupUtils(final File yamlFile) {
-        this.main = Main.getInstance();
         if (!yamlFile.exists()) {
             main.getLogger().info("groups.yml does not exist, skipping custom group settings.");
             return;

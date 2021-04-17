@@ -8,11 +8,7 @@ import java.util.UUID;
 
 public final class NBTUtils {
 
-    private final Main main;
-
-    public NBTUtils() {
-        this.main = Main.getInstance();
-    }
+    private final Main main = Main.getInstance();
 
     public boolean isBrokenHologram(final ArmorStand armorStand) {
         if (!NBTAPI.hasNBT(armorStand, NBTTags.IS_HOLOGRAM)) return false;

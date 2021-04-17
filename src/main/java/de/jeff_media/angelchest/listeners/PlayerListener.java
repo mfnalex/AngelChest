@@ -52,11 +52,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public final class PlayerListener implements Listener {
 
-    final Main main;
-
-    public PlayerListener() {
-        this.main = Main.getInstance();
-    }
+    private final Main main = Main.getInstance();
 
     private static void dropPlayerHead(final Player player) {
         final ItemStack head = getPlayerHead(player);

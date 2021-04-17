@@ -14,11 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class CommandList implements CommandExecutor {
 
-    final Main main;
-
-    public CommandList() {
-        this.main = Main.getInstance();
-    }
+    private final Main main = Main.getInstance();
 
     @Override
     public boolean onCommand(@NotNull final CommandSender requester, final Command command, @NotNull final String alias, final String[] args) {

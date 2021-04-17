@@ -16,11 +16,7 @@ import java.util.ArrayList;
  */
 public final class PlaceholderAPIHook extends PlaceholderExpansion {
 
-    final Main main;
-
-    public PlaceholderAPIHook(final Main main) {
-        this.main = main;
-    }
+    private final Main main = Main.getInstance();
 
     @Override
     public boolean canRegister() {
