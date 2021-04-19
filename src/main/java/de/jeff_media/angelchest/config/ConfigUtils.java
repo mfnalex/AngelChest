@@ -250,6 +250,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION,true);
         metric(Config.EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION);
 
+        conf.addDefault(Config.LAVA_DETECTION,true);
+        metric(Config.LAVA_DETECTION);
+
         conf.addDefault(Config.MIN_DISTANCE, 0);
         metric(Config.MIN_DISTANCE);
 

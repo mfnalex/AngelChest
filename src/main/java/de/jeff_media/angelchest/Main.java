@@ -33,6 +33,7 @@ import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -463,7 +464,9 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, ()->{
             for (final Player player : Bukkit.getOnlinePlayers()) {
                 if (((Entity) player).isOnGround()) {
-                    lastPlayerPositions.put(player.getUniqueId(), player.getLocation().getBlock());
+                    if(getConfig().getBoolean(Config.LAVA_DETECTION) == false || (player.getEyeLocation().getBlock().getType() != Material.LAVA && player.getEyeLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.LAVA)) {
+                        lastPlayerPositions.put(player.getUniqueId(), player.getLocation().getBlock());
+                    }
                 }
             }
         }, Ticks.fromSeconds(1), Ticks.fromSeconds(1));

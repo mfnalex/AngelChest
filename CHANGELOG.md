@@ -1,3 +1,7 @@
+## 3.16.0
+- Improved chest placement when dying in lava (config option "lava-detection")
+- Updated translations
+
 ## 3.15.0
 - Added option to play custom sound effects when fetching or teleporting to an AngelChest
 

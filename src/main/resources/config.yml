@@ -190,6 +190,9 @@ custom-head-base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5
 # before he died in the void. When false, the chest will spawn at Y=1
 void-detection: true
 
+# When true, AngelChest will avoid spawning a chest inside lava seas and instead spawns it nearby
+lava-detection: true
+
 # When false, AngelChests will not be spawned for players who died in lava
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 allow-chest-in-lava: true
@@ -796,6 +799,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 #message-angelchest-disabled: "&cYou are no longer protected by Angels."
 #message-angelchest-enabled: "&aYou are now protected by Angels."
+#message-angelchest-fetched: "&aAngelChest fetched succesfully."
+#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
+#message-min-distance: "&cYou already are nearby your AngelChest."
 
 ##### Azerbaijan Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eBütün AngelChest'lərinin kilidi onsuzda açıqdır."
@@ -832,32 +838,35 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 #message-angelchest-disabled: "&cYou are no longer protected by Angels."
 #message-angelchest-enabled: "&aYou are now protected by Angels."
+#message-angelchest-fetched: "&aAngelChest fetched succesfully."
+#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
+#message-min-distance: "&cYou already are nearby your AngelChest."
 
 ##### Bulgarian
 #message-all-your-angelchests-were-already-unlocked: "&eВсичките Ваши AngelChest-ове бяха отключени."
-#message-angelchest-created: "&aАнгел събра Вашите неща и ги постави в сандък на мястото, на което умря."
+#message-angelchest-created: "&aАнгел събра Вашите неща и ги постави в сандък на мястото, на което умряхте."
 #message-angelchest-disappeared: "&cБяхте прекалено бавен... Вашия AngelChest изчезна и изхвърли Вашите предмети на земята."
 #message-error-players-only: "&cГрешка: Тази команда може да бъде използвана само от играчи."
-#message-inventory-was-empty: "&eАнгел потърси Вашите предмети, но не можа да намери нищо."
+#message-inventory-was-empty: "&eАнгел се опита да потърси Вашите предмети, но не можа да намери нищо."
 #message-not-allowed-to-break-other-angelchests: "&cНе може да чупите AngelChest-овете на други играчи."
-#message-not-allowed-to-open-other-angelchests: "&cНе може да отваряте AngelChest-овете на други играчи.."
+#message-not-allowed-to-open-other-angelchests: "&cНе може да отваряте AngelChest-овете на други играчи."
 #message-unlocked-more-angelchests: "&aОтключихте %d AngelChests."
 #message-unlocked-one-angelchest: "&aОтключихте Вашия AngelChest."
 #message-you-dont-have-any-angelchests: "&eНямате никакви AngelChest-ове."
 #message-you-got-part-of-your-inventory-back: "&eПолучихте част от Вашия инвентар обратно, но някои предмети са все още в AngelChest-а."
-#message-you-got-your-inventory-back: "&aПолучихте Вашия инвентар отново!"
-#message-angelchest-location: "&eЛокациите на твоите AngelChest-ове:"
+#message-you-got-your-inventory-back: "&aПолучихте Вашия инвентар обратно!"
+#message-angelchest-location: "&eЛокациите на Вашите AngelChest-ове:"
 #message-not-enough-money: "&cНямате достатъчно пари."
-#message-not-enough-money2: "&cАнгел се опита да събере твоите неща, но не успя, защото нямаше достатъчно пари."
+#message-not-enough-money2: "&cАнгел се опита да събере Вашите неща, но не успя, защото нямаше достатъчно пари."
 #message-please-select-chest: "&7Моля посочете кой AngelChest желаете да изберете."
 #message-already-unlocked: "&cТози AngelChest е вече отключен."
 #message-too-many-angelchests: "&cИмате повече AngelChest-ове отколото Вашия Ангел може да направи... Вашия стар AngelChest експлодира."
-#message-no-angelchest-in-pvp: "&cАнгел се опита да събере твоите предмети, но присъствието на Вашия убиец го изпрати обратно в небесата."
+#message-no-angelchest-in-pvp: "&cАнгел се опита да събере Вашите предмети, но присъствието на Вашия убиец го изпрати обратно в небесата."
 #message-angelchest-retrieved: "&aAngelChest беше получен!"
 #message-confirm: "&6Готови ли сте да дадете {price}{currency}. Натиснете това съобщение, за да продължите."
 #message-paid-open: "&8Вие похарчихте {price}{currency}, за да отворите AngelChest."
 #message-unlocked-automatically: "&8Вашия AngelChest беше автоматично отключен."
-#message-angelchest-opened: "&6{player} has opened your AngelChest."
+#message-angelchest-opened: "&6{player} отвори Вашия AngelChest."
 #message-angelchest-emptied: "&c{player} изпразни Вашия AngelChest."
 #message-spawn-chance-unsuccessful: "&cВашия Ангел забрави да събере нещата Ви, явно нямате късмет!"
 #message-no-permission: "&cНямате право да използвате тази команда."
@@ -869,6 +878,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cНе може да взимате AngelChests, които са на повече от {distance} блока разстояние."
 #message-angelchest-disabled: "&cАнгелите вече не Ви защитават."
 #message-angelchest-enabled: "&aАнгелите вече Ви защитават."
+#message-angelchest-fetched: "&aAngelChest беше взет успешно."
+#message-angelchest-teleported: "&aУспешно Ви телепортирахме до Вашия AngelChest."
+#message-min-distance: "&cВие вече сте в близост до Вашия AngelChest."
 
 ##### Chinese Simplified 简体中文
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天使之箱都已解锁."
@@ -906,6 +918,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 #message-angelchest-disabled: "&cYou are no longer protected by Angels."
 #message-angelchest-enabled: "&aYou are now protected by Angels."
+#message-angelchest-fetched: "&aAngelChest fetched succesfully."
+#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
+#message-min-distance: "&cYou already are nearby your AngelChest."
 
 ##### Chinese Traditional 繁體中文
 #message-all-your-angelchests-were-already-unlocked: "&e所有的天使之箱已被解鎖"
@@ -943,6 +958,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 #message-angelchest-disabled: "&cYou are no longer protected by Angels."
 #message-angelchest-enabled: "&aYou are now protected by Angels."
+#message-angelchest-fetched: "&aAngelChest fetched succesfully."
+#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
+#message-min-distance: "&cYou already are nearby your AngelChest."
 
 ##### Dutch
 #message-all-your-angelchests-were-already-unlocked: "&eAlle AngelChests die je hebt zijn al ontgrendeld"
@@ -980,6 +998,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cJe kan geen AngelChests ophalen die meer dan {distance} blokken ver weg staan"
 #message-angelchest-disabled: "&cJe spullen worden niet meer in de gaten gehouden door de engelen van AngelChest."
 #message-angelchest-enabled: "&aJe spullen worden in de gaten gehouden door de engelen van AngelChest."
+#message-angelchest-fetched: "&aAngelChest fetched succesfully."
+#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
+#message-min-distance: "&cYou already are nearby your AngelChest."
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/ 
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
@@ -1017,6 +1038,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 #message-angelchest-disabled: "&cYou are no longer protected by Angels."
 #message-angelchest-enabled: "&aYou are now protected by Angels."
+#message-angelchest-fetched: "&aAngelChest fetched succesfully."
+#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
+#message-min-distance: "&cYou already are nearby your AngelChest."
 
 ##### German
 #message-all-your-angelchests-were-already-unlocked: "&eAlle deine AngelChests waren bereits aufgeschlossen."
@@ -1054,6 +1078,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cDu kannst keine AngelChests herbeirufen die weiter als {distance} Blöcke entfernt sind."
 #message-angelchest-disabled: "&cDu wirst nicht länger von Engeln beschützt."
 #message-angelchest-enabled: "&aDu wirst jetzt von Engeln beschützt."
+#message-angelchest-fetched: "&aAngelChest heribeigerufen."
+#message-angelchest-teleported: "&aErfolgreich zur AngelChest teleportiert."
+#message-min-distance: "&cDu bist schon in der Nähe deiner AngelChest."
 
 ##### Hungarian
 #message-all-your-angelchests-were-already-unlocked: "&eAz összes AngyalLádád már fel van oldva."
@@ -1091,6 +1118,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 #message-angelchest-disabled: "&cYou are no longer protected by Angels."
 #message-angelchest-enabled: "&aYou are now protected by Angels."
+#message-angelchest-fetched: "&aAngelChest fetched succesfully."
+#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
+#message-min-distance: "&cYou already are nearby your AngelChest."
 
 ##### Indonesian
 #message-all-your-angelchests-were-already-unlocked: "&eSemua AngelChest kamu sudah tidak terkunci."
@@ -1128,6 +1158,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 #message-angelchest-disabled: "&cYou are no longer protected by Angels."
 #message-angelchest-enabled: "&aYou are now protected by Angels."
+#message-angelchest-fetched: "&aAngelChest fetched succesfully."
+#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
+#message-min-distance: "&cYou already are nearby your AngelChest."
 
 ##### Italian
 #message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChests sono già state sbloccate."
@@ -1165,6 +1198,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 #message-angelchest-disabled: "&cYou are no longer protected by Angels."
 #message-angelchest-enabled: "&aYou are now protected by Angels."
+#message-angelchest-fetched: "&aAngelChest fetched succesfully."
+#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
+#message-min-distance: "&cYou already are nearby your AngelChest."
 
 ##### Polish
 #message-all-your-angelchests-were-already-unlocked: "&eWszystkie twoje AnielskieSkrzynie zostały już odblokowane."
@@ -1202,6 +1238,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 #message-angelchest-disabled: "&cYou are no longer protected by Angels."
 #message-angelchest-enabled: "&aYou are now protected by Angels."
+#message-angelchest-fetched: "&aAngelChest fetched succesfully."
+#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
+#message-min-distance: "&cYou already are nearby your AngelChest."
 
 ##### Portuguese
 #message-all-your-angelchests-were-already-unlocked: "&eTodos os seus AngelChests estavam desbloqueados."
@@ -1239,6 +1278,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 #message-angelchest-disabled: "&cYou are no longer protected by Angels."
 #message-angelchest-enabled: "&aYou are now protected by Angels."
+#message-angelchest-fetched: "&aAngelChest fetched succesfully."
+#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
+#message-min-distance: "&cYou already are nearby your AngelChest."
 
 ##### Russian - Thanks to @GEEK for translating
 #message-all-your-angelchests-were-already-unlocked: "&eВсе ваши Ангельские сундуки разблокированы."
@@ -1276,6 +1318,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 #message-angelchest-disabled: "&cYou are no longer protected by Angels."
 #message-angelchest-enabled: "&aYou are now protected by Angels."
+#message-angelchest-fetched: "&aAngelChest fetched succesfully."
+#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
+#message-min-distance: "&cYou already are nearby your AngelChest."
 
 ##### Spanish
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus AngelChest ya se encuentran desbloqueados."
@@ -1313,6 +1358,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 #message-angelchest-disabled: "&cYou are no longer protected by Angels."
 #message-angelchest-enabled: "&aYou are now protected by Angels."
+#message-angelchest-fetched: "&aAngelChest fetched succesfully."
+#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
+#message-min-distance: "&cYou already are nearby your AngelChest."
 
 ##### Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eTüm AngelChest'lerinin kilidi zaten açık."
@@ -1349,6 +1397,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
 #message-angelchest-disabled: "&cYou are no longer protected by Angels."
 #message-angelchest-enabled: "&aYou are now protected by Angels."
+#message-angelchest-fetched: "&aAngelChest fetched succesfully."
+#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
+#message-min-distance: "&cYou already are nearby your AngelChest."
 
 #########################
 #####     Done!     #####

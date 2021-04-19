@@ -469,8 +469,10 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        // Player died below world
+
         Block fixedPlayerPosition;
+
+        // Player died below world
         if (p.getLocation().getBlockY() < 1) {
             main.debug("Fixing player position for " + p.getLocation().toString() + " because Y < 1");
             fixedPlayerPosition = null;
@@ -504,6 +506,15 @@ public final class PlayerListener implements Listener {
         } else {
             //fixedPlayerPosition = p.getLocation().getBlock();
             main.debug("MaxHeight fixing not needed for " + fixedPlayerPosition.getLocation().toString());
+        }
+
+        // Player died in Lava
+        if(main.getConfig().getBoolean(Config.LAVA_DETECTION) && fixedPlayerPosition.getType() == Material.LAVA) {
+            main.debug("Fixing player position for " + p.getLocation() + " because there's lava");
+            if (main.lastPlayerPositions.containsKey(p.getUniqueId())) {
+                fixedPlayerPosition = main.lastPlayerPositions.get(p.getUniqueId());
+                main.debug("Using last known player position " + fixedPlayerPosition.getLocation().toString());
+            }
         }
 
         main.debug("FixedPlayerPosition: " + fixedPlayerPosition.toString());

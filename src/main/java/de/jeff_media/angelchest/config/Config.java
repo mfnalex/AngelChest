@@ -118,5 +118,6 @@ public final class Config {
     public static final String SOUND_VOLUME = "sound-volume";
     public static final String SOUND_PITCH = "sound-pitch";
     public static final String SOUND_CHANNEL = "sound-channel";
+    public static final String LAVA_DETECTION = "lava-detection";
 
 }
