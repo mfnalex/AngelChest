@@ -1,3 +1,6 @@
+## 3.17.0
+- Fixed compatibility with EcoEnchants (idk why but they changed the internal name from "soulbound" to "Soulbound")
+
 ## 3.16.0
 - Improved chest placement when dying in lava (config option "lava-detection")
 - Updated translations

@@ -108,7 +108,7 @@ public final class GenericHooks implements Listener {
         final ItemMeta meta = item.getItemMeta();
         if (!meta.hasEnchants()) return false;
         for (final Enchantment enchant : meta.getEnchants().keySet()) {
-            if (enchant.getKey().getKey().equals("soulbound")) {
+            if (enchant.getKey().getKey().equalsIgnoreCase("soulbound")) {
                 return true;
             }
         }
