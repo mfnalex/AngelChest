@@ -253,6 +253,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.LAVA_DETECTION,true);
         metric(Config.LAVA_DETECTION);
 
+        conf.addDefault(Config.SPAWN_CHEST_ONLY_WHEN_BLOCK_ABOVE_IS_EMPTY, false);
+        metric(Config.SPAWN_CHEST_ONLY_WHEN_BLOCK_ABOVE_IS_EMPTY);
+
         conf.addDefault(Config.MIN_DISTANCE, 0);
         metric(Config.MIN_DISTANCE);
 

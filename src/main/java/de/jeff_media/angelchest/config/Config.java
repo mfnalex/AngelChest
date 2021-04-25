@@ -119,5 +119,6 @@ public final class Config {
     public static final String SOUND_PITCH = "sound-pitch";
     public static final String SOUND_CHANNEL = "sound-channel";
     public static final String LAVA_DETECTION = "lava-detection";
+    public static final String SPAWN_CHEST_ONLY_WHEN_BLOCK_ABOVE_IS_EMPTY = "only-spawn-chest-when-block-above-is-air";
 
 }
