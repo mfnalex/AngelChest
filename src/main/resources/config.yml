@@ -1004,9 +1004,9 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-max-fetch-distance: "&cJe kan geen AngelChests ophalen die meer dan {distance} blokken ver weg staan"
 #message-angelchest-disabled: "&cJe spullen worden niet meer in de gaten gehouden door de engelen van AngelChest."
 #message-angelchest-enabled: "&aJe spullen worden in de gaten gehouden door de engelen van AngelChest."
-#message-angelchest-fetched: "&aAngelChest fetched succesfully."
-#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
-#message-min-distance: "&cYou already are nearby your AngelChest."
+#message-angelchest-fetched: "&aAngelChest is sucesvol opgehaalt."
+#message-angelchest-teleported: "&aSucesvol getelporteerd naar je AngelChest."
+#message-min-distance: "&cJe bent al in de buurt van je AngelChest."
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/ 
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
