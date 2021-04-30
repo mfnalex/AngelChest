@@ -120,5 +120,7 @@ public final class Config {
     public static final String SOUND_CHANNEL = "sound-channel";
     public static final String LAVA_DETECTION = "lava-detection";
     public static final String MINIMUM_AIR_ABOVE_CHEST = "minimum-air-above-chest";
-
+    public static final String SUMMON_BLOCK = "block-to-right-click";
+    public static final String SACRIFICE_ITEM = "item-to-sacrifice";
+    public static final String SUMMON_ENABLED = "summon-on-right-click-block";
 }

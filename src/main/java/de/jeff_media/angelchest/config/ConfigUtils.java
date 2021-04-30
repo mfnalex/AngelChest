@@ -259,6 +259,15 @@ public final class ConfigUtils {
         conf.addDefault(Config.MIN_DISTANCE, 0);
         metric(Config.MIN_DISTANCE);
 
+        conf.addDefault(Config.SUMMON_BLOCK, "SOUL_CAMPFIRE");
+        metric(Config.SUMMON_BLOCK);
+
+        conf.addDefault(Config.SACRIFICE_ITEM, "LAPIS_BLOCK");
+        metric(Config.SACRIFICE_ITEM);
+
+        conf.addDefault(Config.SUMMON_ENABLED, false);
+        metric(Config.SUMMON_ENABLED);
+
         /*
     play-sound-on-tp: true
 play-sound-on-fetch: true

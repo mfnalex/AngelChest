@@ -6,6 +6,7 @@ import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.DeathCause;
+import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.events.AngelChestSpawnEvent;
 import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
@@ -745,4 +746,28 @@ public final class PlayerListener implements Listener {
         }
     }
 
+    @SuppressWarnings("unused")
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        //Summon the most recent angelchest if the player right clicks the given block with the given item
+        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (!main.getConfig().getBoolean(Config.SUMMON_ENABLED)) {
+                return;
+            }
+            final Block block = event.getClickedBlock();
+            if(block != null && block.getType() == Material.getMaterial(main.getConfig().getString(Config.SUMMON_BLOCK).toUpperCase())){
+                final Player p = event.getPlayer();
+                if (p.getInventory().getItemInMainHand().getType().equals(Material.getMaterial(main.getConfig().getString(Config.SACRIFICE_ITEM).toUpperCase()))) {
+                    final ArrayList<AngelChest> angelChests = AngelChestUtils.getAllAngelChestsFromPlayer(p);
+                    final int chestId = angelChests.size() - 1;
+
+                    //Remove 1 of the item used to "summon" angelchest
+                    p.getInventory().getItemInMainHand().setAmount(p.getInventory().getItemInMainHand().getAmount()-1);
+                    CommandUtils.fetchOrTeleport(main,p, angelChests.get(chestId), chestId , CommandAction.FETCH_CHEST, false);
+
+                    event.setCancelled(true);
+                }
+            }
+        }
+    }
 }
