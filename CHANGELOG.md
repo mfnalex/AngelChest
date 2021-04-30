@@ -1,5 +1,5 @@
 ## 3.18.0
-- Added config option "only-spawn-chest-when-block-above-is-air" (default "false")
+- Added config option "minimum-air-above-chest" (default 0)
 
 ## 3.17.0
 - Fixed compatibility with EcoEnchants (idk why but they changed the internal name from "soulbound" to "Soulbound")

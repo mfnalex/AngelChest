@@ -235,9 +235,8 @@ only-spawn-in:
 # do not set this value too low.
 max-radius: 10
 
-# When set to true, the chest will only spawn in places where the block above the chest
-# is empty
-only-spawn-chest-when-block-above-is-air: false
+# Searches for a new chest location if there isn't at least this amount of air above the chest.
+minimum-air-above-chest: 0
 
 # When absolutely no block inside "max-radius" is found, and the block where the player
 # died is bedrock, we can search for another block to replace instead of bedrock.

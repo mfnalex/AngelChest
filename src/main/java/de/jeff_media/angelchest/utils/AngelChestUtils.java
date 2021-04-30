@@ -119,18 +119,26 @@ public class AngelChestUtils {
         final List<Block> blocks = new ArrayList<>();
         for (int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
             for (int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
+                zloop:
                 for (int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
 
                     final Block block = location.getWorld().getBlockAt(x, y, z);
                     final Block oneBelow = location.getWorld().getBlockAt(x, y - 1, z);
-                    final Block oneAbove = location.getWorld().getBlockAt(x,y+1,z);
-
-                    if(main.getConfig().getBoolean(Config.SPAWN_CHEST_ONLY_WHEN_BLOCK_ABOVE_IS_EMPTY)) {
-                        if(!oneAbove.getType().isAir()) continue;
-                    }
 
                     if ((isAir(block.getType()) || main.onlySpawnIn.contains(block.getType())) && !main.dontSpawnOn.contains(oneBelow.getType()) && y > 0 && y < location.getWorld().getMaxHeight()) {
                         //main.verbose("Possible chest loc: "+block.toString());
+
+                        if(main.getConfig().getInt(Config.MINIMUM_AIR_ABOVE_CHEST) > 0) {
+                            //main.debug("Minimum Air above Chest: " + main.getConfig().getInt(Config.MINIMUM_AIR_ABOVE_CHEST));
+                            for(int i = 1; i <= main.getConfig().getInt(Config.MINIMUM_AIR_ABOVE_CHEST); i++) {
+                                //main.debug("Checking if " + x + ", " + (y + i) + ", " + z + " is air...");
+                                if(!location.getWorld().getBlockAt(x, y + i, z).getType().isAir()) {
+                                    //main.debug("IT ISNT!");
+                                    continue zloop;
+                                }
+                            }
+                        }
+
                         blocks.add(block);
                     }
                 }
