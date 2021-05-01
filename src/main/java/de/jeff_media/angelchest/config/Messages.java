@@ -59,6 +59,7 @@ public final class Messages {
     public final String MSG_NOT_ENOUGH_MONEY_CHEST;
     public final String MSG_NO_CHEST_IN_PVP;
     public final String MSG_NO_PERMISSION;
+    public final String MSG_NO_PERMISSION_SUMMON;
     public final String MSG_OPENED;
     public final String MSG_PAID_OPEN;
     public final String MSG_PLAYERSONLY;
@@ -91,6 +92,8 @@ public final class Messages {
         MSG_PREMIUMONLY = PREFIX + "§6This feature is only available in AngelChestPlus.";
 
         MSG_NO_PERMISSION = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-no-permission", "&cYou do not have the permission to use this command."));
+
+        MSG_NO_PERMISSION_SUMMON = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-no-permission-summon", "&cYou do not have the permission to summon your Angelchest."));
 
         MSG_SPAWN_CHANCE_UNSUCCESFULL = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-spawn-chance-unsuccessful", "&cYour Angel forgot to collect your stuff, unlucky!"));
 
