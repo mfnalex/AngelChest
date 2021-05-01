@@ -759,16 +759,21 @@ public final class PlayerListener implements Listener {
                 final Player p = event.getPlayer();
                 if (p.getInventory().getItemInMainHand().getType().equals(Material.getMaterial(main.getConfig().getString(Config.SACRIFICE_ITEM).toUpperCase()))) {
                     event.setCancelled(true);
+                    final ArrayList<AngelChest> angelChests = AngelChestUtils.getAllAngelChestsFromPlayer(p);
+                    if (angelChests.size() == 0) {
+                        Messages.send(p,main.messages.MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS);
+                        return;
+                    }
                     if (!p.hasPermission(Permissions.SUMMON)) {
                         Messages.send(p,main.messages.MSG_NO_PERMISSION_SUMMON);
                         return;
                     }
-                    final ArrayList<AngelChest> angelChests = AngelChestUtils.getAllAngelChestsFromPlayer(p);
+
                     final int chestId = angelChests.size() - 1;
 
                     //Remove 1 of the item used to "summon" angelchest
                     p.getInventory().getItemInMainHand().setAmount(p.getInventory().getItemInMainHand().getAmount()-1);
-                    CommandUtils.fetchOrTeleport(main,p, angelChests.get(chestId), chestId , CommandAction.FETCH_CHEST, false);
+                    CommandUtils.fetchOrTeleport(main,p, angelChests.get(chestId), chestId , CommandAction.SUMMON_CHEST, false);
                 }
             }
         }

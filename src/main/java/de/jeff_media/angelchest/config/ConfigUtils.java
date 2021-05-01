@@ -135,6 +135,8 @@ public final class ConfigUtils {
         conf.addDefault(Config.PRICE_FETCH, 0.0d);
         metric(Config.PRICE_FETCH);
 
+        conf.addDefault(Config.PRICE_SUMMON, 0.0d);
+        metric(Config.PRICE_SUMMON);
 
         conf.addDefault(Config.VOID_DETECTION, true);
         metric(Config.VOID_DETECTION);

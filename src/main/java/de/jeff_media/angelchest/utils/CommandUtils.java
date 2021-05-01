@@ -291,6 +291,11 @@ public final class CommandUtils {
                 Messages.send(sender,main.messages.MSG_ANGELCHEST_FETCHED);
                 SoundUtils.playTpFetchSound(sender, sender.getLocation(), CommandAction.FETCH_CHEST);
                 break;
+            case SUMMON_CHEST:
+                fetchChestToPlayer(main, sender, ac);
+                Messages.send(sender,main.messages.MSG_ANGELCHEST_FETCHED);
+                SoundUtils.playTpFetchSound(sender, sender.getLocation(), CommandAction.FETCH_CHEST);
+                break;
         }
     }
 

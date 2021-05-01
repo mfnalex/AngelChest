@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
  */
 public enum CommandAction {
 
-    TELEPORT_TO_CHEST(Permissions.TP, "AngelChest TP", "actp"), FETCH_CHEST(Permissions.FETCH, "AngelChest Fetch", "acfetch"), UNLOCK_CHEST(Permissions.PROTECT, "", "acunlock"), LIST_CHESTS(Permissions.USE, "", "aclist");
+    TELEPORT_TO_CHEST(Permissions.TP, "AngelChest TP", "actp"), FETCH_CHEST(Permissions.FETCH, "AngelChest Fetch", "acfetch"), UNLOCK_CHEST(Permissions.PROTECT, "", "acunlock"), LIST_CHESTS(Permissions.USE, "", "aclist"), SUMMON_CHEST(Permissions.SUMMON, "AngelChest Summon", "");
 
     private final String command;
     private final String economyReason;
@@ -39,6 +39,8 @@ public enum CommandAction {
             return main.groupUtils.getTeleportPricePerPlayer(player);
         } else if (this == FETCH_CHEST) {
             return main.groupUtils.getFetchPricePerPlayer(player);
+        } else if (this == SUMMON_CHEST) {
+            return main.groupUtils.getSummonPricePerPlayer(player);
         } else {
             return 0.0D;
         }

@@ -83,6 +83,7 @@ public final class Config {
     public static final String PREFIX_MESSAGES = "add-prefix";
     public static final String PRICE = "price";
     public static final String PRICE_FETCH = "price-fetch";
+    public static final String PRICE_SUMMON = "price-right-click-summon";
     public static final String PRICE_OPEN = "price-open";
     public static final String PRICE_TELEPORT = "price-teleport";
     public static final String PURGE_LOGS_EVERY_X_HOURS = "purge-logs-every-x-hours";

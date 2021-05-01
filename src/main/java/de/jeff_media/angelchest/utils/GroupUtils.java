@@ -39,6 +39,7 @@ public final class GroupUtils {
             final String priceSpawn = yaml.getString(groupName + DOT + Config.PRICE, "-1");
             final String priceOpen = yaml.getString(groupName + DOT + Config.PRICE_OPEN, "-1");
             final String priceFetch = yaml.getString(groupName + DOT + Config.PRICE_FETCH, "-1");
+            final String priceSummon = yaml.getString(groupName + DOT + Config.PRICE_SUMMON, "-1");
             final String priceTeleport = yaml.getString(groupName + DOT + Config.PRICE_TELEPORT, "-1");
             final double xpPercentage = yaml.getDouble(groupName + DOT + Config.XP_PERCENTAGE, -2);
             final int unlockDuration = yaml.getInt(groupName + DOT + Config.UNLOCK_DURATION, -1);
@@ -51,7 +52,7 @@ public final class GroupUtils {
             final Integer maxFetchDistance = yaml.isSet(groupName + DOT + Config.MAX_FETCH_DISTANCE) ? yaml.getInt(groupName + DOT + Config.MAX_FETCH_DISTANCE) : null;
 
             main.debug("Registering group " + groupName);
-            final Group group = new Group(angelchestDuration, chestsPerPlayer, priceSpawn, priceOpen, priceTeleport, priceFetch, xpPercentage, unlockDuration, spawnChance, itemLoss, invulnerabilityAfterTP, allowTpAcrossWorlds, allowFetchAcrossWorlds, maxTpDistance, maxFetchDistance);
+            final Group group = new Group(angelchestDuration, chestsPerPlayer, priceSpawn, priceOpen, priceTeleport, priceFetch, priceSummon, xpPercentage, unlockDuration, spawnChance, itemLoss, invulnerabilityAfterTP, allowTpAcrossWorlds, allowFetchAcrossWorlds, maxTpDistance, maxFetchDistance);
 
             groups.put(groupName, group);
 
@@ -242,6 +243,27 @@ public final class GroupUtils {
             return bestValueFound;
         } else {
             return getPercentagePrice(commandSender, main.getConfig().getString(Config.PRICE_FETCH));
+        }
+    }
+
+    public double getSummonPricePerPlayer(final CommandSender commandSender) {
+        if (yaml == null || !true)
+            return getPercentagePrice(commandSender, main.getConfig().getString(Config.PRICE_SUMMON));
+        final Iterator<String> it = groups.keySet().iterator();
+        Double bestValueFound = null;
+        while (it.hasNext()) {
+            final String group = it.next();
+            if (!commandSender.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+            final String pricePerPlayer = groups.get(group).priceSummon;
+            if (pricePerPlayer.equals("-1")) {
+                continue;
+            }
+            bestValueFound = bestValueFound == null ? getPercentagePrice(commandSender, pricePerPlayer) : Math.min(getPercentagePrice(commandSender, pricePerPlayer), bestValueFound);
+        }
+        if (bestValueFound != null) {
+            return bestValueFound;
+        } else {
+            return getPercentagePrice(commandSender, main.getConfig().getString(Config.PRICE_SUMMON));
         }
     }
 

@@ -348,6 +348,11 @@ price-teleport: 0
 # your death location is probably more useful than just getting your stuff back.
 price-fetch: 0
 
+# How much does it cost to summon your AngelChests when using the right click on block option?
+# I suggest you make this cheaper than "price-teleport" because teleporting to
+# your death location is probably more useful than just getting your stuff back.
+price-right-click-summon: 0
+
 # When set to true, players must confirm teleporting to or fetching a chest if you set a price for those actions
 # by entering the same command again or by clicking on a text message in the chat
 confirm: true
