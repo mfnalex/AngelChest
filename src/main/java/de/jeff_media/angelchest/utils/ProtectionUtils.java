@@ -16,7 +16,7 @@ public final class ProtectionUtils {
         final BlockPlaceEvent event = new BlockPlaceEvent(loc.getBlock(), loc.getBlock().getState(), loc.getBlock().getRelative(BlockFace.DOWN), new ItemStack(Material.DIRT), p, true, EquipmentSlot.HAND);
         main.getServer().getPluginManager().callEvent(event);
         if (event.isCancelled()) {
-            main.debug("AngelChest spawn prevented because player " + p.getName() + " is not allowed to place blocks at " + loc.toString());
+            if(main.debug) main.debug("AngelChest spawn prevented because player " + p.getName() + " is not allowed to place blocks at " + loc.toString());
             return false;
         }
         return true;

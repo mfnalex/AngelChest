@@ -30,6 +30,9 @@
 #
 #   ignoreColors: <true|false> (whether name and lore also check for color codes)
 #
+#   enchantments:        (the item must include all given enchantments, regardless of their level)
+#     - soulbind
+#
 # Use '&' for color codes. If you set ignoreColors to false, do NOT add the color code.
 # If you want to see the exact name and lore values for an item that you hold in your hand,
 # enter "/acd blacklist info" to get information about the current item.

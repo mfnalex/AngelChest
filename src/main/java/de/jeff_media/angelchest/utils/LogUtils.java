@@ -19,12 +19,12 @@ public final class LogUtils {
         StringBuilder dash = new StringBuilder(longestLine);
         Stream.generate(()->"*").limit(longestLine).forEach(dash::append);
 
-        main.debug(dash.toString());
+        if(main.debug) main.debug(dash.toString());
         //sb.append(dash);
         for (String line : lines) {
-            main.debug("* " + line);
+            if(main.debug) main.debug("* " + line);
         }
-        main.debug(dash.toString());
+        if(main.debug) main.debug(dash.toString());
     }
 
 }

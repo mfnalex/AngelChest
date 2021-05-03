@@ -117,6 +117,8 @@ public class AngelChestUtils {
         final Main main = Main.getInstance();
         final int radius = main.getConfig().getInt(Config.MAX_RADIUS);
         final List<Block> blocks = new ArrayList<>();
+        // TODO: Start with death location. Continue if a location has been found.
+        // Fixes problems with too high max-radius values and also avoids having to sort the list
         for (int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
             for (int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
                 zloop:
@@ -129,11 +131,11 @@ public class AngelChestUtils {
                         //main.verbose("Possible chest loc: "+block.toString());
 
                         if(main.getConfig().getInt(Config.MINIMUM_AIR_ABOVE_CHEST) > 0) {
-                            //main.debug("Minimum Air above Chest: " + main.getConfig().getInt(Config.MINIMUM_AIR_ABOVE_CHEST));
+                            //if(main.debug) main.debug("Minimum Air above Chest: " + main.getConfig().getInt(Config.MINIMUM_AIR_ABOVE_CHEST));
                             for(int i = 1; i <= main.getConfig().getInt(Config.MINIMUM_AIR_ABOVE_CHEST); i++) {
-                                //main.debug("Checking if " + x + ", " + (y + i) + ", " + z + " is air...");
+                                //if(main.debug) main.debug("Checking if " + x + ", " + (y + i) + ", " + z + " is air...");
                                 if(!location.getWorld().getBlockAt(x, y + i, z).getType().isAir()) {
-                                    //main.debug("IT ISNT!");
+                                    //if(main.debug) main.debug("IT ISNT!");
                                     continue zloop;
                                 }
                             }
@@ -214,17 +216,17 @@ public class AngelChestUtils {
             return true;
         }
 
-        main.debug("spawn chance = " + chance);
+        if(main.debug) main.debug("spawn chance = " + chance);
         if (chance >= 1.0) {
-            main.debug("chance >= 1.0, return true");
+            if(main.debug) main.debug("chance >= 1.0, return true");
             return true;
         }
         final int chancePercent = (int) (chance * 100);
         final int random = new Random().nextInt(100); //Returns value between 0 and 99
-        main.debug("chancePercent = " + chancePercent);
-        main.debug("random = " + random);
-        main.debug("(random must be smaller or equal to chancePercent to succeed)");
-        main.debug("return " + (random <= chancePercent));
+        if(main.debug) main.debug("chancePercent = " + chancePercent);
+        if(main.debug) main.debug("random = " + random);
+        if(main.debug) main.debug("(random must be smaller or equal to chancePercent to succeed)");
+        if(main.debug) main.debug("return " + (random <= chancePercent));
         return random <= chancePercent;
     }
 

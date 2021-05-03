@@ -63,7 +63,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      */
     public @Nullable AngelChest(final File file) {
         main = Main.getInstance();
-        main.debug("Creating AngelChest from file " + file.getName());
+        if(main.debug) main.debug("Creating AngelChest from file " + file.getName());
         final YamlConfiguration yaml;
         try {
             yaml = new YamlConfiguration();
@@ -125,7 +125,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             this.worldid = UUID.fromString(Objects.requireNonNull(yaml.getString(ChestYaml.WORLD_UID)));
             if (main.getServer().getWorld(worldid) == null) {
                 success = false;
-                main.debug("Failed to create AngelChest because no world with this id (" + worldid.toString() + ") could be found");
+                if(main.debug) main.debug("Failed to create AngelChest because no world with this id (" + worldid.toString() + ") could be found");
                 return;
             }
             this.block = Objects.requireNonNull(main.getServer().getWorld(worldid)).getBlockAt(yaml.getInt(ChestYaml.BLOCK_X), yaml.getInt(ChestYaml.BLOCK_Y), yaml.getInt(ChestYaml.BLOCK_Z));
@@ -146,13 +146,13 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         final String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", Objects.requireNonNull(main.getServer().getOfflinePlayer(owner).getName()));
 
         if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-            main.debug("Chunk is not loaded, trying to load chunk async...");
+            if(main.debug) main.debug("Chunk is not loaded, trying to load chunk async...");
             PaperLib.getChunkAtAsync(block.getLocation());
             if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-                main.debug("The chunk is still unloaded... Trying to load chunk synced...");
+                if(main.debug) main.debug("The chunk is still unloaded... Trying to load chunk synced...");
                 block.getChunk().load();
                 if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-                    main.debug("The chunk is still unloaded... creating the chest will probably fail.");
+                    if(main.debug) main.debug("The chunk is still unloaded... creating the chest will probably fail.");
                 }
             }
         }
@@ -212,7 +212,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public AngelChest(final Player player, final Block block, final String logfile, final DeathCause deathCause) {
 
         main = Main.getInstance();
-        main.debug("Creating AngelChest natively for player " + player.getName());
+        if(main.debug) main.debug("Creating AngelChest natively for player " + player.getName());
 
         this.main = Main.getInstance();
         this.owner = player.getUniqueId();
@@ -242,11 +242,11 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             }
             final String isBlacklisted = main.isItemBlacklisted(playerInventory.getItem(i));
             if (isBlacklisted != null) {
-                main.debug("Slot " + i + ": [BLACKLISTED: \"" + isBlacklisted + "\"] " + playerInventory.getItem(i)+"\n");
+                if(main.debug) main.debug("Slot " + i + ": [BLACKLISTED: \"" + isBlacklisted + "\"] " + playerInventory.getItem(i)+"\n");
                 blacklistedItems.add(playerInventory.getItem(i));
                 playerInventory.clear(i);
             } else {
-                main.debug("Slot " + i + ": " + playerInventory.getItem(i)+"\n");
+                if(main.debug) main.debug("Slot " + i + ": " + playerInventory.getItem(i)+"\n");
                 if (toBeRemoved(playerInventory.getItem(i))) playerInventory.setItem(i, null);
             }
         }
@@ -256,10 +256,10 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         if (randomItemLoss > 0) {
             if (Daddy.allows(PremiumFeatures.RANDOM_ITEM_LOSS)) {
                 LogUtils.debugBanner(new String[] {"RANDOM ITEM LOSS"});
-                main.debug("Removed " + randomItemLoss + " item stacks randomly:");
+                if(main.debug) main.debug("Removed " + randomItemLoss + " item stacks randomly:");
                 randomlyLostItems = InventoryUtils.removeRandomItemsFromInventory(playerInventory, randomItemLoss);
                 for (final ItemStack lostItem : randomlyLostItems) {
-                    main.debug(lostItem.toString()+"\n");
+                    if(main.debug) main.debug(lostItem.toString()+"\n");
                 }
                 LogUtils.debugBanner(new String[] {"RANDOM ITEM LOSS END"});
             } else {
@@ -285,7 +285,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param uuid  The owner's UUID (to correctly set player heads)
      */
     public void createChest(final Block block, final UUID uuid, final boolean createHologram) {
-        main.debug("Attempting to create chest with material " + main.getChestMaterial(this).name() + " at " + block.getLocation().toString());
+        if(main.debug) main.debug("Attempting to create chest with material " + main.getChestMaterial(this).name() + " at " + block.getLocation().toString());
         block.setType(main.getChestMaterial(this));
 
         // Material is PLAYER_HEAD, so either use the custom texture, or the player skin's texture
@@ -318,16 +318,16 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param refund Whether the owner should get the price back they paid to have the chest spawned.
      */
     public void destroy(final boolean refund) {
-        main.debug("Destroying AngelChest");
+        if(main.debug) main.debug("Destroying AngelChest");
 
         if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-            main.debug("Chunk is not loaded, trying to load chunk async...");
+            if(main.debug) main.debug("Chunk is not loaded, trying to load chunk async...");
             PaperLib.getChunkAtAsync(block.getLocation());
             if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-                main.debug("The chunk is still unloaded... Trying to load chunk synced...");
+                if(main.debug) main.debug("The chunk is still unloaded... Trying to load chunk synced...");
                 block.getChunk().load();
                 if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-                    main.debug("The chunk is still unloaded... destroying the chest will probably fail.");
+                    if(main.debug) main.debug("The chunk is still unloaded... destroying the chest will probably fail.");
                 }
             }
         }
@@ -367,7 +367,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param block Block where the AngelChest was spawned
      */
     public void destroyChest(final Block block) {
-        main.debug("Destroying chest at " + block.getLocation() + toString());
+        if(main.debug) main.debug("Destroying chest at " + block.getLocation() + toString());
         block.setType(Material.AIR);
         Objects.requireNonNull(block.getLocation().getWorld()).spawnParticle(Particle.EXPLOSION_NORMAL, block.getLocation(), 1);
         hologram.destroy();
@@ -485,13 +485,13 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean hasPaidForOpening(final Player player) {
-        main.debug("Checking whether " + player + " already paid to open this chest...");
+        if(main.debug) main.debug("Checking whether " + player + " already paid to open this chest...");
         if (openedBy.contains(player.getUniqueId().toString())) {
-            main.debug("Yes, they did!");
+            if(main.debug) main.debug("Yes, they did!");
             return true;
         }
         final double price = main.groupUtils.getOpenPricePerPlayer(player);
-        main.debug("No, they didn't... It will cost " + price);
+        if(main.debug) main.debug("No, they didn't... It will cost " + price);
         main.logger.logPaidForChest(player, price, main.logger.getLogFile(logfile));
         if (CommandUtils.hasEnoughMoney(player, price, main.messages.MSG_NOT_ENOUGH_MONEY, "AngelChest opened")) {
             openedBy.add(player.getUniqueId().toString());
@@ -552,7 +552,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * Removes this AngelChest from the memory
      */
     public void remove() {
-        main.debug("Removing AngelChest");
+        if(main.debug) main.debug("Removing AngelChest");
         main.angelChests.remove(block);
     }
 
@@ -634,10 +634,10 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
     public void scheduleBlockChange(final boolean firstTry) {
         if (firstTry) {
-            main.debug("scheduleBlockChange: " + block.toString());
+            if(main.debug) main.debug("scheduleBlockChange: " + block.toString());
         }
         if (main.chestMaterial == main.chestMaterialUnlocked) {
-            main.debug("scheduleBlockChange abort: matching materials");
+            if(main.debug) main.debug("scheduleBlockChange abort: matching materials");
             return;
         }
         final int x = block.getX();
@@ -645,11 +645,11 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
         if (!block.getWorld().isChunkLoaded(x >> 4, z >> 4)) {
             if (firstTry) {
-                main.debug("Tried to change block for chest in unloaded chunk because of unlocking, will do so once chunk is loaded.");
+                if(main.debug) main.debug("Tried to change block for chest in unloaded chunk because of unlocking, will do so once chunk is loaded.");
             }
             Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->scheduleBlockChange(false), 1L);
         } else {
-            main.debug("Changed block for chest because of unlocking.");
+            if(main.debug) main.debug("Changed block for chest because of unlocking.");
             createChest(block, owner, false);
         }
 

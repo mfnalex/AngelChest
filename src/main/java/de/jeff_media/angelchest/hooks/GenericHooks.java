@@ -48,14 +48,14 @@ public final class GenericHooks implements Listener {
     boolean isEliteMobsSoulBound(final ItemStack item) {
 
         if(isEliteMobsInstalled == null) {
-            main.debug("Checking if EliteMobs is installed...");
+            if(main.debug) main.debug("Checking if EliteMobs is installed...");
             eliteMobsPlugin = Bukkit.getPluginManager().getPlugin("EliteMobs");
             if (eliteMobsPlugin == null) {
                 isEliteMobsInstalled = false;
-                main.debug("It's not. Disabling EliteMobs integration.");
+                if(main.debug) main.debug("It's not. Disabling EliteMobs integration.");
                 return false;
             } else {
-                main.debug("It is. Enabling EliteMobs integration via PDC values.");
+                if(main.debug) main.debug("It is. Enabling EliteMobs integration via PDC values.");
                 isEliteMobsInstalled = true;
             }
         }
@@ -71,7 +71,7 @@ public final class GenericHooks implements Listener {
         final ItemMeta meta = item.getItemMeta();
         final PersistentDataContainer pdc = meta.getPersistentDataContainer();
         if (pdc.has(new NamespacedKey(eliteMobsPlugin, "soulbind"), PersistentDataType.STRING)) {
-            main.debug(item.toString() + " is a EliteMobs soulbound item, which means we must treat it like a normal item because EliteMobs soulbound items are NOT kept on death, they drop like normal items!");
+            if(main.debug) main.debug(item.toString() + " is a EliteMobs soulbound item, which means we must treat it like a normal item because EliteMobs soulbound items are NOT kept on death, they drop like normal items!");
             return true;
         }
         return false;
@@ -95,7 +95,7 @@ public final class GenericHooks implements Listener {
 
         for (final String line : meta.getLore()) {
             if (line.toLowerCase().contains("soulbound")) {
-                main.debug(item.toString() + "is a GENERIC SOULBOUND ITEM. Lore: " + line);
+                if(main.debug) main.debug(item.toString() + "is a GENERIC SOULBOUND ITEM. Lore: " + line);
                 return true;
             }
         }
@@ -115,6 +115,7 @@ public final class GenericHooks implements Listener {
         return false;
     }
 
+    // TODO: Cache Class.forName check
     boolean isSlimefunSoulbound(final ItemStack item) {
         if (item == null) return false;
         if (!main.getConfig().getBoolean(Config.USE_SLIMEFUN)) return false;

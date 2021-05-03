@@ -3,11 +3,13 @@ package de.jeff_media.angelchest.utils;
 import de.jeff_media.angelchest.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public final class BlacklistUtils {
@@ -34,6 +36,10 @@ public final class BlacklistUtils {
 
         final Material material = item.getType();
         final ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : Bukkit.getItemFactory().getItemMeta(material);
+        final List<String> enchantments = new ArrayList<>();
+        for(Enchantment enchantment : meta.getEnchants().keySet()) {
+            enchantments.add(enchantment.getKey().getKey());
+        }
         assert meta != null;
         final String metaName = meta.hasDisplayName() ? meta.getDisplayName() : null;
         final List<String> metaLore = meta.hasLore() ? meta.getLore() : null;
@@ -47,6 +53,12 @@ public final class BlacklistUtils {
             stringBuilder.append(indent).append("loreExact:").append(System.lineSeparator());
             for (final String line : metaLore) {
                 stringBuilder.append(indent).append(indent).append("- \"").append(line.replace("&", "&&").replace('§', '&')).append("\"").append(System.lineSeparator());
+            }
+        }
+        if(enchantments.size() > 0) {
+            stringBuilder.append(indent).append("enchantments: ").append(System.lineSeparator());
+            for(String enchantment : enchantments) {
+                stringBuilder.append(indent).append(indent).append("- ").append(enchantment).append(System.lineSeparator());
             }
         }
         final String[] lines = stringBuilder.toString().split(System.lineSeparator());

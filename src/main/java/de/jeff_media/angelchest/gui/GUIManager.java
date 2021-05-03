@@ -184,7 +184,7 @@ public final class GUIManager {
                     showConfirmGUI(player, holder, holder.getAction());
                 }
             } catch (final NullPointerException ignored) {
-                //main.debug("Null in repeating task in showConfirmGUI");
+                //if(main.debug) main.debug("Null in repeating task in showConfirmGUI");
             }
         }, Ticks.fromSeconds(1));
     }
@@ -297,7 +297,7 @@ public final class GUIManager {
             if (!(player.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder)) continue;
             final GUIHolder guiHolder = (GUIHolder) player.getOpenInventory().getTopInventory().getHolder();
             if (guiHolder.getSpecialAngelChest() != null && guiHolder.getSpecialAngelChest().equals(angelChest)) {
-                main.debug("This AngelChest " + angelChest.toString() + " is also in use by " + player.getName() + ", updating...");
+                if(main.debug) main.debug("This AngelChest " + angelChest.toString() + " is also in use by " + player.getName() + ", updating...");
                 if (!angelChest.isEmpty()) {
                     showPreviewGUI(player, angelChest, guiHolder.isReadOnlyPreview(), false);
                 } else {

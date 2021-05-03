@@ -1,3 +1,6 @@
+## 3.19.0
+- Added option to blacklist items by enchantment (see blacklist.yml)
+
 ## 3.18.0
 - Added config option "minimum-air-above-chest" (default 0)
 
