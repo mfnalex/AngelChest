@@ -8,6 +8,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -93,7 +94,7 @@ public final class GenericHooks implements Listener {
 
         for (final String line : meta.getLore()) {
             if (line.toLowerCase().contains("soulbound")) {
-                if(main.debug) main.debug(item.toString() + "is a GENERIC SOULBOUND ITEM. Lore: " + line);
+                if(main.debug) main.debug(item.toString() + " is a GENERIC SOULBOUND ITEM. Lore: " + line);
                 return true;
             }
         }
@@ -103,10 +104,24 @@ public final class GenericHooks implements Listener {
     boolean isNativeSoulbound(final ItemStack item) {
         if (item == null) return false;
         if (!item.hasItemMeta()) return false;
+
         final ItemMeta meta = item.getItemMeta();
+
+        // EcoEnchants treats enchanted books as being enchanted although they actually only store an enchantment
+        if(meta instanceof EnchantmentStorageMeta) {
+            EnchantmentStorageMeta storageMeta = (EnchantmentStorageMeta) meta;
+            for (final Enchantment enchant : storageMeta.getStoredEnchants().keySet()) {
+                if (enchant.getKey().getKey().equalsIgnoreCase("soulbound")) {
+                    if(main.debug) main.debug(item.toString() + " is a NATIVE SOULBOUND ITEM that STORES this enchanted (EcoEnchants?).");
+                    return true;
+                }
+            }
+        }
+
         if (!meta.hasEnchants()) return false;
         for (final Enchantment enchant : meta.getEnchants().keySet()) {
             if (enchant.getKey().getKey().equalsIgnoreCase("soulbound")) {
+                if(main.debug) main.debug(item.toString() + " is a NATIVE SOULBOUND ITEM.");
                 return true;
             }
         }

@@ -1,3 +1,6 @@
+## 3.20.0
+- Added support for enchanted books containing EcoEnchants' Soulbound enchantment. Actually enchanted books only store enchantments, but EcoEnchants treats them as being enchanted itself.
+
 ## 3.19.0
 - Added option to blacklist items by enchantment (see blacklist.yml)
 
