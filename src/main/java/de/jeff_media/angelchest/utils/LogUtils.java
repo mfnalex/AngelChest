@@ -1,9 +1,6 @@
 package de.jeff_media.angelchest.utils;
 
-import jdk.nashorn.internal.runtime.logging.DebugLogger;
-
 import de.jeff_media.angelchest.Main;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public final class LogUtils {

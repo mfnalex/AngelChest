@@ -326,8 +326,8 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
                 if(main.debug) main.debug("The chunk is still unloaded... Trying to load chunk synced...");
                 block.getChunk().load();
-                if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-                    if(main.debug) main.debug("The chunk is still unloaded... destroying the chest will probably fail.");
+                if (main.debug && !block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
+                    main.debug("The chunk is still unloaded... destroying the chest will probably fail.");
                 }
             }
         }

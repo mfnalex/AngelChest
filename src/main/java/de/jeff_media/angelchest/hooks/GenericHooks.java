@@ -2,8 +2,6 @@ package de.jeff_media.angelchest.hooks;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
-import de.jeff_media.angelchest.hooks.ExecutableItemsHook;
-import de.jeff_media.angelchest.hooks.InventoryPagesHook;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;

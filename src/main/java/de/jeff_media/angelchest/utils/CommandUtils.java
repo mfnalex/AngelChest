@@ -117,9 +117,7 @@ public final class CommandUtils {
                 default:
                     break;
             }
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () ->{
-                SoundUtils.playTpFetchSound(player,ac.getBlock().getLocation(), CommandAction.TELEPORT_TO_CHEST);
-            }, 1L);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () ->SoundUtils.playTpFetchSound(player,ac.getBlock().getLocation(), CommandAction.TELEPORT_TO_CHEST), 1L);
         } catch (final Throwable ignored) {
 
         }

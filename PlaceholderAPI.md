@@ -21,4 +21,3 @@ AngelChest features some placeholders to use with PlaceholderAPI. If `<ID>` is i
 `%angelchest_z_<ID>%`: Z coordinate of this AngelChest. Returns an empty String if no AngelChest with this ID exists.
 
 `%angelchest_world_<ID>%`: World name of this AngelChest. Returns an empty String if no AngelChest with this ID exists.
-
