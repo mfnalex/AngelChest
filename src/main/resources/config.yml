@@ -250,6 +250,10 @@ remove-curse-of-binding: true
 # When false, they only work in the hand/off-hand slot (vanilla default)
 totem-of-undying-works-everywhere: true
 
+# When true, players who have an AngelChest spawned will be shown the Totem of Undying animation
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+play-totem-animation: false
+
 # When enabled, AngelChest will handle player respawns. They will be automatically respawned after death once
 # the delay (see option below) has expired
 auto-respawn: false

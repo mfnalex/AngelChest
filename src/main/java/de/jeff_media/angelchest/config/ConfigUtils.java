@@ -99,6 +99,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.DISABLE_WORLDGUARD_INTEGRATION, false);
         metric(Config.DISABLE_WORLDGUARD_INTEGRATION);
 
+        conf.addDefault(Config.PLAY_TOTEM_ANIMATION, false);
+        metric(Config.PLAY_TOTEM_ANIMATION);
+
         conf.addDefault(Config.EVENT_PRIORITY, "HIGHEST");
         metric(Config.EVENT_PRIORITY);
 

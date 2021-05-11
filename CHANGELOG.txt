@@ -1,3 +1,6 @@
+## 3.21.0
+- Added "play-totem-animation" option that will show the Totem of Undying animation when a users dies and gets an AngelChest spawned (disabled by default) (Premium version only)
+
 ## 3.20.0
 - Added support for enchanted books containing EcoEnchants' Soulbound enchantment. Actually enchanted books only store enchantments, but EcoEnchants treats them as being enchanted itself.
 
