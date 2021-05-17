@@ -174,7 +174,7 @@ public final class Logger {
 
     public void purgeLogs() {
         if (removeOlderThanXHours == -1) return;
-        main.debug("Checking for old log files...");
+        if(main.debug) main.debug("Checking for old log files...");
         final long now = new Date().getTime();
         final File logFolder = new File(path);
         int purged = 0;
@@ -182,7 +182,7 @@ public final class Logger {
         for (final File logfile : logFolder.listFiles()) {
             final long diff = now - logfile.lastModified();
             if (diff > maxOffsetBeforeRemoval) {
-                main.debug("Deleting log file " + logfile.getName() + " because it is older than " + removeOlderThanXHours + " hours...");
+                if(main.debug) main.debug("Deleting log file " + logfile.getName() + " because it is older than " + removeOlderThanXHours + " hours...");
                 if (!logfile.delete()) {
                     main.getLogger().warning("Could not delete log file " + logfile.getName());
                 } else {

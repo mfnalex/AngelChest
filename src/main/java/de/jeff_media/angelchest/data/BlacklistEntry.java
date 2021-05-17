@@ -6,16 +6,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
+import java.util.Map;
 
 public final class BlacklistEntry {
 
     final boolean ignoreColors;
     final List<String> loreContains;
     final List<String> loreExact;
+    final List<String> enchantments;
     final String name;
     final String nameContains;
     final String nameExact;
@@ -26,7 +29,7 @@ public final class BlacklistEntry {
     public BlacklistEntry(final String name, final FileConfiguration config) {
         this.name = name;
         final Main main = Main.getInstance();
-        main.debug("Reading Blacklist entry \"" + this.name + "\"");
+        if(main.debug) main.debug("Reading Blacklist entry \"" + this.name + "\"");
         String materialName = config.getString(name + ".material", "any");
         assert materialName != null;
         if (materialName.equalsIgnoreCase("any")) {
@@ -42,27 +45,28 @@ public final class BlacklistEntry {
             }
             material = materialName.toUpperCase();
         }
-        main.debug("- materialName: " + (materialName == null ? "null" : materialName));
-        main.debug("- wildcardFront: " + wildcardFront);
-        main.debug("- wildcardEnd: " + wildcardEnd);
+        if(main.debug) main.debug("- materialName: " + (materialName == null ? "null" : materialName));
+        if(main.debug) main.debug("- wildcardFront: " + wildcardFront);
+        if(main.debug) main.debug("- wildcardEnd: " + wildcardEnd);
         this.loreContains = config.getStringList(name + ".loreContains");
         for (int i = 0; i < loreContains.size(); i++) {
             final String line = ChatColor.translateAlternateColorCodes('&', loreContains.get(i));
-            main.debug("- loreContains: " + line);
+            if(main.debug) main.debug("- loreContains: " + line);
             loreContains.set(i, line);
         }
         this.loreExact = config.getStringList(name + ".loreExact");
         for (int i = 0; i < loreExact.size(); i++) {
             final String line = ChatColor.translateAlternateColorCodes('&', loreExact.get(i));
-            main.debug("- loreExact: " + line);
+            if(main.debug) main.debug("- loreExact: " + line);
             loreExact.set(i, line);
         }
         this.nameContains = ChatColor.translateAlternateColorCodes('&', config.getString(name + ".nameContains", ""));
-        main.debug("- nameContains: " + nameContains);
+        if(main.debug) main.debug("- nameContains: " + nameContains);
         this.nameExact = ChatColor.translateAlternateColorCodes('&', config.getString(name + ".nameExact", ""));
-        main.debug("- nameExact: " + nameExact);
+        if(main.debug) main.debug("- nameExact: " + nameExact);
+        this.enchantments = config.getStringList(name + ".enchantments");
         this.ignoreColors = config.getBoolean(name + ".ignoreColors", false);
-        main.debug("- ignoreColors: " + ignoreColors);
+        if(main.debug) main.debug("- ignoreColors: " + ignoreColors);
 
     }
 
@@ -153,6 +157,19 @@ public final class BlacklistEntry {
                     main.verbose("Blacklist: no, loreExact but no match");
                     return BlacklistResult.NO_MATCH_LORE_EXACT;
                 }
+            }
+        }
+
+        for(String enchantment : enchantments) {
+            boolean contains = false;
+            for(Map.Entry<Enchantment,Integer> entry : meta.getEnchants().entrySet()) {
+                if(entry.getKey().getKey().getKey().equalsIgnoreCase(enchantment)) {
+                    contains = true;
+                    break;
+                }
+            }
+            if(!contains) {
+                return BlacklistResult.NO_MATCH_ENCHANTMENTS;
             }
         }
 

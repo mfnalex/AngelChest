@@ -46,6 +46,7 @@ public final class BlockListener implements Listener {
             return;
         }
         if (!angelChest.hasPaidForOpening(event.getPlayer())) {
+            event.setCancelled(true);
             return;
         }
         angelChest.destroy(false);
@@ -75,7 +76,7 @@ public final class BlockListener implements Listener {
         if (event.getBlock().getRelative(BlockFace.UP).getPistonMoveReaction() != PistonMoveReaction.BREAK) return;
 
         event.setCancelled(true);
-        main.debug("Preventing BlockBreakEvent because it interferes with AngelChest.");
+        if(main.debug) main.debug("Preventing BlockBreakEvent because it interferes with AngelChest.");
 
     }
 

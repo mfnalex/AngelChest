@@ -30,7 +30,7 @@ public final class MinepacksHook {
         final Plugin minepacksCandidate = Bukkit.getPluginManager().getPlugin("Minepacks");
         final Main main = Main.getInstance();
         if (minepacksCandidate == null) {
-            main.debug("Minepacks is not installed");
+            if(main.debug) main.debug("Minepacks is not installed");
             disabled = true;
             return false;
         }

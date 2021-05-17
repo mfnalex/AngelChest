@@ -2,14 +2,13 @@ package de.jeff_media.angelchest.hooks;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
-import de.jeff_media.angelchest.hooks.ExecutableItemsHook;
-import de.jeff_media.angelchest.hooks.InventoryPagesHook;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -48,14 +47,14 @@ public final class GenericHooks implements Listener {
     boolean isEliteMobsSoulBound(final ItemStack item) {
 
         if(isEliteMobsInstalled == null) {
-            main.debug("Checking if EliteMobs is installed...");
+            if(main.debug) main.debug("Checking if EliteMobs is installed...");
             eliteMobsPlugin = Bukkit.getPluginManager().getPlugin("EliteMobs");
             if (eliteMobsPlugin == null) {
                 isEliteMobsInstalled = false;
-                main.debug("It's not. Disabling EliteMobs integration.");
+                if(main.debug) main.debug("It's not. Disabling EliteMobs integration.");
                 return false;
             } else {
-                main.debug("It is. Enabling EliteMobs integration via PDC values.");
+                if(main.debug) main.debug("It is. Enabling EliteMobs integration via PDC values.");
                 isEliteMobsInstalled = true;
             }
         }
@@ -71,7 +70,7 @@ public final class GenericHooks implements Listener {
         final ItemMeta meta = item.getItemMeta();
         final PersistentDataContainer pdc = meta.getPersistentDataContainer();
         if (pdc.has(new NamespacedKey(eliteMobsPlugin, "soulbind"), PersistentDataType.STRING)) {
-            main.debug(item.toString() + " is a EliteMobs soulbound item, which means we must treat it like a normal item because EliteMobs soulbound items are NOT kept on death, they drop like normal items!");
+            if(main.debug) main.debug(item.toString() + " is a EliteMobs soulbound item, which means we must treat it like a normal item because EliteMobs soulbound items are NOT kept on death, they drop like normal items!");
             return true;
         }
         return false;
@@ -95,7 +94,7 @@ public final class GenericHooks implements Listener {
 
         for (final String line : meta.getLore()) {
             if (line.toLowerCase().contains("soulbound")) {
-                main.debug(item.toString() + "is a GENERIC SOULBOUND ITEM. Lore: " + line);
+                if(main.debug) main.debug(item.toString() + " is a GENERIC SOULBOUND ITEM. Lore: " + line);
                 return true;
             }
         }
@@ -105,16 +104,31 @@ public final class GenericHooks implements Listener {
     boolean isNativeSoulbound(final ItemStack item) {
         if (item == null) return false;
         if (!item.hasItemMeta()) return false;
+
         final ItemMeta meta = item.getItemMeta();
+
+        // EcoEnchants treats enchanted books as being enchanted although they actually only store an enchantment
+        if(meta instanceof EnchantmentStorageMeta) {
+            EnchantmentStorageMeta storageMeta = (EnchantmentStorageMeta) meta;
+            for (final Enchantment enchant : storageMeta.getStoredEnchants().keySet()) {
+                if (enchant.getKey().getKey().equalsIgnoreCase("soulbound")) {
+                    if(main.debug) main.debug(item.toString() + " is a NATIVE SOULBOUND ITEM that STORES this enchanted (EcoEnchants?).");
+                    return true;
+                }
+            }
+        }
+
         if (!meta.hasEnchants()) return false;
         for (final Enchantment enchant : meta.getEnchants().keySet()) {
             if (enchant.getKey().getKey().equalsIgnoreCase("soulbound")) {
+                if(main.debug) main.debug(item.toString() + " is a NATIVE SOULBOUND ITEM.");
                 return true;
             }
         }
         return false;
     }
 
+    // TODO: Cache Class.forName check
     boolean isSlimefunSoulbound(final ItemStack item) {
         if (item == null) return false;
         if (!main.getConfig().getBoolean(Config.USE_SLIMEFUN)) return false;

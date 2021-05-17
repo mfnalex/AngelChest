@@ -43,7 +43,7 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
         }
 
         if (main.getServer().getPluginManager().getPlugin("WorldGuard") == null) {
-            main.debug("WorldGuard is not installed at all.");
+            if(main.debug) main.debug("WorldGuard is not installed at all.");
             disabled = true;
             return;
         }
@@ -79,11 +79,11 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
     public static void tryToRegisterFlags() {
 
         final Main main = Main.getInstance();
-        //main.debug("Trying to register WorldGuard Flags");
+        //if(main.debug) main.debug("Trying to register WorldGuard Flags");
 
         // Check if WorldGuard is installed AND IF ITS A SUPPORTED VERSION (7+)
         if (main.getServer().getPluginManager().getPlugin("WorldGuard") == null) {
-            //main.debug("Could not register flags: WorldGuard not installed.");
+            //if(main.debug) main.debug("Could not register flags: WorldGuard not installed.");
             return;
         }
         try {
@@ -153,12 +153,12 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
         final RegionManager regions = regionContainer.get(BukkitAdapter.adapt(block.getWorld()));
         final List<String> regionList = regions.getApplicableRegionsIDs(getBlockVector3(block));
 
-        main.debug("Checking Regions in WG7+");
+        if(main.debug) main.debug("Checking Regions in WG7+");
 
         for (final String r : regionList) {
-            main.debug("Player died in region " + r);
+            if(main.debug) main.debug("Player died in region " + r);
             if (main.disabledRegions.contains(r)) {
-                main.debug("Preventing AngelChest from spawning in disabled worldguard region");
+                if(main.debug) main.debug("Preventing AngelChest from spawning in disabled worldguard region");
                 return true;
             }
         }

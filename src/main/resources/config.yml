@@ -260,6 +260,10 @@ remove-curse-of-binding: true
 # When false, they only work in the hand/off-hand slot (vanilla default)
 totem-of-undying-works-everywhere: true
 
+# When true, players who have an AngelChest spawned will be shown the Totem of Undying animation
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+play-totem-animation: false
+
 # When enabled, AngelChest will handle player respawns. They will be automatically respawned after death once
 # the delay (see option below) has expired
 auto-respawn: false
@@ -1411,18 +1415,18 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-angelchest-opened: "&6{player} adlı oyuncu senin AngelChest'ini açtı."
 #message-angelchest-emptied: "&c{player} adlı oyuncu senin AngelChest'ini boşalttı."
 #message-spawn-chance-unsuccessful: "&cMelek eşyalarını toplamayı unuttu, şanssızlık!"
-#message-no-permission: "&cYou do not have the permission to use this command."
-#message-invulnerable: "&a&lYou are invulnerable for {time}."
-#message-vulnerable: "&c&lYou are no longer invulnerable."
-#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
+#message-no-permission: "&cBu komutu kullanmak için yetkin yok."
+#message-invulnerable: "&a&l{time} süreliğine hasar alamazsın."
+#message-vulnerable: "&c&lArtık hasar alıyorsun."
+#message-tp-across-worlds-not-allowed: "&cDünyalar arasında AngelChest'ine ışınlanamazsın."
 #message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
-#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
-#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
-#message-angelchest-disabled: "&cYou are no longer protected by Angels."
-#message-angelchest-enabled: "&aYou are now protected by Angels."
-#message-angelchest-fetched: "&aAngelChest fetched succesfully."
-#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
-#message-min-distance: "&cYou already are nearby your AngelChest."
+#message-max-tp-distance: "&cKendinden {distance} bloktan fazla uzaklıktaki bir AngelChest'e ışınlanamazsın."
+#message-max-fetch-distance: "&cKendinden {distance} bloktan fazla uzaklıktaki bir AngelChest'i alamazsın."
+#message-angelchest-disabled: "&cArtık melekler tarafından korunmuyorsun."
+#message-angelchest-enabled: "&aArtık melekler tarafından korunuyorsun."
+#message-angelchest-fetched: "&aAngelChest başarıyla alındı."
+#message-angelchest-teleported: "&aAngelChest'ine başarıyla ışınlanıldı."
+#message-min-distance: "&cZaten AngelChest'inin yakınındasın."
 
 #########################
 #####     Done!     #####

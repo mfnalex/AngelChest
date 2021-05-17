@@ -53,7 +53,7 @@ public final class Hologram {
             usePapi = true;
         }
 
-        main.debug("Creating hologram with text " + text + " at " + location.toString());
+        if(main.debug) main.debug("Creating hologram with text " + text + " at " + location.toString());
         this.text = text;
 
         armorStandUUIDs = new ArrayList<>();

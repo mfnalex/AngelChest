@@ -461,78 +461,85 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     private void scheduleRepeatingTasks() {
 
         // Track player positions
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, ()->{
-            for (final Player player : Bukkit.getOnlinePlayers()) {
-                if (((Entity) player).isOnGround()) {
-                    if(getConfig().getBoolean(Config.LAVA_DETECTION) == false || (player.getEyeLocation().getBlock().getType() != Material.LAVA && player.getEyeLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.LAVA)) {
-                        lastPlayerPositions.put(player.getUniqueId(), player.getLocation().getBlock());
-                    }
-                }
-            }
-        }, Ticks.fromSeconds(1), Ticks.fromSeconds(1));
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::trackPlayerPositions, Ticks.fromSeconds(1), Ticks.fromSeconds(1));
 
         // Fix broken AngelChests
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, ()->{
-
-            // The following might only be needed for chests destroyed by end crystals spawning during the init phase of the ender dragon
-            for (final Entry<Block, AngelChest> entry : angelChests.entrySet()) {
-
-                if (!PaperLib.isChunkGenerated(entry.getKey().getLocation())) {
-                    verbose("Chunk at " + entry.getKey().getLocation().toString() + " has not been generated!");
-                }
-
-                if (!entry.getKey().getWorld().isChunkLoaded(entry.getKey().getX() >> 4, entry.getKey().getZ() >> 4)) {
-
-                    verbose("Chunk at " + entry.getKey().getLocation().toString() + " is not loaded, skipping repeating task regarding angelChests.entrySet()");
-                    // CONTINUE IF CHUNK IS NOT LOADED
-
-                    continue;
-                }
-                if (isBrokenAngelChest(entry.getKey(), entry.getValue())) {
-                    final Block block = entry.getKey();
-                    debug("Fixing broken AngelChest at " + block.getLocation());
-                    entry.setValue(new AngelChest(Objects.requireNonNull(getAngelChest(block)).saveToFile(true)));
-                }
-            }
-        }, 0L, Ticks.fromSeconds(2));
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::fixBrokenAngelChests, 0L, Ticks.fromSeconds(2));
 
         // Holograms, Durations
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, ()->{
-            final Iterator<AngelChest> it = angelChests.values().iterator();
-            while (it.hasNext()) {
-                final AngelChest ac = it.next();
-                if (ac == null) continue;
-                ac.secondsLeft--;
-                if (ac.secondsLeft < 0 && !ac.infinite) {
-                    if (getServer().getPlayer(ac.owner) != null) {
-                        Messages.send(getServer().getPlayer(ac.owner), messages.MSG_ANGELCHEST_DISAPPEARED);
-                    }
-                    ac.destroy(true);
-                    it.remove();
-                    continue;
-                }
-                if (Daddy.allows(PremiumFeatures.GENERIC) && ac.isProtected && ac.unlockIn > -1) { // Don't add feature here, gets called every second
-                    ac.unlockIn--;
-                    if (ac.unlockIn == -1) {
-                        ac.isProtected = false;
-                        ac.scheduleBlockChange();
-                        if (getServer().getPlayer(ac.owner) != null) {
-                            Messages.send(getServer().getPlayer(ac.owner), messages.MSG_UNLOCKED_AUTOMATICALLY);
-                        }
-                    }
-                }
-                if (ac.hologram != null) {
-                    ac.hologram.update(ac);
-                }
-            }
-        }, 0, Ticks.fromSeconds(1));
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::updateAngelChests, 0, Ticks.fromSeconds(1));
 
         // Remove dead holograms
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, ()->{
-            for (final World world : Bukkit.getWorlds()) {
-                HologramFixer.removeDeadHolograms(world);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::removeDeadHolograms, Ticks.fromMinutes(1), Ticks.fromMinutes(1));
+    }
+
+    private void removeDeadHolograms() {
+        for (final World world : Bukkit.getWorlds()) {
+            HologramFixer.removeDeadHolograms(world);
+        }
+    }
+
+    private void updateAngelChests() {
+        final Iterator<AngelChest> it = angelChests.values().iterator();
+        while (it.hasNext()) {
+            final AngelChest ac = it.next();
+            if (ac == null) continue;
+            ac.secondsLeft--;
+            if (ac.secondsLeft < 0 && !ac.infinite) {
+                if (getServer().getPlayer(ac.owner) != null) {
+                    Messages.send(getServer().getPlayer(ac.owner), messages.MSG_ANGELCHEST_DISAPPEARED);
+                }
+                ac.destroy(true);
+                it.remove();
+                continue;
             }
-        }, Ticks.fromMinutes(1), Ticks.fromMinutes(1));
+            if (Daddy.allows(PremiumFeatures.GENERIC) && ac.isProtected && ac.unlockIn > -1) { // Don't add feature here, gets called every second
+                ac.unlockIn--;
+                if (ac.unlockIn == -1) {
+                    ac.isProtected = false;
+                    ac.scheduleBlockChange();
+                    if (getServer().getPlayer(ac.owner) != null) {
+                        Messages.send(getServer().getPlayer(ac.owner), messages.MSG_UNLOCKED_AUTOMATICALLY);
+                    }
+                }
+            }
+            if (ac.hologram != null) {
+                ac.hologram.update(ac);
+            }
+        }
+    }
+
+    private void fixBrokenAngelChests() {
+        // The following might only be needed for chests destroyed by end crystals spawning during the init phase of the ender dragon
+        for (final Entry<Block, AngelChest> entry : angelChests.entrySet()) {
+
+            if (!PaperLib.isChunkGenerated(entry.getKey().getLocation())) {
+                verbose("Chunk at " + entry.getKey().getLocation().toString() + " has not been generated!");
+            }
+
+            if (!entry.getKey().getWorld().isChunkLoaded(entry.getKey().getX() >> 4, entry.getKey().getZ() >> 4)) {
+
+                verbose("Chunk at " + entry.getKey().getLocation().toString() + " is not loaded, skipping repeating task regarding angelChests.entrySet()");
+                // CONTINUE IF CHUNK IS NOT LOADED
+
+                continue;
+            }
+            if (isBrokenAngelChest(entry.getKey(), entry.getValue())) {
+                final Block block = entry.getKey();
+                debug("Fixing broken AngelChest at " + block.getLocation());
+                entry.setValue(new AngelChest(Objects.requireNonNull(getAngelChest(block)).saveToFile(true)));
+            }
+        }
+    }
+
+    private void trackPlayerPositions() {
+        for (final Player player : Bukkit.getOnlinePlayers()) {
+            if (((Entity) player).isOnGround()) {
+                if(getConfig().getBoolean(Config.LAVA_DETECTION) == false || (player.getEyeLocation().getBlock().getType() != Material.LAVA && player.getEyeLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.LAVA)) {
+                    lastPlayerPositions.put(player.getUniqueId(), player.getLocation().getBlock());
+                }
+            }
+        }
     }
 
     private void setEconomyStatus() {

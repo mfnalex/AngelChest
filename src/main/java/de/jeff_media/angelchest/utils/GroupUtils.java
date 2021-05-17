@@ -51,7 +51,8 @@ public final class GroupUtils {
             final Integer maxTpDistance = yaml.isSet(groupName + DOT + Config.MAX_TP_DISTANCE) ? yaml.getInt(groupName + DOT + Config.MAX_TP_DISTANCE) : null;
             final Integer maxFetchDistance = yaml.isSet(groupName + DOT + Config.MAX_FETCH_DISTANCE) ? yaml.getInt(groupName + DOT + Config.MAX_FETCH_DISTANCE) : null;
 
-            main.debug("Registering group " + groupName);
+
+            if(main.debug) main.debug("Registering group " + groupName);
             final Group group = new Group(angelchestDuration, chestsPerPlayer, priceSpawn, priceOpen, priceTeleport, priceFetch, priceSummon, xpPercentage, unlockDuration, spawnChance, itemLoss, invulnerabilityAfterTP, allowTpAcrossWorlds, allowFetchAcrossWorlds, maxTpDistance, maxFetchDistance);
 
             groups.put(groupName, group);
@@ -71,7 +72,7 @@ public final class GroupUtils {
                 return 0;
             }
             final int result = (int) (InventoryUtils.getAmountOfItemStacks(p.getInventory()) * percentage);
-            main.debug("GroupUtils -> Item Loss -> " + value + " contains a p, getting percentage for player " + p.getName() + ": " + result);
+            if(main.debug) main.debug("GroupUtils -> Item Loss -> " + value + " contains a p, getting percentage for player " + p.getName() + ": " + result);
             return result;
         } else {
             return Integer.parseInt(value);
@@ -93,7 +94,7 @@ public final class GroupUtils {
                 return 0;
             }
             final double result = commandSender instanceof Player ? main.econ.getBalance((OfflinePlayer) commandSender) * percentage : 0;
-            main.debug(value + " contains a p, getting percentage for player " + commandSender.getName() + ": " + result);
+            if(main.debug) main.debug(value + " contains a p, getting percentage for player " + commandSender.getName() + ": " + result);
             return result;
         } else {
             return Double.parseDouble(value);

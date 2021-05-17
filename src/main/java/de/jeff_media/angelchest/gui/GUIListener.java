@@ -49,7 +49,7 @@ public final class GUIListener implements @NotNull Listener {
         }
         // No other way to detect top or bottom inventory
         if (minSlot < 54) {
-            main.debug("[GUIListener] " + "cancel(InventoryDragEvent): cancelled -> true");
+            if(main.debug) main.debug("[GUIListener] " + "cancel(InventoryDragEvent): cancelled -> true");
             event.setCancelled(true);
         }
     }
@@ -59,7 +59,7 @@ public final class GUIListener implements @NotNull Listener {
     public void cancel(final InventoryInteractEvent event) {
         if (event.getInventory() == null) return;
         if (!(event.getInventory().getHolder() instanceof GUIHolder)) return;
-        main.debug("[GUIListener] " + "cancel(InventoryInteractEvent): cancelled -> true");
+        if(main.debug) main.debug("[GUIListener] " + "cancel(InventoryInteractEvent): cancelled -> true");
         event.setCancelled(true);
     }
 
@@ -68,17 +68,17 @@ public final class GUIListener implements @NotNull Listener {
     public void cancel(final InventoryMoveItemEvent event) {
         if (event.getSource() != null) {
             if (event.getSource().getHolder() instanceof GUIHolder) {
-                main.debug("[GUIListener] " + "cancel(InventoryMoveItemEvent): cancelled -> true (1)");
+                if(main.debug) main.debug("[GUIListener] " + "cancel(InventoryMoveItemEvent): cancelled -> true (1)");
                 event.setCancelled(true);
             }
         }
         if (event.getDestination() != null) {
             if (event.getDestination().getHolder() instanceof GUIHolder) {
-                main.debug("[GUIListener] " + "cancel(InventoryMoveItemEvent): cancelled -> true (2)");
+                if(main.debug) main.debug("[GUIListener] " + "cancel(InventoryMoveItemEvent): cancelled -> true (2)");
                 event.setCancelled(true);
             }
         }
-        //main.debug("[GUIListener] "+"cancel(InventoryMoveItemEvent): cancelled -> true (3)");
+        //if(main.debug) main.debug("[GUIListener] "+"cancel(InventoryMoveItemEvent): cancelled -> true (3)");
         //event.setCancelled(true);
     }
 
@@ -103,7 +103,7 @@ public final class GUIListener implements @NotNull Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChestSortEvent(final ChestSortEvent event) {
         if (event.getInventory() != null && event.getInventory().getHolder() != null && event.getInventory().getHolder() instanceof GUIHolder) {
-            main.debug("Prevented ChestSort from sorting AngelChest GUI");
+            if(main.debug) main.debug("Prevented ChestSort from sorting AngelChest GUI");
             event.setCancelled(true);
         }
     }
@@ -118,7 +118,7 @@ public final class GUIListener implements @NotNull Listener {
             if (tmpGUIHolder.getContext() != null) {
                 if (tmpGUIHolder.getContext() != GUIContext.PREVIEW_MENU || (tmpGUIHolder.getContext() == GUIContext.PREVIEW_MENU && tmpGUIHolder.isReadOnlyPreview())) {
                     event.setCancelled(true);
-                    //main.debug("[GUIListener] "+"onGUIClick: abort: generic");
+                    //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: abort: generic");
                 }
             }
         }
@@ -128,7 +128,7 @@ public final class GUIListener implements @NotNull Listener {
             if (holder.getContext() == GUIContext.PREVIEW_MENU) {
                 if (!holder.isReadOnlyPreview()) {
                     if (event.getClickedInventory() != null && event.getView().getTopInventory() != null && event.getClickedInventory().equals(event.getView().getTopInventory())) {
-                        //main.debug("[GUIListener] " + "onGUIClick: abort: this is a writeable preview context");
+                        //if(main.debug) main.debug("[GUIListener] " + "onGUIClick: abort: this is a writeable preview context");
                         return;
                     }
                 }
@@ -141,14 +141,14 @@ public final class GUIListener implements @NotNull Listener {
 
         if (event.getInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
             if (event.getInventory().getHolder() instanceof GUIHolder) {
-                //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (1)");
+                //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (1)");
                 event.setCancelled(true);
             }
         }
 
         if (event.getClickedInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
             if (event.getClickedInventory().getHolder() instanceof GUIHolder) {
-                //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (2)");
+                //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (2)");
                 event.setCancelled(true);
             }
         }
@@ -156,20 +156,20 @@ public final class GUIListener implements @NotNull Listener {
         if (view == null) return;
         if (view.getTopInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
             if (view.getTopInventory().getHolder() instanceof GUIHolder) {
-                //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (3)");
+                //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (3)");
                 event.setCancelled(true);
             }
         }
 
         if (view.getBottomInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
             if (view.getBottomInventory().getHolder() instanceof GUIHolder) {
-                //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (4)");
+                //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (4)");
                 event.setCancelled(true);
             }
         }
 
         if (view.getTopInventory() != null && event.getClickedInventory() != null && event.getView().getTopInventory() != null && event.getView().getTopInventory().getHolder() instanceof GUIHolder && event.getClickedInventory() != null && event.getView().getBottomInventory() != null && event.getClickedInventory().equals(event.getView().getBottomInventory()) && event.isShiftClick()) {
-            //main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (5)");
+            //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (5)");
             event.setCancelled(true);
         }
 
@@ -264,7 +264,7 @@ public final class GUIListener implements @NotNull Listener {
                     AngelChest angelChest = guiHolder.getAngelChest();
                     GUIUtils.printPreviewIntentory(inventory.getContents());
                     GUIUtils.savePreviewInventoryToChest(inventory, angelChest, main);
-                    main.debug("[GUIListener] "+"Saved new chest contents!");
+                    if(main.debug) main.debug("[GUIListener] "+"Saved new chest contents!");
                 }
             }
         }
@@ -276,16 +276,16 @@ public final class GUIListener implements @NotNull Listener {
         final Player player = (Player) event.getWhoClicked();
 
         if (event.getClickedInventory() == null) {
-            //main.debug("Return: getClicked Inv is null");
+            //if(main.debug) main.debug("Return: getClicked Inv is null");
             return;
         }
         if (!(event.getClickedInventory().getHolder() instanceof GUIHolder)) {
-            //main.debug("Return: clicked inventory is no GUIHolder");
+            //if(main.debug) main.debug("Return: clicked inventory is no GUIHolder");
             return;
         }
         final GUIHolder guiHolder = (GUIHolder) event.getClickedInventory().getHolder();
         if (guiHolder.getContext() != GUIContext.PREVIEW_MENU) {
-            //main.debug("Return: GUICOntext is not PREVIEW");
+            //if(main.debug) main.debug("Return: GUICOntext is not PREVIEW");
             return;
         }
 
@@ -293,23 +293,23 @@ public final class GUIListener implements @NotNull Listener {
         if (guiHolder.isReadOnlyPreview()) {
 
             if (event.getSlot() == GUI.SLOT_PREVIEW_BACK) {
-                //main.debug("[GUIListener] "+"Preview -> Back");
+                //if(main.debug) main.debug("[GUIListener] "+"Preview -> Back");
                 final GUIHolder newHolder = new GUIHolder(player, GUIContext.MAIN_MENU, guiHolder.getChestIdStartingAt1() + 1);
                 main.guiManager.showChestGUI(player, newHolder, newHolder.getChestIdStartingAt1());
                 return;
             }
 
-            //main.debug("Return: This is a read only preview");
+            //if(main.debug) main.debug("Return: This is a read only preview");
             return;
         }
 
         // Only continue if cursor is empty
         if (isAngelChestPreviewGUI(event.getView())) {
-            //main.debug("[GUIListener] "+"1");
+            //if(main.debug) main.debug("[GUIListener] "+"1");
             if (event.getCursor() != null && event.getCursor().getType() != Material.AIR) {
-                //main.debug("[GUIListener] "+"2");
+                //if(main.debug) main.debug("[GUIListener] "+"2");
                 if (event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder) {
-                    //main.debug("[GUIListener] "+"3!!");
+                    //if(main.debug) main.debug("[GUIListener] "+"3!!");
                     event.setCancelled(true);
                     return;
                 }
@@ -317,7 +317,7 @@ public final class GUIListener implements @NotNull Listener {
         }
 
         if (GUIUtils.isLootableInPreview(event.getSlot())) {
-            //main.debug("[GUIListener] "+"onPreviewGUIClick: cancelled -> false");
+            //if(main.debug) main.debug("[GUIListener] "+"onPreviewGUIClick: cancelled -> false");
 
             final ItemStack clickedItem = event.getCurrentItem();
             //event.getClickedInventory().remove(clickedItem);
@@ -337,7 +337,7 @@ public final class GUIListener implements @NotNull Listener {
                 if (clickedItem == null) {
                     return;
                 }
-                //main.debug("[GUIListener] " + "Adding " + clickedItem.toString());
+                //if(main.debug) main.debug("[GUIListener] " + "Adding " + clickedItem.toString());
                 main.logger.logItemTaken(player, clickedItem, logfile);
 
                 final HashMap<Integer, ItemStack> leftOvers = player.getInventory().addItem(clickedItem);

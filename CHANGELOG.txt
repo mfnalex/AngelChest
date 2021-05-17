@@ -1,3 +1,15 @@
+## 3.22.0
+- Fixed players being able to break the chest if they don't have enough money to open it
+
+## 3.21.0
+- Added "play-totem-animation" option that will show the Totem of Undying animation when a users dies and gets an AngelChest spawned (disabled by default) (Premium version only)
+
+## 3.20.0
+- Added support for enchanted books containing EcoEnchants' Soulbound enchantment. Actually enchanted books only store enchantments, but EcoEnchants treats them as being enchanted itself.
+
+## 3.19.0
+- Added option to blacklist items by enchantment (see blacklist.yml)
+
 ## 3.18.0
 - Added config option "minimum-air-above-chest" (default 0)
 

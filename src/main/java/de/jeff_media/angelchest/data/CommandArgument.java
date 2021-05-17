@@ -77,10 +77,10 @@ public class CommandArgument {
         }
 
         final Main main = Main.getInstance();
-        main.debug("===== CommandArgument Parser =====");
-        main.debug("Requester  = " + requester.getName());
-        main.debug("ChestOwner = " + chestOwner.getName());
-        main.debug("Chest      = " + chest);
+        if(main.debug) main.debug("===== CommandArgument Parser =====");
+        if(main.debug) main.debug("Requester  = " + requester.getName());
+        if(main.debug) main.debug("ChestOwner = " + chestOwner.getName());
+        if(main.debug) main.debug("Chest      = " + chest);
 
         return new CommandArgument(requester, chest, chestOwner);
     }

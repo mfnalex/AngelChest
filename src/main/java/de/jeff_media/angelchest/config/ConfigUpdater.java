@@ -31,7 +31,7 @@ public final class ConfigUpdater {
         final File newFile = new File(getFilePath(main, "config-backup-" + main.getConfig().getString(Config.CONFIG_PLUGIN_VERSION) + ".yml"));
         if (newFile.exists()) newFile.delete();
         if (oldFile.getAbsoluteFile().renameTo(newFile.getAbsoluteFile())) {
-            main.debug("Could not rename " + oldFile.getAbsolutePath() + " to " + newFile.getAbsolutePath());
+            if(main.debug) main.debug("Could not rename " + oldFile.getAbsolutePath() + " to " + newFile.getAbsolutePath());
         }
     }
 

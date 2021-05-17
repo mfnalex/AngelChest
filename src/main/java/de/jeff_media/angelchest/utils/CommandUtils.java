@@ -44,7 +44,7 @@ public final class CommandUtils {
         for (int x = -CHUNK_SIZE; x <= CHUNK_SIZE; x += CHUNK_SIZE) {
             for (int z = -CHUNK_SIZE; z <= CHUNK_SIZE; z += CHUNK_SIZE) {
                 if (!isChunkLoaded(loc.add(x, 0, z))) {
-                    main.debug("Chunk at " + loc.add(x, 0, z) + " is not loaded yet, waiting...");
+                    if(main.debug) main.debug("Chunk at " + loc.add(x, 0, z) + " is not loaded yet, waiting...");
                     allChunksLoaded = false;
                 }
             }
@@ -117,9 +117,7 @@ public final class CommandUtils {
                 default:
                     break;
             }
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () ->{
-                SoundUtils.playTpFetchSound(player,ac.getBlock().getLocation(), CommandAction.TELEPORT_TO_CHEST);
-            }, 1L);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () ->SoundUtils.playTpFetchSound(player,ac.getBlock().getLocation(), CommandAction.TELEPORT_TO_CHEST), 1L);
         } catch (final Throwable ignored) {
 
         }
@@ -148,7 +146,7 @@ public final class CommandUtils {
         final int seconds = main.groupUtils.getInvulnerabilityTimePerPlayer(player);
         if (seconds > 0 && Daddy.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
 
-            main.debug("Making player " + player.getName() + " invulnerable for " + main.getConfig().getDouble(Config.INVULNERABILITY_AFTER_TP) + " seconds");
+            if(main.debug) main.debug("Making player " + player.getName() + " invulnerable for " + main.getConfig().getDouble(Config.INVULNERABILITY_AFTER_TP) + " seconds");
             if (NBTAPI.hasNBT(player, NBTTags.IS_INVULNERABLE)) {
                 InvulnerabilityListener.removeGod(player);
                 if (main.invulnerableTasks.containsKey(player.getUniqueId())) {
@@ -178,7 +176,7 @@ public final class CommandUtils {
             }, 0, Ticks.fromSeconds(1)));
             main.invulnerableTasks.put(player.getUniqueId(), finalTask.get());
         } else if (seconds <= 0) {
-            main.debug("Invulnerability time is set to 0.");
+            if(main.debug) main.debug("Invulnerability time is set to 0.");
         } else {
             if (!Daddy.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
                 Messages.sendPremiumOnlyConsoleMessage(Config.INVULNERABILITY_AFTER_TP);
@@ -234,25 +232,25 @@ public final class CommandUtils {
         if(action == CommandAction.TELEPORT_TO_CHEST && !main.groupUtils.getAllowTpAcrossWorlds(sender)) {
             if(!playerWorld.equals(chestWorld)) {
                 Messages.send(sender,main.messages.MSG_TP_ACROSS_WORLDS_NOT_ALLOWED);
-                main.debug("Forbidden TP across worlds detected.");
-                main.debug("Player World: " + playerWorld.toString());
-                main.debug("Chest  World: " + chestWorld.toString());
+                if(main.debug) main.debug("Forbidden TP across worlds detected.");
+                if(main.debug) main.debug("Player World: " + playerWorld.toString());
+                if(main.debug) main.debug("Chest  World: " + chestWorld.toString());
                 return;
             }
         }
         if (action == CommandAction.FETCH_CHEST && !main.groupUtils.getAllowFetchAcrossWorlds(sender)) {
             if (!playerWorld.equals(chestWorld)) {
                 Messages.send(sender,main.messages.MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED);
-                main.debug("Forbidden Fetch across worlds detected.");
-                main.debug("Player World: " + playerWorld.toString());
-                main.debug("Chest  World: " + chestWorld.toString());
+                if(main.debug) main.debug("Forbidden Fetch across worlds detected.");
+                if(main.debug) main.debug("Player World: " + playerWorld.toString());
+                if(main.debug) main.debug("Chest  World: " + chestWorld.toString());
                 return;
             }
         }
         // Max / Min TP / Fetch distance
         if (playerWorld.equals(chestWorld)) {
             final double distance = sender.getLocation().distance(ac.block.getLocation());
-            main.debug("Fetch / TP in same world. Distance: " + distance);
+            if(main.debug) main.debug("Fetch / TP in same world. Distance: " + distance);
 
             // Max distance
             final int maxTpDistance = main.groupUtils.getMaxTpDistance(sender);
@@ -352,8 +350,8 @@ public final class CommandUtils {
     }
 
     private static boolean hasConfirmed(final Main main, final CommandSender p, final int chestIdStartingAt1, final double price, final CommandAction action) {
-        main.debug("Creating confirm message for Chest ID " + chestIdStartingAt1);
-        main.debug("Action: " + action.toString());
+        if(main.debug) main.debug("Creating confirm message for Chest ID " + chestIdStartingAt1);
+        if(main.debug) main.debug("Action: " + action.toString());
         String confirmCommand = String.format("/%s ", action.getCommand());
         confirmCommand += chestIdStartingAt1;
         final UUID uuid = p instanceof Player ? ((Player) p).getUniqueId() : Main.consoleSenderUUID;
@@ -376,20 +374,20 @@ public final class CommandUtils {
 
         final Main main = Main.getInstance();
 
-        main.debug("Checking if " + sender.getName() + " has at least " + money + " money...");
+        if(main.debug) main.debug("Checking if " + sender.getName() + " has at least " + money + " money...");
 
         if (!(sender instanceof Player)) {
-            main.debug(sender.getName() + " is no player, so they should have enough money lol");
+            if(main.debug) main.debug(sender.getName() + " is no player, so they should have enough money lol");
             return true;
         }
 
         if (main.economyStatus != EconomyStatus.ACTIVE) {
-            main.debug("We already know that economy support is not active, so all players have enough money!");
+            if(main.debug) main.debug("We already know that economy support is not active, so all players have enough money!");
             return true;
         }
 
         if (money <= 0) {
-            main.debug("yes: money <= 0");
+            if(main.debug) main.debug("yes: money <= 0");
             return true;
         }
 
@@ -397,10 +395,10 @@ public final class CommandUtils {
 
         if (main.econ.getBalance(player) >= money) {
             main.econ.withdrawPlayer(player, reason, money);
-            main.debug("yes, enough money and paid");
+            if(main.debug) main.debug("yes, enough money and paid");
             return true;
         } else {
-            main.debug("no, not enough money - nothing paid");
+            if(main.debug) main.debug("no, not enough money - nothing paid");
             Messages.send(player,messageWhenNotEnoughMoney);
             return false;
         }
@@ -482,15 +480,15 @@ public final class CommandUtils {
             final AtomicInteger chunkLoadingTask = new AtomicInteger();
             chunkLoadingTask.set(Bukkit.getScheduler().scheduleSyncRepeatingTask(main, ()->{
                 if (areChunksLoadedNearby(ac.block.getLocation(), main)) {
-                    main.debug("[Async chunk loading] All chunks loaded! Teleporting now!");
+                    if(main.debug) main.debug("[Async chunk loading] All chunks loaded! Teleporting now!");
                     doActualTeleport(main, p, ac);
                     Bukkit.getScheduler().cancelTask(chunkLoadingTask.get());
                 } else {
-                    main.debug("[Async chunk loading] Not all chunks are loaded yet, waiting...");
+                    if(main.debug) main.debug("[Async chunk loading] Not all chunks are loaded yet, waiting...");
                 }
             }, 1L, 1L));
         } else {
-            main.debug("[Async chunk loading] You disabled async-chunk-loading. Chunk loading COULD cause tps losses! See config.yml");
+            if(main.debug) main.debug("[Async chunk loading] You disabled async-chunk-loading. Chunk loading COULD cause tps losses! See config.yml");
             doActualTeleport(main, p, ac);
         }
     }

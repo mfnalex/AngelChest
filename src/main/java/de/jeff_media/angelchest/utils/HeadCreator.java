@@ -29,10 +29,10 @@ public final class HeadCreator {
         if (main.isOutsideOfNormalWorld(block)) return;
 
         /*if(block.getY() < 0 || block.getY() >= block.getWorld().getMaxHeight()) {
-            main.debug("Prevented a head from being spawned at "+block.toString() +" because that is either below Y=0 or above the maximum build height.");
-            main.debug("The chest will still be usable through its hologram though.");
-            main.debug("Note: This SHOULD only happen when a player fetches their chest into the void. If you have a problem with this possibility,");
-            main.debug("Let me know.");
+            if(main.debug) main.debug("Prevented a head from being spawned at "+block.toString() +" because that is either below Y=0 or above the maximum build height.");
+            if(main.debug) main.debug("The chest will still be usable through its hologram though.");
+            if(main.debug) main.debug("Note: This SHOULD only happen when a player fetches their chest into the void. If you have a problem with this possibility,");
+            if(main.debug) main.debug("Let me know.");
             return;
         }
         if (!(block.getState() instanceof Skull)) {
@@ -63,14 +63,14 @@ public final class HeadCreator {
 
         // Use the player skin's texture
         if (main.getConfig().getBoolean(Config.HEAD_USES_PLAYER_NAME)) {
-            main.debug("Player head = username");
+            if(main.debug) main.debug("Player head = username");
             final OfflinePlayer player = main.getServer().getOfflinePlayer(uuid);
             state.setOwningPlayer(player);
             state.update();
         }
         // Use a predefined texture
         else {
-            main.debug("Player head = base64");
+            if(main.debug) main.debug("Player head = base64");
             final String base64 = main.getConfig().getString(Config.CUSTOM_HEAD_BASE64);
             final GameProfile profile = new GameProfile(UUID.randomUUID(), "");
             profile.getProperties().put("textures", new Property("textures", base64));
