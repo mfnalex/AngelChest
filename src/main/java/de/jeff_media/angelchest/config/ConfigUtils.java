@@ -138,8 +138,6 @@ public final class ConfigUtils {
         conf.addDefault(Config.PRICE_FETCH, 0.0d);
         metric(Config.PRICE_FETCH);
 
-        conf.addDefault(Config.PRICE_SUMMON, 0.0d);
-        metric(Config.PRICE_SUMMON);
 
         conf.addDefault(Config.VOID_DETECTION, true);
         metric(Config.VOID_DETECTION);
@@ -263,15 +261,6 @@ public final class ConfigUtils {
 
         conf.addDefault(Config.MIN_DISTANCE, 0);
         metric(Config.MIN_DISTANCE);
-
-        conf.addDefault(Config.SUMMON_BLOCK, "SOUL_CAMPFIRE");
-        metric(Config.SUMMON_BLOCK);
-
-        conf.addDefault(Config.SACRIFICE_ITEM, "LAPIS_BLOCK");
-        metric(Config.SACRIFICE_ITEM);
-
-        conf.addDefault(Config.SUMMON_ENABLED, false);
-        metric(Config.SUMMON_ENABLED);
 
         /*
     play-sound-on-tp: true

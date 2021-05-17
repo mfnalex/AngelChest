@@ -65,8 +65,6 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
                 return Double.toString(main.getConfig().getDouble(Config.PRICE_TELEPORT));
             case "price_fetch":
                 return Double.toString(main.getConfig().getDouble(Config.PRICE_FETCH));
-            case "price_summon":
-                return Double.toString(main.getConfig().getDouble(Config.PRICE_SUMMON));
             case "activechests":
                 return Integer.toString(allChests.size());
         }

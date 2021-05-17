@@ -8,7 +8,6 @@ public final class Group {
     public final String itemLoss;
     public final int maxChests;
     public final String priceFetch;
-    public final String priceSummon;
     public final String priceOpen;
     public final String priceSpawn;
     public final String priceTeleport;
@@ -20,14 +19,13 @@ public final class Group {
     @Nullable public final Integer maxTpDistance;
     @Nullable public final Integer maxFetchDistance;
 
-    public Group(final int duration, final int maxChests, final String priceSpawn, final String priceOpen, final String priceTeleport, final String priceFetch, final String priceSummon, final double xpPercentage, final int unlockDuration, final double spawnChance, final String itemLoss, final int invulnerabilityAfterTP, @Nullable final Boolean allowTpAcrossWorlds, @Nullable final Boolean allowFetchAcrossWorlds, @Nullable final Integer maxTpDistance, @Nullable final Integer maxFetchDistance) {
+    public Group(final int duration, final int maxChests, final String priceSpawn, final String priceOpen, final String priceTeleport, final String priceFetch, final double xpPercentage, final int unlockDuration, final double spawnChance, final String itemLoss, final int invulnerabilityAfterTP, @Nullable final Boolean allowTpAcrossWorlds, @Nullable final Boolean allowFetchAcrossWorlds, @Nullable final Integer maxTpDistance, @Nullable final Integer maxFetchDistance) {
         this.duration = duration;
         this.maxChests = maxChests;
         this.priceSpawn = priceSpawn;
         this.priceOpen = priceOpen;
         this.priceTeleport = priceTeleport;
         this.priceFetch = priceFetch;
-        this.priceSummon = priceSummon;
         this.xpPercentage = xpPercentage;
         this.unlockDuration = unlockDuration;
         this.spawnChance = spawnChance;

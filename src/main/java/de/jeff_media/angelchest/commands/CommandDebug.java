@@ -276,7 +276,6 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         final double priceOpen = main.groupUtils.getOpenPricePerPlayer(player);
         final double priceTeleport = main.groupUtils.getTeleportPricePerPlayer(player);
         final double priceFetch = main.groupUtils.getFetchPricePerPlayer(player);
-        final double priceSummon = main.groupUtils.getSummonPricePerPlayer(player);
         final double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(player);
         final int unlockDuration = main.groupUtils.getUnlockDurationPerPlayer(player);
         final double spawnChance = main.groupUtils.getSpawnChancePerPlayer(player);
@@ -292,7 +291,6 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         Messages.send(commandSender,"§6Price Open:§b " + priceOpen + " §8(depending on current balance)");
         Messages.send(commandSender,"§6Price Teleport:§b " + priceTeleport + " §8(depending on current balance)");
         Messages.send(commandSender,"§6Price Fetch:§b " + priceFetch + " §8(depending on current balance)");
-        Messages.send(commandSender,"§6Price Summon:§b " + priceSummon + " §8(depending on current balance)");
         Messages.send(commandSender,"§6XP Percentage:§b " + xpPercentage);
         Messages.send(commandSender,"§6Unlock Duration:§b " + unlockDuration);
         Messages.send(commandSender,"§6Spawn Chance:§b " + spawnChance);

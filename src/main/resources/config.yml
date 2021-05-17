@@ -238,16 +238,6 @@ max-radius: 10
 # Searches for a new chest location if there isn't at least this amount of air above the chest.
 minimum-air-above-chest: 0
 
-#Enable summoning the players latest angelchest when they right click a block with the right item in their hand.
-#Consuming the item they right clicked with. Also uses the economy/permission settings.
-summon-on-right-click-block: false
-
-# If you have summon chest enabled , this is the block it will listen for the right click on
-block-to-right-click: "SOUL_CAMPFIRE"
-
-# If you have summon chest enabled , this is the item the player has to right click the block with to summon their latest deathchest
-item-to-sacrifice: "LAPIS_BLOCK"
-
 # When absolutely no block inside "max-radius" is found, and the block where the player
 # died is bedrock, we can search for another block to replace instead of bedrock.
 never-replace-bedrock: true
@@ -351,11 +341,6 @@ price-teleport: 0
 # I suggest you make this cheaper than "price-teleport" because teleporting to
 # your death location is probably more useful than just getting your stuff back.
 price-fetch: 0
-
-# How much does it cost to summon your AngelChests when using the right click on block option?
-# I suggest you make this cheaper than "price-teleport" because teleporting to
-# your death location is probably more useful than just getting your stuff back.
-price-right-click-summon: 0
 
 # When set to true, players must confirm teleporting to or fetching a chest if you set a price for those actions
 # by entering the same command again or by clicking on a text message in the chat
@@ -768,7 +753,6 @@ message-angelchest-opened: "&6{player} has opened your AngelChest."
 message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 message-no-permission: "&cYou do not have the permission to use this command."
-message-no-permission_summon: "&cYou do not have the permission to summon your Angelchest."
 message-invulnerable: "&a&lYou are invulnerable for {time}."
 message-vulnerable: "&c&lYou are no longer invulnerable."
 message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
@@ -817,7 +801,6 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 #message-angelchest-emptied: "&c{player} has emptied your AngelChest."
 #message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
 #message-no-permission: "&cYou do not have the permission to use this command."
-#message-no-permission_summon: "&cYou do not have the permission to summon your Angelchest."
 #message-invulnerable: "&a&lYou are invulnerable for {time}."
 #message-vulnerable: "&c&lYou are no longer invulnerable."
 #message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
