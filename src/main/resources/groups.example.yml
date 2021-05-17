@@ -18,6 +18,7 @@
 #   price-open: <price for opening the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
 #   price-teleport: <price for teleporting to the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
 #   price-fetch: <price for fetching the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
+#   price-right-click-summon: <price for summoning the chest by right clicking a given block> (e.g. 5000 or 0.1p = 10% of player's balance)
 #   xp-percentage: <percentage of how much XP to keep> (e.g. 1 = 100%, 0.5 = 50%, -1 = vanilla behaviour)
 #   spawn-chance: <spawn chance of an angelchest> (e.g 1.0 = 100%, 0.5 = 50%, 0.01 = 1%)
 #   random-item-loss: <number of item stacks randomly lost> (e.g. 2 = 2 item stacks or 0.5p = 50% of player's item stacks)
@@ -37,6 +38,7 @@ admin:
   price-open: 0
   price-teleport: 0
   price-fetch: 0
+  price-right-click-summon: 0
   xp-percentage: 1.0
   spawn-chance: 1.0
   random-item-loss: 0

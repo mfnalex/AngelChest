@@ -84,6 +84,7 @@ public final class Config {
     public static final String PREFIX_MESSAGES = "add-prefix";
     public static final String PRICE = "price";
     public static final String PRICE_FETCH = "price-fetch";
+    public static final String PRICE_SUMMON = "price-right-click-summon";
     public static final String PRICE_OPEN = "price-open";
     public static final String PRICE_TELEPORT = "price-teleport";
     public static final String PURGE_LOGS_EVERY_X_HOURS = "purge-logs-every-x-hours";
@@ -121,5 +122,7 @@ public final class Config {
     public static final String SOUND_CHANNEL = "sound-channel";
     public static final String LAVA_DETECTION = "lava-detection";
     public static final String MINIMUM_AIR_ABOVE_CHEST = "minimum-air-above-chest";
-
+    public static final String SUMMON_BLOCK = "block-to-right-click";
+    public static final String SACRIFICE_ITEM = "item-to-sacrifice";
+    public static final String SUMMON_ENABLED = "summon-on-right-click-block";
 }
