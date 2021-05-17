@@ -46,6 +46,7 @@ public final class BlockListener implements Listener {
             return;
         }
         if (!angelChest.hasPaidForOpening(event.getPlayer())) {
+            event.setCancelled(true);
             return;
         }
         angelChest.destroy(false);

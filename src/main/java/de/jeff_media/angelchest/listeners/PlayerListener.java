@@ -141,6 +141,7 @@ public final class PlayerListener implements Listener {
         final boolean firstOpened = !angelChest.openedBy.contains(p.getUniqueId().toString());
 
         if (!angelChest.hasPaidForOpening(p)) {
+            event.setCancelled(true);
             return;
         }
 
