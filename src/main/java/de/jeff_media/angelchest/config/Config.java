@@ -80,6 +80,7 @@ public final class Config {
     public static final String ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD = "only-spawn-chests-if-player-may-build";
     public static final String ONLY_SPAWN_IN = "only-spawn-in";
     public static final String PLAY_TOTEM_ANIMATION = "play-totem-animation";
+    public static final String GUI_REQUIRES_SHIFT = "gui-requires-shift";
     public static final String PREFIX = "prefix";
     public static final String PREFIX_MESSAGES = "add-prefix";
     public static final String PRICE = "price";

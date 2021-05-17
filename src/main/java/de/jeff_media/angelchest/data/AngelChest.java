@@ -676,9 +676,25 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         return false;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "AngelChest{block=" + block.toString() + ",owner=" + owner.toString() + "}";
+    }*/
+
+    @Override
+    public String toString() {
+        return "AngelChest{" +
+                "block=" + block +
+                ", created=" + created +
+                ", deathCause=" + deathCause +
+                ", infinite=" + infinite +
+                ", isProtected=" + isProtected +
+                ", openedBy=" + openedBy +
+                ", owner=" + owner +
+                ", secondsLeft=" + secondsLeft +
+                ", unlockIn=" + unlockIn +
+                ", worldid=" + worldid +
+                '}';
     }
 
     /**

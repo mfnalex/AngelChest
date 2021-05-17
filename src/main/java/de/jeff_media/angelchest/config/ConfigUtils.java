@@ -87,6 +87,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.MATERIAL_UNLOCKED, "ENDER_CHEST");
         metric(Config.MATERIAL_UNLOCKED);
 
+        conf.addDefault(Config.GUI_REQUIRES_SHIFT, true);
+        metric(Config.GUI_REQUIRES_SHIFT);
+
         conf.addDefault(Config.REMOVE_CURSE_OF_VANISHING, true);
         metric(Config.REMOVE_CURSE_OF_VANISHING);
 

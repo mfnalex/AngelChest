@@ -21,6 +21,8 @@ public final class ConfigUpdater {
     private static final String[] LINES_CONTAINING_STRING_LISTS = {Config.DONT_SPAWN_ON + ":", Config.ONLY_SPAWN_IN + ":", Config.DISABLED_MATERIALS + ":", Config.DISABLED_WORLDS + ":", Config.DISABLED_WORLDGUARD_REGIONS + ":", "command-aliases-"};
     // Lines STARTING WITH these names will never get the old value applied
     private static final String[] LINES_IGNORED = {"config-version:", "plugin-version:"};
+    // Lines STARTING WITH these names will get no quotes although they would match one of the lists below
+    private static final String[] CONFLICTING_NODES_NEEDING_NO_QUOTES = {"gui-requires-shift"};
     // Lines STARTING WITH these names will get their values wrapped in double quotes
     private static final String[] NODES_NEEDING_DOUBLE_QUOTES = {"message-", Config.CUSTOM_HEAD_BASE64, Config.HOLOGRAM_TEXT, Config.ANGELCHEST_INVENTORY_NAME, Config.ANGELCHEST_LIST, Config.HOLOGRAM_PROTECTED_TEXT, Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT, Config.HOLOGRAM_UNPROTECTED_TEXT, Config.PREFIX, "link-", "gui-", "log-filename", "chest-filename"};
     // Lines STARTING WITH these names will get their values wrapped in single quotes
@@ -83,6 +85,11 @@ public final class ConfigUpdater {
      * @return double quote, single quote or empty string, according to the key name
      */
     private static String getQuotes(final String line) {
+        for(final String test : CONFLICTING_NODES_NEEDING_NO_QUOTES) {
+            if(line.startsWith(test)) {
+                return "";
+            }
+        }
         for (final String test : NODES_NEEDING_DOUBLE_QUOTES) {
             if (line.startsWith(test)) {
                 return "\"";

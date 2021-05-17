@@ -390,7 +390,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         debug("Registering listeners");
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new HologramListener(), this);
-        getServer().getPluginManager().registerEvents(new BlockListener(), this);
+        getServer().getPluginManager().registerEvents(new ChestProtectionListener(), this);
         getServer().getPluginManager().registerEvents(new PistonListener(), this);
         getServer().getPluginManager().registerEvents(new EmergencyListener(), this);
         //getServer().getPluginManager().registerEvents(new UpdateCheckListener(), this);

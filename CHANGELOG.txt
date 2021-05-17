@@ -1,3 +1,7 @@
+## 3.23.0
+- Added "gui-requires-shift". Set to false to open the GUI when rightclicking a chest without using shift.
+- Fixed AngelChest owners being able to equip armor held in their hand to the hologram when right-clicking on the hologram
+
 ## 3.22.0
 - Fixed players being able to break the chest if they don't have enough money to open it
 

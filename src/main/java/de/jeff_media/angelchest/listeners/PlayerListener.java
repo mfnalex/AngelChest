@@ -128,30 +128,48 @@ public final class PlayerListener implements Listener {
         if (!main.isAngelChest(block)) {
             return;
         }
+
+        event.setCancelled(true);
+
         final AngelChest angelChest = main.angelChests.get(block);
-        // Messages.send(event.getPlayer(),"This is " + angelChest.owner.getName()+"'s
-        // AngelChest.");
+
         // Test here if player is allowed to open THIS angelchest
         if (angelChest.isProtected && !event.getPlayer().getUniqueId().equals(angelChest.owner) && !event.getPlayer().hasPermission(Permissions.PROTECT_IGNORE)) {
             Messages.send(event.getPlayer(), main.messages.MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS);
-            event.setCancelled(true);
             return;
         }
 
         final boolean firstOpened = !angelChest.openedBy.contains(p.getUniqueId().toString());
 
-        if (!angelChest.hasPaidForOpening(p)) {
-            event.setCancelled(true);
+        openGUIorFastLoot(p,angelChest,firstOpened);
+
+    }
+
+    private void openGUIorFastLoot(Player player, AngelChest angelChest, boolean firstOpened) {
+        if(main.debug) main.debug("Attempting to open AngelChest " + angelChest + " for player " + player);
+
+        if (!angelChest.hasPaidForOpening(player)) {
             return;
         }
 
-        if (p.isSneaking() && Daddy.allows(PremiumFeatures.OPEN_GUI_VIA_SHIFT_RIGHTCLICK)) {
-            main.guiManager.showPreviewGUI(p, angelChest, false, firstOpened);
-        } else {
-            openAngelChest(p, angelChest, firstOpened);
+        boolean openGUI = false;
+        if(Daddy.allows(PremiumFeatures.GUI)) {
+            if(player.isSneaking() && main.getConfig().getBoolean(Config.GUI_REQUIRES_SHIFT)) {
+                if(main.debug) main.debug("Opening GUI because player is sneaking and GUI requires Shift");
+                openGUI = true;
+            } else if(!player.isSneaking() && !main.getConfig().getBoolean(Config.GUI_REQUIRES_SHIFT)) {
+                if(main.debug) main.debug("Opening GUI because player is NOT sneaking and GUI does NOT require Shift");
+                openGUI = true;
+            }
         }
 
-        event.setCancelled(true);
+        if(openGUI) {
+            main.guiManager.showPreviewGUI(player, angelChest, false, firstOpened);
+        } else {
+            main.debug("Fastlooting chest");
+            openAngelChest(player, angelChest, firstOpened);
+        }
+
     }
 
     @SuppressWarnings("unused")
@@ -161,32 +179,24 @@ public final class PlayerListener implements Listener {
             return;
         }
         if (event.getRightClicked().getType() != EntityType.ARMOR_STAND) {
-
             return;
         }
-        final AtomicReference<AngelChest> as = new AtomicReference<>();
+        final AtomicReference<AngelChest> atomicAngelChest = new AtomicReference<>();
         if (main.isAngelChestHologram(event.getRightClicked())) {
-            as.set(main.getAngelChestByHologram((ArmorStand) event.getRightClicked()));
-            //System.out.println("GETBYHOLOGRAM1");
+            atomicAngelChest.set(main.getAngelChestByHologram((ArmorStand) event.getRightClicked()));
         }
 
-        if (as.get() == null) return;
+        if (atomicAngelChest.get() == null) return;
 
-        if (!as.get().owner.equals(event.getPlayer().getUniqueId()) && !event.getPlayer().hasPermission(Permissions.PROTECT_IGNORE) && as.get().isProtected) {
+        event.setCancelled(true);
+
+        if (!atomicAngelChest.get().owner.equals(event.getPlayer().getUniqueId()) && !event.getPlayer().hasPermission(Permissions.PROTECT_IGNORE) && atomicAngelChest.get().isProtected) {
             Messages.send(event.getPlayer(), main.messages.MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS);
-            event.setCancelled(true);
             return;
         }
-        final boolean firstOpened = !as.get().openedBy.contains(event.getPlayer().getUniqueId().toString());
+        final boolean firstOpened = !atomicAngelChest.get().openedBy.contains(event.getPlayer().getUniqueId().toString());
 
-        if (!as.get().hasPaidForOpening(event.getPlayer())) {
-            return;
-        }
-        if (event.getPlayer().isSneaking()) {
-            main.guiManager.showPreviewGUI(event.getPlayer(), as.get(), false, firstOpened);
-        } else {
-            openAngelChest(event.getPlayer(), as.get(), firstOpened);
-        }
+        openGUIorFastLoot(event.getPlayer(),atomicAngelChest.get(),firstOpened);
     }
 
     /**
