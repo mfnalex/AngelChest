@@ -48,6 +48,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public List<String> openedBy;
     public Inventory overflowInv;
     public UUID owner;
+    public UUID killer;
     public Set<ItemStack> randomlyLostItems = null;
     public int secondsLeft;
     public ItemStack[] storageInv;
@@ -55,6 +56,14 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public int unlockIn;
     public UUID worldid;
     double price = 0;
+
+    public @Nullable UUID getKiller() {
+        return killer;
+    }
+
+    public void setKiller(final UUID killer) {
+        this.killer = killer;
+    }
 
     /**
      * Loads an AngelChest from a YAML file
@@ -89,6 +98,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.isProtected = yaml.getBoolean(ChestYaml.IS_PROTECTED);
         this.secondsLeft = yaml.getInt(ChestYaml.SECONDS_LEFT);
         this.infinite = yaml.getBoolean(ChestYaml.IS_INFINITE, false);
+        this.killer = yaml.isSet("killer") ? UUID.fromString(yaml.getString("killer")) : null;
         this.unlockIn = yaml.getInt("unlockIn", -1);
         this.price = yaml.getDouble(ChestYaml.PRICE, main.getConfig().getDouble(Config.PRICE));
         this.logfile = yaml.getString("logfile", null);
@@ -227,6 +237,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.deathCause = deathCause;
         this.blacklistedItems = new ArrayList<>();
         this.created = System.currentTimeMillis();
+        this.killer = player.getKiller() == null ? null : player.getKiller().getUniqueId();
         if (secondsLeft <= 0) infinite = true;
 
         final String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", player.getName());
@@ -602,6 +613,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         yaml.set(ChestYaml.SECONDS_LEFT, secondsLeft);
         yaml.set("unlockIn", unlockIn);
         yaml.set("created", created);
+        if(killer != null) yaml.set("killer",killer.toString());
         yaml.set("experience", experience);
         yaml.set(ChestYaml.EXP_LEVELS, levels);
         yaml.set(ChestYaml.PRICE, price);

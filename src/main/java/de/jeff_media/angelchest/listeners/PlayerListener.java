@@ -134,7 +134,7 @@ public final class PlayerListener implements Listener {
         final AngelChest angelChest = main.angelChests.get(block);
 
         // Test here if player is allowed to open THIS angelchest
-        if (angelChest.isProtected && !event.getPlayer().getUniqueId().equals(angelChest.owner) && !event.getPlayer().hasPermission(Permissions.PROTECT_IGNORE)) {
+        if (!main.protectionUtils.playerMayOpenThisChest(event.getPlayer(), angelChest)) {
             Messages.send(event.getPlayer(), main.messages.MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS);
             return;
         }
@@ -190,7 +190,7 @@ public final class PlayerListener implements Listener {
 
         event.setCancelled(true);
 
-        if (!atomicAngelChest.get().owner.equals(event.getPlayer().getUniqueId()) && !event.getPlayer().hasPermission(Permissions.PROTECT_IGNORE) && atomicAngelChest.get().isProtected) {
+        if (!main.protectionUtils.playerMayOpenThisChest(event.getPlayer(), atomicAngelChest.get())) {
             Messages.send(event.getPlayer(), main.messages.MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS);
             return;
         }

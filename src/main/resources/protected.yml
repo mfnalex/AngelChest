@@ -1,0 +1,25 @@
+# You can define who is able to open protected chests.
+#
+# If you want everyone to be able to open the chests, just don't give your players the "angelchest.protect" permission.
+#
+# For more information about the groups, see groups.yml file. In short: give players the permission "angelchest.group.<groupname>"
+# to give them access to that group.
+#
+# Note that the "angelchest.protect.ignore" will always let you open EVERY chest.
+
+# Whether the owner may open his protected chests while he died outside of PvP
+owner-outside-pvp: true
+
+# WHether the owner may open his protected chests while he died due to PvP
+owner-in-pvp: true
+
+# Whether the killer of the dead player may open the protected chest
+killer: false
+
+# Whether everyone except the owner and killer may open the protected chests
+others: false
+
+# People of these groups (see groups.yml file) may also open the protected chests
+groups:
+- admin
+- vip

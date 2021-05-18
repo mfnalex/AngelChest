@@ -14,8 +14,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public final class GroupUtils {
 
@@ -286,6 +288,16 @@ public final class GroupUtils {
         }
     }
 
+    public List<String> getGroups(final Player p) {
+        List<String> matchingGroups = new ArrayList<>();
+        for(String group : groups.keySet()) {
+            if(p.hasPermission(Permissions.PREFIX_GROUP + group)) {
+                matchingGroups.add(group);
+            }
+        }
+        return matchingGroups;
+    }
+
     public double getOpenPricePerPlayer(final Player p) {
         if (!Daddy.allows(PremiumFeatures.PAY_TO_OPEN_ANGELCHEST)) {
             return 0;
@@ -398,7 +410,7 @@ public final class GroupUtils {
         if (bestValueFound != null) {
             return bestValueFound;
         } else {
-            return main.getConfig().getInt(Config.UNLOCK_DURATION);
+            return main.getConfig().getInt(Config.UNLOCK_DURATION) == 0 ? -1 : main.getConfig().getInt(Config.UNLOCK_DURATION);
         }
     }
 

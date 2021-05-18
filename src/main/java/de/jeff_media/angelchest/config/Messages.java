@@ -96,9 +96,9 @@ public final class Messages {
 
         MSG_PLAYERSONLY = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-error-players-only", "&cError: This command can only be used by players."));
 
-        MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-not-allowed-to-break-other-angelchests", "&cYou are not allowed to break other people's AngelChest."));
+        MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-not-allowed-to-break-other-angelchests", "&cYou are not allowed to break this AngelChest."));
 
-        MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-not-allowed-to-open-other-angelchests", "&cYou are not allowed to open other people's AngelChest."));
+        MSG_NOT_ALLOWED_TO_OPEN_OTHER_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-not-allowed-to-open-other-angelchests", "&cYou are not allowed to open this AngelChest."));
 
         MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-you-dont-have-any-angelchests", "&eYou don't have any AngelChests."));
 

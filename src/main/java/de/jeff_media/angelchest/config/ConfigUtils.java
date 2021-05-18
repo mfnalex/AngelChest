@@ -10,6 +10,7 @@ import de.jeff_media.angelchest.hooks.MinepacksHook;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.GroupUtils;
 import de.jeff_media.angelchest.hooks.GenericHooks;
+import de.jeff_media.angelchest.utils.ProtectionUtils;
 import de.jeff_media.daddy.Daddy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Material;
@@ -455,7 +456,9 @@ sound-channel: BLOCKS
         main.messages = new Messages(main);
         main.pendingConfirms = new HashMap<>();
         final File groupsFile = new File(main.getDataFolder() + File.separator + "groups.yml");
+        final File protectionFile = new File(main.getDataFolder() + File.separator + "protected.yml");
         main.groupUtils = new GroupUtils(groupsFile);
+        main.protectionUtils = new ProtectionUtils(protectionFile);
         // TODO: Reload WorldGuardWrapper only on reload, not on startup
         //main.worldGuardWrapper = WorldGuardWrapper.init();
         main.genericHooks = new GenericHooks();
