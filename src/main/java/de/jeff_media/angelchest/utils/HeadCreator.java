@@ -55,7 +55,7 @@ public final class HeadCreator {
         }*/
 
         if (!(block.getState() instanceof Skull)) {
-            main.getLogger().severe("Could not spawn head at " + block.toString());
+            main.getLogger().severe("Could not spawn head at " + block);
             return;
         }
 

@@ -160,9 +160,9 @@ public final class BlacklistEntry {
             }
         }
 
-        for(String enchantment : enchantments) {
+        for(final String enchantment : enchantments) {
             boolean contains = false;
-            for(Map.Entry<Enchantment,Integer> entry : meta.getEnchants().entrySet()) {
+            for(final Map.Entry<Enchantment,Integer> entry : meta.getEnchants().entrySet()) {
                 if(entry.getKey().getKey().getKey().equalsIgnoreCase(enchantment)) {
                     contains = true;
                     break;

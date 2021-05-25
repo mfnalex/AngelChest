@@ -59,7 +59,7 @@ public final class GenericHooks implements Listener {
             }
         }
 
-        if(isEliteMobsInstalled == false) return false;
+        if(!isEliteMobsInstalled) return false;
 
         if (item == null) return false;
 
@@ -70,7 +70,7 @@ public final class GenericHooks implements Listener {
         final ItemMeta meta = item.getItemMeta();
         final PersistentDataContainer pdc = meta.getPersistentDataContainer();
         if (pdc.has(new NamespacedKey(eliteMobsPlugin, "soulbind"), PersistentDataType.STRING)) {
-            if(main.debug) main.debug(item.toString() + " is a EliteMobs soulbound item, which means we must treat it like a normal item because EliteMobs soulbound items are NOT kept on death, they drop like normal items!");
+            if(main.debug) main.debug(item + " is a EliteMobs soulbound item, which means we must treat it like a normal item because EliteMobs soulbound items are NOT kept on death, they drop like normal items!");
             return true;
         }
         return false;
@@ -94,7 +94,7 @@ public final class GenericHooks implements Listener {
 
         for (final String line : meta.getLore()) {
             if (line.toLowerCase().contains("soulbound")) {
-                if(main.debug) main.debug(item.toString() + " is a GENERIC SOULBOUND ITEM. Lore: " + line);
+                if(main.debug) main.debug(item + " is a GENERIC SOULBOUND ITEM. Lore: " + line);
                 return true;
             }
         }
@@ -109,10 +109,10 @@ public final class GenericHooks implements Listener {
 
         // EcoEnchants treats enchanted books as being enchanted although they actually only store an enchantment
         if(meta instanceof EnchantmentStorageMeta) {
-            EnchantmentStorageMeta storageMeta = (EnchantmentStorageMeta) meta;
+            final EnchantmentStorageMeta storageMeta = (EnchantmentStorageMeta) meta;
             for (final Enchantment enchant : storageMeta.getStoredEnchants().keySet()) {
                 if (enchant.getKey().getKey().equalsIgnoreCase("soulbound")) {
-                    if(main.debug) main.debug(item.toString() + " is a NATIVE SOULBOUND ITEM that STORES this enchanted (EcoEnchants?).");
+                    if(main.debug) main.debug(item + " is a NATIVE SOULBOUND ITEM that STORES this enchanted (EcoEnchants?).");
                     return true;
                 }
             }
@@ -121,7 +121,7 @@ public final class GenericHooks implements Listener {
         if (!meta.hasEnchants()) return false;
         for (final Enchantment enchant : meta.getEnchants().keySet()) {
             if (enchant.getKey().getKey().equalsIgnoreCase("soulbound")) {
-                if(main.debug) main.debug(item.toString() + " is a NATIVE SOULBOUND ITEM.");
+                if(main.debug) main.debug(item + " is a NATIVE SOULBOUND ITEM.");
                 return true;
             }
         }

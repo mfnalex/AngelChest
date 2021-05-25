@@ -145,7 +145,7 @@ public final class PlayerListener implements Listener {
 
     }
 
-    private void openGUIorFastLoot(Player player, AngelChest angelChest, boolean firstOpened) {
+    private void openGUIorFastLoot(final Player player, final AngelChest angelChest, final boolean firstOpened) {
         if(main.debug) main.debug("Attempting to open AngelChest " + angelChest + " for player " + player);
 
         if (!angelChest.hasPaidForOpening(player)) {
@@ -220,7 +220,7 @@ public final class PlayerListener implements Listener {
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeathBecauseTotemNotEquipped(final EntityResurrectEvent e) {
-        if (main.debug) main.debug("EntityResurrectEvent");
+        //if (main.debug) main.debug("EntityResurrectEvent");
         if (!(e.getEntity() instanceof Player)) return;
 
         if (!e.isCancelled()) {
@@ -341,7 +341,7 @@ public final class PlayerListener implements Listener {
             // This is another player's chest
             if (Daddy.allows(PremiumFeatures.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_ANGELCHEST)) {
                 if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
-                    Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
+                    final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                     if (tmpPlayer != null) {
                         Messages.send(tmpPlayer, main.messages.MSG_EMPTIED.replaceAll("\\{player}", p.getName()));
                     }
@@ -359,7 +359,7 @@ public final class PlayerListener implements Listener {
             // This is another player's chest
             if (Daddy.allows(PremiumFeatures.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_ANGELCHEST)) {
                 if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
-                    Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
+                    final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                     if (tmpPlayer != null) {
                         if (firstOpened) {
                             Messages.send(tmpPlayer, main.messages.MSG_OPENED.replaceAll("\\{player}", p.getName()));
@@ -493,14 +493,14 @@ public final class PlayerListener implements Listener {
 
         // Player died below world
         if (p.getLocation().getBlockY() < 1) {
-            if (main.debug) main.debug("Fixing player position for " + p.getLocation().toString() + " because Y < 1");
+            if (main.debug) main.debug("Fixing player position for " + p.getLocation() + " because Y < 1");
             fixedPlayerPosition = null;
             // Void detection: use last known position
             if (main.getConfig().getBoolean(Config.VOID_DETECTION)) {
                 if (main.lastPlayerPositions.containsKey(p.getUniqueId())) {
                     fixedPlayerPosition = main.lastPlayerPositions.get(p.getUniqueId());
                     if (main.debug)
-                        main.debug("Using last known player position " + fixedPlayerPosition.getLocation().toString());
+                        main.debug("Using last known player position " + fixedPlayerPosition.getLocation());
                 }
             }
             // Void detection disabled or no last known position: set to Y=1
@@ -509,27 +509,27 @@ public final class PlayerListener implements Listener {
                 ltmp.setY(1);
                 fixedPlayerPosition = ltmp.getBlock();
                 if (main.debug)
-                    main.debug("Void detection disabled or no last known player position, setting Y to 1 " + fixedPlayerPosition.getLocation().toString());
+                    main.debug("Void detection disabled or no last known player position, setting Y to 1 " + fixedPlayerPosition.getLocation());
             }
         } else {
             fixedPlayerPosition = p.getLocation().getBlock();
-            if (main.debug) main.debug("Void fixing not needed for " + fixedPlayerPosition.getLocation().toString());
+            if (main.debug) main.debug("Void fixing not needed for " + fixedPlayerPosition.getLocation());
         }
 
         // Player died above build limit
         // Note: This has to be checked AFTER the "below world" check, because the lastPlayerPositions could return 256
         if (fixedPlayerPosition.getY() >= p.getWorld().getMaxHeight()) {
             if (main.debug)
-                main.debug("Fixing player position for " + p.getLocation().toString() + " because Y >= World#getMaxHeight()");
+                main.debug("Fixing player position for " + p.getLocation() + " because Y >= World#getMaxHeight()");
             final Location ltmp = p.getLocation();
             ltmp.setY(p.getWorld().getMaxHeight() - 1);
             fixedPlayerPosition = ltmp.getBlock();
             if (main.debug)
-                main.debug("Setting Y to World#getMaxHeight()-1 " + fixedPlayerPosition.getLocation().toString());
+                main.debug("Setting Y to World#getMaxHeight()-1 " + fixedPlayerPosition.getLocation());
         } else {
             //fixedPlayerPosition = p.getLocation().getBlock();
             if (main.debug)
-                main.debug("MaxHeight fixing not needed for " + fixedPlayerPosition.getLocation().toString());
+                main.debug("MaxHeight fixing not needed for " + fixedPlayerPosition.getLocation());
         }
 
         // Player died in Lava
@@ -538,11 +538,11 @@ public final class PlayerListener implements Listener {
             if (main.lastPlayerPositions.containsKey(p.getUniqueId())) {
                 fixedPlayerPosition = main.lastPlayerPositions.get(p.getUniqueId());
                 if (main.debug)
-                    main.debug("Using last known player position " + fixedPlayerPosition.getLocation().toString());
+                    main.debug("Using last known player position " + fixedPlayerPosition.getLocation());
             }
         }
 
-        if (main.debug) main.debug("FixedPlayerPosition: " + fixedPlayerPosition.toString());
+        if (main.debug) main.debug("FixedPlayerPosition: " + fixedPlayerPosition);
         Block angelChestBlock = AngelChestUtils.getChestLocation(fixedPlayerPosition);
 
         // Calling Event
@@ -599,7 +599,7 @@ public final class PlayerListener implements Listener {
             for (final ItemStack leftover : p.getInventory().addItem(freshDrop).values()) {
                 if (leftover == null || leftover.getAmount() == 0 || leftover.getType() == Material.AIR) continue;
                 p.getWorld().dropItemNaturally(p.getLocation(), leftover);
-                main.getLogger().info("Could not add item to already full AngelChest of player " + p.getName() + ": " + leftover + ", dropping it to world @ " + p.getLocation().toString());
+                main.getLogger().info("Could not add item to already full AngelChest of player " + p.getName() + ": " + leftover + ", dropping it to world @ " + p.getLocation());
             }
         }
         // END DETECT ALL DROPS
@@ -657,7 +657,7 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        ac.createChest(ac.block, ac.owner);
+        //ac.createChest(ac.block, ac.owner);
 
         main.logger.logDeath(event, ac);
 
@@ -717,22 +717,24 @@ public final class PlayerListener implements Listener {
 
         if (Daddy.allows(PremiumFeatures.PLAY_TOTEM_ANIMATION) && main.getConfig().getBoolean(Config.PLAY_TOTEM_ANIMATION)) {
             try {
-                Class<?> statusPacketClass = NMSUtils.getNMSClass("PacketPlayOutEntityStatus");
-                Class<?> entityPlayerClass = NMSUtils.getNMSClass("EntityPlayer");
-                Class<?> entityClass = NMSUtils.getNMSClass("Entity");
-                Class<?> craftPlayerClass = NMSUtils.getBukkitNMSClass("entity.CraftPlayer");
-                Method getHandleMethod = craftPlayerClass.getMethod("getHandle");
-                Method sendPacketMethod = NMSUtils.getNMSClass("PlayerConnection").getMethod("sendPacket", NMSUtils.getNMSClass("Packet"));
-                Constructor<?> packetConstructor = statusPacketClass.getConstructor(entityClass, byte.class);
-                Object craftPlayer = craftPlayerClass.cast(p);
-                Object entityPlayer = getHandleMethod.invoke(craftPlayer, null);
-                Object packet = packetConstructor.newInstance(entityPlayerClass.cast(entityPlayer), TOTEM_MAGIC_VALUE);
+                final Class<?> statusPacketClass = NMSUtils.getNMSClass("PacketPlayOutEntityStatus");
+                final Class<?> entityPlayerClass = NMSUtils.getNMSClass("EntityPlayer");
+                final Class<?> entityClass = NMSUtils.getNMSClass("Entity");
+                final Class<?> craftPlayerClass = NMSUtils.getBukkitNMSClass("entity.CraftPlayer");
+                final Method getHandleMethod = craftPlayerClass.getMethod("getHandle");
+                final Method sendPacketMethod = NMSUtils.getNMSClass("PlayerConnection").getMethod("sendPacket", NMSUtils.getNMSClass("Packet"));
+                final Constructor<?> packetConstructor = statusPacketClass.getConstructor(entityClass, byte.class);
+                final Object craftPlayer = craftPlayerClass.cast(p);
+                final Object entityPlayer = getHandleMethod.invoke(craftPlayer, null);
+                final Object packet = packetConstructor.newInstance(entityPlayerClass.cast(entityPlayer), TOTEM_MAGIC_VALUE);
                 sendPacketMethod.invoke(NMSUtils.getConnection(p), packet);
 
-            } catch (Exception ignored) {
+            } catch (final Exception ignored) {
 
             }
         }
+
+        ac.createChest(ac.block, ac.owner);
     }
 
     @SuppressWarnings("unused")

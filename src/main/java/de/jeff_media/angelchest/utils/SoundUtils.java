@@ -14,8 +14,8 @@ import org.bukkit.entity.Player;
 
 public class SoundUtils {
 
-    public static void playTpFetchSound(Player player, Location location, CommandAction action) {
-        Main main = Main.getInstance();
+    public static void playTpFetchSound(final Player player, final Location location, final CommandAction action) {
+        final Main main = Main.getInstance();
         if(action == CommandAction.FETCH_CHEST) {
             if(!main.getConfig().getBoolean(Config.PLAY_SOUND_ON_FETCH)) {
                 return;
@@ -37,16 +37,16 @@ public class SoundUtils {
             }
         }
 
-        Sound sound = Enums.getIfPresent(Sound.class,main.getConfig().getString(Config.SOUND_EFFECT)).orNull();
+        final Sound sound = Enums.getIfPresent(Sound.class,main.getConfig().getString(Config.SOUND_EFFECT)).orNull();
 
         if(sound == null) {
             main.getLogger().warning("You specified an invalid sound effect: " + main.getConfig().getString(Config.SOUND_EFFECT));
             return;
         }
 
-        float volume = (float) main.getConfig().getDouble(Config.SOUND_VOLUME);
-        float pitch = (float) main.getConfig().getDouble(Config.SOUND_PITCH);
-        SoundCategory channel = Enums.getIfPresent(SoundCategory.class,main.getConfig().getString(Config.SOUND_CHANNEL)).or(SoundCategory.BLOCKS);
+        final float volume = (float) main.getConfig().getDouble(Config.SOUND_VOLUME);
+        final float pitch = (float) main.getConfig().getDouble(Config.SOUND_PITCH);
+        final SoundCategory channel = Enums.getIfPresent(SoundCategory.class,main.getConfig().getString(Config.SOUND_CHANNEL)).or(SoundCategory.BLOCKS);
 
         if(player != null && player.isOnline()) {
             player.playSound(location,sound,channel,volume, pitch);

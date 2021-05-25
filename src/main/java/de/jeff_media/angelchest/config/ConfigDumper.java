@@ -101,7 +101,7 @@ public final class ConfigDumper {
         Messages.send(sender,"Saving relevant gamerules...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Gamerules"));
         for (final World world : Bukkit.getWorlds().stream().sorted(Comparator.comparing(World::getName)).collect(Collectors.toList())) {
-            de.jeff_media.angelchest.utils.FileUtils.appendLines(log, world.getName() + "[" + world.getUID().toString() + "]");
+            de.jeff_media.angelchest.utils.FileUtils.appendLines(log, world.getName() + "[" + world.getUID() + "]");
             @SuppressWarnings("rawtypes") final GameRule[] rules = new GameRule[] {GameRule.DO_ENTITY_DROPS, GameRule.KEEP_INVENTORY};
             //noinspection rawtypes
             for (final GameRule rule : rules) {
@@ -127,11 +127,11 @@ public final class ConfigDumper {
         Messages.send(sender,"Saving BukkitScheduler informationp...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("BukkitScheduler: Workers"));
         for (final BukkitWorker worker : Bukkit.getScheduler().getActiveWorkers()) {
-            de.jeff_media.angelchest.utils.FileUtils.appendLines(log, worker.getOwner().getName() + ": " + worker.getTaskId() + " (" + worker.toString() + ")");
+            de.jeff_media.angelchest.utils.FileUtils.appendLines(log, worker.getOwner().getName() + ": " + worker.getTaskId() + " (" + worker + ")");
         }
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("BukkitScheduler: Tasks"));
         for (final BukkitTask task : Bukkit.getScheduler().getPendingTasks()) {
-            de.jeff_media.angelchest.utils.FileUtils.appendLines(log, task.getOwner().getName() + ": " + task.getTaskId() + " (" + task.toString() + ")");
+            de.jeff_media.angelchest.utils.FileUtils.appendLines(log, task.getOwner().getName() + ": " + task.getTaskId() + " (" + task + ")");
         }
 
         // Dump configs

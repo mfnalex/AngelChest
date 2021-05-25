@@ -71,7 +71,7 @@ public class AngelChestUtils {
     }
 
     public static Block getChestLocation(final Block playerLoc) {
-        Main main = Main.getInstance();
+        final Main main = Main.getInstance();
         Block fixedAngelChestBlock = playerLoc;
 
         //if (!playerLoc.getType().equals(Material.AIR)) {

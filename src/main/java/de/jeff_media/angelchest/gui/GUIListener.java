@@ -357,7 +357,7 @@ public final class GUIListener implements @NotNull Listener {
                 }
                 if (Daddy.allows(PremiumFeatures.GENERIC)) { // Don't add feature here
                     if (!player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
-                        Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
+                        final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                         if (tmpPlayer != null) {
                             Messages.send(tmpPlayer,main.messages.MSG_EMPTIED.replaceAll("\\{player}", player.getName()));
                         }

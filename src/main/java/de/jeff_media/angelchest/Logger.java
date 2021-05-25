@@ -79,7 +79,7 @@ public final class Logger {
         final String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         write("=== AngelChest spawned ===", file);
         write("Player: " + event.getEntity().getName(), file);
-        write("Player UUID: " + event.getEntity().getUniqueId().toString(), file);
+        write("Player UUID: " + event.getEntity().getUniqueId(), file);
         write("Death Time: " + timestamp, file);
         write("Death Location: " + loc2string(event.getEntity().getLocation()), file);
         write("Chest Location: " + loc2string(ac.block.getLocation()), file);
@@ -88,11 +88,11 @@ public final class Logger {
         write("Chest XP: " + ac.experience, file);
         write("Chest Protection: " + ac.isProtected, file);
         write("Chest Duration: " + (ac.infinite ? "infinite" : ac.secondsLeft + " seconds"), file);
-        int lineNo = 1;
-        for (final String line : ac.hologram.text.split("\n")) {
+        final int lineNo = 1;
+        /*for (final String line : ac.hologram.text.split("\n")) {
             write("Hologram Line " + lineNo + ": " + line, file);
             lineNo++;
-        }
+        }*/
         write("", file);
         write("=== INFORMATION ===", file);
         write("Please note that some plugins remove certain items on death (soulbound items etc.), while other plugins add certain drops (player heads etc.). That's why this log file show you three different item lists:", file);
@@ -105,14 +105,14 @@ public final class Logger {
         write("The player had the following items in his inventory at the time of his death:", file);
         for (final ItemStack item : event.getEntity().getInventory().getContents()) {
             if (item == null) continue;
-            write("> " + item.toString(), file);
+            write("> " + item, file);
         }
         write("", file);
         write("=== 2. Player Drops ===", file);
         write("The player would have dropped the following items at the time of this death:", file);
         for (final ItemStack item : event.getDrops()) {
             if (item == null) continue;
-            write("> " + item.toString(), file);
+            write("> " + item, file);
         }
 
         final Set<ItemStack> lostItems = ac.randomlyLostItems;
@@ -122,7 +122,7 @@ public final class Logger {
             write("The following items were lost due to random item loss:", file);
             for (final ItemStack item : lostItems) {
                 if (item == null) continue;
-                write("- " + item.toString(), file);
+                write("- " + item, file);
             }
         }
 
@@ -131,19 +131,19 @@ public final class Logger {
         write("The AngelChest contains the following items:", file);
         for (final ItemStack item : ac.storageInv) {
             if (item == null) continue;
-            write("> " + item.toString(), file);
+            write("> " + item, file);
         }
         for (final ItemStack item : ac.armorInv) {
             if (item == null) continue;
-            write("> " + item.toString(), file);
+            write("> " + item, file);
         }
         for (final ItemStack item : ac.extraInv) {
             if (item == null) continue;
-            write("> " + item.toString(), file);
+            write("> " + item, file);
         }
         for (final ItemStack item : ac.overflowInv) {
             if (item == null) continue;
-            write("> " + item.toString(), file);
+            write("> " + item, file);
         }
         write("", file);
     }
@@ -151,7 +151,7 @@ public final class Logger {
     public void logItemTaken(final Player player, @Nullable final ItemStack item, final File file) {
         if (!Daddy.allows(PremiumFeatures.GENERIC)) return; // Don't add feature here
         if (item == null) return;
-        writeWithTime(String.format("Player \"%s\" took item: %s", player.getName(), item.toString()), file);
+        writeWithTime(String.format("Player \"%s\" took item: %s", player.getName(), item), file);
     }
 
     public void logLastItemTaken(final Player player, final File file) {

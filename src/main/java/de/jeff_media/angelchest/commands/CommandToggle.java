@@ -29,7 +29,7 @@ public class CommandToggle implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+    public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String alias, @NotNull final String[] args) {
 
         if(!Daddy.allows(PremiumFeatures.ACTOGGLE)) {
             Messages.send(commandSender,main.messages.MSG_PREMIUMONLY);
@@ -50,24 +50,20 @@ public class CommandToggle implements CommandExecutor {
         return true;
     }
 
-    private void toggle(Player player) {
-        if(NBTAPI.hasNBT(player, NBTTags.HAS_ANGELCHEST_DISABLED)) {
-            toggle(player, true);
-        } else {
-            toggle(player, false);
-        }
+    private void toggle(final Player player) {
+        toggle(player, NBTAPI.hasNBT(player, NBTTags.HAS_ANGELCHEST_DISABLED));
     }
 
-    private void toggle(Player player, boolean enable) {
+    private void toggle(final Player player, final boolean enable) {
         if(enable) {
             NBTAPI.removeNBT(player, NBTTags.HAS_ANGELCHEST_DISABLED);
             Messages.send(player,main.messages.MSG_ANGELCHEST_ENABLED);
         } else {
             if(main.getConfig().getBoolean(Config.USING_ACTOGGLE_BREAKS_EXISTING_CHESTS)) {
                 boolean hasChests = false;
-                Iterator<Map.Entry<Block,AngelChest>> it = main.angelChests.entrySet().iterator();
+                final Iterator<Map.Entry<Block,AngelChest>> it = main.angelChests.entrySet().iterator();
                 while (it.hasNext()) {
-                    Map.Entry<Block,AngelChest> entry = it.next();
+                    final Map.Entry<Block,AngelChest> entry = it.next();
                     if (!entry.getValue().owner.equals(player.getUniqueId())) continue;
                     hasChests = true;
                     entry.getValue().destroy(false);

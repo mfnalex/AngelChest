@@ -289,8 +289,8 @@ public final class GroupUtils {
     }
 
     public List<String> getGroups(final Player p) {
-        List<String> matchingGroups = new ArrayList<>();
-        for(String group : groups.keySet()) {
+        final List<String> matchingGroups = new ArrayList<>();
+        for(final String group : groups.keySet()) {
             if(p.hasPermission(Permissions.PREFIX_GROUP + group)) {
                 matchingGroups.add(group);
             }

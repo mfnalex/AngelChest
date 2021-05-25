@@ -2,7 +2,6 @@ package de.jeff_media.angelchest.listeners;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Messages;
-import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.PistonMoveReaction;

@@ -233,7 +233,7 @@ public final class CommandUtils {
             if(!playerWorld.equals(chestWorld)) {
                 Messages.send(sender,main.messages.MSG_TP_ACROSS_WORLDS_NOT_ALLOWED);
                 if(main.debug) main.debug("Forbidden TP across worlds detected.");
-                if(main.debug) main.debug("Player World: " + playerWorld.toString());
+                if(main.debug) main.debug("Player World: " + playerWorld);
                 if(main.debug) main.debug("Chest  World: " + chestWorld.toString());
                 return;
             }
@@ -242,7 +242,7 @@ public final class CommandUtils {
             if (!playerWorld.equals(chestWorld)) {
                 Messages.send(sender,main.messages.MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED);
                 if(main.debug) main.debug("Forbidden Fetch across worlds detected.");
-                if(main.debug) main.debug("Player World: " + playerWorld.toString());
+                if(main.debug) main.debug("Player World: " + playerWorld);
                 if(main.debug) main.debug("Chest  World: " + chestWorld.toString());
                 return;
             }

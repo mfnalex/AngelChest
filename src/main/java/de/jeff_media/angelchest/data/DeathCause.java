@@ -2,10 +2,13 @@ package de.jeff_media.angelchest.data;
 
 import com.google.common.base.Enums;
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.listeners.EnderCrystalListener;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.projectiles.BlockProjectileSource;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +21,7 @@ public final class DeathCause implements ConfigurationSerializable {
 
     private final EntityDamageEvent.DamageCause damageCause;
     private String killerName;
+    private boolean enderCrystalDeath = false;
 
     public DeathCause(final EntityDamageEvent entityDamageEvent) {
         final Main main = Main.getInstance();
@@ -33,6 +37,20 @@ public final class DeathCause implements ConfigurationSerializable {
         this.killerName = null;
         final Entity victim = entityDamageEvent.getEntity();
         Entity killer = main.killers.get(victim.getUniqueId());
+
+        // Cceck for end crystal death
+        if(entityDamageEvent instanceof EntityDamageByEntityEvent) {
+            final EntityDamageByEntityEvent entityDamageByEntityEvent = (EntityDamageByEntityEvent) entityDamageEvent;
+            if(entityDamageByEntityEvent.getDamager().getType() == EntityType.ENDER_CRYSTAL) {
+                enderCrystalDeath = true;
+                if(EnderCrystalListener.lastEnderCrystalKiller != null && !EnderCrystalListener.lastEnderCrystalKiller.equals(victim.getUniqueId())) {
+                    killer = Bukkit.getEntity(EnderCrystalListener.lastEnderCrystalKiller);
+                    killerName = killer.getName();
+                    return;
+                }
+
+            }
+        }
 
         if (killer != null) {
             //noinspection SwitchStatementWithTooFewBranches
@@ -79,6 +97,14 @@ public final class DeathCause implements ConfigurationSerializable {
         final EntityDamageEvent.DamageCause damageCause = Enums.getIfPresent(EntityDamageEvent.DamageCause.class, (String) map.get("damageCause")).or(EntityDamageEvent.DamageCause.VOID);
         final String killer = (String) map.get("killer");
         return new DeathCause(damageCause, killer);
+    }
+
+    public void setKillerName(final String killerName) {
+        this.killerName = killerName;
+    }
+
+    public boolean isEnderCrystalDeath() {
+        return enderCrystalDeath;
     }
 
     public String getText() {

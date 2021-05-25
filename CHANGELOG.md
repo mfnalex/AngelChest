@@ -1,3 +1,9 @@
+## 3.25.0
+- Added two new hologram placeholders:
+  - {items} shows the number of items inside the chest
+  - {xp} shows the amount of XP the chest stores
+- Players killed by an End crystal that was shot by another player will be treated as if the other player killed them
+
 ## 3.24.0
 - Added "protected.yml" file to control who should be able to open protected chests (owner-outside-pvp, owner-in-pvp, killer, others, or certain groups)
 

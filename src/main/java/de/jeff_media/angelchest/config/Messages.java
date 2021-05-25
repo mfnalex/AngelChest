@@ -205,7 +205,7 @@ public final class Messages {
 
     public static void send(final CommandSender receiver, final String... message) {
         if(receiver == null) return;
-        for(String line : message) {
+        for(final String line : message) {
             send(receiver,line);
         }
     }

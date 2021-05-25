@@ -12,17 +12,17 @@ public class DebugFormatter extends Formatter {
     private final Date date = new Date();
     private static final String format = "{0,time}";
     private MessageFormat formatter;
-    private final Object args[] = new Object[1];
+    private final Object[] args = new Object[1];
     private final String newLine = System.lineSeparator();
 
     @Override
-    public synchronized String format(LogRecord record) {
-        StringBuilder sb = new StringBuilder();
+    public synchronized String format(final LogRecord record) {
+        final StringBuilder sb = new StringBuilder();
         date.setTime(record.getMillis());
         args[0] = date;
 
         // Date and time
-        StringBuffer text = new StringBuffer("[");
+        final StringBuffer text = new StringBuffer("[");
         if(formatter == null) {
             formatter = new MessageFormat(format);
         }
@@ -31,18 +31,18 @@ public class DebugFormatter extends Formatter {
 
 
 
-        String message = formatMessage(record);
+        final String message = formatMessage(record);
 
         sb.append(message);
         sb.append(newLine);
         if (record.getThrown() != null) {
             try {
-                StringWriter sw = new StringWriter();
-                PrintWriter pw = new PrintWriter(sw);
+                final StringWriter sw = new StringWriter();
+                final PrintWriter pw = new PrintWriter(sw);
                 record.getThrown().printStackTrace(pw);
                 pw.close();
                 sb.append(sw);
-            } catch (Exception ex) {
+            } catch (final Exception ignored) {
             }
         }
         return sb.toString();

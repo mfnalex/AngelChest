@@ -113,7 +113,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 
     public void debug(final String... text) {
         if (debug) {
-            for (String line : text) {
+            for (final String line : text) {
                 getLogger().info("[DEBUG] " + line);
             }
         }
@@ -393,6 +393,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         getServer().getPluginManager().registerEvents(new EmergencyListener(), this);
         //getServer().getPluginManager().registerEvents(new UpdateCheckListener(), this);
         getServer().getPluginManager().registerEvents(new InvulnerabilityListener(), this);
+        getServer().getPluginManager().registerEvents(new EnderCrystalListener(), this);
         guiListener = new GUIListener();
         getServer().getPluginManager().registerEvents(guiListener, this);
 
@@ -512,12 +513,12 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         for (final Entry<Block, AngelChest> entry : angelChests.entrySet()) {
 
             if (!PaperLib.isChunkGenerated(entry.getKey().getLocation())) {
-                verbose("Chunk at " + entry.getKey().getLocation().toString() + " has not been generated!");
+                verbose("Chunk at " + entry.getKey().getLocation() + " has not been generated!");
             }
 
             if (!entry.getKey().getWorld().isChunkLoaded(entry.getKey().getX() >> 4, entry.getKey().getZ() >> 4)) {
 
-                verbose("Chunk at " + entry.getKey().getLocation().toString() + " is not loaded, skipping repeating task regarding angelChests.entrySet()");
+                verbose("Chunk at " + entry.getKey().getLocation() + " is not loaded, skipping repeating task regarding angelChests.entrySet()");
                 // CONTINUE IF CHUNK IS NOT LOADED
 
                 continue;
@@ -533,7 +534,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     private void trackPlayerPositions() {
         for (final Player player : Bukkit.getOnlinePlayers()) {
             if (((Entity) player).isOnGround()) {
-                if(getConfig().getBoolean(Config.LAVA_DETECTION) == false || (player.getEyeLocation().getBlock().getType() != Material.LAVA && player.getEyeLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.LAVA)) {
+                if(!getConfig().getBoolean(Config.LAVA_DETECTION) || (player.getEyeLocation().getBlock().getType() != Material.LAVA && player.getEyeLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.LAVA)) {
                     lastPlayerPositions.put(player.getUniqueId(), player.getLocation().getBlock());
                 }
             }

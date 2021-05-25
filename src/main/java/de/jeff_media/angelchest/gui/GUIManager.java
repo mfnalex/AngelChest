@@ -251,7 +251,7 @@ public final class GUIManager {
 
         if (Daddy.allows(PremiumFeatures.GENERIC)) { // Don't add feature here
             if (!isPreview && firstOpened && !player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
-                Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
+                final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                 if (tmpPlayer != null) {
                     Messages.send(tmpPlayer,main.messages.MSG_OPENED.replaceAll("\\{player}", player.getName()));
                 }
@@ -297,7 +297,7 @@ public final class GUIManager {
             if (!(player.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder)) continue;
             final GUIHolder guiHolder = (GUIHolder) player.getOpenInventory().getTopInventory().getHolder();
             if (guiHolder.getSpecialAngelChest() != null && guiHolder.getSpecialAngelChest().equals(angelChest)) {
-                if(main.debug) main.debug("This AngelChest " + angelChest.toString() + " is also in use by " + player.getName() + ", updating...");
+                if(main.debug) main.debug("This AngelChest " + angelChest + " is also in use by " + player.getName() + ", updating...");
                 if (!angelChest.isEmpty()) {
                     showPreviewGUI(player, angelChest, guiHolder.isReadOnlyPreview(), false);
                 } else {

@@ -7,6 +7,7 @@ import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
 import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
@@ -59,6 +60,20 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
     public @Nullable UUID getKiller() {
         return killer;
+    }
+
+    public int getNumberOfItems() {
+        int items = 0;
+        for(final ItemStack item : storageInv) {
+            if(item != null && item.getAmount()>0) items++;
+        }
+        for(final ItemStack item : armorInv) {
+            if(item != null && item.getAmount()>0) items++;
+        }
+        for(final ItemStack item : extraInv) {
+            if(item != null && item.getAmount()>0) items++;
+        }
+        return items;
     }
 
     public void setKiller(final UUID killer) {
@@ -167,8 +182,6 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             }
         }
 
-        createChest(block, owner);
-
         // Load OverflowInv
         final AngelChestHolder holder = new AngelChestHolder();
         overflowInv = Bukkit.createInventory(holder, MAX_INVENTORY_SIZE, inventoryName);
@@ -207,9 +220,13 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             iExtra++;
         }
 
+        createChest(block, owner);
+
         if (!file.delete()) {
             main.getLogger().severe("Could not remove AngelChest file " + file.getAbsolutePath());
         }
+
+
     }
 
     /**
@@ -237,7 +254,19 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.deathCause = deathCause;
         this.blacklistedItems = new ArrayList<>();
         this.created = System.currentTimeMillis();
-        this.killer = player.getKiller() == null ? null : player.getKiller().getUniqueId();
+
+        if (player.getKiller() == null) {
+            if(deathCause.isEnderCrystalDeath() && EnderCrystalListener.lastEnderCrystalKiller != null && !EnderCrystalListener.lastEnderCrystalKiller.equals(owner)) {
+                this.killer = EnderCrystalListener.lastEnderCrystalKiller;
+            } else {
+                this.killer = null;
+            }
+        }
+        else {
+            this.killer = player.getKiller().getUniqueId();
+        }
+
+
         if (secondsLeft <= 0) infinite = true;
 
         final String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", player.getName());
@@ -296,7 +325,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param uuid  The owner's UUID (to correctly set player heads)
      */
     public void createChest(final Block block, final UUID uuid, final boolean createHologram) {
-        if(main.debug) main.debug("Attempting to create chest with material " + main.getChestMaterial(this).name() + " at " + block.getLocation().toString());
+        if(main.debug) main.debug("Attempting to create chest with material " + main.getChestMaterial(this).name() + " at " + block.getLocation());
         block.setType(main.getChestMaterial(this));
 
         // Material is PLAYER_HEAD, so either use the custom texture, or the player skin's texture
@@ -378,7 +407,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param block Block where the AngelChest was spawned
      */
     public void destroyChest(final Block block) {
-        if(main.debug) main.debug("Destroying chest at " + block.getLocation() + toString());
+        if(main.debug) main.debug("Destroying chest at " + block.getLocation() + this);
         block.setType(Material.AIR);
         Objects.requireNonNull(block.getLocation().getWorld()).spawnParticle(Particle.EXPLOSION_NORMAL, block.getLocation(), 1);
         hologram.destroy();

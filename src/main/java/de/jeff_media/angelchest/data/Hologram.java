@@ -53,7 +53,7 @@ public final class Hologram {
             usePapi = true;
         }
 
-        if(main.debug) main.debug("Creating hologram with text " + text + " at " + location.toString());
+        if(main.debug) main.debug("Creating hologram with text " + text + " at " + location);
         this.text = text;
 
         armorStandUUIDs = new ArrayList<>();
@@ -61,11 +61,14 @@ public final class Hologram {
 
         final Scanner scanner = new Scanner(text);
         while (scanner.hasNextLine()) {
+            // TODO: Replace duplicates with calling update() method
             String line = scanner.nextLine();
-            line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
+            line = line.replace("{time}", CommandUtils.getTimeLeft(chest));
             if (Daddy.allows(PremiumFeatures.HOLOGRAM_SHOWS_PROTECTION_STATUS)) {
-                line = line.replaceAll("\\{protected}", getProtectedText(chest));
+                line = line.replace("{protected}", getProtectedText(chest));
             }
+            line = line.replace("{items}", Integer.toString(chest.getNumberOfItems()));
+            line = line.replace("{xp}", Integer.toString(chest.getExperience()));
             boolean customNameVisible = true;
             if (line.equals("")) {
                 line = " ";
@@ -157,6 +160,8 @@ public final class Hologram {
                 if (Daddy.allows(PremiumFeatures.GENERIC)) { // Don't add Feature here, this method gets called every second
                     line = line.replaceAll("\\{protected}", getProtectedText(chest));
                 }
+                line = line.replace("{items}", Integer.toString(chest.getNumberOfItems()));
+                line = line.replace("{xp}", Integer.toString(chest.getExperience()));
                 if (line.equals("")) {
                     armorStand.setCustomName(" ");
                     armorStand.setCustomNameVisible(false);

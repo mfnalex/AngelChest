@@ -103,7 +103,7 @@ dont-protect-chest-if-player-died-in-pvp: false
 # When true, the XP (see "xp-percentage" below) is collected, too.
 # When false, XP drops normally
 # When set to "nopvp", the XP is not collected if the player died during PvP.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! (Always stores XP)
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! (Free version always stores the vanilla XP amount)
 collect-xp: true
 
 # Amount of XP the player keeps within their chest on death.
@@ -113,7 +113,7 @@ collect-xp: true
 # You can override this for certain players by setting up groups
 # and giving players the angelchest.group.<groupname> permission.
 # See groups.example.yml for more information.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! (Free version always uses vanilla amount)
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! (Free version always uses vanilla XP amount)
 xp-percentage: -1
 
 # Global chance for spawning an AngelChest
@@ -383,8 +383,6 @@ sound-volume: 1.0
 sound-pitch: 1.0
 sound-channel: BLOCKS
 
-
-
 #########################
 #### Disabled items  ####
 #########################
@@ -535,14 +533,19 @@ event-priority: HIGHEST
 #####   Hologram   ######
 #########################
 
-# {player} is the player's name.
-# {time} is the amount of time left.
-# {deathcause} is the name of the killing player or the death cause (LAVA, VOID, ...)
-# {protected} shows the protection status. You can define its value below.
-# \n is a new line.
+# {player}       The player's name.
+# {time}         Time until the chest despawns
+# {items}        Number of items the chest contains
+# {xp}           Number of XP the chest contains
+# {deathcause}   Name of the killer, or LAVA, VOID etc. when not killed in PvP
+# {protected}    Protection status - PREMIUM FEATURE - see option below!
+# \n             New line
+
+# The default hologram contains all options mentioned above except {protected}
+
 # The hologram text also allows you to use PlacerholderAPI placeholders
 # Use an empty string to disable the hologram.
-hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&6{time}\n&cKilled by {deathcause}"
+hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&7{items} items / {xp} XP\n&6{time}\n&cKilled by {deathcause}"
 
 # This text is added to the hologram where you have {protected} in your "hologram-text"
 # and if your AngelChest is protected and auto unlocking is disabled.

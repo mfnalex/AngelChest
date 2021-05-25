@@ -16,18 +16,18 @@ public class NMSUtils {
         return  Class.forName(name);
     }
 
-    public static Class<?> getBukkitNMSClass(String nmsClassString) throws ClassNotFoundException {
-        String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] + ".";
-        String name = "org.bukkit.craftbukkit." + version + nmsClassString;
+    public static Class<?> getBukkitNMSClass(final String nmsClassString) throws ClassNotFoundException {
+        final String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] + ".";
+        final String name = "org.bukkit.craftbukkit." + version + nmsClassString;
         return  Class.forName(name);
     }
 
-    public static @Nullable Object getConnection(Player player) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+    public static @Nullable Object getConnection(final Player player) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
 
-            Method getHandle = player.getClass().getMethod("getHandle");
-            Object nmsPlayer = getHandle.invoke(player);
-            Field conField = nmsPlayer.getClass().getField("playerConnection");
-            Object con = conField.get(nmsPlayer);
+            final Method getHandle = player.getClass().getMethod("getHandle");
+            final Object nmsPlayer = getHandle.invoke(player);
+            final Field conField = nmsPlayer.getClass().getField("playerConnection");
+            final Object con = conField.get(nmsPlayer);
             return con;
 
     }
