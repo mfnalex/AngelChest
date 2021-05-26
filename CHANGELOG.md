@@ -1,3 +1,7 @@
+## 3.25.1
+- Added Pirate Speak translation
+- Updated Spanish translation
+
 ## 3.25.0
 - Added two new hologram placeholders:
   - {items} shows the number of items inside the chest
