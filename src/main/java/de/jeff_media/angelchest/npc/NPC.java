@@ -73,11 +73,11 @@ public class NPC {
             PlayerConnection playerConnection = (PlayerConnection) NMSUtils.getConnection(otherPlayer);
 
             // Invisible name start
-            /*ScoreboardTeam team = new ScoreboardTeam(((CraftScoreboard) Bukkit.getScoreboardManager().getMainScoreboard()).getHandle(), npc.getName());
+            ScoreboardTeam team = new ScoreboardTeam(((CraftScoreboard) Bukkit.getScoreboardManager().getMainScoreboard()).getHandle(), npc.getName());
             team.setNameTagVisibility(ScoreboardTeamBase.EnumNameTagVisibility.NEVER);
             playerConnection.sendPacket(new PacketPlayOutScoreboardTeam(team, 1));
             playerConnection.sendPacket(new PacketPlayOutScoreboardTeam(team, 0));
-            playerConnection.sendPacket(new PacketPlayOutScoreboardTeam(team, new ArrayList<String>(){{add(npc.getName());}}, 3));*/
+            playerConnection.sendPacket(new PacketPlayOutScoreboardTeam(team, new ArrayList<String>(){{add(npc.getName());}}, 3));
             // Invisible name end
 
             playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
