@@ -1,6 +1,8 @@
 package de.jeff_media.angelchest.utils;
 
+import com.mojang.authlib.GameProfile;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +31,16 @@ public class NMSUtils {
             final Field conField = nmsPlayer.getClass().getField("playerConnection");
             final Object con = conField.get(nmsPlayer);
             return con;
+    }
 
+    public static GameProfile getGameProfile(OfflinePlayer player) {
+        try {
+            Object entityPlayer = player.getClass().getMethod("getHandle").invoke(player,null);
+            return (GameProfile) entityPlayer.getClass().getMethod("getProfile").invoke(entityPlayer,null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
