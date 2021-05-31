@@ -1,5 +1,5 @@
 ## 3.25.1
-- Fixed groups.example.yml incorrectly stating "price-spawn" instead of "price". As of this update, you can also just use "price-spawn" if you already used it.
+- Fixed "price" / "price-spawn" not working in groups.yml file
 - Added Pirate Speak translation
 - Updated Spanish translation
 

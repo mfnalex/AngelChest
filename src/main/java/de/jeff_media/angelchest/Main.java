@@ -18,8 +18,8 @@ import de.jeff_media.angelchest.hooks.PlaceholderAPIHook;
 import de.jeff_media.angelchest.hooks.WorldGuardWrapper;
 import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
-import de.jeff_media.angelchest.npc.NPCManager;
-import de.jeff_media.angelchest.npc.SkinManager;
+//import de.jeff_media.angelchest.npc.NPCManager;
+//import de.jeff_media.angelchest.npc.SkinManager;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
 import de.jeff_media.jefflib.JeffLib;
@@ -62,16 +62,16 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/angelchestplus/latest-version.txt";
     private static Main instance;
     private static WorldGuardWrapper worldGuardWrapper;
-    private SkinManager skinManager;
-    private NPCManager npcManager;
+    //private SkinManager skinManager;
+    //private NPCManager npcManager;
 
-    public SkinManager getSkinManager() {
+    /*public SkinManager getSkinManager() {
         return skinManager;
     }
 
     public NPCManager getNpcManager() {
         return npcManager;
-    }
+    }*/
 
     public LinkedHashMap<Block, AngelChest> angelChests;
     public Material chestMaterial;
@@ -334,8 +334,8 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     @Override
     public void onEnable() {
 
-        skinManager = new SkinManager();
-        npcManager = new NPCManager();
+        //skinManager = new SkinManager();
+        //npcManager = new NPCManager();
 
         /*Daddy start*/
         Daddy.init(this);
@@ -410,7 +410,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         //getServer().getPluginManager().registerEvents(new UpdateCheckListener(), this);
         getServer().getPluginManager().registerEvents(new InvulnerabilityListener(), this);
         getServer().getPluginManager().registerEvents(new EnderCrystalListener(), this);
-        getServer().getPluginManager().registerEvents(new NPCListener(), this);
+        //getServer().getPluginManager().registerEvents(new NPCListener(), this);
         guiListener = new GUIListener();
         getServer().getPluginManager().registerEvents(guiListener, this);
 

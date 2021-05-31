@@ -1,5 +1,7 @@
 package de.jeff_media.angelchest.data;
 
+import de.jeff_media.angelchest.Main;
+
 import javax.annotation.Nullable;
 
 public final class Group {
@@ -18,6 +20,27 @@ public final class Group {
     @Nullable public final Boolean allowFetchAcrossWorlds;
     @Nullable public final Integer maxTpDistance;
     @Nullable public final Integer maxFetchDistance;
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "duration=" + duration +
+                ", invulnerabilityAfterTP=" + invulnerabilityAfterTP +
+                ", itemLoss='" + itemLoss + '\'' +
+                ", maxChests=" + maxChests +
+                ", priceFetch='" + priceFetch + '\'' +
+                ", priceOpen='" + priceOpen + '\'' +
+                ", priceSpawn='" + priceSpawn + '\'' +
+                ", priceTeleport='" + priceTeleport + '\'' +
+                ", spawnChance=" + spawnChance +
+                ", unlockDuration=" + unlockDuration +
+                ", xpPercentage=" + xpPercentage +
+                ", allowTpAcrossWorlds=" + allowTpAcrossWorlds +
+                ", allowFetchAcrossWorlds=" + allowFetchAcrossWorlds +
+                ", maxTpDistance=" + maxTpDistance +
+                ", maxFetchDistance=" + maxFetchDistance +
+                '}';
+    }
 
     public Group(final int duration, final int maxChests, final String priceSpawn, final String priceOpen, final String priceTeleport, final String priceFetch, final double xpPercentage, final int unlockDuration, final double spawnChance, final String itemLoss, final int invulnerabilityAfterTP, @Nullable final Boolean allowTpAcrossWorlds, @Nullable final Boolean allowFetchAcrossWorlds, @Nullable final Integer maxTpDistance, @Nullable final Integer maxFetchDistance) {
         this.duration = duration;

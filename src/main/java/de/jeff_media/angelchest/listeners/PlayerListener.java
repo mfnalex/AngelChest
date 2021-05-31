@@ -554,7 +554,7 @@ public final class PlayerListener implements Listener {
         }
         angelChestBlock = angelChestSpawnPrepareEvent.getBlock();
 
-        if (!CommandUtils.hasEnoughMoney(p, main.getConfig().getDouble(Config.PRICE), main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, "AngelChest spawned")) {
+        if (!CommandUtils.hasEnoughMoney(p, main.groupUtils.getSpawnPricePerPlayer(p), main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, "AngelChest spawned")) {
             return;
         }
 

@@ -57,9 +57,8 @@ public final class GroupUtils {
             final Integer maxTpDistance = yaml.isSet(groupName + DOT + Config.MAX_TP_DISTANCE) ? yaml.getInt(groupName + DOT + Config.MAX_TP_DISTANCE) : null;
             final Integer maxFetchDistance = yaml.isSet(groupName + DOT + Config.MAX_FETCH_DISTANCE) ? yaml.getInt(groupName + DOT + Config.MAX_FETCH_DISTANCE) : null;
 
-            if(main.debug) main.debug("Registering group " + groupName);
             final Group group = new Group(angelchestDuration, chestsPerPlayer, priceSpawn, priceOpen, priceTeleport, priceFetch, xpPercentage, unlockDuration, spawnChance, itemLoss, invulnerabilityAfterTP, allowTpAcrossWorlds, allowFetchAcrossWorlds, maxTpDistance, maxFetchDistance);
-
+            if(main.debug) main.debug("Created group \"" + groupName + "\": " + group);
             groups.put(groupName, group);
 
         }
@@ -350,7 +349,6 @@ public final class GroupUtils {
 
     public double getSpawnPricePerPlayer(final Player p) {
         if (!Daddy.allows(PremiumFeatures.SPAWN_PRICE_PER_PLAYER)) {
-            System.out.println("Not using paid version, no spawn price per player");
             return 0;
         }
         if (yaml == null) return getPercentagePrice(p, main.getConfig().getString(Config.PRICE));
@@ -360,13 +358,10 @@ public final class GroupUtils {
             final String group = it.next();
             if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
             final String pricePerPlayer = groups.get(group).priceSpawn;
-            System.out.println("Player is in group " + group + " with spawn price " + pricePerPlayer);
             if (pricePerPlayer.equals("-1")) {
-                System.out.println("But this group is ignored...");
                 continue;
             }
             bestValueFound = bestValueFound == null ? getPercentagePrice(p, pricePerPlayer) : Math.min(getPercentagePrice(p, pricePerPlayer), bestValueFound);
-            System.out.println("New best value found: " + bestValueFound);
         }
         if (bestValueFound != null) {
             return bestValueFound;
