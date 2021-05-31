@@ -14,7 +14,7 @@
 #   angelchest-duration: <duration in seconds> (e.g. 600, 0 = infinite chest)
 #   unlock-duration: <duration in seconds> (e.g. 300, 0 = never unlock automatically)
 #   max-allowed-angelchests: <number of chests> (e.g. 10)
-#   price-spawn: <price for spawning the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
+#   price: <price for spawning the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
 #   price-open: <price for opening the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
 #   price-teleport: <price for teleporting to the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
 #   price-fetch: <price for fetching the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
@@ -33,7 +33,7 @@ admin:
   angelchest-duration: 1500
   unlock-duration: 0
   max-allowed-angelchests: 999
-  price-spawn: 0
+  price: 0
   price-open: 0
   price-teleport: 0
   price-fetch: 0

@@ -21,7 +21,7 @@ public class NPCListener implements Listener {
         }
     }
 
-    @EventHandler
+    /*@EventHandler
     public void onPlayerWorldChange(PlayerChangedWorldEvent event) {
         showNPCs(event.getPlayer());
     }
@@ -37,5 +37,5 @@ public class NPCListener implements Listener {
     public void getSkin(PlayerJoinEvent event) {
         main.getSkinManager().registerLazy(event.getPlayer().getUniqueId());
         showNPCs(event.getPlayer());
-    }
+    }*/
 }

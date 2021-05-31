@@ -38,6 +38,7 @@ public class NPC {
         System.out.println("Signature: " + signature);
 
         this.location = location;
+        location.add(0,-0.1,0);
         this.uuid = player.getUniqueId();
         this.name = name;
 

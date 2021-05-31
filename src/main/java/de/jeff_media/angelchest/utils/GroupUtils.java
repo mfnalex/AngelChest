@@ -38,7 +38,12 @@ public final class GroupUtils {
         for (final String groupName : yaml.getKeys(false)) {
             final int angelchestDuration = yaml.getInt(groupName + DOT + Config.ANGELCHEST_DURATION, -1);
             final int chestsPerPlayer = yaml.getInt(groupName + DOT + Config.MAX_ALLOWED_ANGELCHESTS, -1);
-            final String priceSpawn = yaml.getString(groupName + DOT + Config.PRICE, "-1");
+            final String priceSpawn;
+            if(yaml.isSet(groupName + DOT + "price-spawn")) {
+                priceSpawn = yaml.getString(groupName + DOT + "price-spawn");
+            } else {
+                priceSpawn = yaml.getString(groupName + DOT + Config.PRICE, "-1");
+            }
             final String priceOpen = yaml.getString(groupName + DOT + Config.PRICE_OPEN, "-1");
             final String priceFetch = yaml.getString(groupName + DOT + Config.PRICE_FETCH, "-1");
             final String priceTeleport = yaml.getString(groupName + DOT + Config.PRICE_TELEPORT, "-1");
@@ -345,6 +350,7 @@ public final class GroupUtils {
 
     public double getSpawnPricePerPlayer(final Player p) {
         if (!Daddy.allows(PremiumFeatures.SPAWN_PRICE_PER_PLAYER)) {
+            System.out.println("Not using paid version, no spawn price per player");
             return 0;
         }
         if (yaml == null) return getPercentagePrice(p, main.getConfig().getString(Config.PRICE));
@@ -354,10 +360,13 @@ public final class GroupUtils {
             final String group = it.next();
             if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
             final String pricePerPlayer = groups.get(group).priceSpawn;
+            System.out.println("Player is in group " + group + " with spawn price " + pricePerPlayer);
             if (pricePerPlayer.equals("-1")) {
+                System.out.println("But this group is ignored...");
                 continue;
             }
             bestValueFound = bestValueFound == null ? getPercentagePrice(p, pricePerPlayer) : Math.min(getPercentagePrice(p, pricePerPlayer), bestValueFound);
+            System.out.println("New best value found: " + bestValueFound);
         }
         if (bestValueFound != null) {
             return bestValueFound;
