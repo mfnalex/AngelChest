@@ -596,6 +596,15 @@ gui-button-confirm-decline: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh
 ##### Inventory title in the GUI main menu
 gui-title-main: "&4&l[&c&lAngelChest&4&l]"
 
+##### Name and lore of the AngelChest items in the GUI main menu
+# {id} is the number of the chest
+# {time} is the amount of time left
+# {x} {y} {z} are the coordinates
+# {world} is the world's name
+# \n is a newline
+gui-chest-name: "§6AngelChest #{id}"
+gui-chest-lore: "§4{time}\n§aX: §f{x}\n§aY: §f{y}\n§aZ: §f{z}}\n§f{world}"
+
 ##### Inventory title in GUI after selecting a specific chest
 # {id} is the number of the chest
 # {time} is the amount of time left

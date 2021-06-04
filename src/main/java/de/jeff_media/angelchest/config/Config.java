@@ -52,7 +52,9 @@ public final class Config {
     public static final String GUI_BUTTON_PREVIEW_PLACEHOLDER = "gui-button-preview-placeholder";
     public static final String GUI_BUTTON_TELEPORT = "gui-button-teleport";
     public static final String GUI_BUTTON_UNLOCK = "gui-button-unlock";
+    public static final String GUI_CHEST_LORE = "gui-chest-lore";
     public static final String GUI_TITLE_CHEST = "gui-title-chest";
+    public static final String GUI_CHEST_NAME = "gui-chest-name";
     public static final String GUI_TITLE_MAIN = "gui-title-main";
     public static final String HEAD_USES_PLAYER_NAME = "head-uses-player-name";
     public static final String HOLOGRAM_OFFSET = "hologram-offset";

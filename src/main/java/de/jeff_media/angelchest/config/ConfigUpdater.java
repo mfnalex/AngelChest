@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -27,6 +28,8 @@ public final class ConfigUpdater {
     private static final String[] NODES_NEEDING_DOUBLE_QUOTES = {"message-", Config.CUSTOM_HEAD_BASE64, Config.HOLOGRAM_TEXT, Config.ANGELCHEST_INVENTORY_NAME, Config.ANGELCHEST_LIST, Config.HOLOGRAM_PROTECTED_TEXT, Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT, Config.HOLOGRAM_UNPROTECTED_TEXT, Config.PREFIX, "link-", "gui-", "log-filename", "chest-filename"};
     // Lines STARTING WITH these names will get their values wrapped in single quotes
     private static final String[] NODES_NEEDING_SINGLE_QUOTES = {"test-"};
+    // Nodes with EXACTLY THIS NAME will get their newline symbols preserved
+    private static final List<String> NODES_CONTAINING_NEWLINES = Arrays.asList("hologram-text", Config.GUI_CHEST_LORE);
 
     private static void backupCurrentConfig(final Main main) {
         final File oldFile = new File(getFilePath(main, "config.yml"));
@@ -189,7 +192,7 @@ public final class ConfigUpdater {
                         String value = main.getConfig().get(node).toString();
 
                         // The hologram text needs special escaping for the newline symbols
-                        if (node.equals("hologram-text")) {
+                        if (NODES_CONTAINING_NEWLINES.contains(node)) {
                             value = value.replaceAll("\n", "\\\\n");
                         }
 

@@ -1,11 +1,15 @@
 package de.jeff_media.angelchest.config;
 
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.utils.CommandUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Contains all translatable messages. Loads translations from the config file, or falls back to hardcoded default values
@@ -15,6 +19,8 @@ public final class Messages {
 
     public static final String[] usingFreeVersion = new String[] {"========================================================", "You are using the free version of AngelChest. There is", "also a premium version available, called AngelChestPlus.", "It includes TONS of new features and exclusive Discord", "support. The free version will still receive bugfixes,", "but there won't be ANY new features!", "If you like AngelChest, you will LOVE AngelChestPlus, so", "please consider upgrading! Thank you for using AngelChest.", "", Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS, "========================================================",};
     public static final String[] usingPlusVersion = new String[] {"========================================================", "Thanks for buying AngelChestPlus! Premium features have", "been unlocked successfully. Have fun!", "========================================================",};
+    public final String GUI_CHEST_NAME;
+    public final String GUI_CHEST_LORE;
     public final String MSG_TP_ACROSS_WORLDS_NOT_ALLOWED;
     public final String MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED;
     public final String MSG_MAX_FETCH_DISTANCE;
@@ -185,6 +191,10 @@ public final class Messages {
         GUI_TITLE_CHEST = getGui(Config.GUI_TITLE_CHEST, "§4§l[§c§lAngelChest§4§l] §c#{id} §4| §c{time}");
 
         GUI_TITLE_MAIN = getGui(Config.GUI_TITLE_MAIN, "§4§l[§c§lAngelChest§4§l]");
+
+        GUI_CHEST_NAME = getGui(Config.GUI_CHEST_NAME, "§6AngelChest #{id}");
+
+        GUI_CHEST_LORE = main.getConfig().getString(Config.GUI_CHEST_LORE,"§4{time}\n§aX: §f{x}\n§aY: §f{y}\n§aZ: §f{z}}\n§f{world}");
 
         GUI_ACCEPT = getGui("gui-accept", "&aAccept");
         GUI_DECLINE = getGui("gui-decline", "&cDecline");

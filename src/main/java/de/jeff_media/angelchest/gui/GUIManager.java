@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -89,13 +90,24 @@ public final class GUIManager {
     }
 
     private List<String> getChestItemLore(final AngelChest angelChest, @SuppressWarnings("unused") final int id) {
-
-        final String[] lore = new String[] {String.format("§4%s", CommandUtils.getTimeLeft(angelChest)), String.format("§aX: §f%d", angelChest.block.getX()), String.format("§aY: §f%d", angelChest.block.getY()), String.format("§aZ: §f%d", angelChest.block.getZ()), String.format(/*"§aWorld: "+*/"§f%s", angelChest.block.getWorld().getName())};
-        return Arrays.asList(lore);
+        List<String> lore = new ArrayList<>();
+        for(String line : main.messages.GUI_CHEST_LORE.split("\n")) {
+            lore.add(replacePlaceholders(line, angelChest, id));
+        }
+        return lore;
     }
 
     private String getChestItemName(@SuppressWarnings("unused") final AngelChest angelChest, final int id) {
-        return String.format("§6AngelChest #%d", id);
+        return replacePlaceholders(main.messages.GUI_CHEST_NAME, angelChest, id);
+    }
+
+    private String replacePlaceholders(final String line, final AngelChest angelChest, final int id) {
+        return line.replace("{x}",String.valueOf(angelChest.getBlock().getX()))
+                .replace("{y}",String.valueOf(angelChest.getBlock().getY()))
+                .replace("{z}",String.valueOf(angelChest.getBlock().getZ()))
+                .replace("{id}",String.valueOf(id))
+                .replace("{world}",angelChest.getWorld().getName())
+                .replace("{time}",CommandUtils.getTimeLeft(angelChest));
     }
 
     private ItemStack getConfirmAcceptButton() {

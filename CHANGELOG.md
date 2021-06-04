@@ -1,3 +1,6 @@
+## 3.26.0
+- Made chest item name and lore in GUI configurable
+
 ## 3.25.1
 - Fixed "price" / "price-spawn" not working in groups.yml file
 - Added Pirate Speak translation
