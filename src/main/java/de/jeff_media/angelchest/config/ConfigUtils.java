@@ -266,6 +266,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.MIN_DISTANCE, 0);
         metric(Config.MIN_DISTANCE);
 
+        conf.addDefault(Config.ALLOW_FASTLOOTING, true);
+        metric(Config.ALLOW_FASTLOOTING);
+
         /*
     play-sound-on-tp: true
 play-sound-on-fetch: true

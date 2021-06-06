@@ -154,7 +154,10 @@ public final class PlayerListener implements Listener {
 
         boolean openGUI = false;
         if(Daddy.allows(PremiumFeatures.GUI)) {
-            if(player.isSneaking() && main.getConfig().getBoolean(Config.GUI_REQUIRES_SHIFT)) {
+            if(!main.getConfig().getBoolean(Config.ALLOW_FASTLOOTING)) {
+                if(main.debug) main.debug("Opening GUI because allow-fastlooting is disabled");
+                openGUI = true;
+            } else if(player.isSneaking() && main.getConfig().getBoolean(Config.GUI_REQUIRES_SHIFT)) {
                 if(main.debug) main.debug("Opening GUI because player is sneaking and GUI requires Shift");
                 openGUI = true;
             } else if(!player.isSneaking() && !main.getConfig().getBoolean(Config.GUI_REQUIRES_SHIFT)) {

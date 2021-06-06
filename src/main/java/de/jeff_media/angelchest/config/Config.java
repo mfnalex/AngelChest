@@ -124,5 +124,6 @@ public final class Config {
     public static final String SOUND_CHANNEL = "sound-channel";
     public static final String LAVA_DETECTION = "lava-detection";
     public static final String MINIMUM_AIR_ABOVE_CHEST = "minimum-air-above-chest";
+    public static final String ALLOW_FASTLOOTING = "allow-fastlooting";
 
 }

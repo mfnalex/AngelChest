@@ -1,3 +1,6 @@
+## 3.27.0
+- Added config option "allow-fastlooting". When disabled. fast-looting is disabled and players can only open the GUI.
+
 ## 3.26.0
 - Made chest item name and lore in GUI configurable
 
