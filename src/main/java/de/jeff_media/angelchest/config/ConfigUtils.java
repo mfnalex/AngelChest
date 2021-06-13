@@ -64,6 +64,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.TOTEM_OF_UNDYING_WORKS_EVERYWHERE, true);
         metric(Config.TOTEM_OF_UNDYING_WORKS_EVERYWHERE);
 
+        conf.addDefault(Config.TOTEM_CUSTOM_MODEL_DATA, 0);
+        metric(Config.TOTEM_CUSTOM_MODEL_DATA);
+
         conf.addDefault(Config.SHOW_LOCATION, true);
         metric(Config.SHOW_LOCATION);
 

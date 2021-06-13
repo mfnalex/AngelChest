@@ -1,14 +1,12 @@
 package de.jeff_media.angelchest.commands;
 
 import de.jeff_media.angelchest.Main;
-import de.jeff_media.angelchest.config.ConfigDumper;
-import de.jeff_media.angelchest.config.ConfigUtils;
-import de.jeff_media.angelchest.config.Messages;
-import de.jeff_media.angelchest.config.Permissions;
+import de.jeff_media.angelchest.config.*;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.BlacklistEntry;
 import de.jeff_media.angelchest.enums.BlacklistResult;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.angelchest.nms.NMSHandler;
 import de.jeff_media.angelchest.utils.BlacklistUtils;
 import de.jeff_media.angelchest.utils.HologramFixer;
 import de.jeff_media.angelchest.utils.Utils;
@@ -369,6 +367,22 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                     main.disableDeathEvent = false;
                     Messages.send(commandSender,"§aEnabled AngelChest spawning");
                     return true;
+                case "totemanimation":
+                    if(!(commandSender instanceof Player)) {
+                        commandSender.sendMessage(main.messages.MSG_PLAYERSONLY);
+                        return true;
+                    }
+                    int modelData = main.getConfig().getInt(Config.TOTEM_CUSTOM_MODEL_DATA);
+                    if(args.length>1) {
+                        try {
+                            modelData = Integer.parseInt(args[1]);
+                        } catch (Exception e) {
+                            commandSender.sendMessage("§c" + args[1] + " is not a valid integer.");
+                            return true;
+                        }
+                    }
+                    NMSHandler.playTotemAnimation((Player) commandSender, modelData);
+                    return true;
             }
         }
 
@@ -383,7 +397,8 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 "/acd dump §6Dump debug information",
                 "/acd fixholograms §6Removes dead holograms",
                 "/acd disableac §6Disables AngelChest spawning",
-                "/acd enableac §6Enables AngelChest spawning"
+                "/acd enableac §6Enables AngelChest spawning",
+                "/acd totemanimation [id] §6Previews the Totem animation"
         });
 
         return true;
@@ -391,7 +406,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String s, @NotNull final String[] args) {
-        final String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig", "dump", "fixholograms","disableac","enableac"};
+        final String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig", "dump", "fixholograms","disableac","enableac", "totemanimation"};
         final String[] blacklistCommands = {"info", "test", "add"};
 
         // Debug

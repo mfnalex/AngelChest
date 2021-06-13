@@ -1,3 +1,6 @@
+## 3.28.0
+- Added option to use CustomModelData for the Totem of Undying animation
+
 ## 3.27.1
 - Fixed Totem animation not working in 1.17
 

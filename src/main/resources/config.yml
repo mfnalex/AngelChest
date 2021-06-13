@@ -219,6 +219,7 @@ invulnerability-after-tp: 0
 dont-spawn-on:
   - FARMLAND
   - GRASS_PATH
+  - DIRT_PATH
   - LAVA
 
 # You can specify inside which existing blocks the AngelChest may spawn. If the block where
@@ -251,8 +252,11 @@ remove-curse-of-binding: true
 totem-of-undying-works-everywhere: true
 
 # When true, players who have an AngelChest spawned will be shown the Totem of Undying animation
+# If you are using a custom resource pack, you can also enter a custom model data to change
+# the appearance of the totem
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
 play-totem-animation: false
+totem-custom-model-data: 0
 
 # When enabled, AngelChest will handle player respawns. They will be automatically respawned after death once
 # the delay (see option below) has expired

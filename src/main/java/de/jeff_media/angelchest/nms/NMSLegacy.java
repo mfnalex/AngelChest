@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-public class NMSLegacy extends NMSHandler {
+public class NMSLegacy extends AbstractNMSHandler {
     @Override
     public boolean playTotemAnimation(Player p) {
         try {

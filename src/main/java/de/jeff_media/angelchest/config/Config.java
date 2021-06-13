@@ -102,6 +102,7 @@ public final class Config {
     public static final String SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST = "show-message-when-other-player-opens-angelchest";
     public static final String SPAWN_CHANCE = "spawn-chance";
     public static final String TOTEM_OF_UNDYING_WORKS_EVERYWHERE = "totem-of-undying-works-everywhere";
+    public static final String TOTEM_CUSTOM_MODEL_DATA = "totem-custom-model-data";
     public static final String UNLOCK_DURATION = "unlock-duration";
     public static final String USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED = "use-different-material-when-unlocked";
     public static final String USE_EXECUTABLEITEMS = "use-executableitems";

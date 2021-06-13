@@ -720,7 +720,7 @@ public final class PlayerListener implements Listener {
         if (main.debug) main.debug(" ");
 
         if (Daddy.allows(PremiumFeatures.PLAY_TOTEM_ANIMATION) && main.getConfig().getBoolean(Config.PLAY_TOTEM_ANIMATION)) {
-            NMSHandler.getInstance().playTotemAnimation(p);
+            NMSHandler.playTotemAnimation(p, main.getConfig().getInt(Config.TOTEM_CUSTOM_MODEL_DATA));
         }
 
         ac.createChest(ac.block, ac.owner);

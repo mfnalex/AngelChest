@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class NMSGeneric extends NMSHandler {
+public class NMSGeneric extends AbstractNMSHandler {
 
     public boolean playTotemAnimation(Player p) {
         try {
