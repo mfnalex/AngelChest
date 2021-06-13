@@ -1,3 +1,6 @@
+## 3.27.1
+- Fixed Totem animation not working in 1.17
+
 ## 3.27.0
 - Added config option "allow-fastlooting". When disabled. fast-looting is disabled and players can only open the GUI.
 

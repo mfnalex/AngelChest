@@ -10,6 +10,7 @@ import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.events.AngelChestSpawnEvent;
 import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
 import de.jeff_media.angelchest.nbt.NBTTags;
+import de.jeff_media.angelchest.nms.NMSHandler;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
 import de.jeff_media.jefflib.NBTAPI;
@@ -719,22 +720,7 @@ public final class PlayerListener implements Listener {
         if (main.debug) main.debug(" ");
 
         if (Daddy.allows(PremiumFeatures.PLAY_TOTEM_ANIMATION) && main.getConfig().getBoolean(Config.PLAY_TOTEM_ANIMATION)) {
-            try {
-                final Class<?> statusPacketClass = NMSUtils.getNMSClass("PacketPlayOutEntityStatus");
-                final Class<?> entityPlayerClass = NMSUtils.getNMSClass("EntityPlayer");
-                final Class<?> entityClass = NMSUtils.getNMSClass("Entity");
-                final Class<?> craftPlayerClass = NMSUtils.getBukkitNMSClass("entity.CraftPlayer");
-                final Method getHandleMethod = craftPlayerClass.getMethod("getHandle");
-                final Method sendPacketMethod = NMSUtils.getNMSClass("PlayerConnection").getMethod("sendPacket", NMSUtils.getNMSClass("Packet"));
-                final Constructor<?> packetConstructor = statusPacketClass.getConstructor(entityClass, byte.class);
-                final Object craftPlayer = craftPlayerClass.cast(p);
-                final Object entityPlayer = getHandleMethod.invoke(craftPlayer, null);
-                final Object packet = packetConstructor.newInstance(entityPlayerClass.cast(entityPlayer), TOTEM_MAGIC_VALUE);
-                sendPacketMethod.invoke(NMSUtils.getConnection(p), packet);
-
-            } catch (final Exception ignored) {
-
-            }
+            NMSHandler.getInstance().playTotemAnimation(p);
         }
 
         ac.createChest(ac.block, ac.owner);
