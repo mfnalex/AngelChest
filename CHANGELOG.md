@@ -1,3 +1,7 @@
+## 3.28.1
+- Fixed AngelChest not enabling when you removed the playerdata of a player that still had an AngelChest.
+  - Once the player has joined again, the chest will be restored on the next server startup / on the next /acreload
+
 ## 3.28.0
 - Added option to use CustomModelData for the Totem of Undying animation
 

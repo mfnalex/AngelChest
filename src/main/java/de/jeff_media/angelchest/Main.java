@@ -277,12 +277,34 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         final File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
             for (final File child : directoryListing) {
+                if(child.isDirectory()) continue;
                 debug("Loading AngelChest " + child.getName());
-                final AngelChest ac = new AngelChest(child);
-                if (ac.success) {
-                    angelChests.put(ac.block, ac);
-                } else {
-                    debug("Error while loading " + child.getName() + ", probably the world is not loaded yet. Will try again on next world load.");
+                try {
+                    final AngelChest ac = new AngelChest(child);
+                    if (ac.success) {
+                        angelChests.put(ac.block, ac);
+                    } else {
+                        debug("Error while loading " + child.getName() + ", probably the world is not loaded yet. Will try again on next world load.");
+                    }
+                } catch (Throwable t) {
+                    child.renameTo(new File(getDataFolder().getPath() + File.separator + "angelchests" + File.separator + "shadow",child.getName()));
+                }
+            }
+        }
+
+        final File shadowDir = new File(getDataFolder().getPath() + File.separator + "angelchests" + File.separator + "shadow");
+        final File[] shadowDirectoryListing = shadowDir.listFiles();
+        if (shadowDirectoryListing != null) {
+            for (final File child : shadowDirectoryListing) {
+                if(child.isDirectory()) continue;
+                debug("Loading shadowed AngelChest " + child.getName());
+                try {
+                    final AngelChest ac = new AngelChest(child);
+                    if (ac.success) {
+                        angelChests.put(ac.block, ac);
+                    }
+                } catch (Throwable ignored) {
+
                 }
             }
         }

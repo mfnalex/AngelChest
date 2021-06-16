@@ -326,11 +326,11 @@ sound-channel: BLOCKS
         for (final String string : dontSpawnOnTmp) {
             final Material mat = Material.getMaterial(string.toUpperCase());
             if (mat == null) {
-                main.getLogger().warning(String.format("Invalid Material while parsing %s: %s", string, Config.DONT_SPAWN_ON));
+                main.debug(String.format("Invalid Material while parsing %s: %s", string, Config.DONT_SPAWN_ON));
                 continue;
             }
             if (!mat.isBlock()) {
-                main.getLogger().warning(String.format("Invalid Block while parsing %s: %s", string, Config.DONT_SPAWN_ON));
+                main.debug(String.format("Invalid Block while parsing %s: %s", string, Config.DONT_SPAWN_ON));
                 continue;
             }
             main.dontSpawnOn.add(mat);
@@ -342,11 +342,11 @@ sound-channel: BLOCKS
         for (final String string : onlySpawnInTmp) {
             final Material mat = Material.getMaterial(string.toUpperCase());
             if (mat == null) {
-                main.getLogger().warning(String.format("Invalid Material while parsing %s: %s", string, Config.ONLY_SPAWN_IN));
+                main.debug(String.format("Invalid Material while parsing %s: %s", string, Config.ONLY_SPAWN_IN));
                 continue;
             }
             if (!mat.isBlock()) {
-                main.getLogger().warning(String.format("Invalid Block while parsing %s: %s", string, Config.ONLY_SPAWN_IN));
+                main.debug(String.format("Invalid Block while parsing %s: %s", string, Config.ONLY_SPAWN_IN));
                 continue;
             }
             main.onlySpawnIn.add(mat);
@@ -379,6 +379,7 @@ sound-channel: BLOCKS
 
     static void createDirectories() {
         createDirectory("angelchests");
+        createDirectory("angelchests/shadow");
         createDirectory("logs");
     }
 
