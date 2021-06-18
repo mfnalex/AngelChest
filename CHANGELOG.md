@@ -1,3 +1,6 @@
+## 3.28.2
+- Fixed custom base64 heads not working in 1.17+
+
 ## 3.28.1
 - Fixed AngelChest not enabling when you removed the playerdata of a player that still had an AngelChest.
   - Once the player has joined again, the chest will be restored on the next server startup / on the next /acreload
