@@ -91,7 +91,7 @@ public final class GUIManager {
 
     private List<String> getChestItemLore(final AngelChest angelChest, @SuppressWarnings("unused") final int id) {
         List<String> lore = new ArrayList<>();
-        for(String line : main.messages.GUI_CHEST_LORE.split("\n")) {
+        for (String line : main.messages.GUI_CHEST_LORE.split("\n")) {
             lore.add(replacePlaceholders(line, angelChest, id));
         }
         return lore;
@@ -102,12 +102,12 @@ public final class GUIManager {
     }
 
     private String replacePlaceholders(final String line, final AngelChest angelChest, final int id) {
-        return line.replace("{x}",String.valueOf(angelChest.getBlock().getX()))
-                .replace("{y}",String.valueOf(angelChest.getBlock().getY()))
-                .replace("{z}",String.valueOf(angelChest.getBlock().getZ()))
-                .replace("{id}",String.valueOf(id))
-                .replace("{world}",angelChest.getWorld().getName())
-                .replace("{time}",CommandUtils.getTimeLeft(angelChest));
+        return line.replace("{x}", String.valueOf(angelChest.getBlock().getX()))
+                .replace("{y}", String.valueOf(angelChest.getBlock().getY()))
+                .replace("{z}", String.valueOf(angelChest.getBlock().getZ()))
+                .replace("{id}", String.valueOf(id))
+                .replace("{world}", angelChest.getWorld().getName())
+                .replace("{time}", CommandUtils.getTimeLeft(angelChest));
     }
 
     private ItemStack getConfirmAcceptButton() {
@@ -172,7 +172,7 @@ public final class GUIManager {
         if (player.hasPermission(Permissions.PREVIEW)) inventory.setItem(GUI.SLOT_CHEST_PREVIEW, getPreviewButton());
         player.openInventory(inventory);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->{
+        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
             if (hasOpen(player, inventory)) {
                 showChestGUI(player, holder, holder.getChestIdStartingAt1());
             }
@@ -190,7 +190,7 @@ public final class GUIManager {
         inventory.setItem(GUI.SLOT_CONFIRM_DECLINE, getConfirmDeclineButton());
         player.openInventory(inventory);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->{
+        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
             try {
                 if (hasOpen(player, inventory)) {
                     showConfirmGUI(player, holder, holder.getAction());
@@ -236,7 +236,7 @@ public final class GUIManager {
 
         player.openInventory(inventory);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->{
+        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
             if (hasOpen(player, inventory)) {
                 showMainGUI(player);
             }
@@ -265,7 +265,7 @@ public final class GUIManager {
             if (!isPreview && firstOpened && !player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
                 final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                 if (tmpPlayer != null) {
-                    Messages.send(tmpPlayer,main.messages.MSG_OPENED.replaceAll("\\{player}", player.getName()));
+                    Messages.send(tmpPlayer, main.messages.MSG_OPENED.replaceAll("\\{player}", player.getName()));
                 }
             }
         }
@@ -309,7 +309,8 @@ public final class GUIManager {
             if (!(player.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder)) continue;
             final GUIHolder guiHolder = (GUIHolder) player.getOpenInventory().getTopInventory().getHolder();
             if (guiHolder.getSpecialAngelChest() != null && guiHolder.getSpecialAngelChest().equals(angelChest)) {
-                if(main.debug) main.debug("This AngelChest " + angelChest + " is also in use by " + player.getName() + ", updating...");
+                if (main.debug)
+                    main.debug("This AngelChest " + angelChest + " is also in use by " + player.getName() + ", updating...");
                 if (!angelChest.isEmpty()) {
                     showPreviewGUI(player, angelChest, guiHolder.isReadOnlyPreview(), false);
                 } else {

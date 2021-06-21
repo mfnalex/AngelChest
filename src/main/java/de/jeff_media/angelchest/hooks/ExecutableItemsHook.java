@@ -22,7 +22,7 @@ public final class ExecutableItemsHook {
      * Yeah, I know. I don't care. Just don't look at it, alright?
      * Here is the reason why I have to use reflection at the current point:
      * https://www.spigotmc.org/threads/accessing-other-plugins-api-without-having-them-as-maven-dependency.499653/page-2#post-4134458
-     *
+     * <p>
      * If you think that this has performance problems, get a new computer because it doesn't slow ANYTHING down.
      * This is the only way without forcing devs to download the ExecutableItems .jar manually.
      * If you think I should just ask all volunteers to download the .jar, I would get no pull requests at all.

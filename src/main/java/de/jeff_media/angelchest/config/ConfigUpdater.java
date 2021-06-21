@@ -36,7 +36,8 @@ public final class ConfigUpdater {
         final File newFile = new File(getFilePath(main, "config-backup-" + main.getConfig().getString(Config.CONFIG_PLUGIN_VERSION) + ".yml"));
         if (newFile.exists()) newFile.delete();
         if (oldFile.getAbsoluteFile().renameTo(newFile.getAbsoluteFile())) {
-            if(main.debug) main.debug("Could not rename " + oldFile.getAbsolutePath() + " to " + newFile.getAbsolutePath());
+            if (main.debug)
+                main.debug("Could not rename " + oldFile.getAbsolutePath() + " to " + newFile.getAbsolutePath());
         }
     }
 
@@ -88,8 +89,8 @@ public final class ConfigUpdater {
      * @return double quote, single quote or empty string, according to the key name
      */
     private static String getQuotes(final String line) {
-        for(final String test : CONFLICTING_NODES_NEEDING_NO_QUOTES) {
-            if(line.startsWith(test)) {
+        for (final String test : CONFLICTING_NODES_NEEDING_NO_QUOTES) {
+            if (line.startsWith(test)) {
                 return "";
             }
         }

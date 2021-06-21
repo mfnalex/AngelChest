@@ -18,8 +18,6 @@ import de.jeff_media.angelchest.hooks.PlaceholderAPIHook;
 import de.jeff_media.angelchest.hooks.WorldGuardWrapper;
 import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
-//import de.jeff_media.angelchest.npc.NPCManager;
-//import de.jeff_media.angelchest.npc.SkinManager;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
 import de.jeff_media.jefflib.JeffLib;
@@ -33,6 +31,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -48,6 +47,9 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+/**
+ * AngelChest Main class
+ */
 public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, AngelChestPlugin {
 
     public static final int BSTATS_ID = 3194;
@@ -104,6 +106,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     public HashMap<UUID, PendingConfirm> pendingConfirms;
     public boolean verbose = false;
     public Watchdog watchdog;
+    public YamlConfiguration customDeathCauses;
     boolean emergencyMode = false;
     @SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
     private String NONCE = "%%__NONCE__%%";
@@ -277,7 +280,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         final File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
             for (final File child : directoryListing) {
-                if(child.isDirectory()) continue;
+                if (child.isDirectory()) continue;
                 debug("Loading AngelChest " + child.getName());
                 try {
                     final AngelChest ac = new AngelChest(child);
@@ -287,7 +290,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
                         debug("Error while loading " + child.getName() + ", probably the world is not loaded yet. Will try again on next world load.");
                     }
                 } catch (Throwable t) {
-                    child.renameTo(new File(getDataFolder().getPath() + File.separator + "angelchests" + File.separator + "shadow",child.getName()));
+                    child.renameTo(new File(getDataFolder().getPath() + File.separator + "angelchests" + File.separator + "shadow", child.getName()));
                 }
             }
         }
@@ -296,7 +299,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         final File[] shadowDirectoryListing = shadowDir.listFiles();
         if (shadowDirectoryListing != null) {
             for (final File child : shadowDirectoryListing) {
-                if(child.isDirectory()) continue;
+                if (child.isDirectory()) continue;
                 debug("Loading shadowed AngelChest " + child.getName());
                 try {
                     final AngelChest ac = new AngelChest(child);
@@ -471,7 +474,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     }
 
     private void registerCommands() {
-        final String[][] commands = new String[][] {{"acgui", Permissions.USE}, {"aclist", Permissions.USE}, {"acfetch", Permissions.FETCH}, {"actp", Permissions.TP}, {"acunlock", Permissions.PROTECT}, {"acreload", Permissions.RELOAD}, {"acdebug", Permissions.DEBUG}, {"acversion", Permissions.VERSION}, {"actoggle", Permissions.TOGGLE}};
+        final String[][] commands = new String[][]{{"acgui", Permissions.USE}, {"aclist", Permissions.USE}, {"acfetch", Permissions.FETCH}, {"actp", Permissions.TP}, {"acunlock", Permissions.PROTECT}, {"acreload", Permissions.RELOAD}, {"acdebug", Permissions.DEBUG}, {"acversion", Permissions.VERSION}, {"actoggle", Permissions.TOGGLE}};
         for (final String[] commandAndPermission : commands) {
             final ArrayList<String> command = new ArrayList<>();
             command.add(commandAndPermission[0]);
@@ -573,7 +576,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     private void trackPlayerPositions() {
         for (final Player player : Bukkit.getOnlinePlayers()) {
             if (((Entity) player).isOnGround()) {
-                if(!getConfig().getBoolean(Config.LAVA_DETECTION) || (player.getEyeLocation().getBlock().getType() != Material.LAVA && player.getEyeLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.LAVA)) {
+                if (!getConfig().getBoolean(Config.LAVA_DETECTION) || (player.getEyeLocation().getBlock().getType() != Material.LAVA && player.getEyeLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.LAVA)) {
                     lastPlayerPositions.put(player.getUniqueId(), player.getLocation().getBlock());
                 }
             }

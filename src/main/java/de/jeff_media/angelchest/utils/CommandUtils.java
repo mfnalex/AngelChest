@@ -44,7 +44,7 @@ public final class CommandUtils {
         for (int x = -CHUNK_SIZE; x <= CHUNK_SIZE; x += CHUNK_SIZE) {
             for (int z = -CHUNK_SIZE; z <= CHUNK_SIZE; z += CHUNK_SIZE) {
                 if (!isChunkLoaded(loc.add(x, 0, z))) {
-                    if(main.debug) main.debug("Chunk at " + loc.add(x, 0, z) + " is not loaded yet, waiting...");
+                    if (main.debug) main.debug("Chunk at " + loc.add(x, 0, z) + " is not loaded yet, waiting...");
                     allChunksLoaded = false;
                 }
             }
@@ -65,12 +65,12 @@ public final class CommandUtils {
         final ArrayList<AngelChest> angelChestsFromThisPlayer = AngelChestUtils.getAllAngelChestsFromPlayer(affectedPlayer);
 
         if (angelChestsFromThisPlayer.isEmpty()) {
-            Messages.send(sendTo,main.messages.MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS);
+            Messages.send(sendTo, main.messages.MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS);
             return null;
         }
 
         if (angelChestsFromThisPlayer.size() > 1 && chest == null) {
-            Messages.send(sendTo,main.messages.MSG_PLEASE_SELECT_CHEST);
+            Messages.send(sendTo, main.messages.MSG_PLEASE_SELECT_CHEST);
             sendListOfAngelChests(main, sendTo, affectedPlayer);
             return null;
         } else {
@@ -81,13 +81,13 @@ public final class CommandUtils {
             try {
                 chestIdStartingAt1 = Integer.parseInt(chest);
             } catch (final NumberFormatException exception) {
-                Messages.send(sendTo,main.messages.ERR_INVALIDCHEST);
+                Messages.send(sendTo, main.messages.ERR_INVALIDCHEST);
                 return null;
             }
         }
 
         if (chestIdStartingAt1 > angelChestsFromThisPlayer.size() || chestIdStartingAt1 < 1) {
-            Messages.send(sendTo,main.messages.ERR_INVALIDCHEST);
+            Messages.send(sendTo, main.messages.ERR_INVALIDCHEST);
             return null;
         }
 
@@ -117,7 +117,7 @@ public final class CommandUtils {
                 default:
                     break;
             }
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () ->SoundUtils.playTpFetchSound(player,ac.getBlock().getLocation(), CommandAction.TELEPORT_TO_CHEST), 1L);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> SoundUtils.playTpFetchSound(player, ac.getBlock().getLocation(), CommandAction.TELEPORT_TO_CHEST), 1L);
         } catch (final Throwable ignored) {
 
         }
@@ -146,7 +146,8 @@ public final class CommandUtils {
         final int seconds = main.groupUtils.getInvulnerabilityTimePerPlayer(player);
         if (seconds > 0 && Daddy.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
 
-            if(main.debug) main.debug("Making player " + player.getName() + " invulnerable for " + main.getConfig().getDouble(Config.INVULNERABILITY_AFTER_TP) + " seconds");
+            if (main.debug)
+                main.debug("Making player " + player.getName() + " invulnerable for " + main.getConfig().getDouble(Config.INVULNERABILITY_AFTER_TP) + " seconds");
             if (NBTAPI.hasNBT(player, NBTTags.IS_INVULNERABLE)) {
                 InvulnerabilityListener.removeGod(player);
                 if (main.invulnerableTasks.containsKey(player.getUniqueId())) {
@@ -157,7 +158,7 @@ public final class CommandUtils {
 
             final AtomicInteger secondsLeft = new AtomicInteger(seconds);
             final AtomicInteger finalTask = new AtomicInteger(-1);
-            finalTask.set(Bukkit.getScheduler().scheduleSyncRepeatingTask(main, ()->{
+            finalTask.set(Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
                 if (player == null || !player.isOnline()) {
                     if (finalTask.get() != -1) {
                         Bukkit.getScheduler().cancelTask(finalTask.get());
@@ -176,7 +177,7 @@ public final class CommandUtils {
             }, 0, Ticks.fromSeconds(1)));
             main.invulnerableTasks.put(player.getUniqueId(), finalTask.get());
         } else if (seconds <= 0) {
-            if(main.debug) main.debug("Invulnerability time is set to 0.");
+            if (main.debug) main.debug("Invulnerability time is set to 0.");
         } else {
             if (!Daddy.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
                 Messages.sendPremiumOnlyConsoleMessage(Config.INVULNERABILITY_AFTER_TP);
@@ -204,7 +205,7 @@ public final class CommandUtils {
         main.angelChests.put(newBlock, main.angelChests.remove(oldBlock));
         main.angelChests.get(newBlock).block = newBlock;
 
-        Messages.send(player,main.messages.MSG_RETRIEVED);
+        Messages.send(player, main.messages.MSG_RETRIEVED);
     }
 
     /**
@@ -213,14 +214,14 @@ public final class CommandUtils {
     public static void fetchOrTeleport(final Main main, final Player sender, final AngelChest ac, final int chestIdStartingAt1, final CommandAction action, final boolean askForConfirmation) {
 
         if (!sender.hasPermission(action.getPermission())) {
-            Messages.send(sender,main.messages.MSG_NO_PERMISSION);
+            Messages.send(sender, main.messages.MSG_NO_PERMISSION);
             return;
         }
 
         final UUID uuid = sender.getUniqueId();
 
         if (!ac.owner.equals(uuid) && !sender.hasPermission(Permissions.OTHERS)) {
-            Messages.send(sender,main.messages.ERR_NOTOWNER);
+            Messages.send(sender, main.messages.ERR_NOTOWNER);
             return;
         }
 
@@ -229,45 +230,45 @@ public final class CommandUtils {
         // Allow TP / Fetch across worlds
         final UUID playerWorld = sender.getWorld().getUID();
         final UUID chestWorld = ac.worldid;
-        if(action == CommandAction.TELEPORT_TO_CHEST && !main.groupUtils.getAllowTpAcrossWorlds(sender)) {
-            if(!playerWorld.equals(chestWorld)) {
-                Messages.send(sender,main.messages.MSG_TP_ACROSS_WORLDS_NOT_ALLOWED);
-                if(main.debug) main.debug("Forbidden TP across worlds detected.");
-                if(main.debug) main.debug("Player World: " + playerWorld);
-                if(main.debug) main.debug("Chest  World: " + chestWorld.toString());
+        if (action == CommandAction.TELEPORT_TO_CHEST && !main.groupUtils.getAllowTpAcrossWorlds(sender)) {
+            if (!playerWorld.equals(chestWorld)) {
+                Messages.send(sender, main.messages.MSG_TP_ACROSS_WORLDS_NOT_ALLOWED);
+                if (main.debug) main.debug("Forbidden TP across worlds detected.");
+                if (main.debug) main.debug("Player World: " + playerWorld);
+                if (main.debug) main.debug("Chest  World: " + chestWorld.toString());
                 return;
             }
         }
         if (action == CommandAction.FETCH_CHEST && !main.groupUtils.getAllowFetchAcrossWorlds(sender)) {
             if (!playerWorld.equals(chestWorld)) {
-                Messages.send(sender,main.messages.MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED);
-                if(main.debug) main.debug("Forbidden Fetch across worlds detected.");
-                if(main.debug) main.debug("Player World: " + playerWorld);
-                if(main.debug) main.debug("Chest  World: " + chestWorld.toString());
+                Messages.send(sender, main.messages.MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED);
+                if (main.debug) main.debug("Forbidden Fetch across worlds detected.");
+                if (main.debug) main.debug("Player World: " + playerWorld);
+                if (main.debug) main.debug("Chest  World: " + chestWorld.toString());
                 return;
             }
         }
         // Max / Min TP / Fetch distance
         if (playerWorld.equals(chestWorld)) {
             final double distance = sender.getLocation().distance(ac.block.getLocation());
-            if(main.debug) main.debug("Fetch / TP in same world. Distance: " + distance);
+            if (main.debug) main.debug("Fetch / TP in same world. Distance: " + distance);
 
             // Max distance
             final int maxTpDistance = main.groupUtils.getMaxTpDistance(sender);
             final int maxFetchDistance = main.groupUtils.getMaxFetchDistance(sender);
             if (action == CommandAction.TELEPORT_TO_CHEST && maxTpDistance > 0 && distance > maxTpDistance) {
-                Messages.send(sender,main.messages.MSG_MAX_TP_DISTANCE.replace("{distance}", String.valueOf(maxTpDistance)));
+                Messages.send(sender, main.messages.MSG_MAX_TP_DISTANCE.replace("{distance}", String.valueOf(maxTpDistance)));
                 return;
             }
             if (action == CommandAction.FETCH_CHEST && maxFetchDistance > 0 && distance > maxFetchDistance) {
-                Messages.send(sender,main.messages.MSG_MAX_FETCH_DISTANCE.replace("{distance}", String.valueOf(maxFetchDistance)));
+                Messages.send(sender, main.messages.MSG_MAX_FETCH_DISTANCE.replace("{distance}", String.valueOf(maxFetchDistance)));
                 return;
             }
 
             // Min distance
             final int minDistance = main.getConfig().getInt(Config.MIN_DISTANCE);
-            if(minDistance > 0 && distance < minDistance) {
-                Messages.send(sender,main.messages.MSG_MIN_DISTANCE);
+            if (minDistance > 0 && distance < minDistance) {
+                Messages.send(sender, main.messages.MSG_MIN_DISTANCE);
                 return;
             }
         }
@@ -282,11 +283,11 @@ public final class CommandUtils {
         switch (action) {
             case TELEPORT_TO_CHEST:
                 teleportPlayerToChest(main, sender, ac);
-                Messages.send(sender,main.messages.MSG_ANGELCHEST_TELEPORTED);
+                Messages.send(sender, main.messages.MSG_ANGELCHEST_TELEPORTED);
                 break;
             case FETCH_CHEST:
                 fetchChestToPlayer(main, sender, ac);
-                Messages.send(sender,main.messages.MSG_ANGELCHEST_FETCHED);
+                Messages.send(sender, main.messages.MSG_ANGELCHEST_FETCHED);
                 SoundUtils.playTpFetchSound(sender, sender.getLocation(), CommandAction.FETCH_CHEST);
                 break;
         }
@@ -345,8 +346,8 @@ public final class CommandUtils {
     }
 
     private static boolean hasConfirmed(final Main main, final CommandSender p, final int chestIdStartingAt1, final double price, final CommandAction action) {
-        if(main.debug) main.debug("Creating confirm message for Chest ID " + chestIdStartingAt1);
-        if(main.debug) main.debug("Action: " + action.toString());
+        if (main.debug) main.debug("Creating confirm message for Chest ID " + chestIdStartingAt1);
+        if (main.debug) main.debug("Action: " + action.toString());
         String confirmCommand = String.format("/%s ", action.getCommand());
         confirmCommand += chestIdStartingAt1;
         final UUID uuid = p instanceof Player ? ((Player) p).getUniqueId() : Main.consoleSenderUUID;
@@ -369,20 +370,21 @@ public final class CommandUtils {
 
         final Main main = Main.getInstance();
 
-        if(main.debug) main.debug("Checking if " + sender.getName() + " has at least " + money + " money...");
+        if (main.debug) main.debug("Checking if " + sender.getName() + " has at least " + money + " money...");
 
         if (!(sender instanceof Player)) {
-            if(main.debug) main.debug(sender.getName() + " is no player, so they should have enough money lol");
+            if (main.debug) main.debug(sender.getName() + " is no player, so they should have enough money lol");
             return true;
         }
 
         if (main.economyStatus != EconomyStatus.ACTIVE) {
-            if(main.debug) main.debug("We already know that economy support is not active, so all players have enough money!");
+            if (main.debug)
+                main.debug("We already know that economy support is not active, so all players have enough money!");
             return true;
         }
 
         if (money <= 0) {
-            if(main.debug) main.debug("yes: money <= 0");
+            if (main.debug) main.debug("yes: money <= 0");
             return true;
         }
 
@@ -390,11 +392,11 @@ public final class CommandUtils {
 
         if (main.econ.getBalance(player) >= money) {
             main.econ.withdrawPlayer(player, reason, money);
-            if(main.debug) main.debug("yes, enough money and paid");
+            if (main.debug) main.debug("yes, enough money and paid");
             return true;
         } else {
-            if(main.debug) main.debug("no, not enough money - nothing paid");
-            Messages.send(player,messageWhenNotEnoughMoney);
+            if (main.debug) main.debug("no, not enough money - nothing paid");
+            Messages.send(player, messageWhenNotEnoughMoney);
             return false;
         }
 
@@ -429,7 +431,7 @@ public final class CommandUtils {
         final ArrayList<AngelChest> angelChestsFromThisPlayer = AngelChestUtils.getAllAngelChestsFromPlayer(affectedPlayer);
 
         if (angelChestsFromThisPlayer.isEmpty()) {
-            Messages.send(sendTo,main.messages.MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS);
+            Messages.send(sendTo, main.messages.MSG_YOU_DONT_HAVE_ANY_ANGELCHESTS);
             return;
         }
 
@@ -473,17 +475,18 @@ public final class CommandUtils {
     private static void teleportPlayerToChest(final Main main, final Player p, final AngelChest ac) {
         if (main.getConfig().getBoolean(Config.ASYNC_CHUNK_LOADING)) {
             final AtomicInteger chunkLoadingTask = new AtomicInteger();
-            chunkLoadingTask.set(Bukkit.getScheduler().scheduleSyncRepeatingTask(main, ()->{
+            chunkLoadingTask.set(Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
                 if (areChunksLoadedNearby(ac.block.getLocation(), main)) {
-                    if(main.debug) main.debug("[Async chunk loading] All chunks loaded! Teleporting now!");
+                    if (main.debug) main.debug("[Async chunk loading] All chunks loaded! Teleporting now!");
                     doActualTeleport(main, p, ac);
                     Bukkit.getScheduler().cancelTask(chunkLoadingTask.get());
                 } else {
-                    if(main.debug) main.debug("[Async chunk loading] Not all chunks are loaded yet, waiting...");
+                    if (main.debug) main.debug("[Async chunk loading] Not all chunks are loaded yet, waiting...");
                 }
             }, 1L, 1L));
         } else {
-            if(main.debug) main.debug("[Async chunk loading] You disabled async-chunk-loading. Chunk loading COULD cause tps losses! See config.yml");
+            if (main.debug)
+                main.debug("[Async chunk loading] You disabled async-chunk-loading. Chunk loading COULD cause tps losses! See config.yml");
             doActualTeleport(main, p, ac);
         }
     }
@@ -501,13 +504,13 @@ public final class CommandUtils {
         */
 
         if (!ac.isProtected) {
-            Messages.send(requester,main.messages.ERR_ALREADYUNLOCKED);
+            Messages.send(requester, main.messages.ERR_ALREADYUNLOCKED);
             return;
         }
 
         ac.unlock();
         ac.scheduleBlockChange();
-        Messages.send(requester,main.messages.MSG_UNLOCKED_ONE_ANGELCHEST);
+        Messages.send(requester, main.messages.MSG_UNLOCKED_ONE_ANGELCHEST);
     }
 
     /*

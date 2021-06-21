@@ -11,6 +11,7 @@ public class WorldGuardWrapper {
 
     /**
      * When WorldGuard is installed and is a supported version, it returns a WorldGuardHandler, otherwise a WorldGuardWrapper
+     *
      * @return WorldGuardHandler or WorldGuardWrapper
      */
     public static WorldGuardWrapper init() {

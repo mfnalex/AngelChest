@@ -1,0 +1,100 @@
+# You can change the name for the death causes displayed in the hologram.
+
+AREA_EFFECT_CLOUD: area effect cloud
+ARROW: arrow
+AXOLOTL: axolotl
+BAT: bat
+BEE: bee
+BLAZE: blaze
+BLOCK_EXPLOSION: explosion
+CAVE_SPIDER: cave spider
+CONTACT: contact
+CRAMMING: cramming
+CREEPER: creeper
+CUSTOM: custom
+DRAGON_BREATH: dragon breath
+DRAGON_FIREBALL: dragon fireball
+DROWNED: drowned
+DROWNING: drowning
+DRYOUT: dryout
+ELDER_GUARDIAN: elder guardian
+ENDER_CRYSTAL: ender crystal
+ENDER_DRAGON: ender dragon
+ENDERMAN: enderman
+ENDERMITE: endermite
+ENTITY_EXPLOSION: explosion
+EVOKER: evoker
+EVOKER_FANGS: evoker fangs
+FALL: fall
+FALLING_BLOCK: falling block
+FIRE: fire
+FIRE_TICK: fire
+FIREBALL: fireball
+FLY_INTO_WALL: flying into wall
+FOX: fox
+FREEZE: freeze
+GHAST: ghast
+GIANT: giant
+GOAT: goat
+GUARDIAN: guardian
+HOGLIN: hoglin
+HOT_FLOOR: hot floor
+HUSK: husk
+ILLUSIONER: illusioner
+IRON_GOLEM: iron golem
+LAVA: lava
+LIGHTNING: lightning
+LLAMA: llama
+LLAMA_SPIT: llama
+MAGIC: magic
+MAGMA_CUBE: magma cube
+MELTING: melting
+MINECART_TNT: tnt minecart
+PANDA: panda
+PHANTOM: phantom
+PIGLIN: piglin
+PIGLIN_BRUTE: piglin brute
+PILLAGER: pillager
+POISON: poison
+POLAR_BEAR: polar bear
+PRIMED_TNT: tnt
+PUFFERFISH: pufferfish
+RAVAGER: ravager
+SHULKER: shulker
+SHULKER_BULLET: shulker bullet
+SILVERFISH: silverfish
+SKELETON: skeleton
+SKELETON_HORSE: skeleton horse
+SLIME: slime
+SMALL_FIREBALL: fireball
+SNOWBALL: snowball
+SPECTRAL_ARROW: spectral arrow
+SPIDER: spider
+SPLASH_POTION: splash potion
+STARVATION: starvation
+STRAY: stray
+STRIDER: strider
+SUFFOCATION: suffocation
+SUICIDE: suicide
+THORNS: thorns
+TRADER_LLAMA: trader llama
+TRIDENT: trident
+VEX: vex
+VINDICATOR: vindicator
+VOID: void
+WITCH: witch
+WITHER: wither
+WITHER_SKELETON: wither skeleton
+WOLF: wolf
+ZOGLIN: zogline
+ZOMBIE: zombie
+ZOMBIE_HORSE: zombie horse
+ZOMBIE_VILLAGER: zombie villager
+ZOMBIFIED_PIGLIN: zombified piglin
+UNKNOWN: unknown
+
+# The following death causes should NEVER appear, because they are replaced with more specific ones (e.g. arrow instead of projectile)
+ENTITY_ATTACK: entity attack
+ENTITY_SWEEP_ATTACK: entity sweep attack
+PLAYER: player
+PROJECTILE: projectile

@@ -6,10 +6,10 @@ import de.jeff_media.angelchest.data.BlacklistEntry;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIManager;
 import de.jeff_media.angelchest.hooks.ExecutableItemsHook;
+import de.jeff_media.angelchest.hooks.GenericHooks;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.GroupUtils;
-import de.jeff_media.angelchest.hooks.GenericHooks;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
 import de.jeff_media.daddy.Daddy;
 import org.bstats.bukkit.Metrics;
@@ -31,6 +31,8 @@ import java.util.stream.Collectors;
  */
 public final class ConfigUtils {
 
+    private static final File DEATH_CAUSE_FILE = new File(Main.getInstance().getDataFolder(),"death-causes.yml");
+
     static void createConfig() {
 
         final Main main = Main.getInstance();
@@ -41,6 +43,11 @@ public final class ConfigUtils {
         main.saveDefaultConfig();
         main.saveResource("groups.example.yml", true);
         main.saveResource("blacklist.example.yml", true);
+
+        if(!DEATH_CAUSE_FILE.exists()) {
+            main.saveResource("death-causes.yml", false);
+        }
+
         createDirectories();
 
         conf.addDefault(Config.IGNORE_KEEP_INVENTORY, false);
@@ -251,16 +258,16 @@ public final class ConfigUtils {
         conf.addDefault(Config.MAX_TP_DISTANCE, 0);
         metric(Config.MAX_TP_DISTANCE);
 
-        conf.addDefault(Config.MAX_FETCH_DISTANCE,0);
+        conf.addDefault(Config.MAX_FETCH_DISTANCE, 0);
         metric(Config.MAX_FETCH_DISTANCE);
 
         conf.addDefault(Config.USING_ACTOGGLE_BREAKS_EXISTING_CHESTS, true);
         metric(Config.USING_ACTOGGLE_BREAKS_EXISTING_CHESTS);
 
-        conf.addDefault(Config.EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION,true);
+        conf.addDefault(Config.EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION, true);
         metric(Config.EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION);
 
-        conf.addDefault(Config.LAVA_DETECTION,true);
+        conf.addDefault(Config.LAVA_DETECTION, true);
         metric(Config.LAVA_DETECTION);
 
         conf.addDefault(Config.MINIMUM_AIR_ABOVE_CHEST, 1);
@@ -393,7 +400,7 @@ sound-channel: BLOCKS
 
     public static @Nullable String[] getBrokenConfigFiles() {
         final ArrayList<String> files = new ArrayList<>();
-        for (final String fileName : new String[] {"config.yml", "blacklist.yml", "groups.yml"}) {
+        for (final String fileName : new String[]{"config.yml", "blacklist.yml", "groups.yml"}) {
             Main.getInstance().debug("Checking if file is broken: " + fileName);
             final File file = new File(Main.getInstance().getDataFolder(), fileName);
 
@@ -431,7 +438,7 @@ sound-channel: BLOCKS
     static void metric(final String name, String value) {
         if (value.length() > 2 && value.endsWith(".0")) value = value.substring(0, value.length() - 2);
         final String finalValue = value;
-        Main.getInstance().metrics.addCustomChart(new Metrics.SimplePie(name.replace('-', '_').toLowerCase(), ()->finalValue));
+        Main.getInstance().metrics.addCustomChart(new Metrics.SimplePie(name.replace('-', '_').toLowerCase(), () -> finalValue));
         //System.out.println("Adding metric "+name+" -> "+value);
     }
 
@@ -461,6 +468,7 @@ sound-channel: BLOCKS
         main.debug = main.getConfig().getBoolean(Config.DEBUG, false);
         main.verbose = main.getConfig().getBoolean(Config.VERBOSE, false);
         main.messages = new Messages(main);
+        main.customDeathCauses = YamlConfiguration.loadConfiguration(DEATH_CAUSE_FILE);
         main.pendingConfirms = new HashMap<>();
         final File groupsFile = new File(main.getDataFolder() + File.separator + "groups.yml");
         final File protectionFile = new File(main.getDataFolder() + File.separator + "protected.yml");

@@ -28,11 +28,11 @@ public final class CommandVersion implements CommandExecutor {
     public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String alias, @NotNull final String[] args) {
 
         if (!commandSender.hasPermission(Permissions.VERSION)) {
-            Messages.send(commandSender,Main.getInstance().messages.MSG_NO_PERMISSION);
+            Messages.send(commandSender, Main.getInstance().messages.MSG_NO_PERMISSION);
             return true;
         }
 
-        final String[] output = new String[] {"§6===[§bAngelChest Version§6]===", "§eAngelChest" + (Daddy.allows(PremiumFeatures.GENERIC) ? "Plus " : " ") + Main.getInstance().getDescription().getVersion(),
+        final String[] output = new String[]{"§6===[§bAngelChest Version§6]===", "§eAngelChest" + (Daddy.allows(PremiumFeatures.GENERIC) ? "Plus " : " ") + Main.getInstance().getDescription().getVersion(),
                 //"§e" + Bukkit.getBukkitVersion(),
                 "§e" + Bukkit.getVersion(), "",};
 
@@ -42,15 +42,15 @@ public final class CommandVersion implements CommandExecutor {
         discord.setItalic(true);
         discord.setColor(ChatColor.GOLD);
 
-        Messages.send(commandSender,output);
-        if(commandSender instanceof Player) {
+        Messages.send(commandSender, output);
+        if (commandSender instanceof Player) {
             commandSender.spigot().sendMessage(discord);
         } else {
-            Messages.send(commandSender,ChatColor.GOLD+"Discord support: https://discord.jeff-media.de");
+            Messages.send(commandSender, ChatColor.GOLD + "Discord support: https://discord.jeff-media.de");
         }
 
-        if(!Main.getInstance().getConfig().getString(Config.CHECK_FOR_UPDATES).equalsIgnoreCase("false")) {
-            Messages.send(commandSender,"");
+        if (!Main.getInstance().getConfig().getString(Config.CHECK_FOR_UPDATES).equalsIgnoreCase("false")) {
+            Messages.send(commandSender, "");
             UpdateChecker.getInstance().checkNow(commandSender);
         }
         return true;

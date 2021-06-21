@@ -11,6 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Handles /acgui
+ */
 public final class CommandGUI implements CommandExecutor {
 
     final Main main;
@@ -23,17 +26,17 @@ public final class CommandGUI implements CommandExecutor {
     public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String alias, final String[] args) {
 
         if (!Daddy.allows(PremiumFeatures.GUI)) {
-            Messages.send(sender,main.messages.MSG_PREMIUMONLY);
+            Messages.send(sender, main.messages.MSG_PREMIUMONLY);
             return true;
         }
 
         if (!sender.hasPermission(Permissions.USE)) {
-            Messages.send(sender,main.messages.MSG_NO_PERMISSION);
+            Messages.send(sender, main.messages.MSG_NO_PERMISSION);
             return true;
         }
 
         if (!(sender instanceof Player)) {
-            Messages.send(sender,main.messages.MSG_PLAYERSONLY);
+            Messages.send(sender, main.messages.MSG_PLAYERSONLY);
             return true;
         }
 

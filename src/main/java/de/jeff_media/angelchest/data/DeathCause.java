@@ -4,6 +4,7 @@ import com.google.common.base.Enums;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -19,9 +20,17 @@ import java.util.Map;
 
 public final class DeathCause implements ConfigurationSerializable {
 
+    private final Main main = Main.getInstance();
     private final EntityDamageEvent.DamageCause damageCause;
     private String killerName;
     private boolean enderCrystalDeath = false;
+/*
+    static {
+        System.out.println("DEBUG: DamageCause");
+        for(EntityDamageEvent.DamageCause cause : EntityDamageEvent.DamageCause.values()) {
+            System.out.println(cause.name());
+        }
+    }*/
 
     public DeathCause(final EntityDamageEvent entityDamageEvent) {
         final Main main = Main.getInstance();
@@ -39,11 +48,11 @@ public final class DeathCause implements ConfigurationSerializable {
         Entity killer = main.killers.get(victim.getUniqueId());
 
         // Cceck for end crystal death
-        if(entityDamageEvent instanceof EntityDamageByEntityEvent) {
+        if (entityDamageEvent instanceof EntityDamageByEntityEvent) {
             final EntityDamageByEntityEvent entityDamageByEntityEvent = (EntityDamageByEntityEvent) entityDamageEvent;
-            if(entityDamageByEntityEvent.getDamager().getType() == EntityType.ENDER_CRYSTAL) {
+            if (entityDamageByEntityEvent.getDamager().getType() == EntityType.ENDER_CRYSTAL) {
                 enderCrystalDeath = true;
-                if(EnderCrystalListener.lastEnderCrystalKiller != null && !EnderCrystalListener.lastEnderCrystalKiller.equals(victim.getUniqueId())) {
+                if (EnderCrystalListener.lastEnderCrystalKiller != null && !EnderCrystalListener.lastEnderCrystalKiller.equals(victim.getUniqueId())) {
                     killer = Bukkit.getEntity(EnderCrystalListener.lastEnderCrystalKiller);
                     killerName = killer.getName();
                     return;
@@ -109,9 +118,9 @@ public final class DeathCause implements ConfigurationSerializable {
 
     public String getText() {
         if (killerName != null) {
-            return killerName;
+            return getCustomName(killerName);
         }
-        return damageCause.name();
+        return getCustomName(damageCause.name());
     }
 
     @Override
@@ -120,5 +129,14 @@ public final class DeathCause implements ConfigurationSerializable {
         map.put("damageCause", damageCause.toString());
         map.put("killer", killerName);
         return map;
+    }
+
+    private String getCustomName(String cause) {
+        if(main.customDeathCauses.isString(cause)) {
+            main.debug("Found custom damage cause name for " + cause);
+            return main.customDeathCauses.getString(cause);
+        }
+        main.debug("Using generic damage cause name " + cause);
+        return cause;
     }
 }

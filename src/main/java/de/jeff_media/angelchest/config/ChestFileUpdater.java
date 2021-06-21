@@ -14,7 +14,7 @@ public final class ChestFileUpdater {
         if (!main.getDataFolder().exists()) return;
         if (!new File(main.getDataFolder(), "angelchests").exists()) return;
         for (final File file : new File(main.getDataFolder(), "angelchests").listFiles()) {
-            if(file.getName().equals("shadow")) continue;
+            if (file.getName().equals("shadow")) continue;
             try {
                 if (FileUtils.replaceStringsInFile(file, "de.jeff_media.AngelChestPlus.data.DeathCause", "de.jeff_media.AngelChest.data.DeathCause")) {
                     main.getLogger().info("Updated old AngelChest file " + file.getName());

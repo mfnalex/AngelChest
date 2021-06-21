@@ -20,6 +20,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Handles /actoggle
+ */
 public class CommandToggle implements CommandExecutor {
 
     private final Main main;
@@ -31,22 +34,22 @@ public class CommandToggle implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String alias, @NotNull final String[] args) {
 
-        if(!Daddy.allows(PremiumFeatures.ACTOGGLE)) {
-            Messages.send(commandSender,main.messages.MSG_PREMIUMONLY);
+        if (!Daddy.allows(PremiumFeatures.ACTOGGLE)) {
+            Messages.send(commandSender, main.messages.MSG_PREMIUMONLY);
             return true;
         }
 
-        if(!(commandSender instanceof Player)) {
-            Messages.send(commandSender,main.messages.MSG_PLAYERSONLY);
+        if (!(commandSender instanceof Player)) {
+            Messages.send(commandSender, main.messages.MSG_PLAYERSONLY);
             return true;
         }
 
-        if(CommandManager.toggleableCommandAliases.containsKey(alias)) {
-            toggle((Player)commandSender,CommandManager.toggleableCommandAliases.get(alias));
+        if (CommandManager.toggleableCommandAliases.containsKey(alias)) {
+            toggle((Player) commandSender, CommandManager.toggleableCommandAliases.get(alias));
             return true;
         }
 
-        toggle((Player)commandSender);
+        toggle((Player) commandSender);
         return true;
     }
 
@@ -55,26 +58,26 @@ public class CommandToggle implements CommandExecutor {
     }
 
     private void toggle(final Player player, final boolean enable) {
-        if(enable) {
+        if (enable) {
             NBTAPI.removeNBT(player, NBTTags.HAS_ANGELCHEST_DISABLED);
-            Messages.send(player,main.messages.MSG_ANGELCHEST_ENABLED);
+            Messages.send(player, main.messages.MSG_ANGELCHEST_ENABLED);
         } else {
-            if(main.getConfig().getBoolean(Config.USING_ACTOGGLE_BREAKS_EXISTING_CHESTS)) {
+            if (main.getConfig().getBoolean(Config.USING_ACTOGGLE_BREAKS_EXISTING_CHESTS)) {
                 boolean hasChests = false;
-                final Iterator<Map.Entry<Block,AngelChest>> it = main.angelChests.entrySet().iterator();
+                final Iterator<Map.Entry<Block, AngelChest>> it = main.angelChests.entrySet().iterator();
                 while (it.hasNext()) {
-                    final Map.Entry<Block,AngelChest> entry = it.next();
+                    final Map.Entry<Block, AngelChest> entry = it.next();
                     if (!entry.getValue().owner.equals(player.getUniqueId())) continue;
                     hasChests = true;
                     entry.getValue().destroy(false);
                     it.remove();
                 }
                 if (hasChests) {
-                    Messages.send(player,main.messages.MSG_ANGELCHEST_EXPLODED);
+                    Messages.send(player, main.messages.MSG_ANGELCHEST_EXPLODED);
                 }
             }
-            NBTAPI.addNBT(player,NBTTags.HAS_ANGELCHEST_DISABLED, NBTValues.TRUE);
-            Messages.send(player,main.messages.MSG_ANGELCHEST_DISABLED);
+            NBTAPI.addNBT(player, NBTTags.HAS_ANGELCHEST_DISABLED, NBTValues.TRUE);
+            Messages.send(player, main.messages.MSG_ANGELCHEST_DISABLED);
         }
     }
 }

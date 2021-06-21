@@ -49,7 +49,7 @@ public final class GUIListener implements @NotNull Listener {
         }
         // No other way to detect top or bottom inventory
         if (minSlot < 54) {
-            if(main.debug) main.debug("[GUIListener] " + "cancel(InventoryDragEvent): cancelled -> true");
+            if (main.debug) main.debug("[GUIListener] " + "cancel(InventoryDragEvent): cancelled -> true");
             event.setCancelled(true);
         }
     }
@@ -59,7 +59,7 @@ public final class GUIListener implements @NotNull Listener {
     public void cancel(final InventoryInteractEvent event) {
         if (event.getInventory() == null) return;
         if (!(event.getInventory().getHolder() instanceof GUIHolder)) return;
-        if(main.debug) main.debug("[GUIListener] " + "cancel(InventoryInteractEvent): cancelled -> true");
+        if (main.debug) main.debug("[GUIListener] " + "cancel(InventoryInteractEvent): cancelled -> true");
         event.setCancelled(true);
     }
 
@@ -68,13 +68,13 @@ public final class GUIListener implements @NotNull Listener {
     public void cancel(final InventoryMoveItemEvent event) {
         if (event.getSource() != null) {
             if (event.getSource().getHolder() instanceof GUIHolder) {
-                if(main.debug) main.debug("[GUIListener] " + "cancel(InventoryMoveItemEvent): cancelled -> true (1)");
+                if (main.debug) main.debug("[GUIListener] " + "cancel(InventoryMoveItemEvent): cancelled -> true (1)");
                 event.setCancelled(true);
             }
         }
         if (event.getDestination() != null) {
             if (event.getDestination().getHolder() instanceof GUIHolder) {
-                if(main.debug) main.debug("[GUIListener] " + "cancel(InventoryMoveItemEvent): cancelled -> true (2)");
+                if (main.debug) main.debug("[GUIListener] " + "cancel(InventoryMoveItemEvent): cancelled -> true (2)");
                 event.setCancelled(true);
             }
         }
@@ -103,7 +103,7 @@ public final class GUIListener implements @NotNull Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChestSortEvent(final ChestSortEvent event) {
         if (event.getInventory() != null && event.getInventory().getHolder() != null && event.getInventory().getHolder() instanceof GUIHolder) {
-            if(main.debug) main.debug("Prevented ChestSort from sorting AngelChest GUI");
+            if (main.debug) main.debug("Prevented ChestSort from sorting AngelChest GUI");
             event.setCancelled(true);
         }
     }
@@ -359,11 +359,11 @@ public final class GUIListener implements @NotNull Listener {
                     if (!player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
                         final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                         if (tmpPlayer != null) {
-                            Messages.send(tmpPlayer,main.messages.MSG_EMPTIED.replaceAll("\\{player}", player.getName()));
+                            Messages.send(tmpPlayer, main.messages.MSG_EMPTIED.replaceAll("\\{player}", player.getName()));
                         }
                     }
                 }
-                Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->{
+                Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
                     angelChest.destroy(false);
                     angelChest.remove();
                 }, 1L);

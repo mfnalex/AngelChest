@@ -58,28 +58,6 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public UUID worldid;
     double price = 0;
 
-    public @Nullable UUID getKiller() {
-        return killer;
-    }
-
-    public int getNumberOfItems() {
-        int items = 0;
-        for(final ItemStack item : storageInv) {
-            if(item != null && item.getAmount()>0) items++;
-        }
-        for(final ItemStack item : armorInv) {
-            if(item != null && item.getAmount()>0) items++;
-        }
-        for(final ItemStack item : extraInv) {
-            if(item != null && item.getAmount()>0) items++;
-        }
-        return items;
-    }
-
-    public void setKiller(final UUID killer) {
-        this.killer = killer;
-    }
-
     /**
      * Loads an AngelChest from a YAML file
      *
@@ -87,7 +65,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      */
     public @Nullable AngelChest(final File file) {
         main = Main.getInstance();
-        if(main.debug) main.debug("Creating AngelChest from file " + file.getName());
+        if (main.debug) main.debug("Creating AngelChest from file " + file.getName());
         final YamlConfiguration yaml;
         try {
             yaml = new YamlConfiguration();
@@ -150,7 +128,8 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             this.worldid = UUID.fromString(Objects.requireNonNull(yaml.getString(ChestYaml.WORLD_UID)));
             if (main.getServer().getWorld(worldid) == null) {
                 success = false;
-                if(main.debug) main.debug("Failed to create AngelChest because no world with this id (" + worldid.toString() + ") could be found");
+                if (main.debug)
+                    main.debug("Failed to create AngelChest because no world with this id (" + worldid.toString() + ") could be found");
                 return;
             }
             this.block = Objects.requireNonNull(main.getServer().getWorld(worldid)).getBlockAt(yaml.getInt(ChestYaml.BLOCK_X), yaml.getInt(ChestYaml.BLOCK_Y), yaml.getInt(ChestYaml.BLOCK_Z));
@@ -171,13 +150,13 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         final String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", Objects.requireNonNull(main.getServer().getOfflinePlayer(owner).getName()));
 
         if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-            if(main.debug) main.debug("Chunk is not loaded, trying to load chunk async...");
+            if (main.debug) main.debug("Chunk is not loaded, trying to load chunk async...");
             PaperLib.getChunkAtAsync(block.getLocation());
             if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-                if(main.debug) main.debug("The chunk is still unloaded... Trying to load chunk synced...");
+                if (main.debug) main.debug("The chunk is still unloaded... Trying to load chunk synced...");
                 block.getChunk().load();
                 if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-                    if(main.debug) main.debug("The chunk is still unloaded... creating the chest will probably fail.");
+                    if (main.debug) main.debug("The chunk is still unloaded... creating the chest will probably fail.");
                 }
             }
         }
@@ -239,7 +218,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public AngelChest(final Player player, final Block block, final String logfile, final DeathCause deathCause) {
 
         main = Main.getInstance();
-        if(main.debug) main.debug("Creating AngelChest natively for player " + player.getName());
+        if (main.debug) main.debug("Creating AngelChest natively for player " + player.getName());
 
         this.main = Main.getInstance();
         this.owner = player.getUniqueId();
@@ -256,13 +235,12 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.created = System.currentTimeMillis();
 
         if (player.getKiller() == null) {
-            if(deathCause.isEnderCrystalDeath() && EnderCrystalListener.lastEnderCrystalKiller != null && !EnderCrystalListener.lastEnderCrystalKiller.equals(owner)) {
+            if (deathCause.isEnderCrystalDeath() && EnderCrystalListener.lastEnderCrystalKiller != null && !EnderCrystalListener.lastEnderCrystalKiller.equals(owner)) {
                 this.killer = EnderCrystalListener.lastEnderCrystalKiller;
             } else {
                 this.killer = null;
             }
-        }
-        else {
+        } else {
             this.killer = player.getKiller().getUniqueId();
         }
 
@@ -275,33 +253,34 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         final PlayerInventory playerInventory = player.getInventory();
 
         // Remove curse of vanishing equipment and Minepacks backpacks
-        LogUtils.debugBanner(new String[] {"PLAYER INVENTORY CONTENTS"});
+        LogUtils.debugBanner(new String[]{"PLAYER INVENTORY CONTENTS"});
         for (int i = 0; i < playerInventory.getSize(); i++) {
             if (Utils.isEmpty(playerInventory.getItem(i))) {
                 continue;
             }
             final String isBlacklisted = main.isItemBlacklisted(playerInventory.getItem(i));
             if (isBlacklisted != null) {
-                if(main.debug) main.debug("Slot " + i + ": [BLACKLISTED: \"" + isBlacklisted + "\"] " + playerInventory.getItem(i)+"\n");
+                if (main.debug)
+                    main.debug("Slot " + i + ": [BLACKLISTED: \"" + isBlacklisted + "\"] " + playerInventory.getItem(i) + "\n");
                 blacklistedItems.add(playerInventory.getItem(i));
                 playerInventory.clear(i);
             } else {
-                if(main.debug) main.debug("Slot " + i + ": " + playerInventory.getItem(i)+"\n");
+                if (main.debug) main.debug("Slot " + i + ": " + playerInventory.getItem(i) + "\n");
                 if (toBeRemoved(playerInventory.getItem(i))) playerInventory.setItem(i, null);
             }
         }
-        LogUtils.debugBanner(new String[] {"PLAYER INVENTORY CONTENTS END"});
+        LogUtils.debugBanner(new String[]{"PLAYER INVENTORY CONTENTS END"});
 
         final int randomItemLoss = main.groupUtils.getItemLossPerPlayer(player);
         if (randomItemLoss > 0) {
             if (Daddy.allows(PremiumFeatures.RANDOM_ITEM_LOSS)) {
-                LogUtils.debugBanner(new String[] {"RANDOM ITEM LOSS"});
-                if(main.debug) main.debug("Removed " + randomItemLoss + " item stacks randomly:");
+                LogUtils.debugBanner(new String[]{"RANDOM ITEM LOSS"});
+                if (main.debug) main.debug("Removed " + randomItemLoss + " item stacks randomly:");
                 randomlyLostItems = InventoryUtils.removeRandomItemsFromInventory(playerInventory, randomItemLoss);
                 for (final ItemStack lostItem : randomlyLostItems) {
-                    if(main.debug) main.debug(lostItem.toString()+"\n");
+                    if (main.debug) main.debug(lostItem.toString() + "\n");
                 }
-                LogUtils.debugBanner(new String[] {"RANDOM ITEM LOSS END"});
+                LogUtils.debugBanner(new String[]{"RANDOM ITEM LOSS END"});
             } else {
                 main.getLogger().warning("You are using random-item-loss, which is only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
             }
@@ -312,6 +291,28 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         extraInv = playerInventory.getExtraContents();
 
         removeKeptItems();
+    }
+
+    public @Nullable UUID getKiller() {
+        return killer;
+    }
+
+    public void setKiller(final UUID killer) {
+        this.killer = killer;
+    }
+
+    public int getNumberOfItems() {
+        int items = 0;
+        for (final ItemStack item : storageInv) {
+            if (item != null && item.getAmount() > 0) items++;
+        }
+        for (final ItemStack item : armorInv) {
+            if (item != null && item.getAmount() > 0) items++;
+        }
+        for (final ItemStack item : extraInv) {
+            if (item != null && item.getAmount() > 0) items++;
+        }
+        return items;
     }
 
     public void createChest(final Block block, final UUID uuid) {
@@ -325,7 +326,8 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param uuid  The owner's UUID (to correctly set player heads)
      */
     public void createChest(final Block block, final UUID uuid, final boolean createHologram) {
-        if(main.debug) main.debug("Attempting to create chest with material " + main.getChestMaterial(this).name() + " at " + block.getLocation());
+        if (main.debug)
+            main.debug("Attempting to create chest with material " + main.getChestMaterial(this).name() + " at " + block.getLocation());
         block.setType(main.getChestMaterial(this));
 
         // Material is PLAYER_HEAD, so either use the custom texture, or the player skin's texture
@@ -358,13 +360,13 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param refund Whether the owner should get the price back they paid to have the chest spawned.
      */
     public void destroy(final boolean refund) {
-        if(main.debug) main.debug("Destroying AngelChest");
+        if (main.debug) main.debug("Destroying AngelChest");
 
         if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-            if(main.debug) main.debug("Chunk is not loaded, trying to load chunk async...");
+            if (main.debug) main.debug("Chunk is not loaded, trying to load chunk async...");
             PaperLib.getChunkAtAsync(block.getLocation());
             if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
-                if(main.debug) main.debug("The chunk is still unloaded... Trying to load chunk synced...");
+                if (main.debug) main.debug("The chunk is still unloaded... Trying to load chunk synced...");
                 block.getChunk().load();
                 if (main.debug && !block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
                     main.debug("The chunk is still unloaded... destroying the chest will probably fail.");
@@ -396,7 +398,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         final int currentChestId = AngelChestUtils.getAllAngelChestsFromPlayer(Bukkit.getOfflinePlayer(owner)).indexOf(this) + 1;
         final Player player = Bukkit.getPlayer(owner);
         if (player != null && player.isOnline()) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->main.guiManager.updateGUI(player, currentChestId), 1L);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> main.guiManager.updateGUI(player, currentChestId), 1L);
         }
 
     }
@@ -407,7 +409,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param block Block where the AngelChest was spawned
      */
     public void destroyChest(final Block block) {
-        if(main.debug) main.debug("Destroying chest at " + block.getLocation() + this);
+        if (main.debug) main.debug("Destroying chest at " + block.getLocation() + this);
         block.setType(Material.AIR);
         Objects.requireNonNull(block.getLocation().getWorld()).spawnParticle(Particle.EXPLOSION_NORMAL, block.getLocation(), 1);
         hologram.destroy();
@@ -525,24 +527,24 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean hasPaidForOpening(final Player player) {
-        if(main.debug) main.debug("Checking whether " + player + " already paid to open this chest...");
+        if (main.debug) main.debug("Checking whether " + player + " already paid to open this chest...");
         if (openedBy.contains(player.getUniqueId().toString())) {
-            if(main.debug) main.debug("Yes, they did!");
+            if (main.debug) main.debug("Yes, they did!");
             return true;
         }
         final double price = main.groupUtils.getOpenPricePerPlayer(player);
-        if(main.debug) main.debug("No, they didn't... It will cost " + price);
+        if (main.debug) main.debug("No, they didn't... It will cost " + price);
         main.logger.logPaidForChest(player, price, main.logger.getLogFile(logfile));
         if (CommandUtils.hasEnoughMoney(player, price, main.messages.MSG_NOT_ENOUGH_MONEY, "AngelChest opened")) {
             openedBy.add(player.getUniqueId().toString());
             if (main.economyStatus == EconomyStatus.ACTIVE) {
                 if (price > 0) {
-                    Messages.send(player,main.messages.MSG_PAID_OPEN.replaceAll("\\{price}", String.valueOf(price)).replaceAll("\\{currency}", CommandUtils.getCurrency(price)));
+                    Messages.send(player, main.messages.MSG_PAID_OPEN.replaceAll("\\{price}", String.valueOf(price)).replaceAll("\\{currency}", CommandUtils.getCurrency(price)));
                 }
             }
             return true;
         }
-        Messages.send(player,main.messages.MSG_NOT_ENOUGH_MONEY);
+        Messages.send(player, main.messages.MSG_NOT_ENOUGH_MONEY);
         return false;
     }
 
@@ -592,7 +594,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * Removes this AngelChest from the memory
      */
     public void remove() {
-        if(main.debug) main.debug("Removing AngelChest");
+        if (main.debug) main.debug("Removing AngelChest");
         main.angelChests.remove(block);
     }
 
@@ -642,7 +644,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         yaml.set(ChestYaml.SECONDS_LEFT, secondsLeft);
         yaml.set("unlockIn", unlockIn);
         yaml.set("created", created);
-        if(killer != null) yaml.set("killer",killer.toString());
+        if (killer != null) yaml.set("killer", killer.toString());
         yaml.set("experience", experience);
         yaml.set(ChestYaml.EXP_LEVELS, levels);
         yaml.set(ChestYaml.PRICE, price);
@@ -675,10 +677,10 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
     public void scheduleBlockChange(final boolean firstTry) {
         if (firstTry) {
-            if(main.debug) main.debug("scheduleBlockChange: " + block.toString());
+            if (main.debug) main.debug("scheduleBlockChange: " + block.toString());
         }
         if (main.chestMaterial == main.chestMaterialUnlocked) {
-            if(main.debug) main.debug("scheduleBlockChange abort: matching materials");
+            if (main.debug) main.debug("scheduleBlockChange abort: matching materials");
             return;
         }
         final int x = block.getX();
@@ -686,11 +688,12 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
         if (!block.getWorld().isChunkLoaded(x >> 4, z >> 4)) {
             if (firstTry) {
-                if(main.debug) main.debug("Tried to change block for chest in unloaded chunk because of unlocking, will do so once chunk is loaded.");
+                if (main.debug)
+                    main.debug("Tried to change block for chest in unloaded chunk because of unlocking, will do so once chunk is loaded.");
             }
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->scheduleBlockChange(false), 1L);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> scheduleBlockChange(false), 1L);
         } else {
-            if(main.debug) main.debug("Changed block for chest because of unlocking.");
+            if (main.debug) main.debug("Changed block for chest because of unlocking.");
             createChest(block, owner, false);
         }
 

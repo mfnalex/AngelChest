@@ -37,7 +37,7 @@ public final class BlacklistUtils {
         final Material material = item.getType();
         final ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : Bukkit.getItemFactory().getItemMeta(material);
         final List<String> enchantments = new ArrayList<>();
-        for(final Enchantment enchantment : meta.getEnchants().keySet()) {
+        for (final Enchantment enchantment : meta.getEnchants().keySet()) {
             enchantments.add(enchantment.getKey().getKey());
         }
         assert meta != null;
@@ -55,9 +55,9 @@ public final class BlacklistUtils {
                 stringBuilder.append(indent).append(indent).append("- \"").append(line.replace("&", "&&").replace('§', '&')).append("\"").append(System.lineSeparator());
             }
         }
-        if(!enchantments.isEmpty()) {
+        if (!enchantments.isEmpty()) {
             stringBuilder.append(indent).append("enchantments: ").append(System.lineSeparator());
-            for(final String enchantment : enchantments) {
+            for (final String enchantment : enchantments) {
                 stringBuilder.append(indent).append(indent).append("- ").append(enchantment).append(System.lineSeparator());
             }
         }

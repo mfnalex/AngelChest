@@ -12,6 +12,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Handles /aclist
+ */
 public final class CommandList implements CommandExecutor {
 
     final Main main;
@@ -26,7 +29,7 @@ public final class CommandList implements CommandExecutor {
         if (!command.getName().equalsIgnoreCase("aclist")) return false;
 
         if (!requester.hasPermission(Permissions.USE)) {
-            Messages.send(requester,main.messages.MSG_NO_PERMISSION);
+            Messages.send(requester, main.messages.MSG_NO_PERMISSION);
             return true;
         }
 
@@ -35,7 +38,7 @@ public final class CommandList implements CommandExecutor {
 
         // Only send this message if the player has chests
         if (!AngelChestUtils.getAllAngelChestsFromPlayer(commandArgument.getAffectedPlayer()).isEmpty()) {
-            Messages.send(requester,main.messages.MSG_ANGELCHEST_LOCATION);
+            Messages.send(requester, main.messages.MSG_ANGELCHEST_LOCATION);
         }
 
         CommandUtils.sendListOfAngelChests(main, requester, commandArgument.getAffectedPlayer());

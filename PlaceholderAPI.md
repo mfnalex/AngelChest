@@ -1,7 +1,10 @@
 # PlaceholderAPI
-AngelChest features some placeholders to use with PlaceholderAPI. If `<ID>` is included in a placeholder's name, `<ID>` must be replaced with any integer. Please note that the `<ID>` cannot be less than 1.
+
+AngelChest features some placeholders to use with PlaceholderAPI. If `<ID>` is included in a placeholder's name, `<ID>`
+must be replaced with any integer. Please note that the `<ID>` cannot be less than 1.
 
 ## List of placeholders
+
 `%angelchest_activechests%`: Number of active chests a player has
 
 `%angelchest_price%`: Amount of money needed to spawn the AngelChest
@@ -12,7 +15,8 @@ AngelChest features some placeholders to use with PlaceholderAPI. If `<ID>` is i
 
 `%angelchest_isactive_<ID>%`: Returns "true" when the player has an AngelChest with this ID, otherwise "false"
 
-`%angelchest_time_<ID>%`: Remaining time for this AngelChest. Returns an empty String if no AngelChest with this ID exists.
+`%angelchest_time_<ID>%`: Remaining time for this AngelChest. Returns an empty String if no AngelChest with this ID
+exists.
 
 `%angelchest_x_<ID>%`: X coordinate of this AngelChest. Returns an empty String if no AngelChest with this ID exists.
 

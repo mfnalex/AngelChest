@@ -130,11 +130,11 @@ public class AngelChestUtils {
                     if ((isAir(block.getType()) || main.onlySpawnIn.contains(block.getType())) && !main.dontSpawnOn.contains(oneBelow.getType()) && y > 0 && y < location.getWorld().getMaxHeight()) {
                         //main.verbose("Possible chest loc: "+block.toString());
 
-                        if(main.getConfig().getInt(Config.MINIMUM_AIR_ABOVE_CHEST) > 0) {
+                        if (main.getConfig().getInt(Config.MINIMUM_AIR_ABOVE_CHEST) > 0) {
                             //if(main.debug) main.debug("Minimum Air above Chest: " + main.getConfig().getInt(Config.MINIMUM_AIR_ABOVE_CHEST));
-                            for(int i = 1; i <= main.getConfig().getInt(Config.MINIMUM_AIR_ABOVE_CHEST); i++) {
+                            for (int i = 1; i <= main.getConfig().getInt(Config.MINIMUM_AIR_ABOVE_CHEST); i++) {
                                 //if(main.debug) main.debug("Checking if " + x + ", " + (y + i) + ", " + z + " is air...");
-                                if(!location.getWorld().getBlockAt(x, y + i, z).getType().isAir()) {
+                                if (!location.getWorld().getBlockAt(x, y + i, z).getType().isAir()) {
                                     //if(main.debug) main.debug("IT ISNT!");
                                     continue zloop;
                                 }
@@ -202,7 +202,7 @@ public class AngelChestUtils {
     }
 
     public static void sortBlocksByDistance(final Block angelChestBlock, final List<Block> blocksNearby) {
-        blocksNearby.sort((b1, b2)->{
+        blocksNearby.sort((b1, b2) -> {
             final double dist1 = b1.getLocation().distance(angelChestBlock.getLocation());
             final double dist2 = b2.getLocation().distance(angelChestBlock.getLocation());
             return Double.compare(dist1, dist2);
@@ -216,17 +216,17 @@ public class AngelChestUtils {
             return true;
         }
 
-        if(main.debug) main.debug("spawn chance = " + chance);
+        if (main.debug) main.debug("spawn chance = " + chance);
         if (chance >= 1.0) {
-            if(main.debug) main.debug("chance >= 1.0, return true");
+            if (main.debug) main.debug("chance >= 1.0, return true");
             return true;
         }
         final int chancePercent = (int) (chance * 100);
         final int random = new Random().nextInt(100); //Returns value between 0 and 99
-        if(main.debug) main.debug("chancePercent = " + chancePercent);
-        if(main.debug) main.debug("random = " + random);
-        if(main.debug) main.debug("(random must be smaller or equal to chancePercent to succeed)");
-        if(main.debug) main.debug("return " + (random <= chancePercent));
+        if (main.debug) main.debug("chancePercent = " + chancePercent);
+        if (main.debug) main.debug("random = " + random);
+        if (main.debug) main.debug("(random must be smaller or equal to chancePercent to succeed)");
+        if (main.debug) main.debug("return " + (random <= chancePercent));
         return random <= chancePercent;
     }
 

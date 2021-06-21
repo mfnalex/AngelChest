@@ -42,8 +42,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredListener;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -142,32 +140,32 @@ public final class PlayerListener implements Listener {
 
         final boolean firstOpened = !angelChest.openedBy.contains(p.getUniqueId().toString());
 
-        openGUIorFastLoot(p,angelChest,firstOpened);
+        openGUIorFastLoot(p, angelChest, firstOpened);
 
     }
 
     private void openGUIorFastLoot(final Player player, final AngelChest angelChest, final boolean firstOpened) {
-        if(main.debug) main.debug("Attempting to open AngelChest " + angelChest + " for player " + player);
+        if (main.debug) main.debug("Attempting to open AngelChest " + angelChest + " for player " + player);
 
         if (!angelChest.hasPaidForOpening(player)) {
             return;
         }
 
         boolean openGUI = false;
-        if(Daddy.allows(PremiumFeatures.GUI)) {
-            if(!main.getConfig().getBoolean(Config.ALLOW_FASTLOOTING)) {
-                if(main.debug) main.debug("Opening GUI because allow-fastlooting is disabled");
+        if (Daddy.allows(PremiumFeatures.GUI)) {
+            if (!main.getConfig().getBoolean(Config.ALLOW_FASTLOOTING)) {
+                if (main.debug) main.debug("Opening GUI because allow-fastlooting is disabled");
                 openGUI = true;
-            } else if(player.isSneaking() && main.getConfig().getBoolean(Config.GUI_REQUIRES_SHIFT)) {
-                if(main.debug) main.debug("Opening GUI because player is sneaking and GUI requires Shift");
+            } else if (player.isSneaking() && main.getConfig().getBoolean(Config.GUI_REQUIRES_SHIFT)) {
+                if (main.debug) main.debug("Opening GUI because player is sneaking and GUI requires Shift");
                 openGUI = true;
-            } else if(!player.isSneaking() && !main.getConfig().getBoolean(Config.GUI_REQUIRES_SHIFT)) {
-                if(main.debug) main.debug("Opening GUI because player is NOT sneaking and GUI does NOT require Shift");
+            } else if (!player.isSneaking() && !main.getConfig().getBoolean(Config.GUI_REQUIRES_SHIFT)) {
+                if (main.debug) main.debug("Opening GUI because player is NOT sneaking and GUI does NOT require Shift");
                 openGUI = true;
             }
         }
 
-        if(openGUI) {
+        if (openGUI) {
             main.guiManager.showPreviewGUI(player, angelChest, false, firstOpened);
         } else {
             main.debug("Fastlooting chest");
@@ -200,7 +198,7 @@ public final class PlayerListener implements Listener {
         }
         final boolean firstOpened = !atomicAngelChest.get().openedBy.contains(event.getPlayer().getUniqueId().toString());
 
-        openGUIorFastLoot(event.getPlayer(),atomicAngelChest.get(),firstOpened);
+        openGUIorFastLoot(event.getPlayer(), atomicAngelChest.get(), firstOpened);
     }
 
     /**
@@ -214,7 +212,7 @@ public final class PlayerListener implements Listener {
         if (!main.getConfig().getBoolean(Config.AUTO_RESPAWN)) return;
         final int delay = main.getConfig().getInt(Config.AUTO_RESPAWN_DELAY);
 
-        Bukkit.getScheduler().runTaskLater(main, ()->{
+        Bukkit.getScheduler().runTaskLater(main, () -> {
             if (event.getEntity().isDead()) {
                 event.getEntity().spigot().respawn();
             }
@@ -248,7 +246,7 @@ public final class PlayerListener implements Listener {
                 final ItemStack offHand = p.getInventory().getItemInOffHand();
                 if (offHand != null && offHand.getAmount() != 0 && offHand.getType() != Material.AIR) {
                     final ItemStack finalOffHand = offHand.clone();
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->p.getInventory().setItemInOffHand(finalOffHand), 1L);
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> p.getInventory().setItemInOffHand(finalOffHand), 1L);
                 }
                 return;
             }
@@ -267,7 +265,7 @@ public final class PlayerListener implements Listener {
         final UUID player = event.getEntity().getUniqueId();
         final Entity killer = event.getDamager();
         main.killers.put(player, killer);
-        Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->main.killers.remove(player), 1L);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> main.killers.remove(player), 1L);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -276,7 +274,7 @@ public final class PlayerListener implements Listener {
             final Player player = playerJoinEvent.getPlayer();
             if (player.hasPermission(Permissions.USE)) {
                 if (!main.getAllAngelChestsFromPlayer(player).isEmpty()) {
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->{
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
                         Messages.send(player, main.messages.MSG_ANGELCHEST_LOCATION);
                         CommandUtils.sendListOfAngelChests(main, player, player);
                     }, 3L);
@@ -314,7 +312,7 @@ public final class PlayerListener implements Listener {
             if (main.debug) main.debug(" At least one of those permissions is given.");
         }
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->{
+        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
             switch (showGUIAfterDeath) {
                 case "false":
                     if (main.debug) main.debug("  No: showGUIAfterDeath is false");
@@ -392,7 +390,7 @@ public final class PlayerListener implements Listener {
         final Player p = event.getEntity();
 
         if (main.debug) main.debug("\n");
-        LogUtils.debugBanner(new String[] {"PlayerDeathEvent", "Player: " + p.getName(), "Location: " + p.getLocation()});
+        LogUtils.debugBanner(new String[]{"PlayerDeathEvent", "Player: " + p.getName(), "Location: " + p.getLocation()});
 
         if (main.disableDeathEvent) {
             if (main.debug)
@@ -570,7 +568,7 @@ public final class PlayerListener implements Listener {
         final ItemStack[] drops = event.getDrops().toArray(new ItemStack[0]);
         final List<ItemStack> inventoryAsList = Arrays.asList(p.getInventory().getContents());
 
-        LogUtils.debugBanner(new String[] {"ADDITIONAL DEATH DROP LIST"});
+        LogUtils.debugBanner(new String[]{"ADDITIONAL DEATH DROP LIST"});
         if (main.debug) main.debug("The following items are in the drops list, but not in the inventory.");
         for (int i = 0; i < drops.length; i++) {
             if (inventoryAsList.contains(drops[i])) continue;
@@ -578,7 +576,7 @@ public final class PlayerListener implements Listener {
             if (main.debug) main.debug(" ");
             freshDrops.add(drops[i]);
         }
-        LogUtils.debugBanner(new String[] {"ADDITIONAL DEATH DROP LIST END"});
+        LogUtils.debugBanner(new String[]{"ADDITIONAL DEATH DROP LIST END"});
 
         if (main.getConfig().getBoolean(Config.DROP_HEADS) && Daddy.allows(PremiumFeatures.DROP_HEADS)) {
             boolean dropHead = false;
@@ -672,14 +670,14 @@ public final class PlayerListener implements Listener {
         clearInventory(p.getInventory());
 
         // Clear the drops except blacklisted items
-        event.getDrops().removeIf(drop->!ac.blacklistedItems.contains(drop));
+        event.getDrops().removeIf(drop -> !ac.blacklistedItems.contains(drop));
 
         // send message after one twentieth second
         Utils.sendDelayedMessage(p, main.messages.MSG_ANGELCHEST_CREATED, 1);
 
 
         if (main.getConfig().getBoolean(Config.SHOW_LOCATION)) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, ()->CommandUtils.sendListOfAngelChests(main, p, p), 2);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> CommandUtils.sendListOfAngelChests(main, p, p), 2);
         }
 
         final int maxChests = main.groupUtils.getChestsPerPlayer(p);
@@ -688,7 +686,7 @@ public final class PlayerListener implements Listener {
         if (chests.size() > maxChests) {
             chests.get(0).destroy(true);
             chests.get(0).remove();
-            Bukkit.getScheduler().runTaskLater(main, ()->{
+            Bukkit.getScheduler().runTaskLater(main, () -> {
                 Messages.send(p, " ");
                 Messages.send(p, main.messages.MSG_ANGELCHEST_EXPLODED);
             }, 3L);
@@ -716,7 +714,7 @@ public final class PlayerListener implements Listener {
         double tickPercentage = TimeUtils.milliSecondsToTickPercentage(durationMilli);
         if(main.debug) main.debug("AngelChest creation took " +durationNano + " ns or " + durationMilli +" ms or "+tickPercentage+" % of tick.");*/
 
-        LogUtils.debugBanner(new String[] {"PlayerDeathEvent END"});
+        LogUtils.debugBanner(new String[]{"PlayerDeathEvent END"});
         if (main.debug) main.debug(" ");
 
         if (Daddy.allows(PremiumFeatures.PLAY_TOTEM_ANIMATION) && main.getConfig().getBoolean(Config.PLAY_TOTEM_ANIMATION)) {

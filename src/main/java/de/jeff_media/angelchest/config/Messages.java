@@ -1,15 +1,11 @@
 package de.jeff_media.angelchest.config;
 
 import de.jeff_media.angelchest.Main;
-import de.jeff_media.angelchest.utils.CommandUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Contains all translatable messages. Loads translations from the config file, or falls back to hardcoded default values
@@ -17,8 +13,8 @@ import java.util.List;
  */
 public final class Messages {
 
-    public static final String[] usingFreeVersion = new String[] {"========================================================", "You are using the free version of AngelChest. There is", "also a premium version available, called AngelChestPlus.", "It includes TONS of new features and exclusive Discord", "support. The free version will still receive bugfixes,", "but there won't be ANY new features!", "If you like AngelChest, you will LOVE AngelChestPlus, so", "please consider upgrading! Thank you for using AngelChest.", "", Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS, "========================================================",};
-    public static final String[] usingPlusVersion = new String[] {"========================================================", "Thanks for buying AngelChestPlus! Premium features have", "been unlocked successfully. Have fun!", "========================================================",};
+    public static final String[] usingFreeVersion = new String[]{"========================================================", "You are using the free version of AngelChest. There is", "also a premium version available, called AngelChestPlus.", "It includes TONS of new features and exclusive Discord", "support. The free version will still receive bugfixes,", "but there won't be ANY new features!", "If you like AngelChest, you will LOVE AngelChestPlus, so", "please consider upgrading! Thank you for using AngelChest.", "", Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS, "========================================================",};
+    public static final String[] usingPlusVersion = new String[]{"========================================================", "Thanks for buying AngelChestPlus! Premium features have", "been unlocked successfully. Have fun!", "========================================================",};
     public final String GUI_CHEST_NAME;
     public final String GUI_CHEST_LORE;
     public final String MSG_TP_ACROSS_WORLDS_NOT_ALLOWED;
@@ -178,9 +174,9 @@ public final class Messages {
 
         MSG_ACTIONBAR_VULNERABLE = getMsg("vulnerable", "&c&lYou are no longer invulnerable.");
 
-        MSG_ANGELCHEST_DISABLED = PREFIX + getMsg("angelchest-disabled","&cYou are no longer protected by Angels.");
+        MSG_ANGELCHEST_DISABLED = PREFIX + getMsg("angelchest-disabled", "&cYou are no longer protected by Angels.");
 
-        MSG_ANGELCHEST_ENABLED = PREFIX + getMsg("angelchest-enabled","&aYou are now protected by Angels.");
+        MSG_ANGELCHEST_ENABLED = PREFIX + getMsg("angelchest-enabled", "&aYou are now protected by Angels.");
 
         MSG_ANGELCHEST_FETCHED = PREFIX + getMsg("angelchest-fetched", "&aAngelChest fetched succesfully.");
 
@@ -194,7 +190,7 @@ public final class Messages {
 
         GUI_CHEST_NAME = getGui(Config.GUI_CHEST_NAME, "§6AngelChest #{id}");
 
-        GUI_CHEST_LORE = main.getConfig().getString(Config.GUI_CHEST_LORE,"§4{time}\n§aX: §f{x}\n§aY: §f{y}\n§aZ: §f{z}}\n§f{world}");
+        GUI_CHEST_LORE = main.getConfig().getString(Config.GUI_CHEST_LORE, "§4{time}\n§aX: §f{x}\n§aY: §f{y}\n§aZ: §f{z}}\n§f{world}");
 
         GUI_ACCEPT = getGui("gui-accept", "&aAccept");
         GUI_DECLINE = getGui("gui-decline", "&cDecline");
@@ -214,9 +210,9 @@ public final class Messages {
     }
 
     public static void send(final CommandSender receiver, final String... message) {
-        if(receiver == null) return;
-        for(final String line : message) {
-            send(receiver,line);
+        if (receiver == null) return;
+        for (final String line : message) {
+            send(receiver, line);
         }
     }
 

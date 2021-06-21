@@ -26,7 +26,7 @@ public final class CommandUnlock implements CommandExecutor {
     public boolean onCommand(@NotNull final CommandSender requester, @NotNull final Command command, @NotNull final String alias, final String[] args) {
 
         if (!requester.hasPermission(Permissions.USE) || !requester.hasPermission(Permissions.PROTECT)) {
-            Messages.send(requester,main.messages.MSG_NO_PERMISSION);
+            Messages.send(requester, main.messages.MSG_NO_PERMISSION);
             return true;
         }
 

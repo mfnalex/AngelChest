@@ -10,7 +10,7 @@ import java.util.List;
 public final class FileUtils {
 
     public static void appendLines(final File file, final String line) {
-        appendLines(file, new String[] {line});
+        appendLines(file, new String[]{line});
     }
 
     public static void appendLines(final File file, final String[] lines) {

@@ -16,40 +16,40 @@ public class SoundUtils {
 
     public static void playTpFetchSound(final Player player, final Location location, final CommandAction action) {
         final Main main = Main.getInstance();
-        if(action == CommandAction.FETCH_CHEST) {
-            if(!main.getConfig().getBoolean(Config.PLAY_SOUND_ON_FETCH)) {
+        if (action == CommandAction.FETCH_CHEST) {
+            if (!main.getConfig().getBoolean(Config.PLAY_SOUND_ON_FETCH)) {
                 return;
             } else {
-                if(!Daddy.allows(PremiumFeatures.PLAY_SOUND_ON_TP_OR_FETCH)) {
+                if (!Daddy.allows(PremiumFeatures.PLAY_SOUND_ON_TP_OR_FETCH)) {
                     Messages.sendPremiumOnlyConsoleMessage(Config.PLAY_SOUND_ON_FETCH);
                     return;
                 }
             }
         }
-        if(action == CommandAction.TELEPORT_TO_CHEST) {
-            if(!main.getConfig().getBoolean(Config.PLAY_SOUND_ON_TP)) {
+        if (action == CommandAction.TELEPORT_TO_CHEST) {
+            if (!main.getConfig().getBoolean(Config.PLAY_SOUND_ON_TP)) {
                 return;
             } else {
-                if(!Daddy.allows(PremiumFeatures.PLAY_SOUND_ON_TP_OR_FETCH)) {
+                if (!Daddy.allows(PremiumFeatures.PLAY_SOUND_ON_TP_OR_FETCH)) {
                     Messages.sendPremiumOnlyConsoleMessage(Config.PLAY_SOUND_ON_TP);
                     return;
                 }
             }
         }
 
-        final Sound sound = Enums.getIfPresent(Sound.class,main.getConfig().getString(Config.SOUND_EFFECT)).orNull();
+        final Sound sound = Enums.getIfPresent(Sound.class, main.getConfig().getString(Config.SOUND_EFFECT)).orNull();
 
-        if(sound == null) {
+        if (sound == null) {
             main.getLogger().warning("You specified an invalid sound effect: " + main.getConfig().getString(Config.SOUND_EFFECT));
             return;
         }
 
         final float volume = (float) main.getConfig().getDouble(Config.SOUND_VOLUME);
         final float pitch = (float) main.getConfig().getDouble(Config.SOUND_PITCH);
-        final SoundCategory channel = Enums.getIfPresent(SoundCategory.class,main.getConfig().getString(Config.SOUND_CHANNEL)).or(SoundCategory.BLOCKS);
+        final SoundCategory channel = Enums.getIfPresent(SoundCategory.class, main.getConfig().getString(Config.SOUND_CHANNEL)).or(SoundCategory.BLOCKS);
 
-        if(player != null && player.isOnline()) {
-            player.playSound(location,sound,channel,volume, pitch);
+        if (player != null && player.isOnline()) {
+            player.playSound(location, sound, channel, volume, pitch);
         }
 
     }

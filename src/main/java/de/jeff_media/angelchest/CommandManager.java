@@ -55,10 +55,10 @@ public final class CommandManager {
 
     public static void registerCommand(final String permission, final String... aliases) {
         final Main main = Main.getInstance();
-        if(main.debug) main.debug("Registering command " + aliases[0]);
+        if (main.debug) main.debug("Registering command " + aliases[0]);
         for (final String alias : aliases) {
             if (alias.equals(aliases[0])) continue;
-            if(main.debug) main.debug("  Alias: " + alias);
+            if (main.debug) main.debug("  Alias: " + alias);
         }
         final PluginCommand command = getCommand(aliases[0], main);
 

@@ -57,7 +57,7 @@ public final class ConfigDumper {
 
 
         // Delete old dump
-        Messages.send(sender,"Cleaning up latest dump...");
+        Messages.send(sender, "Cleaning up latest dump...");
         log.delete();
         loadedConfig.delete();
         loadedBlacklist.delete();
@@ -69,14 +69,14 @@ public final class ConfigDumper {
         }
 
         // Server information
-        Messages.send(sender,"Saving server informationp...");
+        Messages.send(sender, "Saving server informationp...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, banner("Server information"));
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Server Version: " + Bukkit.getVersion());
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Bukkit API Version: " + Bukkit.getBukkitVersion());
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Plugin version: " + main.getDescription().getName() + (Daddy.allows(PremiumFeatures.GENERIC) ? "Plus" : "") + " " + main.getDescription().getVersion());
 
         // Broken config files
-        Messages.send(sender,"Saving config checkp...");
+        Messages.send(sender, "Saving config checkp...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Config check"));
         if (main.invalidConfigFiles == null || main.invalidConfigFiles.length == 0) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Config OK.");
@@ -91,18 +91,18 @@ public final class ConfigDumper {
         }
 
         // Other plugins
-        Messages.send(sender,"Saving plugin list...");
+        Messages.send(sender, "Saving plugin list...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Installed plugins"));
         for (final Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, plugin.getName() + " " + plugin.getDescription().getVersion() + (plugin.isEnabled() ? "" : " (DISABLED)"));
         }
 
         // Gamerules
-        Messages.send(sender,"Saving relevant gamerules...");
+        Messages.send(sender, "Saving relevant gamerules...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Gamerules"));
         for (final World world : Bukkit.getWorlds().stream().sorted(Comparator.comparing(World::getName)).collect(Collectors.toList())) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, world.getName() + "[" + world.getUID() + "]");
-            @SuppressWarnings("rawtypes") final GameRule[] rules = new GameRule[] {GameRule.DO_ENTITY_DROPS, GameRule.KEEP_INVENTORY};
+            @SuppressWarnings("rawtypes") final GameRule[] rules = new GameRule[]{GameRule.DO_ENTITY_DROPS, GameRule.KEEP_INVENTORY};
             //noinspection rawtypes
             for (final GameRule rule : rules) {
                 //noinspection unchecked
@@ -111,9 +111,8 @@ public final class ConfigDumper {
         }
 
 
-
         // Online player's permissions
-        Messages.send(sender,"Saving online player's permissionsp...");
+        Messages.send(sender, "Saving online player's permissionsp...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Player Permissions"));
         for (final Player player : Bukkit.getOnlinePlayers()) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, player.getName());
@@ -124,7 +123,7 @@ public final class ConfigDumper {
         }
 
         // Scheduled tasks
-        Messages.send(sender,"Saving BukkitScheduler informationp...");
+        Messages.send(sender, "Saving BukkitScheduler informationp...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("BukkitScheduler: Workers"));
         for (final BukkitWorker worker : Bukkit.getScheduler().getActiveWorkers()) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, worker.getOwner().getName() + ": " + worker.getTaskId() + " (" + worker + ")");
@@ -136,14 +135,14 @@ public final class ConfigDumper {
 
         // Dump configs
         try {
-            Messages.send(sender,"Copying config.yml...");
+            Messages.send(sender, "Copying config.yml...");
             org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(new File(main.getDataFolder(), "config.yml"), copiedConfig);
-            Messages.send(sender,"Dumping loaded config.yml");
+            Messages.send(sender, "Dumping loaded config.yml");
             dumpYaml(main.getConfig(), loadedConfig);
             if (groups.exists()) {
-                Messages.send(sender,"Copying groups.yml...");
+                Messages.send(sender, "Copying groups.yml...");
                 org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(groups, copiedGroups);
-                Messages.send(sender,"Dumping loaded groups.yml...");
+                Messages.send(sender, "Dumping loaded groups.yml...");
                 final YamlConfiguration groupsYaml = new YamlConfiguration();
                 try {
                     groupsYaml.load(groups);
@@ -153,9 +152,9 @@ public final class ConfigDumper {
                 }
             }
             if (blacklist.exists()) {
-                Messages.send(sender,"Copying blacklist.yml...");
+                Messages.send(sender, "Copying blacklist.yml...");
                 org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(blacklist, copiedBlacklist);
-                Messages.send(sender,"Dumping loaded blacklist.yml...");
+                Messages.send(sender, "Dumping loaded blacklist.yml...");
                 final YamlConfiguration blacklistYaml = new YamlConfiguration();
                 try {
                     blacklistYaml.load(blacklist);
@@ -169,7 +168,7 @@ public final class ConfigDumper {
         }
 
         // Dump AngelChests
-        Messages.send(sender,"Saving and copying AngelChests...");
+        Messages.send(sender, "Saving and copying AngelChests...");
         final Collection<File> existingChests = FileUtils.listFiles(angelchestsDir, null, false);
         main.saveAllAngelChestsToFile(false);
         final Collection<File> allChests = FileUtils.listFiles(angelchestsDir, null, false);
@@ -184,7 +183,7 @@ public final class ConfigDumper {
         }
 
         // Latest.log
-        Messages.send(sender,"Copying latest.log...");
+        Messages.send(sender, "Copying latest.log...");
         try {
             org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(new File(new File(main.getDataFolder().getParentFile().getParentFile(), "logs"), "latest.log"), new File(dumpDir, "latest.log"));
         } catch (final IOException ioException) {
@@ -192,20 +191,20 @@ public final class ConfigDumper {
         }
 
         // debug.log
-        if(new File(main.getDataFolder(),"debug.log").exists()) {
-            Messages.send(sender,"Copying debug.log...");
+        if (new File(main.getDataFolder(), "debug.log").exists()) {
+            Messages.send(sender, "Copying debug.log...");
             try {
-                org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(new File(main.getDataFolder(),"debug.log"), new File(dumpDir, "debug.log"));
+                org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(new File(main.getDataFolder(), "debug.log"), new File(dumpDir, "debug.log"));
             } catch (final IOException ioException) {
                 ioException.printStackTrace();
             }
         }
 
 
-        Messages.send(sender,"Compressing all files into zip archive...");
+        Messages.send(sender, "Compressing all files into zip archive...");
         ZipUtil.unexplode(dumpDir);
-        Messages.send(sender,"Cleaning up...");
-        Messages.send(sender,"Done!");
+        Messages.send(sender, "Cleaning up...");
+        Messages.send(sender, "Done!");
     }
 
     private static void dumpYaml(final FileConfiguration input, final File output) {

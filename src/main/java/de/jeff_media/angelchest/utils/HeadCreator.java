@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
-import de.jeff_media.angelchest.nms.NMSGenericHeadCreator;
+import de.jeff_media.angelchest.nms.NMSHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -13,10 +13,7 @@ import org.bukkit.block.Skull;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.UUID;
 
 public final class HeadCreator {
@@ -38,37 +35,19 @@ public final class HeadCreator {
 
         // Use the player skin's texture
         if (main.getConfig().getBoolean(Config.HEAD_USES_PLAYER_NAME)) {
-            if(main.debug) main.debug("Player head = username");
+            if (main.debug) main.debug("Player head = username");
             final OfflinePlayer player = main.getServer().getOfflinePlayer(uuid);
             state.setOwningPlayer(player);
             state.update();
         }
         // Use a predefined texture
         else {
-            if(main.debug) main.debug("Player head = base64");
+            if (main.debug) main.debug("Player head = base64");
             final String base64 = main.getConfig().getString(Config.CUSTOM_HEAD_BASE64);
             final GameProfile profile = new GameProfile(UUID.randomUUID(), "");
             profile.getProperties().put("textures", new Property("textures", base64));
 
-            // 1.17 +
-            try {
-                NMSGenericHeadCreator.createHeadInWorld(block,profile);
-            } catch (final Throwable t) {
-                // 1.16 and below
-                try {
-                    final Object nmsWorld = block.getWorld().getClass().getMethod("getHandle").invoke(block.getWorld());
-                    final String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-                    final Class<?> blockPositionClass = Class.forName("net.minecraft.server." + version + ".BlockPosition");
-                    final Class<?> tileEntityClass = Class.forName("net.minecraft.server." + version + ".TileEntitySkull");
-                    final Constructor<?> cons = blockPositionClass.getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE);
-                    final Object blockPosition = cons.newInstance(block.getX(), block.getY(), block.getZ());
-                    final Method getTileEntity = nmsWorld.getClass().getMethod("getTileEntity", blockPositionClass);
-                    final Object tileEntity = tileEntityClass.cast(getTileEntity.invoke(nmsWorld, blockPosition));
-                    tileEntityClass.getMethod("setGameProfile", GameProfile.class).invoke(tileEntity, profile);
-                } catch (final IllegalArgumentException | IllegalAccessException | SecurityException | NoSuchMethodException | InvocationTargetException | ClassNotFoundException | InstantiationException e) {
-                    main.getLogger().warning("Could not set custom base64 player head.");
-                }
-            }
+            NMSHandler.createHeadInWorld(block, profile);
 
         }
     }

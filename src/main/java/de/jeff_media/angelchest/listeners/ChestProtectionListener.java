@@ -40,7 +40,7 @@ public final class ChestProtectionListener implements Listener {
         final AngelChest angelChest = main.getAngelChest(event.getBlock());
         assert angelChest != null;
         if (!main.protectionUtils.playerMayOpenThisChest(event.getPlayer(), angelChest)) {
-            Messages.send(event.getPlayer(),main.messages.MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS);
+            Messages.send(event.getPlayer(), main.messages.MSG_NOT_ALLOWED_TO_BREAK_OTHER_ANGELCHESTS);
             event.setCancelled(true);
             return;
         }
@@ -75,7 +75,7 @@ public final class ChestProtectionListener implements Listener {
         if (event.getBlock().getRelative(BlockFace.UP).getPistonMoveReaction() != PistonMoveReaction.BREAK) return;
 
         event.setCancelled(true);
-        if(main.debug) main.debug("Preventing BlockBreakEvent because it interferes with AngelChest.");
+        if (main.debug) main.debug("Preventing BlockBreakEvent because it interferes with AngelChest.");
 
     }
 

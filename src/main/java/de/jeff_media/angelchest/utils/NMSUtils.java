@@ -15,28 +15,28 @@ public class NMSUtils {
     public static Class<?> getNMSClass(String nmsClassString) throws ClassNotFoundException {
         String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] + ".";
         String name = "net.minecraft.server." + version + nmsClassString;
-        return  Class.forName(name);
+        return Class.forName(name);
     }
 
     public static Class<?> getBukkitNMSClass(final String nmsClassString) throws ClassNotFoundException {
         final String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] + ".";
         final String name = "org.bukkit.craftbukkit." + version + nmsClassString;
-        return  Class.forName(name);
+        return Class.forName(name);
     }
 
     public static @Nullable Object getConnection(final Player player) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
 
-            final Method getHandle = player.getClass().getMethod("getHandle");
-            final Object nmsPlayer = getHandle.invoke(player);
-            final Field conField = nmsPlayer.getClass().getField("playerConnection");
-            final Object con = conField.get(nmsPlayer);
-            return con;
+        final Method getHandle = player.getClass().getMethod("getHandle");
+        final Object nmsPlayer = getHandle.invoke(player);
+        final Field conField = nmsPlayer.getClass().getField("playerConnection");
+        final Object con = conField.get(nmsPlayer);
+        return con;
     }
 
     public static GameProfile getGameProfile(OfflinePlayer player) {
         try {
-            Object entityPlayer = player.getClass().getMethod("getHandle").invoke(player,null);
-            return (GameProfile) entityPlayer.getClass().getMethod("getProfile").invoke(entityPlayer,null);
+            Object entityPlayer = player.getClass().getMethod("getHandle").invoke(player, null);
+            return (GameProfile) entityPlayer.getClass().getMethod("getProfile").invoke(entityPlayer, null);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

@@ -75,12 +75,13 @@ public final class Watchdog {
      */
     private void restore() {
         final List<String> leftoverArmorStandUUIDs = yaml.getStringList("armorstands");
-        if(main.debug) main.debug(String.format("Removing %d leftover armor stands...", leftoverArmorStandUUIDs.size()));
+        if (main.debug)
+            main.debug(String.format("Removing %d leftover armor stands...", leftoverArmorStandUUIDs.size()));
         for (final String entry : leftoverArmorStandUUIDs) {
             final UUID uuid = UUID.fromString(entry);
             final Entity entity = Bukkit.getEntity(uuid);
             if (entity instanceof ArmorStand) {
-                if(main.debug) main.debug("Removed leftover armor stand " + entry + ": " + entity.getCustomName());
+                if (main.debug) main.debug("Removed leftover armor stand " + entry + ": " + entity.getCustomName());
                 entity.remove();
             }
         }
@@ -97,11 +98,11 @@ public final class Watchdog {
         //Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
         final int unsavedArmorStands = getCurrentUnsavedArmorStands();
         if (unsavedArmorStands == 0) {
-            if(main.debug) main.debug("Removing watchdog file: 0 unsaved armor stands");
+            if (main.debug) main.debug("Removing watchdog file: 0 unsaved armor stands");
             removeFile();
             return;
         }
-        if(main.debug) main.debug("Saving watchdog file: " + unsavedArmorStands + " unsaved armor stands");
+        if (main.debug) main.debug("Saving watchdog file: " + unsavedArmorStands + " unsaved armor stands");
         final List<String> list = new ArrayList<>();
         for (final UUID uuid : main.getAllArmorStandUUIDs()) {
             list.add(uuid.toString());

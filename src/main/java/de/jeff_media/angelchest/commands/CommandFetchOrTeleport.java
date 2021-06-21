@@ -14,6 +14,9 @@ import org.bukkit.entity.Player;
 import org.javatuples.Triplet;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Handles /acfetch and /actp
+ */
 public final class CommandFetchOrTeleport implements CommandExecutor {
 
     final Main main;
@@ -38,7 +41,7 @@ public final class CommandFetchOrTeleport implements CommandExecutor {
         }
 
         if (!requester.hasPermission(action.getPermission())) {
-            Messages.send(requester,main.messages.MSG_NO_PERMISSION);
+            Messages.send(requester, main.messages.MSG_NO_PERMISSION);
             return true;
         }
 

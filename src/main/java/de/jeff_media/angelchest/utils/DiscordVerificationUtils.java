@@ -34,7 +34,7 @@ public final class DiscordVerificationUtils {
 
         final File verifyFile = new File(main.getDataFolder(), "discord-verification.html");
         if (!verifyFile.exists()) {
-            for (final String line : new String[] {"§b=====================================================", "§b                 Discord Verification", "§b", "§bThank you for buying AngelChestPlus. To get exclusive", "§bDiscord support, you have to verify your copy of", "§bAngelChestPlus. Just take a look at the following file:", "§b", "§b" + verifyFile.getAbsolutePath(), "§b====================================================="}) {
+            for (final String line : new String[]{"§b=====================================================", "§b                 Discord Verification", "§b", "§bThank you for buying AngelChestPlus. To get exclusive", "§bDiscord support, you have to verify your copy of", "§bAngelChestPlus. Just take a look at the following file:", "§b", "§b" + verifyFile.getAbsolutePath(), "§b====================================================="}) {
                 main.getLogger().warning(line);
             }
             main.saveResource("discord-verification.html", false);

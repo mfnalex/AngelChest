@@ -1,19 +1,17 @@
 package de.jeff_media.angelchest.nms;
 
+import com.mojang.authlib.GameProfile;
 import de.jeff_media.angelchest.Main;
-import de.jeff_media.angelchest.config.Config;
-import de.jeff_media.angelchest.utils.NMSUtils;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.lang.reflect.Method;
-
 public class NMSHandler {
 
-    static AbstractNMSHandler instance;
     private static final Main main = Main.getInstance();
+    static AbstractNMSHandler instance;
 
     static {
         init();
@@ -41,7 +39,7 @@ public class NMSHandler {
     }
 
     public static boolean playTotemAnimation(Player p, int customModelData) {
-        if(instance == null) return false;
+        if (instance == null) return false;
 
         ItemStack totem = new ItemStack(Material.TOTEM_OF_UNDYING);
         ItemMeta meta = totem.getItemMeta();
@@ -53,6 +51,9 @@ public class NMSHandler {
         p.getInventory().setItemInMainHand(hand);
 
         return true;
+    }
 
+    public static void createHeadInWorld(final Block block, final GameProfile profile) {
+        instance.createHeadInWorld(block, profile);
     }
 }

@@ -86,11 +86,11 @@ public final class Utils {
     }
 
     public static void sendDelayedMessage(final Player p, final String message, final long delay) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), ()->{
+        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
             if (p == null) return;
             if (!(p instanceof Player)) return;
             if (!p.isOnline()) return;
-            Messages.send(p,message);
+            Messages.send(p, message);
         }, delay);
     }
 

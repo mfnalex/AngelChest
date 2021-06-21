@@ -36,11 +36,11 @@ public class CommandArgument {
                         //noinspection deprecation
                         chestOwner = Bukkit.getOfflinePlayer(args[0]);
                         if (chestOwner == null) {
-                            Messages.send(requester,String.format(Main.getInstance().messages.MSG_UNKNOWN_PLAYER, args[0]));
+                            Messages.send(requester, String.format(Main.getInstance().messages.MSG_UNKNOWN_PLAYER, args[0]));
                             return null;
                         }
                     } else {
-                        Messages.send(requester,Main.getInstance().messages.MSG_NO_PERMISSION);
+                        Messages.send(requester, Main.getInstance().messages.MSG_NO_PERMISSION);
                         return null;
                     }
                 } else if (args.length == 1) {
@@ -56,12 +56,12 @@ public class CommandArgument {
                         //noinspection deprecation
                         chestOwner = Bukkit.getOfflinePlayer(args[0]);
                         if (chestOwner == null) {
-                            Messages.send(requester,String.format(Main.getInstance().messages.MSG_UNKNOWN_PLAYER, args[0]));
+                            Messages.send(requester, String.format(Main.getInstance().messages.MSG_UNKNOWN_PLAYER, args[0]));
                             return null;
                         }
                         chest = null;
                     } else {
-                        Messages.send(requester,Main.getInstance().messages.MSG_NO_PERMISSION);
+                        Messages.send(requester, Main.getInstance().messages.MSG_NO_PERMISSION);
                         return null;
                     }
                 }
@@ -71,16 +71,16 @@ public class CommandArgument {
             if (requester instanceof Player) {
                 chestOwner = (Player) requester;
             } else {
-                Messages.send(requester,Main.getInstance().messages.MSG_MUST_SPECIFY_PLAYER);
+                Messages.send(requester, Main.getInstance().messages.MSG_MUST_SPECIFY_PLAYER);
                 return null;
             }
         }
 
         final Main main = Main.getInstance();
-        if(main.debug) main.debug("===== CommandArgument Parser =====");
-        if(main.debug) main.debug("Requester  = " + requester.getName());
-        if(main.debug) main.debug("ChestOwner = " + chestOwner.getName());
-        if(main.debug) main.debug("Chest      = " + chest);
+        if (main.debug) main.debug("===== CommandArgument Parser =====");
+        if (main.debug) main.debug("Requester  = " + requester.getName());
+        if (main.debug) main.debug("ChestOwner = " + chestOwner.getName());
+        if (main.debug) main.debug("Chest      = " + chest);
 
         return new CommandArgument(requester, chest, chestOwner);
     }

@@ -35,7 +35,8 @@ public final class HologramFixer {
         }
 
         if (!deadLocations.isEmpty()) {
-            if(main.debug) main.debug("HologramFixer: Found and removed " + deadLocations.size() + " dead holograms in world " + world.getName());
+            if (main.debug)
+                main.debug("HologramFixer: Found and removed " + deadLocations.size() + " dead holograms in world " + world.getName());
         }
 
         return deadLocations.size();

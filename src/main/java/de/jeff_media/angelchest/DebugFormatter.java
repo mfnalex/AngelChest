@@ -9,11 +9,11 @@ import java.util.logging.LogRecord;
 
 public class DebugFormatter extends Formatter {
 
-    private final Date date = new Date();
     private static final String format = "{0,time}";
-    private MessageFormat formatter;
+    private final Date date = new Date();
     private final Object[] args = new Object[1];
     private final String newLine = System.lineSeparator();
+    private MessageFormat formatter;
 
     @Override
     public synchronized String format(final LogRecord record) {
@@ -23,12 +23,11 @@ public class DebugFormatter extends Formatter {
 
         // Date and time
         final StringBuffer text = new StringBuffer("[");
-        if(formatter == null) {
+        if (formatter == null) {
             formatter = new MessageFormat(format);
         }
-        formatter.format(args,text,null);
+        formatter.format(args, text, null);
         sb.append(text).append("] ");
-
 
 
         final String message = formatMessage(record);

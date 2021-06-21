@@ -46,7 +46,7 @@ public final class PistonListener implements Listener {
         for (final Block block : affectedBlocks) {
             if (main.isAngelChest(block) || main.isAngelChest(block.getRelative(BlockFace.UP))) {
                 event.setCancelled(true);
-                if(main.debug) main.debug("BlockPistonExtendEvent cancelled because AngelChest is affected");
+                if (main.debug) main.debug("BlockPistonExtendEvent cancelled because AngelChest is affected");
                 return;
             }
         }
@@ -76,7 +76,7 @@ public final class PistonListener implements Listener {
         for (final Block block : affectedBlocks) {
             if (main.isAngelChest(block) || main.isAngelChest(block.getRelative(BlockFace.UP))) {
                 event.setCancelled(true);
-                if(main.debug) main.debug("BlockPistonRetractEvent cancelled because AngelChest is affected");
+                if (main.debug) main.debug("BlockPistonRetractEvent cancelled because AngelChest is affected");
                 return;
             }
         }

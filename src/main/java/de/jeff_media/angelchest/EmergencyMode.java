@@ -8,6 +8,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+/**
+ * Emergency mode. Gets enabled when a config file is broken, the free AND paid version are installed
+ * or when using MC 1.13.1 or older
+ */
 public final class EmergencyMode {
 
     public static final String[] BROKEN_CONFIG_FILE = {"§c ", "§c§l! ! !W A R N I N G ! ! !", "§cYour AngelChest config file \"{filename}\" is broken!", "§cThis can happen if you messed up the YAML syntax while editing the file,", "§cor when you used an editor that does not support UTF8.", "§cPlease do NOT use online / web editors to edit the file.", "§cPlease delete the file and use a fresh copy to start editing it again.", "§cYou can validate YAML files here: http://www.yamllint.com/", "§cContact me on Discord if you need help:", "§c-> " + Main.DISCORD_LINK + " <-", "§c", "§c(This message is only shown to server operators)"};
@@ -16,9 +20,9 @@ public final class EmergencyMode {
 
     public static void severe(final String[] text) {
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), ()->{
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), () -> {
             for (final Player player : Bukkit.getOnlinePlayers()) {
-                Messages.send(player,text);
+                Messages.send(player, text);
             }
             for (final String line : text) {
                 Main.getInstance().getLogger().severe(line);
@@ -26,9 +30,9 @@ public final class EmergencyMode {
         }, 0, Ticks.fromSeconds(30));
 
         Bukkit.getPluginManager().registerEvent(PlayerJoinEvent.class, new Listener() {
-        }, EventPriority.MONITOR, ((listener, event)->{
+        }, EventPriority.MONITOR, ((listener, event) -> {
             final PlayerJoinEvent playerJoinEvent = (PlayerJoinEvent) event;
-            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), ()->Messages.send(playerJoinEvent.getPlayer(),text), Ticks.fromSeconds(0.5));
+            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Messages.send(playerJoinEvent.getPlayer(), text), Ticks.fromSeconds(0.5));
         }), Main.getInstance());
 
 
