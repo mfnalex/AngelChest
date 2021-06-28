@@ -311,6 +311,42 @@ only-drop-heads-in-pvp: true
 dont-store-heads-in-angelchest: true
 
 #########################
+####    Graveyards   ####
+#########################
+
+# PREMIUM FEATURE: Only available in AngelChest Plus!
+
+# You can define graveyards to use for spawning AngelChests instead of the player's
+# death location.
+# IMPORTANT: Please see the graveyards.example.yml file for more information.
+# Everything defined here are the GLOBAL graveyard settings. You can define
+# individual graveyards in the graveyards.yml file. You must rename the
+# graveyards.example.yml file to graveyards.yml to enable Graveyards features.
+
+# What happens when the closest graveyard in the current world is full?
+# When true, AngelChest will search for the next graveyard in the same world.
+# When false, or when all graveyards in this world are full, see option below
+try-closest-graveyard: true
+
+# What happens when all graveyards in this world are full, or when there are no
+# graveyards defined for this world?
+# When true, AngelChest will try to bury the player at the global graveyard.
+# When false, or when the global graveyard is also full, see option below
+try-global-graveyard: true
+
+# What happens when the global graveyard is full too?
+# When true, AngelChest will spawn the chest at the player's death location.
+# When false, the player will die like in vanilla and does not get any AngelChest.
+use-deathlocation: true
+
+
+
+# When true, players will be sent to another graveyard in the same world
+# when the nearest graveyard is full.
+
+
+
+#########################
 ####     Economy     ####
 #########################
 

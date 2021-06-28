@@ -10,6 +10,15 @@
 # Optional values:
 
 
+#  global: When set to true, players will be sent to this graveyard when there is no graveyard in the player's current world.
+#          You should only define one global graveyard.
+#          When not set, it defaults to false.
+#
+#    Example:
+#
+#    global: true
+
+
 #  only-spawn-on: When set, the graves will only spawn on top of the given blocks.
 #                 When not set, graves can spawn on top of any block.
 #
@@ -34,18 +43,32 @@
 #
 #    hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&7{items} items / {xp} XP\n&6{time}\n&cKilled by {deathcause}"
 
-graveyard1:
+
+#  when-full: What should happen when the closest graveyard in the same world is full?
+#
+#             Possible values:
+#               closest       - Send player to the closest graveyard in the same world that's not full
+#               deathlocation - Create the AngelChest at the player's death location
+#               global        - Send the player to the global graveyard that can be in another world.
+#                               (See config.yml, you must define a global graveyard
+
+
+
+global-graveyard:
+  global: true
   location:
     world: world
     min:
-      x: -25
+      x: -50
       y: 64
-      z: -25
+      z: -50
     max:
-      x: 25
+      x: 50
       y: 80
-      z: 25
+      z: 50
   only-spawn-on:
     - ROOTED_DIRT
   material: DIRT
   hologram: "&c[RIP]\n§a{player}"
+other-graveyard:
+  ...

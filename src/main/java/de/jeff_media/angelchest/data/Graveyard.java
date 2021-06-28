@@ -27,15 +27,17 @@ public class Graveyard {
     private final List<Block> cachedValidGraveLocations = new ArrayList<>();
     private final Material material;
     private final String hologramText;
+    private final boolean global;
 
     private static final Main main = Main.getInstance();
 
-    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable Material material, @Nullable String hologramText) {
+    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable Material material, @Nullable String hologramText, boolean global) {
         this.name = name;
         this.boundingBox = worldBoundingBox;
         this.spawnOn = spawnOn;
         this.material = material;
         this.hologramText = hologramText;
+        this.global = global;
         populateBlocksInsideAsync();
     }
 
@@ -92,7 +94,9 @@ public class Graveyard {
             hologram = null;
         }
 
-        return new Graveyard(name, boundingBox, spawnOn, material, hologram);
+        boolean global = config.getBoolean("global", false);
+
+        return new Graveyard(name, boundingBox, spawnOn, material, hologram, global);
     }
 
 /*    private void populateBlocksInside() {
@@ -212,17 +216,16 @@ public class Graveyard {
 
     @NotNull
     public Collection<Block> getFreeSpots() {
-        TimeUtils.startTimings("getFreeSpots");
         HashSet<Block> blocks = new HashSet<>();
         for (Block block : cachedValidGraveLocations) {
             if (isValidSpawnOn(block)) blocks.add(block);
         }
-        TimeUtils.endTimings("getFreeSpots");
         return blocks;
     }
 
     @Nullable
     public Block getFreeSpot() {
+        Collections.shuffle(cachedValidGraveLocations);
         for (Block block : cachedValidGraveLocations) {
             if (isValidSpawnOn(block)) return block;
         }
