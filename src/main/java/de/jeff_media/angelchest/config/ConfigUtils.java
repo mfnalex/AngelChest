@@ -5,6 +5,7 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.data.BlacklistEntry;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIManager;
+import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.hooks.ExecutableItemsHook;
 import de.jeff_media.angelchest.hooks.GenericHooks;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
@@ -481,6 +482,9 @@ sound-channel: BLOCKS
         main.guiManager = new GUIManager();
         main.itemBlacklist = loadItemBlacklist();
         main.nbtUtils = new NBTUtils();
+
+        GraveyardManager.init();
+
         //main.debugger = new AngelChestDebugger(main);
         if (reload) {
             main.loadAllAngelChestsFromFile();

@@ -8,6 +8,7 @@ import de.jeff_media.jefflib.Ticks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -86,7 +87,9 @@ public final class Logger {
         write("Death Time: " + timestamp, file);
         write("Death Location: " + loc2string(event.getEntity().getLocation()), file);
         write("Chest Location: " + loc2string(ac.block.getLocation()), file);
-        write("Death Cause: " + event.getEntity().getLastDamageCause().getCause().name(), file);
+        EntityDamageEvent damageEvent = event.getEntity().getLastDamageCause();
+        EntityDamageEvent.DamageCause damageCause  = damageEvent == null ? null : damageEvent.getCause();
+        write("Death Cause: " + (damageCause == null ? null : damageCause.name()), file);
         write("Player XP: " + event.getEntity().getExp(), file);
         write("Chest XP: " + ac.experience, file);
         write("Chest Protection: " + ac.isProtected, file);

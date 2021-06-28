@@ -1,0 +1,42 @@
+##### PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
+
+# You can define certain graveyard areas here. If a player dies in a world where graveyards are enabled,
+# the AngelChest will not spawn at the player's death location, but somewhere inside the nearest graveyard.
+# Chunks containing graveyard's will never be unloaded.
+
+# Every graveyard must have specified AT LEAST the location (world, min.x, min.y, min.z, max.x, max.y, max.z)
+
+
+# Optional values:
+
+
+#  only-spawn-on: When set, the graves will only spawn on top of the given blocks.
+#                 When not set, graves can spawn on top of any block.
+#
+#    Example:
+#
+#    only-spawn-on:
+#      - DIRT
+#      - GRAVEL
+
+
+#  hologram-text: Set a custom hologram text that only applies to graves in this graveyard.
+#
+#    Example:
+#
+#    hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&7{items} items / {xp} XP\n&6{time}\n&cKilled by {deathcause}"
+
+graveyard1:
+  location:
+    world: world
+    min:
+      x: -25
+      y: 64
+      z: -25
+    max:
+      x: 25
+      y: 80
+      z: 25
+  only-spawn-on:
+    - GRAVEL
+  material: DIRT

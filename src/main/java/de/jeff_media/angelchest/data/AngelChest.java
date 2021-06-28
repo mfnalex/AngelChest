@@ -7,6 +7,7 @@ import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
@@ -50,6 +51,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public Inventory overflowInv;
     public UUID owner;
     public UUID killer;
+    public @Nullable Graveyard graveyard;
     public Set<ItemStack> randomlyLostItems = null;
     public int secondsLeft;
     public ItemStack[] storageInv;
@@ -96,6 +98,15 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.price = yaml.getDouble(ChestYaml.PRICE, main.getConfig().getDouble(Config.PRICE));
         this.logfile = yaml.getString("logfile", null);
         this.created = yaml.getLong("created", 0);
+
+        if(yaml.isSet("graveyard")) {
+            Graveyard yard = GraveyardManager.fromName(yaml.getString("graveyard"));
+            if(yard == null) {
+                main.getLogger().warning("AngelChest loaded in removed Graveyard " + yaml.getString("graveyard"));
+            } else {
+                this.graveyard = yard;
+            }
+        }
 
         if (yaml.isSet("deathCause")) {
             this.deathCause = yaml.getSerializable("deathCause", DeathCause.class);
@@ -233,6 +244,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.deathCause = deathCause;
         this.blacklistedItems = new ArrayList<>();
         this.created = System.currentTimeMillis();
+        this.graveyard = GraveyardManager.fromBlock(block);
 
         if (player.getKiller() == null) {
             if (deathCause.isEnderCrystalDeath() && EnderCrystalListener.lastEnderCrystalKiller != null && !EnderCrystalListener.lastEnderCrystalKiller.equals(owner)) {
@@ -315,6 +327,11 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         return items;
     }
 
+    @Nullable
+    public Graveyard getGraveyard() {
+        return graveyard;
+    }
+
     public void createChest(final Block block, final UUID uuid) {
         createChest(block, uuid, true);
     }
@@ -350,7 +367,16 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param uuid  Owner of this AngelChest
      */
     public void createHologram(final Block block, final UUID uuid) {
-        final String hologramText = main.messages.HOLOGRAM_TEXT.replaceAll("\\{player}", Objects.requireNonNull(main.getServer().getOfflinePlayer(uuid).getName())).replaceAll("\\{deathcause}", deathCause.getText());
+        String hologramText = main.messages.HOLOGRAM_TEXT;
+
+        Graveyard graveyard = GraveyardManager.fromBlock(block);
+        if(graveyard != null) {
+            if(graveyard.hasCustomHologram()) {
+                hologramText = graveyard.getCustomHologram();
+            }
+        }
+
+        hologramText = hologramText.replaceAll("\\{player}", Objects.requireNonNull(main.getServer().getOfflinePlayer(uuid).getName())).replaceAll("\\{deathcause}", deathCause.getText());
         hologram = new Hologram(block, hologramText, this);
     }
 

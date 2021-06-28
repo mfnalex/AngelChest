@@ -6,9 +6,11 @@ import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.DeathCause;
+import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.events.AngelChestSpawnEvent;
 import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
+import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nms.NMSHandler;
 import de.jeff_media.angelchest.utils.*;
@@ -208,7 +210,7 @@ public final class PlayerListener implements Listener {
      */
     @SuppressWarnings("unused")
     @EventHandler
-    public void onDeath(final PlayerDeathEvent event) {
+    public void autoRespawn(final PlayerDeathEvent event) {
         if (!main.getConfig().getBoolean(Config.AUTO_RESPAWN)) return;
         final int delay = main.getConfig().getInt(Config.AUTO_RESPAWN_DELAY);
 
@@ -547,8 +549,23 @@ public final class PlayerListener implements Listener {
         if (main.debug) main.debug("FixedPlayerPosition: " + fixedPlayerPosition);
         Block angelChestBlock = AngelChestUtils.getChestLocation(fixedPlayerPosition);
 
+        // Graveyards start
+        if(Daddy.allows(PremiumFeatures.GRAVEYARDS)) {
+            if(GraveyardManager.hasGraveyard(angelChestBlock.getWorld())) {
+                Block grave = GraveyardManager.getGraveLocation(angelChestBlock.getLocation());
+                if(grave == null) {
+                    main.getLogger().warning("Could not find a matching grave. Using normal death location.");
+                } else {
+                    angelChestBlock = grave;
+                }
+            }
+        }
+        // Graveyards end
+
         // Calling Event
-        final AngelChestSpawnPrepareEvent angelChestSpawnPrepareEvent = new AngelChestSpawnPrepareEvent(p, angelChestBlock, p.getLastDamageCause().getCause(), event);
+        EntityDamageEvent lastDamageEvent = p.getLastDamageCause();
+        EntityDamageEvent.DamageCause lastDamageCause = lastDamageEvent == null ? null : lastDamageEvent.getCause();
+        final AngelChestSpawnPrepareEvent angelChestSpawnPrepareEvent = new AngelChestSpawnPrepareEvent(p, angelChestBlock, lastDamageCause, event);
         Bukkit.getPluginManager().callEvent(angelChestSpawnPrepareEvent);
         if (angelChestSpawnPrepareEvent.isCancelled()) {
             if (main.debug) main.debug("AngelChestCreateEvent has been cancelled!");

@@ -1,3 +1,11 @@
+## 4.0.0-SNAPSHOT
+
+- Added Graveyards!
+  - You can define any amount of Graveyards per world.
+  - When a player dies in a world with a graveyard, their chest will be put into the nearest graveyard
+  - You can define certain ground materials for the chests to spawn on
+- Fixed exception when player died do to Player#setHealth(0) without having taken damage before
+
 ## 3.29.0
 
 - Made damage causes shown in the hologram customizable

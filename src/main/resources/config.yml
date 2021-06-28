@@ -81,7 +81,7 @@ angelchest-duration: 600
 # giving players the angelchest.group.<groupname> permission. See
 # groups.example.yml for more information.
 # Default is 0 = never
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 unlock-duration: 0
 
 # The maximum amount of AngelChests a player may have at the same time.
@@ -103,7 +103,7 @@ dont-protect-chest-if-player-died-in-pvp: false
 # When true, the XP (see "xp-percentage" below) is collected, too.
 # When false, XP drops normally
 # When set to "nopvp", the XP is not collected if the player died during PvP.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! (Free version always stores the vanilla XP amount)
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus! (Free version always stores the vanilla XP amount)
 collect-xp: true
 
 # Amount of XP the player keeps within their chest on death.
@@ -113,7 +113,7 @@ collect-xp: true
 # You can override this for certain players by setting up groups
 # and giving players the angelchest.group.<groupname> permission.
 # See groups.example.yml for more information.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! (Free version always uses vanilla XP amount)
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus! (Free version always uses vanilla XP amount)
 xp-percentage: -1
 
 # Global chance for spawning an AngelChest
@@ -123,14 +123,14 @@ xp-percentage: -1
 # You can override this for certain players by setting up groups and
 # giving players the angelchest.group.<groupname> permission. See
 # groups.example.yml for more information.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 spawn-chance: 1.0
 
 # You can define an amount of item stacks that will be randomly lost on death.
 # You can also adjust the item loss individually for each group. See groups.example.yml
 # You can also add the letter "p" to the end of the number to use percentages.
 # E.g. when using "0.2p", 20% of item stacks will be lost.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 random-item-loss: 0
 
 # When set to true, players will receive a message telling them where the AngelChest
@@ -143,7 +143,7 @@ show-location: true
 show-location-on-join: true
 
 # Whether to show a message to the AngelChest owner when other players open or empty their chest
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 show-message-when-other-player-opens-angelchest: true
 show-message-when-other-player-empties-angelchest: true
 
@@ -153,7 +153,7 @@ show-message-when-other-player-empties-angelchest: true
 # true    - Opens the main GUI showing all AngelChests or the latest if you only have one
 # latest  - Opens the GUI showing the latest AngelChest only
 # false   - Do not open the GUI automatically
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 show-gui-after-death: false
 
 # When "show-gui-after-death" is enabled ("latest" or "true"), only show the GUI if the
@@ -169,7 +169,7 @@ material: CHEST
 
 # You can choose another Material to use for unlocked
 # AngelChests.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 use-different-material-when-unlocked: false
 material-unlocked: ENDER_CHEST
 
@@ -197,20 +197,20 @@ lava-detection: true
 dont-spawn-chest-directly-below-other-blocks: false
 
 # When false, AngelChests will not be spawned for players who died in lava
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 allow-chest-in-lava: true
 
 # When false, AngelChests will not be spawned for players who died in the void
 # NOTE: The vanilla /kill command will cause void damage, so when you set this to
 # false, using /kill or /minecraft:kill will prevent the AngelChest from spawning
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 allow-chest-in-void: true
 
 # When set to a value above 0, players will get invulnerability for this amount of seconds
 # after teleporting themselves to their chest.
 # Consider to only use this when you set a price for teleporting the chest, otherwise it
 # could be abused.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 invulnerability-after-tp: 0
 
 # You probably don't want your AngelChest to spawn on blocks like GRASS_PATH, FARMLAND, etc.
@@ -254,7 +254,7 @@ totem-of-undying-works-everywhere: true
 # When true, players who have an AngelChest spawned will be shown the Totem of Undying animation
 # If you are using a custom resource pack, you can also enter a custom model data to change
 # the appearance of the totem
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 play-totem-animation: false
 totem-custom-model-data: 0
 
@@ -299,15 +299,15 @@ check-interval: 4
 # That means that no heads will drop when the player does not have the
 # angelchest.use permission, if they don't have enough money for the chest,
 # or if they die in a blacklisted world / region.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 drop-heads: false
 
 # When set to true, heads are only dropped when a player dies in PvP
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 only-drop-heads-in-pvp: true
 
 # When set to true, heads are dropped next to the AngelChest instead of being put inside
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 dont-store-heads-in-angelchest: true
 
 #########################
@@ -326,7 +326,7 @@ dont-store-heads-in-angelchest: true
 # How much does it cost to spawn the AngelChest? The amount will automatically
 # be taken from the player on death if they have enough money, otherwise
 # the chest will not spawn and the items drop normally
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 price: 0
 
 # You can refund the price when a player does not to open their AngelChest
@@ -335,7 +335,7 @@ refund-expired-chests: false
 
 # How much does it cost for a player to open a chest? Each player will only be
 # charged once per chest.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 price-open: 0
 
 # How much does it cost to teleport yourself to one of your AngelChests?
@@ -363,7 +363,7 @@ allow-fetch-across-worlds: true
 # If set to 0, players can teleport/fetch regardless of the distance to their chest.
 # When using this, consider to disallow TPing or fetching between worlds because
 # otherwise players could just bypass this by going into another world.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! Free version will always use 0
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus! Free version will always use 0
 max-tp-distance: 0
 max-fetch-distance: 0
 
@@ -379,7 +379,7 @@ min-distance: 0
 # You can have sound effects when fetching or teleporting to your chests, if you feel like it.
 # See here for the sound names of the current version:
 # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus! Free version will always use 0
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus! Free version will always use 0
 play-sound-on-tp: true
 play-sound-on-fetch: true
 sound-effect: ENTITY_EXPERIENCE_ORB_PICKUP
@@ -426,7 +426,7 @@ disabled-worlds:
 #### WorldGuard Flags ####
 ##########################
 
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 # AngelChestPlus currently has one custom WorldGuard flag:
 
 # allow-angelchest:
@@ -553,17 +553,17 @@ hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&7{items} items / {xp} XP\n&6{ti
 
 # This text is added to the hologram where you have {protected} in your "hologram-text"
 # and if your AngelChest is protected and auto unlocking is disabled.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 hologram-protected-text: "&cProtected"
 
 # This text is added to the hologram where you have {protected} in your "hologram-text"
 # and if your AngelChest is protected and auto unlocking is enabled.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 hologram-protected-countdown-text: "&cProtected for {time}"
 
 # This text is added to the hologram where you have {protected} in your "hologram-text"
 # and if your AngelChest is unprotected.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 hologram-unprotected-text: "&aUnprotected"
 
 # If you think the hologram is displayed too high, you can change this number.
@@ -663,7 +663,7 @@ prefix: "&b[&aAngelChest&b] &r"
 ############################
 
 # You can change the command aliases for all player commands here.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 
 # Commands that can be used instead of /acgui
 command-aliases-acgui:
@@ -723,7 +723,7 @@ console-message-on-open: false
 # Log all created AngelChests, including content, death location, death cause, death time and player' inventory content.
 # Also logs what items have been put into the chest and when a chest has been emptied.
 # Note: Taking out single items from the chest is currently NOT logged! That will be added in the future.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChestPlus!
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 log-angelchests: false
 
 # The amount of hours until log files are removed again. Set to -1 to never remove the log files

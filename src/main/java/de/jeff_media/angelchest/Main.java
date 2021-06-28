@@ -12,6 +12,7 @@ import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIListener;
 import de.jeff_media.angelchest.gui.GUIManager;
+import de.jeff_media.angelchest.handlers.ChunkManager;
 import de.jeff_media.angelchest.hooks.GenericHooks;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
 import de.jeff_media.angelchest.hooks.PlaceholderAPIHook;
@@ -21,11 +22,11 @@ import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
 import de.jeff_media.jefflib.JeffLib;
+import de.jeff_media.jefflib.updatechecker.UpdateChecker;
+import de.jeff_media.jefflib.McVersion;
 import de.jeff_media.jefflib.Ticks;
-import de.jeff_media.jefflib.VersionUtil;
 import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
-import de.jeff_media.updatechecker.UpdateChecker;
-import de.jeff_media.updatechecker.UserAgentBuilder;
+import de.jeff_media.jefflib.updatechecker.UserAgentBuilder;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.*;
@@ -188,6 +189,13 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     public Material getChestMaterial(final AngelChest chest) {
         if (!Daddy.allows(PremiumFeatures.GENERIC)) {
             return chestMaterial;
+        }
+        if(Daddy.allows(PremiumFeatures.GRAVEYARDS)) {
+            if(chest.getGraveyard() != null) {
+                if(chest.getGraveyard().hasCustomMaterial()) {
+                    return chest.getGraveyard().getCustomMaterial();
+                }
+            }
         }
         if (!getConfig().getBoolean(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED)) {
             return chestMaterial;
@@ -353,7 +361,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         if (emergencyMode) return;
 
         saveAllAngelChestsToFile(true);
-
+        ChunkManager.reset();
     }
 
     @Override
@@ -369,8 +377,9 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 
         migrateFromAngelChestPlus1X();
         ChestFileUpdater.updateChestFilesToNewDeathCause();
-        if (VersionUtil.getServerBukkitVersion().isLowerThan(VersionUtil.v1_13_2_R01)) {
-            EmergencyMode.severe(EmergencyMode.UNSUPPORTED_MC_VERSION_1_12);
+
+        if (!McVersion.isAtLeast(1,14,1)) {
+            EmergencyMode.severe(EmergencyMode.UNSUPPORTED_MC_VERSION_1_13);
             emergencyMode = true;
             return;
         }
@@ -394,9 +403,6 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         invulnerableTasks = new HashMap<>();
         killers = new HashMap<>();
         logger = new Logger();
-
-        debug("Loading AngelChests from disk");
-        loadAllAngelChestsFromFile();
 
         scheduleRepeatingTasks();
 
@@ -432,12 +438,14 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         getServer().getPluginManager().registerEvents(new ChestProtectionListener(), this);
         getServer().getPluginManager().registerEvents(new PistonListener(), this);
         getServer().getPluginManager().registerEvents(new EmergencyListener(), this);
-        //getServer().getPluginManager().registerEvents(new UpdateCheckListener(), this);
         getServer().getPluginManager().registerEvents(new InvulnerabilityListener(), this);
         getServer().getPluginManager().registerEvents(new EnderCrystalListener(), this);
         //getServer().getPluginManager().registerEvents(new NPCListener(), this);
         guiListener = new GUIListener();
         getServer().getPluginManager().registerEvents(guiListener, this);
+        if(Daddy.allows(PremiumFeatures.GRAVEYARDS)) {
+            getServer().getPluginManager().registerEvents(new GraveyardListener(), this);
+        }
 
 
         if (debug) getLogger().info("Disabled Worlds: " + disabledWorlds.size());
@@ -454,22 +462,14 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
             DiscordVerificationUtils.createVerificationFile();
         }
 
+        debug("Loading AngelChests from disk");
+        loadAllAngelChestsFromFile();
+
     }
 
     @Override
     public void onLoad() {
         instance = this;
-
-        /*debugLogger = java.util.logging.Logger.getLogger("AngelChest Debug");
-        try {
-            FileHandler fileHandler = new FileHandler(getDataFolder() + File.separator + "debug.log");
-            fileHandler.setFormatter(new DebugFormatter());
-            debugLogger.addHandler(fileHandler);
-            debugLogger.setUseParentHandlers(false);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }*/
-
         WorldGuardWrapper.tryToRegisterFlags();
     }
 

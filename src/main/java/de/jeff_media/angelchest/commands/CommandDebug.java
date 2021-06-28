@@ -1,19 +1,22 @@
 package de.jeff_media.angelchest.commands;
 
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.commands.debug.SpamGravesCommand;
 import de.jeff_media.angelchest.config.*;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.BlacklistEntry;
+import de.jeff_media.angelchest.data.Graveyard;
+import de.jeff_media.angelchest.debug.tasks.BlockMarkerTask;
 import de.jeff_media.angelchest.enums.BlacklistResult;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.nms.NMSHandler;
 import de.jeff_media.angelchest.utils.BlacklistUtils;
 import de.jeff_media.angelchest.utils.HologramFixer;
 import de.jeff_media.angelchest.utils.Utils;
 import de.jeff_media.daddy.Daddy;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.World;
+import de.jeff_media.jefflib.ParticleUtils;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,6 +26,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -168,11 +172,10 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
 
         } else {
 
-            Messages.send(commandSender, new String[]{
-                    "§eAvailable blacklist commands:",
+            Messages.send(commandSender, "§eAvailable blacklist commands:",
                     "/acd blacklist add <name> §6Adds current item to to the blacklist as <name>",
                     "/acd blacklist info §6Shows material, name and lore of the current item including the blacklist definition it matches",
-                    "/acd blacklist test <item> §6Shows whether the current item matches a given blacklist definition including the reason when it does not match"});
+                    "/acd blacklist test <item> §6Shows whether the current item matches a given blacklist definition including the reason when it does not match");
         }
 
     }
@@ -373,20 +376,11 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                     Messages.send(commandSender, "§aEnabled AngelChest spawning");
                     return true;
                 case "totemanimation":
-                    if (!(commandSender instanceof Player)) {
-                        commandSender.sendMessage(main.messages.MSG_PLAYERSONLY);
-                        return true;
-                    }
-                    int modelData = main.getConfig().getInt(Config.TOTEM_CUSTOM_MODEL_DATA);
-                    if (args.length > 1) {
-                        try {
-                            modelData = Integer.parseInt(args[1]);
-                        } catch (Exception e) {
-                            commandSender.sendMessage("§c" + args[1] + " is not a valid integer.");
-                            return true;
-                        }
-                    }
-                    NMSHandler.playTotemAnimation((Player) commandSender, modelData);
+                    totemanimation(commandSender, args);
+                    return true;
+
+                case "graveyard":
+                    graveyard(commandSender, args);
                     return true;
 
                 case "dev":
@@ -402,8 +396,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             }
         }
 
-        Messages.send(commandSender, new String[]{
-                "§eAvailable debug commands:",
+        Messages.send(commandSender, "§eAvailable debug commands:",
                 "/acd on §6Enables debug mode",
                 "/acd off §6Disables debug mode",
                 "/acd blacklist §6Shows blacklist information",
@@ -414,16 +407,63 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 "/acd fixholograms §6Removes dead holograms",
                 "/acd disableac §6Disables AngelChest spawning",
                 "/acd enableac §6Enables AngelChest spawning",
-                "/acd totemanimation [id] §6Previews the Totem animation"
-        });
+                "/acd totemanimation [id] §6Previews the Totem animation",
+                "/acd graveyard §6Shows graveyard specific commands");
 
         return true;
     }
 
+    private void graveyard(@NotNull CommandSender commandSender, String[] args) {
+        if (!(commandSender instanceof Player)) {
+            commandSender.sendMessage(main.messages.MSG_PLAYERSONLY);
+            return;
+        }
+
+        Player player = (Player) commandSender;
+
+        if(args.length==2 && args[1].equalsIgnoreCase("showgraves")) {
+            Graveyard graveyard = GraveyardManager.getNearestGraveyard(player.getLocation());
+            if (graveyard == null) {
+                player.sendMessage(ChatColor.RED + "There is no graveyard in this world.");
+                return;
+            }
+            player.sendMessage("Showing borders and graves for Graveyard " + graveyard);
+            //graveyard.getWorldBoundingBox().getMaxBlock().setType(Material.DIAMOND_BLOCK);
+            //player.sendMessage("Max block: " + graveyard.getWorldBoundingBox().getMaxBlock());
+            ParticleUtils.drawHollowCube(graveyard.getWorldBoundingBox().getWorld(), graveyard.getWorldBoundingBox().getBoundingBox(), player, Particle.BARRIER, 5).runTaskTimer(main, 0, 20);
+            new BlockMarkerTask(graveyard, player).runTaskTimer(main, 0, 40);
+        } else if(args.length==3 && args[1].equalsIgnoreCase("spamgraves")) {
+            SpamGravesCommand.run(player, args);
+        } else {
+            Messages.send(commandSender, "§eAvailable graveyard commands:",
+                    "/acd graveyard showgraves §6Shows borders ang graves for the nearest graveyard",
+                    "/acd graveyard spamgraves <count> §6Kills you <count> times in a row");
+        }
+    }
+
+    private void totemanimation(@NotNull CommandSender commandSender, @NotNull String @NotNull [] args) {
+        if (!(commandSender instanceof Player)) {
+            commandSender.sendMessage(main.messages.MSG_PLAYERSONLY);
+            return;
+        }
+        int modelData = main.getConfig().getInt(Config.TOTEM_CUSTOM_MODEL_DATA);
+        if (args.length > 1) {
+            try {
+                modelData = Integer.parseInt(args[1]);
+            } catch (Exception e) {
+                commandSender.sendMessage("§c" + args[1] + " is not a valid integer.");
+                return;
+            }
+        }
+        NMSHandler.playTotemAnimation((Player) commandSender, modelData);
+        return;
+    }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String s, @NotNull final String[] args) {
-        final String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig", "dump", "fixholograms", "disableac", "enableac", "totemanimation"};
+        final String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig", "dump", "fixholograms", "disableac", "enableac", "totemanimation", "graveyard"};
         final String[] blacklistCommands = {"info", "test", "add"};
+        final String[] graveyardCommands = {"showgraves","spamgraves"};
 
         // Debug
         /*main.verbose("args.lengh = "+args.length);
@@ -436,6 +476,9 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         }
         if (args.length == 1) {
             return getMatching(mainCommands, args[0]);
+        }
+        if (args.length == 2 && args[0].equalsIgnoreCase("graveyard")) {
+            return getMatching(graveyardCommands, args[1]);
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("blacklist")) {
             return getMatching(blacklistCommands, args[1]);
