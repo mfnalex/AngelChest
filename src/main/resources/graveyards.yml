@@ -20,6 +20,14 @@
 #      - GRAVEL
 
 
+#  material: When set, the AngelChests in this graveyard will use this material
+#            When not set, AngelChests will use the default material
+#
+#    Example:
+#
+#    material: CANDLE
+
+
 #  hologram-text: Set a custom hologram text that only applies to graves in this graveyard.
 #
 #    Example:
@@ -38,5 +46,6 @@ graveyard1:
       y: 80
       z: 25
   only-spawn-on:
-    - GRAVEL
+    - ROOTED_DIRT
   material: DIRT
+  hologram: "&c[RIP]\n§a{player}"

@@ -6,6 +6,8 @@
   - You can define certain ground materials for the chests to spawn on
 - Fixed exception when player died do to Player#setHealth(0) without having taken damage before
 
+TODO: you can decide whether to take the next nearest graveyard in the same world, or get a normal angelchest, or dropping stuff normally
+
 ## 3.29.0
 
 - Made damage causes shown in the hologram customizable

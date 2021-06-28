@@ -3,18 +3,21 @@ package de.jeff_media.angelchest.data;
 import com.google.common.base.Enums;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.handlers.ChunkManager;
+import de.jeff_media.jefflib.LocationUtils;
 import de.jeff_media.jefflib.TimeUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.World;
+import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BoundingBox;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 public class Graveyard {
 
@@ -25,6 +28,104 @@ public class Graveyard {
     private final Material material;
     private final String hologramText;
 
+    private static final Main main = Main.getInstance();
+
+    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable Material material, @Nullable String hologramText) {
+        this.name = name;
+        this.boundingBox = worldBoundingBox;
+        this.spawnOn = spawnOn;
+        this.material = material;
+        this.hologramText = hologramText;
+        populateBlocksInsideAsync();
+    }
+
+    public static Graveyard fromConfig(ConfigurationSection config) {
+
+        //this.name = config.getName();
+        String name = config.getCurrentPath();
+
+        main.getLogger().info("Loading Graveyard " + name);
+
+        int minX = config.getInt("location.min.x");
+        int minY = config.getInt("location.min.y");
+        int minZ = config.getInt("location.min.z");
+        int maxX = config.getInt("location.max.x");
+        int maxY = config.getInt("location.max.y");
+        int maxZ = config.getInt("location.max.z");
+        World world = Bukkit.getWorld(config.getString("location.world"));
+        if (world == null) {
+            new IllegalArgumentException("World " + config.getString("location.world") + " is not loaded.").printStackTrace();
+        }
+
+        Collection<Material> spawnOn = new ArrayList<>();
+        if (config.isList("only-spawn-on")) {
+            for (String matName : config.getStringList("only-spawn-on")) {
+                Material mat = Enums.getIfPresent(Material.class, matName.toUpperCase(Locale.ROOT)).orNull();
+                if (mat != null) {
+                    spawnOn.add(mat);
+                } else {
+                    Main.getInstance().getLogger().warning("Unknown material defined in graveyard " + name + ": " + matName);
+                }
+            }
+            if (spawnOn.isEmpty()) {
+                spawnOn = null;
+            }
+        } else {
+            spawnOn = null;
+        }
+
+        WorldBoundingBox boundingBox = new WorldBoundingBox(world, BoundingBox.of(world.getBlockAt(minX, minY, minZ), world.getBlockAt(maxX, maxY, maxZ)));
+        Material material;
+        if (config.isSet("material")) {
+            material = Enums.getIfPresent(Material.class, config.getString("material").toUpperCase(Locale.ROOT)).orNull();
+            if (material == null) {
+                Main.getInstance().getLogger().warning("Unknown material specified in Graveyard " + name + ": " + config.getString("material"));
+            }
+        } else {
+            material = null;
+        }
+
+        String hologram;
+        if (config.isSet("hologram-text")) {
+            hologram = config.getString("hologram-text");
+        } else {
+            hologram = null;
+        }
+
+        return new Graveyard(name, boundingBox, spawnOn, material, hologram);
+    }
+
+/*    private void populateBlocksInside() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for(int x = boundingBox.getMinBlock().getX(); x <= boundingBox.getMaxBlock().getX(); x++) {
+                    for(int y = boundingBox.getMinBlock().getY(); y <= boundingBox.getMaxBlock().getY(); y++) {
+                        for(int z = boundingBox.getMinBlock().getZ(); z <= boundingBox.getMaxBlock().getZ(); z++) {
+                            Location location = new Location(getWorldBoundingBox().getWorld(), x,y,z);
+                            if(!PaperLib.isChunkGenerated(location)) continue;
+                            Future<Chunk> future = PaperLib.getChunkAtAsync(location);
+                            while(!future.isDone()) {
+                                try {
+                                    Thread.sleep(20);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                    return;
+                                }
+                            }
+
+                            Block block = boundingBox.getWorld().getBlockAt(x,y,z);
+                            if(isValidSpawnOn(block)) {
+                                cachedValidGraveLocations.add(block);
+                                ChunkManager.keepLoaded(block);
+                            }
+                        }
+                    }
+                }
+                Collections.shuffle(cachedValidGraveLocations);
+            }
+        }.runTaskAsynchronously(Main.getInstance());*/
+
     public List<Block> getCachedValidGraveLocations() {
         return cachedValidGraveLocations;
     }
@@ -33,29 +134,54 @@ public class Graveyard {
         return boundingBox;
     }
 
-    private void populateBlocksInside() {
-        for(int x = boundingBox.getMinBlock().getX(); x <= boundingBox.getMaxBlock().getX(); x++) {
-            for(int y = boundingBox.getMinBlock().getY(); y <= boundingBox.getMaxBlock().getY(); y++) {
-                for(int z = boundingBox.getMinBlock().getZ(); z <= boundingBox.getMaxBlock().getZ(); z++) {
-                    Block block = boundingBox.getWorld().getBlockAt(x,y,z);
-                    if(isValidSpawnOn(block)) {
-                        cachedValidGraveLocations.add(block);
-                        ChunkManager.keepLoaded(block);
+    private void populateBlocksInsideAsync() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                TimeUtils.startTimings("Find grave locations for graveyard " + name);
+                for (int x = boundingBox.getMinBlock().getX(); x <= boundingBox.getMaxBlock().getX(); x += 16) {
+                    for (int z = boundingBox.getMinBlock().getZ(); z <= boundingBox.getMaxBlock().getZ(); z += 16) {
+                        LocationUtils.ChunkCoordinates chunkCoordinates = LocationUtils.getChunkCoordinates(x, z);
+                        Future<Chunk> future = PaperLib.getChunkAtAsync(getWorldBoundingBox().getWorld(), chunkCoordinates.getX(), chunkCoordinates.getZ());
+                        while (!future.isDone() && !future.isCancelled()) {
+                            try {
+                                Thread.sleep(1);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                                future.cancel(false);
+                                return;
+                            }
+                        }
+                        Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                            try {
+                                Chunk chunk = future.get();
+                                for (int bx = 0; bx < 16; bx++) {
+                                    for (int by = (int) boundingBox.getBoundingBox().getMinY(); by < boundingBox.getBoundingBox().getMaxY(); by++) {
+                                        for (int bz = 0; bz < 16; bz++) {
+                                            //Location location = new Location(chunk.getWorld(), bx, by, bz);
+                                            Block block = chunk.getBlock(bx,by,bz);
+                                            if (boundingBox.contains(block)) {
+                                                if (isValidSpawnOn(block)) {
+                                                    /*if(Main.getInstance().debug) {
+                                                        System.out.println("Found valid grave: " + block);
+                                                    }*/
+                                                    cachedValidGraveLocations.add(block);
+                                                    ChunkManager.keepLoaded(block);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } catch (InterruptedException | ExecutionException e) {
+                                e.printStackTrace();
+                            }
+                        });
                     }
                 }
+                Bukkit.getScheduler().runTask(Main.getInstance(), () -> Collections.shuffle(cachedValidGraveLocations));
+                TimeUtils.endTimings("Find grave locations for graveyard " + name,main);
             }
-        }
-        Collections.shuffle(cachedValidGraveLocations);
-
-    }
-
-    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable Material material, @Nullable String hologramText) {
-        this.name = name;
-        this.boundingBox = worldBoundingBox;
-        this.spawnOn = spawnOn;
-        this.material = material;
-        this.hologramText = hologramText;
-        populateBlocksInside();
+        }.runTaskAsynchronously(Main.getInstance());
     }
 
     public boolean hasCustomMaterial() {
@@ -76,61 +202,11 @@ public class Graveyard {
                 '}';
     }
 
-    public static Graveyard fromConfig(ConfigurationSection config) {
-        //this.name = config.getName();
-        String name = config.getCurrentPath();
-        int minX = config.getInt("location.min.x");
-        int minY = config.getInt("location.min.y");
-        int minZ = config.getInt("location.min.z");
-        int maxX = config.getInt("location.max.x");
-        int maxY = config.getInt("location.max.y");
-        int maxZ = config.getInt("location.max.z");
-        World world = Bukkit.getWorld(config.getString("location.world"));
-        if(world == null) {
-            new IllegalArgumentException("World " + config.getString("location.world") + " is not loaded.").printStackTrace();
-        }
-
-        Collection<Material> spawnOn = new ArrayList<>();
-        if(config.isList("only-spawn-on")) {
-            for(String matName : config.getStringList("only-spawn-on")) {
-                Material mat = Enums.getIfPresent(Material.class, matName.toUpperCase(Locale.ROOT)).orNull();
-                if(mat != null) {
-                    spawnOn.add(mat);
-                }
-            }
-            if(spawnOn.isEmpty()) {
-                spawnOn = null;
-            }
-        } else {
-            spawnOn = null;
-        }
-
-        WorldBoundingBox boundingBox = new WorldBoundingBox(world,BoundingBox.of(world.getBlockAt(minX,minY,minZ), world.getBlockAt(maxX,maxY,maxZ)));
-        Material material;
-        if(config.isSet("material")) {
-            material = Enums.getIfPresent(Material.class, config.getString("material").toUpperCase(Locale.ROOT)).orNull();
-            if(material == null) {
-                Main.getInstance().getLogger().warning("Unknown material specified in Graveyard " + name + ": " + config.getString("material"));
-            }
-        } else {
-            material = null;
-        }
-
-        String hologram;
-        if(config.isSet("hologram-text")) {
-            hologram = config.getString("hologram-text");
-        } else {
-            hologram = null;
-        }
-
-        return new Graveyard(name, boundingBox, spawnOn, material, hologram);
-    }
-
     public boolean isValidSpawnOn(Block block) {
-        if(!block.getType().isAir()) return false;
+        if (!block.getType().isAir()) return false;
         Block below = block.getRelative(BlockFace.DOWN);
-        if(below.getType().isAir()) return false;
-        if(spawnOn == null) return true;
+        if (below.getType().isAir()) return false;
+        if (spawnOn == null) return true;
         return spawnOn.contains(below.getType());
     }
 
@@ -138,8 +214,8 @@ public class Graveyard {
     public Collection<Block> getFreeSpots() {
         TimeUtils.startTimings("getFreeSpots");
         HashSet<Block> blocks = new HashSet<>();
-        for(Block block : cachedValidGraveLocations) {
-            if(isValidSpawnOn(block)) blocks.add(block);
+        for (Block block : cachedValidGraveLocations) {
+            if (isValidSpawnOn(block)) blocks.add(block);
         }
         TimeUtils.endTimings("getFreeSpots");
         return blocks;
@@ -147,8 +223,8 @@ public class Graveyard {
 
     @Nullable
     public Block getFreeSpot() {
-        for(Block block : cachedValidGraveLocations) {
-            if(isValidSpawnOn(block)) return block;
+        for (Block block : cachedValidGraveLocations) {
+            if (isValidSpawnOn(block)) return block;
         }
         return null;
     }

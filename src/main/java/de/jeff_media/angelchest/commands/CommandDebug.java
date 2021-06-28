@@ -9,6 +9,7 @@ import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.debug.tasks.BlockMarkerTask;
 import de.jeff_media.angelchest.enums.BlacklistResult;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.angelchest.handlers.ChunkManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.nms.NMSHandler;
 import de.jeff_media.angelchest.utils.BlacklistUtils;
@@ -31,10 +32,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Handles the /acd command
@@ -421,23 +419,49 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
 
         Player player = (Player) commandSender;
 
-        if(args.length==2 && args[1].equalsIgnoreCase("showgraves")) {
+        if(args.length==2 && args[1].equalsIgnoreCase("info")) {
+            Graveyard graveyard = GraveyardManager.getNearestGraveyard(player.getLocation());
+            if (graveyard == null) {
+                player.sendMessage(ChatColor.RED + "There is no graveyard in this world.");
+                return;
+            }
+            player.sendMessage(graveyard.toString());
+            player.sendMessage(" ");
+            player.sendMessage("§aNearest Graveyard: " + graveyard.getName());
+            player.sendMessage("§aDistance to center: " + player.getLocation().distance(graveyard.getWorldBoundingBox().getBoundingBox().getCenter().toLocation(graveyard.getWorldBoundingBox().getWorld())) + " blocks");
+            player.sendMessage("§aGrave material: " + graveyard.getCustomMaterial());
+            player.sendMessage("§aFree grave locations: " + graveyard.getCachedValidGraveLocations().size());
+        }
+        else if(args.length==2 && args[1].equalsIgnoreCase("showgraves")) {
             Graveyard graveyard = GraveyardManager.getNearestGraveyard(player.getLocation());
             if (graveyard == null) {
                 player.sendMessage(ChatColor.RED + "There is no graveyard in this world.");
                 return;
             }
             player.sendMessage("Showing borders and graves for Graveyard " + graveyard);
-            //graveyard.getWorldBoundingBox().getMaxBlock().setType(Material.DIAMOND_BLOCK);
-            //player.sendMessage("Max block: " + graveyard.getWorldBoundingBox().getMaxBlock());
             ParticleUtils.drawHollowCube(graveyard.getWorldBoundingBox().getWorld(), graveyard.getWorldBoundingBox().getBoundingBox(), player, Particle.BARRIER, 5).runTaskTimer(main, 0, 20);
             new BlockMarkerTask(graveyard, player).runTaskTimer(main, 0, 40);
         } else if(args.length==3 && args[1].equalsIgnoreCase("spamgraves")) {
             SpamGravesCommand.run(player, args);
+        } else if(args.length==2 && args[1].equalsIgnoreCase("loadedchunks")) {
+            Set<Chunk> loadedChunks = ChunkManager.getLoadedChunks();
+            player.sendMessage("Force loaded chunks: " + loadedChunks.size());
+            for(Chunk chunk : loadedChunks) {
+                if(chunk.isLoaded()) {
+                    System.out.println("Loaded: " + chunk);
+                }
+            }
+            for(Chunk chunk : loadedChunks) {
+                if(!chunk.isLoaded()) {
+                    System.out.println("NOT Loaded: " + chunk);
+                }
+            }
         } else {
             Messages.send(commandSender, "§eAvailable graveyard commands:",
+                    "/acd graveyard info §6Shows information about the nearest graveyard",
                     "/acd graveyard showgraves §6Shows borders ang graves for the nearest graveyard",
-                    "/acd graveyard spamgraves <count> §6Kills you <count> times in a row");
+                    "/acd graveyard spamgraves <count> §6Kills you <count> times in a row",
+                    "/acd graveyard loadedchunks §6Shows the number of force loaded chunks");
         }
     }
 
@@ -463,7 +487,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String s, @NotNull final String[] args) {
         final String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig", "dump", "fixholograms", "disableac", "enableac", "totemanimation", "graveyard"};
         final String[] blacklistCommands = {"info", "test", "add"};
-        final String[] graveyardCommands = {"showgraves","spamgraves"};
+        final String[] graveyardCommands = {"showgraves","spamgraves","loadedchunks","info"};
 
         // Debug
         /*main.verbose("args.lengh = "+args.length);

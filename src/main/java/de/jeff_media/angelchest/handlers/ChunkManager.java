@@ -17,6 +17,10 @@ public class ChunkManager {
         block.getChunk().addPluginChunkTicket(main);
     }
 
+    public static HashSet<Chunk> getLoadedChunks() {
+        return CHUNKS;
+    }
+
     public static void reset() {
         for(Chunk chunk : CHUNKS) {
             chunk.removePluginChunkTicket(main);

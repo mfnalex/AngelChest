@@ -17,6 +17,7 @@ import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
 import de.jeff_media.jefflib.NBTAPI;
 import de.jeff_media.jefflib.Ticks;
+import de.jeff_media.jefflib.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -389,6 +390,10 @@ public final class PlayerListener implements Listener {
      */
     private void spawnAngelChest(final PlayerDeathEvent event) {
 
+        if(main.debug) {
+            TimeUtils.startTimings("AngelChest spawn");
+        }
+
         final Player p = event.getEntity();
 
         if (main.debug) main.debug("\n");
@@ -739,6 +744,10 @@ public final class PlayerListener implements Listener {
         }
 
         ac.createChest(ac.block, ac.owner);
+
+        if(main.debug) {
+            TimeUtils.endTimings("AngelChest spawn", main);
+        }
     }
 
     @SuppressWarnings("unused")

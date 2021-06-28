@@ -372,7 +372,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         Graveyard graveyard = GraveyardManager.fromBlock(block);
         if(graveyard != null) {
             if(graveyard.hasCustomHologram()) {
-                hologramText = graveyard.getCustomHologram();
+                hologramText = ChatColor.translateAlternateColorCodes('&',graveyard.getCustomHologram());
             }
         }
 
@@ -674,6 +674,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         yaml.set("experience", experience);
         yaml.set(ChestYaml.EXP_LEVELS, levels);
         yaml.set(ChestYaml.PRICE, price);
+        yaml.set("graveyard",graveyard == null ? null : graveyard.getName());
         yaml.set("deathCause", deathCause);
         yaml.set("opened-by", openedBy);
         yaml.set("logfile", logfile);
