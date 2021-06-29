@@ -1,12 +1,17 @@
 ## 4.0.0-SNAPSHOT
 
 - Added Graveyards!
-  - You can define any amount of Graveyards per world.
+  - You can define any amount of Graveyards per world and one global "fallback" graveyard.
   - When a player dies in a world with a graveyard, their chest will be put into the nearest graveyard
+    - If that graveyard is full, you have the option to send the player to another graveyard in the same world
+    - If those are full too, you can define a global graveyard where the chest will spawn
+    - If that one is full too, or if you disallowed spawning at other graveyards, you can decide whether the player will drop their inventory or get a chest spawned at their death location like usually
   - You can define certain ground materials for the chests to spawn on
+  - Option to define custom totem animations (using the regular totem of undying animation, or custom model data) to play upon respawns per graveyard
+  
 - Fixed exception when player died do to Player#setHealth(0) without having taken damage before
 
-TODO: you can decide whether to take the next nearest graveyard in the same world, or get a normal angelchest, or dropping stuff normally
+TODO. Add option to preserve XP in the chest even there are no items to drop LEL shesh
 
 ## 3.29.0
 

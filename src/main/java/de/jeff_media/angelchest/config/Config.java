@@ -127,4 +127,9 @@ public final class Config {
     public static final String MINIMUM_AIR_ABOVE_CHEST = "minimum-air-above-chest";
     public static final String ALLOW_FASTLOOTING = "allow-fastlooting";
 
+    // Graveyards
+    public static final String TRY_CLOSEST_GRAVEYARD = "try-closest-graveyard";
+    public static final String TRY_GLOBAL_GRAVEYARD = "try-global-graveyard";
+    public static final String FALLBACK_TO_DEATHLOCATION = "fallback-to-deathlocation";
+
 }

@@ -79,6 +79,7 @@ public final class Messages {
     public final String MSG_ANGELCHEST_FETCHED;
     public final String MSG_ANGELCHEST_TELEPORTED;
     public final String MSG_MIN_DISTANCE;
+    public final String MSG_BURIED_IN_GRAVEYARD;
     public final String PREFIX;
     private final Main main;
 
@@ -183,6 +184,8 @@ public final class Messages {
         MSG_ANGELCHEST_TELEPORTED = PREFIX + getMsg("angelchest-teleported", "&aSuccessfully teleported you to your AngelChest.");
 
         MSG_MIN_DISTANCE = PREFIX + getMsg("min-distance", "&cYou already are nearby your AngelChest.");
+
+        MSG_BURIED_IN_GRAVEYARD = PREFIX + getMsg("buried-in-graveyard","&aAn Angel collected your stuff and buried it at &6{graveyard}.");
 
         GUI_TITLE_CHEST = getGui(Config.GUI_TITLE_CHEST, "§4§l[§c§lAngelChest§4§l] §c#{id} §4| §c{time}");
 

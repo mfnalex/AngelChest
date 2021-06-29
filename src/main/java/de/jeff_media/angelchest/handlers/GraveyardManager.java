@@ -5,6 +5,7 @@ import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.daddy.Daddy;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -12,13 +13,29 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 
 public class GraveyardManager {
 
     private static final Main main = Main.getInstance();
-    private static HashSet<Graveyard> GRAVEYARDS;
+    private static List<Graveyard> GRAVEYARDS;
+    private static Graveyard GLOBAL_GRAVEYARD;
+    private static final Map<UUID, Graveyard> LAST_GRAVEYARDS = new HashMap<>();
+
+    @Nullable
+    public static Graveyard getLastGraveyard(OfflinePlayer player) {
+        if(LAST_GRAVEYARDS.containsKey(player.getUniqueId())) {
+            return LAST_GRAVEYARDS.get(player.getUniqueId());
+        }
+        return null;
+    }
+
+    public static void setLastGraveyard(OfflinePlayer player, Graveyard graveyard) {
+        if(graveyard == null) {
+            LAST_GRAVEYARDS.remove(player.getUniqueId());
+        }
+        LAST_GRAVEYARDS.put(player.getUniqueId(), graveyard);
+    }
 
     @Nullable
     public static Graveyard fromBlock(@NotNull Block block) {
@@ -69,8 +86,80 @@ public class GraveyardManager {
     }
 
     @Nullable
-    public static Block getGraveLocation(Location location) {
-        Graveyard yard = getNearestGraveyard(location);
+    public static Graveyard getNearestFreeGraveyard(Location location, boolean tryClosest, boolean tryGlobal) {
+        List<Graveyard> graveyards = new ArrayList<>();
+
+        for (Graveyard graveyard : GRAVEYARDS) {
+            if (!graveyard.getWorldBoundingBox().getWorld().equals(location.getWorld())) continue;
+            graveyards.add(graveyard);
+        }
+
+        graveyards.sort((o1, o2) -> {
+            double d1 = o1.getWorldBoundingBox().getBoundingBox().getCenter().distanceSquared(location.toVector());
+            double d2 = o2.getWorldBoundingBox().getBoundingBox().getCenter().distanceSquared(location.toVector());
+            return Double.compare(d1, d2);
+        });
+
+        if (graveyards.isEmpty()) {
+            if (tryGlobal) {
+                if(GLOBAL_GRAVEYARD == null) {
+                    System.out.println("[GRAVEYARDS] No graveyards in this world and no global graveyard, too");
+                    return null;
+                } else if (GLOBAL_GRAVEYARD.hasSpace()) {
+                    System.out.println("[GRAVEYARDS] No graveyards in this world but global graveyard has space");
+                    return GLOBAL_GRAVEYARD;
+                } else {
+                    System.out.println("[GRAVEYARDS] No graveyards in this world and global graveyard is full too");
+                    return null;
+                }
+            } else {
+                System.out.println("[GRAVEYARDS] No yards in this world and global yard disabled");
+                return null;
+            }
+        }
+
+
+        if (graveyards.get(0).hasSpace()) {
+            System.out.println("[GRAVEYARDS] Closest graveyard is " + graveyards.get(0).getName() + " and is has space left.");
+            return graveyards.get(0);
+        }
+
+        if (!tryClosest && !tryGlobal) {
+            System.out.println("[GRAVEYARDS] Closest graveyard is full, neither trying other nor the global yard");
+            return null;
+        }
+
+        if (!tryClosest && tryGlobal) {
+            if (GLOBAL_GRAVEYARD.hasSpace()) {
+                System.out.println("[GRAVEYARDS] Closest graveyard is full, not looking for other ones but using the global yard instead");
+                return GLOBAL_GRAVEYARD;
+            }
+            System.out.println("[GRAVEYARDS] Closest graveyard is full and global graveyard is full, too");
+            return null;
+        }
+
+        for (Graveyard graveyard : graveyards) {
+            if (graveyard.hasSpace()) {
+                System.out.println("[GRAVEYARDS] Closest graveyard is full but we found " + graveyard.getName() + " instead");
+                return graveyard;
+            }
+        }
+
+        if (tryGlobal) {
+            if (GLOBAL_GRAVEYARD.hasSpace()) {
+                System.out.println("[GRAVEYARDS] All graveyards in this world are full but the global yard still has space");
+                return GLOBAL_GRAVEYARD;
+            }
+        }
+
+        System.out.println("[GRAVEYARDS] Could not find any graveyard although we tried all yards in this world AND the global yard");
+        return null;
+    }
+
+    @Nullable
+    public static Block getGraveLocation(Location location, boolean tryClosest, boolean tryGlobal) {
+        Graveyard yard = getNearestFreeGraveyard(location, tryClosest, tryGlobal);
+        if(yard == null) return null;
         return yard.getFreeSpot();
     }
 
@@ -82,7 +171,7 @@ public class GraveyardManager {
     }
 
     public static void init() {
-        GRAVEYARDS = new HashSet<>();
+        GRAVEYARDS = new ArrayList<>();
         File file = new File(main.getDataFolder(), "graveyards.yml");
         if(!Daddy.allows(PremiumFeatures.GRAVEYARDS)) {
             main.getLogger().info("Not using premium version, disabling Graveyards feature");
@@ -95,7 +184,11 @@ public class GraveyardManager {
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
 
         for(String graveyardName : yaml.getKeys(false)) {
-            GRAVEYARDS.add(Graveyard.fromConfig(yaml.getConfigurationSection(graveyardName)));
+            Graveyard next = Graveyard.fromConfig(yaml.getConfigurationSection(graveyardName));
+            GRAVEYARDS.add(next);
+            if(next.isGlobal()) {
+                GLOBAL_GRAVEYARD = next;
+            }
         }
     }
 }

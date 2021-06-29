@@ -43,6 +43,7 @@ public class NMSHandler {
 
         ItemStack totem = new ItemStack(Material.TOTEM_OF_UNDYING);
         ItemMeta meta = totem.getItemMeta();
+        assert meta != null;
         meta.setCustomModelData(customModelData);
         totem.setItemMeta(meta);
         ItemStack hand = p.getInventory().getItemInMainHand();

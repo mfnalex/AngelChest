@@ -9,6 +9,7 @@ import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
+import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
 import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
@@ -439,6 +440,10 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         block.setType(Material.AIR);
         Objects.requireNonNull(block.getLocation().getWorld()).spawnParticle(Particle.EXPLOSION_NORMAL, block.getLocation(), 1);
         hologram.destroy();
+        Graveyard graveyard = GraveyardManager.fromBlock(block);
+        if(graveyard != null) {
+            GraveyardListener.update(block);
+        }
     }
 
     @Override

@@ -280,6 +280,15 @@ public final class ConfigUtils {
         conf.addDefault(Config.ALLOW_FASTLOOTING, true);
         metric(Config.ALLOW_FASTLOOTING);
 
+        conf.addDefault(Config.TRY_CLOSEST_GRAVEYARD, true);
+        metric(Config.TRY_CLOSEST_GRAVEYARD);
+
+        conf.addDefault(Config.TRY_GLOBAL_GRAVEYARD, true);
+        metric(Config.TRY_GLOBAL_GRAVEYARD);
+
+        conf.addDefault(Config.FALLBACK_TO_DEATHLOCATION, true);
+        metric(Config.FALLBACK_TO_DEATHLOCATION);
+
         /*
     play-sound-on-tp: true
 play-sound-on-fetch: true

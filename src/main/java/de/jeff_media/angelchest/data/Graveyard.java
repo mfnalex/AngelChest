@@ -2,6 +2,7 @@ package de.jeff_media.angelchest.data;
 
 import com.google.common.base.Enums;
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.exceptions.InvalidLocationDefinitionException;
 import de.jeff_media.angelchest.handlers.ChunkManager;
 import de.jeff_media.jefflib.LocationUtils;
 import de.jeff_media.jefflib.TimeUtils;
@@ -27,18 +28,47 @@ public class Graveyard {
     private final List<Block> cachedValidGraveLocations = new ArrayList<>();
     private final Material material;
     private final String hologramText;
+    private final Location spawn;
+    private final boolean instantRespawn;
     private final boolean global;
+    private final Integer totemAnimation;
 
     private static final Main main = Main.getInstance();
 
-    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable Material material, @Nullable String hologramText, boolean global) {
+    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable Material material, @Nullable String hologramText, boolean global, @Nullable Location spawn, boolean instantRespawn, Integer totemAnimation) {
         this.name = name;
         this.boundingBox = worldBoundingBox;
         this.spawnOn = spawnOn;
         this.material = material;
         this.hologramText = hologramText;
         this.global = global;
+        this.spawn = spawn;
+        this.instantRespawn = instantRespawn;
+        this.totemAnimation = totemAnimation;
         populateBlocksInsideAsync();
+    }
+
+    @Nullable
+    public Location getSpawn() {
+        return spawn;
+    }
+
+    public boolean hasSpace() {
+        return getFreeSpot() != null;
+    }
+
+    @Override
+    public String toString() {
+        return "Graveyard{" +
+                "name='" + name + '\'' +
+                ", boundingBox=" + boundingBox +
+                ", spawnOn=" + spawnOn +
+                ", material=" + material +
+                ", hologramText='" + hologramText + '\'' +
+                ", spawn=" + spawn +
+                ", instantRespawn=" + instantRespawn +
+                ", global=" + global +
+                '}';
     }
 
     public static Graveyard fromConfig(ConfigurationSection config) {
@@ -96,7 +126,35 @@ public class Graveyard {
 
         boolean global = config.getBoolean("global", false);
 
-        return new Graveyard(name, boundingBox, spawnOn, material, hologram, global);
+        Location spawn = null;
+        if(config.isSet("spawn") && config.isConfigurationSection("spawn")) {
+            try {
+                spawn = LocationUtils.getLocationFromSection(config.getConfigurationSection("spawn"), world);
+            } catch (InvalidLocationDefinitionException exception) {
+                main.getLogger().warning("Invalid spawn location defined for graveyard " + name + ", ignoring spawn location");
+                exception.printStackTrace();
+                spawn = null;
+            }
+        }
+
+        boolean instantRespawn = config.getBoolean("instant-respawn",false);
+
+        Integer totemAnimation = null;
+        if(config.isBoolean("totem-animation")) {
+            totemAnimation = config.getBoolean("totem-animation") ? 0 : null;
+        } else if(config.isInt("totem-animation")) {
+            totemAnimation = config.getInt("totem-animation");
+        }
+
+        return new Graveyard(name, boundingBox, spawnOn, material, hologram, global, spawn, instantRespawn, totemAnimation);
+    }
+
+    public boolean hasCustomTotemAnimation() {
+        return totemAnimation != null;
+    }
+
+    public int getCustomTotemModelData() {
+        return totemAnimation;
     }
 
 /*    private void populateBlocksInside() {
@@ -183,7 +241,7 @@ public class Graveyard {
                     }
                 }
                 Bukkit.getScheduler().runTask(Main.getInstance(), () -> Collections.shuffle(cachedValidGraveLocations));
-                TimeUtils.endTimings("Find grave locations for graveyard " + name,main);
+                TimeUtils.endTimings("Find grave locations for graveyard " + name,main,true);
             }
         }.runTaskAsynchronously(Main.getInstance());
     }
@@ -194,16 +252,6 @@ public class Graveyard {
 
     public Material getCustomMaterial() {
         return material;
-    }
-
-    @Override
-    public String toString() {
-        return "Graveyard{" +
-                "name='" + name + '\'' +
-                ", boundingBox=" + boundingBox +
-                ", spawnOn=" + spawnOn +
-                ", material=" + material +
-                '}';
     }
 
     public boolean isValidSpawnOn(Block block) {
@@ -242,5 +290,13 @@ public class Graveyard {
 
     public String getCustomHologram() {
         return hologramText;
+    }
+
+    public boolean isGlobal() {
+        return global;
+    }
+
+    public boolean isInstantRespawn() {
+        return instantRespawn;
     }
 }

@@ -44,13 +44,41 @@
 #    hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&7{items} items / {xp} XP\n&6{time}\n&cKilled by {deathcause}"
 
 
-#  when-full: What should happen when the closest graveyard in the same world is full?
+#  spawn: You can define a location where players will be spawned after they were buried at this graveyard.
+#         When not set, AngelChest will not change the player's spawn location.
+#         You can also define another world. If world is not set, it uses the graveyard's world.
+#         Yaw is the "left/right" rotation of the player.
+#               0 = facing south
+#              90 = facing west
+#             180 = facing north
+#             270 = facing east
+#         Pitch is the "up/down" rotation of the player.
+#               0 = facing straightforward
+#             -90 = facing at the sky
+#              90 = facing at the ground.
 #
-#             Possible values:
-#               closest       - Send player to the closest graveyard in the same world that's not full
-#               deathlocation - Create the AngelChest at the player's death location
-#               global        - Send the player to the global graveyard that can be in another world.
-#                               (See config.yml, you must define a global graveyard
+#    Example:
+#
+#    spawn:
+#      x: 20.5
+#      y: 64
+#      z: 30
+#      yaw: 90             (optional)
+#      pitch: 0            (optional)
+#      world: otherworld   (optional)
+
+
+#  instant-respawn: When true, players will be instantly respawned after being buried in this graveyard.
+#                   You will probably only want to use this when you defined a spawn for this graveyard.
+#                   Defaults to false.
+
+
+#  totem-animation: When true, players will be shown a totem of undying animation when they respawn inside
+#                   a graveyard. You will probably only want to use this when you defined a spawn for this
+#                   graveyard.
+#                   You can set this to true to play a regular totem animation, or use an integer if you
+#                   are using CustomModelData for your totems.
+#                   Defaults to false.
 
 
 
@@ -70,5 +98,24 @@ global-graveyard:
     - ROOTED_DIRT
   material: DIRT
   hologram: "&c[RIP]\n§a{player}"
-other-graveyard:
-  ...
+  spawn:
+    x: -50
+    y: 65
+    z: -50
+    yaw: -45
+    pitch: 0
+  totem-animation: true
+
+nether-graveyard:
+  location:
+    world: nether
+    min:
+      x: 100
+      y: 64
+      z: 100
+    max:
+      x: 130
+      y: 70
+      z: 130
+  only-spawn-on:
+    - CRIMSON_HYPHAE

@@ -556,14 +556,23 @@ public final class PlayerListener implements Listener {
 
         // Graveyards start
         if(Daddy.allows(PremiumFeatures.GRAVEYARDS)) {
-            if(GraveyardManager.hasGraveyard(angelChestBlock.getWorld())) {
-                Block grave = GraveyardManager.getGraveLocation(angelChestBlock.getLocation());
+            //if(GraveyardManager.hasGraveyard(angelChestBlock.getWorld())) {
+            boolean tryClosest = main.getConfig().getBoolean(Config.TRY_CLOSEST_GRAVEYARD);
+            boolean tryGlobal = main.getConfig().getBoolean(Config.TRY_GLOBAL_GRAVEYARD);
+            boolean fallbackToDeathLocation = main.getConfig().getBoolean(Config.FALLBACK_TO_DEATHLOCATION);
+                Block grave = GraveyardManager.getGraveLocation(angelChestBlock.getLocation(), tryClosest, tryGlobal);
                 if(grave == null) {
-                    main.getLogger().warning("Could not find a matching grave. Using normal death location.");
+                    if(fallbackToDeathLocation) {
+                        main.getLogger().info("Could not find a matching grave for player "+p.getName()+". Using normal death location.");
+                    } else {
+                        main.getLogger().info("Could not find a matching grave for player "+p.getName()+". Disabling AngelChest spawn.");
+                        return;
+                    }
                 } else {
+                    System.out.println("Player will be sent to a graveyard");
                     angelChestBlock = grave;
                 }
-            }
+            //}
         }
         // Graveyards end
 
@@ -577,12 +586,14 @@ public final class PlayerListener implements Listener {
             return;
         }
         angelChestBlock = angelChestSpawnPrepareEvent.getBlock();
+        final Block finalAngelChestBlock = angelChestBlock;
 
         if (!CommandUtils.hasEnoughMoney(p, main.groupUtils.getSpawnPricePerPlayer(p), main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, "AngelChest spawned")) {
             return;
         }
 
         // Enable keep inventory to prevent drops (this is not preventing the drops at the moment due to spigot)
+        // TODO: Move this below
         event.setKeepInventory(true);
 
         // DETECT ALL DROPS, EVEN FRESHLY ADDED
@@ -632,8 +643,8 @@ public final class PlayerListener implements Listener {
         Creating the chest
          */
         final DeathCause deathCause = new DeathCause(p.getLastDamageCause());
-        final AngelChest ac = new AngelChest(p, angelChestBlock, main.logger.getLogFileName(event), deathCause);
-        main.angelChests.put(angelChestBlock, ac);
+        final AngelChest ac = new AngelChest(p, finalAngelChestBlock, main.logger.getLogFileName(event), deathCause);
+        main.angelChests.put(finalAngelChestBlock, ac);
 
 
         /*
@@ -675,10 +686,24 @@ public final class PlayerListener implements Listener {
 
             ac.remove();
             ac.destroy(true);
-            main.angelChests.remove(angelChestBlock);
+            main.angelChests.remove(finalAngelChestBlock);
 
             Utils.sendDelayedMessage(p, main.messages.MSG_INVENTORY_WAS_EMPTY, 1);
             return;
+        }
+
+        /*
+
+        From here, there's no way to cancel the chest creation anymore-
+        Todo: Don't even spawn the chest yet.
+        Todo: Don't charge the player yet.
+
+         */
+
+        Graveyard graveyard = ac.graveyard;
+        if(graveyard != null) {
+            System.out.println("[GRAVEYARDS] Registering Graveyard death");
+            GraveyardManager.setLastGraveyard(p,graveyard);
         }
 
         //ac.createChest(ac.block, ac.owner);
@@ -695,8 +720,11 @@ public final class PlayerListener implements Listener {
         event.getDrops().removeIf(drop -> !ac.blacklistedItems.contains(drop));
 
         // send message after one twentieth second
-        Utils.sendDelayedMessage(p, main.messages.MSG_ANGELCHEST_CREATED, 1);
-
+        String playerDeathMessage = main.messages.MSG_ANGELCHEST_CREATED;
+        if(graveyard != null) {
+            playerDeathMessage = main.messages.MSG_BURIED_IN_GRAVEYARD.replace("{graveyard}",graveyard.getName());
+        }
+        Utils.sendDelayedMessage(p, playerDeathMessage, 1);
 
         if (main.getConfig().getBoolean(Config.SHOW_LOCATION)) {
             Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> CommandUtils.sendListOfAngelChests(main, p, p), 2);
@@ -736,7 +764,6 @@ public final class PlayerListener implements Listener {
         double tickPercentage = TimeUtils.milliSecondsToTickPercentage(durationMilli);
         if(main.debug) main.debug("AngelChest creation took " +durationNano + " ns or " + durationMilli +" ms or "+tickPercentage+" % of tick.");*/
 
-        LogUtils.debugBanner(new String[]{"PlayerDeathEvent END"});
         if (main.debug) main.debug(" ");
 
         if (Daddy.allows(PremiumFeatures.PLAY_TOTEM_ANIMATION) && main.getConfig().getBoolean(Config.PLAY_TOTEM_ANIMATION)) {
@@ -745,9 +772,14 @@ public final class PlayerListener implements Listener {
 
         ac.createChest(ac.block, ac.owner);
 
+
+
         if(main.debug) {
-            TimeUtils.endTimings("AngelChest spawn", main);
+            TimeUtils.endTimings("AngelChest spawn", main, true);
         }
+
+        LogUtils.debugBanner(new String[]{"PlayerDeathEvent END"});
+
     }
 
     @SuppressWarnings("unused")

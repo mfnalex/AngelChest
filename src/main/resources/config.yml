@@ -337,14 +337,7 @@ try-global-graveyard: true
 # What happens when the global graveyard is full too?
 # When true, AngelChest will spawn the chest at the player's death location.
 # When false, the player will die like in vanilla and does not get any AngelChest.
-use-deathlocation: true
-
-
-
-# When true, players will be sent to another graveyard in the same world
-# when the nearest graveyard is full.
-
-
+fallback-to-deathlocation: true
 
 #########################
 ####     Economy     ####
@@ -824,6 +817,7 @@ message-angelchest-enabled: "&aYou are now protected by Angels."
 message-angelchest-fetched: "&aAngelChest fetched succesfully."
 message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
 message-min-distance: "&cYou already are nearby your AngelChest."
+message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 
 #########################
 ##### Translations ######

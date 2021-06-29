@@ -27,7 +27,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -438,7 +437,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 player.sendMessage(ChatColor.RED + "There is no graveyard in this world.");
                 return;
             }
-            player.sendMessage("Showing borders and graves for Graveyard " + graveyard);
+            player.sendMessage("Showing borders and graves for Graveyard " + graveyard.getName());
             ParticleUtils.drawHollowCube(graveyard.getWorldBoundingBox().getWorld(), graveyard.getWorldBoundingBox().getBoundingBox(), player, Particle.BARRIER, 5).runTaskTimer(main, 0, 20);
             new BlockMarkerTask(graveyard, player).runTaskTimer(main, 0, 40);
         } else if(args.length==3 && args[1].equalsIgnoreCase("spamgraves")) {
