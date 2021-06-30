@@ -4,6 +4,7 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.daddy.Daddy;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -42,6 +43,15 @@ public class GraveyardManager {
         for(Graveyard graveyard : GRAVEYARDS) {
             if(!graveyard.getWorldBoundingBox().getWorld().equals(block.getWorld())) continue;
             if(graveyard.getWorldBoundingBox().contains(block)) return graveyard;
+        }
+        return null;
+    }
+
+    @Nullable
+    public static Graveyard fromLocation(@NotNull Location location) {
+        for(Graveyard graveyard : GRAVEYARDS) {
+            if(!graveyard.getWorldBoundingBox().getWorld().equals(location.getWorld())) continue;
+            if(graveyard.getWorldBoundingBox().contains(location)) return graveyard;
         }
         return null;
     }
@@ -181,9 +191,14 @@ public class GraveyardManager {
             main.getLogger().info("No graveyards.yml found, disabling Graveyards feature");
             return;
         }
+
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
 
         for(String graveyardName : yaml.getKeys(false)) {
+            if(Bukkit.getWorld(yaml.getString(graveyardName+".location.world")) == null) {
+                main.getLogger().warning("Could not load graveyard " + graveyardName + " because world " + yaml.getString(graveyardName+".location.world") + " does not exist.");
+                continue;
+            }
             Graveyard next = Graveyard.fromConfig(yaml.getConfigurationSection(graveyardName));
             GRAVEYARDS.add(next);
             if(next.isGlobal()) {

@@ -29,107 +29,7 @@
             </resource>
         </resources>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <finalName>${project.name}</finalName>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <relocations>
-                        <relocation>
-                            <pattern>de.jeff_media.jefflib</pattern>
-                            <shadedPattern>${project.groupId}.angelchest</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.apache.maven.artifact</pattern>
-                            <shadedPattern>de.jeff_media.angelchest.jefflib.thirdparty.org.apache.maven.artifact
-                            </shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>de.jeff_media.updatechecker</pattern>
-                            <shadedPattern>de.jeff_media.angelchest.updatechecker</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>de.jeff_media.daddy</pattern>
-                            <shadedPattern>${project.groupId}.angelchest</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.google.gson</pattern>
-                            <shadedPattern>${project.groupId}.angelchest.thirdparty.com.google.gson</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.apache.commons.lang3</pattern>
-                            <shadedPattern>${project.groupId}.angelchest.thirdparty.org.apache.commons.lang3
-                            </shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.intellij.lang.annotations</pattern>
-                            <shadedPattern>${project.groupId}.angelchest.thirdparty.org.intellij.lang.annotations
-                            </shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.jetbrains.annotations</pattern>
-                            <shadedPattern>${project.groupId}.angelchest.thirdparty.org.jetbrains.annotations
-                            </shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.javatuples</pattern>
-                            <shadedPattern>${project.groupId}.angelchest.thirdparty.org.javatuples</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.zeroturnaround.zip</pattern>
-                            <shadedPattern>${project.groupId}.angelchest.thirdparty.org.zeroturnaround.zip
-                            </shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.bstats.bukkit</pattern>
-                            <shadedPattern>${project.groupId}.angelchest</shadedPattern>
-                        </relocation>
-                    </relocations>
-                    <artifactSet>
-                        <excludes>
-                            <exclude>org.slf4j</exclude>
-                        </excludes>
-                    </artifactSet>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <executions>
-                    <execution>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>java</executable>
-                    <workingDirectory>${basedir}/../</workingDirectory>
-                    <arguments>
-                        <argument>-jar</argument>
-                        <argument>${basedir}/../PluginCompiler.jar</argument>
-                        <argument>AngelChest</argument>
-                    </arguments>
-                </configuration>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -153,42 +53,123 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <compilerArgs>
+                        <arg>-parameters</arg> <!-- for ACF -->
+                    </compilerArgs>
                 </configuration>
             </plugin>
 
-            <!--<plugin>
-                 <groupId>net.md-5</groupId>
-                 <artifactId>specialsource-maven-plugin</artifactId>
-                 <version>1.2.2</version>
-                 <executions>
-                     <execution>
-                         <phase>package</phase>
-                         <goals>
-                             <goal>remap</goal>
-                         </goals>
-                         <id>remap-obf</id>
-                         <configuration>
-                             <srgIn>org.spigotmc:minecraft-server:1.17-R0.1-SNAPSHOT:txt:maps-mojang</srgIn>
-                             <reverse>true</reverse>
-                             <remappedDependencies>org.spigotmc:spigot:1.17-R0.1-SNAPSHOT:jar:remapped-mojang</remappedDependencies>
-                             <remappedArtifactAttached>true</remappedArtifactAttached>
-                             <remappedClassifierName>remapped-obf</remappedClassifierName>
-                         </configuration>
-                     </execution>
-                     <execution>
-                         <phase>package</phase>
-                         <goals>
-                             <goal>remap</goal>
-                         </goals>
-                         <id>remap-spigot</id>
-                         <configuration>
-                             <inputFile>${project.build.directory}/${project.artifactId}-${project.version}-remapped-obf.jar</inputFile>
-                             <srgIn>org.spigotmc:minecraft-server:1.17-R0.1-SNAPSHOT:csrg:maps-spigot</srgIn>
-                             <remappedDependencies>org.spigotmc:spigot:1.17-R0.1-SNAPSHOT:jar:remapped-obf</remappedDependencies>
-                         </configuration>
-                     </execution>
-                 </executions>
-             </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <finalName>${project.name}</finalName>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>de.jeff_media.jefflib</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.jefflib</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>co.aikar.commands</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.thirdparty.co.aikar.commands</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>co.aikar.locales</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.thirdparty.co.aikar.locales</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.apache.maven.artifact</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.jefflib.thirdparty.org.apache.maven.artifact
+                            </shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>de.jeff_media.updatechecker</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.updatechecker</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>de.jeff_media.daddy</pattern>
+                            <shadedPattern>de.jeff_media.angelchest</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.google.gson</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.thirdparty.com.google.gson</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.apache.commons.lang3</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.thirdparty.org.apache.commons.lang3
+                            </shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.intellij.lang.annotations</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.thirdparty.org.intellij.lang.annotations
+                            </shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.jetbrains.annotations</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.thirdparty.org.jetbrains.annotations
+                            </shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.javatuples</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.thirdparty.org.javatuples</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.zeroturnaround.zip</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.thirdparty.org.zeroturnaround.zip
+                            </shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.bstats.bukkit</pattern>
+                            <shadedPattern>de.jeff_media.angelchest</shadedPattern>
+                        </relocation>
+                    </relocations>
+                    <artifactSet>
+                        <excludes>
+                            <exclude>org.slf4j</exclude>
+                        </excludes>
+                    </artifactSet>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <workingDirectory>${basedir}/../</workingDirectory>
+                    <arguments>
+                        <argument>-jar</argument>
+                        <argument>${basedir}/../PluginCompiler.jar</argument>
+                        <argument>AngelChest</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
 
         </plugins>
 
@@ -238,6 +219,11 @@
             <id>dmulloy2-repo</id>
             <url>https://repo.dmulloy2.net/nexus/repository/public/</url>
         </repository>
+        <!-- ACF -->
+        <repository>
+            <id>aikar</id>
+            <url>https://repo.aikar.co/content/groups/aikar/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -279,6 +265,13 @@
             <scope>compile</scope>
         </dependency>
         <!-- /*Daddy end*/ -->
+
+        <dependency>
+            <groupId>co.aikar</groupId>
+            <artifactId>acf-bukkit</artifactId>
+            <version>0.5.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- General dependencies -->
         <dependency>

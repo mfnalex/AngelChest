@@ -770,7 +770,7 @@ public final class PlayerListener implements Listener {
             NMSHandler.playTotemAnimation(p, main.getConfig().getInt(Config.TOTEM_CUSTOM_MODEL_DATA));
         }
 
-        ac.createChest(ac.block, ac.owner);
+        ac.createChest();
 
 
 

@@ -4,6 +4,7 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.ConfigUtils;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
+import de.jeff_media.jefflib.TimeUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,10 +23,11 @@ public final class CommandReload implements CommandExecutor {
             Messages.send(commandSender, Main.getInstance().messages.MSG_NO_PERMISSION);
             return true;
         }
-
+        Messages.send(commandSender, ChatColor.GRAY + "Reloading AngelChest configuration...");
+        TimeUtils.startTimings("configreload");
         ConfigUtils.reloadCompleteConfig(true);
-
-        Messages.send(commandSender, ChatColor.GREEN + "AngelChest configuration has been reloaded.");
+        long duration = TimeUtils.endTimings("configreload", false);
+        Messages.send(commandSender, ChatColor.GREEN + "AngelChest configuration has been reloaded in §6" + TimeUtils.formatNanoseconds(duration) + "§a.");
 
         return true;
     }

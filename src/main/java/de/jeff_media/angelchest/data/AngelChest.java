@@ -7,6 +7,7 @@ import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.angelchest.handlers.BlockDataManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
@@ -333,6 +334,10 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         return graveyard;
     }
 
+    public void createChest() {
+        createChest(block, owner);
+    }
+
     public void createChest(final Block block, final UUID uuid) {
         createChest(block, uuid, true);
     }
@@ -359,6 +364,8 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         if (createHologram) {
             createHologram(block, uuid);
         }
+
+        BlockDataManager.setBlockData(block);
     }
 
     /**

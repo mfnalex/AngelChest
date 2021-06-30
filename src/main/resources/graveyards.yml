@@ -1,87 +1,3 @@
-##### PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
-
-# You can define certain graveyard areas here. If a player dies in a world where graveyards are enabled,
-# the AngelChest will not spawn at the player's death location, but somewhere inside the nearest graveyard.
-# Chunks containing graveyard's will never be unloaded.
-
-# Every graveyard must have specified AT LEAST the location (world, min.x, min.y, min.z, max.x, max.y, max.z)
-
-
-# Optional values:
-
-
-#  global: When set to true, players will be sent to this graveyard when there is no graveyard in the player's current world.
-#          You should only define one global graveyard.
-#          When not set, it defaults to false.
-#
-#    Example:
-#
-#    global: true
-
-
-#  only-spawn-on: When set, the graves will only spawn on top of the given blocks.
-#                 When not set, graves can spawn on top of any block.
-#
-#    Example:
-#
-#    only-spawn-on:
-#      - DIRT
-#      - GRAVEL
-
-
-#  material: When set, the AngelChests in this graveyard will use this material
-#            When not set, AngelChests will use the default material
-#
-#    Example:
-#
-#    material: CANDLE
-
-
-#  hologram-text: Set a custom hologram text that only applies to graves in this graveyard.
-#
-#    Example:
-#
-#    hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&7{items} items / {xp} XP\n&6{time}\n&cKilled by {deathcause}"
-
-
-#  spawn: You can define a location where players will be spawned after they were buried at this graveyard.
-#         When not set, AngelChest will not change the player's spawn location.
-#         You can also define another world. If world is not set, it uses the graveyard's world.
-#         Yaw is the "left/right" rotation of the player.
-#               0 = facing south
-#              90 = facing west
-#             180 = facing north
-#             270 = facing east
-#         Pitch is the "up/down" rotation of the player.
-#               0 = facing straightforward
-#             -90 = facing at the sky
-#              90 = facing at the ground.
-#
-#    Example:
-#
-#    spawn:
-#      x: 20.5
-#      y: 64
-#      z: 30
-#      yaw: 90             (optional)
-#      pitch: 0            (optional)
-#      world: otherworld   (optional)
-
-
-#  instant-respawn: When true, players will be instantly respawned after being buried in this graveyard.
-#                   You will probably only want to use this when you defined a spawn for this graveyard.
-#                   Defaults to false.
-
-
-#  totem-animation: When true, players will be shown a totem of undying animation when they respawn inside
-#                   a graveyard. You will probably only want to use this when you defined a spawn for this
-#                   graveyard.
-#                   You can set this to true to play a regular totem animation, or use an integer if you
-#                   are using CustomModelData for your totems.
-#                   Defaults to false.
-
-
-
 global-graveyard:
   global: true
   location:
@@ -97,7 +13,7 @@ global-graveyard:
   only-spawn-on:
     - ROOTED_DIRT
   material: DIRT
-  hologram: "&c[RIP]\n§a{player}"
+  hologram-text: "&c[RIP]\n§a{player}"
   spawn:
     x: -50
     y: 65

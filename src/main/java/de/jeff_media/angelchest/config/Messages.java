@@ -83,6 +83,10 @@ public final class Messages {
     public final String PREFIX;
     private final Main main;
 
+    public static void showReloadNotice(CommandSender sender) {
+        sender.sendMessage("§7(Use §6/acreload §7to update existing chests)");
+    }
+
     public Messages(final Main main) {
         this.main = Main.getInstance();
         if (main.getConfig().getBoolean(Config.PREFIX_MESSAGES)) {

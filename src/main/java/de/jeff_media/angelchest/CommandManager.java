@@ -21,6 +21,7 @@ public final class CommandManager {
     public static final HashMap<String, Boolean> toggleableCommandAliases = new HashMap<>();
     private static final String pathToCommandDescriptions = "assets/lang/commands/";
 
+
     private static PluginCommand getCommand(final String name, final Plugin plugin) {
         PluginCommand command = null;
 

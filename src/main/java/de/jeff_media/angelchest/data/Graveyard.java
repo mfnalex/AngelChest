@@ -7,10 +7,14 @@ import de.jeff_media.angelchest.handlers.ChunkManager;
 import de.jeff_media.jefflib.LocationUtils;
 import de.jeff_media.jefflib.TimeUtils;
 import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
+import jdk.internal.joptsimple.internal.Strings;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BoundingBox;
 import org.jetbrains.annotations.NotNull;
@@ -32,10 +36,11 @@ public class Graveyard {
     private final boolean instantRespawn;
     private final boolean global;
     private final Integer totemAnimation;
+    private final Collection<PotionEffect> potionEffects;
 
     private static final Main main = Main.getInstance();
 
-    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable Material material, @Nullable String hologramText, boolean global, @Nullable Location spawn, boolean instantRespawn, Integer totemAnimation) {
+    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable Material material, @Nullable String hologramText, boolean global, @Nullable Location spawn, boolean instantRespawn, Integer totemAnimation, Collection<PotionEffect> potionEffects) {
         this.name = name;
         this.boundingBox = worldBoundingBox;
         this.spawnOn = spawnOn;
@@ -45,6 +50,7 @@ public class Graveyard {
         this.spawn = spawn;
         this.instantRespawn = instantRespawn;
         this.totemAnimation = totemAnimation;
+        this.potionEffects = potionEffects;
         populateBlocksInsideAsync();
     }
 
@@ -55,6 +61,10 @@ public class Graveyard {
 
     public boolean hasSpace() {
         return getFreeSpot() != null;
+    }
+
+    public Collection<PotionEffect> getPotionEffects() {
+        return potionEffects;
     }
 
     @Override
@@ -68,6 +78,8 @@ public class Graveyard {
                 ", spawn=" + spawn +
                 ", instantRespawn=" + instantRespawn +
                 ", global=" + global +
+                ", totemAnimation=" + totemAnimation +
+                ", potionEffects=" + potionEffects +
                 '}';
     }
 
@@ -76,7 +88,7 @@ public class Graveyard {
         //this.name = config.getName();
         String name = config.getCurrentPath();
 
-        main.getLogger().info("Loading Graveyard " + name);
+        //main.getLogger().info("Loading Graveyard " + name);
 
         int minX = config.getInt("location.min.x");
         int minY = config.getInt("location.min.y");
@@ -100,10 +112,10 @@ public class Graveyard {
                 }
             }
             if (spawnOn.isEmpty()) {
-                spawnOn = null;
+                spawnOn = new ArrayList<>();
             }
         } else {
-            spawnOn = null;
+            spawnOn = new ArrayList<>();
         }
 
         WorldBoundingBox boundingBox = new WorldBoundingBox(world, BoundingBox.of(world.getBlockAt(minX, minY, minZ), world.getBlockAt(maxX, maxY, maxZ)));
@@ -146,7 +158,33 @@ public class Graveyard {
             totemAnimation = config.getInt("totem-animation");
         }
 
-        return new Graveyard(name, boundingBox, spawnOn, material, hologram, global, spawn, instantRespawn, totemAnimation);
+        Collection<PotionEffect> potionEffects = new ArrayList<>();
+        if(config.isConfigurationSection("potion-effects")) {
+            ConfigurationSection section = config.getConfigurationSection("potion-effects");
+            for(String key : section.getKeys(false)) {
+                PotionEffectType type = PotionEffectType.getByName(key.toUpperCase(Locale.ROOT));
+                if(type == null) {
+                    main.getLogger().warning("Invalid potion effect \"" + key + "\" defined defined for graveyard " + name);
+                    continue;
+                }
+                int amplifier = section.getInt(key.toUpperCase(Locale.ROOT)+".amplifier",1);
+                potionEffects.add(new PotionEffect(type,Integer.MAX_VALUE, amplifier));
+            }
+        }
+
+        return new Graveyard(name, boundingBox, spawnOn, material, hologram, global, spawn, instantRespawn, totemAnimation, potionEffects);
+    }
+
+    public void applyPotionEffects(Player player) {
+
+    }
+
+    public void removePotionEffects(Player player) {
+
+    }
+
+    public Collection<Material> getSpawnOn() {
+        return spawnOn;
     }
 
     public boolean hasCustomTotemAnimation() {
@@ -200,9 +238,10 @@ public class Graveyard {
         new BukkitRunnable() {
             @Override
             public void run() {
+                main.getLogger().info("Scanning graveyard " + name + " asynchronously for possible grave locations...");
                 TimeUtils.startTimings("Find grave locations for graveyard " + name);
-                for (int x = boundingBox.getMinBlock().getX(); x <= boundingBox.getMaxBlock().getX(); x += 16) {
-                    for (int z = boundingBox.getMinBlock().getZ(); z <= boundingBox.getMaxBlock().getZ(); z += 16) {
+                for (int x = boundingBox.getMinBlock().getX(); x <= boundingBox.getMaxBlock().getX() + 16; x += 16) {
+                    for (int z = boundingBox.getMinBlock().getZ(); z <= boundingBox.getMaxBlock().getZ() + 16; z += 16) {
                         LocationUtils.ChunkCoordinates chunkCoordinates = LocationUtils.getChunkCoordinates(x, z);
                         Future<Chunk> future = PaperLib.getChunkAtAsync(getWorldBoundingBox().getWorld(), chunkCoordinates.getX(), chunkCoordinates.getZ());
                         while (!future.isDone() && !future.isCancelled()) {
@@ -241,7 +280,12 @@ public class Graveyard {
                     }
                 }
                 Bukkit.getScheduler().runTask(Main.getInstance(), () -> Collections.shuffle(cachedValidGraveLocations));
-                TimeUtils.endTimings("Find grave locations for graveyard " + name,main,true);
+                try {
+                    long duration = TimeUtils.endTimings("Find grave locations for graveyard " + name, main, false);
+                    Bukkit.getScheduler().runTaskLater(main, () -> main.getLogger().info("Found " + cachedValidGraveLocations.size() + " possible grave locations in graveyard " + name + " (Duration: " + TimeUtils.formatNanoseconds(duration)+")"), 1L);
+                } catch (Exception ignored) {
+
+                }
             }
         }.runTaskAsynchronously(Main.getInstance());
     }
@@ -258,8 +302,43 @@ public class Graveyard {
         if (!block.getType().isAir()) return false;
         Block below = block.getRelative(BlockFace.DOWN);
         if (below.getType().isAir()) return false;
-        if (spawnOn == null) return true;
+        if (spawnOn == null || spawnOn.isEmpty()) return true;
         return spawnOn.contains(below.getType());
+    }
+
+    public String[][] toPrettyString() {
+        String onlySpawnOn = "[";
+        if(spawnOn != null) {
+            Iterator<Material> materialIterator = spawnOn.iterator();
+            while (materialIterator.hasNext()) {
+                Material mat = materialIterator.next();
+                onlySpawnOn += mat.name();
+                if (materialIterator.hasNext()) {
+                    onlySpawnOn += ",";
+                }
+            }
+        }
+        onlySpawnOn+="]";
+        String potionEffects = new String();
+        Iterator<PotionEffect> potionEffectIterator = this.potionEffects.iterator();
+        while(potionEffectIterator.hasNext()) {
+            potionEffects += potionEffectIterator.next().toString();
+            if(potionEffectIterator.hasNext()) {
+                potionEffects += ",";
+            }
+        }
+        return new String[][]{
+                {"Name",name},
+                {"Min",boundingBox.getMinBlock().getX()+", " + boundingBox.getMinBlock().getY()+", " + boundingBox.getMinBlock().getZ()},
+                {"Max",boundingBox.getMaxBlock().getX()+", " + boundingBox.getMaxBlock().getY()+", " + boundingBox.getMaxBlock().getZ()},
+                {"Spawn on", onlySpawnOn},
+                {"Material", material == null ? "default" : material.name()},
+                {"Free graves", String.valueOf(getFreeSpots().size())},
+                {"Global", String.valueOf(global)},
+                {"Instant respawn", String.valueOf(instantRespawn)},
+                {"Spawn",spawn == null ? null : spawn.getX()+", " + spawn.getY()+", "+spawn.getZ() + " (Yaw: " + spawn.getYaw() + ", Pitch: " + spawn.getPitch()+")"},
+                {"Potion effects",potionEffects.length()==0 ? "none" : potionEffects}
+        };
     }
 
     @NotNull

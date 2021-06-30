@@ -25,6 +25,13 @@ softdepend:
   - ProtocolLib
   - ExecutableItems
 loadbefore: [ AngelChestPlus ]
+commands:
+  acadmin:
+    description: "Manage AngelChest settings"
+    permission: "angelchest.admin"
+  acgraveyard:
+    description: "Manage Graveyard settings"
+    permission: "angelchest.admin"
 permissions:
   angelchest.use:
     description: "Players with this permission will have their items put into a chest on death by an Angel"
@@ -48,3 +55,5 @@ permissions:
     description: "Allows to use the debug command /acdebug"
   angelchest.version:
     description: "Allows to use the version command /acversion"
+  angelchest.admin:
+    description: "Allows to use the /acadmin and /acgraveyard commands"

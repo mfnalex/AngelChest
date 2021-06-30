@@ -243,7 +243,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         }
 
         if (deadHolograms == 0) {
-            Messages.send(commandSender, new String[]{ChatColor.GRAY + "There are no dead AngelChest holograms.", ChatColor.GRAY + "Please note that this command can only remove holograms in loaded chunks created in AngelChest 3.3.0 or later. Join my discord to get a command that can remove all dead holograms (including those created by other plugins): " + Main.DISCORD_LINK});
+            Messages.send(commandSender, ChatColor.GRAY + "There are no dead AngelChest holograms.", ChatColor.GRAY + "Please note that this command can only remove holograms in loaded chunks created in AngelChest 3.3.0 or later. Join my discord to get a command that can remove all dead holograms (including those created by other plugins): " + Main.DISCORD_LINK);
         } else {
             Messages.send(commandSender, ChatColor.GREEN + "Removed " + deadHolograms + " dead AngelChest holograms.");
         }
@@ -393,7 +393,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             }
         }
 
-        Messages.send(commandSender, "§eAvailable debug commands:",
+        Messages.send(commandSender, "§eAvailable commands:",
                 "/acd on §6Enables debug mode",
                 "/acd off §6Disables debug mode",
                 "/acd blacklist §6Shows blacklist information",

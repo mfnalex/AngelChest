@@ -1,5 +1,6 @@
 package de.jeff_media.angelchest;
 
+import co.aikar.commands.BukkitCommandManager;
 import de.jeff_media.SpigotJeffMediaPlugin;
 import de.jeff_media.angelchest.commands.*;
 import de.jeff_media.angelchest.config.*;
@@ -22,6 +23,7 @@ import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Daddy;
 import de.jeff_media.jefflib.JeffLib;
+import de.jeff_media.jefflib.TimeUtils;
 import de.jeff_media.jefflib.updatechecker.UpdateChecker;
 import de.jeff_media.jefflib.McVersion;
 import de.jeff_media.jefflib.Ticks;
@@ -408,6 +410,8 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 
         debug("Registering commands");
         registerCommands();
+        //BukkitCommandManager acfCommandManager = new BukkitCommandManager(this);
+        //acfCommandManager.registerCommand(new CommandGraveyard());
         debug("Setting command executors...");
         final CommandFetchOrTeleport commandFetchOrTeleport = new CommandFetchOrTeleport();
         final GenericTabCompleter genericTabCompleter = new GenericTabCompleter();
@@ -421,6 +425,8 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         Objects.requireNonNull(this.getCommand("acreload")).setExecutor(new CommandReload());
         Objects.requireNonNull(this.getCommand("acgui")).setExecutor(new CommandGUI());
         Objects.requireNonNull(this.getCommand("actoggle")).setExecutor(new CommandToggle());
+        Objects.requireNonNull(this.getCommand("acadmin")).setExecutor(new CommandAdmin());
+        Objects.requireNonNull(this.getCommand("acgraveyard")).setExecutor(new CommandGraveyard());
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceholderAPIHook(this).register();

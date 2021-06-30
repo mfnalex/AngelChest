@@ -1,0 +1,7 @@
+PREMIUM FEATURE: Only available in AngelChest Plus!
+
+You can define custom block data for your chest materials. Fore example, when using CANDLE, you can
+define whether they are lit and the amount of candles.
+
+To define exactly one custom block data for every kind of material. Just look at the block that
+has the preferred block data, then enter /acadmin saveblockdata

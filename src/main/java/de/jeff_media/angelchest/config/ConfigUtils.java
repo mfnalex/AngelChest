@@ -5,19 +5,24 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.data.BlacklistEntry;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIManager;
+import de.jeff_media.angelchest.handlers.BlockDataManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.hooks.ExecutableItemsHook;
 import de.jeff_media.angelchest.hooks.GenericHooks;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
+import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.GroupUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
 import de.jeff_media.daddy.Daddy;
+import de.jeff_media.jefflib.TimeUtils;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 import org.sqlite.util.StringUtils;
 
@@ -463,6 +468,7 @@ sound-channel: BLOCKS
     }
 
     public static void reloadCompleteConfig(final boolean reload) {
+
         final Main main = Main.getInstance();
         /*Daddy start*/
         Daddy.init(main);
@@ -492,7 +498,18 @@ sound-channel: BLOCKS
         main.itemBlacklist = loadItemBlacklist();
         main.nbtUtils = new NBTUtils();
 
+
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            GraveyardListener.callGraveyardLeaveEvent(player);
+        }
+
         GraveyardManager.init();
+
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            GraveyardListener.callGraveyardEnterEvent(player);
+        }
+
+        BlockDataManager.init();
 
         //main.debugger = new AngelChestDebugger(main);
         if (reload) {
