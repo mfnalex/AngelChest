@@ -38,10 +38,12 @@ public class Graveyard {
     private final boolean global;
     private final Integer totemAnimation;
     private final Collection<PotionEffect> potionEffects;
+    private final Long localTime;
+    private final WeatherType weatherType;
 
     private static final Main main = Main.getInstance();
 
-    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable Material material, @Nullable String hologramText, boolean global, @Nullable Location spawn, boolean instantRespawn, Integer totemAnimation, Collection<PotionEffect> potionEffects) {
+    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable Material material, @Nullable String hologramText, boolean global, @Nullable Location spawn, boolean instantRespawn, Integer totemAnimation, Collection<PotionEffect> potionEffects, @Nullable Long localTime, @Nullable WeatherType weatherType) {
         this.name = name;
         this.boundingBox = worldBoundingBox;
         this.spawnOn = spawnOn;
@@ -52,6 +54,8 @@ public class Graveyard {
         this.instantRespawn = instantRespawn;
         this.totemAnimation = totemAnimation;
         this.potionEffects = potionEffects;
+        this.localTime = localTime;
+        this.weatherType = weatherType;
         populateBlocksInsideAsync();
     }
 
@@ -161,19 +165,38 @@ public class Graveyard {
 
         Collection<PotionEffect> potionEffects = new ArrayList<>();
         if(config.isConfigurationSection("potion-effects")) {
-            ConfigurationSection section = config.getConfigurationSection("potion-effects");
-            for(String key : section.getKeys(false)) {
+            ConfigurationSection potionSection = config.getConfigurationSection("potion-effects");
+            for(String key : potionSection.getKeys(false)) {
                 PotionEffectType type = PotionEffectType.getByName(key.toUpperCase(Locale.ROOT));
                 if(type == null) {
                     main.getLogger().warning("Invalid potion effect \"" + key + "\" defined defined for graveyard " + name);
                     continue;
                 }
-                int amplifier = section.getInt(key.toUpperCase(Locale.ROOT)+".amplifier",1);
+                int amplifier = potionSection.getInt(key.toUpperCase(Locale.ROOT));
                 potionEffects.add(new PotionEffect(type,Integer.MAX_VALUE, amplifier));
             }
         }
 
-        return new Graveyard(name, boundingBox, spawnOn, material, hologram, global, spawn, instantRespawn, totemAnimation, potionEffects);
+        Long localTime = null;
+        if(config.isSet("local-time")) {
+            localTime = config.getLong("local-time");
+        }
+
+        WeatherType weatherType = null;
+        if(config.isSet("local-weather")) {
+            switch (config.getString("local-weather").toLowerCase(Locale.ROOT)) {
+                case "rain":
+                    weatherType = WeatherType.DOWNFALL;
+                    break;
+                case "sun":
+                    weatherType = WeatherType.CLEAR;
+                    break;
+                default:
+                    weatherType = null;
+            }
+        }
+
+        return new Graveyard(name, boundingBox, spawnOn, material, hologram, global, spawn, instantRespawn, totemAnimation, potionEffects, localTime, weatherType);
     }
 
     public void applyPotionEffects(Player player) {
@@ -349,7 +372,9 @@ public class Graveyard {
                 {"Global", String.valueOf(global)},
                 {"Instant respawn", String.valueOf(instantRespawn)},
                 {"Spawn",spawn == null ? null : spawn.getX()+", " + spawn.getY()+", "+spawn.getZ() + " (Yaw: " + spawn.getYaw() + ", Pitch: " + spawn.getPitch()+")"},
-                {"Potion effects",potionEffects.length()==0 ? "none" : potionEffects}
+                {"Potion effects",potionEffects.length()==0 ? "none" : potionEffects},
+                {"Time",hasCustomTime() ? String.valueOf(localTime) : "default"},
+                {"Weather",hasCustomWeather() ? String.valueOf(weatherType) : "default"}
         };
     }
 
@@ -389,5 +414,21 @@ public class Graveyard {
 
     public boolean isInstantRespawn() {
         return instantRespawn;
+    }
+
+    public boolean hasCustomTime() {
+        return localTime != null;
+    }
+
+    public Long getCustomTime() {
+        return localTime;
+    }
+
+    public boolean hasCustomWeather() {
+        return weatherType != null;
+    }
+
+    public WeatherType getCustomWeather() {
+        return weatherType;
     }
 }

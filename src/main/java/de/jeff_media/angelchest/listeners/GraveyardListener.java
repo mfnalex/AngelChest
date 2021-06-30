@@ -8,7 +8,6 @@ import de.jeff_media.angelchest.nms.NMSHandler;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -49,6 +48,7 @@ public class GraveyardListener implements Listener {
                         }
                         Bukkit.getPluginManager().callEvent(new PlayerEnterLeaveGraveyardEvent(player, currentYard, PlayerEnterLeaveGraveyardEvent.Action.ENTER));
                     }
+                    playerGraveyardMap.put(player, currentYard);
                 }
             }
         }.runTaskTimer(main, 0, 1);
@@ -72,6 +72,7 @@ public class GraveyardListener implements Listener {
 
     public static void callGraveyardEnterEvent(Player player) {
         Graveyard yard = playerGraveyardMap.get(player);
+        if(yard == null) return;
         if(yard != GraveyardManager.fromLocation(player.getLocation())) return;
         Bukkit.getPluginManager().callEvent(new PlayerEnterLeaveGraveyardEvent(player, GraveyardManager.fromLocation(player.getLocation()), PlayerEnterLeaveGraveyardEvent.Action.ENTER));
     }
@@ -79,10 +80,34 @@ public class GraveyardListener implements Listener {
     @EventHandler
     public void onEnterLeaveYard(PlayerEnterLeaveGraveyardEvent event) {
         PlayerEnterLeaveGraveyardEvent.Action action = event.getAction();
+        Player player = event.getPlayer();
+        Graveyard graveyard = event.getGraveyard();
         if(action == PlayerEnterLeaveGraveyardEvent.Action.ENTER) {
-            event.getGraveyard().applyPotionEffects(event.getPlayer());
+            onEnterGraveyard(player, graveyard);
         } else {
-            event.getGraveyard().removePotionEffects(event.getPlayer());
+            onLeaveGraveyard(player, graveyard);
+        }
+    }
+
+    private void onLeaveGraveyard(Player player, Graveyard graveyard) {
+        //Bukkit.broadcastMessage("§cPlayer " + event.getPlayer().getName() + " left graveyard " + event.getGraveyard().getName());
+        graveyard.removePotionEffects(player);
+        if(graveyard.hasCustomTime()) {
+            player.resetPlayerTime();
+        }
+        if(graveyard.hasCustomWeather()) {
+            player.resetPlayerWeather();
+        }
+    }
+
+    private void onEnterGraveyard(Player player, Graveyard graveyard) {
+        //Bukkit.broadcastMessage("§aPlayer " + event.getPlayer().getName() + " entered graveyard " + event.getGraveyard().getName());
+        graveyard.applyPotionEffects(player);
+        if(graveyard.hasCustomTime()) {
+            player.setPlayerTime(graveyard.getCustomTime(), false);
+        }
+        if(graveyard.hasCustomWeather()) {
+            player.setPlayerWeather(graveyard.getCustomWeather());
         }
     }
 

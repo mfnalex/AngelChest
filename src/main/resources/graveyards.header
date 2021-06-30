@@ -83,3 +83,37 @@ Optional values:
                    or:
                      totem-animation: 3
 
+
+  potion-effects: You can define potion effects that will be applied to all players while they are inside
+                  the graveyard. Their previous effects will be restored once they leave the graveyard.
+                  You can also set the effect's multiplicator.
+
+                  Example:
+                    potion-effects:
+                      BLINDNESS: 0        (= blindness level lvl 1)
+                      MINING_FATIGUE: 9   (= mining fatigue lvl 10)
+
+
+  local-time: You can have the graveyard use a specific time. Normal values range from 0 to 24000.
+              You can also use values above 24000 to change the moon phase.
+              This does NOT affect mob spawning etc, it's just a cosmetic effect.
+              When not set, the graveyard uses the world's current time.
+              Normal time: https://minecraft.fandom.com/wiki/Daylight_cycle#24-hour_Minecraft_day
+              Moon phases: https://minecraft.fandom.com/wiki/Daylight_cycle#Moon_phases
+
+              Examples:
+                local-time: 6000     (noon)
+              or:
+                local-time: 14000    (full moon starting to rise)
+              or:
+                local-time: 18000    (full moon at its peak)
+              or:
+                local-time: 110000   (new moon)
+
+
+  local-weather: Same as local-time, just for weather.
+                 When not set, the graveyard uses the world's current wheather.
+                 Available values: sun, rain
+
+                 Example:
+                   local-weather: rain

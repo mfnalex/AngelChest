@@ -13,7 +13,6 @@
   - To use this, look at a block with the desired blockdata and enter "/acadmin saveblockdata"
 - Fixed exception when player died do to Player#setHealth(0) without having taken damage before
 
-TODO: Add option to always have day/night in graveyards
 TODO: Add option to disable mob block damage / disallow mob spawning in graveyards
 TODO: Add option to be invulnerable in graveyards
 TODO: Add nausea effect when respawning in a graveyard

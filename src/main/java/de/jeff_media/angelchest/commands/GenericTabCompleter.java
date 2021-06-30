@@ -53,10 +53,10 @@ public class GenericTabCompleter implements TabCompleter {
         return list;
     }
 
-    public static List<String> getPotionEffectTypes(String entered) {
+    public static List<String> getPotionEffectTypes(final String entered) {
         if(entered == null) return POTION_EFFECT_TYPES;
         List<String> list = new ArrayList<>(POTION_EFFECT_TYPES);
-        list.removeIf(s -> !s.startsWith(entered));
+        list.removeIf(s -> !s.startsWith(entered.toUpperCase(Locale.ROOT)));
         return list;
     }
 

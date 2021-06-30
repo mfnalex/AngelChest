@@ -85,7 +85,7 @@ public class CommandGraveyard implements CommandExecutor, TabCompleter {
 
         if(args.length <= 1) {
             return Arrays.asList("create","list","setmaterial","addspawnon","removespawnon","info","delete","setspawn","sethologramtext",
-                    "addpotioneffect","removepotioneffect");
+                    "addpotioneffect","removepotioneffect","settime","setweather");
         } else if(args.length == 2 &&
                 (args[0].equalsIgnoreCase("setmaterial")
                 || args[0].equalsIgnoreCase("addspawnon")
@@ -216,6 +216,9 @@ public class CommandGraveyard implements CommandExecutor, TabCompleter {
             case "removepotioneffect":
                 removePotionEffect(player, yard, args);
                 return true;
+            case "settime":
+                setTime(player, yard, args);
+                return true;
             case "info":
                 info(player, yard, args);
                 return true;
@@ -224,6 +227,38 @@ public class CommandGraveyard implements CommandExecutor, TabCompleter {
         help(commandSender);
 
         return true;
+    }
+
+    private void setTime(Player player, Graveyard yard, String[] args) {
+        if(args.length < 2) {
+            player.sendMessage("§aLocal time for graveyard §b" + yard.getName() + " §ahas been reset.");
+            GraveyardYamlManager.setTime(yard,null);
+        } else {
+            try {
+                long time = Long.parseLong(args[2]);
+                player.sendMessage("§aLocal time for graveyard §" + yard.getName() + " §has been set to §b" + time);
+                GraveyardYamlManager.setTime(yard, time);
+            } catch (Exception exception) {
+                player.sendMessage("§c" + args[1] + " is not a valid number.");
+            }
+        }
+    }
+
+    private void setWeather(Player player, Graveyard yard, String[] args) {
+        if(args.length < 2) {
+            player.sendMessage("§aLocal weather for graveyard §b" + yard.getName() + " §ahas been reset.");
+            GraveyardYamlManager.setWeather(yard,null);
+        } else {
+                WeatherType weatherType;
+                if(args[1].equalsIgnoreCase("sun")) weatherType = WeatherType.CLEAR;
+                else if(args[1].equalsIgnoreCase("rain")) weatherType = WeatherType.DOWNFALL;
+                else {
+                    player.sendMessage("§c" + args[1] + " is not a weather type. Must be §bsun§c or §brain§b.");
+                    return;
+                }
+                player.sendMessage("§aLocal weather for graveyard §" + yard.getName() + " §has been set to §b" + weatherType.name());
+                GraveyardYamlManager.setWeather(yard, weatherType);
+        }
     }
 
     private PotionEffectType getPotionEffectFromArgs(Player player, String args[], int index) {
@@ -244,6 +279,7 @@ public class CommandGraveyard implements CommandExecutor, TabCompleter {
         PotionEffectType type = getPotionEffectFromArgs(player, args, 1);
         if(type == null) return;
         GraveyardYamlManager.removePotionEffect(yard, type);
+        player.sendMessage("§aRemoved potion effect §b" + type + " §a from graveyard §b" + yard.getName());
     }
 
     private void addPotionEffect(Player player, Graveyard yard, String[] args) {
@@ -251,10 +287,13 @@ public class CommandGraveyard implements CommandExecutor, TabCompleter {
         if(type == null) return;
         args = Arrays.copyOfRange(args, 1, args.length);
 
-        int amplifier = 1;
+        int amplifier = 0;
         if(args.length==2) {
             try {
                 amplifier = Integer.parseInt(args[1]);
+                if(amplifier < 0) {
+                    throw new NumberFormatException();
+                }
             } catch (Exception exception) {
                 player.sendMessage("§c"+args[1]+" is not a valid integer.");
                 return;
@@ -315,8 +354,10 @@ public class CommandGraveyard implements CommandExecutor, TabCompleter {
                 "/acgraveyard addspawnon <block> §6Adds a material to the list of valid grave ground blocks for the nearest graveyard",
                 "/acgraveyard removespawnon <block> §6Removes a material to the list of valid grave ground blocks for the nearest graveyard",
                 "/acgraveyard sethologramtext <text> §6Sets the hologram text for the nearest graveyard",
-                "/acgraveyard addpotioneffect §6Adds a potion effect to the nearest graveyard",
-                "/acgraveyard removepotioneffect §6Removes a potion effect from the nearest graveyard");
+                "/acgraveyard addpotioneffect <potionType> [multiplier] §6Adds a potion effect to the nearest graveyard",
+                "/acgraveyard removepotioneffect <potionType> §6Removes a potion effect from the nearest graveyard",
+                "/acgraveyard settime [time] §6Sets the local time of the nearest graveyards or resets it",
+                "/acgraveyard setweather [sun|rain] §6Sets the local weather of the nearest graveyard or resets it");
     }
 
     private void listGraveyards(CommandSender player) {

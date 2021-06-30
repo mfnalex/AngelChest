@@ -5,6 +5,7 @@ import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.jefflib.FileUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.WeatherType;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -135,14 +136,25 @@ public class GraveyardYamlManager {
 
     public static void addPotionEffect(Graveyard yard, PotionEffect effect) {
         YamlConfiguration yaml = getYaml();
-        String section = yard.getName() + ".potion-effects." + effect.getType().getName();
-        yaml.set(section+".amplifier",effect.getAmplifier());
+        yaml.set(yard.getName() + ".potion-effects." + effect.getType().getName(),effect.getAmplifier());
         save(yaml);
     }
 
     public static void removePotionEffect(Graveyard yard, PotionEffectType type) {
         YamlConfiguration yaml = getYaml();
-        yaml.set("potion-effects."+type.getName(),null);
+        yaml.set(yard.getName()+".potion-effects."+type.getName(),null);
+        save(yaml);
+    }
+
+    public static void setTime(Graveyard yard, Long time) {
+        YamlConfiguration yaml = getYaml();
+        yaml.set(yard.getName() + ".local-time", time);
+        save(yaml);
+    }
+
+    public static void setWeather(Graveyard yard, WeatherType weatherType) {
+        YamlConfiguration yaml = getYaml();
+        yaml.set(yard.getName() + ".local-weather", weatherType);
         save(yaml);
     }
 }

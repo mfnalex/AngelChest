@@ -26,6 +26,15 @@ public class PlayerEnterLeaveGraveyardEvent extends Event {
         return HANDLERS;
     }
 
+    @Override
+    public String toString() {
+        return "PlayerEnterLeaveGraveyardEvent{" +
+                "player=" + player +
+                ", graveyard=" + graveyard +
+                ", action=" + action +
+                '}';
+    }
+
     public enum Action {
         LEAVE, ENTER
     }
