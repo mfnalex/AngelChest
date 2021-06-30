@@ -4,6 +4,7 @@ import com.google.common.base.Enums;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.exceptions.InvalidLocationDefinitionException;
 import de.jeff_media.angelchest.handlers.ChunkManager;
+import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.jefflib.LocationUtils;
 import de.jeff_media.jefflib.TimeUtils;
 import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
@@ -176,11 +177,22 @@ public class Graveyard {
     }
 
     public void applyPotionEffects(Player player) {
-
+        GraveyardListener.getActivePotionEffects().put(player, player.getActivePotionEffects());
+        for(PotionEffect effect : player.getActivePotionEffects()) {
+            player.removePotionEffect(effect.getType());
+        }
+        player.addPotionEffects(potionEffects);
     }
 
     public void removePotionEffects(Player player) {
-
+        for(PotionEffect effect : potionEffects) {
+            player.removePotionEffect(effect.getType());
+        }
+        Collection<PotionEffect> oldEffects = GraveyardListener.getActivePotionEffects().get(player);
+        if(oldEffects != null) {
+            player.addPotionEffects(oldEffects);
+            GraveyardListener.getActivePotionEffects().remove(player);
+        }
     }
 
     public Collection<Material> getSpawnOn() {

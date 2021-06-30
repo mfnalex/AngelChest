@@ -5,6 +5,7 @@ import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.events.PlayerEnterLeaveGraveyardEvent;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.nms.NMSHandler;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -22,6 +23,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 public class GraveyardListener implements Listener {
@@ -29,6 +31,7 @@ public class GraveyardListener implements Listener {
     private static final int CHECK_RADIUS = 3;
     private static final Main main = Main.getInstance();
     private static final HashMap<Player, Graveyard> playerGraveyardMap = new HashMap<>();
+    @Getter private static final HashMap<Player, Collection<PotionEffect>> activePotionEffects = new HashMap<>();
 
     static {
         new BukkitRunnable() {
