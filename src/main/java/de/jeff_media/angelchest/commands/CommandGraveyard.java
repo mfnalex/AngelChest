@@ -235,7 +235,7 @@ public class CommandGraveyard implements CommandExecutor, TabCompleter {
             GraveyardYamlManager.setTime(yard,null);
         } else {
             try {
-                long time = Long.parseLong(args[2]);
+                long time = Long.parseLong(args[1]);
                 player.sendMessage("§aLocal time for graveyard §" + yard.getName() + " §has been set to §b" + time);
                 GraveyardYamlManager.setTime(yard, time);
             } catch (Exception exception) {
@@ -244,6 +244,7 @@ public class CommandGraveyard implements CommandExecutor, TabCompleter {
         }
     }
 
+    // TODO: add
     private void setWeather(Player player, Graveyard yard, String[] args) {
         if(args.length < 2) {
             player.sendMessage("§aLocal weather for graveyard §b" + yard.getName() + " §ahas been reset.");
