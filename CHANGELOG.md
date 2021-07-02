@@ -1,3 +1,7 @@
+## 3.29.2
+
+- Fixed shading issue preventing the plugin from enabling (free version only)
+
 ## 3.29.1
 
 - FIXED POSSIBLE DUPLICATION BUG in the Plus version
