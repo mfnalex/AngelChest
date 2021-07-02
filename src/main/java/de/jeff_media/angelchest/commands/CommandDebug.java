@@ -441,9 +441,9 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             player.sendMessage("Showing borders and graves for Graveyard " + graveyard.getName());
             ParticleUtils.drawHollowCube(graveyard.getWorldBoundingBox().getWorld(), graveyard.getWorldBoundingBox().getBoundingBox(), player, Particle.BARRIER, 5).runTaskTimer(main, 0, 20);
             new BlockMarkerTask(graveyard, player).runTaskTimer(main, 0, 40);
-        } else if(args.length==3 && args[1].equalsIgnoreCase("spamgraves")) {
+        } /*else if(args.length==3 && args[1].equalsIgnoreCase("spamgraves")) {
             SpamGravesCommand.run(player, args);
-        } else if(args.length==2 && args[1].equalsIgnoreCase("loadedchunks")) {
+        }*/ else if(args.length==2 && args[1].equalsIgnoreCase("loadedchunks")) {
             Set<Chunk> loadedChunks = ChunkManager.getLoadedChunks();
             player.sendMessage("Force loaded chunks: " + loadedChunks.size());
             for(Chunk chunk : loadedChunks) {
@@ -460,7 +460,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             Messages.send(commandSender, "§eAvailable graveyard commands:",
                     "/acd graveyard info §6Shows information about the nearest graveyard",
                     "/acd graveyard showgraves §6Shows borders ang graves for the nearest graveyard",
-                    "/acd graveyard spamgraves <count> §6Kills you <count> times in a row",
+                    //"/acd graveyard spamgraves <count> §6Kills you <count> times in a row",
                     "/acd graveyard loadedchunks §6Shows the number of force loaded chunks");
         }
     }
@@ -487,7 +487,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String s, @NotNull final String[] args) {
         final String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig", "dump", "fixholograms", "disableac", "enableac", "totemanimation", "graveyard"};
         final String[] blacklistCommands = {"info", "test", "add"};
-        final String[] graveyardCommands = {"showgraves","spamgraves","loadedchunks","info"};
+        final String[] graveyardCommands = {"showgraves"/*,"spamgraves"*/,"loadedchunks","info"};
 
         // Debug
         /*main.verbose("args.lengh = "+args.length);

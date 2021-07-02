@@ -548,7 +548,11 @@ public final class PlayerListener implements Listener {
         }
 
         // Player died in Lava
-        if (main.getConfig().getBoolean(Config.LAVA_DETECTION) && fixedPlayerPosition.getType() == Material.LAVA) {
+        boolean diedThroughLava = false;
+        if(p.getLastDamageCause() != null && p.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
+            diedThroughLava = true;
+        }
+        if (main.getConfig().getBoolean(Config.LAVA_DETECTION) && (fixedPlayerPosition.getType() == Material.LAVA || diedThroughLava)) {
             if (main.debug) main.debug("Fixing player position for " + p.getLocation() + " because there's lava");
             if (main.lastPlayerPositions.containsKey(p.getUniqueId())) {
                 fixedPlayerPosition = main.lastPlayerPositions.get(p.getUniqueId());

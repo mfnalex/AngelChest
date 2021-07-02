@@ -16,12 +16,15 @@
 TODO: Angelchest vanishing animation (falling block going upwards)
 TODO: Teleport delay for /actp
 TODO: Add option to disable mob block damage / disallow mob spawning in graveyards
-TODO: Add option to be invulnerable in graveyards
-TODO: Add nausea effect when respawning in a graveyard
 TODO: Add option to spawn in graveyard when chest was empty
-TODO: Fix /acd graveyard spamgraves resulting in endless death when using totem animation
 TODO. Add option to preserve XP in the chest even there are no items to drop LEL shesh
-TODO: Fix chest spawning at arbitrary locations when players die in huge lava oceans
+
+## 3.29.1
+
+- FIXED POSSIBLE DUPLICATION BUG in the Plus version
+  - I will explain how the duplication worked after a few days, to give server admins time to update without players abusing it
+  - Tip: Dupe bug involves hacked clients
+  - (Free version users shouldn't be affected, but they get the update too, just in case)
 
 ## 3.29.0
 
