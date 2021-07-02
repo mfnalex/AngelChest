@@ -325,6 +325,12 @@ public final class GUIListener implements @NotNull Listener {
 
             final AngelChest angelChest = guiHolder.getAngelChest();
 
+            if(angelChest.isLooted) {
+                event.setCancelled(true);
+                main.getLogger().warning("GUI click made in already looted chest - possible duplication attempt, or player is just lagging very hard: " + player.getName());
+                return;
+            }
+
             final File logfile = main.logger.getLogFile(angelChest.logfile);
 
             if (clickedSlot == GUI.SLOT_PREVIEW_XP) {

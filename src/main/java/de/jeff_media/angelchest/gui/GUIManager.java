@@ -301,7 +301,7 @@ public final class GUIManager {
         }
     }
 
-    public void updatePreviewInvs(final Player originalPlayer, final AngelChest angelChest) {
+    public void updatePreviewInvs(final @Nullable Player originalPlayer, final AngelChest angelChest) {
         for (final Player player : Bukkit.getOnlinePlayers()) {
             if (player.equals(originalPlayer)) continue;
             if (player.getOpenInventory() == null) continue;

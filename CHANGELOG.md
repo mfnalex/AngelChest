@@ -1,3 +1,10 @@
+## 3.29.1
+
+- FIXED POSSIBLE DUPLICATION BUG in the Plus version
+  - I will explain how the duplication worked after a few days, to give server admins time to update without players abusing it
+  - Tip: Dupe bug involves hacked clients
+  - (Free version users shouldn't be affected, but they get the update too, just in case)
+
 ## 3.29.0
 
 - Made damage causes shown in the hologram customizable

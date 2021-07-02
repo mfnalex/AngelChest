@@ -33,6 +33,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -54,11 +55,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public final class PlayerListener implements Listener {
 
     private static final byte TOTEM_MAGIC_VALUE = 35;
-    final Main main;
-
-    public PlayerListener() {
-        this.main = Main.getInstance();
-    }
+    final static Main main = Main.getInstance();
 
     private static void dropPlayerHead(final Player player) {
         final ItemStack head = getPlayerHead(player);
@@ -169,7 +166,7 @@ public final class PlayerListener implements Listener {
             main.guiManager.showPreviewGUI(player, angelChest, false, firstOpened);
         } else {
             main.debug("Fastlooting chest");
-            openAngelChest(player, angelChest, firstOpened);
+            fastLoot(player, angelChest, firstOpened);
         }
 
     }
@@ -329,7 +326,13 @@ public final class PlayerListener implements Listener {
         });
     }
 
-    void openAngelChest(final Player p, final AngelChest angelChest, boolean firstOpened) {
+    public static void fastLoot(final Player p, final AngelChest angelChest, boolean firstOpened) {
+
+        if(p.getOpenInventory().getType() != InventoryType.PLAYER && p.getOpenInventory().getType() != InventoryType.CRAFTING) {
+            main.getLogger().warning("Player " + p.getName() + " attempted to fastloot an AngelChest while having an inventory open - possible duplication attempt using a hacked client, or just client lag.");
+            return;
+        }
+        p.closeInventory();
 
         Utils.applyXp(p, angelChest);
 
@@ -338,6 +341,7 @@ public final class PlayerListener implements Listener {
 
         succesfullyStoredEverything = AngelChestUtils.tryToMergeInventories(main, angelChest, p.getInventory());
         if (succesfullyStoredEverything) {
+            angelChest.isLooted = true;
             Messages.send(p, main.messages.MSG_YOU_GOT_YOUR_INVENTORY_BACK);
 
             // This is another player's chest
@@ -376,7 +380,7 @@ public final class PlayerListener implements Listener {
             main.getLogger().info(p.getName() + " opened the AngelChest of " + Bukkit.getOfflinePlayer(angelChest.owner).getName() + " at " + angelChest.block.getLocation());
         }
 
-        main.guiManager.updatePreviewInvs(p, angelChest);
+        main.guiManager.updatePreviewInvs(null, angelChest);
 
     }
 

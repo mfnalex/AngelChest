@@ -57,6 +57,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public int unlockIn;
     public UUID worldid;
     double price = 0;
+    public boolean isLooted = false;
 
     /**
      * Loads an AngelChest from a YAML file
