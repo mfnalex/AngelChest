@@ -18,13 +18,13 @@ Optional values:
             global: true
 
 
-  only-spawn-on: When set, the graves will only spawn on top of the given blocks.
-                 When not set, graves can spawn on top of any block.
+  grave-locations: When set, the graves will only spawn on top of the given blocks.
+                   When not set, graves can spawn on top of any block.
 
-                 Example:
-                   only-spawn-on:
-                   - ROOTED_DIRT
-                   - GRAVEL
+                   Example:
+                     grave-locations:
+                     - ROOTED_DIRT
+                     - GRAVEL
 
 
   material: When set, the AngelChests in this graveyard will use this material

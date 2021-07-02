@@ -27,7 +27,7 @@ softdepend:
 loadbefore: [ AngelChestPlus ]
 commands:
   acadmin:
-    description: "Manage AngelChest settings"
+    description: "Manage a few AngelChest settings"
     permission: "angelchest.admin"
   acgraveyard:
     description: "Manage Graveyard settings"
@@ -56,4 +56,9 @@ permissions:
   angelchest.version:
     description: "Allows to use the version command /acversion"
   angelchest.admin:
-    description: "Allows to use the /acadmin and /acgraveyard commands"
+    description: "Allows to use /acadmin, /acgraveyard, /acreload, /acdebug and /acversion"
+    children:
+      angelchest.version: true
+      angelchest.debug: true
+      angelchest.reload: true
+      angelchest.others: true

@@ -1,6 +1,7 @@
 package de.jeff_media.angelchest.handlers;
 
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.jefflib.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -44,6 +45,13 @@ public class BlockDataManager {
 
     public static void setBlockData(Block block) {
         Material mat = block.getType();
+        Graveyard yard = GraveyardManager.fromBlock(block);
+        if(yard != null) {
+            if(yard.hasCustomMaterial()) {
+                block.setBlockData(yard.getCustomMaterial());
+                return;
+            }
+        }
         if(YAML.contains(mat.name())) {
             block.setBlockData(Bukkit.getServer().createBlockData(Objects.requireNonNull(YAML.getString(mat.name()))));
         }

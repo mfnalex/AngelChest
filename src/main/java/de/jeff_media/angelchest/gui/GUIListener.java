@@ -9,6 +9,7 @@ import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.angelchest.listeners.PlayerListener;
 import de.jeff_media.angelchest.utils.CommandUtils;
 import de.jeff_media.angelchest.utils.Utils;
 import de.jeff_media.daddy.Daddy;
@@ -19,10 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -289,6 +287,12 @@ public final class GUIListener implements @NotNull Listener {
             return;
         }
 
+        // TODO DEBUG DUPE START
+        if(event.getClick() == ClickType.SHIFT_LEFT) {
+            PlayerListener.fastLoot(player, guiHolder.getAngelChest(), true);
+        }
+        // TODO DEBUG DUPE END
+
 
         if (guiHolder.isReadOnlyPreview()) {
 
@@ -317,6 +321,7 @@ public final class GUIListener implements @NotNull Listener {
         }
 
         if (GUIUtils.isLootableInPreview(event.getSlot())) {
+
             //if(main.debug) main.debug("[GUIListener] "+"onPreviewGUIClick: cancelled -> false");
 
             final ItemStack clickedItem = event.getCurrentItem();
@@ -324,6 +329,12 @@ public final class GUIListener implements @NotNull Listener {
             final int clickedSlot = event.getSlot();
 
             final AngelChest angelChest = guiHolder.getAngelChest();
+
+            if(angelChest.isLooted) {
+                event.setCancelled(true);
+                main.getLogger().warning("GUI click made in already looted chest - possible duplication attempt, or player is just lagging very hard: " + player.getName());
+                return;
+            }
 
             final File logfile = main.logger.getLogFile(angelChest.logfile);
 

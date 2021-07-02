@@ -195,7 +195,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         if(Daddy.allows(PremiumFeatures.GRAVEYARDS)) {
             if(chest.getGraveyard() != null) {
                 if(chest.getGraveyard().hasCustomMaterial()) {
-                    return chest.getGraveyard().getCustomMaterial();
+                    return chest.getGraveyard().getCustomMaterial().getMaterial();
                 }
             }
         }

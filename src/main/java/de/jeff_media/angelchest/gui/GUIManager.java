@@ -301,7 +301,7 @@ public final class GUIManager {
         }
     }
 
-    public void updatePreviewInvs(final Player originalPlayer, final AngelChest angelChest) {
+    public void updatePreviewInvs(final @Nullable Player originalPlayer, final AngelChest angelChest) {
         for (final Player player : Bukkit.getOnlinePlayers()) {
             if (player.equals(originalPlayer)) continue;
             if (player.getOpenInventory() == null) continue;
@@ -309,6 +309,8 @@ public final class GUIManager {
             if (!(player.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder)) continue;
             final GUIHolder guiHolder = (GUIHolder) player.getOpenInventory().getTopInventory().getHolder();
             if (guiHolder.getSpecialAngelChest() != null && guiHolder.getSpecialAngelChest().equals(angelChest)) {
+                System.out.println("This AngelChest " + angelChest + " is also in use by " + player.getName() + ", updating...");
+
                 if (main.debug)
                     main.debug("This AngelChest " + angelChest + " is also in use by " + player.getName() + ", updating...");
                 if (!angelChest.isEmpty()) {

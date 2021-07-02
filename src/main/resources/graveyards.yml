@@ -1,7 +1,7 @@
 global-graveyard:
   global: true
   location:
-    world: world
+    world: world_1337
     min:
       x: -50
       y: 64
@@ -10,21 +10,27 @@ global-graveyard:
       x: 50
       y: 80
       z: 50
-  only-spawn-on:
-    - ROOTED_DIRT
-  material: DIRT
-  hologram-text: "&c[RIP]\n§a{player}"
   spawn:
     x: -50
     y: 65
     z: -50
     yaw: -45
     pitch: 0
+  grave-locations:
+    - ROOTED_DIRT
+  material: DIRT
+  hologram-text: "&c[RIP]\n§a{player}"
+  instant-respawn: true
   totem-animation: true
+  potion-effects:
+    BLINDNESS: 0
+    MINING_FATIGUE: 9
+  local-time: 14000
+  local-weather: rain
 
 nether-graveyard:
   location:
-    world: nether
+    world: world_1337_nether
     min:
       x: 100
       y: 64
@@ -33,5 +39,5 @@ nether-graveyard:
       x: 130
       y: 70
       z: 130
-  only-spawn-on:
+  grave-locations:
     - CRIMSON_HYPHAE

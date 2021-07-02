@@ -8,10 +8,10 @@ import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.jefflib.LocationUtils;
 import de.jeff_media.jefflib.TimeUtils;
 import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
-import jdk.internal.joptsimple.internal.Strings;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -31,7 +31,7 @@ public class Graveyard {
     private final WorldBoundingBox boundingBox;
     private final Collection<Material> spawnOn;
     private final List<Block> cachedValidGraveLocations = new ArrayList<>();
-    private final Material material;
+    private final BlockData blockData;
     private final String hologramText;
     private final Location spawn;
     private final boolean instantRespawn;
@@ -43,11 +43,11 @@ public class Graveyard {
 
     private static final Main main = Main.getInstance();
 
-    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable Material material, @Nullable String hologramText, boolean global, @Nullable Location spawn, boolean instantRespawn, Integer totemAnimation, Collection<PotionEffect> potionEffects, @Nullable Long localTime, @Nullable WeatherType weatherType) {
+    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable BlockData blockData, @Nullable String hologramText, boolean global, @Nullable Location spawn, boolean instantRespawn, Integer totemAnimation, Collection<PotionEffect> potionEffects, @Nullable Long localTime, @Nullable WeatherType weatherType) {
         this.name = name;
         this.boundingBox = worldBoundingBox;
         this.spawnOn = spawnOn;
-        this.material = material;
+        this.blockData = blockData;
         this.hologramText = hologramText;
         this.global = global;
         this.spawn = spawn;
@@ -78,7 +78,7 @@ public class Graveyard {
                 "name='" + name + '\'' +
                 ", boundingBox=" + boundingBox +
                 ", spawnOn=" + spawnOn +
-                ", material=" + material +
+                ", material=" + blockData +
                 ", hologramText='" + hologramText + '\'' +
                 ", spawn=" + spawn +
                 ", instantRespawn=" + instantRespawn +
@@ -107,8 +107,8 @@ public class Graveyard {
         }
 
         Collection<Material> spawnOn = new ArrayList<>();
-        if (config.isList("only-spawn-on")) {
-            for (String matName : config.getStringList("only-spawn-on")) {
+        if (config.isList("grave-locations")) {
+            for (String matName : config.getStringList("grave-locations")) {
                 Material mat = Enums.getIfPresent(Material.class, matName.toUpperCase(Locale.ROOT)).orNull();
                 if (mat != null) {
                     spawnOn.add(mat);
@@ -124,14 +124,21 @@ public class Graveyard {
         }
 
         WorldBoundingBox boundingBox = new WorldBoundingBox(world, BoundingBox.of(world.getBlockAt(minX, minY, minZ), world.getBlockAt(maxX, maxY, maxZ)));
-        Material material;
+
+        BlockData blockData;
         if (config.isSet("material")) {
-            material = Enums.getIfPresent(Material.class, config.getString("material").toUpperCase(Locale.ROOT)).orNull();
-            if (material == null) {
-                Main.getInstance().getLogger().warning("Unknown material specified in Graveyard " + name + ": " + config.getString("material"));
+            String value = config.getString("material");
+            if(!value.contains(":") && !value.contains("[")) {
+                Material mat = Enums.getIfPresent(Material.class, config.getString("material").toUpperCase(Locale.ROOT)).orNull();
+                if (mat == null) {
+                    Main.getInstance().getLogger().warning("Unknown material specified in Graveyard " + name + ": " + config.getString("material"));
+                }
+                blockData = Bukkit.getServer().createBlockData(mat);
+            } else {
+                blockData = Bukkit.getServer().createBlockData(value);
             }
         } else {
-            material = null;
+            blockData = null;
         }
 
         String hologram;
@@ -196,7 +203,7 @@ public class Graveyard {
             }
         }
 
-        return new Graveyard(name, boundingBox, spawnOn, material, hologram, global, spawn, instantRespawn, totemAnimation, potionEffects, localTime, weatherType);
+        return new Graveyard(name, boundingBox, spawnOn, blockData, hologram, global, spawn, instantRespawn, totemAnimation, potionEffects, localTime, weatherType);
     }
 
     public void applyPotionEffects(Player player) {
@@ -326,11 +333,11 @@ public class Graveyard {
     }
 
     public boolean hasCustomMaterial() {
-        return material != null;
+        return blockData != null;
     }
 
-    public Material getCustomMaterial() {
-        return material;
+    public BlockData getCustomMaterial() {
+        return blockData;
     }
 
     public boolean isValidSpawnOn(Block block) {
@@ -367,11 +374,11 @@ public class Graveyard {
                 {"Min",boundingBox.getMinBlock().getX()+", " + boundingBox.getMinBlock().getY()+", " + boundingBox.getMinBlock().getZ()},
                 {"Max",boundingBox.getMaxBlock().getX()+", " + boundingBox.getMaxBlock().getY()+", " + boundingBox.getMaxBlock().getZ()},
                 {"Spawn on", onlySpawnOn},
-                {"Material", material == null ? "default" : material.name()},
+                {"Material", blockData == null ? "default" : blockData.getAsString()},
                 {"Free graves", String.valueOf(getFreeSpots().size())},
                 {"Global", String.valueOf(global)},
                 {"Instant respawn", String.valueOf(instantRespawn)},
-                {"Spawn",spawn == null ? null : spawn.getX()+", " + spawn.getY()+", "+spawn.getZ() + " (Yaw: " + spawn.getYaw() + ", Pitch: " + spawn.getPitch()+")"},
+                {"Spawn",spawn == null ? null : LocationUtils.toPrettyString(spawn,true,true)},
                 {"Potion effects",potionEffects.length()==0 ? "none" : potionEffects},
                 {"Time",hasCustomTime() ? String.valueOf(localTime) : "default"},
                 {"Weather",hasCustomWeather() ? String.valueOf(weatherType) : "default"}

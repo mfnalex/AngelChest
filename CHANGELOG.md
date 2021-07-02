@@ -13,9 +13,11 @@
   - To use this, look at a block with the desired blockdata and enter "/acadmin saveblockdata"
 - Fixed exception when player died do to Player#setHealth(0) without having taken damage before
 
+TODO: Teleport delay for /actp
 TODO: Add option to disable mob block damage / disallow mob spawning in graveyards
 TODO: Add option to be invulnerable in graveyards
 TODO: Add nausea effect when respawning in a graveyard
+TODO: Add option to spawn in graveyard when chest was empty
 TODO: Fix /acd graveyard spamgraves resulting in endless death when using totem animation
 TODO. Add option to preserve XP in the chest even there are no items to drop LEL shesh
 TODO: Fix chest spawning at arbitrary locations when players die in huge lava oceans

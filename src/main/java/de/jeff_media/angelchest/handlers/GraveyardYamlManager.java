@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.WeatherType;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -85,10 +86,9 @@ public class GraveyardYamlManager {
     }
 
 
-    public static void setMaterial(Graveyard yard, Material mat) {
+    public static void setMaterial(Graveyard yard, BlockData data) {
         YamlConfiguration yaml = getYaml();
-        yaml.set(yard.getName() + ".material",mat.name());
-        System.out.println("Setting " + yard.getName() + ".material to "+mat.name());
+        yaml.set(yard.getName() + ".material",data.getAsString());
         save(yaml);
     }
 
@@ -104,7 +104,7 @@ public class GraveyardYamlManager {
             stringList.add(mat.name());
         }
         YamlConfiguration yaml = getYaml();
-        yaml.set(yard.getName()+".only-spawn-on",stringList);
+        yaml.set(yard.getName()+".grave-locations",stringList);
         save(yaml);
     }
 
@@ -115,12 +115,14 @@ public class GraveyardYamlManager {
         double z = location.getZ();
         double yaw = location.getYaw();
         double pitch = location.getPitch();
+        String world = location.getWorld().getName();
         YamlConfiguration yaml = getYaml();
         yaml.set(yard.getName()+".spawn.x",x);
         yaml.set(yard.getName()+".spawn.y",y);
         yaml.set(yard.getName()+".spawn.z",z);
         yaml.set(yard.getName()+".spawn.yaw",yaw);
         yaml.set(yard.getName()+".spawn.pitch",pitch);
+        yaml.set(yard.getName()+".spawn.world",world);
         save(yaml);
 
     }
@@ -154,7 +156,19 @@ public class GraveyardYamlManager {
 
     public static void setWeather(Graveyard yard, WeatherType weatherType) {
         YamlConfiguration yaml = getYaml();
-        yaml.set(yard.getName() + ".local-weather", weatherType);
+        yaml.set(yard.getName() + ".local-weather", weatherType == WeatherType.CLEAR ? "sun" : "rain");
+        save(yaml);
+    }
+
+    public static void setInstantRespawn(Graveyard yard, Boolean bool) {
+        YamlConfiguration yaml = getYaml();
+        yaml.set(yard.getName() + ".instant-respawn", bool);
+        save(yaml);
+    }
+
+    public static void setGlobal(Graveyard yard, Boolean bool) {
+        YamlConfiguration yaml = getYaml();
+        yaml.set(yard.getName() + ".global", bool);
         save(yaml);
     }
 }

@@ -50,18 +50,6 @@ public final class GUIUtils {
         angelChest.armorInv = new ItemStack[GUI.PREVIEW_ARMOR_SIZE];
         angelChest.extraInv = new ItemStack[GUI.PREVIEW_OFFHAND_SIZE];
         angelChest.storageInv = new ItemStack[GUI.PREVIEW_STORAGE_SIZE + GUI.PREVIEW_HOTBAR_SIZE];
-        /*for(int i = GUI.SLOT_PREVIEW_ARMOR_START; i < GUI.PREVIEW_ARMOR_SIZE; i++) {
-            angelChest.armorInv[i - GUI.SLOT_PREVIEW_ARMOR_START] = inventory.getItem(i);
-        }
-        for(int i = GUI.SLOT_PREVIEW_OFFHAND; i < GUI.PREVIEW_OFFHAND_SIZE; i++) {
-            angelChest.extraInv[i - GUI.SLOT_PREVIEW_OFFHAND] = inventory.getItem(i);
-        }
-        for(int i = GUI.SLOT_PREVIEW_HOTBAR_START; i < GUI.PREVIEW_HOTBAR_SIZE; i++) {
-            angelChest.storageInv[i - GUI.SLOT_PREVIEW_HOTBAR_START] = inventory.getItem(i);
-        }
-        for(int i = GUI.SLOT_PREVIEW_STORAGE_START; i < GUI.PREVIEW_STORAGE_SIZE; i++) {
-            angelChest.storageInv[i - GUI.SLOT_PREVIEW_STORAGE_START] = inventory.getItem(i);
-        }*/
         for (int i = 0; i < GUI.PREVIEW_ARMOR_SIZE; i++) {
             angelChest.armorInv[i] = inventory.getItem(i + GUI.SLOT_PREVIEW_ARMOR_START);
         }

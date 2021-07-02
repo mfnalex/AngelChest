@@ -148,14 +148,14 @@ public class GraveyardListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
-        System.out.println(1);
+        //System.out.println(1);
         Player player = event.getPlayer();
         Graveyard graveyard = GraveyardManager.getLastGraveyard(player);
         if(graveyard == null) return;
-        System.out.println(2);
+        //System.out.println(2);
         Location respawnLocation = graveyard.getSpawn();
         if(respawnLocation == null) return;
-        System.out.println(3);
+        //System.out.println(3);
         event.setRespawnLocation(respawnLocation);
         GraveyardManager.setLastGraveyard(player, null);
 
@@ -167,17 +167,17 @@ public class GraveyardListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDie(PlayerDeathEvent event) {
-        System.out.println("[GRAVEYARDS] PlayerDeathEvent");
+        //System.out.println("[GRAVEYARDS] PlayerDeathEvent");
         Graveyard graveyard = GraveyardManager.getLastGraveyard(event.getEntity());
         if(graveyard == null) {
-            System.out.println("[GRAVEYARDS] No graveyard associated");
+            //System.out.println("[GRAVEYARDS] No graveyard associated");
             return;
         }
         if(!graveyard.isInstantRespawn()) {
-            System.out.println("[GRAVEYARDS] Instant Respawn disabled for this graveyard");
+            //System.out.println("[GRAVEYARDS] Instant Respawn disabled for this graveyard");
             return;
         }
-        System.out.println("[GRAVEYARDS] Respawning");
+        //System.out.println("[GRAVEYARDS] Respawning");
         Bukkit.getScheduler().runTask(main,() -> event.getEntity().spigot().respawn());
     }
 
