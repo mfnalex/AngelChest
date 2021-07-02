@@ -5,11 +5,13 @@ import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
+import de.jeff_media.angelchest.data.AngelChestHolder;
 import de.jeff_media.angelchest.data.DeathCause;
 import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.events.AngelChestSpawnEvent;
 import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
+import de.jeff_media.angelchest.gui.GUIHolder;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nms.NMSHandler;
@@ -331,7 +333,7 @@ public final class PlayerListener implements Listener {
 
     public static void fastLoot(final Player p, final AngelChest angelChest, boolean firstOpened) {
 
-        if(p.getOpenInventory().getType() != InventoryType.PLAYER && p.getOpenInventory().getType() != InventoryType.CRAFTING) {
+        if(p.getOpenInventory().getTopInventory() != null && p.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder) {
             main.getLogger().warning("Player " + p.getName() + " attempted to fastloot an AngelChest while having an inventory open - possible duplication attempt using a hacked client, or just client lag.");
             return;
         }

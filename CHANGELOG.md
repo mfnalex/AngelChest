@@ -13,6 +13,7 @@
   - To use this, look at a block with the desired blockdata and enter "/acadmin saveblockdata"
 - Fixed exception when player died do to Player#setHealth(0) without having taken damage before
 
+TODO: Angelchest vanishing animation (falling block going upwards)
 TODO: Teleport delay for /actp
 TODO: Add option to disable mob block damage / disallow mob spawning in graveyards
 TODO: Add option to be invulnerable in graveyards
