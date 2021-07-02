@@ -9,6 +9,7 @@ import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.angelchest.listeners.PlayerListener;
 import de.jeff_media.angelchest.utils.CommandUtils;
 import de.jeff_media.angelchest.utils.Utils;
 import de.jeff_media.daddy.Daddy;
@@ -19,10 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -288,6 +286,13 @@ public final class GUIListener implements @NotNull Listener {
             //if(main.debug) main.debug("Return: GUICOntext is not PREVIEW");
             return;
         }
+
+        // TODO DEBUG DUPE START
+        /*if(event.getClick() == ClickType.SHIFT_LEFT) {
+            PlayerListener.fastLoot(player, guiHolder.getAngelChest(), true);
+        }*/
+        // TODO DEBUG DUPE END
+
 
 
         if (guiHolder.isReadOnlyPreview()) {
