@@ -288,9 +288,9 @@ public final class GUIListener implements @NotNull Listener {
         }
 
         // TODO DEBUG DUPE START
-        if(event.getClick() == ClickType.SHIFT_LEFT) {
+        /*if(event.getClick() == ClickType.SHIFT_LEFT) {
             PlayerListener.fastLoot(player, guiHolder.getAngelChest(), true);
-        }
+        }*/
         // TODO DEBUG DUPE END
 
 
