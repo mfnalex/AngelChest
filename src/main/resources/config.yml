@@ -640,7 +640,7 @@ gui-title-main: "&4&l[&c&lAngelChest&4&l]"
 # {world} is the world's name
 # \n is a newline
 gui-chest-name: "§6AngelChest #{id}"
-gui-chest-lore: "§4{time}\n§aX: §f{x}\n§aY: §f{y}\n§aZ: §f{z}}\n§f{world}"
+gui-chest-lore: "§4{time}\n§aX: §f{x}\n§aY: §f{y}\n§aZ: §f{z}\n§f{world}"
 
 ##### Inventory title in GUI after selecting a specific chest
 # {id} is the number of the chest
