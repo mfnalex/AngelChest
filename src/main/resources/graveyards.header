@@ -2,7 +2,10 @@
 
 You can define certain graveyard areas here. If a player dies in a world where graveyards are enabled,
 the AngelChest will not spawn at the player's death location, but somewhere inside the nearest graveyard.
-Chunks containing graveyard's will never be unloaded.
+
+You can also use the /acgraveyard (Permission: angelchest.admin) to define and change graveyards.
+
+IMPORTANT: You must rename this file to "graveyards.yml" to use the Graveyards feature!
 
 Every graveyard must have specified AT LEAST the location (world, min.x, min.y, min.z, max.x, max.y, max.z)
 

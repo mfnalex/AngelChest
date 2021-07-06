@@ -321,7 +321,7 @@ dont-store-heads-in-angelchest: true
 # IMPORTANT: Please see the graveyards.example.yml file for more information.
 # Everything defined here are the GLOBAL graveyard settings. You can define
 # individual graveyards in the graveyards.yml file. You must rename the
-# graveyards.example.yml file to graveyards.yml to enable Graveyards features.
+# graveyards.example.yml file to graveyards.yml to enable Graveyard features.
 
 # What happens when the closest graveyard in the current world is full?
 # When true, AngelChest will search for the next graveyard in the same world.

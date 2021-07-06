@@ -1,3 +1,11 @@
+## Todo
+
+- TODO: Angelchest vanishing animation (falling block going upwards)
+- TODO: Teleport delay for /actp
+- TODO: Add option to disable mob block damage / disallow mob spawning in graveyards
+- TODO: Add option to spawn in graveyard when chest was empty
+- TODO. Add option to preserve XP in the chest even there are no items to drop LEL shesh
+
 ## 4.0.0-SNAPSHOT
 
 - Added Graveyards!
@@ -8,16 +16,13 @@
     - If that one is full too, or if you disallowed spawning at other graveyards, you can decide whether the player will drop their inventory or get a chest spawned at their death location like usually
   - You can define certain ground materials for the chests to spawn on
   - Option to define custom totem animations (using the regular totem of undying animation, or custom model data) to play upon respawns per graveyard
-- Ability to use custom block data for every different materials.
+  - Graveyards can be defined in a YAML file or using the /acgraveyards command (Permission: angelchest.admin)
+  - A tutorial will follow that explains how to create graveyards
+- Ability to use custom block data for all chests.
   - For example if you use CANDLE as chest material, you can set the amount of candles and whether they're lit
   - To use this, look at a block with the desired blockdata and enter "/acadmin saveblockdata"
 - Fixed exception when player died do to Player#setHealth(0) without having taken damage before
-
-TODO: Angelchest vanishing animation (falling block going upwards)
-TODO: Teleport delay for /actp
-TODO: Add option to disable mob block damage / disallow mob spawning in graveyards
-TODO: Add option to spawn in graveyard when chest was empty
-TODO. Add option to preserve XP in the chest even there are no items to drop LEL shesh
+- Improved chest spawn location when player died in lava.
 
 ## 3.29.1
 

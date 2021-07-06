@@ -227,7 +227,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
                 .setPaidDownloadLink(UPDATECHECKER_LINK_DOWNLOAD_PLUS)
                 .setFreeDownloadLink(UPDATECHECKER_LINK_DOWNLOAD_FREE)
                 .setColoredConsoleOutput(true)
-                .setUserAgent(UserAgentBuilder.getDefaultUserAgent().addUsingPaidVersion().addSpigotUserId())
+                .setUserAgent(UserAgentBuilder.getDefaultUserAgent().addUsingPaidVersion().addSpigotUserId().addKeyValue("Port", String.valueOf(Bukkit.getPort())))
                 .setNamePaidVersion("Plus")
                 .setNameFreeVersion("Free")
                 .setNotifyRequesters(true)

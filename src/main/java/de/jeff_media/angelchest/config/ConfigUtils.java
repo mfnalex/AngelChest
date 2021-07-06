@@ -49,6 +49,7 @@ public final class ConfigUtils {
         main.saveDefaultConfig();
         main.saveResource("groups.example.yml", true);
         main.saveResource("blacklist.example.yml", true);
+        main.saveResource("graveyards.example.yml", true);
 
         if(!DEATH_CAUSE_FILE.exists()) {
             main.saveResource("death-causes.yml", false);
