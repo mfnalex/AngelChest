@@ -208,10 +208,14 @@ public final class CommandUtils {
         Messages.send(player, main.messages.MSG_RETRIEVED);
     }
 
+    public static void fetchOrTeleport(final Main main, final Player sender, final AngelChest ac, final int chestIdStartingAt1, final CommandAction action, final boolean askForConfirmation) {
+    fetchOrTeleport(main, sender, ac, sender, chestIdStartingAt1, action, askForConfirmation);
+    }
+
     /**
      * If args is null, skip the confirmation stuff
      */
-    public static void fetchOrTeleport(final Main main, final Player sender, final AngelChest ac, final int chestIdStartingAt1, final CommandAction action, final boolean askForConfirmation) {
+    public static void fetchOrTeleport(final Main main, final Player sender, final AngelChest ac, final Player destination, final int chestIdStartingAt1, final CommandAction action, final boolean askForConfirmation) {
 
         if (!sender.hasPermission(action.getPermission())) {
             Messages.send(sender, main.messages.MSG_NO_PERMISSION);
@@ -282,11 +286,11 @@ public final class CommandUtils {
         }
         switch (action) {
             case TELEPORT_TO_CHEST:
-                teleportPlayerToChest(main, sender, ac);
+                teleportPlayerToChest(main, destination, ac);
                 Messages.send(sender, main.messages.MSG_ANGELCHEST_TELEPORTED);
                 break;
             case FETCH_CHEST:
-                fetchChestToPlayer(main, sender, ac);
+                fetchChestToPlayer(main, destination, ac);
                 Messages.send(sender, main.messages.MSG_ANGELCHEST_FETCHED);
                 SoundUtils.playTpFetchSound(sender, sender.getLocation(), CommandAction.FETCH_CHEST);
                 break;

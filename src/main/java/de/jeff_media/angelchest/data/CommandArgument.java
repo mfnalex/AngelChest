@@ -4,6 +4,7 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.CommandAction;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -15,16 +16,19 @@ public class CommandArgument {
     private final OfflinePlayer affectedPlayer;
     private final String chest;
     private final CommandSender sender;
+    @Getter private final Player destination;
 
-    private CommandArgument(final CommandSender sender, final String chest, final OfflinePlayer affectedPlayer) {
+    private CommandArgument(final CommandSender sender, final String chest, final OfflinePlayer affectedPlayer, final Player destination) {
         this.sender = sender;
         this.chest = chest;
         this.affectedPlayer = affectedPlayer;
+        this.destination = destination;
     }
 
     public static @Nullable CommandArgument parse(final CommandAction action, final CommandSender requester, final String[] args) {
         OfflinePlayer chestOwner = null;
         String chest = null;
+        Player destination = null;
 
         switch (action) {
             case UNLOCK_CHEST:
@@ -38,6 +42,13 @@ public class CommandArgument {
                         if (chestOwner == null) {
                             Messages.send(requester, String.format(Main.getInstance().messages.MSG_UNKNOWN_PLAYER, args[0]));
                             return null;
+                        }
+                        if(args.length>=3) {
+                            destination = Bukkit.getPlayer(args[2]);
+                            if (destination == null) {
+                                Messages.send(requester, String.format(Main.getInstance().messages.MSG_UNKNOWN_PLAYER, args[2]));
+                                return null;
+                            }
                         }
                     } else {
                         Messages.send(requester, Main.getInstance().messages.MSG_NO_PERMISSION);
@@ -76,13 +87,24 @@ public class CommandArgument {
             }
         }
 
+        if (destination == null) {
+            if (requester instanceof Player) {
+                destination = (Player) requester;
+            } else {
+                Messages.send(requester, Main.getInstance().messages.MSG_MUST_SPECIFY_PLAYER);
+                return null;
+            }
+        }
+
         final Main main = Main.getInstance();
+
         if (main.debug) main.debug("===== CommandArgument Parser =====");
         if (main.debug) main.debug("Requester  = " + requester.getName());
         if (main.debug) main.debug("ChestOwner = " + chestOwner.getName());
         if (main.debug) main.debug("Chest      = " + chest);
+        if (main.debug) main.debug("Destination= " + destination.getName());
 
-        return new CommandArgument(requester, chest, chestOwner);
+        return new CommandArgument(requester, chest, chestOwner, destination);
     }
 
     public OfflinePlayer getAffectedPlayer() {
