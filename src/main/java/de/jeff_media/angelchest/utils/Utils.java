@@ -16,6 +16,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Locale;
+
 
 public final class Utils {
 
@@ -39,7 +41,7 @@ public final class Utils {
     }
 
     public static EventPriority getEventPriority(final String configuredPriority) {
-        return Enums.getIfPresent(EventPriority.class, configuredPriority).or(EventPriority.NORMAL);
+        return Enums.getIfPresent(EventPriority.class, configuredPriority.toUpperCase(Locale.ROOT)).or(EventPriority.NORMAL);
     }
 
     public static boolean isEmpty(final Inventory inv) {

@@ -24,6 +24,7 @@ softdepend:
   - ChestSort
   - ProtocolLib
   - ExecutableItems
+  - EcoEnchants
 loadbefore: [ AngelChestPlus ]
 commands:
   acadmin:

@@ -13,6 +13,7 @@ import de.jeff_media.angelchest.events.AngelChestSpawnEvent;
 import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
 import de.jeff_media.angelchest.gui.GUIHolder;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
+import de.jeff_media.angelchest.hooks.EcoEnchantsHook;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nms.NMSHandler;
 import de.jeff_media.angelchest.utils.*;
@@ -503,6 +504,13 @@ public final class PlayerListener implements Listener {
             return;
         }
 
+        // EcoEnchants Telekinesis
+        if(EcoEnchantsHook.dontSpawnChestBecausePlayerWasKilledByTelekinesis(event)) {
+            if(main.debug) main.debug("Cancelled: Player was killed by telekinesis");
+            Utils.sendDelayedMessage(p, main.messages.MSG_NO_CHEST_IN_PVP, 1);
+            return;
+        }
+
 
         Block fixedPlayerPosition;
 
@@ -573,9 +581,9 @@ public final class PlayerListener implements Listener {
                 Block grave = GraveyardManager.getGraveLocation(angelChestBlock.getLocation(), tryClosest, tryGlobal);
                 if(grave == null) {
                     if(fallbackToDeathLocation) {
-                        main.getLogger().info("Could not find a matching grave for player "+p.getName()+". Using normal death location.");
+                        main.debug("Could not find a matching grave for player "+p.getName()+". Using normal death location.");
                     } else {
-                        main.getLogger().info("Could not find a matching grave for player "+p.getName()+". Disabling AngelChest spawn.");
+                        main.debug("Could not find a matching grave for player "+p.getName()+". Disabling AngelChest spawn.");
                         return;
                     }
                 } else {

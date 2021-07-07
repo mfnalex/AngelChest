@@ -6,7 +6,11 @@
 - TODO: Add option to spawn in graveyard when chest was empty
 - TODO. Add option to preserve XP in the chest even there are no items to drop LEL shesh
 
-## 4.0.0-SNAPSHOT
+## 4.0.1
+- Added support for EcoEnchants' Telekinesis enchantment
+- Removed console message "Could not find a matching grave for player XY, ..."
+
+## 4.0.0
 
 - Added Graveyards!
   - You can define any amount of Graveyards per world and one global "fallback" graveyard.
