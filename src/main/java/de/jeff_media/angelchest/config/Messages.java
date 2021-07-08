@@ -235,7 +235,7 @@ public final class Messages {
     }
 
     public static void sendPremiumOnlyConsoleMessage(final String configNode) {
-        Main.getInstance().getLogger().warning("You are using the config option \"" + configNode + "\". This is only available in AngelChestPlus, see here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+        //Main.getInstance().getLogger().warning("You are using the config option \"" + configNode + "\". This is only available in AngelChestPlus, see here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
     }
 
     private String getGui(final String path, final String defaultText) {

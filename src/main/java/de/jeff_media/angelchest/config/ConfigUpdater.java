@@ -1,6 +1,15 @@
 package de.jeff_media.angelchest.config;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 import de.jeff_media.angelchest.Main;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -79,7 +88,6 @@ public final class ConfigUpdater {
             ioException.printStackTrace();
             return 0;
         }
-
     }
 
     /**
@@ -115,6 +123,26 @@ public final class ConfigUpdater {
         }
         return false;
     }
+
+    private static boolean isPlayerInRegion(Player player, String regionName) {
+        final Location location = player.getLocation();
+        final RegionContainer regionContainer = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        final RegionManager regionManager = regionContainer.get(BukkitAdapter.adapt(location.getWorld()));
+        final List<String> regionList = regionManager.getApplicableRegionsIDs(BlockVector3.at(location.getX(), location.getY(), location.getZ()));
+        for (String region : regionList) {
+            if (region.equals(regionName)) return true;
+        }
+        return false;
+    }
+
+    public void run() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if(!isPlayerInRegion(player, "Autominer")) continue;
+            // Do whatever you want to do
+        }
+    }
+
+
 
     private static boolean lineIsStringList(final String line) {
         for (final String test : LINES_CONTAINING_STRING_LISTS) {

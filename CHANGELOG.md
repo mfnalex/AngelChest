@@ -7,6 +7,7 @@
 - TODO. Add option to preserve XP in the chest even there are no items to drop LEL shesh
 
 ## 4.0.2
+- Fixed in free version: Removed message "You are using the config option [...]. This is only available in AngelChestPlus"
 - Added another Spanish translation
 
 ## 4.0.1
