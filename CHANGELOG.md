@@ -6,6 +6,12 @@
 - TODO: Add option to spawn in graveyard when chest was empty
 - TODO. Add option to preserve XP in the chest even there are no items to drop LEL shesh
 
+## 4.0.4
+- Fixed Russian translation
+
+## 4.0.3
+- Fixed debug message being shown on every BlockBreakEvent - I'm veeeery sorry :( :(
+
 ## 4.0.2
 - Fixed in free version: Removed message "You are using the config option [...]. This is only available in AngelChestPlus"
 - Added another Spanish translation
