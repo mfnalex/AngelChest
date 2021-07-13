@@ -284,35 +284,38 @@ public final class CommandUtils {
         }
 
         // TP Wait time
-        if(main.getConfig().getDouble(Config.TP_WAIT_TIME) > 0 && action == CommandAction.TELEPORT_TO_CHEST) {
-            final int delay = (int) Ticks.fromSeconds(main.getConfig().getDouble(Config.TP_WAIT_TIME));
-            AtomicInteger ticks = new AtomicInteger(delay);
-            final BossBar bar = Bukkit.createBossBar("AngelChest Teleport", BarColor.GREEN, BarStyle.SOLID, new BarFlag[0]);
-            bar.setProgress(1);
-            bar.addPlayer(sender);
-            final Vector position = sender.getLocation().toVector();
-            new BukkitRunnable() {
-                private void remove() {
-                    bar.removePlayer(sender);
-                    cancel();
-                }
-                @Override
-                public void run() {
-                    final int remaining = ticks.decrementAndGet();
-                    if(sender.getLocation().toVector().distanceSquared(position) > 0.25) {
-                        remove();
-                        return;
+        if(Daddy.allows(PremiumFeatures.TP_WAIT_TIME)) {
+            if (main.getConfig().getDouble(Config.TP_WAIT_TIME) > 0 && action == CommandAction.TELEPORT_TO_CHEST) {
+                final int delay = (int) Ticks.fromSeconds(main.getConfig().getDouble(Config.TP_WAIT_TIME));
+                AtomicInteger ticks = new AtomicInteger(delay);
+                final BossBar bar = Bukkit.createBossBar("AngelChest Teleport", BarColor.GREEN, BarStyle.SOLID, new BarFlag[0]);
+                bar.setProgress(1);
+                bar.addPlayer(sender);
+                final Vector position = sender.getLocation().toVector();
+                new BukkitRunnable() {
+                    private void remove() {
+                        bar.removePlayer(sender);
+                        cancel();
                     }
-                    if(remaining==0) {
-                        remove();
-                        teleportPlayerToChest(main, sender, ac);
-                        Messages.send(sender, main.messages.MSG_ANGELCHEST_TELEPORTED);
-                        return;
+
+                    @Override
+                    public void run() {
+                        final int remaining = ticks.decrementAndGet();
+                        if (sender.getLocation().toVector().distanceSquared(position) > 0.25) {
+                            remove();
+                            return;
+                        }
+                        if (remaining == 0) {
+                            remove();
+                            teleportPlayerToChest(main, sender, ac);
+                            Messages.send(sender, main.messages.MSG_ANGELCHEST_TELEPORTED);
+                            return;
+                        }
+                        bar.setProgress((double) ticks.get() / (double) delay);
                     }
-                    bar.setProgress((double) ticks.get() / (double) delay);
-                }
-            }.runTaskTimer(main,0,1);
-            return;
+                }.runTaskTimer(main, 0, 1);
+                return;
+            }
         }
 
         if (price > 0 && !hasEnoughMoney(sender, price, main.messages.MSG_NOT_ENOUGH_MONEY, action.getEconomyReason())) {
