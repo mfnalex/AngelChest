@@ -141,6 +141,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.CHECK_GENERIC_SOULBOUND, true);
         metric(Config.CHECK_GENERIC_SOULBOUND);
 
+        conf.addDefault(Config.TP_WAIT_TIME, 0);
+        metric(Config.TP_WAIT_TIME);
+
         conf.addDefault(Config.SHOW_LINKS_ON_SEPARATE_LINE, false);
         metric(Config.SHOW_LINKS_ON_SEPARATE_LINE);
 

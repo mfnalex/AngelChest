@@ -6,6 +6,10 @@
 - TODO: Add option to spawn in graveyard when chest was empty
 - TODO. Add option to preserve XP in the chest even there are no items to drop LEL shesh
 
+## 4.1.0
+- Added "tp-wait-time" option
+  - You can enter an amount in seconds. Players using /actp will have to stand still for this mount of seconds or they will not be teleported
+
 ## 4.0.4
 - Fixed Russian translation
 

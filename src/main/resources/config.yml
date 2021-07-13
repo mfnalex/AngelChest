@@ -401,6 +401,11 @@ max-fetch-distance: 0
 # having to pay the price again.
 min-distance: 0
 
+# When set, a player has to stand still for this amount of seconds before they
+# get teleported
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
+tp-wait-time: 0
+
 #################################
 #### Sounds for TP / Fetch  #####
 #################################
