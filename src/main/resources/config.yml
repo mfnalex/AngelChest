@@ -1528,7 +1528,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-min-distance: "&cYa estás cerca de tu AngelChest."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 
-##### Turkish
+##### Turkish (Turkey Turkish)
 #message-all-your-angelchests-were-already-unlocked: "&eTüm AngelChest'lerinin kilidi zaten açık."
 #message-angelchest-created: "&aBir melek eşyalarını topladı ve öldüğün konumda ki bir sandığa koydu."
 #message-angelchest-disappeared: "&cÇok yavaştın... AngelChest'in yok oldu ve içindekileri yere bıraktı."
@@ -1558,15 +1558,15 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-invulnerable: "&a&l{time} süreliğine hasar alamazsın."
 #message-vulnerable: "&c&lArtık hasar alıyorsun."
 #message-tp-across-worlds-not-allowed: "&cDünyalar arasında AngelChest'ine ışınlanamazsın."
-#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
+#message-fetch-across-worlds-not-allowed: "&cBaşka bir dünyadaki AngelChest'i alamazsın."
 #message-max-tp-distance: "&cKendinden {distance} bloktan fazla uzaklıktaki bir AngelChest'e ışınlanamazsın."
-#message-max-fetch-distance: "&cKendinden {distance} bloktan fazla uzaklıktaki bir AngelChest'i alamazsın."
+#message-max-fetch-distance: "&cKendinden, {distance} blok fazla uzaklıktaki bir AngelChest'i alamazsın."
 #message-angelchest-disabled: "&cArtık melekler tarafından korunmuyorsun."
 #message-angelchest-enabled: "&aArtık melekler tarafından korunuyorsun."
 #message-angelchest-fetched: "&aAngelChest başarıyla alındı."
 #message-angelchest-teleported: "&aAngelChest'ine başarıyla ışınlanıldı."
 #message-min-distance: "&cZaten AngelChest'inin yakınındasın."
-#message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+#message-buried-in-graveyard: "&aBir melek eşyalarını topladı ve bir &{graveyard}&a'a gömdü."
 
 #########################
 #####     Done!     #####
