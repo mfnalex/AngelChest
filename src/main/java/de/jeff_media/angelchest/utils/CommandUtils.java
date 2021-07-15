@@ -462,7 +462,7 @@ public final class CommandUtils {
     }
 
     public static void sendConfirmMessage(final CommandSender sender, final String command, final double price, final String message) {
-        final TextComponent text = new TextComponent(message.replaceAll("\\{price}", String.valueOf(price)).replaceAll("\\{currency}", getCurrency(price)));
+        final TextComponent text = new TextComponent(message.replace("{price}", String.valueOf(price)).replace("{currency}", getCurrency(price)));
         text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
         sender.spigot().sendMessage(text);
     }
