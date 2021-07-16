@@ -123,7 +123,7 @@ public final class GUIManager {
     }
 
     private ItemStack getConfirmInfoButton(final double price) {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_INFO), main.messages.GUI_INFO, getLore(main.messages.GUI_INFO_LORE.replaceAll("\\{price}", String.valueOf(price)).replaceAll("\\{currency}", CommandUtils.getCurrency(price))));
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_INFO), main.messages.GUI_INFO, getLore(main.messages.GUI_INFO_LORE.replace("{price}", String.valueOf(price)).replace("{currency}", CommandUtils.getCurrency(price))));
     }
 
     private ItemStack getFetchButton() {

@@ -6,6 +6,9 @@
 - TODO: Add option to spawn in graveyard when chest was empty
 - TODO. Add option to preserve XP in the chest even there are no items to drop LEL shesh
 
+## 4.1.2
+- Fixed "IllegalGroupReference" exception
+
 ## 4.1.1
 - Fixed exception thrown on /actp and /acfetch in certain cases
 
