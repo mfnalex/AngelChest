@@ -48,12 +48,12 @@ public final class EmergencyMode {
             for (final Player player : Bukkit.getOnlinePlayers()) {
                 if (player.isOp()) {
                     for (final String line : text) {
-                        Main.getInstance().getLogger().warning(line.replaceAll("\\{filename}", file));
+                        Main.getInstance().getLogger().warning(line.replace("{filename}", file));
                     }
                 }
             }
             for (final String line : text) {
-                Main.getInstance().getLogger().warning(line.replaceAll("\\{filename}", file));
+                Main.getInstance().getLogger().warning(line.replace("{filename}", file));
             }
         }
     }

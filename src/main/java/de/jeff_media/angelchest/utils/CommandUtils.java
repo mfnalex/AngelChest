@@ -502,12 +502,12 @@ public final class CommandUtils {
             String text;
 
             text = main.messages.ANGELCHEST_LIST;
-            text = text.replaceAll("\\{id}", String.valueOf(chestIndex));
-            text = text.replaceAll("\\{x}", String.valueOf(b.getX()));
-            text = text.replaceAll("\\{y}", String.valueOf(b.getY()));
-            text = text.replaceAll("\\{z}", String.valueOf(b.getZ()));
-            text = text.replaceAll("\\{time}", getTimeLeft(angelChest));
-            text = text.replaceAll("\\{world}", b.getWorld().getName());
+            text = text.replace("{id}", String.valueOf(chestIndex));
+            text = text.replace("{x}", String.valueOf(b.getX()));
+            text = text.replace("{y}", String.valueOf(b.getY()));
+            text = text.replace("{z}", String.valueOf(b.getZ()));
+            text = text.replace("{time}", getTimeLeft(angelChest));
+            text = text.replace("{world}", b.getWorld().getName());
             sendTo.spigot().sendMessage(LinkUtils.getLinks(sendTo, affectedPlayer, text, tpCommand, unlockCommand, fetchCommand));
             chestIndex++;
         }

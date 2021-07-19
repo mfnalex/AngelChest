@@ -147,7 +147,7 @@ public final class GUIManager {
     }
 
     private String getTitle(final AngelChest chest, final int id) {
-        return main.messages.GUI_TITLE_CHEST.replaceAll("\\{id}", String.valueOf(id)).replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
+        return main.messages.GUI_TITLE_CHEST.replace("{id}", String.valueOf(id)).replace("{time}", CommandUtils.getTimeLeft(chest));
 
     }
 
@@ -269,7 +269,7 @@ public final class GUIManager {
             if (!isPreview && firstOpened && !player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
                 final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                 if (tmpPlayer != null) {
-                    Messages.send(tmpPlayer, main.messages.MSG_OPENED.replaceAll("\\{player}", player.getName()));
+                    Messages.send(tmpPlayer, main.messages.MSG_OPENED.replace("{player}", player.getName()));
                 }
             }
         }

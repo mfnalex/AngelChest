@@ -118,11 +118,11 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             Messages.send(commandSender, "§e===[§6Material§e]===");
             Messages.send(commandSender, item.getType().name().toUpperCase());
             Messages.send(commandSender, "§e===[§6Item Name§e]===");
-            Messages.send(commandSender, meta.hasDisplayName() ? "\"" + meta.getDisplayName().replaceAll("§", "&") + "\"" : " ");
+            Messages.send(commandSender, meta.hasDisplayName() ? "\"" + meta.getDisplayName().replace("§", "&") + "\"" : " ");
             Messages.send(commandSender, "§e===[§6Lore§e]===");
             if (meta.hasLore()) {
                 for (final String line : meta.getLore()) {
-                    Messages.send(commandSender, "- \"" + line.replaceAll("§", "&") + "\"");
+                    Messages.send(commandSender, "- \"" + line.replace("§", "&") + "\"");
                 }
             } else {
                 Messages.send(commandSender, " ");

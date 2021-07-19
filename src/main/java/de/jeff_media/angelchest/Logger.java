@@ -66,7 +66,7 @@ public final class Logger {
         final String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
         //String filename = String.format("%s_%s_%s",event.getEntity().getLocation().getWorld().getName(),player,timestamp);
         //return filename+".log";
-        return main.getConfig().getString(Config.LOG_FILENAME).replaceAll("\\{player}", player).replaceAll("\\{uuid}", uuid).replaceAll("\\{world}", event.getEntity().getLocation().getWorld().getName()).replaceAll("\\{date}", timestamp);
+        return main.getConfig().getString(Config.LOG_FILENAME).replace("{player}", player).replace("{uuid}", uuid).replace("{world}", event.getEntity().getLocation().getWorld().getName()).replace("{date}", timestamp);
     }
 
     private String loc2string(final Location location) {

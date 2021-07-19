@@ -141,7 +141,7 @@ public final class Messages {
 
         ANGELCHEST_LIST = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.ANGELCHEST_LIST, "[{id}] {time} &aX:&f {x} &aY:&f {y} &aZ:&f {z} | {world} "));
 
-        MSG_ANGELCHEST_LOCATION = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-angelchest-location", "&eLocation of your AngelChests:").replaceAll(": %s", ""));
+        MSG_ANGELCHEST_LOCATION = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-angelchest-location", "&eLocation of your AngelChests:").replace(": %s", ""));
 
         MSG_PLEASE_SELECT_CHEST = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-please-select-chest", "&7Please specify which AngelChest you would like to select."));
 

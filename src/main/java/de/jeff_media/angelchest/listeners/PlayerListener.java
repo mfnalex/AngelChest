@@ -355,7 +355,7 @@ public final class PlayerListener implements Listener {
                 if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
                     final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                     if (tmpPlayer != null) {
-                        Messages.send(tmpPlayer, main.messages.MSG_EMPTIED.replaceAll("\\{player}", p.getName()));
+                        Messages.send(tmpPlayer, main.messages.MSG_EMPTIED.replace("{player}", p.getName()));
                     }
                 }
             }
@@ -374,7 +374,7 @@ public final class PlayerListener implements Listener {
                     final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                     if (tmpPlayer != null) {
                         if (firstOpened) {
-                            Messages.send(tmpPlayer, main.messages.MSG_OPENED.replaceAll("\\{player}", p.getName()));
+                            Messages.send(tmpPlayer, main.messages.MSG_OPENED.replace("{player}", p.getName()));
                             firstOpened = false;
                         }
                     }

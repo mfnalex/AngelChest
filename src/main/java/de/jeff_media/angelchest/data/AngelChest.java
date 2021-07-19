@@ -161,7 +161,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         }*/
 
         //String hologramText = String.format(plugin.messages.HOLOGRAM_TEXT, plugin.getServer().getPlayer(owner).getName());
-        final String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", Objects.requireNonNull(main.getServer().getOfflinePlayer(owner).getName()));
+        final String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replace("{player}", Objects.requireNonNull(main.getServer().getOfflinePlayer(owner).getName()));
 
         if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
             if (main.debug) main.debug("Chunk is not loaded, trying to load chunk async...");
@@ -262,7 +262,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
         if (secondsLeft <= 0) infinite = true;
 
-        final String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replaceAll("\\{player}", player.getName());
+        final String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replace("{player}", player.getName());
         overflowInv = Bukkit.createInventory(null, MAX_INVENTORY_SIZE, inventoryName);
 
         final PlayerInventory playerInventory = player.getInventory();
@@ -385,7 +385,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             }
         }
 
-        hologramText = hologramText.replaceAll("\\{player}", Objects.requireNonNull(main.getServer().getOfflinePlayer(uuid).getName())).replaceAll("\\{deathcause}", deathCause.getText());
+        hologramText = hologramText.replace("{player}", Objects.requireNonNull(main.getServer().getOfflinePlayer(uuid).getName())).replace("{deathcause}", deathCause.getText());
         hologram = new Hologram(block, hologramText, this);
     }
 
@@ -493,7 +493,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @return filename for this AngelChest
      */
     public String getFileName() {
-        return main.getConfig().getString(Config.CHEST_FILENAME).replaceAll("\\{world}", block.getWorld().getName()).replaceAll("\\{uuid}", owner.toString()).replaceAll("\\{player}", Objects.requireNonNull(Bukkit.getOfflinePlayer(owner).getName())).replaceAll("\\{x}", String.valueOf(block.getX())).replaceAll("\\{y}", String.valueOf(block.getY())).replaceAll("\\{z}", String.valueOf(block.getZ()));
+        return main.getConfig().getString(Config.CHEST_FILENAME).replace("{world}", block.getWorld().getName()).replace("{uuid}", owner.toString()).replace("{player}", Objects.requireNonNull(Bukkit.getOfflinePlayer(owner).getName())).replace("{x}", String.valueOf(block.getX())).replace("{y}", String.valueOf(block.getY())).replace("{z}", String.valueOf(block.getZ()));
     }
 
     @Override
@@ -578,7 +578,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             openedBy.add(player.getUniqueId().toString());
             if (main.economyStatus == EconomyStatus.ACTIVE) {
                 if (price > 0) {
-                    Messages.send(player, main.messages.MSG_PAID_OPEN.replaceAll("\\{price}", String.valueOf(price)).replaceAll("\\{currency}", CommandUtils.getCurrency(price)));
+                    Messages.send(player, main.messages.MSG_PAID_OPEN.replace("{price}", String.valueOf(price)).replace("{currency}", CommandUtils.getCurrency(price)));
                 }
             }
             return true;

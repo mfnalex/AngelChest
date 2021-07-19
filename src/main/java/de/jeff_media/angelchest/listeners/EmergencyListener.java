@@ -24,7 +24,7 @@ public final class EmergencyListener implements Listener {
                 i++;
                 Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
                     for (int j = 0; j < text.length; j++) {
-                        text[j] = text[j].replaceAll("\\{filename}", file);
+                        text[j] = text[j].replace("{filename}", file);
                     }
                     Messages.send(playerJoinEvent.getPlayer(), text);
                 }, Ticks.fromSeconds(0.5) + i);

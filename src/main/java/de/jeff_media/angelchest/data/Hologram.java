@@ -136,7 +136,7 @@ public final class Hologram {
             return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.HOLOGRAM_UNPROTECTED_TEXT));
         }
         if (chest.unlockIn != -1) {
-            return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT).replaceAll("\\{time}", CommandUtils.getUnlockTimeLeft(chest)));
+            return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT).replace("{time}", CommandUtils.getUnlockTimeLeft(chest)));
         }
         return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.HOLOGRAM_PROTECTED_TEXT));
     }
@@ -156,9 +156,9 @@ public final class Hologram {
             String line = scanner.nextLine();
             if (armorStand != null) {
 
-                line = line.replaceAll("\\{time}", CommandUtils.getTimeLeft(chest));
+                line = line.replace("{time}", CommandUtils.getTimeLeft(chest));
                 if (Daddy.allows(PremiumFeatures.GENERIC)) { // Don't add Feature here, this method gets called every second
-                    line = line.replaceAll("\\{protected}", getProtectedText(chest));
+                    line = line.replace("{protected}", getProtectedText(chest));
                 }
                 line = line.replace("{items}", Integer.toString(chest.getNumberOfItems()));
                 line = line.replace("{xp}", Integer.toString(chest.getExperience()));

@@ -353,6 +353,12 @@
             <version>2.10.9</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.angeschossen</groupId>
+            <artifactId>LandsAPI</artifactId>
+            <version>5.12.1</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- Plugins that are not available in repositories. They will be accessed via Reflection. -->
         <!-- It is not needed that you have them installed. -->
