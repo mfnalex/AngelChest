@@ -9,7 +9,10 @@ import org.bukkit.command.CommandSender;
  */
 public enum CommandAction {
 
-    TELEPORT_TO_CHEST(Permissions.TP, "AngelChest TP", "actp"), FETCH_CHEST(Permissions.FETCH, "AngelChest Fetch", "acfetch"), UNLOCK_CHEST(Permissions.PROTECT, "", "acunlock"), LIST_CHESTS(Permissions.USE, "", "aclist");
+    TELEPORT_TO_CHEST(Permissions.TP, "AngelChest TP", "actp"),
+    FETCH_CHEST(Permissions.FETCH, "AngelChest Fetch", "acfetch"),
+    UNLOCK_CHEST(Permissions.PROTECT, "", "acunlock"),
+    LIST_CHESTS(Permissions.USE, "", "aclist");
 
     private final String command;
     private final String economyReason;

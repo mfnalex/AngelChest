@@ -34,10 +34,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityResurrectEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
@@ -330,6 +327,13 @@ public final class PlayerListener implements Listener {
                     break;
             }
         });
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onMobGrief(EntityChangeBlockEvent event) {
+        if(main.isAngelChest(event.getBlock())) {
+            event.setCancelled(true);
+        }
     }
 
     public static void fastLoot(final Player p, final AngelChest angelChest, boolean firstOpened) {

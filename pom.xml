@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>4.1.2</version>
+    <version>4.1.3</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -356,7 +356,7 @@
         <dependency>
             <groupId>com.github.angeschossen</groupId>
             <artifactId>LandsAPI</artifactId>
-            <version>5.12.1</version>
+            <version>5.12.2</version>
             <scope>provided</scope>
         </dependency>
 
