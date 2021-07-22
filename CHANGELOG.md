@@ -6,6 +6,9 @@
 - TODO: Add option to spawn in graveyard when chest was empty
 - TODO. Add option to preserve XP in the chest even there are no items to drop LEL shesh
 
+## 4.2.0
+- Added support for ItemsAdder emojis
+
 ## 4.1.3
 - Fixed Piglin brutes being able to break AngelChests
 

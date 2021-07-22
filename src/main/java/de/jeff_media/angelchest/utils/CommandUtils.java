@@ -9,6 +9,7 @@ import de.jeff_media.angelchest.data.PendingConfirm;
 import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.angelchest.hooks.ItemsAdderFontImageWrapperHook;
 import de.jeff_media.angelchest.listeners.InvulnerabilityListener;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
@@ -508,6 +509,7 @@ public final class CommandUtils {
             text = text.replace("{z}", String.valueOf(b.getZ()));
             text = text.replace("{time}", getTimeLeft(angelChest));
             text = text.replace("{world}", b.getWorld().getName());
+            text = ItemsAdderFontImageWrapperHook.translate(text);
             sendTo.spigot().sendMessage(LinkUtils.getLinks(sendTo, affectedPlayer, text, tpCommand, unlockCommand, fetchCommand));
             chestIndex++;
         }

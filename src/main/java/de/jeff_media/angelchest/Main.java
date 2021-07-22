@@ -538,6 +538,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
                 }
                 ac.destroy(true);
                 it.remove();
+                logger.logRemoval(logger.getLogFile(ac.logfile));
                 continue;
             }
             if (Daddy.allows(PremiumFeatures.GENERIC) && ac.isProtected && ac.unlockIn > -1) { // Don't add feature here, gets called every second
