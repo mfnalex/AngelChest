@@ -51,8 +51,12 @@ public final class ConfigDumper {
         final File loadedGroups = new File(dumpDir, "loaded-groups.txt");
         final File copiedGroups = new File(dumpDir, "original-groups.yml");
 
+        final File loadedGraveyards = new File(dumpDir, "loaded-graveyards.txt");
+        final File copiedGraveyards = new File(dumpDir, "original-graveyards.yml");
+
         final File blacklist = new File(main.getDataFolder(), "blacklist.yml");
         final File groups = new File(main.getDataFolder(), "groups.yml");
+        final File graveyards = new File(main.getDataFolder(), "graveyards.yml");
         final File angelchestsDir = new File(main.getDataFolder(), "angelchests");
 
 
@@ -62,6 +66,7 @@ public final class ConfigDumper {
         loadedConfig.delete();
         loadedBlacklist.delete();
         loadedGroups.delete();
+        loadedGraveyards.delete();
         try {
             FileUtils.deleteDirectory(new File(dumpDir, "angelchests"));
         } catch (final IOException ioException) {
@@ -69,14 +74,14 @@ public final class ConfigDumper {
         }
 
         // Server information
-        Messages.send(sender, "Saving server informationp...");
+        Messages.send(sender, "Saving server information...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, banner("Server information"));
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Server Version: " + Bukkit.getVersion());
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Bukkit API Version: " + Bukkit.getBukkitVersion());
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Plugin version: " + main.getDescription().getName() + (Daddy.allows(PremiumFeatures.GENERIC) ? "Plus" : "") + " " + main.getDescription().getVersion());
 
         // Broken config files
-        Messages.send(sender, "Saving config checkp...");
+        Messages.send(sender, "Saving config check...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Config check"));
         if (main.invalidConfigFiles == null || main.invalidConfigFiles.length == 0) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Config OK.");
@@ -85,6 +90,9 @@ public final class ConfigDumper {
         }
         if (!blacklist.exists()) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "blacklist.yml does not exist");
+        }
+        if (!graveyards.exists()) {
+            de.jeff_media.angelchest.utils.FileUtils.appendLines(log,"graveyards.yml does not exist");
         }
         if (!groups.exists()) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "groups.yml does not exist");
@@ -112,7 +120,7 @@ public final class ConfigDumper {
 
 
         // Online player's permissions
-        Messages.send(sender, "Saving online player's permissionsp...");
+        Messages.send(sender, "Saving online player's permissions...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Player Permissions"));
         for (final Player player : Bukkit.getOnlinePlayers()) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, player.getName());
@@ -123,7 +131,7 @@ public final class ConfigDumper {
         }
 
         // Scheduled tasks
-        Messages.send(sender, "Saving BukkitScheduler informationp...");
+        Messages.send(sender, "Saving BukkitScheduler information...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("BukkitScheduler: Workers"));
         for (final BukkitWorker worker : Bukkit.getScheduler().getActiveWorkers()) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, worker.getOwner().getName() + ": " + worker.getTaskId() + " (" + worker + ")");
@@ -159,6 +167,18 @@ public final class ConfigDumper {
                 try {
                     blacklistYaml.load(blacklist);
                     dumpYaml(blacklistYaml, loadedBlacklist);
+                } catch (final InvalidConfigurationException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (graveyards.exists()) {
+                Messages.send(sender, "Copying graveyards.yml...");
+                org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(graveyards, copiedGraveyards);
+                Messages.send(sender, "Dumping loaded graveyards.yml...");
+                final YamlConfiguration graveyardYaml = new YamlConfiguration();
+                try {
+                    graveyardYaml.load(graveyards);
+                    dumpYaml(graveyardYaml, loadedGraveyards);
                 } catch (final InvalidConfigurationException e) {
                     e.printStackTrace();
                 }

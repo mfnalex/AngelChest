@@ -127,6 +127,7 @@ public final class Config {
     public static final String MINIMUM_AIR_ABOVE_CHEST = "minimum-air-above-chest";
     public static final String ALLOW_FASTLOOTING = "allow-fastlooting";
     public static final String TP_WAIT_TIME = "tp-wait-time";
+    public static final String RANDOM_ITEM_LOSS_IGNORES_ENCHANTED_ITEMS = "random-item-loss-ignores-enchanted-items";
 
     // Graveyards
     public static final String TRY_CLOSEST_GRAVEYARD = "try-closest-graveyard";

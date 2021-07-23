@@ -298,6 +298,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.FALLBACK_TO_DEATHLOCATION, true);
         metric(Config.FALLBACK_TO_DEATHLOCATION);
 
+        conf.addDefault(Config.RANDOM_ITEM_LOSS_IGNORES_ENCHANTED_ITEMS, false);
+        metric(Config.RANDOM_ITEM_LOSS_IGNORES_ENCHANTED_ITEMS);
+
         /*
     play-sound-on-tp: true
 play-sound-on-fetch: true
@@ -419,7 +422,7 @@ sound-channel: BLOCKS
 
     public static @Nullable String[] getBrokenConfigFiles() {
         final ArrayList<String> files = new ArrayList<>();
-        for (final String fileName : new String[]{"config.yml", "blacklist.yml", "groups.yml"}) {
+        for (final String fileName : new String[]{"config.yml", "blacklist.yml", "groups.yml","graveyards.yml"}) {
             Main.getInstance().debug("Checking if file is broken: " + fileName);
             final File file = new File(Main.getInstance().getDataFolder(), fileName);
 
