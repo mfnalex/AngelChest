@@ -134,7 +134,7 @@ spawn-chance: 1.0
 random-item-loss: 0
 
 # When set to true, the random-item-loss defined above will NOT apply to enchanted items!
-# That means that enchanted items will always be kept on death!
+# That means that enchanted items will always be stored in the AngelChest regardless of random item loss chance.
 random-item-loss-ignores-enchanted-items: false
 
 # When set to true, players will receive a message telling them where the AngelChest

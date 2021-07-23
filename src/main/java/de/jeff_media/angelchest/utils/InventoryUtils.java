@@ -49,6 +49,7 @@ public class InventoryUtils {
             if(main.getConfig().getBoolean(Config.RANDOM_ITEM_LOSS_IGNORES_ENCHANTED_ITEMS)) {
                 ItemStack tmp = inventory.getItem(slots.get(slot));
                 if(tmp.hasItemMeta()) {
+                    remaining--;
                     if(tmp.getItemMeta().hasEnchants()) continue;
                 }
             }
