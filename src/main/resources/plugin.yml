@@ -25,6 +25,7 @@ softdepend:
   - ProtocolLib
   - ExecutableItems
   - EcoEnchants
+  - ItemsAdder
 loadbefore: [ AngelChestPlus ]
 commands:
   acadmin:

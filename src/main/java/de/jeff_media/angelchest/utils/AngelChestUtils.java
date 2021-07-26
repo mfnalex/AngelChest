@@ -4,7 +4,7 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
-import de.jeff_media.daddy.Daddy;
+import de.jeff_media.daddy.Stepsister;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -212,7 +212,7 @@ public class AngelChestUtils {
     public static boolean spawnChance(final double chance) {
         final Main main = Main.getInstance();
 
-        if (!Daddy.allows(PremiumFeatures.SPAWN_CHANCE)) {
+        if (!Stepsister.allows(PremiumFeatures.SPAWN_CHANCE)) {
             return true;
         }
 

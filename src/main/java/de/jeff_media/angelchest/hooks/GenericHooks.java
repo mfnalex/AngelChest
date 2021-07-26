@@ -15,6 +15,8 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Locale;
+
 public final class GenericHooks implements Listener {
 
     //final @Nullable Plugin eliteMobsPlugin;
@@ -94,7 +96,7 @@ public final class GenericHooks implements Listener {
         }
 
         for (final String line : meta.getLore()) {
-            if (line.toLowerCase().contains("soulbound")) {
+            if (line.toLowerCase().contains("soulbound") && !line.toLowerCase(Locale.ROOT).contains("not ")) {
                 if (main.debug) main.debug(item + " is a GENERIC SOULBOUND ITEM. Lore: " + line);
                 return true;
             }

@@ -4,7 +4,7 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
-import de.jeff_media.daddy.Daddy;
+import de.jeff_media.daddy.Stepsister;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -42,7 +42,7 @@ public final class ProtectionUtils {
     }
 
     public boolean playerMayOpenThisChest(final Player openingPlayer, final AngelChest angelChest) {
-        if (!Daddy.allows(PremiumFeatures.PROTECTION_SETTINGS)) {
+        if (!Stepsister.allows(PremiumFeatures.PROTECTION_SETTINGS)) {
             if (!angelChest.isProtected) return true;
             if (angelChest.owner.equals(openingPlayer.getUniqueId())) return true;
             return openingPlayer.hasPermission(Permissions.PROTECT_IGNORE);

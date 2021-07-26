@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>4.3.0</version>
+    <version>4.3.1</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -272,8 +272,8 @@
         <!-- /*Daddy start*/ -->
         <dependency>
             <groupId>de.jeff_media</groupId>
-            <artifactId>Daddy</artifactId>
-            <version>2.0.2</version>
+            <artifactId>Stepsister</artifactId>
+            <version>1.0.0-OBF-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <!-- /*Daddy end*/ -->

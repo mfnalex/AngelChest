@@ -21,7 +21,7 @@ import de.jeff_media.angelchest.hooks.WorldGuardWrapper;
 import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
-import de.jeff_media.daddy.Daddy;
+import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.JeffLib;
 import de.jeff_media.jefflib.TimeUtils;
 import de.jeff_media.jefflib.updatechecker.UpdateChecker;
@@ -189,10 +189,10 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     }
 
     public Material getChestMaterial(final AngelChest chest) {
-        if (!Daddy.allows(PremiumFeatures.GENERIC)) {
+        if (!Stepsister.allows(PremiumFeatures.GENERIC)) {
             return chestMaterial;
         }
-        if(Daddy.allows(PremiumFeatures.GRAVEYARDS)) {
+        if(Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
             if(chest.getGraveyard() != null) {
                 if(chest.getGraveyard().hasCustomMaterial()) {
                     return chest.getGraveyard().getCustomMaterial().getMaterial();
@@ -269,7 +269,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
     }
 
     public @Nullable String isItemBlacklisted(final ItemStack item) {
-        if (!Daddy.allows(PremiumFeatures.GENERIC)) { // Don't add feature here, gets called for every item on death
+        if (!Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add feature here, gets called for every item on death
             return null;
         }
         for (final BlacklistEntry entry : itemBlacklist.values()) {
@@ -373,7 +373,10 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         //npcManager = new NPCManager();
 
         /*Daddy start*/
-        Daddy.init(this);
+        Stepsister.init(this);
+        if(Stepsister.allows(PremiumFeatures.GENERIC)) {
+            Stepsister.createVerificationFile();
+        }
         /*Daddy end*/
         JeffLib.init(this);
 
@@ -449,7 +452,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
         //getServer().getPluginManager().registerEvents(new NPCListener(), this);
         guiListener = new GUIListener();
         getServer().getPluginManager().registerEvents(guiListener, this);
-        if(Daddy.allows(PremiumFeatures.GRAVEYARDS)) {
+        if(Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
             getServer().getPluginManager().registerEvents(new GraveyardListener(), this);
         }
 
@@ -459,13 +462,9 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
 
         setEconomyStatus();
 
-        final char color = Daddy.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? 'a' : '6';
-        for (final String line : Daddy.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? Messages.usingPlusVersion : Messages.usingFreeVersion) {
+        final char color = Stepsister.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? 'a' : '6';
+        for (final String line : Stepsister.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? Messages.usingPlusVersion : Messages.usingFreeVersion) {
             getLogger().info(ChatColor.translateAlternateColorCodes('&', "&" + color + line));
-        }
-
-        if (Daddy.allows(PremiumFeatures.GENERIC)) {
-            DiscordVerificationUtils.createVerificationFile();
         }
 
         debug("Loading AngelChests from disk");
@@ -541,7 +540,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
                 logger.logRemoval(logger.getLogFile(ac.logfile));
                 continue;
             }
-            if (Daddy.allows(PremiumFeatures.GENERIC) && ac.isProtected && ac.unlockIn > -1) { // Don't add feature here, gets called every second
+            if (Stepsister.allows(PremiumFeatures.GENERIC) && ac.isProtected && ac.unlockIn > -1) { // Don't add feature here, gets called every second
                 ac.unlockIn--;
                 if (ac.unlockIn == -1) {
                     ac.isProtected = false;

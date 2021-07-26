@@ -14,7 +14,7 @@ import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.GroupUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
-import de.jeff_media.daddy.Daddy;
+import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.TimeUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -44,7 +44,7 @@ public final class ConfigUtils {
         final Main main = Main.getInstance();
         final FileConfiguration conf = main.getConfig();
 
-        metric("using_plus_version", String.valueOf(Daddy.allows(PremiumFeatures.GENERIC)));
+        metric("using_plus_version", String.valueOf(Stepsister.allows(PremiumFeatures.GENERIC)));
 
         main.saveDefaultConfig();
         main.saveResource("groups.example.yml", true);
@@ -478,7 +478,7 @@ sound-channel: BLOCKS
 
         final Main main = Main.getInstance();
         /*Daddy start*/
-        Daddy.init(main);
+        Stepsister.init(main);
         /*Daddy end*/
         ExecutableItemsHook.init();
         if (reload) {

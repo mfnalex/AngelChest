@@ -6,7 +6,7 @@ import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
 import de.jeff_media.angelchest.utils.CommandUtils;
-import de.jeff_media.daddy.Daddy;
+import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.NBTAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
@@ -64,7 +64,7 @@ public final class Hologram {
             // TODO: Replace duplicates with calling update() method
             String line = scanner.nextLine();
             line = line.replace("{time}", CommandUtils.getTimeLeft(chest));
-            if (Daddy.allows(PremiumFeatures.HOLOGRAM_SHOWS_PROTECTION_STATUS)) {
+            if (Stepsister.allows(PremiumFeatures.HOLOGRAM_SHOWS_PROTECTION_STATUS)) {
                 line = line.replace("{protected}", getProtectedText(chest));
             }
             line = line.replace("{items}", Integer.toString(chest.getNumberOfItems()));
@@ -157,7 +157,7 @@ public final class Hologram {
             if (armorStand != null) {
 
                 line = line.replace("{time}", CommandUtils.getTimeLeft(chest));
-                if (Daddy.allows(PremiumFeatures.GENERIC)) { // Don't add Feature here, this method gets called every second
+                if (Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add Feature here, this method gets called every second
                     line = line.replace("{protected}", getProtectedText(chest));
                 }
                 line = line.replace("{items}", Integer.toString(chest.getNumberOfItems()));

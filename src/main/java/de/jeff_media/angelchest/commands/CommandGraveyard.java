@@ -12,7 +12,7 @@ import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.handlers.GraveyardYamlManager;
 import de.jeff_media.angelchest.hooks.WorldEditWrapper;
 import de.jeff_media.angelchest.utils.Prompt;
-import de.jeff_media.daddy.Daddy;
+import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.LocationUtils;
 import de.jeff_media.jefflib.ParticleUtils;
 import org.bukkit.*;
@@ -171,7 +171,7 @@ public class CommandGraveyard implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
-        if (!Daddy.allows(PremiumFeatures.GRAVEYARDS)) {
+        if (!Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
             commandSender.sendMessage(main.messages.MSG_PREMIUMONLY);
             return true;
         }

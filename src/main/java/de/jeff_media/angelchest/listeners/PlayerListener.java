@@ -17,7 +17,7 @@ import de.jeff_media.angelchest.hooks.EcoEnchantsHook;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nms.NMSHandler;
 import de.jeff_media.angelchest.utils.*;
-import de.jeff_media.daddy.Daddy;
+import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.NBTAPI;
 import de.jeff_media.jefflib.Ticks;
 import de.jeff_media.jefflib.TimeUtils;
@@ -152,7 +152,7 @@ public final class PlayerListener implements Listener {
         }
 
         boolean openGUI = false;
-        if (Daddy.allows(PremiumFeatures.GUI)) {
+        if (Stepsister.allows(PremiumFeatures.GUI)) {
             if (!main.getConfig().getBoolean(Config.ALLOW_FASTLOOTING)) {
                 if (main.debug) main.debug("Opening GUI because allow-fastlooting is disabled");
                 openGUI = true;
@@ -287,7 +287,7 @@ public final class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerRespawn(final PlayerRespawnEvent playerRespawnEvent) {
         if (main.debug) main.debug("Player Respawn: Show GUI to player?");
-        if (!Daddy.allows(PremiumFeatures.GUI)) {
+        if (!Stepsister.allows(PremiumFeatures.GUI)) {
             if (main.debug) main.debug("  No: not using premium version");
             return;
         }
@@ -355,7 +355,7 @@ public final class PlayerListener implements Listener {
             Messages.send(p, main.messages.MSG_YOU_GOT_YOUR_INVENTORY_BACK);
 
             // This is another player's chest
-            if (Daddy.allows(PremiumFeatures.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_ANGELCHEST)) {
+            if (Stepsister.allows(PremiumFeatures.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_ANGELCHEST)) {
                 if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
                     final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                     if (tmpPlayer != null) {
@@ -373,7 +373,7 @@ public final class PlayerListener implements Listener {
             Messages.send(p, main.messages.MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK);
 
             // This is another player's chest
-            if (Daddy.allows(PremiumFeatures.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_ANGELCHEST)) {
+            if (Stepsister.allows(PremiumFeatures.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_ANGELCHEST)) {
                 if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
                     final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                     if (tmpPlayer != null) {
@@ -475,7 +475,7 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        if (Daddy.allows(PremiumFeatures.PROHIBIT_CHEST_IN_LAVA_OR_VOID)) {
+        if (Stepsister.allows(PremiumFeatures.PROHIBIT_CHEST_IN_LAVA_OR_VOID)) {
             if (!main.getConfig().getBoolean(Config.ALLOW_CHEST_IN_LAVA) && p.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
                 if (main.debug) main.debug("Cancelled: Lava, allow-chest-in-lava: false");
                 return;
@@ -492,7 +492,7 @@ public final class PlayerListener implements Listener {
                 if (main.debug)
                     main.debug("Cancelled: allow-angelchest-in-pvp is false and this seemed to be a pvp death");
                 if (main.getConfig().getBoolean(Config.DROP_HEADS)) {
-                    if (Daddy.allows(PremiumFeatures.DROP_HEADS)) {
+                    if (Stepsister.allows(PremiumFeatures.DROP_HEADS)) {
                         dropPlayerHead(p);
                     }
                 }
@@ -577,7 +577,7 @@ public final class PlayerListener implements Listener {
         Block angelChestBlock = AngelChestUtils.getChestLocation(fixedPlayerPosition);
 
         // Graveyards start
-        if(Daddy.allows(PremiumFeatures.GRAVEYARDS)) {
+        if(Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
             //if(GraveyardManager.hasGraveyard(angelChestBlock.getWorld())) {
             boolean tryClosest = main.getConfig().getBoolean(Config.TRY_CLOSEST_GRAVEYARD);
             boolean tryGlobal = main.getConfig().getBoolean(Config.TRY_GLOBAL_GRAVEYARD);
@@ -633,7 +633,7 @@ public final class PlayerListener implements Listener {
         }
         LogUtils.debugBanner(new String[]{"ADDITIONAL DEATH DROP LIST END"});
 
-        if (main.getConfig().getBoolean(Config.DROP_HEADS) && Daddy.allows(PremiumFeatures.DROP_HEADS)) {
+        if (main.getConfig().getBoolean(Config.DROP_HEADS) && Stepsister.allows(PremiumFeatures.DROP_HEADS)) {
             boolean dropHead = false;
             if (main.getConfig().getBoolean(Config.ONLY_DROP_HEADS_IN_PVP)) {
                 if (isPvpDeath) {
@@ -673,15 +673,15 @@ public final class PlayerListener implements Listener {
         Experience
          */
         //noinspection StatementWithEmptyBody
-        if (Daddy.allows(PremiumFeatures.DISALLOW_XP_COLLECTION) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("false")) {
+        if (Stepsister.allows(PremiumFeatures.DISALLOW_XP_COLLECTION) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("false")) {
             // Do nothing
         } else //noinspection StatementWithEmptyBody
-            if (Daddy.allows(PremiumFeatures.DISALLOW_XP_COLLECTION_IN_PVP) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("nopvp") && (p.getKiller() != null && p.getKiller() != p)) {
+            if (Stepsister.allows(PremiumFeatures.DISALLOW_XP_COLLECTION_IN_PVP) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("nopvp") && (p.getKiller() != null && p.getKiller() != p)) {
                 // Do nothing
             } else if (!event.getKeepLevel() && event.getDroppedExp() != 0) {
                 final double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(p);
                 if (main.debug) main.debug("Player has xpPercentage of " + xpPercentage);
-                if (xpPercentage == -1 || !Daddy.allows(PremiumFeatures.PERCENTAL_XP_LOSS)) {
+                if (xpPercentage == -1 || !Stepsister.allows(PremiumFeatures.PERCENTAL_XP_LOSS)) {
                     ac.experience = event.getDroppedExp();
                 } else {
                     final float currentXP = XPUtils.getTotalXPRequiredForLevel(p.getLevel());
@@ -765,7 +765,7 @@ public final class PlayerListener implements Listener {
 
         }
 
-        if (Daddy.allows(PremiumFeatures.DONT_PROTECT_ANGELCHESTS_IN_PVP)) {
+        if (Stepsister.allows(PremiumFeatures.DONT_PROTECT_ANGELCHESTS_IN_PVP)) {
             if (main.getConfig().getBoolean(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP)) {
                 if (p.getKiller() != null && p.getKiller() != p) {
                     ac.isProtected = false;
@@ -788,7 +788,7 @@ public final class PlayerListener implements Listener {
 
         if (main.debug) main.debug(" ");
 
-        if (Daddy.allows(PremiumFeatures.PLAY_TOTEM_ANIMATION) && main.getConfig().getBoolean(Config.PLAY_TOTEM_ANIMATION)) {
+        if (Stepsister.allows(PremiumFeatures.PLAY_TOTEM_ANIMATION) && main.getConfig().getBoolean(Config.PLAY_TOTEM_ANIMATION)) {
             NMSHandler.playTotemAnimation(p, main.getConfig().getInt(Config.TOTEM_CUSTOM_MODEL_DATA));
         }
 

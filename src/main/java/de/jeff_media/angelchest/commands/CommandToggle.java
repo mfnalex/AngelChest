@@ -8,7 +8,7 @@ import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
-import de.jeff_media.daddy.Daddy;
+import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.NBTAPI;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -34,7 +34,7 @@ public class CommandToggle implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String alias, @NotNull final String[] args) {
 
-        if (!Daddy.allows(PremiumFeatures.ACTOGGLE)) {
+        if (!Stepsister.allows(PremiumFeatures.ACTOGGLE)) {
             Messages.send(commandSender, main.messages.MSG_PREMIUMONLY);
             return true;
         }

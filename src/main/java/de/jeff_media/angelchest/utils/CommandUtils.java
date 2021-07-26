@@ -13,7 +13,7 @@ import de.jeff_media.angelchest.hooks.ItemsAdderFontImageWrapperHook;
 import de.jeff_media.angelchest.listeners.InvulnerabilityListener;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
-import de.jeff_media.daddy.Daddy;
+import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.NBTAPI;
 import de.jeff_media.jefflib.Ticks;
 import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
@@ -151,7 +151,7 @@ public final class CommandUtils {
 
         // Add invulnerability
         final int seconds = main.groupUtils.getInvulnerabilityTimePerPlayer(player);
-        if (seconds > 0 && Daddy.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
+        if (seconds > 0 && Stepsister.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
 
             if (main.debug)
                 main.debug("Making player " + player.getName() + " invulnerable for " + main.getConfig().getDouble(Config.INVULNERABILITY_AFTER_TP) + " seconds");
@@ -186,7 +186,7 @@ public final class CommandUtils {
         } else if (seconds <= 0) {
             if (main.debug) main.debug("Invulnerability time is set to 0.");
         } else {
-            if (!Daddy.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
+            if (!Stepsister.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
                 Messages.sendPremiumOnlyConsoleMessage(Config.INVULNERABILITY_AFTER_TP);
             }
         }
@@ -285,7 +285,7 @@ public final class CommandUtils {
         }
 
         // TP Wait time
-        if(Daddy.allows(PremiumFeatures.TP_WAIT_TIME)) {
+        if(Stepsister.allows(PremiumFeatures.TP_WAIT_TIME)) {
             if (main.getConfig().getDouble(Config.TP_WAIT_TIME) > 0 && action == CommandAction.TELEPORT_TO_CHEST) {
                 final int delay = (int) Ticks.fromSeconds(main.getConfig().getDouble(Config.TP_WAIT_TIME));
                 AtomicInteger ticks = new AtomicInteger(delay);

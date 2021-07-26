@@ -6,7 +6,7 @@ import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
-import de.jeff_media.daddy.Daddy;
+import de.jeff_media.daddy.Stepsister;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -20,7 +20,7 @@ public class SoundUtils {
             if (!main.getConfig().getBoolean(Config.PLAY_SOUND_ON_FETCH)) {
                 return;
             } else {
-                if (!Daddy.allows(PremiumFeatures.PLAY_SOUND_ON_TP_OR_FETCH)) {
+                if (!Stepsister.allows(PremiumFeatures.PLAY_SOUND_ON_TP_OR_FETCH)) {
                     Messages.sendPremiumOnlyConsoleMessage(Config.PLAY_SOUND_ON_FETCH);
                     return;
                 }
@@ -30,7 +30,7 @@ public class SoundUtils {
             if (!main.getConfig().getBoolean(Config.PLAY_SOUND_ON_TP)) {
                 return;
             } else {
-                if (!Daddy.allows(PremiumFeatures.PLAY_SOUND_ON_TP_OR_FETCH)) {
+                if (!Stepsister.allows(PremiumFeatures.PLAY_SOUND_ON_TP_OR_FETCH)) {
                     Messages.sendPremiumOnlyConsoleMessage(Config.PLAY_SOUND_ON_TP);
                     return;
                 }

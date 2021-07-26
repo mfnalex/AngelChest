@@ -12,7 +12,7 @@ import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.listeners.PlayerListener;
 import de.jeff_media.angelchest.utils.CommandUtils;
 import de.jeff_media.angelchest.utils.Utils;
-import de.jeff_media.daddy.Daddy;
+import de.jeff_media.daddy.Stepsister;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -366,7 +366,7 @@ public final class GUIListener implements @NotNull Listener {
                 for (final HumanEntity viewer : event.getClickedInventory().getViewers().toArray(new HumanEntity[0])) {
                     viewer.closeInventory();
                 }
-                if (Daddy.allows(PremiumFeatures.GENERIC)) { // Don't add feature here
+                if (Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add feature here
                     if (!player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
                         final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                         if (tmpPlayer != null) {
