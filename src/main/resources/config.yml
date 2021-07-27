@@ -197,9 +197,6 @@ void-detection: true
 # When true, AngelChest will avoid spawning a chest inside lava seas and instead spawns it nearby
 lava-detection: true
 
-# When you are using
-dont-spawn-chest-directly-below-other-blocks: false
-
 # When false, AngelChests will not be spawned for players who died in lava
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 allow-chest-in-lava: true

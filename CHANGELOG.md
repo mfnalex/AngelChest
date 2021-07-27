@@ -6,6 +6,10 @@
 - TODO: Add option to spawn in graveyard when chest was empty
 - TODO. Add option to preserve XP in the chest even there are no items to drop LEL shesh
 
+## 4.3.2
+- Fixed discord-verification.html file being invalid sometimes
+- Removed unused config option
+
 ## 4.3.1
 - Fixed items being detected as having soulbound when they have "Not Soulbound" in their lore
   - Seriously, EliteMobs, why don't you just remove the lore line instead lol
