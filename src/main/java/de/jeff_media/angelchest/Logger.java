@@ -154,10 +154,16 @@ public final class Logger {
         write("", file);
     }
 
+    public void logItemTaken(final Player player, @Nullable final ItemStack item, final AngelChest angelChest) {
+        logItemTaken(player, item, getLogFile(angelChest.logfile));
+    }
+
     public void logItemTaken(final Player player, @Nullable final ItemStack item, final File file) {
         if (!Stepsister.allows(PremiumFeatures.GENERIC)) return; // Don't add feature here
         if (item == null) return;
-        writeWithTime(String.format("Player \"%s\" took item: %s", player.getName(), item), file);
+        String log = String.format("Player \"%s\" took item: %s", player.getName(), item);
+        writeWithTime(log, file);
+        if(main.debug) main.debug(log);
     }
 
     public void logLastItemTaken(final Player player, final File file) {

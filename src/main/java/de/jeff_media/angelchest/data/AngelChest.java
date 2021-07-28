@@ -594,19 +594,37 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      */
     @Override
     public boolean isEmpty() {
+        //System.out.println("Checking if AC is empty...");
         for (final ItemStack item : storageInv) {
-            if (!Utils.isEmpty(item)) return false;
+            if (!Utils.isEmpty(item)) {
+                //System.out.println("  No, storage inv!");
+                return false;
+            }
         }
         for (final ItemStack item : armorInv) {
-            if (!Utils.isEmpty(item)) return false;
+            if (!Utils.isEmpty(item)) {
+                //System.out.println("No, armor Inv");
+                return false;
+            }
         }
         for (final ItemStack item : extraInv) {
-            if (!Utils.isEmpty(item)) return false;
+            if (!Utils.isEmpty(item)) {
+                //System.out.println("No, extra inv!");
+                return false;
+            }
         }
         for (final ItemStack item : overflowInv) {
-            if (!Utils.isEmpty(item)) return false;
+            if (!Utils.isEmpty(item)) {
+                //System.out.println("No, overflow inv!");
+                return false;
+            }
         }
-        return experience <= 0;
+        if( experience > 0) {
+            //System.out.println("No, experience");
+            return false;
+        }
+        //System.out.println("Yes!");
+        return true;
     }
 
     @Override

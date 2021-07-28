@@ -18,6 +18,7 @@ import java.util.*;
 public class AngelChestUtils {
 
     private static final int MAX_NETHER_HEIGHT = 128;
+    private static final Main main = Main.getInstance();
 
     public static ArrayList<AngelChest> getAllAngelChestsFromPlayer(final UUID uuid) {
         return getAllAngelChestsFromPlayer(Bukkit.getOfflinePlayer(uuid));
@@ -230,6 +231,70 @@ public class AngelChestUtils {
         return random <= chancePercent;
     }
 
+    public static boolean mergeChestToPlayerInv(Player p, AngelChest angelChest) {
+        Utils.applyXp(p, angelChest);
+
+        ItemStack[] playerArmorInv = p.getInventory().getArmorContents();
+        ItemStack[] chestArmorInv = angelChest.armorInv;
+        mergeArrays(p, angelChest, playerArmorInv, chestArmorInv);
+        p.getInventory().setArmorContents(playerArmorInv);
+
+        ItemStack[] playerExtraInv = p.getInventory().getExtraContents();
+        ItemStack[] chestExtraInv = angelChest.extraInv;
+        mergeArrays(p, angelChest, playerExtraInv, chestExtraInv);
+        p.getInventory().setExtraContents(playerExtraInv);
+
+        ItemStack[] playerStorageInv = p.getInventory().getStorageContents();
+        ItemStack[] chestStorageInv = angelChest.storageInv;
+        mergeArrays(p, angelChest, playerStorageInv, chestStorageInv);
+        p.getInventory().setStorageContents(playerStorageInv);
+
+        boolean storedEverything = true;
+        for(ItemStack[] items : new ItemStack[][] {chestArmorInv, chestExtraInv, chestStorageInv}) {
+            if(!addToPlayer(p, angelChest, items)) {
+                storedEverything = false;
+            }
+        }
+        return storedEverything;
+    }
+
+    private static boolean addToPlayer(Player p, AngelChest angelChest, ItemStack[] items) {
+        boolean storedEverything = true;
+        for(int i = 0; i < items.length; i++) {
+            ItemStack item = items[i];
+            if(item==null) continue;
+            ItemStack logItem = item.clone();
+            HashMap<Integer,ItemStack> leftover = p.getInventory().addItem(item);
+            if(!leftover.isEmpty()) {
+                int leftoverAmount = leftover.get(0).getAmount();
+                int storedAmount = logItem.getAmount()-leftoverAmount;
+                logItem.setAmount(storedAmount);
+                item.setAmount(leftoverAmount);
+                storedEverything = false;
+            } else {
+                items[i] = null;
+            }
+            if(logItem.getAmount()>0) {
+                main.logger.logItemTaken(p, logItem, angelChest);
+            }
+        }
+        return storedEverything;
+    }
+
+    private static void mergeArrays(Player p, AngelChest angelChest, ItemStack[] playerInv, ItemStack[] chestInv) {
+        for(int i = 0; i < chestInv.length; i++) {
+            ItemStack playerItem = playerInv[i];
+            ItemStack chestItem = chestInv[i];
+            if(chestItem == null || chestItem.getAmount() == 0) continue;
+            if(playerItem==null || playerItem.getAmount()==0) {
+                playerInv[i] = chestItem;
+                chestInv[i] = null;
+                main.logger.logItemTaken(p,chestItem, angelChest);
+            }
+        }
+    }
+
+    @Deprecated
     public static boolean tryToMergeInventories(final Main main, final AngelChest source, final PlayerInventory dest) {
         final File file = Main.getInstance().logger.getLogFile(source.logfile);
         final Player player = (Player) dest.getHolder();

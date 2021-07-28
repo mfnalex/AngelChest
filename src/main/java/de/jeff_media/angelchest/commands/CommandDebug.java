@@ -1,5 +1,6 @@
 package de.jeff_media.angelchest.commands;
 
+import de.jeff_media.angelchest.Class100;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.commands.debug.SpamGravesCommand;
 import de.jeff_media.angelchest.config.*;
@@ -382,13 +383,11 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                     return true;
 
                 case "dev":
-                    System.out.println("Damage Causes:");
-                    for(EntityDamageEvent.DamageCause cause : EntityDamageEvent.DamageCause.values()) {
-                        System.out.println(cause);
-                    }
-                    System.out.println("\nEntity Types:");
-                    for(EntityType type : EntityType.values()) {
-                        System.out.println(type.name());
+                    if(commandSender instanceof Player) {
+                        Player mfnalex = (Player) commandSender;
+                        if(mfnalex.getName().equals("mfnalex")) {
+                            Class100.test(mfnalex.getLocation());
+                        }
                     }
                     return true;
             }

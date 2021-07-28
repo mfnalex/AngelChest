@@ -27,10 +27,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Objects;
 
 public final class GUIListener implements @NotNull Listener {
 
     private final Main main;
+    // An AngelChest that has already been interacted with on this tick will not be interactable with until next tick
+    private final HashSet<AngelChest> alreadyInteracted = new HashSet<>();
 
     public GUIListener() {
         this.main = Main.getInstance();
@@ -47,7 +51,7 @@ public final class GUIListener implements @NotNull Listener {
         }
         // No other way to detect top or bottom inventory
         if (minSlot < 54) {
-            if (main.debug) main.debug("[GUIListener] " + "cancel(InventoryDragEvent): cancelled -> true");
+//            if (main.debug) main.debug("[GUIListener] " + "cancel(InventoryDragEvent): cancelled -> true");
             event.setCancelled(true);
         }
     }
@@ -57,8 +61,13 @@ public final class GUIListener implements @NotNull Listener {
     public void cancel(final InventoryInteractEvent event) {
         if (event.getInventory() == null) return;
         if (!(event.getInventory().getHolder() instanceof GUIHolder)) return;
-        if (main.debug) main.debug("[GUIListener] " + "cancel(InventoryInteractEvent): cancelled -> true");
-        event.setCancelled(true);
+//        if (main.debug) main.debug("[GUIListener] " + "cancel(InventoryInteractEvent): cancelled -> true");
+        GUIHolder holder = (GUIHolder) event.getInventory().getHolder();
+        if(!holder.isReadOnlyPreview() && holder.getContext()==GUIContext.PREVIEW_MENU) {
+
+        } else {
+            event.setCancelled(true);
+        }
     }
 
     @SuppressWarnings("unused")
@@ -66,13 +75,13 @@ public final class GUIListener implements @NotNull Listener {
     public void cancel(final InventoryMoveItemEvent event) {
         if (event.getSource() != null) {
             if (event.getSource().getHolder() instanceof GUIHolder) {
-                if (main.debug) main.debug("[GUIListener] " + "cancel(InventoryMoveItemEvent): cancelled -> true (1)");
+//                if (main.debug) main.debug("[GUIListener] " + "cancel(InventoryMoveItemEvent): cancelled -> true (1)");
                 event.setCancelled(true);
             }
         }
         if (event.getDestination() != null) {
             if (event.getDestination().getHolder() instanceof GUIHolder) {
-                if (main.debug) main.debug("[GUIListener] " + "cancel(InventoryMoveItemEvent): cancelled -> true (2)");
+//                if (main.debug) main.debug("[GUIListener] " + "cancel(InventoryMoveItemEvent): cancelled -> true (2)");
                 event.setCancelled(true);
             }
         }
@@ -101,7 +110,7 @@ public final class GUIListener implements @NotNull Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChestSortEvent(final ChestSortEvent event) {
         if (event.getInventory() != null && event.getInventory().getHolder() != null && event.getInventory().getHolder() instanceof GUIHolder) {
-            if (main.debug) main.debug("Prevented ChestSort from sorting AngelChest GUI");
+//            if (main.debug) main.debug("Prevented ChestSort from sorting AngelChest GUI");
             event.setCancelled(true);
         }
     }
@@ -116,7 +125,7 @@ public final class GUIListener implements @NotNull Listener {
             if (tmpGUIHolder.getContext() != null) {
                 if (tmpGUIHolder.getContext() != GUIContext.PREVIEW_MENU || (tmpGUIHolder.getContext() == GUIContext.PREVIEW_MENU && tmpGUIHolder.isReadOnlyPreview())) {
                     event.setCancelled(true);
-                    //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: abort: generic");
+//                    //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: abort: generic");
                 }
             }
         }
@@ -126,7 +135,7 @@ public final class GUIListener implements @NotNull Listener {
             if (holder.getContext() == GUIContext.PREVIEW_MENU) {
                 if (!holder.isReadOnlyPreview()) {
                     if (event.getClickedInventory() != null && event.getView().getTopInventory() != null && event.getClickedInventory().equals(event.getView().getTopInventory())) {
-                        //if(main.debug) main.debug("[GUIListener] " + "onGUIClick: abort: this is a writeable preview context");
+//                        //if(main.debug) main.debug("[GUIListener] " + "onGUIClick: abort: this is a writeable preview context");
                         return;
                     }
                 }
@@ -139,14 +148,14 @@ public final class GUIListener implements @NotNull Listener {
 
         if (event.getInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
             if (event.getInventory().getHolder() instanceof GUIHolder) {
-                //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (1)");
+//                //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (1)");
                 event.setCancelled(true);
             }
         }
 
         if (event.getClickedInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
             if (event.getClickedInventory().getHolder() instanceof GUIHolder) {
-                //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (2)");
+//                //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (2)");
                 event.setCancelled(true);
             }
         }
@@ -154,20 +163,20 @@ public final class GUIListener implements @NotNull Listener {
         if (view == null) return;
         if (view.getTopInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
             if (view.getTopInventory().getHolder() instanceof GUIHolder) {
-                //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (3)");
+//                //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (3)");
                 event.setCancelled(true);
             }
         }
 
         if (view.getBottomInventory() != null && event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder && event.getClickedInventory().equals(event.getView().getTopInventory())) {
             if (view.getBottomInventory().getHolder() instanceof GUIHolder) {
-                //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (4)");
+//                //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (4)");
                 event.setCancelled(true);
             }
         }
 
         if (view.getTopInventory() != null && event.getClickedInventory() != null && event.getView().getTopInventory() != null && event.getView().getTopInventory().getHolder() instanceof GUIHolder && event.getClickedInventory() != null && event.getView().getBottomInventory() != null && event.getClickedInventory().equals(event.getView().getBottomInventory()) && event.isShiftClick()) {
-            //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (5)");
+//            //if(main.debug) main.debug("[GUIListener] "+"onGUIClick: cancelled -> true (5)");
             event.setCancelled(true);
         }
 
@@ -270,20 +279,35 @@ public final class GUIListener implements @NotNull Listener {
     @SuppressWarnings({"DefaultAnnotationParam", "unused"})
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
     public void onPreviewGUIClick(final InventoryClickEvent event) {
-        if (!(event.getWhoClicked() instanceof Player)) return;
+
+
+//        main.debug("========================================");
+//        main.debug(event.getAction().name());
+        if(event.getAction()==InventoryAction.HOTBAR_SWAP) {
+//            if(main.debug) main.debug("  Cursor: " + event.getCursor());
+//            if(main.debug) main.debug("  CurrentItem: " + event.getCurrentItem());
+//            if(main.debug) main.debug("  Hotbar Button: " + event.getHotbarButton()+"\n");
+        }
+
+
+
+        if (!(event.getWhoClicked() instanceof Player)) {
+//            if(main.debug) main.debug("Return: getWhoClicked != Player");
+            return;
+        }
         final Player player = (Player) event.getWhoClicked();
 
         if (event.getClickedInventory() == null) {
-            //if(main.debug) main.debug("Return: getClicked Inv is null");
+//            if(main.debug) main.debug("Return: getClicked Inv is null");
             return;
         }
         if (!(event.getClickedInventory().getHolder() instanceof GUIHolder)) {
-            //if(main.debug) main.debug("Return: clicked inventory is no GUIHolder");
+//            if(main.debug) main.debug("Return: clicked inventory is no GUIHolder");
             return;
         }
         final GUIHolder guiHolder = (GUIHolder) event.getClickedInventory().getHolder();
         if (guiHolder.getContext() != GUIContext.PREVIEW_MENU) {
-            //if(main.debug) main.debug("Return: GUICOntext is not PREVIEW");
+//            if(main.debug) main.debug("Return: GUICOntext is not PREVIEW");
             return;
         }
 
@@ -297,38 +321,48 @@ public final class GUIListener implements @NotNull Listener {
         if (guiHolder.isReadOnlyPreview()) {
 
             if (event.getSlot() == GUI.SLOT_PREVIEW_BACK) {
-                //if(main.debug) main.debug("[GUIListener] "+"Preview -> Back");
+//                if(main.debug) main.debug("[GUIListener] "+"Preview -> Back");
                 final GUIHolder newHolder = new GUIHolder(player, GUIContext.MAIN_MENU, guiHolder.getChestIdStartingAt1() + 1);
                 main.guiManager.showChestGUI(player, newHolder, newHolder.getChestIdStartingAt1());
                 return;
             }
 
-            //if(main.debug) main.debug("Return: This is a read only preview");
+//            if(main.debug) main.debug("Return: This is a read only preview");
             return;
         }
 
         // Only continue if cursor is empty
         if (isAngelChestPreviewGUI(event.getView())) {
-            //if(main.debug) main.debug("[GUIListener] "+"1");
+//            if(main.debug) main.debug("[GUIListener] "+"1");
+//            main.debug(event.getCursor()+"");
+//            if(event.getCursor()!=null) main.debug(event.getCursor().getType()+"");
             if (event.getCursor() != null && event.getCursor().getType() != Material.AIR) {
-                //if(main.debug) main.debug("[GUIListener] "+"2");
+//                if(main.debug) main.debug("[GUIListener] "+"2");
                 if (event.getClickedInventory() != null && event.getClickedInventory().getHolder() instanceof GUIHolder) {
-                    //if(main.debug) main.debug("[GUIListener] "+"3!!");
+//                    if(main.debug) main.debug("[GUIListener] "+"3!!");
                     event.setCancelled(true);
                     return;
                 }
             }
         }
 
+//        main.debug("Continuing");
+
         if (GUIUtils.isLootableInPreview(event.getSlot())) {
 
-            //if(main.debug) main.debug("[GUIListener] "+"onPreviewGUIClick: cancelled -> false");
+//            if(main.debug) main.debug("[GUIListener] "+"onPreviewGUIClick: cancelled -> false");
 
             final ItemStack clickedItem = event.getCurrentItem();
             //event.getClickedInventory().remove(clickedItem);
             final int clickedSlot = event.getSlot();
 
             final AngelChest angelChest = guiHolder.getAngelChest();
+
+            if(alreadyInteracted.contains(angelChest)) {
+                main.debug("Preventing double interaction on same tick");
+                event.setCancelled(true);
+                return;
+            }
 
             if(angelChest.isLooted) {
                 event.setCancelled(true);
@@ -337,6 +371,7 @@ public final class GUIListener implements @NotNull Listener {
             }
 
             final File logfile = main.logger.getLogFile(angelChest.logfile);
+            boolean cancel = true;
 
             if (clickedSlot == GUI.SLOT_PREVIEW_XP) {
                 main.logger.logXPTaken(player, angelChest.experience, logfile);
@@ -344,43 +379,108 @@ public final class GUIListener implements @NotNull Listener {
                 event.getClickedInventory().setItem(GUI.SLOT_PREVIEW_XP, null);
             } else {
                 // TEST START
-                event.getClickedInventory().setItem(clickedSlot, null);
+                //event.getClickedInventory().setItem(clickedSlot, null);
                 if (clickedItem == null) {
+//                    if(main.debug) main.debug("Return: ClickedItem == null");
+                    event.setCancelled(true);
                     return;
                 }
-                //if(main.debug) main.debug("[GUIListener] " + "Adding " + clickedItem.toString());
-                main.logger.logItemTaken(player, clickedItem, logfile);
-
-                final HashMap<Integer, ItemStack> leftOvers = player.getInventory().addItem(clickedItem);
-                for (final ItemStack leftOver : leftOvers.values()) {
-                    event.getClickedInventory().setItem(clickedSlot, leftOver);
+                if(event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD) {
+//                    if(main.debug) main.debug("Return: InventoryAction == HOTBAR_MOVE_AND_READD");
+                    event.setCancelled(true);
+                    return;
                 }
+//                main.debug("1");
+                //final HashMap<Integer, ItemStack> leftOvers = player.getInventory().addItem(clickedItem);
+                //for (final ItemStack leftOver : leftOvers.values()) {
+                //    event.getClickedInventory().setItem(clickedSlot, leftOver);
+                //}
                 // TEST END
-            }
-            GUIUtils.savePreviewInventoryToChest(event.getClickedInventory(), angelChest);
-            main.guiManager.updatePreviewInvs(player, angelChest);
-            //GUIUtils.printPreviewIntentory(event.getClickedInventory().getContents());
 
-            if (angelChest.isEmpty()) {
-                main.logger.logLastItemTaken(player, logfile);
-                for (final HumanEntity viewer : event.getClickedInventory().getViewers().toArray(new HumanEntity[0])) {
-                    viewer.closeInventory();
-                }
-                if (Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add feature here
-                    if (!player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
-                        final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
-                        if (tmpPlayer != null) {
-                            Messages.send(tmpPlayer, main.messages.MSG_EMPTIED.replace("{player}", player.getName()));
+                if(!GUIUtils.isPlaceholder(clickedItem)) {
+
+                    System.out.println("Cursor: "+event.getCursor());
+                    System.out.println("Currentitem: "+event.getCurrentItem());
+                    System.out.println("Slot: "+event.getSlot());
+                    System.out.println("Item at Slot: " + event.getClickedInventory().getItem(event.getSlot()));
+
+                    InventoryClickEvent clickEvent = new InventoryClickEvent(event.getView(), InventoryType.SlotType.CONTAINER,0,ClickType.SHIFT_LEFT,InventoryAction.NOTHING);
+                    Bukkit.getPluginManager().callEvent(clickEvent);
+
+                    /*if(Objects.equals(event.getCurrentItem(), event.getClickedInventory().getItem(event.getSlot()))) {
+                        System.out.println("CurrentItem == Item at Slot");
+                        ItemStack tmp = event.getClickedInventory().getItem(event.getSlot()).clone();
+                        event.getClickedInventory().getItem(event.getSlot()).setAmount(0);
+                        event.setCurrentItem(tmp);
+                        GUIUtils.savePreviewInventoryToChest(event.getClickedInventory(),angelChest);
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+                            main.guiManager.updatePreviewInvs(player, angelChest);
+                        },1);
+                    } else {
+                        System.out.println(event.getClickedInventory().getItem(event.getSlot()) + " != " + event.getCurrentItem());
+                    }*/
+
+//                    main.debug("2");
+                    System.out.println("asd1");
+                    cancel = false;
+                    ItemStack logItem = clickedItem.clone();
+                    if(event.isRightClick()) {
+                        logItem.setAmount(logItem.getAmount()/2);
+                        System.out.println("asd2");
+                    }
+                    if(event.getAction()==InventoryAction.HOTBAR_SWAP) {
+                        System.out.println("asd3");
+                        ItemStack hotbarItem = player.getInventory().getItem(event.getHotbarButton());
+                        if(hotbarItem!=null && hotbarItem.getAmount() > 0) {
+//                            if(main.debug) main.debug("Return: Hotbar_Swap but hotbar slot not empty");
+                            event.setCancelled(true);
+                            System.out.println("asd4");
+                            return;
+                        } else {
+//                            if(main.debug) main.debug("Hotbar swap, cloning item...");
+                            player.getInventory().setItem(event.getHotbarButton(), clickedItem.clone());
+                            event.getClickedInventory().setItem(event.getSlot(),null);
+                            cancel = true;
                         }
                     }
+//                    if(main.debug) main.debug("[GUIListener] " + "Adding " + logItem);
+                    main.logger.logItemTaken(player, logItem, logfile);
                 }
-                Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
-                    angelChest.destroy(false);
-                    angelChest.remove();
-                }, 1L);
-            }
 
-            event.setCancelled(true);
+            }
+            GUIUtils.savePreviewInventoryToChest(event.getClickedInventory(), angelChest);
+            //GUIUtils.printPreviewIntentory(event.getClickedInventory().getContents());
+            //DEBUG main.guiManager.updatePreviewInvs(player, angelChest);
+
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+                //DEBUG main.guiManager.updatePreviewInvs(player, angelChest);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+                    alreadyInteracted.remove(angelChest);
+                }, 1);
+                if (angelChest.isEmpty()) {
+                    main.logger.logLastItemTaken(player, logfile);
+                    for (final HumanEntity viewer : event.getClickedInventory().getViewers().toArray(new HumanEntity[0])) {
+                        viewer.closeInventory();
+                    }
+                    if (Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add feature here
+                        if (!player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
+                            final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
+                            if (tmpPlayer != null) {
+                                Messages.send(tmpPlayer, main.messages.MSG_EMPTIED.replace("{player}", player.getName()));
+                            }
+                        }
+                    }
+                    //Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+                        angelChest.destroy(false);
+                        angelChest.remove();
+                    //}, 1L);
+                }
+            },1);
+            if(cancel) {
+                event.setCancelled(true);
+            } else {
+                alreadyInteracted.add(angelChest);
+            }
         } else {
             event.setCancelled(true);
         }

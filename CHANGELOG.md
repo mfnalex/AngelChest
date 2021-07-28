@@ -5,6 +5,11 @@
 - TODO: Add option to disable mob block damage / disallow mob spawning in graveyards
 - TODO: Add option to spawn in graveyard when chest was empty
 - TODO. Add option to preserve XP in the chest even there are no items to drop LEL shesh
+- TODO: Log partially taken items when fastlooting
+
+## 4.4.0
+- Major improvements to the GUI
+- Fixed helmets and leggings not being clickable in the GUI
 
 ## 4.3.2
 - Fixed discord-verification.html file being invalid sometimes

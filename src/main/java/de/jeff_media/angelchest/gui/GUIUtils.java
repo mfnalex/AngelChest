@@ -5,8 +5,11 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.data.AngelChest;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Objects;
 
@@ -19,13 +22,29 @@ public final class GUIUtils {
      * @return true if it belongs to the player inventory, false if it belongs to the GUI
      */
     public static boolean isLootableInPreview(final int slot) {
-        return (slot >= GUI.PREVIEW_ARMOR_SIZE && slot < GUI.PREVIEW_ARMOR_SIZE + GUI.PREVIEW_ARMOR_SIZE) || (slot >= GUI.SLOT_PREVIEW_OFFHAND && slot < GUI.SLOT_PREVIEW_OFFHAND + GUI.PREVIEW_OFFHAND_SIZE) || (slot >= GUI.SLOT_PREVIEW_STORAGE_START && slot < GUI.SLOT_PREVIEW_STORAGE_START + GUI.PREVIEW_STORAGE_SIZE) || (slot >= GUI.SLOT_PREVIEW_HOTBAR_START && slot < GUI.SLOT_PREVIEW_HOTBAR_START + GUI.PREVIEW_HOTBAR_SIZE) || slot == GUI.SLOT_PREVIEW_XP;
+        return (slot >= GUI.SLOT_PREVIEW_ARMOR_START && slot < GUI.PREVIEW_ARMOR_SIZE + GUI.PREVIEW_ARMOR_SIZE) || (slot >= GUI.SLOT_PREVIEW_OFFHAND && slot < GUI.SLOT_PREVIEW_OFFHAND + GUI.PREVIEW_OFFHAND_SIZE) || (slot >= GUI.SLOT_PREVIEW_STORAGE_START && slot < GUI.SLOT_PREVIEW_STORAGE_START + GUI.PREVIEW_STORAGE_SIZE) || (slot >= GUI.SLOT_PREVIEW_HOTBAR_START && slot < GUI.SLOT_PREVIEW_HOTBAR_START + GUI.PREVIEW_HOTBAR_SIZE) || slot == GUI.SLOT_PREVIEW_XP;
+    }
 
+
+
+    private static ItemStack getPlaceholder() {
+        ItemStack placeholder = new ItemStack(Enums.getIfPresent(Material.class, Main.getInstance().getConfig().getString(Config.GUI_BUTTON_PREVIEW_PLACEHOLDER)).or(Material.GRAY_STAINED_GLASS_PANE));
+        if(placeholder.getType().isAir()) placeholder = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+        ItemMeta meta = placeholder.getItemMeta();
+        meta.setDisplayName("§8");
+        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getInstance(),"placeholder"), PersistentDataType.BYTE, (byte) 1);
+        placeholder.setItemMeta(meta);
+        return placeholder;
+    }
+
+    public static boolean isPlaceholder(ItemStack item) {
+        if(!item.hasItemMeta()) return false;
+        return item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(Main.getInstance(),"placeholder"), PersistentDataType.BYTE);
     }
 
     public static void loadChestIntoPreviewInventory(final AngelChest angelChest, final Inventory inventory) {
 
-        final ItemStack placeholder = new ItemStack(Enums.getIfPresent(Material.class, Main.getInstance().getConfig().getString(Config.GUI_BUTTON_PREVIEW_PLACEHOLDER)).or(Material.GRAY_STAINED_GLASS_PANE));
+        final ItemStack placeholder = getPlaceholder();
 
         //ItemMeta meta = placeholder.hasItemMeta() ? placeholder.getItemMeta() : Bukkit.getItemFactory().getItemMeta(placeholder.getType());
         //meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -46,6 +65,7 @@ public final class GUIUtils {
     }
 
     public static void savePreviewInventoryToChest(final Inventory inventory, final AngelChest angelChest) {
+        Main.getInstance().debug("Saving GUI contents to chest...");
         Objects.requireNonNull(angelChest, "AngelChest is null!");
         angelChest.armorInv = new ItemStack[GUI.PREVIEW_ARMOR_SIZE];
         angelChest.extraInv = new ItemStack[GUI.PREVIEW_OFFHAND_SIZE];

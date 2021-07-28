@@ -5,7 +5,6 @@ import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
-import de.jeff_media.angelchest.data.AngelChestHolder;
 import de.jeff_media.angelchest.data.DeathCause;
 import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
@@ -36,7 +35,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -46,10 +44,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredListener;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -169,7 +164,7 @@ public final class PlayerListener implements Listener {
             main.guiManager.showPreviewGUI(player, angelChest, false, firstOpened);
         } else {
             main.debug("Fastlooting chest");
-            fastLoot(player, angelChest, firstOpened);
+            fastLoot2(player, angelChest, firstOpened);
         }
 
     }
@@ -336,6 +331,59 @@ public final class PlayerListener implements Listener {
         }
     }
 
+    public static void fastLoot2(final Player p, final AngelChest angelChest, boolean firstOpened) {
+        if(p.getOpenInventory().getTopInventory() != null && p.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder) {
+            main.getLogger().warning("Player " + p.getName() + " attempted to fastloot an AngelChest while having an inventory open - possible duplication attempt using a hacked client, or just client lag.");
+            return;
+        }
+        p.closeInventory();
+        boolean successfullyStoredEverything = AngelChestUtils.mergeChestToPlayerInv(p, angelChest);
+        if (successfullyStoredEverything) {
+            angelChest.isLooted = true;
+            Messages.send(p, main.messages.MSG_YOU_GOT_YOUR_INVENTORY_BACK);
+
+            // This is another player's chest
+            if (Stepsister.allows(PremiumFeatures.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_ANGELCHEST)) {
+                if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
+                    final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
+                    if (tmpPlayer != null) {
+                        Messages.send(tmpPlayer, main.messages.MSG_EMPTIED.replace("{player}", p.getName()));
+                    }
+                }
+            }
+
+            angelChest.destroy(false);
+            angelChest.remove();
+            if (main.getConfig().getBoolean(Config.CONSOLE_MESSAGE_ON_OPEN)) {
+                main.getLogger().info(p.getName() + " emptied the AngelChest of " + Bukkit.getOfflinePlayer(angelChest.owner).getName() + " at " + angelChest.block.getLocation());
+            }
+        } else {
+            Messages.send(p, main.messages.MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK);
+
+            // This is another player's chest
+            if (Stepsister.allows(PremiumFeatures.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_ANGELCHEST)) {
+                if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
+                    final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
+                    if (tmpPlayer != null) {
+                        if (firstOpened) {
+                            Messages.send(tmpPlayer, main.messages.MSG_OPENED.replace("{player}", p.getName()));
+                            firstOpened = false;
+                        }
+                    }
+                }
+            }
+
+            //p.openInventory(angelChest.overflowInv);
+            main.guiManager.showPreviewGUI(p, angelChest, false, firstOpened);
+            main.getLogger().info(p.getName() + " opened the AngelChest of " + Bukkit.getOfflinePlayer(angelChest.owner).getName() + " at " + angelChest.block.getLocation());
+        }
+
+        main.guiManager.updatePreviewInvs(null, angelChest);
+
+    }
+
+
+    @Deprecated
     public static void fastLoot(final Player p, final AngelChest angelChest, boolean firstOpened) {
 
         if(p.getOpenInventory().getTopInventory() != null && p.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder) {
