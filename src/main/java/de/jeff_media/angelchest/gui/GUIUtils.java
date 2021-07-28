@@ -5,9 +5,11 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.data.AngelChest;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Objects;
 
@@ -24,14 +26,24 @@ public final class GUIUtils {
 
     }
 
+    private static ItemStack getPlaceholder() {
+        ItemStack placeholder = new ItemStack(Enums.getIfPresent(Material.class, Main.getInstance().getConfig().getString(Config.GUI_BUTTON_PREVIEW_PLACEHOLDER)).or(Material.GRAY_STAINED_GLASS_PANE));
+        if(placeholder.getType().isAir()) placeholder = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+        ItemMeta meta = placeholder.getItemMeta();
+        meta.setDisplayName("§8");
+        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getInstance(),"placeholder"), PersistentDataType.BYTE, (byte) 1);
+        placeholder.setItemMeta(meta);
+        return placeholder;
+    }
+
+    public static boolean isPlaceholder(ItemStack item) {
+        if(!item.hasItemMeta()) return false;
+        return item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(Main.getInstance(),"placeholder"), PersistentDataType.BYTE);
+    }
+
     public static void loadChestIntoPreviewInventory(final AngelChest angelChest, final Inventory inventory) {
 
-        final ItemStack placeholder = new ItemStack(Enums.getIfPresent(Material.class, Main.getInstance().getConfig().getString(Config.GUI_BUTTON_PREVIEW_PLACEHOLDER)).or(Material.GRAY_STAINED_GLASS_PANE));
-        if(placeholder.hasItemMeta()) {
-            ItemMeta meta = placeholder.getItemMeta();
-            meta.setDisplayName("§8");
-            placeholder.setItemMeta(meta);
-        }
+        final ItemStack placeholder = getPlaceholder();
 
         //ItemMeta meta = placeholder.hasItemMeta() ? placeholder.getItemMeta() : Bukkit.getItemFactory().getItemMeta(placeholder.getType());
         //meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
