@@ -5,6 +5,12 @@
 - TODO: Add option to disable mob block damage / disallow mob spawning in graveyards
 - TODO: Add option to spawn in graveyard when chest was empty
 - TODO. Add option to preserve XP in the chest even there are no items to drop LEL shesh
+- TODO: Make GUI behave like normal inventory (let people take out items manually)
+- TODO: Fix logging, see experimental branch
+
+## 4.3.3
+- Fixed helmets and leggings not being movable in the GUI
+- Removed the "Black Stained Glass Pane" name from the GUI placeholders
 
 ## 4.3.2
 - Fixed discord-verification.html file being invalid sometimes

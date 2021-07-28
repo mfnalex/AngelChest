@@ -7,6 +7,7 @@ import de.jeff_media.angelchest.data.AngelChest;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Objects;
 
@@ -19,13 +20,18 @@ public final class GUIUtils {
      * @return true if it belongs to the player inventory, false if it belongs to the GUI
      */
     public static boolean isLootableInPreview(final int slot) {
-        return (slot >= GUI.PREVIEW_ARMOR_SIZE && slot < GUI.PREVIEW_ARMOR_SIZE + GUI.PREVIEW_ARMOR_SIZE) || (slot >= GUI.SLOT_PREVIEW_OFFHAND && slot < GUI.SLOT_PREVIEW_OFFHAND + GUI.PREVIEW_OFFHAND_SIZE) || (slot >= GUI.SLOT_PREVIEW_STORAGE_START && slot < GUI.SLOT_PREVIEW_STORAGE_START + GUI.PREVIEW_STORAGE_SIZE) || (slot >= GUI.SLOT_PREVIEW_HOTBAR_START && slot < GUI.SLOT_PREVIEW_HOTBAR_START + GUI.PREVIEW_HOTBAR_SIZE) || slot == GUI.SLOT_PREVIEW_XP;
+        return (slot >= GUI.SLOT_PREVIEW_ARMOR_START && slot < GUI.PREVIEW_ARMOR_SIZE + GUI.PREVIEW_ARMOR_SIZE) || (slot >= GUI.SLOT_PREVIEW_OFFHAND && slot < GUI.SLOT_PREVIEW_OFFHAND + GUI.PREVIEW_OFFHAND_SIZE) || (slot >= GUI.SLOT_PREVIEW_STORAGE_START && slot < GUI.SLOT_PREVIEW_STORAGE_START + GUI.PREVIEW_STORAGE_SIZE) || (slot >= GUI.SLOT_PREVIEW_HOTBAR_START && slot < GUI.SLOT_PREVIEW_HOTBAR_START + GUI.PREVIEW_HOTBAR_SIZE) || slot == GUI.SLOT_PREVIEW_XP;
 
     }
 
     public static void loadChestIntoPreviewInventory(final AngelChest angelChest, final Inventory inventory) {
 
         final ItemStack placeholder = new ItemStack(Enums.getIfPresent(Material.class, Main.getInstance().getConfig().getString(Config.GUI_BUTTON_PREVIEW_PLACEHOLDER)).or(Material.GRAY_STAINED_GLASS_PANE));
+        if(placeholder.hasItemMeta()) {
+            ItemMeta meta = placeholder.getItemMeta();
+            meta.setDisplayName("§8");
+            placeholder.setItemMeta(meta);
+        }
 
         //ItemMeta meta = placeholder.hasItemMeta() ? placeholder.getItemMeta() : Bukkit.getItemFactory().getItemMeta(placeholder.getType());
         //meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
