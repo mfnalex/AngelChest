@@ -375,7 +375,7 @@ public final class GUIListener implements @NotNull Listener {
                     }
                 }
                 Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
-                    angelChest.destroy(false);
+                    angelChest.destroy(false, false);
                     angelChest.remove();
                 }, 1L);
             }

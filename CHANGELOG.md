@@ -8,6 +8,10 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.4.0
+- Fixed "keep-inventory" not working in disabled worlds
+- Added option to prevent dropping chest contents when the chest expires
+
 ## 4.3.3
 - Fixed helmets and leggings not being movable in the GUI
 - Removed the "Black Stained Glass Pane" name from the GUI placeholders

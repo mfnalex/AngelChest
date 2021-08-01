@@ -92,6 +92,10 @@ unlock-duration: 0
 # See groups.example.yml for more information.
 max-allowed-angelchests: 5
 
+# When true, the AngelChest drops its contents when it expires
+# When false, all contents disappear
+drop-contents-when-expired: true
+
 # You can disable spawning the AngelChest when a player has been killed by
 # another player. By default, the AngelChest will always spawn.
 allow-angelchest-in-pvp: true

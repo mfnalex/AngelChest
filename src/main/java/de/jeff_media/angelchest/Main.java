@@ -535,7 +535,7 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
                 if (getServer().getPlayer(ac.owner) != null) {
                     Messages.send(getServer().getPlayer(ac.owner), messages.MSG_ANGELCHEST_DISAPPEARED);
                 }
-                ac.destroy(true);
+                ac.destroy(true, true);
                 it.remove();
                 logger.logRemoval(logger.getLogFile(ac.logfile));
                 continue;

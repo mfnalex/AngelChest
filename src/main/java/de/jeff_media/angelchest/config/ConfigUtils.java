@@ -331,6 +331,9 @@ sound-channel: BLOCKS
         main.disabledRegions = conf.getStringList(Config.DISABLED_WORLDGUARD_REGIONS);
         metric(Config.DISABLED_WORLDGUARD_REGIONS, String.valueOf(main.disabledRegions.size()));
 
+        conf.addDefault(Config.DROP_CONTENTS, true);
+        metric(Config.DROP_CONTENTS);
+
         conf.addDefault("tp-distance", 2);
 
         conf.addDefault(Config.GUI_BUTTON_BACK, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY0Zjc3OWE4ZTNmZmEyMzExNDNmYTY5Yjk2YjE0ZWUzNWMxNmQ2NjllMTljNzVmZDFhN2RhNGJmMzA2YyJ9fX0=");

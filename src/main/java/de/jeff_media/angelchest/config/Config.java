@@ -128,6 +128,7 @@ public final class Config {
     public static final String ALLOW_FASTLOOTING = "allow-fastlooting";
     public static final String TP_WAIT_TIME = "tp-wait-time";
     public static final String RANDOM_ITEM_LOSS_IGNORES_ENCHANTED_ITEMS = "random-item-loss-ignores-enchanted-items";
+    public static final String DROP_CONTENTS = "drop-contents-when-expired";
 
     // Graveyards
     public static final String TRY_CLOSEST_GRAVEYARD = "try-closest-graveyard";

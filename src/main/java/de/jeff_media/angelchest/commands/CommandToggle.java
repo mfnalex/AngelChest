@@ -69,7 +69,7 @@ public class CommandToggle implements CommandExecutor {
                     final Map.Entry<Block, AngelChest> entry = it.next();
                     if (!entry.getValue().owner.equals(player.getUniqueId())) continue;
                     hasChests = true;
-                    entry.getValue().destroy(false);
+                    entry.getValue().destroy(false, false);
                     it.remove();
                 }
                 if (hasChests) {

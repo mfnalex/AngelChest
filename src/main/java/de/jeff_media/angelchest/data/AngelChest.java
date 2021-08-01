@@ -394,7 +394,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      *
      * @param refund Whether the owner should get the price back they paid to have the chest spawned.
      */
-    public void destroy(final boolean refund) {
+    public void destroy(final boolean refund, final boolean expired) {
         if (main.debug) main.debug("Destroying AngelChest");
 
         if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
@@ -417,14 +417,19 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         hologram.destroy();
 
         // drop contents
-        Utils.dropItems(block, armorInv);
-        Utils.dropItems(block, storageInv);
-        Utils.dropItems(block, extraInv);
+        if(main.getConfig().getBoolean(Config.DROP_CONTENTS) || !expired) {
+            Utils.dropItems(block, armorInv);
+            Utils.dropItems(block, storageInv);
+            Utils.dropItems(block, extraInv);
+
+            if (experience > 0) {
+                Utils.dropExp(block, experience);
+            }
+
+        }
         //Utils.dropItems(block, overflowInv);
 
-        if (experience > 0) {
-            Utils.dropExp(block, experience);
-        }
+
 
         if (refund && main.getConfig().getBoolean(Config.REFUND_EXPIRED_CHESTS) && price > 0) {
             CommandUtils.payMoney(Bukkit.getOfflinePlayer(owner), price, "AngelChest expired");

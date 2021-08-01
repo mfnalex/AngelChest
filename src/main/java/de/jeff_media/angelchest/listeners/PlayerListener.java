@@ -99,7 +99,7 @@ public final class PlayerListener implements Listener {
             if (Utils.isEmpty(angelChest.overflowInv) && AngelChestUtils.isEmpty(angelChest.armorInv) && AngelChestUtils.isEmpty(angelChest.extraInv) && AngelChestUtils.isEmpty(angelChest.storageInv)) {
                 // plugin.angelChests.remove(Utils.getKeyByValue(plugin.angelChests,
                 // angelChest));
-                angelChest.destroy(false);
+                angelChest.destroy(false, false);
 
                 if (main.debug) main.debug("Inventory empty, removing chest");
                 // Messages.send(event.getPlayer(),"You have emptied an AngelChest. It is now
@@ -364,7 +364,7 @@ public final class PlayerListener implements Listener {
                 }
             }
 
-            angelChest.destroy(false);
+            angelChest.destroy(false, false);
             angelChest.remove();
             if (main.getConfig().getBoolean(Config.CONSOLE_MESSAGE_ON_OPEN)) {
                 main.getLogger().info(p.getName() + " emptied the AngelChest of " + Bukkit.getOfflinePlayer(angelChest.owner).getName() + " at " + angelChest.block.getLocation());
@@ -440,21 +440,6 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        if (event.getKeepInventory()) {
-            if (!main.getConfig().getBoolean(Config.IGNORE_KEEP_INVENTORY)) {
-                if (main.debug) main.debug("Cancelled: event#getKeepInventory() == true");
-                if (main.debug) main.debug("Please check if your kept your inventory on death!");
-                if (main.debug)
-                    main.debug("This is probably because some other plugin tries to handle your inv on death.");
-                if (main.debug) main.debug(p.getDisplayName() + " is OP: " + p.isOp());
-                return;
-            } else {
-                if (main.debug)
-                    main.debug("event#getKeepInventory() == true but we ignore it because of config settings");
-                event.setKeepInventory(false);
-            }
-        }
-
         if (!Utils.isWorldEnabled(p.getLocation().getWorld())) {
             if (main.debug) main.debug("Cancelled: world disabled (" + p.getLocation().getWorld());
             return;
@@ -513,6 +498,21 @@ public final class PlayerListener implements Listener {
             if(main.debug) main.debug("Cancelled: Player was killed by telekinesis");
             Utils.sendDelayedMessage(p, main.messages.MSG_NO_CHEST_IN_PVP, 1);
             return;
+        }
+
+        if (event.getKeepInventory()) {
+            if (!main.getConfig().getBoolean(Config.IGNORE_KEEP_INVENTORY)) {
+                if (main.debug) main.debug("Cancelled: event#getKeepInventory() == true");
+                if (main.debug) main.debug("Please check if your kept your inventory on death!");
+                if (main.debug)
+                    main.debug("This is probably because some other plugin tries to handle your inv on death.");
+                if (main.debug) main.debug(p.getDisplayName() + " is OP: " + p.isOp());
+                return;
+            } else {
+                if (main.debug)
+                    main.debug("event#getKeepInventory() == true but we ignore it because of config settings");
+                event.setKeepInventory(false);
+            }
         }
 
 
@@ -707,7 +707,7 @@ public final class PlayerListener implements Listener {
             if (main.debug) main.debug("drops and XP to zero.");
 
             ac.remove();
-            ac.destroy(true);
+            ac.destroy(true, false);
             main.angelChests.remove(finalAngelChestBlock);
 
             Utils.sendDelayedMessage(p, main.messages.MSG_INVENTORY_WAS_EMPTY, 1);
@@ -756,7 +756,7 @@ public final class PlayerListener implements Listener {
         final ArrayList<AngelChest> chests = AngelChestUtils.getAllAngelChestsFromPlayer(p);
         //System.out.println(chests.size()+" chests.size");
         if (chests.size() > maxChests) {
-            chests.get(0).destroy(true);
+            chests.get(0).destroy(true, false);
             chests.get(0).remove();
             Bukkit.getScheduler().runTaskLater(main, () -> {
                 Messages.send(p, " ");

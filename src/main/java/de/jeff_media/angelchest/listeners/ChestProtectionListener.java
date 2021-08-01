@@ -48,7 +48,7 @@ public final class ChestProtectionListener implements Listener {
             event.setCancelled(true);
             return;
         }
-        angelChest.destroy(false);
+        angelChest.destroy(false, false);
         angelChest.remove();
     }
 
