@@ -1,0 +1,257 @@
+[CENTER][SIZE=3][COLOR=#ff0000][URL='https://discord.jeff-media.de'][IMG]https://api.jeff-media.de/img/discord1.png[/IMG] [/URL]
+Feature requests and bug reports in the review section will be completely ignored. Use the discussion or Discord instead please.[/COLOR][/SIZE]
+[SIZE=7][B][I][COLOR=#ff8000]Puts your inventory into a protected chest when you die.[/COLOR][/I][/B][/SIZE]
+(See below for differences between this and the outdated free version)
+
+[ATTACH=full]592389[/ATTACH]
+
+[MEDIA=youtube]1Ul7puf0rzE[/MEDIA]
+[/CENTER]
+...and may the odds be ever in your favor! [B]Never lose your stuff to looting players again![/B] When you die, an [B][I]AngelChest [/I][/B]is created. The chest will be locked for a configurable amount of time, and then just drops its contents. You can also unlock your chest, for example if you died in company of a friend, or have it unlock automatically after a specified amount of time. The chest will hold your complete inventory including armor slots. Experience or experience levels can also be stored. You can also set the duration per player, just see the groups.example.yml file.
+[CENTER]
+[IMG]https://api.jeff-media.de/img/angelchestplus-screen1.png[/IMG]
+[/CENTER]
+When you rightclick the [B][I]AngelChest[/I][/B], your inventory will be restored. If not all items can be stored (because you picked something up after respawning), the remaining items will be left in the chest and you can decide which items you want to take/leave behind. You can also directly open the chest via shift-rightclick if you wish to take only some items (see screenshots at the bottom of the description). Once the chest is emptied or the duration is reached, it will despawn and drop the remaining items.
+
+Players can have more than one [B]AngelChest[/B]. They can teleport themself to their chests, or fetch the chests to oneself (see permissions below). You can also set a custom price for spawning, opening, teleporting to or fetching the chest to use with economy plugins (only if you have Vault installed).
+
+It is also possible to limit the cases when a chest spawns, e.g. you can disable it for lava deaths or during PvP, or disallow it from being locked or collecting XP during PvP, in certain WorldGuard regions, etc.
+
+All messages are 100 % customizable. Also the config file includes more than 130 options!
+
+[CENTER][IMG]https://api.jeff-media.de/img/angelchest-screen1.jpg[/IMG][/CENTER]
+
+[SIZE=6][B]Features[/B][/SIZE]
+[LIST]
+[*]This version includes all features from the outdated free version of AngelChest, plus many awesome additions! For example:[SIZE=4]
+[LIST]
+[*][B]Graveyards![/B] Players can be sent to a graveyard instead of having their AngelChest spawned at their death location!
+[LIST]
+[*]Create your own graveyards, as many as you want!
+[*]Custom chest materials and holograms per graveyard
+[*]Custom potion effects for players in graveyards
+[*]Custom weather and time for players in graveyards
+[*]A thousand more options!
+[/LIST]
+[*][B]Complete GUI for your AngelChests with configurable buttons etc.[/B]
+[LIST]
+[*]GUI can automatically be opened after death
+[*]GUI can either be automatically opened for the latest chest, or a list of all chests
+[*]Showing the GUI can be disabled if the player neither has permission for fetching nor teleporting to the chest
+[/LIST]
+[/LIST]
+[LIST]
+[*][B]Ability to show the death cause[/B] in the hologram (Killed by <player>, Killed by ZOMBIE, Killed by LAVA, etc.)
+[*][B]Custom WorldGuard Flags:[/B] You can allow/disallow the spawning of AngelChests per region directly via WorldGuard flags.
+[*][B]Fine-grade control about who can open protected chests:[/B] owner-in-pvp, owner-outside-pvp, killer, others or per group
+[*]Every player can disable or enable spawning of AngelChests if they have the permission "angelchest.toggle"
+[*]Option to automatically unlock protected chests after a specific amount of time
+[LIST]
+[*]Configurable per group or globally
+[*]You can set different materials for protected and unprotected chests if you wish to
+[*]The protected/unprotected status can also be shown in the hologram, including a countdown for automatic unlocking
+[/LIST]
+[/LIST]
+[LIST]
+[*]Added item blacklist. Blacklisted items will behave just like they would normally do on death. You can blacklist items by lore, material and/or name.
+[*]"max-tp-distance" and "max-fetch-distance" options
+[LIST]
+[*]Configurable per group
+[/LIST]
+[*]Option to preview chest contents in the GUI
+[*]Option to play the "Totem of Undying" animation whenever an AngelChest is spawned
+[/LIST]
+[LIST]
+[*]Option to open a chest with shift+rightclick to only take certain items instead of looting everything
+[*]Option to drop player heads on death
+[LIST]
+[*]You can limit this to PvP deaths and decide whether the head should go into the chest or drop next to it
+[/LIST]
+[*]Ability to show AngelChest's owner a message when other players open or empty their chest
+[LIST]
+[*]Can be disabled in the config
+[/LIST]
+[/LIST]
+[LIST]
+[*]A million new config options! For example:
+[LIST]
+[*]dont-protect-chest-if-player-died-in-pvp
+[*]allow-chest-in-lava / allow-chest-in-void
+[*]collect-xp (can also be set to "nopvp" so experience will drop normally during PvP deaths)
+[/LIST]
+[/LIST]
+[LIST]
+[*]Ability to log all AngelChest spawns / transactions to separate files
+[*]Option to spawn the chest with a specific chance only (e.g. setting it to 0.5 means you have a 50/50 chance of having an AngelChest spawned on death)
+[/LIST]
+[LIST]
+[*]Per group prices for fetch / teleport / chest spawning / chest opening
+[LIST]
+[*]You can also use percentages! E.g. using "0.1p" means players have to pay 10% of their current bank account balance
+[/LIST]
+[/LIST]
+[LIST]
+[*]Configurable amount of xp loss (percentage) per group
+[*]Option to make players invulnerable for X seconds when teleporting to their chest. Controllable per group
+[*]Playing sound effects when fetching or teleporting to AngelChests
+[/LIST]
+[LIST]
+[*]Better config updater
+[/LIST]
+[LIST]
+[*]More control over the holograms
+[/LIST]
+[LIST]
+[*]Literally unbreakable chests - not even /setblock or WorldEdit can destroy chests
+[/LIST]
+[LIST]
+[*]Even when the server crashes or if the process gets killed, AngelChest can remove "dead" (leftover) holograms on the next start
+[/LIST]
+[LIST]
+[*]Support for almost any third party plugin!
+[/LIST]
+[LIST]
+[*]100% configurable command names / aliases
+[/LIST]
+[LIST]
+[*]Way better performance
+[LIST]
+[*]Async chunk loading when players teleport to their chest
+[*]Completely new hologram mechanism that is way faster and stops updating holograms in unloaded chunks
+[/LIST]
+[/LIST]
+[LIST]
+[*]Many more features, I always forget to update this description^^
+[/LIST][/SIZE]
+[/LIST]
+[SIZE=6][B]Permissions[/B][/SIZE]
+[B]angelchest.use[/B]
+Spawns the AngelChest instead of dropping the items when the player dies.
+
+[B]angelchest.protect[/B]
+Your AngelChest will be protected from other players. They cannot break or open it.
+
+[B]angelchest.protect.ignore[/B]
+Allows you to open other people's protected AngelChests.
+
+[B]angelchest.tp[/B]
+Allows you to teleport yourself to your AngelChests using /acinfo, /aclist or /actp
+
+[B]angelchest.fetch[/B]
+Allows you to teleport your AngelChests to yourself using /acinfo, /aclist or /acfetch
+
+[B]angelchest.toggle[/B]
+Allows players to enable/disable AngelChests from spawning, e.g. if they don't want to spend (when you set a price for spawning the chest) when they don't have any valuable items anyway
+
+[B]angelchest.preview[/B]
+Allows the player to preview their AngelChests' contents in the GUI (/acgui)
+
+[B]angelchest.others[/B]
+Allows you to run /unlock, /acinfo, /actp and /acfetch for other players' AngelChests
+
+[B]angelchest.reload[/B]
+Allows you to reload the config
+
+[B]angelchest.admin[/B]
+Allows access to all Admin commands, including /acdebug and /acgraveyard, /acversion, ...
+
+More Permissions can be found in the config.yml.
+[B]
+[SIZE=6]Commands[/SIZE]
+You can change the command aliases in your config.yml if you want to use different names. See above for the permissions.
+
+/acgui[/B]
+Shows the AngelChest GUI containing a list of all your AngelChests and allows you to do everything that's possible with the other commands
+
+[B]/acinfo[/B]
+Lists all your AngelChests and allows you to unlock them, teleport yourself to them or teleport them to yourself
+
+[B]/acunlock[/B]
+Unlock your existing AngelChests for all other players.
+
+[B]/actp[/B]
+Allows you to teleport yourself to your AngelChests
+
+[B]/acfetch[/B]
+Allows you to teleport your AngelChests to yourself
+
+[B]/actoggle[/B]
+Allows players to enable/disable spawning of AngelChests
+
+[B]/acreload[/B]
+Reloads the config
+
+[B]/acdebug[/B]
+Debug command. You can add items to your blacklist, check if your config files are valid, and more.
+
+[B]/acgraveyard[/B]
+Edit your graveyards ingame
+
+See the config for additional commands
+
+[SIZE=6][B]Default configuration[/B][/SIZE]
+The configuration file is automatically generated if it does not exist. On every new AngelChest release, the config file will be updated to include the newest options. Your changes will be kept.
+
+You can view the default configuration file here:
+- [URL='https://github.com/JEFF-Media-GbR/Spigot-AngelChestPlus/blob/master/src/main/resources/config.yml']config.yml[/URL]
+- [URL='https://github.com/JEFF-Media-GbR/Spigot-AngelChestPlus/blob/master/src/main/resources/groups.example.yml']groups.yml[/URL]
+- [URL='https://github.com/JEFF-Media-GbR/Spigot-AngelChestPlus/blob/master/src/main/resources/blacklist.example.yml']blacklist.yml[/URL]
+
+[B][SIZE=6]Screenshots[/SIZE][/B]
+[CENTER][B]Viewing the content of an AngelChest[/B]
+If you open an AngelChest's preview via GUI, or if you shift-rightclick an AngelChest, you can view it's contents. Armor, offhand item and XP is shown at the top, the hotbar at the bottom. If you are not using the preview, you can take out individual items instead of looting the complete chest via a normal rightclick.
+[IMG]https://api.jeff-media.de/img/angelchestplus-screen2.png[/IMG]
+
+[B]List of all your currently active AngelChests[/B]
+If you have more than one AngelChest, you get an overview about all chests.
+[IMG]https://api.jeff-media.de/img/angelchestplus-screen4.png[/IMG]
+
+[B]Selecting an AngelChest[/B]
+After selecting an AngelChest, you get buttons for information about the duration and location of your chest, buttons for teleporting to or fetching the chest, unlocking it and you can view its contents (see first screenshot). You can only see buttons for which you have permission for.
+[IMG]https://api.jeff-media.de/img/angelchestplus-screen3.png[/IMG]
+[/CENTER]
+[SIZE=6][B]Notes[/B][/SIZE]
+[SIZE=4]Source code: [URL]https://github.com/JEFF-Media-GbR/Spigot-AngelChestPlus[/URL]
+
+AngelChestPlus uses bStats to gather statistics. You can disable this by editing the plugins/bstats/config.yml file. View the statistics here: [URL]https://bstats.org/plugin/bukkit/AngelChest[/URL]
+
+If your language is not yet supported, just change the messages in the config file yourself. I will be happy to include the language in the next update if you send me your translation.
+
+AngelChestPlus works with all versions above 1.13!
+[/SIZE]
+[B][SIZE=6]API for plugin developers[/SIZE][/B]
+[SIZE=4]Information about the AngelChest API can be found [URL='https://github.com/JEFF-Media-GbR/AngelChestAPI']here[/URL].
+[/SIZE]
+[SIZE=6][B]PlaceholderAPI[/B][/SIZE]
+[SIZE=4]You an use placeholders from other plugins in your hologram text. AngelChest also provides some placeholders that you can use in other plugins, see [URL='https://github.com/JEFF-Media-GbR/Spigot-AngelChestPlus/blob/master/PlaceholderAPI.md']here[/URL].
+[/SIZE]
+[SIZE=6]Other Plugins by me[/SIZE]
+[SIZE=4]If you want to sort your chests automatically, try out ChestSort:[/SIZE]
+[URL='https://www.spigotmc.org/resources/1-13-chestsort.59773/']ChestSort: Automatically sorts all your chests![/URL]
+
+May the odds be ever in your favor! Have an angel protect your loot when you die.
+[URL='https://www.spigotmc.org/resources/angelchest-plus.88214/']AngelChest Plus: Stores your inventory in a protected chest when you die![/URL]
+
+Finally makes shulker boxes convenient:
+[URL='https://www.spigotmc.org/resources/autoshulker-50-off.89807/']AutoShulker: Automatically puts certain drops into your shulker boxes![/URL]
+
+[SIZE=4]No time for putting your stuff into the right chests? Try out InvUnload:
+[URL='https://www.spigotmc.org/resources/1-13-alpha-invunload.60095/']InvUnload: Automatically puts your stuff in the right chests![/URL]
+
+Tired of climbing trees like a monkey?
+[URL='https://www.spigotmc.org/resources/1-13-lumberjack.60306/']LumberJack: Enable tree gravity for easy woodcutting.[/URL]
+
+Don't want to collect all drops manually? Use Drop2Inventory. Also reduces lag.
+[URL='https://www.spigotmc.org/resources/drop2inventoryplus.87784/']Drop2Inventory Plus: No more need to collect drops![/URL][/SIZE]
+
+BestTools automatically chooes the best tools for you and refills your hotbar when you run out of items.
+[URL='https://www.spigotmc.org/resources/besttools.81490/']BestTools: Mine and build faster than ever before![/URL]
+
+Enjoy some mellohi on loop while slaying zombies:
+[URL='https://www.spigotmc.org/resources/%E2%AD%90-jukeboxplus-%E2%AD%90-50-off.87750/']JukeBoxPlus: Totally enhances JukeBoxes! Loop, shuffle, autostart mode, custom radius, etc.[/URL]
+
+No more frustration while using double doors:
+[URL='https://www.spigotmc.org/resources/doors-reloaded.91722/']Doors Reloaded: Auto opens/closes double doors, lets you knock on doors, redstone support, etc.[/URL]
+
+Improve Trident mechanics:
+[URL='https://www.spigotmc.org/resources/bettertridents.92656']Better Tridents: Void saving, Bedrock drop chances and more[/URL]
