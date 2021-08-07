@@ -8,6 +8,12 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.4.2
+- FIXED DUPLICATION BUG that existed since 4.4.0
+
+## 4.4.1
+- Fixed "cost-teleport" not working when using "tp-wait-time"
+
 ## 4.4.0
 - Fixed "keep-inventory" not working in disabled worlds
 - Added option to prevent dropping chest contents when the chest expires

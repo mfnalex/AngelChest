@@ -16,7 +16,7 @@ import de.jeff_media.angelchest.nbt.NBTValues;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.NBTAPI;
 import de.jeff_media.jefflib.Ticks;
-import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
+import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -308,6 +308,9 @@ public final class CommandUtils {
                         }
                         if (remaining == 0) {
                             remove();
+                            if (price > 0 && !hasEnoughMoney(sender, price, main.messages.MSG_NOT_ENOUGH_MONEY, action.getEconomyReason())) {
+                                return;
+                            }
                             teleportPlayerToChest(main, sender, ac);
                             Messages.send(sender, main.messages.MSG_ANGELCHEST_TELEPORTED);
                             return;

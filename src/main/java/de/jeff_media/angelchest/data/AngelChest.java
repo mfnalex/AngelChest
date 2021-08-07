@@ -13,7 +13,7 @@ import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
-import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
+import io.papermc.lib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -419,17 +419,19 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         // drop contents
         if(main.getConfig().getBoolean(Config.DROP_CONTENTS) || !expired) {
             Utils.dropItems(block, armorInv);
+            armorInv = new ItemStack[4];
             Utils.dropItems(block, storageInv);
+            storageInv = new ItemStack[36];
             Utils.dropItems(block, extraInv);
+            extraInv = new ItemStack[1];
 
             if (experience > 0) {
                 Utils.dropExp(block, experience);
             }
-
+            experience = 0;
         }
+
         //Utils.dropItems(block, overflowInv);
-
-
 
         if (refund && main.getConfig().getBoolean(Config.REFUND_EXPIRED_CHESTS) && price > 0) {
             CommandUtils.payMoney(Bukkit.getOfflinePlayer(owner), price, "AngelChest expired");

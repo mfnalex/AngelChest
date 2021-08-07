@@ -7,7 +7,7 @@ import de.jeff_media.angelchest.handlers.ChunkManager;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.jefflib.LocationUtils;
 import de.jeff_media.jefflib.TimeUtils;
-import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
+import io.papermc.lib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

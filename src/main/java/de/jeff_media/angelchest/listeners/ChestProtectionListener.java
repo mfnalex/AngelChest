@@ -49,6 +49,7 @@ public final class ChestProtectionListener implements Listener {
             return;
         }
         angelChest.destroy(false, false);
+        main.guiManager.updatePreviewInvs(null, angelChest);
         angelChest.remove();
     }
 

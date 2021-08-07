@@ -1,7 +1,6 @@
 package de.jeff_media.angelchest;
 
 import co.aikar.commands.BukkitCommandManager;
-import de.jeff_media.SpigotJeffMediaPlugin;
 import de.jeff_media.angelchest.commands.*;
 import de.jeff_media.angelchest.config.*;
 import de.jeff_media.angelchest.data.AngelChest;
@@ -27,8 +26,8 @@ import de.jeff_media.jefflib.TimeUtils;
 import de.jeff_media.jefflib.updatechecker.UpdateChecker;
 import de.jeff_media.jefflib.McVersion;
 import de.jeff_media.jefflib.Ticks;
-import de.jeff_media.jefflib.thirdparty.io.papermc.paperlib.PaperLib;
 import de.jeff_media.jefflib.updatechecker.UserAgentBuilder;
+import io.papermc.lib.PaperLib;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.*;
@@ -53,7 +52,7 @@ import java.util.stream.Collectors;
 /**
  * AngelChest Main class
  */
-public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, AngelChestPlugin {
+public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     public static final int BSTATS_ID = 3194;
     public static final String DISCORD_LINK = "https://discord.jeff-media.de";
@@ -203,21 +202,6 @@ public final class Main extends JavaPlugin implements SpigotJeffMediaPlugin, Ang
             return chestMaterial;
         }
         return chest.isProtected ? chestMaterial : chestMaterialUnlocked;
-    }
-
-    @Override
-    public String getNONCE() {
-        return NONCE;
-    }
-
-    @Override
-    public String getRESOURCE() {
-        return RESOURCE;
-    }
-
-    @Override
-    public String getUID() {
-        return UID;
     }
 
     public void initUpdateChecker() {
