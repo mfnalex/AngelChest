@@ -8,6 +8,10 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.6.1
+- Added hardcoded limit to "max-radius". It cannot be set higher to 10 anymore, which is also the default value.
+  - (one person blamed AngelChest to lag their server after they set this value soooo ridiculous high that it resulted in AngelChest having to check more than 8 million blocks on each death)
+
 ## 4.6.0
 - Added support for Lands' "Wars" feature (BETA)
 

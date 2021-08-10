@@ -529,6 +529,16 @@ sound-channel: BLOCKS
             main.loadAllAngelChestsFromFile();
         }
         validateConfigFiles();
+
+        if(main.getConfig().getInt(Config.MAX_RADIUS) > 10) {
+            int radius = main.getConfig().getInt(Config.MAX_RADIUS);
+            long blocks = (long) Math.pow((radius*2+1),3);
+            String calculation = String.format("(%d x %d + 1) ^ 3",radius, radius);
+            main.getLogger().warning("You have set your \"max-radius\" to " + main.getConfig().getInt(Config.MAX_RADIUS)+".");
+            main.getLogger().warning("That means that AngelChest would have to check " + calculation + " = " + blocks + " blocks on each death.");
+            main.getLogger().warning("Trust me, you don't want that. AngelChest will use the default value of 10 for \"max-radius\" now.");
+            main.getConfig().set(Config.MAX_RADIUS, 10);
+        }
     }
 
     public static void validateConfigFiles() {
