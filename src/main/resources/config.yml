@@ -530,6 +530,11 @@ check-generic-soulbound: true
 # regular items.
 exempt-elitemobs-soulbound-items-from-generic-soulbound-detection: true
 
+# When using Lands, and the player gets killed by another player they are
+# at war with, they will not get a death chest when set to true
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
+lands-dont-protect-when-at-war: false
+
 # Some plugins make you keep your items on death, e.g. Essentials when you are /op.
 # AngelChest respects that, but you can also set the following option to true to always
 # get a chest, regardless of the keepInventory flag.

@@ -8,6 +8,9 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.6.0
+- Added support for Lands' "Wars" feature (BETA)
+
 ## 4.4.2
 - FIXED DUPLICATION BUG that existed since 4.4.0
 

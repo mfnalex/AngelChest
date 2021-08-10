@@ -129,6 +129,7 @@ public final class Config {
     public static final String TP_WAIT_TIME = "tp-wait-time";
     public static final String RANDOM_ITEM_LOSS_IGNORES_ENCHANTED_ITEMS = "random-item-loss-ignores-enchanted-items";
     public static final String DROP_CONTENTS = "drop-contents-when-expired";
+    public static final String DONT_PROTECT_WHEN_AT_WAR = "lands-dont-protect-when-at-war";
 
     // Graveyards
     public static final String TRY_CLOSEST_GRAVEYARD = "try-closest-graveyard";

@@ -14,6 +14,7 @@ import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
 import de.jeff_media.angelchest.gui.GUIHolder;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.hooks.EcoEnchantsHook;
+import de.jeff_media.angelchest.hooks.LandsHook;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nms.NMSHandler;
 import de.jeff_media.angelchest.utils.*;
@@ -457,6 +458,14 @@ public final class PlayerListener implements Listener {
 
         if (main.getConfig().getBoolean(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD) && !ProtectionUtils.playerMayBuildHere(p, p.getLocation())) {
             if (main.debug) main.debug("Cancelled: BlockPlaceEvent cancelled");
+            return;
+        }
+
+        if(Stepsister.allows(PremiumFeatures.GENERIC)
+                && main.getConfig().getBoolean(Config.DONT_PROTECT_WHEN_AT_WAR)
+                && Bukkit.getPluginManager().getPlugin("Lands") != null
+                && LandsHook.isWarDeath(event)) {
+            if(main.debug) main.debug("Cancelled: Player was in war with their killer (Lands plugin)");
             return;
         }
 
