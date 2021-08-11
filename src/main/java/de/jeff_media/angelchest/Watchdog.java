@@ -28,12 +28,12 @@ public final class Watchdog {
         this.main = main;
         // If the Watchdog file exists, we have to delete all leftover holograms
         if (getFile().exists()) {
-            main.getLogger().warning("Found watchdog file at " + getFile().getAbsolutePath());
+            /*main.getLogger().warning("Found watchdog file at " + getFile().getAbsolutePath());
             main.getLogger().warning("Did the server not shutdown correctly?");
-            main.getLogger().warning("Fixing leftover AngelChests ...");
+            main.getLogger().warning("Fixing leftover AngelChests ...");*/
             yaml = YamlConfiguration.loadConfiguration(getFile());
             restore();
-            main.getLogger().warning("Done!");
+            //main.getLogger().warning("Done!");
             removeFile();
         } else {
             yaml = new YamlConfiguration();
