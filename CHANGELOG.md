@@ -8,6 +8,10 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.7.1
+- Fixed console error in versions 1.16.2 and 1.16.1
+- Updated Hungarian translation
+
 ## 4.7.0
 - Added support for ItemsAdder's emojis to holograms
 

@@ -362,7 +362,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
             Stepsister.createVerificationFile();
         }
         /*Daddy end*/
-        JeffLib.init(this);
+        JeffLib.init(this,false);
 
         migrateFromAngelChestPlus1X();
         ChestFileUpdater.updateChestFilesToNewDeathCause();

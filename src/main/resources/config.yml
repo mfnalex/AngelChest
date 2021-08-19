@@ -63,6 +63,15 @@
 #                            you are using.
 
 ############################
+#####   Information    #####
+############################
+
+# You can use color codes everywhere using '&'
+# Hex colors start with '&x', like this: &x&f&f&0&0&0&0 (that would be 100% red, 0% green, 0% blue)
+# PlaceholderAPI works in most messages, but not all. Let me know when I missed a message.
+# ItemsAdder emojis & similar features from other plugins should also work, if not: https://discord.jeff-media.com :)
+
+############################
 ##### General settings #####
 ############################
 
