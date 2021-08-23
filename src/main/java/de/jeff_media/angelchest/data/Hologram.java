@@ -9,6 +9,7 @@ import de.jeff_media.angelchest.nbt.NBTValues;
 import de.jeff_media.angelchest.utils.CommandUtils;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.NBTAPI;
+import de.jeff_media.jefflib.TextUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -70,7 +71,8 @@ public final class Hologram {
             }
             line = line.replace("{items}", Integer.toString(chest.getNumberOfItems()));
             line = line.replace("{xp}", Integer.toString(chest.getExperience()));
-            line = ItemsAdderFontImageWrapperHook.translate(line);
+            //line = ItemsAdderFontImageWrapperHook.translate(line);
+            line = TextUtils.format(line, chest.getPlayer());
             boolean customNameVisible = true;
             if (line.equals("")) {
                 line = " ";
@@ -175,7 +177,7 @@ public final class Hologram {
                     line = PlaceholderAPI.setPlaceholders(Bukkit.getOfflinePlayer(chest.owner), line);
                 }
 
-                armorStand.setCustomName(line);
+                armorStand.setCustomName(TextUtils.format(line, chest.getPlayer()));
                 //System.out.println("updated hologram "+armorStands.get(lineNumber).getUniqueId()+" "+ line);
             }
 

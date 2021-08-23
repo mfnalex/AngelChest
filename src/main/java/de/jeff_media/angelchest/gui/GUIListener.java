@@ -211,7 +211,7 @@ public final class GUIListener implements @NotNull Listener {
                 break;
 
             case GUI.SLOT_CHEST_UNLOCK:
-                if (player.hasPermission(Permissions.PROTECT) && holder.getAngelChest().isProtected) {
+                if (player.hasPermission(Permissions.PROTECT) && holder.getAngelChest().isProtected && player.hasPermission(Permissions.UNLOCK)) {
                     CommandUtils.unlockSingleChest(main, player, holder.getAngelChest());
                 }
                 break;

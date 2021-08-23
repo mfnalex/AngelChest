@@ -8,6 +8,19 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.8.0
+- Added separate permission for /acunlock command: `angelchest.unlock`
+  - Given to all players by default
+- Added proper HexColor support
+  - Hex colors will work in all messages now using the following codes:
+    - &#rrggbb
+    - <#rrggbb>
+  - You can also use gradients, for example:
+    - <#ff0000>red to green gradient<#/00ff00>
+    - <#ff0000>red to <#/00ff00>green to <#/0000ff>blue gradient
+- Emojis from ItemsAdder and PlaceholderAPI placeholders should work in EVERY message and hologram now
+- ~~Added option to disable showing the list of AngelChests on death~~ (This was a thing for years already, my bad) 
+
 ## 4.7.1
 - Fixed console error in versions 1.16.2 and 1.16.1
 - Updated Hungarian translation

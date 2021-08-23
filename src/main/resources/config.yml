@@ -17,6 +17,7 @@
 # angelchest.use             Spawns AngelChest on death instead of dropping the items
 # angelchest.protect         The AngelChest is locked for other players
 # angelchest.protect.ignore  Players can open other player's locked AngelChests
+# angelchest.unlock          Allows the player to unlock their protected chests using /acunlock
 # angelchest.fetch           Allows the player to teleport their chests to them
 # angelchest.tp              The player can teleport to their AngelChests
 # angelchest.preview         Allows the player to preview their AngelChests' contents in /acgui
@@ -46,7 +47,7 @@
 # /actp [chestID]            Permission: angelchest.tp
 #                            Teleports the player to one of their chest
 #
-# /acunlock [chestID]        Permission: angelchest.protect
+# /acunlock [chestID]        Permission: angelchest.protect and angelchest.unlock
 #                            Unlocks one of your AngelChests if you have the angelchest.protect permission
 #
 # /actoggle                  Permission: angelchest.toggle
@@ -66,8 +67,17 @@
 #####   Information    #####
 ############################
 
-# You can use color codes everywhere using '&'
-# Hex colors start with '&x', like this: &x&f&f&0&0&0&0 (that would be 100% red, 0% green, 0% blue)
+# You can use color codes everywhere.
+#
+# Hex colors can be used in three different styles:
+#  - <#ff0000>Your Text
+#  - &#ff0000Your Text
+#  - &x&f&f&0&0&0&0Your Text
+#
+# You can also use gradients, for example:
+#  - <#ff0000> Red to white <#/ffffff>
+#  - <#ff0000> Red to white <#/ffffff> to red <#/ff0000>
+#
 # PlaceholderAPI works in most messages, but not all. Let me know when I missed a message.
 # ItemsAdder emojis & similar features from other plugins should also work, if not: https://discord.jeff-media.com :)
 

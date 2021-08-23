@@ -1,6 +1,7 @@
 package de.jeff_media.angelchest.config;
 
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.jefflib.Msg;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -226,7 +227,7 @@ public final class Messages {
     public static void send(final CommandSender receiver, final String message) {
         if (receiver == null) return;
         if (message.equals("")) return;
-        receiver.sendMessage(message);
+        Msg.send(receiver, message);
     }
 
     public static void sendActionBar(final Player receiver, final String message) {

@@ -15,11 +15,13 @@ import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.NBTAPI;
+import de.jeff_media.jefflib.TextUtils;
 import de.jeff_media.jefflib.Ticks;
 import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
@@ -499,7 +501,7 @@ public final class CommandUtils {
             if (sendTo.hasPermission(Permissions.FETCH)) {
                 fetchCommand = "/acfetch " + affectedPlayerParameter + chestIndex;
             }
-            if (angelChest.isProtected) {
+            if (angelChest.isProtected && sendTo.hasPermission(Permissions.UNLOCK)) {
                 unlockCommand = "/acunlock " + affectedPlayerParameter + chestIndex;
             }
 
@@ -512,7 +514,8 @@ public final class CommandUtils {
             text = text.replace("{z}", String.valueOf(b.getZ()));
             text = text.replace("{time}", getTimeLeft(angelChest));
             text = text.replace("{world}", b.getWorld().getName());
-            text = ItemsAdderFontImageWrapperHook.translate(text);
+            text = ChatColor.translateAlternateColorCodes('&',TextUtils.format(text,affectedPlayer));
+            // TODO: This doesn't work with gradients :/
             sendTo.spigot().sendMessage(LinkUtils.getLinks(sendTo, affectedPlayer, text, tpCommand, unlockCommand, fetchCommand));
             chestIndex++;
         }

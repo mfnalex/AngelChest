@@ -171,7 +171,7 @@ public final class GUIManager {
         inventory.setItem(GUI.SLOT_CHEST_INFO, getInfoButton(angelChest, id));
         if (player.hasPermission(Permissions.TP)) inventory.setItem(GUI.SLOT_CHEST_TP, getTPButton());
         if (player.hasPermission(Permissions.FETCH)) inventory.setItem(GUI.SLOT_CHEST_FETCH, getFetchButton());
-        if (player.hasPermission(Permissions.PROTECT) && angelChest.isProtected)
+        if (player.hasPermission(Permissions.PROTECT) && angelChest.isProtected && player.hasPermission(Permissions.UNLOCK))
             inventory.setItem(GUI.SLOT_CHEST_UNLOCK, getUnlockButton());
         if (player.hasPermission(Permissions.PREVIEW)) inventory.setItem(GUI.SLOT_CHEST_PREVIEW, getPreviewButton());
         player.openInventory(inventory);
