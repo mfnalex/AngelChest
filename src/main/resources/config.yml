@@ -686,11 +686,18 @@ gui-title-chest: "&4&l[&c&lAngelChest&4&l] &c#{id} &4| &c{time}"
 angelchest-inventory-name: "&4&l[&c&lAngelChest&4&l] &b{player}&r"
 
 ##### Button names and lore
+# Placeholders available in "gui-info-lore", "gui-teleport", "gui-teleport-lore", "gui-fetch" and "gui-fetch-lore":
+# {price} is the teleportation price
+# {currency} is the currency's name
+# {balance} is the player's current balance
+# You can use \n for newlines in lores
 gui-back: "&6Back"
 gui-info: "&6Info"
 gui-info-lore: "§6You are about to spend {price}{currency}."
 gui-teleport: "&6Teleport"
+gui-teleport-lore: "§6You are about to spend {price}{currency}."
 gui-fetch: "&6Fetch"
+gui-fetch-lore: "§6You are about to spend {price}{currency}."
 gui-unlock: "&6Unlock"
 gui-accept: "&aAccept"
 gui-decline: "&cDecline"

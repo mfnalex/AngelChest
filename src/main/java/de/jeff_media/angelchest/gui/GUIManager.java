@@ -8,10 +8,7 @@ import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
-import de.jeff_media.angelchest.utils.AngelChestUtils;
-import de.jeff_media.angelchest.utils.CommandUtils;
-import de.jeff_media.angelchest.utils.HeadCreator;
-import de.jeff_media.angelchest.utils.XPUtils;
+import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.Ticks;
 import org.bukkit.Bukkit;
@@ -122,12 +119,15 @@ public final class GUIManager {
         return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_DECLINE), main.messages.GUI_DECLINE, null);
     }
 
-    private ItemStack getConfirmInfoButton(final double price) {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_INFO), main.messages.GUI_INFO, getLore(main.messages.GUI_INFO_LORE.replace("{price}", String.valueOf(price)).replace("{currency}", CommandUtils.getCurrency(price))));
+    private ItemStack getConfirmInfoButton(Player player, final double price) {
+        return getButton(main.getConfig().getString(Config.GUI_BUTTON_CONFIRM_INFO), main.messages.GUI_INFO, getLore(replaceBalancePlaceholders(player, price, main.messages.GUI_INFO_LORE)));
     }
 
-    private ItemStack getFetchButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_FETCH), main.messages.GUI_FETCH, null);
+    private ItemStack getFetchButton(Player player) {
+        double price = main.groupUtils.getFetchPricePerPlayer(player);
+        ItemStack button = getButton(main.getConfig().getString(Config.GUI_BUTTON_FETCH), replaceBalancePlaceholders(player, price, main.messages.GUI_FETCH), null);
+        LoreUtils.applyLore(button, LoreUtils.applyNewlines(replaceBalancePlaceholders(player, price, main.getConfig().getString(Config.GUI_FETCH_LORE))));
+        return button;
     }
 
     private ItemStack getInfoButton(final AngelChest angelChest, final int id) {
@@ -142,8 +142,16 @@ public final class GUIManager {
         return getButton(main.getConfig().getString(Config.GUI_BUTTON_PREVIEW), main.messages.GUI_PREVIEW, null);
     }
 
-    private ItemStack getTPButton() {
-        return getButton(main.getConfig().getString(Config.GUI_BUTTON_TELEPORT), main.messages.GUI_TELEPORT, null);
+    private String replaceBalancePlaceholders(Player player, double price, String text) {
+        String currency = CommandUtils.getCurrency(price);
+        return text.replace("{price}",String.valueOf(price)).replace("{currency}",currency).replace("{balance}",String.valueOf(CommandUtils.getBalance(player)));
+    }
+
+    private ItemStack getTPButton(Player player) {
+        double price = main.groupUtils.getTeleportPricePerPlayer(player);
+        ItemStack button = getButton(main.getConfig().getString(Config.GUI_BUTTON_TELEPORT), replaceBalancePlaceholders(player, price, main.messages.GUI_TELEPORT), null);
+        LoreUtils.applyLore(button, LoreUtils.applyNewlines(replaceBalancePlaceholders(player, price, main.getConfig().getString(Config.GUI_TELEPORT_LORE))));
+        return button;
     }
 
     private String getTitle(final AngelChest chest, final int id) {
@@ -169,8 +177,8 @@ public final class GUIManager {
 
         inventory.setItem(GUI.SLOT_CHEST_BACK, getBackButton());
         inventory.setItem(GUI.SLOT_CHEST_INFO, getInfoButton(angelChest, id));
-        if (player.hasPermission(Permissions.TP)) inventory.setItem(GUI.SLOT_CHEST_TP, getTPButton());
-        if (player.hasPermission(Permissions.FETCH)) inventory.setItem(GUI.SLOT_CHEST_FETCH, getFetchButton());
+        if (player.hasPermission(Permissions.TP)) inventory.setItem(GUI.SLOT_CHEST_TP, getTPButton(player));
+        if (player.hasPermission(Permissions.FETCH)) inventory.setItem(GUI.SLOT_CHEST_FETCH, getFetchButton(player));
         if (player.hasPermission(Permissions.PROTECT) && angelChest.isProtected && player.hasPermission(Permissions.UNLOCK))
             inventory.setItem(GUI.SLOT_CHEST_UNLOCK, getUnlockButton());
         if (player.hasPermission(Permissions.PREVIEW)) inventory.setItem(GUI.SLOT_CHEST_PREVIEW, getPreviewButton());
@@ -189,7 +197,7 @@ public final class GUIManager {
         final Inventory inventory = Bukkit.createInventory(newHolder, 9, getTitle(holder.getAngelChest(), holder.getChestIdStartingAt1()));
         newHolder.setInventory(inventory);
 
-        inventory.setItem(GUI.SLOT_CONFIRM_INFO, getConfirmInfoButton(action.getPrice(player)));
+        inventory.setItem(GUI.SLOT_CONFIRM_INFO, getConfirmInfoButton(player, action.getPrice(player)));
         inventory.setItem(GUI.SLOT_CONFIRM_ACCEPT, getConfirmAcceptButton());
         inventory.setItem(GUI.SLOT_CONFIRM_DECLINE, getConfirmDeclineButton());
         player.openInventory(inventory);

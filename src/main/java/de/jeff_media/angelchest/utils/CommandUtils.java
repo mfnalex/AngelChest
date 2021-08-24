@@ -413,6 +413,16 @@ public final class CommandUtils {
         return true;
     }
 
+    public static double getBalance(Player player) {
+        final Main main = Main.getInstance();
+
+        if (main.economyStatus != EconomyStatus.ACTIVE) {
+            return 0;
+        }
+
+        return main.econ.getBalance(player);
+    }
+
     public static boolean hasEnoughMoney(final CommandSender sender, final double money, final String messageWhenNotEnoughMoney, final String reason) {
 
         final Main main = Main.getInstance();

@@ -38,7 +38,7 @@ public final class ConfigUpdater {
     // Lines STARTING WITH these names will get their values wrapped in single quotes
     private static final String[] NODES_NEEDING_SINGLE_QUOTES = {"test-"};
     // Nodes with EXACTLY THIS NAME will get their newline symbols preserved
-    private static final List<String> NODES_CONTAINING_NEWLINES = Arrays.asList("hologram-text", Config.GUI_CHEST_LORE);
+    private static final List<String> NODES_CONTAINING_NEWLINES = Arrays.asList("hologram-text", Config.GUI_CHEST_LORE, Config.GUI_FETCH_LORE, Config.GUI_TELEPORT_LORE, "gui-info-lore");
 
     private static void backupCurrentConfig(final Main main) {
         final File oldFile = new File(getFilePath(main, "config.yml"));

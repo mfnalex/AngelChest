@@ -8,6 +8,13 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.9.0
+- Added lores for GUI teleport and fetch buttons
+- The "gui-info-lore", "gui-teleport", "gui-teleport-lore", "gui-fetch" and "gui-fetch-lore" settings now support the following placeholders:
+  - {price}
+  - {currency}
+  - {balance}
+
 ## 4.8.0
 - **Added separate permission for /acunlock command**: `angelchest.unlock`
   - Given to all players by default

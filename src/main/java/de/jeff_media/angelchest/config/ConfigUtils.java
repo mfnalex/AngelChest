@@ -301,6 +301,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.RANDOM_ITEM_LOSS_IGNORES_ENCHANTED_ITEMS, false);
         metric(Config.RANDOM_ITEM_LOSS_IGNORES_ENCHANTED_ITEMS);
 
+        conf.addDefault(Config.GUI_TELEPORT_LORE,"");
+        conf.addDefault(Config.GUI_FETCH_LORE,"");
+
         /*
     play-sound-on-tp: true
 play-sound-on-fetch: true

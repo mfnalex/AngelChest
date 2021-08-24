@@ -131,6 +131,9 @@ public final class Config {
     public static final String DROP_CONTENTS = "drop-contents-when-expired";
     public static final String DONT_PROTECT_WHEN_AT_WAR = "lands-dont-protect-when-at-war";
 
+    public static final String GUI_TELEPORT_LORE = "gui-teleport-lore";
+    public static final String GUI_FETCH_LORE = "gui-fetch-lore";
+
     // Graveyards
     public static final String TRY_CLOSEST_GRAVEYARD = "try-closest-graveyard";
     public static final String TRY_GLOBAL_GRAVEYARD = "try-global-graveyard";
