@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>4.9.0</version>
+    <version>4.10.0</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -129,7 +129,7 @@
                         </relocation>
                         <relocation>
                             <pattern>org.bstats.bukkit</pattern>
-                            <shadedPattern>de.jeff_media.angelchest</shadedPattern>
+                            <shadedPattern>de.jeff_media.angelchest.bstats</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
@@ -265,6 +265,14 @@
             <artifactId>gson</artifactId>
             <version>2.8.6</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>allatori</groupId>
+            <artifactId>allatori-annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/allatori/allatori-annotations.jar</systemPath>
         </dependency>
 
         <!-- /*Daddy start*/ -->

@@ -130,6 +130,7 @@ public final class Config {
     public static final String RANDOM_ITEM_LOSS_IGNORES_ENCHANTED_ITEMS = "random-item-loss-ignores-enchanted-items";
     public static final String DROP_CONTENTS = "drop-contents-when-expired";
     public static final String DONT_PROTECT_WHEN_AT_WAR = "lands-dont-protect-when-at-war";
+    public static final String AVOID_LAVA_OCEANS = "avoid-lava-oceans";
 
     public static final String GUI_TELEPORT_LORE = "gui-teleport-lore";
     public static final String GUI_FETCH_LORE = "gui-fetch-lore";

@@ -1,0 +1,45 @@
+<config>
+
+    <property name="control-flow-obfuscation" value="disable"/>
+    <property name="extensive-flow-obfuscation" value="disable"/>
+    <property name="string-encryption" value="disable"/>
+
+    <input>
+        <jar in="AngelChest.jar" out="AngelChest.jar"/>
+    </input>
+
+    <keep-names>
+        <class access="public" />
+        <method access="public" />
+        <field access="public" />
+        <class template="class **API**">
+            <method template="public *(**)" />
+        </class>
+        <method template="@org.bukkit.event.EventHandler *(**)" />
+        <class template="class **.bstats.**" />
+        <class template="class **.Metrics.**" />
+    </keep-names>
+
+    <property name="log-file" value="log.xml"/>
+
+    <property name="packages-naming" value="keep"/>
+
+    <property name="generics" value="keep"/>
+    <property name="line-numbers" value="keep"/> <!-- For Debugging: keep -->
+    <property name="inner-classes" value="keep"/>
+    <property name="synthetize-methods" value="disable"/>
+    <property name="synthetize-fields" value="disable"/>
+    <property name="remove-toString" value="enable"/>
+    <property name="string-encryption-type" value="fast"/>
+    <property name="string-encryption-ignored-strings" value="../allatori/spigotmc-patterns.txt"/>
+    <ignore-classes>
+        <!--<class template="class com.*"/>-->
+        <!--<class template="class org.*"/>-->
+        <class template="class *.ConfigUpdater" />
+        <class template="class *.BlockDataManager" />
+        <class template="class *.Metrics" />
+        <class template="class *.jefflib.**" />
+        <class template="class **.bstats.**" />
+        <class template="class *.GraveyardYamlManager" />
+    </ignore-classes>
+</config>

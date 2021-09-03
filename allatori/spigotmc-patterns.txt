@@ -1,0 +1,6 @@
+%%__USER__%%
+%%__RESOURCE__%%
+%%__NONCE__%%
+*%%__USER__%%*
+*%%__RESOURCE__%%*
+*%%__NONCE__%%*

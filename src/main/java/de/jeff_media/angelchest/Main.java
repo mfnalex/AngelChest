@@ -382,8 +382,11 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         }
 
         watchdog = new Watchdog(this);
-
-        metrics = new Metrics(this, BSTATS_ID);
+        try {
+            metrics = new Metrics(this, BSTATS_ID);
+        } catch (Throwable t) {
+            getLogger().warning("Could not initialize bStats.");
+        }
         ConfigUtils.reloadCompleteConfig(false);
 
 
@@ -446,10 +449,12 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
         setEconomyStatus();
 
-        final char color = Stepsister.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? 'a' : '6';
-        for (final String line : Stepsister.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? Messages.usingPlusVersion : Messages.usingFreeVersion) {
-            getLogger().info(ChatColor.translateAlternateColorCodes('&', "&" + color + line));
-        }
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+                    final char color = Stepsister.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? 'a' : '6';
+                    for (final String line : Stepsister.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? Messages.usingPlusVersion : Messages.usingFreeVersion) {
+                        getLogger().info(ChatColor.translateAlternateColorCodes('&', "&" + color + line));
+                    }
+                }, 60L);
 
         debug("Loading AngelChests from disk");
         loadAllAngelChestsFromFile();

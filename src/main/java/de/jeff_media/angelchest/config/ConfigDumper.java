@@ -155,7 +155,7 @@ public final class ConfigDumper {
                 try {
                     groupsYaml.load(groups);
                     dumpYaml(groupsYaml, loadedGroups);
-                } catch (final InvalidConfigurationException e) {
+                } catch (final Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -167,7 +167,7 @@ public final class ConfigDumper {
                 try {
                     blacklistYaml.load(blacklist);
                     dumpYaml(blacklistYaml, loadedBlacklist);
-                } catch (final InvalidConfigurationException e) {
+                } catch (final Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -179,7 +179,7 @@ public final class ConfigDumper {
                 try {
                     graveyardYaml.load(graveyards);
                     dumpYaml(graveyardYaml, loadedGraveyards);
-                } catch (final InvalidConfigurationException e) {
+                } catch (final Exception e) {
                     e.printStackTrace();
                 }
             }

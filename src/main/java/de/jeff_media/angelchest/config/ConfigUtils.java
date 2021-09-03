@@ -298,6 +298,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.FALLBACK_TO_DEATHLOCATION, true);
         metric(Config.FALLBACK_TO_DEATHLOCATION);
 
+        conf.addDefault(Config.AVOID_LAVA_OCEANS, false);
+        metric(Config.AVOID_LAVA_OCEANS);
+
         conf.addDefault(Config.RANDOM_ITEM_LOSS_IGNORES_ENCHANTED_ITEMS, false);
         metric(Config.RANDOM_ITEM_LOSS_IGNORES_ENCHANTED_ITEMS);
 
@@ -443,7 +446,7 @@ sound-channel: BLOCKS
                 Main.getInstance().debug("- Valid file: " + fileName);
             } catch (final FileNotFoundException e) {
                 Main.getInstance().debug("- Missing file: " + fileName);
-            } catch (final InvalidConfigurationException | IOException e) {
+            } catch (final Exception e) {
                 files.add(fileName);
                 Main.getInstance().debug("- Broken file: " + fileName);
             }
@@ -469,7 +472,11 @@ sound-channel: BLOCKS
     static void metric(final String name, String value) {
         if (value.length() > 2 && value.endsWith(".0")) value = value.substring(0, value.length() - 2);
         final String finalValue = value;
-        Main.getInstance().metrics.addCustomChart(new Metrics.SimplePie(name.replace('-', '_').toLowerCase(), () -> finalValue));
+        try {
+            Main.getInstance().metrics.addCustomChart(new Metrics.SimplePie(name.replace('-', '_').toLowerCase(), () -> finalValue));
+        } catch (NullPointerException e) {
+            Main.getInstance().getLogger().warning("Could not add metrics value for " + name);
+        }
         //System.out.println("Adding metric "+name+" -> "+value);
     }
 
@@ -487,7 +494,7 @@ sound-channel: BLOCKS
 
         final Main main = Main.getInstance();
         /*Daddy start*/
-        Stepsister.init(main);
+        //Stepsister.init(main);
         /*Daddy end*/
         ExecutableItemsHook.init();
         if (reload) {
@@ -533,14 +540,14 @@ sound-channel: BLOCKS
         }
         validateConfigFiles();
 
-        if(main.getConfig().getInt(Config.MAX_RADIUS) > 10) {
+        if(main.getConfig().getInt(Config.MAX_RADIUS) > 20) {
             int radius = main.getConfig().getInt(Config.MAX_RADIUS);
             long blocks = (long) Math.pow((radius*2+1),3);
             String calculation = String.format("(%d x %d + 1) ^ 3",radius, radius);
             main.getLogger().warning("You have set your \"max-radius\" to " + main.getConfig().getInt(Config.MAX_RADIUS)+".");
             main.getLogger().warning("That means that AngelChest would have to check " + calculation + " = " + blocks + " blocks on each death.");
-            main.getLogger().warning("Trust me, you don't want that. AngelChest will use the default value of 10 for \"max-radius\" now.");
-            main.getConfig().set(Config.MAX_RADIUS, 10);
+            main.getLogger().warning("Trust me, you don't want that. AngelChest will use the max allowed value of 20 for \"max-radius\" now.");
+            main.getConfig().set(Config.MAX_RADIUS, 20);
         }
     }
 

@@ -11,9 +11,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class AngelChestUtils {
 
@@ -71,11 +73,15 @@ public class AngelChestUtils {
     }
 
     public static Block getChestLocation(final Block playerLoc) {
+        return getChestLocation(playerLoc, (Predicate<Block>[]) null);
+    }
+
+    public static Block getChestLocation(@NotNull final Block playerLoc, @Nullable final Predicate<Block>... predicates) {
         final Main main = Main.getInstance();
         Block fixedAngelChestBlock = playerLoc;
 
         //if (!playerLoc.getType().equals(Material.AIR)) {
-        final List<Block> blocksNearby = getPossibleChestLocations(playerLoc.getLocation());
+        final List<Block> blocksNearby = getPossibleChestLocations(playerLoc.getLocation(),predicates);
 
         if (!blocksNearby.isEmpty()) {
             sortBlocksByDistance(playerLoc, blocksNearby);
@@ -113,7 +119,7 @@ public class AngelChestUtils {
         return blocks;
     }
 
-    public static List<Block> getPossibleChestLocations(final Location location) {
+    public static List<Block> getPossibleChestLocations(final Location location, @Nullable final Predicate<Block>... predicates) {
         final Main main = Main.getInstance();
         final int radius = main.getConfig().getInt(Config.MAX_RADIUS);
         final List<Block> blocks = new ArrayList<>();
@@ -140,8 +146,16 @@ public class AngelChestUtils {
                                 }
                             }
                         }
+                        if(predicates!=null) {
+                            for(Predicate<Block> predicate : predicates) {
+                                if(predicate != null && !predicate.test(block)) {
+                                    continue zloop;
+                                }
+                            }
+                        }
 
                         blocks.add(block);
+
                     }
                 }
             }

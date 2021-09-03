@@ -25,7 +25,7 @@ public class BlockDataManager {
         if(FILE.exists()) {
             try {
                 YAML.load(FILE);
-            } catch (IOException | InvalidConfigurationException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

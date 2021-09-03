@@ -52,6 +52,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Predicate;
 
 /**
  * Handles player related events
@@ -526,6 +527,7 @@ public final class PlayerListener implements Listener {
 
 
         Block fixedPlayerPosition;
+        List<Predicate<Block>> predicates = new ArrayList<>();
 
         // Player died below world
         if (p.getLocation().getBlockY() < 1) {
@@ -581,9 +583,13 @@ public final class PlayerListener implements Listener {
                     main.debug("Using last known player position " + fixedPlayerPosition.getLocation());
             }
         }
+        if(main.getConfig().getBoolean(Config.AVOID_LAVA_OCEANS) && fixedPlayerPosition.getType() == Material.LAVA) {
+            if (main.debug) main.debug("Adding predicate \"avoid-lava-oceans\"");
+            predicates.add(block -> !(block.getY() < p.getLocation().getY()));
+        }
 
         if (main.debug) main.debug("FixedPlayerPosition: " + fixedPlayerPosition);
-        Block angelChestBlock = AngelChestUtils.getChestLocation(fixedPlayerPosition);
+        Block angelChestBlock = AngelChestUtils.getChestLocation(fixedPlayerPosition, predicates.toArray(new Predicate[0]));
 
         // Graveyards start
         if(Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {

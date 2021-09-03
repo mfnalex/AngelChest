@@ -34,7 +34,7 @@ public class GraveyardYamlManager {
             yaml.loadFromString(String.join(System.lineSeparator(), FileUtils.readFileFromResources(main, "graveyards.example.yml")));
             yaml.options().header(HEADER);
             yaml.save(EXAMPLE_FILE);
-        } catch (InvalidConfigurationException | IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

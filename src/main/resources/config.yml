@@ -263,6 +263,10 @@ max-radius: 10
 # Searches for a new chest location if there isn't at least this amount of air above the chest.
 minimum-air-above-chest: 0
 
+# When enabled, and a player dies in lava, the chest will always spawn on at least the player's
+# Y level, to avoid them being spawned in some caves below a lava ocean
+avoid-lava-oceans: false
+
 # When absolutely no block inside "max-radius" is found, and the block where the player
 # died is bedrock, we can search for another block to replace instead of bedrock.
 never-replace-bedrock: true
