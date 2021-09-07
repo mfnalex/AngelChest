@@ -155,7 +155,7 @@ public final class GUIManager {
     }
 
     private String getTitle(final AngelChest chest, final int id) {
-        return main.messages.GUI_TITLE_CHEST.replace("{id}", String.valueOf(id)).replace("{time}", CommandUtils.getTimeLeft(chest));
+        return main.messages.GUI_TITLE_CHEST.replace("{id}", String.valueOf(id)).replace("{time}", CommandUtils.getTimeLeft(chest)).replace("{player}",Bukkit.getOfflinePlayer(chest.owner).getName());
 
     }
 
@@ -227,7 +227,7 @@ public final class GUIManager {
     public void showMainGUI(final Player player) {
         final GUIHolder holder = new GUIHolder(player, GUIContext.MAIN_MENU);
         final int inventorySize = getInventorySize(holder.getNumberOfAngelChests());
-        final Inventory inventory = Bukkit.createInventory(holder, inventorySize, main.messages.GUI_TITLE_MAIN);
+        final Inventory inventory = Bukkit.createInventory(holder, inventorySize, main.messages.GUI_TITLE_MAIN.replace("{player}",player.getName()));
         holder.setInventory(inventory);
 
         if (AngelChestUtils.getAllAngelChestsFromPlayer(player).size() == 1) {
@@ -257,7 +257,7 @@ public final class GUIManager {
 
     public void showPreviewGUI(final Player player, final AngelChest angelChest, final boolean isPreview, final boolean firstOpened) {
         final GUIHolder holder = new GUIHolder(player, GUIContext.PREVIEW_MENU);
-        final Inventory inventory = Bukkit.createInventory(holder, 54, main.messages.GUI_TITLE_MAIN);
+        final Inventory inventory = Bukkit.createInventory(holder, 54, main.messages.GUI_TITLE_MAIN.replace("{player}",player.getName()));
         holder.setInventory(inventory);
         holder.setChestIdStartingAt1(AngelChestUtils.getAllAngelChestsFromPlayer(angelChest.owner).indexOf(angelChest));
         holder.setAngelChest(angelChest);

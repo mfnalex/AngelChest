@@ -8,6 +8,12 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.10.2
+- Added {player} placeholder to the main GUI title
+
+## 4.10.1
+- Fixed disabled messages still sending the message prefix
+
 ## 4.10.0
 - Added config option "avoid-lava-oceans"
 

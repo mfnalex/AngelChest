@@ -226,7 +226,7 @@ public final class Messages {
 
     public static void send(final CommandSender receiver, final String message) {
         if (receiver == null) return;
-        if (message.equals("")) return;
+        if (message.equals("") || message.equals(Main.getInstance().messages.PREFIX)) return;
         Msg.send(receiver, message);
     }
 
@@ -244,6 +244,9 @@ public final class Messages {
     }
 
     private String getMsg(final String path, final String defaultText) {
+
+        //if(main.getConfig().getString("message-" + path, defaultText).isEmpty()) return "";
+
         return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-" + path, defaultText));
     }
 }
