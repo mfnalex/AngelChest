@@ -340,6 +340,9 @@ sound-channel: BLOCKS
         conf.addDefault(Config.DROP_CONTENTS, true);
         metric(Config.DROP_CONTENTS);
 
+        conf.addDefault(Config.PROHIBIT_AUTO_EQUIP, false);
+        metric(Config.PROHIBIT_AUTO_EQUIP);
+
         conf.addDefault(Config.DONT_PROTECT_WHEN_AT_WAR, false);
         metric(Config.DONT_PROTECT_WHEN_AT_WAR);
 

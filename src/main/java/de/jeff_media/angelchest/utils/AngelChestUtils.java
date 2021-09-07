@@ -256,7 +256,7 @@ public class AngelChestUtils {
 
         // Try to auto-equip armor
         for (int i = 0; i < armor_merged.length; i++) {
-            if (Utils.isEmpty(armor_merged[i])) {
+            if (Utils.isEmpty(armor_merged[i]) && (!main.getConfig().getBoolean(Config.PROHIBIT_AUTO_EQUIP) || !Stepsister.allows(PremiumFeatures.PROHIBIT_FAST_EQUIP))) {
                 armor_merged[i] = source.armorInv[i];
                 main.logger.logItemTaken(player, source.armorInv[i], file);
             } else if (!Utils.isEmpty(source.armorInv[i])) {

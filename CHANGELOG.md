@@ -8,6 +8,10 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.11.0
+- Added option to prevent auto-equipping of armor when fast-looting the chest (paid version only)
+  - Can be useful for PvP servers or when you want your players to meet certain requirements to be able to equip some armor pieces
+
 ## 4.10.2
 - Added {player} placeholder to the main GUI title
 

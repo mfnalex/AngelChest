@@ -237,6 +237,11 @@ allow-chest-in-void: true
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 invulnerability-after-tp: 0
 
+# When set to true, players will NOT get their armor equipped automatically on fast-looting
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus! In the free version, auto-equipping is
+# always allowed.
+prohibit-auto-equip: false
+
 # You probably don't want your AngelChest to spawn on blocks like GRASS_PATH, FARMLAND, etc.
 # as that would destroy those blocks. You can blacklist them here so AngelChest searches
 # for a spot nearby.
