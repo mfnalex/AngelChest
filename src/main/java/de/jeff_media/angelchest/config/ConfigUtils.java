@@ -3,13 +3,14 @@ package de.jeff_media.angelchest.config;
 import de.jeff_media.angelchest.EmergencyMode;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.data.BlacklistEntry;
+import de.jeff_media.angelchest.data.MagicMaterial;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIManager;
-import de.jeff_media.angelchest.handlers.BlockDataManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.hooks.ExecutableItemsHook;
 import de.jeff_media.angelchest.hooks.GenericHooks;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
+import de.jeff_media.angelchest.hooks.OraxenHook;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.GroupUtils;
@@ -23,6 +24,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.sqlite.util.StringUtils;
 
@@ -397,29 +399,12 @@ sound-channel: BLOCKS
         }
         metric(Config.ONLY_SPAWN_IN, main.onlySpawnIn.stream().map(Material::name).collect(Collectors.toList()));
 
-        if (Material.getMaterial(conf.getString(Config.MATERIAL).toUpperCase()) == null) {
-            main.getLogger().warning("Invalid Material: " + conf.getString(Config.MATERIAL) + " - falling back to CHEST");
-            main.chestMaterial = Material.CHEST;
-        } else {
-            main.chestMaterial = Material.getMaterial(conf.getString(Config.MATERIAL).toUpperCase());
-            if (!main.chestMaterial.isBlock()) {
-                main.getLogger().warning("Not a block: " + conf.getString(Config.MATERIAL) + " - falling back to CHEST");
-                main.chestMaterial = Material.CHEST;
-            }
-        }
-
-        if (Material.getMaterial(conf.getString(Config.MATERIAL_UNLOCKED).toUpperCase()) == null) {
-            main.getLogger().warning("Invalid Material: " + conf.getString(Config.MATERIAL_UNLOCKED) + " - falling back to ENDER_CHEST");
-            main.chestMaterialUnlocked = Material.ENDER_CHEST;
-        } else {
-            main.chestMaterialUnlocked = Material.getMaterial(conf.getString(Config.MATERIAL_UNLOCKED).toUpperCase());
-            if (!main.chestMaterialUnlocked.isBlock()) {
-                main.getLogger().warning("Not a block: " + conf.getString(Config.MATERIAL_UNLOCKED) + " - falling back to ENDER_CHEST");
-                main.chestMaterialUnlocked = Material.ENDER_CHEST;
-            }
-        }
+        main.chestMaterial = MagicMaterial.fromString(conf.getString(Config.MATERIAL), Material.CHEST);
+        main.chestMaterialUnlocked = MagicMaterial.fromString(conf.getString(Config.MATERIAL_UNLOCKED), Material.ENDER_CHEST);
 
     }
+
+
 
     static void createDirectories() {
         createDirectory("angelchests");
@@ -534,8 +519,6 @@ sound-channel: BLOCKS
         for(Player player : Bukkit.getOnlinePlayers()) {
             GraveyardListener.callGraveyardEnterEvent(player);
         }
-
-        BlockDataManager.init();
 
         //main.debugger = new AngelChestDebugger(main);
         if (reload) {

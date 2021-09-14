@@ -192,6 +192,8 @@ only-show-gui-after-death-if-player-can-tp-or-fetch: true
 # When using PLAYER_HEAD, you can use the head of the died
 # player or any other custom skull (see option below)
 # Tip: SOUL_CAMPFIRE looks awesome (1.16+ only)
+# You can also use oraxen blocks by entering "oraxen:ruby_ore" etc.
+# It's also possible to enter the BlockData string here
 material: CHEST
 
 # You can choose another Material to use for unlocked
@@ -527,6 +529,7 @@ disable-worldguard-integration: false
 # AngelChest can check if a player has permissions to place blocks where he died. If
 # the player is prohibited from placing blocks there, AngelChest will not spawn a
 # chest if the following option is set to true.
+# Fetching chests into areas where players cannot build will also be prohibited.
 only-spawn-chests-if-player-may-build: false
 
 #########################
@@ -868,6 +871,7 @@ message-angelchest-fetched: "&aAngelChest fetched succesfully."
 message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
 message-min-distance: "&cYou already are nearby your AngelChest."
 message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 #########################
 ##### Translations ######
@@ -917,6 +921,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
 #message-min-distance: "&cYou already are nearby your AngelChest."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### Azerbaijan Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eBütün AngelChest'lərinin kilidi onsuzda açıqdır."
@@ -957,6 +962,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
 #message-min-distance: "&cYou already are nearby your AngelChest."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### Bulgarian
 #message-all-your-angelchests-were-already-unlocked: "&eВсичките Ваши AngelChest-ове бяха отключени."
@@ -998,6 +1004,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aУспешно Ви телепортирахме до Вашия AngelChest."
 #message-min-distance: "&cВие вече сте в близост до Вашия AngelChest."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### Chinese Simplified 简体中文
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天使之箱都已解锁."
@@ -1039,6 +1046,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
 #message-min-distance: "&cYou already are nearby your AngelChest."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### Chinese Traditional 繁體中文
 #message-all-your-angelchests-were-already-unlocked: "&e所有的天使之箱已被解鎖"
@@ -1080,6 +1088,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
 #message-min-distance: "&cYou already are nearby your AngelChest."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### Dutch
 #message-all-your-angelchests-were-already-unlocked: "&eAlle AngelChests die je hebt zijn al ontgrendeld"
@@ -1121,6 +1130,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aSucesvol getelporteerd naar je AngelChest."
 #message-min-distance: "&cJe bent al in de buurt van je AngelChest."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/ 
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
@@ -1162,6 +1172,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
 #message-min-distance: "&cYou already are nearby your AngelChest."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### German
 #message-all-your-angelchests-were-already-unlocked: "&eAlle deine AngelChests waren bereits aufgeschlossen."
@@ -1203,6 +1214,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aErfolgreich zur AngelChest teleportiert."
 #message-min-distance: "&cDu bist schon in der Nähe deiner AngelChest."
 #message-buried-in-graveyard: "&aEin Engel hat deine Sachen eingesammelt und in &6{graveyard} &avergraben."
+#message-cant-fetch-here: "&cDu kannst deine AngelChest nicht hierhin holen."
 
 ##### Hungarian
 # message-all-your-angelchests-were-already-unlocked: "&eAz összes AngyalLádád már fel van oldva."
@@ -1244,6 +1256,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aSikeresen teleportáltál az AngyalLádádhoz."
 #message-min-distance: "&cMár az AngyalLádád közelében vagy."
 #message-buried-in-graveyard: "&aEgy Angyal összegyűjtötte a cókmókjaidat, és elásta a(z) &6{graveyard} helyen."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### Indonesian
 #message-all-your-angelchests-were-already-unlocked: "&eSemua AngelChest kamu sudah tidak terkunci."
@@ -1285,6 +1298,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
 #message-min-distance: "&cYou already are nearby your AngelChest."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### Italian
 #message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChests sono già state sbloccate."
@@ -1326,6 +1340,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
 #message-min-distance: "&cYou already are nearby your AngelChest."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### Pirate Speak
 #message-all-your-angelchests-were-already-unlocked: "&eAll yer AngelChests was already unlocked."
@@ -1367,6 +1382,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aSuccessfully teleported ye to yer AngelChest."
 #message-min-distance: "&cYe already be nearby yer AngelChest."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### Polish
 #message-all-your-angelchests-were-already-unlocked: "&eWszystkie twoje AnielskieSkrzynie zostały już odblokowane."
@@ -1408,6 +1424,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
 #message-min-distance: "&cYou already are nearby your AngelChest."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### Portuguese
 #message-all-your-angelchests-were-already-unlocked: "&eTodos os seus AngelChests estavam desbloqueados."
@@ -1449,6 +1466,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
 #message-min-distance: "&cYou already are nearby your AngelChest."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### Russian - Thanks to @GEEK for translating
 #message-all-your-angelchests-were-already-unlocked: "&eВсе ваши Ангельские сундуки разблокированы."
@@ -1490,6 +1508,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aВы были успешно телепортированы к вашему Ангельскому сундуку."
 #message-min-distance: "&cВы уже находитесь вблизи своего Ангельского сундука."
 #message-buried-in-graveyard: "&aАнгел собрал ваши вещи и закопал в месте под названием &6{graveyard}&a."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### Spanish Spain (es_ES)
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus Artefactos Angelicales se han desprotegido."
@@ -1531,6 +1550,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aHas aparecido junto a tu Artefacto Angelical."
 #message-min-distance: "&cEstás demasiado cerca de tu Artefacto Angelical."
 #message-buried-in-graveyard: "&aEl Artefacto Angelical ha recogido tus cosas y las ha enterrado en &6{graveyard}&a."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### Spanish 2
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus AngelChest ya se encuentran desbloqueados."
@@ -1572,6 +1592,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aTe has teletransportado exitosamente a tu AngelChest."
 #message-min-distance: "&cYa estás cerca de tu AngelChest."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
+#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 
 ##### Turkish (Turkey Turkish)
 #message-all-your-angelchests-were-already-unlocked: "&eTüm AngelChest'lerinin kilidi zaten açık."
@@ -1612,6 +1633,7 @@ message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &
 #message-angelchest-teleported: "&aAngelChest'ine başarıyla ışınlanıldı."
 #message-min-distance: "&cZaten AngelChest'inin yakınındasın."
 #message-buried-in-graveyard: "&aBir melek eşyalarını topladı ve bir &{graveyard}&a'a gömdü."
+#message-cant-fetch-here: "&cAngelChest'ini buraya getiremezsin."
 
 #########################
 #####     Done!     #####

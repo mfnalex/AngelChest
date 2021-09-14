@@ -31,7 +31,7 @@ public class Graveyard {
     private final WorldBoundingBox boundingBox;
     private final Collection<Material> spawnOn;
     private final List<Block> cachedValidGraveLocations = new ArrayList<>();
-    private final BlockData blockData;
+    @Nullable private final MagicMaterial magicMaterial;
     private final String hologramText;
     private final Location spawn;
     private final boolean instantRespawn;
@@ -43,11 +43,10 @@ public class Graveyard {
 
     private static final Main main = Main.getInstance();
 
-    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable BlockData blockData, @Nullable String hologramText, boolean global, @Nullable Location spawn, boolean instantRespawn, Integer totemAnimation, Collection<PotionEffect> potionEffects, @Nullable Long localTime, @Nullable WeatherType weatherType) {
+    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable MagicMaterial magicMaterial, @Nullable String hologramText, boolean global, @Nullable Location spawn, boolean instantRespawn, Integer totemAnimation, Collection<PotionEffect> potionEffects, @Nullable Long localTime, @Nullable WeatherType weatherType) {
         this.name = name;
         this.boundingBox = worldBoundingBox;
         this.spawnOn = spawnOn;
-        this.blockData = blockData;
         this.hologramText = hologramText;
         this.global = global;
         this.spawn = spawn;
@@ -56,6 +55,7 @@ public class Graveyard {
         this.potionEffects = potionEffects;
         this.localTime = localTime;
         this.weatherType = weatherType;
+        this.magicMaterial = magicMaterial;
         populateBlocksInsideAsync();
     }
 
@@ -78,7 +78,7 @@ public class Graveyard {
                 "name='" + name + '\'' +
                 ", boundingBox=" + boundingBox +
                 ", spawnOn=" + spawnOn +
-                ", material=" + blockData +
+                ", magicMaterial=" + magicMaterial +
                 ", hologramText='" + hologramText + '\'' +
                 ", spawn=" + spawn +
                 ", instantRespawn=" + instantRespawn +
@@ -125,20 +125,9 @@ public class Graveyard {
 
         WorldBoundingBox boundingBox = new WorldBoundingBox(world, BoundingBox.of(world.getBlockAt(minX, minY, minZ), world.getBlockAt(maxX, maxY, maxZ)));
 
-        BlockData blockData;
-        if (config.isSet("material")) {
-            String value = config.getString("material");
-            if(!value.contains(":") && !value.contains("[")) {
-                Material mat = Enums.getIfPresent(Material.class, config.getString("material").toUpperCase(Locale.ROOT)).orNull();
-                if (mat == null) {
-                    Main.getInstance().getLogger().warning("Unknown material specified in Graveyard " + name + ": " + config.getString("material"));
-                }
-                blockData = Bukkit.getServer().createBlockData(mat);
-            } else {
-                blockData = Bukkit.getServer().createBlockData(value);
-            }
-        } else {
-            blockData = null;
+        MagicMaterial magicMaterial = null;
+        if(config.isSet("material")) {
+            magicMaterial = MagicMaterial.fromString(config.getString("material"), Material.CHEST);
         }
 
         String hologram;
@@ -203,7 +192,7 @@ public class Graveyard {
             }
         }
 
-        return new Graveyard(name, boundingBox, spawnOn, blockData, hologram, global, spawn, instantRespawn, totemAnimation, potionEffects, localTime, weatherType);
+        return new Graveyard(name, boundingBox, spawnOn, magicMaterial, hologram, global, spawn, instantRespawn, totemAnimation, potionEffects, localTime, weatherType);
     }
 
     public void applyPotionEffects(Player player) {
@@ -333,11 +322,11 @@ public class Graveyard {
     }
 
     public boolean hasCustomMaterial() {
-        return blockData != null;
+        return magicMaterial != null;
     }
 
-    public BlockData getCustomMaterial() {
-        return blockData;
+    public MagicMaterial getCustomMaterial() {
+        return magicMaterial;
     }
 
     public boolean isValidSpawnOn(Block block) {
@@ -374,7 +363,7 @@ public class Graveyard {
                 {"Min",boundingBox.getMinBlock().getX()+", " + boundingBox.getMinBlock().getY()+", " + boundingBox.getMinBlock().getZ()},
                 {"Max",boundingBox.getMaxBlock().getX()+", " + boundingBox.getMaxBlock().getY()+", " + boundingBox.getMaxBlock().getZ()},
                 {"Spawn on", onlySpawnOn},
-                {"Material", blockData == null ? "default" : blockData.getAsString()},
+                {"Material", magicMaterial == null ? "default" : magicMaterial.toString()},
                 {"Free graves", String.valueOf(getFreeSpots().size())},
                 {"Global", String.valueOf(global)},
                 {"Instant respawn", String.valueOf(instantRespawn)},

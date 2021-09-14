@@ -71,17 +71,7 @@ public final class GUIManager {
     }
 
     private ItemStack getChestItem(final AngelChest angelChest, final int id) {
-        final ItemStack item;
-        final Material material = main.getChestMaterial(angelChest);
-        if (material == Material.PLAYER_HEAD) {
-            if (main.getConfig().getBoolean(Config.HEAD_USES_PLAYER_NAME)) {
-                item = HeadCreator.getPlayerHead(angelChest.owner);
-            } else {
-                item = HeadCreator.getHead(main.getConfig().getString(Config.CUSTOM_HEAD_BASE64));
-            }
-        } else {
-            item = new ItemStack(main.getChestMaterial(angelChest));
-        }
+        ItemStack item = main.getChestMaterial(angelChest).getItemStack(angelChest);
 
         final ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(getChestItemName(angelChest, id));

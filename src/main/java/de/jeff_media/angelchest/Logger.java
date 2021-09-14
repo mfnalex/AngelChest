@@ -78,7 +78,7 @@ public final class Logger {
     }
 
     public void logDeath(final PlayerDeathEvent event, final AngelChest ac) {
-        if (!Stepsister.allows(PremiumFeatures.LOG_ANGELCHEST_TRANSACTIONS)) return;
+        if (!Stepsister.allows(PremiumFeatures.LOG_ANGELCHEST_TRANSACTIONS) || !main.getConfig().getBoolean(Config.LOG_ANGELCHESTS)) return;
         final File file = getLogFile(event);
         final String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         write("=== AngelChest spawned ===", file);
@@ -155,31 +155,32 @@ public final class Logger {
     }
 
     public void logItemTaken(final Player player, @Nullable final ItemStack item, final File file) {
-        if (!Stepsister.allows(PremiumFeatures.GENERIC)) return; // Don't add feature here
+        if (!Stepsister.allows(PremiumFeatures.GENERIC) || !main.getConfig().getBoolean(Config.LOG_ANGELCHESTS)) return; // Don't add feature here
         if (item == null) return;
         writeWithTime(String.format("Player \"%s\" took item: %s", player.getName(), item), file);
     }
 
     public void logLastItemTaken(final Player player, final File file) {
-        if (!Stepsister.allows(PremiumFeatures.GENERIC)) return; // Don't add feature here
+        if (!Stepsister.allows(PremiumFeatures.GENERIC) || !main.getConfig().getBoolean(Config.LOG_ANGELCHESTS)) return; // Don't add feature here
         write("", file);
         writeWithTime(String.format("Player \"%s\" took the last item. Removing AngelChest!", player.getName()), file);
         logRemoval(file);
     }
 
     public void logRemoval(final File file) {
+        if (!Stepsister.allows(PremiumFeatures.GENERIC) || !main.getConfig().getBoolean(Config.LOG_ANGELCHESTS))
         write("", file);
         write("=== AngelChest removed ===", file);
         writeWithTime("AngelChest despawned, and dropped all remaining items when applicable.", file);
     }
 
     public void logPaidForChest(final Player player, final double price, final File file) {
-        if (!Stepsister.allows(PremiumFeatures.GENERIC)) return; // Don't add feature here
+        if (!Stepsister.allows(PremiumFeatures.GENERIC) || !main.getConfig().getBoolean(Config.LOG_ANGELCHESTS)) return; // Don't add feature here
         writeWithTime(String.format("Player \"%s\" paid %f to open this AngelChest for the first time.", player.getName(), price), file);
     }
 
     public void logXPTaken(final Player player, final int xp, final File file) {
-        if (!Stepsister.allows(PremiumFeatures.GENERIC)) return; // Don't add feature here
+        if (!Stepsister.allows(PremiumFeatures.GENERIC) || !main.getConfig().getBoolean(Config.LOG_ANGELCHESTS)) return; // Don't add feature here
         writeWithTime(String.format("Player \"%s\" took XP: %d", player.getName(), xp), file);
     }
 

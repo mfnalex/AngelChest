@@ -11,6 +11,7 @@ authors:
 database: false
 load: POSTWORLD
 softdepend:
+  - Oraxen
   - Multiverse-Core
   - Multiverse
   - Vault
@@ -28,9 +29,9 @@ softdepend:
   - ItemsAdder
 loadbefore: [ AngelChestPlus ]
 commands:
-  acadmin:
-    description: "Manage a few AngelChest settings"
-    permission: "angelchest.admin"
+#  acadmin:
+#    description: "Manage a few AngelChest settings"
+#    permission: "angelchest.admin"
   acgraveyard:
     description: "Manage Graveyard settings"
     permission: "angelchest.admin"

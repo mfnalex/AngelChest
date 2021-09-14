@@ -324,6 +324,13 @@ public final class CommandUtils {
             }
         }
 
+        if(action == CommandAction.FETCH_CHEST) {
+            if(!ProtectionUtils.playerMayBuildHere(sender, sender.getLocation()) && main.getConfig().getBoolean(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD)) {
+                sender.sendMessage(main.messages.MSG_CANT_FETCH_HERE);
+                return;
+            }
+        }
+
         if (price > 0 && !hasEnoughMoney(sender, price, main.messages.MSG_NOT_ENOUGH_MONEY, action.getEconomyReason())) {
             return;
         }

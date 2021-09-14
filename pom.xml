@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>4.11.0</version>
+    <version>4.12.2</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -376,6 +376,12 @@
             <groupId>com.github.LoneDev6</groupId>
             <artifactId>api-itemsadder</artifactId>
             <version>2.3.8</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Th0rgal</groupId>
+            <artifactId>Oraxen</artifactId>
+            <version>bruh</version>
             <scope>provided</scope>
         </dependency>
 

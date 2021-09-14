@@ -36,6 +36,7 @@
         <!--<class template="class com.*"/>-->
         <!--<class template="class org.*"/>-->
         <class template="class *.ConfigUpdater" />
+        <class template="class **.config.**" />
         <class template="class *.BlockDataManager" />
         <class template="class *.Metrics" />
         <class template="class *.jefflib.**" />

@@ -7,7 +7,6 @@ import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
-import de.jeff_media.angelchest.handlers.BlockDataManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
@@ -350,23 +349,13 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param uuid  The owner's UUID (to correctly set player heads)
      */
     public void createChest(final Block block, final UUID uuid, final boolean createHologram) {
+        MagicMaterial magicMaterial = main.getChestMaterial(this);
         if (main.debug)
-            main.debug("Attempting to create chest with material " + main.getChestMaterial(this).name() + " at " + block.getLocation());
-        block.setType(main.getChestMaterial(this));
-
-        // Material is PLAYER_HEAD, so either use the custom texture, or the player skin's texture
-        if (main.getChestMaterial(this) == Material.PLAYER_HEAD) {
-            /*if(Material.getMaterial(Values.PLAYER_HEAD) == null) {
-                main.getLogger().warning("Using a custom PLAYER_HEAD as chest material is NOT SUPPORTED in versions < 1.13. Consider using another chest material.");
-            } else {*/
-            HeadCreator.createHeadInWorld(block, uuid);
-            //}
-        }
+            main.debug("Attempting to create chest with material " + magicMaterial + " at " + block.getLocation());
+        magicMaterial.placeInWorld(block, uuid, this);
         if (createHologram) {
             createHologram(block, uuid);
         }
-
-        BlockDataManager.setBlockData(block);
     }
 
     /**

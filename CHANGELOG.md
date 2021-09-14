@@ -8,6 +8,17 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.12.2
+- Fixed logs being generated even when "log-angelchests" is set to false
+
+## 4.12.0
+- Players are no longer able to fetch chests into areas where they aren't allowed to place blocks when "only-spawn-chests-if-player-may-build" is set to true
+
+## 5.0.0
+- FULL Oraxen support! Use all your custom blocks/models for your death chests!
+- You can set different blockdata for every death chest material (locked, unlocked, and per graveyard)
+  - In the future, you will be able to choose several material / block types, and on every death, one gets randomly selected
+
 ## 4.11.0
 - Added option to prevent auto-equipping of armor when fast-looting the chest (paid version only)
   - Can be useful for PvP servers or when you want your players to meet certain requirements to be able to equip some armor pieces

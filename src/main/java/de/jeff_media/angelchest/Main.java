@@ -3,10 +3,8 @@ package de.jeff_media.angelchest;
 import co.aikar.commands.BukkitCommandManager;
 import de.jeff_media.angelchest.commands.*;
 import de.jeff_media.angelchest.config.*;
+import de.jeff_media.angelchest.data.*;
 import de.jeff_media.angelchest.data.AngelChest;
-import de.jeff_media.angelchest.data.BlacklistEntry;
-import de.jeff_media.angelchest.data.DeathCause;
-import de.jeff_media.angelchest.data.PendingConfirm;
 import de.jeff_media.angelchest.enums.BlacklistResult;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
@@ -78,8 +76,8 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }*/
 
     public LinkedHashMap<Block, AngelChest> angelChests;
-    public Material chestMaterial;
-    public Material chestMaterialUnlocked;
+    public MagicMaterial chestMaterial;
+    public MagicMaterial chestMaterialUnlocked;
     public boolean debug = false;
     //public java.util.logging.Logger debugLogger;
     public boolean disableDeathEvent = false;
@@ -187,14 +185,14 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         return null;
     }
 
-    public Material getChestMaterial(final AngelChest chest) {
+    public MagicMaterial getChestMaterial(final AngelChest chest) {
         if (!Stepsister.allows(PremiumFeatures.GENERIC)) {
             return chestMaterial;
         }
         if(Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
             if(chest.getGraveyard() != null) {
                 if(chest.getGraveyard().hasCustomMaterial()) {
-                    return chest.getGraveyard().getCustomMaterial().getMaterial();
+                    return chest.getGraveyard().getCustomMaterial();
                 }
             }
         }
@@ -249,7 +247,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     public boolean isBrokenAngelChest(final Block block, final AngelChest chest) {
         if (isOutsideOfNormalWorld(block)) return false;
-        return block.getType() != getChestMaterial(chest);
+        return block.getType() != getChestMaterial(chest).getMaterial();
     }
 
     public @Nullable String isItemBlacklisted(final ItemStack item) {
@@ -415,7 +413,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         Objects.requireNonNull(this.getCommand("acreload")).setExecutor(new CommandReload());
         Objects.requireNonNull(this.getCommand("acgui")).setExecutor(new CommandGUI());
         Objects.requireNonNull(this.getCommand("actoggle")).setExecutor(new CommandToggle());
-        Objects.requireNonNull(this.getCommand("acadmin")).setExecutor(new CommandAdmin());
+        //Objects.requireNonNull(this.getCommand("acadmin")).setExecutor(new CommandAdmin());
         Objects.requireNonNull(this.getCommand("acgraveyard")).setExecutor(new CommandGraveyard());
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
