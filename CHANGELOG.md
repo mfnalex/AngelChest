@@ -8,6 +8,9 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.12.3
+- Fixed death chests not saving experience on shutdown / reload
+
 ## 4.12.2
 - Fixed logs being generated even when "log-angelchests" is set to false
 

@@ -100,6 +100,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.price = yaml.getDouble(ChestYaml.PRICE, main.getConfig().getDouble(Config.PRICE));
         this.logfile = yaml.getString("logfile", null);
         this.created = yaml.getLong("created", 0);
+        this.experience = yaml.getInt("experience",0);
 
         if(yaml.isSet("graveyard")) {
             Graveyard yard = GraveyardManager.fromName(yaml.getString("graveyard"));

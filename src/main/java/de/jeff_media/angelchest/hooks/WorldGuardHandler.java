@@ -8,6 +8,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
@@ -28,13 +29,12 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
 
 
     public static StateFlag FLAG_ALLOW_ANGELCHEST = null;
-    final Main main;
+    private static final Main main = Main.getInstance();
     public boolean disabled = false;
     RegionContainer regionContainer;
     WorldGuardPlugin worldGuardPlugin;
 
     public WorldGuardHandler(final Main main) {
-        this.main = main;
 
         if (main.getConfig().getBoolean(Config.DISABLE_WORLDGUARD_INTEGRATION)) {
             disabled = true;
@@ -76,6 +76,11 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
         }
     }
 
+    public static void tryToRegisterGraveyardFlag() {
+        StringFlag graveyardFlag = new StringFlag("angelchest-graveyard");
+
+    }
+
     public static void tryToRegisterFlags() {
 
         final Main main = Main.getInstance();
@@ -97,9 +102,9 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
         // Flags start
         final FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
-            final StateFlag flag = new StateFlag("allow-angelchest", true);
-            registry.register(flag);
-            FLAG_ALLOW_ANGELCHEST = flag;
+            final StateFlag allowFlag = new StateFlag("allow-angelchest", true);
+            registry.register(allowFlag);
+            FLAG_ALLOW_ANGELCHEST = allowFlag;
         } catch (final Exception weDontUseflagConflictExceptionBecauseItThrowsNoClassDefFoundErrorWhenWorldGuardIsNotInstalled) {
             final Flag<?> existing = registry.get("allow-angelchest");
             if (existing instanceof StateFlag) {
