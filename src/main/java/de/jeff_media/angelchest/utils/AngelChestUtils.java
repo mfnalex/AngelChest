@@ -307,7 +307,9 @@ public class AngelChestUtils {
         int i = 0;
         for (final ItemStack item : unstorable.values()) {
             if (item == null) continue;
-            source.storageInv[i] = item;
+            if(i < source.storageInv.length) {
+                source.storageInv[i] = item;
+            }
             i++;
         }
 

@@ -8,6 +8,9 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.12.4
+- Fixer rare exception on Airplane when attempting to fastloot a chest with an already full inventory
+
 ## 4.12.3
 - Fixed death chests not saving experience on shutdown / reload
 
