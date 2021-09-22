@@ -544,6 +544,10 @@ only-spawn-chests-if-player-may-build: false
 # and prevent those from being put into the chest.
 use-slimefun: true
 
+# Some plugins offer a telekinesis enchant that prevent getting AngelChests spawned
+# If you still want to get an AngelChest, enable this option
+ignore-telekinesis: false
+
 # When you have ExecutableItems installed, AngelChest can check for "Keep on Death"
 # items and prevent those from being put into the chest.
 use-executableitems: true

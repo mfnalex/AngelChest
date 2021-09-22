@@ -177,6 +177,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.SHOW_GUI_AFTER_DEATH, "false");
         metric(Config.SHOW_GUI_AFTER_DEATH);
 
+        conf.addDefault(Config.IGNORE_TELEKINESIS, false);
+        metric(Config.IGNORE_TELEKINESIS);
+
         conf.addDefault(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH, true);
         metric("only_show_gui_if_player_can_tp", conf.getString(Config.ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH));
 
