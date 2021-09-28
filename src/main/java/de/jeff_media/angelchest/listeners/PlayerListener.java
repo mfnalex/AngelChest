@@ -46,11 +46,9 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredListener;
+import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 
@@ -61,6 +59,7 @@ public final class PlayerListener implements Listener {
 
     private static final byte TOTEM_MAGIC_VALUE = 35;
     final static Main main = Main.getInstance();
+    private final HashMap<UUID, BukkitTask> respawnTasks = new HashMap<>();
 
     private static void dropPlayerHead(final Player player) {
         final ItemStack head = getPlayerHead(player);
@@ -214,11 +213,19 @@ public final class PlayerListener implements Listener {
         if (!main.getConfig().getBoolean(Config.AUTO_RESPAWN)) return;
         final int delay = main.getConfig().getInt(Config.AUTO_RESPAWN_DELAY);
 
-        Bukkit.getScheduler().runTaskLater(main, () -> {
+        respawnTasks.put(event.getEntity().getUniqueId(),Bukkit.getScheduler().runTaskLater(main, () -> {
             if (event.getEntity().isDead()) {
                 event.getEntity().spigot().respawn();
             }
-        }, 1L + Ticks.fromSeconds(delay));
+        }, 1L + Ticks.fromSeconds(delay)));
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent event) {
+        if(respawnTasks.containsKey(event.getPlayer().getUniqueId())) {
+            respawnTasks.get(event.getPlayer().getUniqueId()).cancel();
+            respawnTasks.remove(event.getPlayer().getUniqueId());
+        }
     }
 
     @SuppressWarnings("unused")

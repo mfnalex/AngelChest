@@ -8,6 +8,9 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.13.1
+- Fixed auto-respawn respawning players too fast when they died while another respawn task was already scheduled (because the player manually clicked the "Respawn" button)
+
 ## 4.13.0
 - Added option to ignore EcoEnchant's Telekinesis enchantment
   - When enabled, an AngelChest will spawn like normal even when you get killed by a player with telekinesis
