@@ -778,6 +778,14 @@ public final class PlayerListener implements Listener {
         final ArrayList<AngelChest> chests = AngelChestUtils.getAllAngelChestsFromPlayer(p);
         //System.out.println(chests.size()+" chests.size");
         if (chests.size() > maxChests) {
+            for(Player viewer : Bukkit.getOnlinePlayers()) {
+                if(viewer.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder) {
+                    GUIHolder holder = (GUIHolder) viewer.getOpenInventory().getTopInventory().getHolder();
+                    if(holder.getAngelChest() == chests.get(0)) {
+                        viewer.closeInventory();
+                    }
+                }
+            }
             chests.get(0).destroy(true, false);
             chests.get(0).remove();
             Bukkit.getScheduler().runTaskLater(main, () -> {

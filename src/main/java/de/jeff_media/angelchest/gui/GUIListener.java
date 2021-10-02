@@ -365,6 +365,9 @@ public final class GUIListener implements @NotNull Listener {
                 main.logger.logLastItemTaken(player, logfile);
                 for (final HumanEntity viewer : event.getClickedInventory().getViewers().toArray(new HumanEntity[0])) {
                     viewer.closeInventory();
+                    if(viewer instanceof Player) {
+                        ((Player)viewer).updateInventory();
+                    }
                 }
                 if (Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add feature here
                     if (!player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {

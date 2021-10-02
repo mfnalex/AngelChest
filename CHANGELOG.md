@@ -8,6 +8,12 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.13.3
+- IMPORTANT: FIXED POSSIBLE DUPLICATION BUG
+
+## 4.13.2
+- Fixed a visual bug where the last item you took from the death chest is shown twice in your inventory when it was taken using shift-click (This was NOT a duplication bug, just a VISUAL bug)
+
 ## 4.13.1
 - Fixed auto-respawn respawning players too fast when they died while another respawn task was already scheduled (because the player manually clicked the "Respawn" button)
 
