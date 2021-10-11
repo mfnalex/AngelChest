@@ -20,6 +20,7 @@ import de.jeff_media.angelchest.nms.NMSHandler;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.NBTAPI;
+import de.jeff_media.jefflib.PDCUtils;
 import de.jeff_media.jefflib.Ticks;
 import de.jeff_media.jefflib.TimeUtils;
 import org.bukkit.Bukkit;
@@ -45,6 +46,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -631,8 +633,9 @@ public final class PlayerListener implements Listener {
         }
         angelChestBlock = angelChestSpawnPrepareEvent.getBlock();
         final Block finalAngelChestBlock = angelChestBlock;
+        final ItemStack priceItem = main.getItemManager().getItem(main.getConfig().getString(Config.PRICE));
 
-        if (!CommandUtils.hasEnoughMoney(p, main.groupUtils.getSpawnPricePerPlayer(p), main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, "AngelChest spawned")) {
+        if (!CommandUtils.hasEnoughMoney(p, main.groupUtils.getSpawnPricePerPlayer(p), priceItem, main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, main.messages.MSG_HAS_NO_ITEM2, "AngelChest spawned")) {
             return;
         }
 
@@ -644,6 +647,28 @@ public final class PlayerListener implements Listener {
         final ArrayList<ItemStack> freshDrops = new ArrayList<>();
         final ItemStack[] drops = event.getDrops().toArray(new ItemStack[0]);
         final List<ItemStack> inventoryAsList = Arrays.asList(p.getInventory().getContents());
+
+        // TODO: Maybe rename this to keptItems in general?
+        HashMap<Integer,ItemStack> keptAngelChestTokens = new HashMap<>();
+        for(int i = 0; i < p.getInventory().getSize(); i++) {
+            ItemStack tmp = p.getInventory().getItem(i);
+            if(tmp == null || tmp.getType().isAir() || tmp.getAmount()==0) continue;
+            if(PDCUtils.has(tmp,NBTTags.IS_TOKEN_ITEM_KEEP, PersistentDataType.BYTE)) {
+                keptAngelChestTokens.put(i,tmp);
+                p.getInventory().setItem(i, null);
+            }
+        }
+
+        Bukkit.getScheduler().runTaskLater(main, () -> {
+            for(Map.Entry<Integer,ItemStack> entry : keptAngelChestTokens.entrySet()) {
+                ItemStack inInv = p.getInventory().getItem(entry.getKey());
+                if(inInv == null || inInv.getType().isAir() || inInv.getAmount()==0) {
+                    p.getInventory().setItem(entry.getKey(), entry.getValue());
+                } else {
+                    p.getInventory().addItem(entry.getValue());
+                }
+            }
+        },1);
 
         LogUtils.debugBanner(new String[]{"ADDITIONAL DEATH DROP LIST"});
         if (main.debug) main.debug("The following items are in the drops list, but not in the inventory.");

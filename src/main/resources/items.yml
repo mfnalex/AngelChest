@@ -22,11 +22,31 @@
 # Hex Color:     <#ff0000>Red text
 # Hex Gradients: <#ff0000>Red to green text<#/00ff00>
 
+spawn-token:
+  material: NETHER_STAR
+  display-name: "<#F1C40F>AngelChest Token<#/F7DC6F>"
+  lore:
+    - "<#d5dbdb>Allows you to have an AngelChest"
+    - "<#d5dbdb>spawned when you die."
+  glow: true
+  keep-on-death: true
+  recipe:
+    type: shapeless
+    ingredients:
+      1: NETHER_STAR
+      2: REDSTONE
+  #custom-model-data: 1
+  #base64: <base64 string for PLAYER_HEAD>
+
 teleport-token:
   material: ENDER_PEARL
   display-name: "<#F1C40F>AngelChest Teleport Token<#/F7DC6F>"
   lore:
-    - "Allows you to fetch or teleport"
-    - "to one of your AngelChests."
-  #custom-model-data: 1
-  #base64: <base64 string for PLAYER_HEAD>
+    - "<#d5dbdb>Allows you to fetch or teleport"
+    - "<#d5dbdb>to one of your AngelChests."
+  glow: true
+  keep-on-death: true
+  recipe:
+    type: shaped
+    ingredients:
+      D:

@@ -310,7 +310,7 @@ public final class CommandUtils {
                         }
                         if (remaining == 0) {
                             remove();
-                            if (price > 0 && !hasEnoughMoney(sender, price, priceItem, main.messages.MSG_NOT_ENOUGH_MONEY, main.messages.MSG_HAS_NO_ITEM,action.getEconomyReason())) {
+                            if ((price > 0 || priceItem != null ) && !hasEnoughMoney(sender, price, priceItem, main.messages.MSG_NOT_ENOUGH_MONEY, main.messages.MSG_HAS_NO_ITEM,action.getEconomyReason())) {
                                 return;
                             }
                             teleportPlayerToChest(main, sender, ac);
@@ -331,7 +331,7 @@ public final class CommandUtils {
             }
         }
 
-        if (price > 0 && !hasEnoughMoney(sender, price, priceItem, main.messages.MSG_NOT_ENOUGH_MONEY, main.messages.MSG_HAS_NO_ITEM, action.getEconomyReason())) {
+        if ((price > 0 || priceItem != null) && !hasEnoughMoney(sender, price, priceItem, main.messages.MSG_NOT_ENOUGH_MONEY, main.messages.MSG_HAS_NO_ITEM, action.getEconomyReason())) {
             return;
         }
         switch (action) {
@@ -444,7 +444,7 @@ public final class CommandUtils {
         if(item != null && item.getItemMeta() != null) {
             main.debug("Checking if " + sender + " has AngelChest item: " + item);
 
-            if(ItemUtils.checkForAndRemoveOneItem(PDCUtils.get(item,"token", PersistentDataType.STRING), player.getInventory())) {
+            if(ItemUtils.checkForAndRemoveOneItem(PDCUtils.get(item,NBTTags.IS_TOKEN_ITEM, PersistentDataType.STRING), player.getInventory())) {
                 main.debug("Yes, player has this item!");
                 return true;
             } else {

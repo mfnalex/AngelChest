@@ -233,23 +233,27 @@ public final class GroupUtils {
     }
 
     public double getFetchPricePerPlayer(final CommandSender commandSender) {
-        if (yaml == null || !Stepsister.allows(PremiumFeatures.FETCH_PRICE_PER_PLAYER))
-            return getPercentagePrice(commandSender, main.getConfig().getString(Config.PRICE_FETCH));
-        final Iterator<String> it = groups.keySet().iterator();
-        Double bestValueFound = null;
-        while (it.hasNext()) {
-            final String group = it.next();
-            if (!commandSender.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
-            final String pricePerPlayer = groups.get(group).priceFetch;
-            if (pricePerPlayer.equals("-1")) {
-                continue;
+        try {
+            if (yaml == null || !Stepsister.allows(PremiumFeatures.FETCH_PRICE_PER_PLAYER))
+                return getPercentagePrice(commandSender, main.getConfig().getString(Config.PRICE_FETCH));
+            final Iterator<String> it = groups.keySet().iterator();
+            Double bestValueFound = null;
+            while (it.hasNext()) {
+                final String group = it.next();
+                if (!commandSender.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+                final String pricePerPlayer = groups.get(group).priceFetch;
+                if (pricePerPlayer.equals("-1")) {
+                    continue;
+                }
+                bestValueFound = bestValueFound == null ? getPercentagePrice(commandSender, pricePerPlayer) : Math.min(getPercentagePrice(commandSender, pricePerPlayer), bestValueFound);
             }
-            bestValueFound = bestValueFound == null ? getPercentagePrice(commandSender, pricePerPlayer) : Math.min(getPercentagePrice(commandSender, pricePerPlayer), bestValueFound);
-        }
-        if (bestValueFound != null) {
-            return bestValueFound;
-        } else {
-            return getPercentagePrice(commandSender, main.getConfig().getString(Config.PRICE_FETCH));
+            if (bestValueFound != null) {
+                return bestValueFound;
+            } else {
+                return getPercentagePrice(commandSender, main.getConfig().getString(Config.PRICE_FETCH));
+            }
+        } catch (NumberFormatException exception) {
+            return 0;
         }
     }
 
@@ -350,46 +354,54 @@ public final class GroupUtils {
     }
 
     public double getSpawnPricePerPlayer(final Player p) {
-        if (!Stepsister.allows(PremiumFeatures.SPAWN_PRICE_PER_PLAYER)) {
-            return 0;
-        }
-        if (yaml == null) return getPercentagePrice(p, main.getConfig().getString(Config.PRICE));
-        final Iterator<String> it = groups.keySet().iterator();
-        Double bestValueFound = null;
-        while (it.hasNext()) {
-            final String group = it.next();
-            if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
-            final String pricePerPlayer = groups.get(group).priceSpawn;
-            if (pricePerPlayer.equals("-1")) {
-                continue;
+        try {
+            if (!Stepsister.allows(PremiumFeatures.SPAWN_PRICE_PER_PLAYER)) {
+                return 0;
             }
-            bestValueFound = bestValueFound == null ? getPercentagePrice(p, pricePerPlayer) : Math.min(getPercentagePrice(p, pricePerPlayer), bestValueFound);
-        }
-        if (bestValueFound != null) {
-            return bestValueFound;
-        } else {
-            return getPercentagePrice(p, main.getConfig().getString(Config.PRICE));
+            if (yaml == null) return getPercentagePrice(p, main.getConfig().getString(Config.PRICE));
+            final Iterator<String> it = groups.keySet().iterator();
+            Double bestValueFound = null;
+            while (it.hasNext()) {
+                final String group = it.next();
+                if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+                final String pricePerPlayer = groups.get(group).priceSpawn;
+                if (pricePerPlayer.equals("-1")) {
+                    continue;
+                }
+                bestValueFound = bestValueFound == null ? getPercentagePrice(p, pricePerPlayer) : Math.min(getPercentagePrice(p, pricePerPlayer), bestValueFound);
+            }
+            if (bestValueFound != null) {
+                return bestValueFound;
+            } else {
+                return getPercentagePrice(p, main.getConfig().getString(Config.PRICE));
+            }
+        } catch (NumberFormatException exception) {
+            return 0;
         }
     }
 
     public double getTeleportPricePerPlayer(final CommandSender p) {
-        if (yaml == null || !Stepsister.allows(PremiumFeatures.TELEPORT_PRICE_PER_PLAYER))
-            return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_TELEPORT));
-        final Iterator<String> it = groups.keySet().iterator();
-        Double bestValueFound = null;
-        while (it.hasNext()) {
-            final String group = it.next();
-            if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
-            final String pricePerPlayer = groups.get(group).priceTeleport;
-            if (pricePerPlayer.equals("-1")) {
-                continue;
+        try {
+            if (yaml == null || !Stepsister.allows(PremiumFeatures.TELEPORT_PRICE_PER_PLAYER))
+                return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_TELEPORT));
+            final Iterator<String> it = groups.keySet().iterator();
+            Double bestValueFound = null;
+            while (it.hasNext()) {
+                final String group = it.next();
+                if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+                final String pricePerPlayer = groups.get(group).priceTeleport;
+                if (pricePerPlayer.equals("-1")) {
+                    continue;
+                }
+                bestValueFound = bestValueFound == null ? getPercentagePrice(p, pricePerPlayer) : Math.min(getPercentagePrice(p, pricePerPlayer), bestValueFound);
             }
-            bestValueFound = bestValueFound == null ? getPercentagePrice(p, pricePerPlayer) : Math.min(getPercentagePrice(p, pricePerPlayer), bestValueFound);
-        }
-        if (bestValueFound != null) {
-            return bestValueFound;
-        } else {
-            return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_TELEPORT));
+            if (bestValueFound != null) {
+                return bestValueFound;
+            } else {
+                return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_TELEPORT));
+            }
+        } catch (NumberFormatException exception) {
+            return 0;
         }
     }
 

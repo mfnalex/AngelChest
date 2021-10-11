@@ -1,11 +1,11 @@
 package de.jeff_media.angelchest;
 
-import co.aikar.commands.CommandReplacements;
-import co.aikar.commands.PaperCommandManager;
+import co.aikar.commands.*;
 import de.jeff_media.angelchest.commands.*;
 import de.jeff_media.angelchest.config.*;
 import de.jeff_media.angelchest.data.*;
 import de.jeff_media.angelchest.data.AngelChest;
+import de.jeff_media.angelchest.enchantments.Glow;
 import de.jeff_media.angelchest.enums.BlacklistResult;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
@@ -22,10 +22,10 @@ import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.JeffLib;
-import de.jeff_media.jefflib.updatechecker.UpdateChecker;
 import de.jeff_media.jefflib.McVersion;
 import de.jeff_media.jefflib.Ticks;
-import de.jeff_media.jefflib.updatechecker.UserAgentBuilder;
+import de.jeff_media.updatechecker.UpdateChecker;
+import de.jeff_media.updatechecker.UserAgentBuilder;
 import io.papermc.lib.PaperLib;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,6 +44,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
+import sun.java2d.opengl.WGLSurfaceData;
 
 import java.io.File;
 import java.util.*;
@@ -55,7 +56,18 @@ import java.util.stream.Collectors;
  */
 public final class Main extends JavaPlugin implements AngelChestPlugin {
 
+    {
+        /*
+        Do not move me! I have to be at the top of this class
+         */
+        JeffLib.init(this);
+        /*
+        Do not move me! I have to be at the top of this class
+         */
+    }
+
     @Getter @Setter private ItemManager itemManager;
+    @Getter private final Glow glowEnchantment = new Glow();
 
     public static final int BSTATS_ID = 3194;
     public static final String DISCORD_LINK = "https://discord.jeff-media.de";
@@ -365,7 +377,6 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
             Stepsister.createVerificationFile();
         }
         /*Daddy end*/
-        JeffLib.init(this,false);
 
         migrateFromAngelChestPlus1X();
         ChestFileUpdater.updateChestFilesToNewDeathCause();
@@ -439,6 +450,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         getServer().getPluginManager().registerEvents(new EmergencyListener(), this);
         getServer().getPluginManager().registerEvents(new InvulnerabilityListener(), this);
         getServer().getPluginManager().registerEvents(new EnderCrystalListener(), this);
+        getServer().getPluginManager().registerEvents(new CraftingListener(), this);
         //getServer().getPluginManager().registerEvents(new NPCListener(), this);
         guiListener = new GUIListener();
         getServer().getPluginManager().registerEvents(guiListener, this);
@@ -466,6 +478,13 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         CommandReplacements replacements = commandManager.getCommandReplacements();
         replacements.addReplacement("actoggle",getCommandReplacements("actoggle"));
         commandManager.registerCommand(new ACFactoggle());
+        commandManager.getCommandCompletions().registerCompletion("items", new CommandCompletions.CommandCompletionHandler<BukkitCommandCompletionContext>() {
+            @Override
+            public Collection<String> getCompletions(BukkitCommandCompletionContext context) throws InvalidCommandArgument {
+                return itemManager.getItems().keySet();
+            }
+        });
+        commandManager.registerCommand(new ACFacadmin());
 
     }
 

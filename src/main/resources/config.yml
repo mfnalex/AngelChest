@@ -1543,8 +1543,13 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-teleported: "&aВы были успешно телепортированы к вашему Ангельскому сундуку."
 #message-min-distance: "&cВы уже находитесь вблизи своего Ангельского сундука."
 #message-buried-in-graveyard: "&aАнгел собрал ваши вещи и закопал в месте под названием &6{graveyard}&a."
-#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
-#message-teleporting: "&aTeleporting to AngelChest..."
+#message-cant-fetch-here: "&cВы не можете забрать свой Сундук Ангела здесь."
+#message-teleporting: "&aТелепортирую к Сундуку Ангела..."
+#message-angelchest-disabled-others: "&c{player} теперь не защищён Ангелами."
+#message-angelchest-enabled-others: "&a{player} теперь защищён Ангелами."
+#message-has-no-item: "&cЧтобы сделать это, вам нужен как минимум один {item}."
+#message-has-no-item2: "&cАнгел пытался собрать твои вещи, но у вас не было {item}."
+
 
 ##### Spanish Spain (es_ES)
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus Artefactos Angelicales se han desprotegido."

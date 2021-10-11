@@ -569,9 +569,10 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             return true;
         }
         final double price = main.groupUtils.getOpenPricePerPlayer(player);
+        final ItemStack priceItem = main.getItemManager().getItem(main.getConfig().getString(Config.PRICE_OPEN));
         if (main.debug) main.debug("No, they didn't... It will cost " + price);
         main.logger.logPaidForChest(player, price, main.logger.getLogFile(logfile));
-        if (CommandUtils.hasEnoughMoney(player, price, main.messages.MSG_NOT_ENOUGH_MONEY, "AngelChest opened")) {
+        if (CommandUtils.hasEnoughMoney(player, price, priceItem, main.messages.MSG_NOT_ENOUGH_MONEY, main.messages.MSG_HAS_NO_ITEM, "AngelChest opened")) {
             openedBy.add(player.getUniqueId().toString());
             if (main.economyStatus == EconomyStatus.ACTIVE) {
                 if (price > 0) {
