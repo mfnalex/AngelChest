@@ -1,0 +1,32 @@
+#
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
+#
+
+# You can use custom items instead of money for everything that allows you to set a price!
+# You can assign different items to different actions. For example, you can require a certain
+# item to open an AngelChest, and another item to teleport to it.
+
+# IMPORTANT: Items are defined by their "ID". That means existing items will still work
+# when you change item names, lore, etc. here, as long you as you do not change the ID.
+# In the following example item, the ID is "teleport-token".
+
+# To make players require such item instead of money, simply set the corresponding
+# price setting (e.g. "price-teleport") in your config.yml to the item's ID
+# (for example: "price-teleport: teleport-token").
+
+# Please note that the groups.yml does NOT support defining items per group. That means:
+# You can either use different amount of money per group, or one item that applies to all
+# players.
+
+# You can use hex colors and hex gradients in the display-name and lore.
+# Hex Color:     <#ff0000>Red text
+# Hex Gradients: <#ff0000>Red to green text<#/00ff00>
+
+teleport-token:
+  material: ENDER_PEARL
+  display-name: "<#F1C40F>AngelChest Teleport Token<#/F7DC6F>"
+  lore:
+    - "Allows you to fetch or teleport"
+    - "to one of your AngelChests."
+  #custom-model-data: 1
+  #base64: <base64 string for PLAYER_HEAD>

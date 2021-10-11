@@ -13,9 +13,7 @@ import de.jeff_media.angelchest.listeners.InvulnerabilityListener;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
 import de.jeff_media.daddy.Stepsister;
-import de.jeff_media.jefflib.NBTAPI;
-import de.jeff_media.jefflib.TextUtils;
-import de.jeff_media.jefflib.Ticks;
+import de.jeff_media.jefflib.*;
 import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -32,6 +30,8 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.javatuples.Triplet;
@@ -234,6 +234,7 @@ public final class CommandUtils {
         }
 
         final double price = action.getPrice(sender);
+        final ItemStack priceItem = action.getPriceItem(sender);
 
         // Allow TP / Fetch across worlds
         final UUID playerWorld = sender.getWorld().getUID();
@@ -309,7 +310,7 @@ public final class CommandUtils {
                         }
                         if (remaining == 0) {
                             remove();
-                            if (price > 0 && !hasEnoughMoney(sender, price, main.messages.MSG_NOT_ENOUGH_MONEY, action.getEconomyReason())) {
+                            if (price > 0 && !hasEnoughMoney(sender, price, priceItem, main.messages.MSG_NOT_ENOUGH_MONEY, main.messages.MSG_HAS_NO_ITEM,action.getEconomyReason())) {
                                 return;
                             }
                             teleportPlayerToChest(main, sender, ac);
@@ -330,7 +331,7 @@ public final class CommandUtils {
             }
         }
 
-        if (price > 0 && !hasEnoughMoney(sender, price, main.messages.MSG_NOT_ENOUGH_MONEY, action.getEconomyReason())) {
+        if (price > 0 && !hasEnoughMoney(sender, price, priceItem, main.messages.MSG_NOT_ENOUGH_MONEY, main.messages.MSG_HAS_NO_ITEM, action.getEconomyReason())) {
             return;
         }
         switch (action) {
@@ -429,16 +430,38 @@ public final class CommandUtils {
         return main.econ.getBalance(player);
     }
 
-    public static boolean hasEnoughMoney(final CommandSender sender, final double money, final String messageWhenNotEnoughMoney, final String reason) {
+    public static boolean hasEnoughMoney(final CommandSender sender, final double money, @Nullable final ItemStack item, final String messageWhenNotEnoughMoney, final String messageWhenNotEnoughItems, final String reason) {
 
         final Main main = Main.getInstance();
-
-        if (main.debug) main.debug("Checking if " + sender.getName() + " has at least " + money + " money...");
 
         if (!(sender instanceof Player)) {
             if (main.debug) main.debug(sender.getName() + " is no player, so they should have enough money lol");
             return true;
         }
+
+        final Player player = (Player) sender;
+
+        if(item != null && item.getItemMeta() != null) {
+            main.debug("Checking if " + sender + " has AngelChest item: " + item);
+
+            if(ItemUtils.checkForAndRemoveOneItem(PDCUtils.get(item,"token", PersistentDataType.STRING), player.getInventory())) {
+                main.debug("Yes, player has this item!");
+                return true;
+            } else {
+                main.debug("No, the player doesn't have this item!");
+                String itemName = MaterialUtils.getNiceMaterialName(item.getType());
+                if(item.getItemMeta().hasDisplayName()
+                        && item.getItemMeta().getDisplayName() != null
+                        && !item.getItemMeta().getDisplayName().isEmpty()) itemName = item.getItemMeta().getDisplayName();
+                Messages.send(player, messageWhenNotEnoughItems.replace("{item}",itemName));
+                return false;
+            }
+
+        }
+
+        if (main.debug) main.debug("Checking if " + sender.getName() + " has at least " + money + " money...");
+
+
 
         if (main.economyStatus != EconomyStatus.ACTIVE) {
             if (main.debug)
@@ -450,8 +473,6 @@ public final class CommandUtils {
             if (main.debug) main.debug("yes: money <= 0");
             return true;
         }
-
-        final Player player = (Player) sender;
 
         if (main.econ.getBalance(player) >= money) {
             main.econ.withdrawPlayer(player, reason, money);

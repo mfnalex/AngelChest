@@ -86,6 +86,8 @@ public final class Messages {
     public final String PREFIX;
     public final String MSG_ANGELCHEST_ENABLED_OTHERS;
     public final String MSG_ANGELCHEST_DISABLED_OTHERS;
+    public final String MSG_HAS_NO_ITEM;
+    public final String MSG_HAS_NO_ITEM2;
     private final Main main;
 
     public static void showReloadNotice(CommandSender sender) {
@@ -207,7 +209,13 @@ message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 
         MSG_BURIED_IN_GRAVEYARD = PREFIX + getMsg("buried-in-graveyard","&aAn Angel collected your stuff and buried it at &6{graveyard}.");
 
-        MSG_CANT_FETCH_HERE = PREFIX + getMsg("message-cant-fetch-here","&cYou can't fetch your AngelChest here.");
+        MSG_CANT_FETCH_HERE = PREFIX + getMsg("cant-fetch-here","&cYou can't fetch your AngelChest here.");
+
+        MSG_HAS_NO_ITEM = PREFIX + getMsg("has-no-item","&cYou need at least one {item}&r&c to do this.");
+
+        MSG_HAS_NO_ITEM2 = PREFIX + getMsg("has-no-item2","&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c.");
+
+
 
         GUI_TITLE_CHEST = getGui(Config.GUI_TITLE_CHEST, "§4§l[§c§lAngelChest§4§l] §c#{id} §4| §c{time}");
 

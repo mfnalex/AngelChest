@@ -12,6 +12,7 @@ import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIListener;
 import de.jeff_media.angelchest.gui.GUIManager;
 import de.jeff_media.angelchest.handlers.ChunkManager;
+import de.jeff_media.angelchest.handlers.ItemManager;
 import de.jeff_media.angelchest.hooks.GenericHooks;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
 import de.jeff_media.angelchest.hooks.PlaceholderAPIHook;
@@ -26,6 +27,8 @@ import de.jeff_media.jefflib.McVersion;
 import de.jeff_media.jefflib.Ticks;
 import de.jeff_media.jefflib.updatechecker.UserAgentBuilder;
 import io.papermc.lib.PaperLib;
+import lombok.Getter;
+import lombok.Setter;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.*;
@@ -51,6 +54,8 @@ import java.util.stream.Collectors;
  * AngelChest Main class
  */
 public final class Main extends JavaPlugin implements AngelChestPlugin {
+
+    @Getter @Setter private ItemManager itemManager;
 
     public static final int BSTATS_ID = 3194;
     public static final String DISCORD_LINK = "https://discord.jeff-media.de";

@@ -7,6 +7,7 @@ import de.jeff_media.angelchest.data.MagicMaterial;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
+import de.jeff_media.angelchest.handlers.ItemManager;
 import de.jeff_media.angelchest.hooks.ExecutableItemsHook;
 import de.jeff_media.angelchest.hooks.GenericHooks;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
@@ -40,6 +41,7 @@ import java.util.stream.Collectors;
 public final class ConfigUtils {
 
     private static final File DEATH_CAUSE_FILE = new File(Main.getInstance().getDataFolder(),"death-causes.yml");
+    private static final File ITEMS_FILE = new File(Main.getInstance().getDataFolder(), "items.yml");
 
     static void createConfig() {
 
@@ -55,6 +57,10 @@ public final class ConfigUtils {
 
         if(!DEATH_CAUSE_FILE.exists()) {
             main.saveResource("death-causes.yml", false);
+        }
+
+        if(!ITEMS_FILE.exists()) {
+            main.saveResource("items.yml", false);
         }
 
         createDirectories();
@@ -495,6 +501,7 @@ sound-channel: BLOCKS
         createConfig();
         ConfigUpdater.updateConfig();
         main.initUpdateChecker();
+        main.setItemManager(new ItemManager());
         main.debug = main.getConfig().getBoolean(Config.DEBUG, false);
         main.verbose = main.getConfig().getBoolean(Config.VERBOSE, false);
         main.messages = new Messages(main);

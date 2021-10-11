@@ -3,6 +3,8 @@ package de.jeff_media.angelchest.enums;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Permissions;
 import org.bukkit.command.CommandSender;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a command related action (e.g. List, TP, Fetch, ...)
@@ -13,6 +15,8 @@ public enum CommandAction {
     FETCH_CHEST(Permissions.FETCH, "AngelChest Fetch", "acfetch"),
     UNLOCK_CHEST(Permissions.PROTECT, "", "acunlock"),
     LIST_CHESTS(Permissions.USE, "", "aclist");
+
+    private static final Main main = Main.getInstance();
 
     private final String command;
     private final String economyReason;
@@ -34,6 +38,14 @@ public enum CommandAction {
 
     public String getPermission() {
         return permission;
+    }
+
+    @Nullable public ItemStack getPriceItem(final CommandSender player) {
+        String node = null;
+        if(this == TELEPORT_TO_CHEST) node = "price-teleport";
+        if(this == FETCH_CHEST) node = "price-fetch";
+        if(node == null) return null;
+        return main.getItemManager().getItem(main.getConfig().getString(node));
     }
 
     public double getPrice(final CommandSender player) {

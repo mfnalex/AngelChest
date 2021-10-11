@@ -8,6 +8,7 @@
 # This file contains UTF8 symbols! You MUST use a proper text editor like Notepad++ to edit this file!
 # If you use some kind of "online editor", your file will break and reset to the default values!
 # If this (❤️️) doesn't look like a heart, you MUST use another text editor, because your's doesn't support UTF-8!
+##### WARNING! #####
 
 #############################
 #####    Permissions    #####
@@ -389,9 +390,14 @@ fallback-to-deathlocation: true
 # You can also add the letter "p" to the end of the number to use percentages.
 # E.g. when using "0.2p", a user has to pay 20% of his account balance.
 
+# You can also use certain items that have to be "paid" with instead of money.
+# See items.yml file for more information
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
+
 # How much does it cost to spawn the AngelChest? The amount will automatically
 # be taken from the player on death if they have enough money, otherwise
 # the chest will not spawn and the items drop normally
+# To use an item from items.yml instead of money, simply enter the item's ID.
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 price: 0
 
@@ -881,6 +887,8 @@ message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 message-teleporting: "&aTeleporting to AngelChest..."
 message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
 message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 #########################
 ##### Translations ######
@@ -1447,6 +1455,10 @@ message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeleportowanie do AngelChest..."
+#message-angelchest-disabled-others: "&c{player} nie jest już chroniony przez Anioły."
+#message-angelchest-enabled-others: "&a{player} jest teraz chroniony przez  Anioły."
+#message-has-no-item: "&cPotrzebujesz przynajmniej jeden {item}&r&c aby to zrobić."
+#message-has-no-item2: "&cAnioł próbował podnieść twoje itemy, lecz nie miałeś żadnego {item}&r&c."
 
 ##### Portuguese
 #message-all-your-angelchests-were-already-unlocked: "&eTodos os seus AngelChests estavam desbloqueados."
@@ -1619,6 +1631,52 @@ message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeletransportándote a tu AngelChest..."
+
+##### Swedish
+#message-all-your-angelchests-were-already-unlocked: "&eAlla dina AngelChests är redan upplåsta"
+#message-angelchest-created: "&aEn Ängel sammlade ihop dina saker och lade dem i en kista på platsen du dog"
+#message-angelchest-disappeared: "&cDu var för långsam... Din AngelChest har försvunnit och tappat innehållet."
+#message-error-players-only: "&cFel: Detta kommando kan endast användas av spelare."
+#message-inventory-was-empty: "&eEn ängel sökte efter dina saker men kunde inte hitta något."
+#message-not-allowed-to-break-other-angelchests: "&cDu får inte förstöra denna AngelChest."
+#message-not-allowed-to-open-other-angelchests: "&cDu får inte öppna denna AngelChest."
+#message-unlocked-more-angelchests: "&aDu har låst upp %d AngelChests."
+#message-unlocked-one-angelchest: "&aDu har låst upp din AngelChest."
+#message-you-dont-have-any-angelchests: "&eDu har inga AngelChests."
+#message-you-got-part-of-your-inventory-back: "&eDu har fått tillbaka en del av ditt inventarium, men vissa föremål finns fortfarande kvar i AngelChest."
+#message-you-got-your-inventory-back: "&aDu fick tillbaka ditt inventarium!"
+#message-angelchest-location: "&ePlatser av din AngelChests:"
+#message-not-enough-money: "&cDu har inte tillräckligt med pengar."
+#message-not-enough-money2: "&cEn Ängel försökte samla dina saker men du hade inte tillräckligt med pengar."
+#message-please-select-chest: "&7Var snäll och ange vilken AngelChest du vill välja."
+#message-already-unlocked: "&cDenna AngelChest är redan upplåst."
+#message-too-many-angelchests: "&cDu hade fler AngelChests än din Angel kunde hantera ... Din äldsta AngelChest har exploderat."
+#message-no-angelchest-in-pvp: "&cEn ängel försökte samla dina saker men fick flyga ifrån på grund av närvaron av din mördare."
+#message-angelchest-retrieved: "&aAngelChest hämtad!"
+#message-confirm: "&6Du är påväg att spendera {price}{currency}. Klicka detta meddelande för att fortsätta."
+#message-paid-open: "&8Du har spenderat {price}{currency} för att öppna en AngelChest."
+#message-unlocked-automatically: "&8Din AngelChest har blivit upplåst automatiskt."
+#message-angelchest-opened: "&6{player} har öppnat din AngelChest."
+#message-angelchest-emptied: "&c{player} har tömt din AngelChest."
+#message-spawn-chance-unsuccessful: "&cDin Ängel glömde att samla dina saker, vilken otur!"
+#message-no-permission: "&cDu har inte behörighet att använda det här kommandot."
+#message-invulnerable: "&a&lDu är osårbar för {time}."
+#message-vulnerable: "&c&lDu är inte längre osårbar."
+#message-tp-across-worlds-not-allowed: "&cDu kan inte teleportera till din AngelChest från andra världar."
+#message-fetch-across-worlds-not-allowed: "&cDu kan inte hämta din AngelChest från andra världar."
+#message-max-tp-distance: "&cDu kan inte teleportera till AngelChests mer än {distance} block ifrån."
+#message-max-fetch-distance: "&cDu kan inte hämta AngelChests mer än {distance} block ifrån."
+#message-angelchest-disabled: "&cDu är inte längre skyddad av änglar."
+#message-angelchest-enabled: "&aDu är nu skyddad av änglar."
+#message-angelchest-fetched: "&aAngelChest hämtad framgångsrikt."
+#message-angelchest-teleported: "&aTeleporterade dig framgångsrikt till din AngelChest."
+#message-min-distance: "&cDu är redan i närheten av din AngelChest."
+#message-buried-in-graveyard: "&aEn ängel samlade ihop dina saker och begravde det vid &6{graveyard}."
+#message-cant-fetch-here: "&cDu kan inte hämta din AngelChest här."
+#message-angelchest-disabled-others: "&c{player} är inte skyddad av Änglar längre."
+#message-angelchest-enabled-others: "&a{player} är nu skyddad av Änglar"
+#message-has-no-item: "&cDu behöver minst en {item}&r&c för att göra detta."
+#message-has-no-item2: "&cEn Ängel försökte att samla dina saker men du hade inte någon {item}&r&c."
 
 ##### Turkish (Turkey Turkish)
 #message-all-your-angelchests-were-already-unlocked: "&eTüm AngelChest'lerinin kilidi zaten açık."
