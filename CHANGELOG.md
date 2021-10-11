@@ -8,6 +8,10 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.15.0
+- /actoggle can now be run by console or admins for other players. Requires permission angelchest.others
+- Removed /acon and /acoff commands. Might be added back at a later time. For now, players can simple use /actoggle as a replacement for both commands.
+
 ## 4.14.0
 - Readded option "ignore-telekinesis" for servers that have enchantment plugins offering a telekinesis enchantment
   - IMPORTANT: ONLY enable "ignore-telekinesis" when you set your enchantment plugin to NOT work on player deaths! Otherwise you MIGHT be getting duplicated items! More information in config.yml

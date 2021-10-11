@@ -84,6 +84,8 @@ public final class Messages {
     public final String MSG_BURIED_IN_GRAVEYARD;
     public final String MSG_CANT_FETCH_HERE;
     public final String PREFIX;
+    public final String MSG_ANGELCHEST_ENABLED_OTHERS;
+    public final String MSG_ANGELCHEST_DISABLED_OTHERS;
     private final Main main;
 
     public static void showReloadNotice(CommandSender sender) {
@@ -189,6 +191,15 @@ public final class Messages {
         MSG_ANGELCHEST_ENABLED = PREFIX + getMsg("angelchest-enabled", "&aYou are now protected by Angels.");
 
         MSG_ANGELCHEST_FETCHED = PREFIX + getMsg("angelchest-fetched", "&aAngelChest fetched succesfully.");
+
+        /*
+        message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+         */
+
+        MSG_ANGELCHEST_DISABLED_OTHERS = PREFIX + getMsg("angelchest-disabled-others","&c{player} is no longer protected by Angels.");
+
+        MSG_ANGELCHEST_ENABLED_OTHERS = PREFIX + getMsg("angelchest-enabled-others","&a{player} is now protected by Angels.");
 
         MSG_ANGELCHEST_TELEPORTED = PREFIX + getMsg("angelchest-teleported", "&aSuccessfully teleported you to your AngelChest.");
 

@@ -1,6 +1,7 @@
 package de.jeff_media.angelchest;
 
-import co.aikar.commands.BukkitCommandManager;
+import co.aikar.commands.CommandReplacements;
+import co.aikar.commands.PaperCommandManager;
 import de.jeff_media.angelchest.commands.*;
 import de.jeff_media.angelchest.config.*;
 import de.jeff_media.angelchest.data.*;
@@ -20,7 +21,6 @@ import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.JeffLib;
-import de.jeff_media.jefflib.TimeUtils;
 import de.jeff_media.jefflib.updatechecker.UpdateChecker;
 import de.jeff_media.jefflib.McVersion;
 import de.jeff_media.jefflib.Ticks;
@@ -412,7 +412,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         Objects.requireNonNull(this.getCommand("actp")).setTabCompleter(genericTabCompleter);
         Objects.requireNonNull(this.getCommand("acreload")).setExecutor(new CommandReload());
         Objects.requireNonNull(this.getCommand("acgui")).setExecutor(new CommandGUI());
-        Objects.requireNonNull(this.getCommand("actoggle")).setExecutor(new CommandToggle());
+        //Objects.requireNonNull(this.getCommand("actoggle")).setExecutor(new CommandToggle());
         //Objects.requireNonNull(this.getCommand("acadmin")).setExecutor(new CommandAdmin());
         Objects.requireNonNull(this.getCommand("acgraveyard")).setExecutor(new CommandGraveyard());
 
@@ -457,6 +457,21 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         debug("Loading AngelChests from disk");
         loadAllAngelChestsFromFile();
 
+        PaperCommandManager commandManager = new PaperCommandManager(this);
+        CommandReplacements replacements = commandManager.getCommandReplacements();
+        replacements.addReplacement("actoggle",getCommandReplacements("actoggle"));
+        commandManager.registerCommand(new ACFactoggle());
+
+    }
+
+    private String getCommandReplacements(String command) {
+        String alias = command;
+        if(getConfig().isSet("command-aliases-"+command) && getConfig().isList("command-aliases-"+command)) {
+            String aliases = getConfig().getStringList("command-aliases-"+command)
+                    .stream().map(s -> s.split("\\[")[0]).collect(Collectors.joining("|"));
+            return alias+"|"+aliases;
+        }
+        return alias;
     }
 
     @Override

@@ -23,7 +23,7 @@
 # angelchest.tp              The player can teleport to their AngelChests
 # angelchest.preview         Allows the player to preview their AngelChests' contents in /acgui
 # angelchest.toggle          Allows to enable/disable AngelChest per player
-# angelchest.others          Allows to run /aclist, /actp, /acfetch and /acunlock for other players
+# angelchest.others          Allows to run /actoggle, /aclist, /actp, /acfetch and /acunlock for other players
 # angelchest.reload          Allows reloading the config using /acreload
 # angelchest.debug           Allows to use the debug command /acdebug
 # angelchest.version         Allows to use the version command /acversion
@@ -51,8 +51,9 @@
 # /acunlock [chestID]        Permission: angelchest.protect and angelchest.unlock
 #                            Unlocks one of your AngelChests if you have the angelchest.protect permission
 #
-# /actoggle                  Permission: angelchest.toggle
-#                            Enables/disables AngelChest for this player
+# /actoggle [player]         Permission: angelchest.toggle
+#                            Enables/disables AngelChest for this player.
+#                            Also requires permission angelchest.others when changing other player's settings.
 #
 # /acreload                  Permission: angelchest.reload
 #                            Reloads the config
@@ -788,14 +789,9 @@ command-aliases-acunlock:
   - unlockchest
   - unlock
 
-# Commands than can be used instead of /actoggle. This one is a little different.
-# If the alias ends with [enable], it will enable AngelChest for this player instead of toggling it
-# If the alias ends with [disable], it will disable AngelChest for this player instead of toggling it
-# Of course players only have to type the alias without [enable], [disable]
+# Commands than can be used instead of /actoggle.
 command-aliases-actoggle:
   - angelchesttoggle
-  - acon[enable]
-  - acoff[disable]
 
 # Commands that can be used instead of /acreload
 command-aliases-acreload:
@@ -883,6 +879,8 @@ message-min-distance: "&cYou already are nearby your AngelChest."
 message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 message-teleporting: "&aTeleporting to AngelChest..."
+message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 
 #########################
 ##### Translations ######

@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>4.14.0</version>
+    <version>4.15.0</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -98,6 +98,14 @@
                         <relocation>
                             <pattern>de.jeff_media.daddy</pattern>
                             <shadedPattern>de.jeff_media.angelchest</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>co.aikar.commands</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.acf.commands</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>co.aikar.locales</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.acf.locales</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.google.gson</pattern>
@@ -286,7 +294,7 @@
 
         <dependency>
             <groupId>co.aikar</groupId>
-            <artifactId>acf-bukkit</artifactId>
+            <artifactId>acf-paper</artifactId>
             <version>0.5.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
