@@ -8,6 +8,14 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 4.14.0
+- Readded option "ignore-telekinesis" for servers that have enchantment plugins offering a telekinesis enchantment
+  - IMPORTANT: ONLY enable "ignore-telekinesis" when you set your enchantment plugin to NOT work on player deaths! Otherwise you MIGHT be getting duplicated items! More information in config.yml
+
+## 4.13.4
+- IMPORTANT: FIXED POSSIBLE DUPLICATION BUG (again - sorry for the trouble. I will not explain how the duplication worked to avoid players being able to abuse it before every admin could update. If you're an admin and have verified your purchase of AngelChestPlus, I will explain it to you in a DM if you wish: mfnalex#0001)
+- Made bossbar teleportation message configurable and added translations for Swedish, Turkish, Dutch, Spanish and another language which I already forgot
+
 ## 4.13.3
 - IMPORTANT: FIXED POSSIBLE DUPLICATION BUG
 

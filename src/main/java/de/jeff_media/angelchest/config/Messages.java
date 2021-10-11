@@ -16,6 +16,7 @@ public final class Messages {
 
     public static final String[] usingFreeVersion = new String[]{"========================================================", "You are using the free version of AngelChest. There is", "also a premium version available, called AngelChestPlus.", "It includes TONS of new features and exclusive Discord", "support. The free version will still receive bugfixes,", "but there won't be ANY new features!", "If you like AngelChest, you will LOVE AngelChestPlus, so", "please consider upgrading! Thank you for using AngelChest.", "", Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS, "========================================================",};
     public static final String[] usingPlusVersion = new String[]{"========================================================", "Thanks for buying AngelChestPlus! Premium features have", "been unlocked successfully. Have fun!", "========================================================",};
+    public final String MSG_TELEPORT_BOSSBAR;
     public final String GUI_CHEST_NAME;
     public final String GUI_CHEST_LORE;
     public final String MSG_TP_ACROSS_WORLDS_NOT_ALLOWED;
@@ -98,6 +99,8 @@ public final class Messages {
         }
 
         MSG_PREMIUMONLY = PREFIX + "§6This feature is only available in AngelChestPlus.";
+
+        MSG_TELEPORT_BOSSBAR = PREFIX + "§aTeleporting to AngelChest...";
 
         MSG_NO_PERMISSION = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-no-permission", "&cYou do not have the permission to use this command."));
 

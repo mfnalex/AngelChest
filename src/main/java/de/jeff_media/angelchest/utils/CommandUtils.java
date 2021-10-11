@@ -9,7 +9,6 @@ import de.jeff_media.angelchest.data.PendingConfirm;
 import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
-import de.jeff_media.angelchest.hooks.ItemsAdderFontImageWrapperHook;
 import de.jeff_media.angelchest.listeners.InvulnerabilityListener;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
@@ -291,7 +290,7 @@ public final class CommandUtils {
             if (main.getConfig().getDouble(Config.TP_WAIT_TIME) > 0 && action == CommandAction.TELEPORT_TO_CHEST) {
                 final int delay = (int) Ticks.fromSeconds(main.getConfig().getDouble(Config.TP_WAIT_TIME));
                 AtomicInteger ticks = new AtomicInteger(delay);
-                final BossBar bar = Bukkit.createBossBar("AngelChest Teleport", BarColor.GREEN, BarStyle.SOLID, new BarFlag[0]);
+                final BossBar bar = Bukkit.createBossBar(main.messages.MSG_TELEPORT_BOSSBAR, BarColor.GREEN, BarStyle.SOLID, new BarFlag[0]);
                 bar.setProgress(1);
                 bar.addPlayer(sender);
                 final Vector position = sender.getLocation().toVector();

@@ -62,7 +62,7 @@ public final class Config {
     public static final String HOLOGRAM_PROTECTED_COUNTDOWN_TEXT = "hologram-protected-countdown-text";
     public static final String HOLOGRAM_PROTECTED_TEXT = "hologram-protected-text";
     public static final String HOLOGRAM_TEXT = "hologram-text";
-    public static final String IGNORE_TELEKINESIS = "ignore-telekinesis"; /* Do not use! It duplicates items on highest. Instead, disable telekinesis for players in ecoenchants config */
+    public static final String IGNORE_TELEKINESIS = "ignore-telekinesis";
     public static final String HOLOGRAM_UNPROTECTED_TEXT = "hologram-unprotected-text";
     public static final String IGNORE_KEEP_INVENTORY = "ignore-keep-inventory";
     public static final String INVULNERABILITY_AFTER_TP = "invulnerability-after-tp";

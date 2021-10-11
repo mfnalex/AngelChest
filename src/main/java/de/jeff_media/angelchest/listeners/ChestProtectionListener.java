@@ -90,16 +90,14 @@ public final class ChestProtectionListener implements Listener {
     public void onBucketEmpty(final PlayerBucketEmptyEvent event) {
         if (main.isAngelChest(event.getBlock())) {
             event.setCancelled(true);
-        } else {
-            return;
         }
 
         // The client thinks the player was removed anyway, so it will show up as a "regular" head.
         // Gotta reload the AngelChest to fix this
-        final AngelChest ac = main.getAngelChest(event.getBlock());
+        /*final AngelChest ac = main.getAngelChest(event.getBlock());
         if (ac == null) return;
         final File file = ac.saveToFile(true);
-        main.angelChests.put(event.getBlock(), new AngelChest(file));
+        main.angelChests.put(event.getBlock(), new AngelChest(file));*/
     }
 
     /**
