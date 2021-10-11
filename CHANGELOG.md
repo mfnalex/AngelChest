@@ -8,6 +8,10 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 5.0.0
+- Use custom items instead of money (if you like)
+- Updated translations & added Swedish translation
+
 ## 4.15.0
 - /actoggle can now be run by console or admins for other players. Requires permission angelchest.others
 - Removed /acon and /acoff commands. Might be added back at a later time. For now, players can simple use /actoggle as a replacement for both commands.
