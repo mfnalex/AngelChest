@@ -61,6 +61,7 @@ public final class GUIListener implements @NotNull Listener {
         event.setCancelled(true);
     }
 
+    /*
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void cancel(final InventoryMoveItemEvent event) {
@@ -79,6 +80,8 @@ public final class GUIListener implements @NotNull Listener {
         //if(main.debug) main.debug("[GUIListener] "+"cancel(InventoryMoveItemEvent): cancelled -> true (3)");
         //event.setCancelled(true);
     }
+    */
+
 
     @SuppressWarnings("unused")
     private void confirmOrTeleport(final InventoryClickEvent event, final Player player, final GUIHolder holder, final CommandAction action) {

@@ -11,6 +11,7 @@
 ## 5.0.0
 - Use custom items instead of money (if you like)
 - Updated translations & added Swedish translation
+- Improved performance by getting rid of the InventoryMoveItemEvent (this will improve performance by a good amount for servers with many, many hoppers)
 
 ## 4.15.0
 - /actoggle can now be run by console or admins for other players. Requires permission angelchest.others
