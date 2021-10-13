@@ -28,33 +28,81 @@
 
 # For help, join my Discord at https://discord.jeff-media.com
 
-spawn-token:
-  material: NETHER_STAR
-  display-name: "<#F1C40F>AngelChest Token<#/F7DC6F>"
+# Note: You will find some example recipes below. They have crafting disabled, so in order
+# to allow your players to craft them, first set "crafting-enabled" to true on every item
+# you want to be craftable.
+
+# You can also obtain every item using the admin command /acadmin giveitem <item> [player]
+
+# Example: a poisonous potato seed to have an AngelChest spawned. Set "price" to "poisonous-potato-seed"
+# Can be crafted by cooking a poisonous potato in a smoker
+poisonous-potato-seed:
+  material: SUNFLOWER
+  display-name: "<#F1C40F>Poisonous Potato Seed<#/F7DC6F>"
   lore:
-    - "<#d5dbdb>Allows you to have an AngelChest"
-    - "<#d5dbdb>spawned when you die."
+    - "<#d5dbdb>It's so poisonous, it protects"
+    - "<#d5dbdb>your loot when you die! (o0)"
   glow: true
   keep-on-death: true
-  crafting-enabled: false # Change this to true to make this item crafteable
+  crafting-enabled: false # Change this to true to make this item craftable
   autodiscover: true # Automatically sends the recipes to players when crafting is enabled
+  recipe:
+    type: smoking
+    ingredient: POISONOUS_POTATO
+    experience: 0
+    cooking-time: 160
+
+# Example: A key to open angelchests. Set "price-open" to "key"
+# Can be crafted by combining a tripwire hook with a gold ingot
+key:
+  material: PLAYER_HEAD
+  base64: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVlZmE0Y2QyYTU1OGU0YTgxMmUyZWE3NTQxZTYyNzUwYjk2YmExZDgyYzFkYTlmZDVmMmUzZmI5MzA4YzYzNSJ9fX0=
+  display-name: "&6Golden Key"
+  autodiscover: true
+  lore:
+    - "Opens one AngelChest"
+  crafting-enabled: false
   recipe:
     type: shapeless
     ingredients:
-      1: NETHER_STAR
-      2: GOLD_INGOT
-  #custom-model-data: 1
-  #base64: <base64 string for PLAYER_HEAD>
+      - TRIPWIRE_HOOK
+      - GOLD_INGOT
 
-teleport-token:
+# Example: A glowing egg to have an AngelChest spawned. Set "price" to "careful-egg"
+# Can be crafted by surrounding an egg with 8 hay blocks
+careful-egg:
+  material: EGG
+  display-name: "<#F1C40F>The Careful Egg<#/F7DC6F>"
+  autodiscover: true
+  lore:
+    - "<#d5dbdb>Better be &legg&r<#d5dbdb>stra careful"
+    - "<#d5dbdb>next time! PS: Don't throw me!"
+  glow: true
+  keep-on-death: true
+  crafting-enabled: false
+  recipe:
+    type: shaped
+    ingredients:
+      H: HAY_BLOCK
+      E: EGG
+    shape:
+      - "HHH"
+      - "HEH"
+      - "HHH"
+
+# Example: An ender pearl to fetch or teleport to your AngelChests. Set "price-teleport" and
+# "price-fetch" to "teleport-pearl"
+# Can be crafted by surrounding an ender pearl with 8 gold nuggets
+teleport-pearl:
   material: ENDER_PEARL
-  display-name: "<#F1C40F>AngelChest Teleport Token<#/F7DC6F>"
+  display-name: "<#F1C40F>Teleport Pearl<#/F7DC6F>"
+  autodiscover: true
   lore:
     - "<#d5dbdb>Allows you to fetch or teleport"
     - "<#d5dbdb>to one of your AngelChests."
   glow: true
   keep-on-death: true
-  crafting-enabled: false # Change this to true to make this item crafteable
+  crafting-enabled: false
   recipe:
     type: shaped
     ingredients:

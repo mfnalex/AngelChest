@@ -30,13 +30,13 @@ public class ItemManager {
     private static final Main main = Main.getInstance();
 
     @Getter private final HashMap<String, ItemStack> items;
-    @Getter private final HashMap<String, String> itemNames;
+    //@Getter private final HashMap<String, String> itemNames;
     @Getter private final HashSet<NamespacedKey> autodiscoverRecipes;
 
     public ItemManager() {
 
         items = new HashMap<>();
-        itemNames = new HashMap<>();
+        //itemNames = new HashMap<>();
         autodiscoverRecipes = new HashSet<>();
 
         if(!Stepsister.allows(PremiumFeatures.CUSTOM_ITEMS)) return;
@@ -74,9 +74,9 @@ public class ItemManager {
                     }
                 }
             }
-            itemNames.put(itemId, yaml.getString(itemId+".display-name", MaterialUtils.getNiceMaterialName(item.getType())));
-
+            //itemNames.put(itemId, yaml.getString(itemId+".display-name", MaterialUtils.getNiceMaterialName(item.getType())));
             items.put(itemId, item);
+            Bukkit.getOnlinePlayers().forEach(this::autodiscover);
         }
     }
 

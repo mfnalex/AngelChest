@@ -8,6 +8,13 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 5.0.1
+- Added some funny example items in items.yml file
+  - Crafting is disabled for the default items. To enable it, just change "crafting-enabled" to true for all items you want to be craftabe, then do /acreload 
+  - When you already had version 5.0.0 installed, simply remove your items.yml to let AngelChest generate the new file on next /acreload
+- Reloading AngelChest will now let players automatically discover all recipes for which you enabled "auto-discover". There is no need anymore for players to rejoin the server to discover the recipes
+- Added items.yml to /acd dump
+
 ## 5.0.0
 
 https://youtu.be/_McDGk9DcdM

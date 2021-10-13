@@ -54,9 +54,12 @@ public final class ConfigDumper {
         final File loadedGraveyards = new File(dumpDir, "loaded-graveyards.txt");
         final File copiedGraveyards = new File(dumpDir, "original-graveyards.yml");
 
+        final File copiedItems = new File(dumpDir, "original-items.yml");
+
         final File blacklist = new File(main.getDataFolder(), "blacklist.yml");
         final File groups = new File(main.getDataFolder(), "groups.yml");
         final File graveyards = new File(main.getDataFolder(), "graveyards.yml");
+        final File items = new File(main.getDataFolder(), "items.yml");
         final File angelchestsDir = new File(main.getDataFolder(), "angelchests");
 
 
@@ -182,6 +185,10 @@ public final class ConfigDumper {
                 } catch (final Exception e) {
                     e.printStackTrace();
                 }
+            }
+            if(items.exists()) {
+                Messages.send(sender, "Copying items.yml...");
+                org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(items, copiedItems);
             }
         } catch (final IOException ioException) {
             ioException.printStackTrace();
