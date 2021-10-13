@@ -581,7 +581,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             }
             return true;
         }
-        Messages.send(player, main.messages.MSG_NOT_ENOUGH_MONEY);
+        //Messages.send(player, main.messages.MSG_NOT_ENOUGH_MONEY);
         return false;
     }
 

@@ -486,6 +486,8 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         });
         commandManager.registerCommand(new ACFacadmin());
 
+        Bukkit.getOnlinePlayers().forEach(itemManager::autodiscover);
+
     }
 
     private String getCommandReplacements(String command) {

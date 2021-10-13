@@ -397,8 +397,7 @@ fallback-to-deathlocation: true
 # How much does it cost to spawn the AngelChest? The amount will automatically
 # be taken from the player on death if they have enough money, otherwise
 # the chest will not spawn and the items drop normally
-# To use an item from items.yml instead of money, simply enter the item's ID.
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
+# If you want to use an item, simply use "price: item-name" (see items.yml)
 price: 0
 
 # You can refund the price when a player does not to open their AngelChest
@@ -407,15 +406,18 @@ refund-expired-chests: false
 
 # How much does it cost for a player to open a chest? Each player will only be
 # charged once per chest.
+# If you want to use an item, simply use "price-open: item-name" (see items.yml)
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 price-open: 0
 
 # How much does it cost to teleport yourself to one of your AngelChests?
+# If you want to use an item, simply use "price-teleport: item-name" (see items.yml) (Premium version only)
 price-teleport: 0
 
 # How much does it cost to teleport your AngelChests to you?
 # I suggest you make this cheaper than "price-teleport" because teleporting to
 # your death location is probably more useful than just getting your stuff back.
+# If you want to use an item, simply use "price-fetch: item-name" (see items.yml) (Premium version only)
 price-fetch: 0
 
 # When set to true, players must confirm teleporting to or fetching a chest if you set a price for those actions
@@ -940,6 +942,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeleporting to AngelChest..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 ##### Azerbaijan Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eBütün AngelChest'lərinin kilidi onsuzda açıqdır."
@@ -982,6 +988,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeleporting to AngelChest..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 ##### Bulgarian
 #message-all-your-angelchests-were-already-unlocked: "&eВсичките Ваши AngelChest-ове бяха отключени."
@@ -1025,6 +1035,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeleporting to AngelChest..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 ##### Chinese Simplified 简体中文
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天使之箱都已解锁."
@@ -1068,6 +1082,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeleporting to AngelChest..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 ##### Chinese Traditional 繁體中文
 #message-all-your-angelchests-were-already-unlocked: "&e所有的天使之箱已被解鎖"
@@ -1111,6 +1129,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeleporting to AngelChest..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 ##### Dutch
 #message-all-your-angelchests-were-already-unlocked: "&eAlle AngelChests die je hebt zijn al ontgrendeld"
@@ -1154,6 +1176,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeleporteren naar jou AngelChest..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/ 
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
@@ -1197,6 +1223,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeleporting to AngelChest..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 ##### German
 #message-all-your-angelchests-were-already-unlocked: "&eAlle deine AngelChests waren bereits aufgeschlossen."
@@ -1204,8 +1234,8 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-disappeared: "&cDu warst zu langsam... deine AngelChest ist verschwunden hat ihren Inhalt fallen gelassen."
 #message-error-players-only: "&cFehler: Dieser Befehl kann nur von Spielern benutzt werden."
 #message-inventory-was-empty: "&eEin Engel hat nach deinen Sachen gesucht aber konnte nichts finden."
-#message-not-allowed-to-break-other-angelchests: "&cYou are not allowed to break this AngelChest."
-#message-not-allowed-to-open-other-angelchests: "&cYou are not allowed to open this AngelChest."
+#message-not-allowed-to-break-other-angelchests: "&cDu darfst diese AngelChest nicht zerstören."
+#message-not-allowed-to-open-other-angelchests: "&cDu darfst diese AngelChest nicht öffnen."
 #message-unlocked-more-angelchests: "&aDu hast %d AngelChests aufgeschlossen."
 #message-unlocked-one-angelchest: "&aDu hast deine AngelChest aufgeschlossen."
 #message-you-dont-have-any-angelchests: "&eDu hast keine AngelChest."
@@ -1240,6 +1270,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aEin Engel hat deine Sachen eingesammelt und in &6{graveyard} &avergraben."
 #message-cant-fetch-here: "&cDu kannst deine AngelChest nicht hierhin holen."
 #message-teleporting: "&aTeleportiere zur AngelChest..."
+#message-angelchest-disabled-others: "&c{player} wird nicht länger von Engeln beschützt."
+#message-angelchest-enabled-others: "&a{player} wird jetzt von Engeln beschützt."
+#message-has-no-item: "&cDu brauchst mindestens 1 {item}&r&c um dies zu tun."
+#message-has-no-item2: "&cEin Engel hat versucht deine Sachen einzusammeln, aber du hattest nicht genug {item}&r&c."
 
 ##### Hungarian
 # message-all-your-angelchests-were-already-unlocked: "&eAz összes AngyalLádád már fel van oldva."
@@ -1283,6 +1317,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aEgy Angyal összegyűjtötte a cókmókjaidat, és elásta a(z) &6{graveyard} helyen."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeleporting to AngelChest..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 ##### Indonesian
 #message-all-your-angelchests-were-already-unlocked: "&eSemua AngelChest kamu sudah tidak terkunci."
@@ -1326,6 +1364,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeleporting to AngelChest..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 ##### Italian
 #message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChests sono già state sbloccate."
@@ -1369,6 +1411,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeleporting to AngelChest..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 ##### Pirate Speak
 #message-all-your-angelchests-were-already-unlocked: "&eAll yer AngelChests was already unlocked."
@@ -1412,6 +1458,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeleporting to AngelChest..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 ##### Polish
 #message-all-your-angelchests-were-already-unlocked: "&eWszystkie twoje AnielskieSkrzynie zostały już odblokowane."
@@ -1502,6 +1552,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeleporting to AngelChest..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 ##### Russian - Thanks to @GEEK for translating
 #message-all-your-angelchests-were-already-unlocked: "&eВсе ваши Ангельские сундуки разблокированы."
@@ -1593,6 +1647,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aEl Artefacto Angelical ha recogido tus cosas y las ha enterrado en &6{graveyard}&a."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeletransportándote a tu AngelChest..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 ##### Spanish 2
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus AngelChest ya se encuentran desbloqueados."
@@ -1636,6 +1694,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
 #message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
 #message-teleporting: "&aTeletransportándote a tu AngelChest..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 ##### Swedish
 #message-all-your-angelchests-were-already-unlocked: "&eAlla dina AngelChests är redan upplåsta"
@@ -1724,6 +1786,10 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-buried-in-graveyard: "&aBir melek eşyalarını topladı ve bir &{graveyard}&a'a gömdü."
 #message-cant-fetch-here: "&cAngelChest'ini buraya getiremezsin."
 #message-teleporting: "&aAngelChest'e ışınlanılıyor..."
+#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
+#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
+#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
+#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
 
 #########################
 #####     Done!     #####

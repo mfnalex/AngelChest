@@ -309,25 +309,29 @@ public final class GroupUtils {
     }
 
     public double getOpenPricePerPlayer(final Player p) {
-        if (!Stepsister.allows(PremiumFeatures.PAY_TO_OPEN_ANGELCHEST)) {
-            return 0;
-        }
-        if (yaml == null) return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_OPEN));
-        final Iterator<String> it = groups.keySet().iterator();
-        Double bestValueFound = null;
-        while (it.hasNext()) {
-            final String group = it.next();
-            if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
-            final String pricePerPlayer = groups.get(group).priceOpen;
-            if (pricePerPlayer.equals("-1")) {
-                continue;
+        try {
+            if (!Stepsister.allows(PremiumFeatures.PAY_TO_OPEN_ANGELCHEST)) {
+                return 0;
             }
-            bestValueFound = bestValueFound == null ? getPercentagePrice(p, pricePerPlayer) : Math.min(getPercentagePrice(p, pricePerPlayer), bestValueFound);
-        }
-        if (bestValueFound != null) {
-            return bestValueFound;
-        } else {
-            return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_OPEN));
+            if (yaml == null) return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_OPEN));
+            final Iterator<String> it = groups.keySet().iterator();
+            Double bestValueFound = null;
+            while (it.hasNext()) {
+                final String group = it.next();
+                if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+                final String pricePerPlayer = groups.get(group).priceOpen;
+                if (pricePerPlayer.equals("-1")) {
+                    continue;
+                }
+                bestValueFound = bestValueFound == null ? getPercentagePrice(p, pricePerPlayer) : Math.min(getPercentagePrice(p, pricePerPlayer), bestValueFound);
+            }
+            if (bestValueFound != null) {
+                return bestValueFound;
+            } else {
+                return getPercentagePrice(p, main.getConfig().getString(Config.PRICE_OPEN));
+            }
+        } catch (NumberFormatException exception) {
+            return 0;
         }
     }
 

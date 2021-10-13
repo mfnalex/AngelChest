@@ -9,9 +9,18 @@
 - TODO: Fix logging, see experimental branch
 
 ## 5.0.0
+
+https://youtu.be/_McDGk9DcdM
+
 - Use custom items instead of money (if you like)
-- Updated translations & added Swedish translation
+  - You can create custom items in the items.yml file. They can be used for having a chest spawned, to open them, teleport to them or fetch them
+  - The items can be given to players using /acadmin giveitem, or by crafting them
+  - You can use all available crafting types: shaped, shapeless, furnace, blast furnace, campfire, stonecutter, smithing, ...
+  - You can also disallow crafting all or only certain items
+  - AngelChest items can be set to be kept on death on death. For example, if you use an item to allow players to teleport to their chest, you probably want the players to keep that item when they die
+  - Recipes for the custom items can be auto-discovered for players
 - Improved performance by getting rid of the InventoryMoveItemEvent (this will improve performance by a good amount for servers with many, many hoppers)
+- Updated translations & added Swedish translation
 
 ## 4.15.0
 - /actoggle can now be run by console or admins for other players. Requires permission angelchest.others

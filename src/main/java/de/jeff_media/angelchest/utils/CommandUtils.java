@@ -430,7 +430,12 @@ public final class CommandUtils {
         return main.econ.getBalance(player);
     }
 
-    public static boolean hasEnoughMoney(final CommandSender sender, final double money, @Nullable final ItemStack item, final String messageWhenNotEnoughMoney, final String messageWhenNotEnoughItems, final String reason) {
+    public static boolean hasEnoughMoney(final CommandSender sender, final double money, @Nullable ItemStack item, final String messageWhenNotEnoughMoney, final String messageWhenNotEnoughItems, final String reason) {
+
+        if(item != null && !Stepsister.allows(PremiumFeatures.CUSTOM_ITEMS)) {
+            Main.getInstance().getLogger().warning("Using custom items for payments is only available in AngelChest Plus.");
+            return true;
+        }
 
         final Main main = Main.getInstance();
 
@@ -442,7 +447,7 @@ public final class CommandUtils {
         final Player player = (Player) sender;
 
         if(item != null && item.getItemMeta() != null) {
-            main.debug("Checking if " + sender + " has AngelChest item: " + item);
+            main.debug("Checking if " + sender + " has AngelChest item...");
 
             if(ItemUtils.checkForAndRemoveOneItem(PDCUtils.get(item,NBTTags.IS_TOKEN_ITEM, PersistentDataType.STRING), player.getInventory())) {
                 main.debug("Yes, player has this item!");

@@ -1,36 +1,45 @@
 package de.jeff_media.angelchest.handlers;
 
-import com.google.common.base.Enums;
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.nbt.NBTTags;
+import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.ItemStackUtils;
+import de.jeff_media.jefflib.MaterialUtils;
 import de.jeff_media.jefflib.PDCUtils;
+import de.jeff_media.jefflib.RecipeUtils;
 import lombok.Getter;
-import lombok.NonNull;
-import org.bouncycastle.asn1.ntt.NTTObjectIdentifiers;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class ItemManager {
 
     private static final Main main = Main.getInstance();
 
-    @Getter private HashMap<String, ItemStack> items;
+    @Getter private final HashMap<String, ItemStack> items;
+    @Getter private final HashMap<String, String> itemNames;
+    @Getter private final HashSet<NamespacedKey> autodiscoverRecipes;
 
     public ItemManager() {
+
+        items = new HashMap<>();
+        itemNames = new HashMap<>();
+        autodiscoverRecipes = new HashSet<>();
+
+        if(!Stepsister.allows(PremiumFeatures.CUSTOM_ITEMS)) return;
 
         Set<NamespacedKey> recipesToRemove = new HashSet<>();
         Iterator<Recipe> iterator = Bukkit.recipeIterator();
@@ -46,8 +55,6 @@ public class ItemManager {
 
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(new File(main.getDataFolder(), "items.yml"));
 
-        items = new HashMap<>();
-
         for(String itemId : yaml.getKeys(false)) {
             ItemStack item = ItemStackUtils.fromConfigurationSection(yaml.getConfigurationSection(itemId));
             PDCUtils.set(item, NBTTags.IS_TOKEN_ITEM, PersistentDataType.STRING,itemId);
@@ -57,59 +64,27 @@ public class ItemManager {
             if(yaml.getBoolean(itemId+".keep-on-death")) {
                 PDCUtils.set(item, NBTTags.IS_TOKEN_ITEM_KEEP, PersistentDataType.BYTE,(byte) 1);
             }
-            if(yaml.isConfigurationSection(itemId+".recipe")) {
-                Recipe recipe = getRecipe(Objects.requireNonNull(yaml.getConfigurationSection(itemId + ".recipe")));
+            if(yaml.isConfigurationSection(itemId+".recipe") && yaml.getBoolean(itemId+".crafting-enabled",false)) {
+                NamespacedKey recipeKey = PDCUtils.getKey("recipe-"+itemId);
+                Recipe recipe = RecipeUtils.getRecipe(yaml.getConfigurationSection(itemId+".recipe"),recipeKey,item);
                 if(recipe != null) {
                     Bukkit.addRecipe(recipe);
+                    if(yaml.getBoolean(itemId+".autodiscover",false)) {
+                        autodiscoverRecipes.add(recipeKey);
+                    }
                 }
             }
+            itemNames.put(itemId, yaml.getString(itemId+".display-name", MaterialUtils.getNiceMaterialName(item.getType())));
+
             items.put(itemId, item);
         }
     }
 
-    @Nullable
-    private Recipe getRecipe(@NonNull ConfigurationSection section, String itemId) {
-        switch (section.getString("type","")) {
-            case "shaped":
-                return getRecipeShaped(section,itemId);
-            case "shapeless":
-                return getRecipeShapeless(section, itemId);
-            default:
-                main.getLogger().warning("Invalid recipe type specified for item " + itemId+": " + section.getString("type","<null>"));
-                return null;
+    public void autodiscover(Player player) {
+        for(NamespacedKey recipe : autodiscoverRecipes) {
+            if(player.hasDiscoveredRecipe(recipe)) continue;
+            player.discoverRecipe(recipe);
         }
-    }
-
-    private void printInvalidIngredientWarn(Object item, String itemId) {
-        main.getLogger().warning("Invalid recipe ingredient for item "+itemId+": " + item);
-    }
-
-    private List<RecipeChoice> getIngredients(List<?> list, String itemId) {
-        List<RecipeChoice> ingredients = new ArrayList<>();
-
-        for(Object item : list) {
-            if(item instanceof String) {
-                Material mat = Enums.getIfPresent(Material.class, ((String)item).toUpperCase(Locale.ROOT)).orNull();
-                if(mat==null) {
-                    printInvalidIngredientWarn(item, itemId);
-                    return null;
-                }
-                ingredients.add(new RecipeChoice.MaterialChoice(mat));
-            } else if(item instanceof ItemStack) {
-                ItemStack itemStack = (ItemStack) item;
-                ingredients.add(new RecipeChoice.ExactChoice(itemStack));
-            } else {
-                printInvalidIngredientWarn(item, itemId);
-            }
-        }
-
-        return ingredients;
-
-    }
-
-    private Recipe getRecipeShapeless(ConfigurationSection section, String itemId) {
-        List<RecipeChoice> ingredients = getIngredients(Objects.requireNonNull(section.getList("ingredients")),itemId);
-
     }
 
     @Nullable

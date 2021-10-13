@@ -22,6 +22,12 @@
 # Hex Color:     <#ff0000>Red text
 # Hex Gradients: <#ff0000>Red to green text<#/00ff00>
 
+# You can also create smelting / campfire recipes, or smithing and stonecutting recipes.
+# See here for all possible crafting recipe types:
+# https://github.com/JEFF-Media-GbR/JeffLib/blob/master/examples/RecipeUtils_getRecipe.yml
+
+# For help, join my Discord at https://discord.jeff-media.com
+
 spawn-token:
   material: NETHER_STAR
   display-name: "<#F1C40F>AngelChest Token<#/F7DC6F>"
@@ -30,11 +36,13 @@ spawn-token:
     - "<#d5dbdb>spawned when you die."
   glow: true
   keep-on-death: true
+  crafting-enabled: false # Change this to true to make this item crafteable
+  autodiscover: true # Automatically sends the recipes to players when crafting is enabled
   recipe:
     type: shapeless
     ingredients:
       1: NETHER_STAR
-      2: REDSTONE
+      2: GOLD_INGOT
   #custom-model-data: 1
   #base64: <base64 string for PLAYER_HEAD>
 
@@ -46,7 +54,13 @@ teleport-token:
     - "<#d5dbdb>to one of your AngelChests."
   glow: true
   keep-on-death: true
+  crafting-enabled: false # Change this to true to make this item crafteable
   recipe:
     type: shaped
     ingredients:
-      D:
+      E: ENDER_PEARL
+      G: GOLD_NUGGET
+    shape:
+      - "GGG"
+      - "GEG"
+      - "GGG"
