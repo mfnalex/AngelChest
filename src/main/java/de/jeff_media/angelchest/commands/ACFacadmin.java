@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @CommandAlias("acadmin")
@@ -17,48 +18,64 @@ public class ACFacadmin extends BaseCommand {
     private static final Main main = Main.getInstance();
 
     @Subcommand("giveitem")
-    @CommandCompletion("@items @players")
-    public static void onDefault(CommandSender sender, String itemName, @Optional String playerName) {
+    @CommandCompletion("@items @players @range:1-64")
+    public static void onDefault(CommandSender sender, String itemName, @Optional String playerName, @Optional Integer amount) {
         Player player = null;
-        if(playerName == null && sender instanceof Player) {
+        int finalAmount = 1;
+        if (amount != null) finalAmount = amount;
+        if (playerName == null && sender instanceof Player) {
             player = (Player) sender;
         }
-        if(playerName == null && !(sender instanceof Player)) {
+        if (playerName == null && !(sender instanceof Player)) {
             sender.sendMessage("§cYou must specify a player.");
             return;
         }
-        if(playerName != null) {
+        if (playerName != null) {
             player = Bukkit.getPlayer(playerName);
-            if(player == null) {
+            if (player == null) {
                 sender.sendMessage(String.format(main.messages.MSG_UNKNOWN_PLAYER, playerName));
                 return;
             }
         }
 
         ItemStack item = main.getItemManager().getItem(itemName);
-        if(item == null) {
+        if (item == null) {
             sender.sendMessage("§cUnknown AngelChest item: §f" + itemName);
             return;
         }
 
-        int amount = 1;
+        item.setAmount(finalAmount);
 
         giveItem(player, item);
 
         String name = itemName;
-        if(item.getItemMeta().hasDisplayName()
+        if (item.getItemMeta().hasDisplayName()
                 && item.getItemMeta().getDisplayName() != null
                 && !item.getItemMeta().getDisplayName().isEmpty()) {
             name = item.getItemMeta().getDisplayName();
         }
 
-        sender.sendMessage("§aGave §r" + amount+"x " + name + "§r§a to " + player.getName());
+        sender.sendMessage("§aGave §r" + amount + "x " + name + "§r§a to " + player.getName());
     }
 
     private static void giveItem(Player player, ItemStack item) {
-        HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(item);
-        for(ItemStack leftover : leftovers.values()) {
-            player.getLocation().getWorld().dropItemNaturally(player.getLocation(), leftover);
+        int amount = item.getAmount();
+        while (amount > 0) {
+
+            int droppingNowAmount = amount;
+            if(droppingNowAmount > item.getType().getMaxStackSize()) {
+                droppingNowAmount = item.getType().getMaxStackSize();
+            }
+            amount -= droppingNowAmount;
+
+            ItemStack toDrop = item.clone();
+            toDrop.setAmount(droppingNowAmount);
+
+            HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(toDrop);
+            for (ItemStack leftover : leftovers.values()) {
+                player.getLocation().getWorld().dropItemNaturally(player.getLocation(), leftover);
+            }
+
         }
     }
 }
