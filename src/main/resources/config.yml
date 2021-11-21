@@ -283,7 +283,7 @@ never-replace-bedrock: true
 
 # Remove curse of vanishing / curse of binding items from the chest?
 remove-curse-of-vanishing: true
-remove-curse-of-binding: true
+remove-curse-of-binding: false
 
 # When true, totems of undying will work in every inventory slot
 # When false, they only work in the hand/off-hand slot (vanilla default)

@@ -3,10 +3,14 @@ package de.jeff_media.angelchest.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.nbt.NBTTags;
+import de.jeff_media.jefflib.PDCUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +20,18 @@ import java.util.HashMap;
 public class ACFacadmin extends BaseCommand {
 
     private static final Main main = Main.getInstance();
+
+    @Subcommand("applytag")
+    @CommandCompletion("@items")
+    public static void setItem(Player player, String itemId) {
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if(item == null | item.getType().isAir() || item.getAmount() == 0) {
+            player.sendMessage("§cYou must hold an item in your main hand to run this command.");
+            return;
+        }
+        ItemMeta meta = item.getItemMeta();
+        PDCUtils.set(item, NBTTags.IS_TOKEN_ITEM, PersistentDataType.STRING, ); // TODO: Make it work lol
+    }
 
     @Subcommand("giveitem")
     @CommandCompletion("@items @players @range:1-64")
