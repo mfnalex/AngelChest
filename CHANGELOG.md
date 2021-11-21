@@ -8,6 +8,9 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 5.0.2
+- Added option "disable-interacting-with-holograms"
+
 ## 5.0.1
 - Added some funny example items in items.yml file
   - Crafting is disabled for the default items. To enable it, just change "crafting-enabled" to true for all items you want to be craftabe, then do /acreload 

@@ -339,6 +339,8 @@ sound-channel: BLOCKS
 
         conf.addDefault(Config.SOUND_CHANNEL, "BLOCKS");
 
+        conf.addDefault(Config.DISABLE_HOLOGRAM_INTERACTION, false);
+
         main.disabledMaterials = conf.getStringList(Config.DISABLED_MATERIALS);
         metric(Config.DISABLED_MATERIALS, String.valueOf(main.disabledMaterials.size()));
 

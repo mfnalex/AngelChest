@@ -607,6 +607,10 @@ ignore-keep-inventory: false
 # WHEN IN DOUBT, CONTACT ME ON DISCORD: https://discord.jeff-media.de
 event-priority: HIGHEST
 
+# Some outdated plugins cause trouble when interacting with invisible armor stands (holograms).
+# Only set the following option to "true" if you really know what you are doing!
+disable-interacting-with-holograms: false
+
 #########################
 ##### Localization ######
 #########################

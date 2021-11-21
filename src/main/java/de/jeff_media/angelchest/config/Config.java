@@ -66,6 +66,7 @@ public final class Config {
     public static final String HOLOGRAM_UNPROTECTED_TEXT = "hologram-unprotected-text";
     public static final String IGNORE_KEEP_INVENTORY = "ignore-keep-inventory";
     public static final String INVULNERABILITY_AFTER_TP = "invulnerability-after-tp";
+    public static final String DISABLE_HOLOGRAM_INTERACTION = "disable-interacting-with-holograms";
     public static final String ITEM_LOSS = "random-item-loss";
     //public static final String LINK_UNLOCK_FOR = "link-unlock-for";
     public static final String LINK_FETCH = "link-fetch";

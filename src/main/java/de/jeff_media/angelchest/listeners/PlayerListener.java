@@ -180,6 +180,11 @@ public final class PlayerListener implements Listener {
     @SuppressWarnings("unused")
     @EventHandler
     public void onArmorStandRightClick(final PlayerInteractAtEntityEvent event) {
+
+        if(main.getConfig().getBoolean(Config.DISABLE_HOLOGRAM_INTERACTION)) {
+            return;
+        }
+
         if (event.getRightClicked() == null) {
             return;
         }
