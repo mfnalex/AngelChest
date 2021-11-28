@@ -391,7 +391,7 @@ public class CommandGraveyard implements CommandExecutor, TabCompleter {
         for (String[] entry : yard.toPrettyString()) {
             player.sendMessage("§6" + entry[0] + "§r: " + entry[1]);
         }
-        ParticleUtils.drawHollowCube(yard.getWorldBoundingBox().getWorld(), yard.getWorldBoundingBox().getBoundingBox(), player, Particle.BARRIER, 1).runTaskTimer(main, 0, 20);
+        ParticleUtils.drawHollowCube(yard.getWorldBoundingBox().getWorld(), yard.getWorldBoundingBox().getBoundingBox(), player, Particle.COMPOSTER, 1,null).runTaskTimer(main, 0, 20);
         if (yard.getSpawnOn().size() != 0) {
             new BlockMarkerTask(yard, player).runTaskTimer(main, 0, 10);
         }

@@ -8,6 +8,9 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 6.0.0
+- Added full support for 1.18
+
 ## 5.0.2
 - Added option "disable-interacting-with-holograms"
 

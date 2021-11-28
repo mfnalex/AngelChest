@@ -5,6 +5,7 @@ import com.mojang.authlib.properties.Property;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.nms.NMSHandler;
+import de.jeff_media.jefflib.SkullUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -47,7 +48,7 @@ public final class HeadCreator {
             final GameProfile profile = new GameProfile(UUID.randomUUID(), "");
             profile.getProperties().put("textures", new Property("textures", base64));
 
-            NMSHandler.createHeadInWorld(block, profile);
+            SkullUtils.setHeadTexture(block, profile);
 
         }
     }

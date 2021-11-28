@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 
 public class NMSLegacy extends AbstractNMSHandler {
 
-    private final Main main = Main.getInstance();
+    /*private final Main main = Main.getInstance();
 
     @Override
     public boolean playTotemAnimation(Player p) {
@@ -53,5 +53,5 @@ public class NMSLegacy extends AbstractNMSHandler {
         } catch (final IllegalArgumentException | IllegalAccessException | SecurityException | NoSuchMethodException | InvocationTargetException | ClassNotFoundException | InstantiationException e) {
             main.getLogger().warning("Could not set custom base64 player head.");
         }
-    }
+    }*/
 }

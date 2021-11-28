@@ -18,11 +18,10 @@ import de.jeff_media.angelchest.hooks.LandsHook;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nms.NMSHandler;
 import de.jeff_media.angelchest.utils.*;
+import de.jeff_media.angelchest.utils.CommandUtils;
+import de.jeff_media.angelchest.utils.ProtectionUtils;
 import de.jeff_media.daddy.Stepsister;
-import de.jeff_media.jefflib.NBTAPI;
-import de.jeff_media.jefflib.PDCUtils;
-import de.jeff_media.jefflib.Ticks;
-import de.jeff_media.jefflib.TimeUtils;
+import de.jeff_media.jefflib.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -849,7 +848,7 @@ public final class PlayerListener implements Listener {
         if (main.debug) main.debug(" ");
 
         if (Stepsister.allows(PremiumFeatures.PLAY_TOTEM_ANIMATION) && main.getConfig().getBoolean(Config.PLAY_TOTEM_ANIMATION)) {
-            NMSHandler.playTotemAnimation(p, main.getConfig().getInt(Config.TOTEM_CUSTOM_MODEL_DATA));
+            AnimationUtils.playTotemAnimation(p, main.getConfig().getInt(Config.TOTEM_CUSTOM_MODEL_DATA));
         }
 
         ac.createChest();

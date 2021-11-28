@@ -21,7 +21,7 @@ public class ACFacadmin extends BaseCommand {
 
     private static final Main main = Main.getInstance();
 
-    @Subcommand("applytag")
+    /*@Subcommand("applytag")
     @CommandCompletion("@items")
     public static void setItem(Player player, String itemId) {
         ItemStack item = player.getInventory().getItemInMainHand();
@@ -31,7 +31,7 @@ public class ACFacadmin extends BaseCommand {
         }
         ItemMeta meta = item.getItemMeta();
         PDCUtils.set(item, NBTTags.IS_TOKEN_ITEM, PersistentDataType.STRING, ); // TODO: Make it work lol
-    }
+    }*/
 
     @Subcommand("giveitem")
     @CommandCompletion("@items @players @range:1-64")

@@ -38,7 +38,7 @@ public class NMSHandler {
         instance = null;
     }
 
-    public static boolean playTotemAnimation(Player p, int customModelData) {
+    /*public static boolean playTotemAnimation(Player p, int customModelData) {
         if (instance == null) return false;
 
         ItemStack totem = new ItemStack(Material.TOTEM_OF_UNDYING);
@@ -56,5 +56,5 @@ public class NMSHandler {
 
     public static void createHeadInWorld(final Block block, final GameProfile profile) {
         instance.createHeadInWorld(block, profile);
-    }
+    }*/
 }

@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.gui;
 
-import de.jeff_media.ChestSortAPI.ChestSortEvent;
+import de.jeff_media.chestsort.api.ChestSortEvent;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.HashMap;
 
-public final class GUIListener implements @NotNull Listener {
+public final class GUIListener implements Listener {
 
     private final Main main;
 
@@ -100,6 +100,7 @@ public final class GUIListener implements @NotNull Listener {
         return false;
     }
 
+    /*
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChestSortEvent(final ChestSortEvent event) {
@@ -107,7 +108,7 @@ public final class GUIListener implements @NotNull Listener {
             if (main.debug) main.debug("Prevented ChestSort from sorting AngelChest GUI");
             event.setCancelled(true);
         }
-    }
+    }*/
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

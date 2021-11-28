@@ -16,6 +16,8 @@ import de.jeff_media.angelchest.utils.BlacklistUtils;
 import de.jeff_media.angelchest.utils.HologramFixer;
 import de.jeff_media.angelchest.utils.Utils;
 import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.jefflib.AnimationUtils;
+import de.jeff_media.jefflib.JeffLib;
 import de.jeff_media.jefflib.ParticleUtils;
 import org.bukkit.*;
 import org.bukkit.command.Command;
@@ -439,7 +441,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 return;
             }
             player.sendMessage("Showing borders and graves for Graveyard " + graveyard.getName());
-            ParticleUtils.drawHollowCube(graveyard.getWorldBoundingBox().getWorld(), graveyard.getWorldBoundingBox().getBoundingBox(), player, Particle.BARRIER, 5).runTaskTimer(main, 0, 20);
+            ParticleUtils.drawHollowCube(graveyard.getWorldBoundingBox().getWorld(), graveyard.getWorldBoundingBox().getBoundingBox(), player, Particle.COMPOSTER,5, null).runTaskTimer(main, 0, 20);
             new BlockMarkerTask(graveyard, player).runTaskTimer(main, 0, 40);
         } /*else if(args.length==3 && args[1].equalsIgnoreCase("spamgraves")) {
             SpamGravesCommand.run(player, args);
@@ -479,7 +481,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 return;
             }
         }
-        NMSHandler.playTotemAnimation((Player) commandSender, modelData);
+        AnimationUtils.playTotemAnimation((Player) commandSender, modelData);
         return;
     }
 

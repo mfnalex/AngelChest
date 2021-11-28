@@ -18,7 +18,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class NMSGeneric extends AbstractNMSHandler {
 
-    public boolean playTotemAnimation(Player p) {
+    /*public boolean playTotemAnimation(Player p) {
         try {
             EntityPlayer entityPlayer = getEntityPlayer(p);
             Packet packet = new PacketPlayOutEntityStatus(entityPlayer, TOTEM_MAGIC_VALUE);
@@ -31,9 +31,9 @@ public class NMSGeneric extends AbstractNMSHandler {
             e.printStackTrace();
             return false;
         }
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void createHeadInWorld(Block block, GameProfile profile) {
         try {
             final World world = (World) block.getWorld().getClass().getMethod("getHandle").invoke(block.getWorld());
@@ -43,14 +43,14 @@ public class NMSGeneric extends AbstractNMSHandler {
         } catch (Throwable t) {
             t.printStackTrace();
         }
-    }
+    }*/
 
-    private EntityPlayer getEntityPlayer(Player p) {
+    /*private EntityPlayer getEntityPlayer(Player p) {
         try {
             return (EntityPlayer) METHOD_CRAFTPLAYER_GETHANDLE.invoke(p);
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 }

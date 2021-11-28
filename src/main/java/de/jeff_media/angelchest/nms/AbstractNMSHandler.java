@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 
 public abstract class AbstractNMSHandler {
 
-    protected static final byte TOTEM_MAGIC_VALUE = 35;
+    /*protected static final byte TOTEM_MAGIC_VALUE = 35;
     private static final Main main = Main.getInstance();
     protected static Class<?> CLASS_CRAFTPLAYER;
     protected static Method METHOD_CRAFTPLAYER_GETHANDLE;
@@ -27,5 +27,5 @@ public abstract class AbstractNMSHandler {
 
     public abstract boolean playTotemAnimation(Player p);
 
-    public abstract void createHeadInWorld(final Block block, final GameProfile profile);
+    public abstract void createHeadInWorld(final Block block, final GameProfile profile);*/
 }

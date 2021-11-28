@@ -10,7 +10,6 @@ import com.sk89q.worldedit.session.SessionManager;
 import com.sk89q.worldedit.world.World;
 import de.jeff_media.angelchest.data.WorldBoundingBox;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.libs.org.eclipse.aether.version.VersionRange;
 import org.bukkit.util.BoundingBox;
 import org.jetbrains.annotations.Nullable;
 

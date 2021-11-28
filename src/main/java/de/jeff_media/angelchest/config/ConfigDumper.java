@@ -1,5 +1,6 @@
 package de.jeff_media.angelchest.config;
 
+import org.apache.commons.io.FileUtils;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.daddy.Stepsister;
@@ -11,7 +12,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
@@ -147,12 +147,12 @@ public final class ConfigDumper {
         // Dump configs
         try {
             Messages.send(sender, "Copying config.yml...");
-            org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(new File(main.getDataFolder(), "config.yml"), copiedConfig);
+            FileUtils.copyFile(new File(main.getDataFolder(), "config.yml"), copiedConfig);
             Messages.send(sender, "Dumping loaded config.yml");
             dumpYaml(main.getConfig(), loadedConfig);
             if (groups.exists()) {
                 Messages.send(sender, "Copying groups.yml...");
-                org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(groups, copiedGroups);
+                FileUtils.copyFile(groups, copiedGroups);
                 Messages.send(sender, "Dumping loaded groups.yml...");
                 final YamlConfiguration groupsYaml = new YamlConfiguration();
                 try {
@@ -164,7 +164,7 @@ public final class ConfigDumper {
             }
             if (blacklist.exists()) {
                 Messages.send(sender, "Copying blacklist.yml...");
-                org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(blacklist, copiedBlacklist);
+                FileUtils.copyFile(blacklist, copiedBlacklist);
                 Messages.send(sender, "Dumping loaded blacklist.yml...");
                 final YamlConfiguration blacklistYaml = new YamlConfiguration();
                 try {
@@ -176,7 +176,7 @@ public final class ConfigDumper {
             }
             if (graveyards.exists()) {
                 Messages.send(sender, "Copying graveyards.yml...");
-                org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(graveyards, copiedGraveyards);
+                FileUtils.copyFile(graveyards, copiedGraveyards);
                 Messages.send(sender, "Dumping loaded graveyards.yml...");
                 final YamlConfiguration graveyardYaml = new YamlConfiguration();
                 try {
@@ -188,7 +188,7 @@ public final class ConfigDumper {
             }
             if(items.exists()) {
                 Messages.send(sender, "Copying items.yml...");
-                org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(items, copiedItems);
+                FileUtils.copyFile(items, copiedItems);
             }
         } catch (final IOException ioException) {
             ioException.printStackTrace();
@@ -212,7 +212,7 @@ public final class ConfigDumper {
         // Latest.log
         Messages.send(sender, "Copying latest.log...");
         try {
-            org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(new File(new File(main.getDataFolder().getParentFile().getParentFile(), "logs"), "latest.log"), new File(dumpDir, "latest.log"));
+            FileUtils.copyFile(new File(new File(main.getDataFolder().getParentFile().getParentFile(), "logs"), "latest.log"), new File(dumpDir, "latest.log"));
         } catch (final IOException ioException) {
             ioException.printStackTrace();
         }
@@ -221,7 +221,7 @@ public final class ConfigDumper {
         if (new File(main.getDataFolder(), "debug.log").exists()) {
             Messages.send(sender, "Copying debug.log...");
             try {
-                org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils.copyFile(new File(main.getDataFolder(), "debug.log"), new File(dumpDir, "debug.log"));
+                FileUtils.copyFile(new File(main.getDataFolder(), "debug.log"), new File(dumpDir, "debug.log"));
             } catch (final IOException ioException) {
                 ioException.printStackTrace();
             }

@@ -5,6 +5,7 @@ import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.events.PlayerEnterLeaveGraveyardEvent;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.nms.NMSHandler;
+import de.jeff_media.jefflib.AnimationUtils;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -160,7 +161,7 @@ public class GraveyardListener implements Listener {
         GraveyardManager.setLastGraveyard(player, null);
 
         if(graveyard.hasCustomTotemAnimation()) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> NMSHandler.playTotemAnimation(player, graveyard.getCustomTotemModelData()), 1L);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> AnimationUtils.playTotemAnimation(player, graveyard.getCustomTotemModelData()), 1L);
         }
 
     }
