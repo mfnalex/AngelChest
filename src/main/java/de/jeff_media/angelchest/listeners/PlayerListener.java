@@ -543,8 +543,8 @@ public final class PlayerListener implements Listener {
         List<Predicate<Block>> predicates = new ArrayList<>();
 
         // Player died below world
-        if (p.getLocation().getBlockY() < 1) {
-            if (main.debug) main.debug("Fixing player position for " + p.getLocation() + " because Y < 1");
+        if (p.getLocation().getBlockY() < p.getWorld().getMinHeight()) {
+            if (main.debug) main.debug("Fixing player position for " + p.getLocation() + " because Y < World#getMinHeight()");
             fixedPlayerPosition = null;
             // Void detection: use last known position
             if (main.getConfig().getBoolean(Config.VOID_DETECTION)) {

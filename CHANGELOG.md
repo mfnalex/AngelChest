@@ -8,6 +8,9 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 6.0.1
+- Fixed AngelChests spawning at about Y=1 when dying below Y=0 in certain situations
+
 ## 6.0.0
 - Added full support for 1.18
 

@@ -1,5 +1,6 @@
 package de.jeff_media.angelchest.config;
 
+import com.google.common.base.Enums;
 import de.jeff_media.angelchest.EmergencyMode;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.data.BlacklistEntry;
@@ -405,6 +406,9 @@ sound-channel: BLOCKS
             if (!mat.isBlock()) {
                 main.debug(String.format("Invalid Block while parsing %s: %s", string, Config.ONLY_SPAWN_IN));
                 continue;
+            }
+            if(mat == Material.AIR) {
+                main.onlySpawnIn.add(Enums.getIfPresent(Material.class,"CAVE_AIR").or(Material.AIR));
             }
             main.onlySpawnIn.add(mat);
         }
