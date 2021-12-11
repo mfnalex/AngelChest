@@ -298,8 +298,11 @@ public final class ConfigUtils {
         conf.addDefault(Config.MIN_DISTANCE, 0);
         metric(Config.MIN_DISTANCE);
 
-        conf.addDefault(Config.ALLOW_FASTLOOTING, true);
+        conf.addDefault(Config.ALLOW_FASTLOOTING, "true");
         metric(Config.ALLOW_FASTLOOTING);
+
+        conf.addDefault(Config.DISABLE_IN_CREATIVE, false);
+        metric(Config.DISABLE_IN_CREATIVE);
 
         conf.addDefault(Config.TRY_CLOSEST_GRAVEYARD, true);
         metric(Config.TRY_CLOSEST_GRAVEYARD);

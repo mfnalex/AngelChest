@@ -42,5 +42,6 @@
         <class template="class *.jefflib.**" />
         <class template="class **.bstats.**" />
         <class template="class *.GraveyardYamlManager" />
+        <class template="class *.MMOItemsHook" />
     </ignore-classes>
 </config>

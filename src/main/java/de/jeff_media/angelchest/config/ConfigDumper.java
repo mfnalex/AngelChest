@@ -248,7 +248,7 @@ public final class ConfigDumper {
 
         // Go for it
         for (final String node : input.getKeys(true).stream().sorted().collect(Collectors.toList())) {
-            de.jeff_media.angelchest.utils.FileUtils.appendLines(output, "ᐁ " + StringUtils.center("  " + node + "  ", maxLength, ". ") + " ᐁ");
+            de.jeff_media.angelchest.utils.FileUtils.appendLines(output, "** " + StringUtils.center("  " + node + "  ", maxLength, ". ") + " **");
             de.jeff_media.angelchest.utils.FileUtils.appendLines(output, input.get(node) + "\n\n");
         }
     }

@@ -677,8 +677,9 @@ hologram-offset-per-line: 0.25
 
 # PREMIUM FEATURE: THE WHOLE GUI IS ONLY AVAILABLE IN AngelChestPlus!
 
-# When true, players can fast-loot the AngelChest using rightclick (or shift-rightclick, see option below)
-# When false, players cannot fast-loot and always get the GUI displayed when opening a chest
+# When set to true, players can fast-loot the AngelChest using rightclick (or shift-rightclick, see option below)
+# When set to false, players cannot fast-loot and always get the GUI displayed when opening a chest
+# When set to "force", players will always fast-loot chests and will never see the GUI.
 allow-fastlooting: true
 
 # When true, players can open the AngelChest GUI using shift-rightclick and fast-loot the chest via rightclick

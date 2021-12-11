@@ -22,10 +22,7 @@ import de.jeff_media.angelchest.utils.CommandUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.*;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -155,7 +152,10 @@ public final class PlayerListener implements Listener {
 
         boolean openGUI = false;
         if (Stepsister.allows(PremiumFeatures.GUI)) {
-            if (!main.getConfig().getBoolean(Config.ALLOW_FASTLOOTING)) {
+            if(main.getConfig().getString(Config.ALLOW_FASTLOOTING).equalsIgnoreCase("force")) {
+                if(main.debug) main.debug("Not oening GUI because allow-fastlooting is force");
+                openGUI = false;
+            } else if (main.getConfig().getString(Config.ALLOW_FASTLOOTING).equalsIgnoreCase("false")) {
                 if (main.debug) main.debug("Opening GUI because allow-fastlooting is disabled");
                 openGUI = true;
             } else if (player.isSneaking() && main.getConfig().getBoolean(Config.GUI_REQUIRES_SHIFT)) {
@@ -428,6 +428,11 @@ public final class PlayerListener implements Listener {
         if (main.disableDeathEvent) {
             if (main.debug)
                 main.debug("PlayerDeathEvent: Doing nothing, AngelChest has been disabled for debug reasons!");
+            return;
+        }
+
+        if(main.getConfig().getBoolean(Config.DISABLE_IN_CREATIVE) && p.getGameMode() == GameMode.CREATIVE) {
+            if(main.debug) main.debug("Cancelled: Player is in Creative and disable-in-creative is true");
             return;
         }
 
