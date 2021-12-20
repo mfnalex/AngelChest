@@ -71,7 +71,7 @@ public final class GUIManager {
     }
 
     private ItemStack getChestItem(final AngelChest angelChest, final int id) {
-        ItemStack item = main.getChestMaterial(angelChest).getItemStack(angelChest);
+        ItemStack item = new ItemStack(main.getChestMaterial(angelChest).getType());
 
         final ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(getChestItemName(angelChest, id));

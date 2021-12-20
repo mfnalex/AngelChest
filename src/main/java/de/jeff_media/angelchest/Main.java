@@ -24,6 +24,7 @@ import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.JeffLib;
 import de.jeff_media.jefflib.McVersion;
 import de.jeff_media.jefflib.Ticks;
+import de.jeff_media.jefflib.customblock.CustomBlock;
 import de.jeff_media.updatechecker.UpdateChecker;
 import de.jeff_media.updatechecker.UserAgentBuilder;
 import io.papermc.lib.PaperLib;
@@ -94,8 +95,8 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }*/
 
     public LinkedHashMap<Block, AngelChest> angelChests;
-    public MagicMaterial chestMaterial;
-    public MagicMaterial chestMaterialUnlocked;
+    public CustomBlock chestMaterial;
+    public CustomBlock chestMaterialUnlocked;
     public boolean debug = false;
     //public java.util.logging.Logger debugLogger;
     public boolean disableDeathEvent = false;
@@ -203,7 +204,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         return null;
     }
 
-    public MagicMaterial getChestMaterial(final AngelChest chest) {
+    public CustomBlock getChestMaterial(final AngelChest chest) {
         if (!Stepsister.allows(PremiumFeatures.GENERIC)) {
             return chestMaterial;
         }
@@ -265,7 +266,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     public boolean isBrokenAngelChest(final Block block, final AngelChest chest) {
         if (isOutsideOfNormalWorld(block)) return false;
-        return block.getType() != getChestMaterial(chest).getMaterial();
+        return block.getType() != getChestMaterial(chest).getBlockData().getMaterial();
     }
 
     public @Nullable String isItemBlacklisted(final ItemStack item) {
@@ -282,7 +283,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }
 
     public boolean isOutsideOfNormalWorld(final Block block) {
-        return block.getY() < 0 || block.getY() >= block.getWorld().getMaxHeight();
+        return block.getY() < block.getWorld().getMinHeight() || block.getY() >= block.getWorld().getMaxHeight();
     }
 
     public void loadAllAngelChestsFromFile() {

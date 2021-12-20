@@ -13,6 +13,7 @@ import de.jeff_media.angelchest.events.AngelChestSpawnEvent;
 import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
 import de.jeff_media.angelchest.gui.GUIHolder;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
+import de.jeff_media.angelchest.handlers.ItemManager;
 import de.jeff_media.angelchest.hooks.EcoEnchantsHook;
 import de.jeff_media.angelchest.hooks.LandsHook;
 import de.jeff_media.angelchest.nbt.NBTTags;
@@ -32,6 +33,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -42,6 +44,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.scheduler.BukkitTask;
@@ -562,10 +565,10 @@ public final class PlayerListener implements Listener {
             // Void detection disabled or no last known position: set to Y=1
             if (fixedPlayerPosition == null) {
                 final Location ltmp = p.getLocation();
-                ltmp.setY(1);
+                ltmp.setY(p.getWorld().getMinHeight()+1);
                 fixedPlayerPosition = ltmp.getBlock();
                 if (main.debug)
-                    main.debug("Void detection disabled or no last known player position, setting Y to 1 " + fixedPlayerPosition.getLocation());
+                    main.debug("Void detection disabled or no last known player position, setting Y to minWorldHeight+1 " + fixedPlayerPosition.getLocation());
             }
         } else {
             fixedPlayerPosition = p.getLocation().getBlock();
@@ -865,6 +868,17 @@ public final class PlayerListener implements Listener {
         }
 
         LogUtils.debugBanner(new String[]{"PlayerDeathEvent END"});
+
+    }
+
+    @EventHandler
+    public void onPlaceAngelChestItem(final BlockPlaceEvent event) {
+        if(!main.getConfig().getBoolean(Config.PREVENT_PLACING_CUSTOM_ITEMS)) return;
+        ItemStack item = event.getItemInHand();
+        if(item == null || item.getAmount() == 0) return;
+        if(PDCUtils.has(item,NBTTags.IS_TOKEN_ITEM,PersistentDataType.STRING)) {
+            event.setCancelled(true);
+        }
 
     }
 

@@ -36,6 +36,7 @@ public final class Config {
     public static final String DISABLED_WORLDS = "disabled-worlds";
     public static final String DISABLE_WORLDGUARD_INTEGRATION = "disable-worldguard-integration";
     public static final String DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP = "dont-protect-chest-if-player-died-in-pvp";
+    public static final String PREVENT_PLACING_CUSTOM_ITEMS = "prevent-placing-custom-items";
     public static final String DONT_SPAWN_ON = "dont-spawn-on";
     public static final String DONT_STORE_HEADS_IN_ANGELCHEST = "dont-store-heads-in-angelchest";
     public static final String DROP_HEADS = "drop-heads";

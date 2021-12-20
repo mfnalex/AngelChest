@@ -4,7 +4,6 @@ import com.google.common.base.Enums;
 import de.jeff_media.angelchest.EmergencyMode;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.data.BlacklistEntry;
-import de.jeff_media.angelchest.data.MagicMaterial;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
@@ -19,6 +18,9 @@ import de.jeff_media.angelchest.utils.GroupUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.TimeUtils;
+import de.jeff_media.jefflib.customblock.CustomBlock;
+import de.jeff_media.jefflib.exceptions.InvalidBlockDataException;
+import de.jeff_media.jefflib.exceptions.MissingPluginException;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -304,6 +306,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.DISABLE_IN_CREATIVE, false);
         metric(Config.DISABLE_IN_CREATIVE);
 
+        conf.addDefault(Config.PREVENT_PLACING_CUSTOM_ITEMS, true);
+        metric(Config.PREVENT_PLACING_CUSTOM_ITEMS);
+
         conf.addDefault(Config.TRY_CLOSEST_GRAVEYARD, true);
         metric(Config.TRY_CLOSEST_GRAVEYARD);
 
@@ -417,8 +422,18 @@ sound-channel: BLOCKS
         }
         metric(Config.ONLY_SPAWN_IN, main.onlySpawnIn.stream().map(Material::name).collect(Collectors.toList()));
 
-        main.chestMaterial = MagicMaterial.fromString(conf.getString(Config.MATERIAL), Material.CHEST);
-        main.chestMaterialUnlocked = MagicMaterial.fromString(conf.getString(Config.MATERIAL_UNLOCKED), Material.ENDER_CHEST);
+        try {
+            main.chestMaterial = CustomBlock.fromString(conf.getString(Config.MATERIAL));
+        } catch (MissingPluginException | InvalidBlockDataException e) {
+            e.printStackTrace();
+            main.chestMaterial = CustomBlock.fromMaterial(Material.CHEST);
+        }
+        try {
+            main.chestMaterialUnlocked = CustomBlock.fromString(conf.getString(Config.MATERIAL_UNLOCKED));
+        } catch (MissingPluginException | InvalidBlockDataException e) {
+            e.printStackTrace();
+            main.chestMaterialUnlocked = CustomBlock.fromMaterial(Material.ENDER_CHEST);
+        }
 
     }
 

@@ -24,7 +24,7 @@ public class BlockMarkerTask extends BukkitRunnable {
         this.player = player;
         this.graveyard = graveyard;
         blocks = graveyard.getFreeSpots();
-        mat = graveyard.hasCustomMaterial() ? graveyard.getCustomMaterial().getMaterial() : Material.GOLD_BLOCK;
+        mat = graveyard.hasCustomMaterial() ? graveyard.getCustomMaterial().getType() : Material.GOLD_BLOCK;
         visibleData = Bukkit.createBlockData(mat);
         invisibleData = Bukkit.createBlockData(Material.AIR);
     }

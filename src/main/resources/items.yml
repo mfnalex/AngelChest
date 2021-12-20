@@ -44,6 +44,7 @@ poisonous-potato-seed:
     - "<#d5dbdb>your loot when you die! (o0)"
   glow: true
   keep-on-death: true
+  priority: 1
   crafting-enabled: false # Change this to true to make this item craftable
   autodiscover: true # Automatically sends the recipes to players when crafting is enabled
   recipe:
@@ -61,6 +62,7 @@ key:
   autodiscover: true
   lore:
     - "Opens one AngelChest"
+  priority: 1
   crafting-enabled: false
   recipe:
     type: shapeless
@@ -79,6 +81,7 @@ careful-egg:
     - "<#d5dbdb>next time! PS: Don't throw me!"
   glow: true
   keep-on-death: true
+  priority: 1
   crafting-enabled: false
   recipe:
     type: shaped
@@ -102,6 +105,7 @@ teleport-pearl:
     - "<#d5dbdb>to one of your AngelChests."
   glow: true
   keep-on-death: true
+  priority: 1
   crafting-enabled: false
   recipe:
     type: shaped

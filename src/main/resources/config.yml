@@ -424,6 +424,9 @@ price-fetch: 0
 # by entering the same command again or by clicking on a text message in the chat
 confirm: true
 
+# When set to true, no player will be able to place ANY custom AngelChest items.
+prevent-placing-custom-items: true
+
 #################################
 #### Max. TP/Fetch distance #####
 #################################

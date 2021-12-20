@@ -82,6 +82,8 @@ public class AngelChestUtils {
 
         //if (!playerLoc.getType().equals(Material.AIR)) {
         final List<Block> blocksNearby = getPossibleChestLocations(playerLoc.getLocation(),predicates);
+        //System.out.println("Nearby Blocks:");
+        //blocksNearby.forEach(System.out::println);
 
         if (!blocksNearby.isEmpty()) {
             sortBlocksByDistance(playerLoc, blocksNearby);
@@ -96,7 +98,7 @@ public class AngelChestUtils {
                 fixedAngelChestBlock = blocksNearby.get(0);
             }
         }
-
+        //System.out.println("Final fixed block: " + fixedAngelChestBlock);
         return fixedAngelChestBlock;
     }
 
@@ -133,7 +135,7 @@ public class AngelChestUtils {
                     final Block block = location.getWorld().getBlockAt(x, y, z);
                     final Block oneBelow = location.getWorld().getBlockAt(x, y - 1, z);
 
-                    if ((isAir(block.getType()) || main.onlySpawnIn.contains(block.getType())) && !main.dontSpawnOn.contains(oneBelow.getType()) && y > 0 && y < location.getWorld().getMaxHeight()) {
+                    if ((isAir(block.getType()) || main.onlySpawnIn.contains(block.getType())) && !main.dontSpawnOn.contains(oneBelow.getType()) && y > location.getWorld().getMinHeight() && y < location.getWorld().getMaxHeight()) {
                         //main.verbose("Possible chest loc: "+block.toString());
 
                         if (main.getConfig().getInt(Config.MINIMUM_AIR_ABOVE_CHEST) > 0) {
@@ -204,7 +206,7 @@ public class AngelChestUtils {
         }
         if (isAboveLava(location, 10)) return false;
 
-        if (location.getBlockY() <= 0) return false;
+        if (location.getBlockY() <= location.getWorld().getMinHeight()) return false;
 
         if (location.getBlock().getType().isOccluding()) return false;
 

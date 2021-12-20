@@ -8,6 +8,12 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 6.2.0
+- Added option to prevent placing custom AngelChest items (default: enabled)
+
+## 6.1.1
+- Fixed AngelChests spawning below Y=0-radius always using the exact death location instead of looking for a safe spot 
+
 ## 6.1.0
 - Added option to disable the chest contents GUI by setting "allow-fastlooting" to "force"
 - Added option to disable AngelChests spawning for players in creative mode

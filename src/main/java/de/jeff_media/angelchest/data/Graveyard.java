@@ -7,6 +7,9 @@ import de.jeff_media.angelchest.handlers.ChunkManager;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.jefflib.LocationUtils;
 import de.jeff_media.jefflib.TimeUtils;
+import de.jeff_media.jefflib.customblock.CustomBlock;
+import de.jeff_media.jefflib.exceptions.InvalidBlockDataException;
+import de.jeff_media.jefflib.exceptions.MissingPluginException;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -31,7 +34,7 @@ public class Graveyard {
     private final WorldBoundingBox boundingBox;
     private final Collection<Material> spawnOn;
     private final List<Block> cachedValidGraveLocations = new ArrayList<>();
-    @Nullable private final MagicMaterial magicMaterial;
+    @Nullable private final CustomBlock magicMaterial;
     private final String hologramText;
     private final Location spawn;
     private final boolean instantRespawn;
@@ -43,7 +46,7 @@ public class Graveyard {
 
     private static final Main main = Main.getInstance();
 
-    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable MagicMaterial magicMaterial, @Nullable String hologramText, boolean global, @Nullable Location spawn, boolean instantRespawn, Integer totemAnimation, Collection<PotionEffect> potionEffects, @Nullable Long localTime, @Nullable WeatherType weatherType) {
+    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable CustomBlock magicMaterial, @Nullable String hologramText, boolean global, @Nullable Location spawn, boolean instantRespawn, Integer totemAnimation, Collection<PotionEffect> potionEffects, @Nullable Long localTime, @Nullable WeatherType weatherType) {
         this.name = name;
         this.boundingBox = worldBoundingBox;
         this.spawnOn = spawnOn;
@@ -125,9 +128,15 @@ public class Graveyard {
 
         WorldBoundingBox boundingBox = new WorldBoundingBox(world, BoundingBox.of(world.getBlockAt(minX, minY, minZ), world.getBlockAt(maxX, maxY, maxZ)));
 
-        MagicMaterial magicMaterial = null;
+        CustomBlock magicMaterial = null;
         if(config.isSet("material")) {
-            magicMaterial = MagicMaterial.fromString(config.getString("material"), Material.CHEST);
+            try {
+                magicMaterial = CustomBlock.fromString(config.getString("material"));
+            } catch (MissingPluginException e) {
+                e.printStackTrace();
+            } catch (InvalidBlockDataException e) {
+                e.printStackTrace();
+            }
         }
 
         String hologram;
@@ -325,7 +334,7 @@ public class Graveyard {
         return magicMaterial != null;
     }
 
-    public MagicMaterial getCustomMaterial() {
+    public CustomBlock getCustomMaterial() {
         return magicMaterial;
     }
 

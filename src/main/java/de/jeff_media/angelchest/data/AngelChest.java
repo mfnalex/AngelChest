@@ -12,6 +12,7 @@ import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.jefflib.customblock.CustomBlock;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -148,17 +149,6 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             }
             this.block = Objects.requireNonNull(main.getServer().getWorld(worldid)).getBlockAt(yaml.getInt(ChestYaml.BLOCK_X), yaml.getInt(ChestYaml.BLOCK_Y), yaml.getInt(ChestYaml.BLOCK_Z));
         }
-
-        // Check for blocks being too high or too low
-        // No, we do it differently. The Hologram etc can spawn fine, we just omit the block and check for this too in the
-        // "is AngelChest broken" method
-        /*if(this.block.getY() < 0 || this.block.getY() >= this.block.getWorld().getMaxHeight()) {
-            main.getLogger().severe("You have an invalid AngelChest which is either in the void or above the maximum build height at "+block.toString());
-            main.getLogger().severe("The chest will NOT be spawned. Please manually delete the AngelChest file and report this problem.");
-            main.getLogger().severe("The file name of the corrupt chest is "+file.getName());
-            success=false;
-            return;
-        }*/
 
         //String hologramText = String.format(plugin.messages.HOLOGRAM_TEXT, plugin.getServer().getPlayer(owner).getName());
         final String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replace("{player}", Objects.requireNonNull(main.getServer().getOfflinePlayer(owner).getName()));
@@ -350,10 +340,10 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param uuid  The owner's UUID (to correctly set player heads)
      */
     public void createChest(final Block block, final UUID uuid, final boolean createHologram) {
-        MagicMaterial magicMaterial = main.getChestMaterial(this);
+        CustomBlock magicMaterial = main.getChestMaterial(this);
         if (main.debug)
             main.debug("Attempting to create chest with material " + magicMaterial + " at " + block.getLocation());
-        magicMaterial.placeInWorld(block, uuid, this);
+        magicMaterial.place(block);
         if (createHologram) {
             createHologram(block, uuid);
         }
