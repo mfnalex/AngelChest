@@ -32,6 +32,7 @@ Optional values:
 
   material: When set, the AngelChests in this graveyard will use this material
             When not set, AngelChests will use the default material
+            See here for more information: https://wiki.jeff-media.com/books/general-information/page/custom-blocks
 
             Example:
               material: CANDLE

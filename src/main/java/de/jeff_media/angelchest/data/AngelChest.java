@@ -343,7 +343,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         CustomBlock magicMaterial = main.getChestMaterial(this);
         if (main.debug)
             main.debug("Attempting to create chest with material " + magicMaterial + " at " + block.getLocation());
-        magicMaterial.place(block);
+        magicMaterial.place(block, Bukkit.getOfflinePlayer(uuid));
         if (createHologram) {
             createHologram(block, uuid);
         }

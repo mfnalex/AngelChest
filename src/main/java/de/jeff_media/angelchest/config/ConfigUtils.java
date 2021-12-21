@@ -137,8 +137,8 @@ public final class ConfigUtils {
         conf.addDefault(Config.EVENT_PRIORITY, "HIGHEST");
         metric(Config.EVENT_PRIORITY);
 
-        conf.addDefault(Config.HEAD_USES_PLAYER_NAME, true);
-        metric(Config.HEAD_USES_PLAYER_NAME);
+        /*conf.addDefault(Config.HEAD_USES_PLAYER_NAME, true);
+        metric(Config.HEAD_USES_PLAYER_NAME);*/
 
         conf.addDefault(Config.AUTO_RESPAWN, false);
         metric(Config.AUTO_RESPAWN);

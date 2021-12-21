@@ -3,10 +3,13 @@ package de.jeff_media.angelchest.hooks;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.data.AngelChest;
+import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.utils.AngelChestUtils;
 import de.jeff_media.angelchest.utils.CommandUtils;
+import de.jeff_media.jefflib.PDCUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -67,6 +70,12 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
                 return Double.toString(main.getConfig().getDouble(Config.PRICE_FETCH));
             case "activechests":
                 return Integer.toString(allChests.size());
+            case "enabled":
+                if(!player.isOnline()) {
+                    return "false";
+                } else {
+                    return PDCUtils.has(player.getPlayer(), NBTTags.HAS_ANGELCHEST_DISABLED, PersistentDataType.STRING) ? "false" : "true";
+                }
         }
 
         final String[] split = identifier.split("_");

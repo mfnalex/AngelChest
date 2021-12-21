@@ -8,6 +8,18 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 7.0
+Another new **major** update of AngelChest is here!
+
+- Totally new way to use custom blocks, player heads and blocks from ItemsAdder for your chests! Oraxen will be added too.
+  - You can use ANY vanilla blockdata (e.g. red candles with 3 candles), or player heads, or custom textured heads (with base64), or ItemsAdder blocks.
+  - You can define different values for locked chests, unlocked chests, and for every graveyard!
+  - For example, you can have your graveyards use custom ItemsAdder items, use the player's head for protected chests, and use a custom base64 head for unlocked chests!
+  - Support for Oraxen will also be added soon
+  - See config.yml (the `material` option) for more information.
+  - **Important:** If you already have used custom or player heads before updating to this version, you will have to update that line in your configuration, otherwise you will only get the default head. You can simply use `head:player` instead of where you used `PLAYER_HEAD` before.
+- New placeholder to check whether a player disabled AngelChests for themselves: `%angelchest_enabled%`
+
 ## 6.2.0
 - Added option to prevent placing custom AngelChest items (default: enabled)
 

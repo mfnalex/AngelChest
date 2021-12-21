@@ -192,31 +192,23 @@ only-show-gui-after-death-if-player-can-tp-or-fetch: true
 
 # You can choose the Material to use for the AngelChest,
 # e.g. CHEST, ENDER_CHEST, OBSIDIAN, ...
-# When using PLAYER_HEAD, you can use the head of the died
-# player or any other custom skull (see option below)
-# Tip: SOUL_CAMPFIRE looks awesome (1.16+ only)
-# You can also use oraxen blocks by entering "oraxen:ruby_ore" etc.
-# It's also possible to enter the BlockData string here
+# It's also possible to use custom heads here, or custom
+# blockdata, or even blocks from ItemsAdder.
+# See here for more information: https://wiki.jeff-media.com/books/general-information/page/custom-blocks
+# Examples:
+#  material: DIRT (will use a dirt block)
+#  material: head:player (will use the player's head)
+#  material: head:somebase64string (will use that custom base64 texture)
+#  material: minecraft:RED_CANDLES[amount=3,lit=true] (will use 3 red, lit candles)
+#  material: itemsadder:ruby_ore (will use Ruby Ore from ItemsAdder)
 material: CHEST
 
 # You can choose another Material to use for unlocked
 # AngelChests.
+# See here for more information: https://wiki.jeff-media.com/books/general-information/page/custom-blocks
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 use-different-material-when-unlocked: false
 material-unlocked: ENDER_CHEST
-
-# When set to true and material is set to PLAYER_HEAD,
-# AngelChest will use the player's head for the chest.
-# When set to false, you can define a custom head
-# via its base64 value (see option below)
-head-uses-player-name: true
-
-# You can also use a custom PLAYER_HEAD texture by using
-# its base64 value. For example, you can go to
-# https://minecraft-heads.com/custom-heads
-# and choose any head, then copy the "value" (at the
-# very bottom of the page) and paste it here.
-custom-head-base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmIxN2M1YTk5ZTg1ODE4NDgyY2Q2YzBjNzFiN2VmOTRhY2VkYjZiOGUxZDg5NDRhZGY5MWU1MWU1MDg2NTY2ZiJ9fX0="
 
 # When true, AngelChest will spawn the chest at the last location where a player was standing
 # before he died in the void. When false, the chest will spawn at Y=1

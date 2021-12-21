@@ -232,6 +232,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         ConfigUtils.reloadCompleteConfig(true);
         main.debug = enabled;
         main.getConfig().set("debug", enabled);
+        JeffLib.setDebug(enabled);
         Messages.send(commandSender, ChatColor.GRAY + "AngelChest debug mode has been " + (enabled ? "enabled" : "disabled"));
     }
 
