@@ -16,9 +16,10 @@ import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.GroupUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
+import de.jeff_media.customblocks.implentation.VanillaBlock;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.TimeUtils;
-import de.jeff_media.jefflib.customblock.CustomBlock;
+import de.jeff_media.customblocks.CustomBlock;
 import de.jeff_media.jefflib.exceptions.InvalidBlockDataException;
 import de.jeff_media.jefflib.exceptions.MissingPluginException;
 import org.bstats.bukkit.Metrics;
@@ -422,19 +423,6 @@ sound-channel: BLOCKS
         }
         metric(Config.ONLY_SPAWN_IN, main.onlySpawnIn.stream().map(Material::name).collect(Collectors.toList()));
 
-        try {
-            main.chestMaterial = CustomBlock.fromString(conf.getString(Config.MATERIAL));
-        } catch (MissingPluginException | InvalidBlockDataException e) {
-            e.printStackTrace();
-            main.chestMaterial = CustomBlock.fromMaterial(Material.CHEST);
-        }
-        try {
-            main.chestMaterialUnlocked = CustomBlock.fromString(conf.getString(Config.MATERIAL_UNLOCKED));
-        } catch (MissingPluginException | InvalidBlockDataException e) {
-            e.printStackTrace();
-            main.chestMaterialUnlocked = CustomBlock.fromMaterial(Material.ENDER_CHEST);
-        }
-
     }
 
 
@@ -548,7 +536,8 @@ sound-channel: BLOCKS
             GraveyardListener.callGraveyardLeaveEvent(player);
         }
 
-        GraveyardManager.init();
+        // TODO DEBUG This normally runs NOT delayed, but ItemsAdder is too stupid to load items directly, sooo. yeah...
+        Bukkit.getScheduler().runTaskLater(main, () -> GraveyardManager.init(),1);
 
         for(Player player : Bukkit.getOnlinePlayers()) {
             GraveyardListener.callGraveyardEnterEvent(player);
@@ -568,6 +557,10 @@ sound-channel: BLOCKS
             main.getLogger().warning("That means that AngelChest would have to check " + calculation + " = " + blocks + " blocks on each death.");
             main.getLogger().warning("Trust me, you don't want that. AngelChest will use the max allowed value of 20 for \"max-radius\" now.");
             main.getConfig().set(Config.MAX_RADIUS, 20);
+        }
+
+        if(reload) {
+            main.loadMaterials();
         }
     }
 

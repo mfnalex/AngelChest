@@ -12,7 +12,7 @@ import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
-import de.jeff_media.jefflib.customblock.CustomBlock;
+import de.jeff_media.customblocks.CustomBlock;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -62,6 +62,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public UUID worldid;
     double price = 0;
     public boolean isLooted = false;
+    private CustomBlock originalCustomBlock;
 
     /**
      * Loads an AngelChest from a YAML file
@@ -209,6 +210,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             main.getLogger().severe("Could not remove AngelChest file " + file.getAbsolutePath());
         }
 
+        this.originalCustomBlock = main.getChestMaterial(this);
 
     }
 
@@ -296,6 +298,8 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         extraInv = playerInventory.getExtraContents();
 
         removeKeptItems();
+
+        this.originalCustomBlock = main.getChestMaterial(this);
     }
 
     public @Nullable UUID getKiller() {
@@ -340,6 +344,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param uuid  The owner's UUID (to correctly set player heads)
      */
     public void createChest(final Block block, final UUID uuid, final boolean createHologram) {
+        if(originalCustomBlock != null) originalCustomBlock.remove(block);
         CustomBlock magicMaterial = main.getChestMaterial(this);
         if (main.debug)
             main.debug("Attempting to create chest with material " + magicMaterial + " at " + block.getLocation());
@@ -432,12 +437,14 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      */
     public void destroyChest(final Block block) {
         if (main.debug) main.debug("Destroying chest at " + block.getLocation() + this);
-        block.setType(Material.AIR);
         Objects.requireNonNull(block.getLocation().getWorld()).spawnParticle(Particle.EXPLOSION_NORMAL, block.getLocation(), 1);
         hologram.destroy();
         Graveyard graveyard = GraveyardManager.fromBlock(block);
         if(graveyard != null) {
+            graveyard.getCustomMaterial().remove(block);
             GraveyardListener.update(block);
+        } else {
+            main.getChestMaterial(this).remove(block);
         }
     }
 
@@ -687,7 +694,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
         if (removeChest) {
             // Duplicate Start
-            block.setType(Material.AIR);
+            main.getChestMaterial(this).remove(block);
             if (hologram != null) hologram.destroy();
         }
         // Duplicate End
@@ -773,6 +780,9 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * Unlocks this AngelChest for ALL players.
      */
     public void unlock() {
+        if(originalCustomBlock != null) {
+            originalCustomBlock.remove(block);
+        }
         this.isProtected = false;
     }
 

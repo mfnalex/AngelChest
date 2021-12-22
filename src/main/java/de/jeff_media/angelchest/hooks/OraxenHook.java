@@ -48,7 +48,6 @@ public class OraxenHook {
     }
 
     public static boolean place(Block block, String name) {
-        if(true) throw new UnsupportedOperationException("Sorry, I didn't understand Oraxen's API enough yet!");
         if(placeNoteBlock(block,name)) return true;
         if(placeFurniture(block,name)) return true;
         return false;

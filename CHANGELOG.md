@@ -8,7 +8,9 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
-## 7.0
+## 7.0.0
+TODO: FIX: Chests sterben bei Serverneustart, sind nach /acreload wieder da - liegt wohl daran dass die ChestMaterials noch nich geladen sind???
+
 Another new **major** update of AngelChest is here!
 
 - Totally new way to use custom blocks, player heads and blocks from ItemsAdder for your chests! Oraxen will be added too.
@@ -19,6 +21,7 @@ Another new **major** update of AngelChest is here!
   - See config.yml (the `material` option) for more information.
   - **Important:** If you already have used custom or player heads before updating to this version, you will have to update that line in your configuration, otherwise you will only get the default head. You can simply use `head:player` instead of where you used `PLAYER_HEAD` before.
 - New placeholder to check whether a player disabled AngelChests for themselves: `%angelchest_enabled%`
+- A tiny change: The .jar files' name will from now on include the current version number, as demanded by 107 people in the last 2 days.
 
 ## 6.2.0
 - Added option to prevent placing custom AngelChest items (default: enabled)

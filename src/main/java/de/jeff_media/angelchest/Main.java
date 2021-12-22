@@ -20,11 +20,14 @@ import de.jeff_media.angelchest.hooks.WorldGuardWrapper;
 import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
+import de.jeff_media.customblocks.implentation.VanillaBlock;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.JeffLib;
 import de.jeff_media.jefflib.McVersion;
 import de.jeff_media.jefflib.Ticks;
-import de.jeff_media.jefflib.customblock.CustomBlock;
+import de.jeff_media.customblocks.CustomBlock;
+import de.jeff_media.jefflib.exceptions.InvalidBlockDataException;
+import de.jeff_media.jefflib.exceptions.MissingPluginException;
 import de.jeff_media.updatechecker.UpdateChecker;
 import de.jeff_media.updatechecker.UserAgentBuilder;
 import io.papermc.lib.PaperLib;
@@ -57,6 +60,8 @@ import java.util.stream.Collectors;
  * AngelChest Main class
  */
 public final class Main extends JavaPlugin implements AngelChestPlugin {
+
+    private boolean loadedMaterials = false;
 
     {
         /*
@@ -205,6 +210,9 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }
 
     public CustomBlock getChestMaterial(final AngelChest chest) {
+        if(!loadedMaterials) {
+            loadMaterials();
+        }
         if (!Stepsister.allows(PremiumFeatures.GENERIC)) {
             return chestMaterial;
         }
@@ -219,6 +227,22 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
             return chestMaterial;
         }
         return chest.isProtected ? chestMaterial : chestMaterialUnlocked;
+    }
+
+    public void loadMaterials() {
+        try {
+            chestMaterial = CustomBlock.fromString(getConfig().getString(Config.MATERIAL));
+        } catch (MissingPluginException | InvalidBlockDataException e) {
+            e.printStackTrace();
+            chestMaterial = new VanillaBlock(Material.CHEST);
+        }
+        try {
+            chestMaterialUnlocked = CustomBlock.fromString(getConfig().getString(Config.MATERIAL_UNLOCKED));
+        } catch (MissingPluginException | InvalidBlockDataException e) {
+            e.printStackTrace();
+            chestMaterialUnlocked = new VanillaBlock(Material.ENDER_CHEST);
+        }
+        loadedMaterials = true;
     }
 
     public void initUpdateChecker() {
@@ -266,7 +290,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     public boolean isBrokenAngelChest(final Block block, final AngelChest chest) {
         if (isOutsideOfNormalWorld(block)) return false;
-        return block.getType() != getChestMaterial(chest).getBlockData().getMaterial();
+        return block.getType() != getChestMaterial(chest).getMaterial();
     }
 
     public @Nullable String isItemBlacklisted(final ItemStack item) {
@@ -573,7 +597,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
             if (Stepsister.allows(PremiumFeatures.GENERIC) && ac.isProtected && ac.unlockIn > -1) { // Don't add feature here, gets called every second
                 ac.unlockIn--;
                 if (ac.unlockIn == -1) {
-                    ac.isProtected = false;
+                    ac.unlock();
                     ac.scheduleBlockChange();
                     if (getServer().getPlayer(ac.owner) != null) {
                         Messages.send(getServer().getPlayer(ac.owner), messages.MSG_UNLOCKED_AUTOMATICALLY);

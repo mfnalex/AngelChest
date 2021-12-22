@@ -27,7 +27,6 @@ softdepend:
   - ExecutableItems
   - EcoEnchants
   - ItemsAdder
-loadbefore: [ AngelChestPlus ]
 commands:
 #  acadmin:
 #    description: "Manage a few AngelChest settings"

@@ -598,7 +598,7 @@ public final class CommandUtils {
             Messages.send(requester, main.messages.ERR_ALREADYUNLOCKED);
             return;
         }
-
+        main.getChestMaterial(ac).remove(ac.block);
         ac.unlock();
         ac.scheduleBlockChange();
         Messages.send(requester, main.messages.MSG_UNLOCKED_ONE_ANGELCHEST);
