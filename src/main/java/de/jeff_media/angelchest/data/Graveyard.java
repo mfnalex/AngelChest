@@ -131,13 +131,7 @@ public class Graveyard {
 
         CustomBlock magicMaterial = null;
         if(config.isSet("material")) {
-            try {
-                magicMaterial = CustomBlock.fromString(config.getString("material"));
-            } catch (MissingPluginException e) {
-                e.printStackTrace();
-            } catch (InvalidBlockDataException e) {
-                e.printStackTrace();
-            }
+            magicMaterial = CustomBlock.fromStringOrDefault(config.getString("material"),Material.CHEST);
         }
 
         String hologram;

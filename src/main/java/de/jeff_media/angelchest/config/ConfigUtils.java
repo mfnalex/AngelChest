@@ -536,8 +536,7 @@ sound-channel: BLOCKS
             GraveyardListener.callGraveyardLeaveEvent(player);
         }
 
-        // TODO DEBUG This normally runs NOT delayed, but ItemsAdder is too stupid to load items directly, sooo. yeah...
-        Bukkit.getScheduler().runTaskLater(main, () -> GraveyardManager.init(),1);
+        GraveyardManager.init();
 
         for(Player player : Bukkit.getOnlinePlayers()) {
             GraveyardListener.callGraveyardEnterEvent(player);
@@ -559,9 +558,6 @@ sound-channel: BLOCKS
             main.getConfig().set(Config.MAX_RADIUS, 20);
         }
 
-        if(reload) {
-            main.loadMaterials();
-        }
     }
 
     public static void validateConfigFiles() {

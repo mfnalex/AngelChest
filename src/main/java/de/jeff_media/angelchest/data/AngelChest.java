@@ -13,6 +13,8 @@ import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.customblocks.CustomBlock;
+import de.jeff_media.jefflib.exceptions.InvalidBlockDataException;
+import de.jeff_media.jefflib.exceptions.MissingPluginException;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -210,7 +212,13 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             main.getLogger().severe("Could not remove AngelChest file " + file.getAbsolutePath());
         }
 
-        this.originalCustomBlock = main.getChestMaterial(this);
+        try {
+            this.originalCustomBlock = yaml.getObject("acmagicmaterial",CustomBlock.class);
+        } catch (Exception exception) {
+            main.getLogger().warning("Could not deserialize custom object used for this AngelChest - falling back to default material.");
+            exception.printStackTrace();
+            this.originalCustomBlock = main.getChestMaterial(this);
+        }
 
     }
 
@@ -714,10 +722,11 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         if (firstTry) {
             if (main.debug) main.debug("scheduleBlockChange: " + block.toString());
         }
-        if (main.chestMaterial == main.chestMaterialUnlocked) {
+        // TODO: leftover
+        /*if (main.chestMaterial == main.chestMaterialUnlocked) {
             if (main.debug) main.debug("scheduleBlockChange abort: matching materials");
             return;
-        }
+        }*/
         final int x = block.getX();
         final int z = block.getZ();
 

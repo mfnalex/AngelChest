@@ -61,8 +61,6 @@ import java.util.stream.Collectors;
  */
 public final class Main extends JavaPlugin implements AngelChestPlugin {
 
-    private boolean loadedMaterials = false;
-
     {
         /*
         Do not move me! I have to be at the top of this class
@@ -100,8 +98,6 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }*/
 
     public LinkedHashMap<Block, AngelChest> angelChests;
-    public CustomBlock chestMaterial;
-    public CustomBlock chestMaterialUnlocked;
     public boolean debug = false;
     //public java.util.logging.Logger debugLogger;
     public boolean disableDeathEvent = false;
@@ -209,12 +205,13 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         return null;
     }
 
+    private CustomBlock getCustomBlock(String id, Material fallback) {
+        return CustomBlock.fromStringOrDefault(id,fallback);
+    }
+
     public CustomBlock getChestMaterial(final AngelChest chest) {
-        if(!loadedMaterials) {
-            loadMaterials();
-        }
         if (!Stepsister.allows(PremiumFeatures.GENERIC)) {
-            return chestMaterial;
+            return getCustomBlock(getConfig().getString(Config.MATERIAL), Material.CHEST);
         }
         if(Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
             if(chest.getGraveyard() != null) {
@@ -224,25 +221,11 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
             }
         }
         if (!getConfig().getBoolean(Config.USE_DIFFERENT_MATERIAL_WHEN_UNLOCKED)) {
-            return chestMaterial;
+            return getCustomBlock(getConfig().getString(Config.MATERIAL), Material.CHEST);
         }
-        return chest.isProtected ? chestMaterial : chestMaterialUnlocked;
-    }
-
-    public void loadMaterials() {
-        try {
-            chestMaterial = CustomBlock.fromString(getConfig().getString(Config.MATERIAL));
-        } catch (MissingPluginException | InvalidBlockDataException e) {
-            e.printStackTrace();
-            chestMaterial = new VanillaBlock(Material.CHEST);
-        }
-        try {
-            chestMaterialUnlocked = CustomBlock.fromString(getConfig().getString(Config.MATERIAL_UNLOCKED));
-        } catch (MissingPluginException | InvalidBlockDataException e) {
-            e.printStackTrace();
-            chestMaterialUnlocked = new VanillaBlock(Material.ENDER_CHEST);
-        }
-        loadedMaterials = true;
+        return chest.isProtected
+                ? getCustomBlock(getConfig().getString(Config.MATERIAL), Material.CHEST)
+                : getCustomBlock(getConfig().getString(Config.MATERIAL_UNLOCKED), Material.ENDER_CHEST);
     }
 
     public void initUpdateChecker() {
@@ -326,6 +309,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
                     }
                 } catch (Throwable t) {
                     child.renameTo(new File(getDataFolder().getPath() + File.separator + "angelchests" + File.separator + "shadow", child.getName()));
+                    if(debug) t.printStackTrace();
                 }
             }
         }
@@ -403,6 +387,8 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
             Stepsister.createVerificationFile();
         }
         /*Daddy end*/
+
+        ConfigurationSerialization.registerClass(CustomBlock.class, "acmagicmaterial");
 
         migrateFromAngelChestPlus1X();
         ChestFileUpdater.updateChestFilesToNewDeathCause();
