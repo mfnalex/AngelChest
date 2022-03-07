@@ -25,10 +25,7 @@ import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -48,6 +45,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.util.BoundingBox;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -608,6 +606,17 @@ public final class PlayerListener implements Listener {
             if (main.debug) main.debug("Adding predicate \"avoid-lava-oceans\"");
             predicates.add(block -> !(block.getY() < p.getLocation().getY()));
         }
+
+        // Prevent destroying itemframes
+        predicates.add(block -> {
+            Collection<Entity> nearby = block.getWorld().getNearbyEntities(BoundingBox.of(block));
+            for(Entity entity : nearby) {
+                if(entity instanceof Hanging) {
+                    return false;
+                }
+            }
+            return true;
+        });
 
         if (main.debug) main.debug("FixedPlayerPosition: " + fixedPlayerPosition);
         Block angelChestBlock = AngelChestUtils.getChestLocation(fixedPlayerPosition, predicates.toArray(new Predicate[0]));

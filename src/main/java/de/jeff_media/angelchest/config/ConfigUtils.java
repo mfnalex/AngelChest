@@ -11,7 +11,6 @@ import de.jeff_media.angelchest.handlers.ItemManager;
 import de.jeff_media.angelchest.hooks.ExecutableItemsHook;
 import de.jeff_media.angelchest.hooks.GenericHooks;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
-import de.jeff_media.angelchest.hooks.OraxenHook;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.GroupUtils;
@@ -503,7 +502,7 @@ sound-channel: BLOCKS
 
         final Main main = Main.getInstance();
         /*Daddy start*/
-        //Stepsister.init(main);
+        //Stepsister.init(main); // TODO
         /*Daddy end*/
         ExecutableItemsHook.init();
         if (reload) {

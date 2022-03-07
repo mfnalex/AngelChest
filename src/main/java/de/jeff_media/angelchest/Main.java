@@ -13,14 +13,12 @@ import de.jeff_media.angelchest.gui.GUIListener;
 import de.jeff_media.angelchest.gui.GUIManager;
 import de.jeff_media.angelchest.handlers.ChunkManager;
 import de.jeff_media.angelchest.handlers.ItemManager;
-import de.jeff_media.angelchest.hooks.GenericHooks;
-import de.jeff_media.angelchest.hooks.MinepacksHook;
-import de.jeff_media.angelchest.hooks.PlaceholderAPIHook;
-import de.jeff_media.angelchest.hooks.WorldGuardWrapper;
+import de.jeff_media.angelchest.hooks.*;
 import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.customblocks.implentation.VanillaBlock;
+import de.jeff_media.daddy.CallHome;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.JeffLib;
 import de.jeff_media.jefflib.McVersion;
@@ -33,6 +31,7 @@ import de.jeff_media.updatechecker.UserAgentBuilder;
 import io.papermc.lib.PaperLib;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.*;
@@ -127,6 +126,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     public boolean verbose = false;
     public Watchdog watchdog;
     public YamlConfiguration customDeathCauses;
+    @Getter @Setter private boolean itemsAdderLoaded = false;
     boolean emergencyMode = false;
     @SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
     private String NONCE = "%%__NONCE__%%";
@@ -205,6 +205,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         return null;
     }
 
+    @SneakyThrows
     private CustomBlock getCustomBlock(String id, Material fallback) {
         return CustomBlock.fromStringOrDefault(id,fallback);
     }
@@ -273,6 +274,8 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     public boolean isBrokenAngelChest(final Block block, final AngelChest chest) {
         if (isOutsideOfNormalWorld(block)) return false;
+        Material shouldBe = getChestMaterial(chest).getMaterial();
+        if(shouldBe == null) return false;
         return block.getType() != getChestMaterial(chest).getMaterial();
     }
 
@@ -382,13 +385,13 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         //npcManager = new NPCManager();
 
         /*Daddy start*/
-        Stepsister.init(this);
+        Stepsister.init(this); // TODO TODO TODO
         if(Stepsister.allows(PremiumFeatures.GENERIC)) {
             Stepsister.createVerificationFile();
         }
         /*Daddy end*/
 
-        ConfigurationSerialization.registerClass(CustomBlock.class, "acmagicmaterial");
+        //ConfigurationSerialization.registerClass(PlacedCustomBlock.class, "acplacedcustomblock");
 
         migrateFromAngelChestPlus1X();
         ChestFileUpdater.updateChestFilesToNewDeathCause();
@@ -397,6 +400,13 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
             EmergencyMode.severe(EmergencyMode.UNSUPPORTED_MC_VERSION_1_13);
             emergencyMode = true;
             return;
+        }
+
+        if(Bukkit.getPluginManager().getPlugin("ItemsAdder") != null) {
+            itemsAdderLoaded = false;
+            Bukkit.getPluginManager().registerEvents(new ItemsAdderInitListener(), this);
+        } else {
+            itemsAdderLoaded = true;
         }
 
         ConfigurationSerialization.registerClass(DeathCause.class);
@@ -422,7 +432,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         killers = new HashMap<>();
         logger = new Logger();
 
-        scheduleRepeatingTasks();
+        ItemsAdderHook.runOnceItemsAdderLoaded(this::scheduleRepeatingTasks);
 
         debug("Registering commands");
         registerCommands();
@@ -478,13 +488,16 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
                     final char color = Stepsister.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? 'a' : '6';
+                    if(color == '6') // Do not mock paid users
                     for (final String line : Stepsister.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? Messages.usingPlusVersion : Messages.usingFreeVersion) {
                         getLogger().info(ChatColor.translateAlternateColorCodes('&', "&" + color + line));
                     }
                 }, 60L);
 
-        debug("Loading AngelChests from disk");
-        loadAllAngelChestsFromFile();
+        ItemsAdderHook.runOnceItemsAdderLoaded(() -> {
+                    debug("Loading AngelChests from disk");
+                    loadAllAngelChestsFromFile();
+                });
 
         PaperCommandManager commandManager = new PaperCommandManager(this);
         CommandReplacements replacements = commandManager.getCommandReplacements();
@@ -631,6 +644,8 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     private void setEconomyStatus() {
         final Plugin v = getServer().getPluginManager().getPlugin("Vault");
+
+        CallHome.callHome(this);
 
         if (v == null) {
             getLogger().info("Vault not installed, disabling economy functions.");

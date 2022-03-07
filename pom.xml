@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>7.0.0-SNAPSHOT</version>
+    <version>7.0.0</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -76,7 +76,7 @@
                     <relocations>
                         <relocation>
                             <pattern>de.jeff_media.jefflib</pattern>
-                            <shadedPattern>de.jeff_media.angelchest.jefflib</shadedPattern>
+                            <shadedPattern>de.jeff_media.angelchest</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>de.jeff_media.customblockdata</pattern>
@@ -198,14 +198,6 @@
 
         </plugins>
 
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ftp</artifactId>
-                <version>3.4.1</version>
-            </extension>
-        </extensions>
-
     </build>
 
     <repositories>
@@ -276,7 +268,7 @@
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>JeffLib</artifactId>
-            <version>7.1.11-SNAPSHOT</version>
+            <version>7.7.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -329,7 +321,7 @@
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>Stepsister</artifactId>
-            <version>1.0.0-OBF-SNAPSHOT</version>
+            <version>11.0.0</version>
             <scope>compile</scope>
         </dependency>
         <!-- /*Daddy end*/ -->
@@ -422,20 +414,13 @@
             <version>5.13.0</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>com.github.LoneDev6</groupId>
             <artifactId>api-itemsadder</artifactId>
-            <version>2.3.8</version>
+            <version>2.5.5</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.Th0rgal</groupId>
-            <artifactId>Oraxen</artifactId>
-            <version>bruh</version>
-            <scope>provided</scope>
-        </dependency>
-
-
 
         <!-- Plugins that are not available in repositories. They will be accessed via Reflection. -->
         <!-- It is not needed that you have them installed. -->

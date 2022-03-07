@@ -11,10 +11,9 @@ import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.utils.*;
+import de.jeff_media.customblocks.implentation.VanillaBlock;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.customblocks.CustomBlock;
-import de.jeff_media.jefflib.exceptions.InvalidBlockDataException;
-import de.jeff_media.jefflib.exceptions.MissingPluginException;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -64,7 +63,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public UUID worldid;
     double price = 0;
     public boolean isLooted = false;
-    private CustomBlock originalCustomBlock;
+    private CustomBlock customBlock;
 
     /**
      * Loads an AngelChest from a YAML file
@@ -79,9 +78,9 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             yaml = new YamlConfiguration();
             yaml.load(file);
         } catch (final Throwable t) {
-            main.getLogger().warning("Could not load AngelChest file " + file.getName());
             success = false;
             if (main.debug) {
+                main.getLogger().warning("Could not load AngelChest file " + file.getName());
                 t.printStackTrace();
             }
             return;
@@ -212,12 +211,16 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             main.getLogger().severe("Could not remove AngelChest file " + file.getAbsolutePath());
         }
 
-        try {
-            this.originalCustomBlock = yaml.getObject("acmagicmaterial",CustomBlock.class);
-        } catch (Exception exception) {
-            main.getLogger().warning("Could not deserialize custom object used for this AngelChest - falling back to default material.");
-            exception.printStackTrace();
-            this.originalCustomBlock = main.getChestMaterial(this);
+        if(yaml.isSet("acmagicmaterial")) {
+            try {
+                this.customBlock = yaml.getObject("acmagicmaterial", CustomBlock.class);
+            } catch (Exception exception) {
+                main.getLogger().warning("Could not deserialize custom object used for this AngelChest - falling back to default material.");
+                exception.printStackTrace();
+                this.customBlock = new VanillaBlock(Material.CHEST); //main.getChestMaterial(this);
+            }
+        } else {
+            this.customBlock = new VanillaBlock(Material.CHEST);
         }
 
     }
@@ -307,7 +310,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
         removeKeptItems();
 
-        this.originalCustomBlock = main.getChestMaterial(this);
+        //this.originalCustomBlock = new PlacedCustomBlock(block); //main.getChestMaterial(this);
     }
 
     public @Nullable UUID getKiller() {
@@ -352,11 +355,13 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param uuid  The owner's UUID (to correctly set player heads)
      */
     public void createChest(final Block block, final UUID uuid, final boolean createHologram) {
-        if(originalCustomBlock != null) originalCustomBlock.remove(block);
-        CustomBlock magicMaterial = main.getChestMaterial(this);
+        //System.out.println("Create Chest: " + this);
+        if(customBlock != null) customBlock.remove();
+        customBlock = main.getChestMaterial(this);
         if (main.debug)
-            main.debug("Attempting to create chest with material " + magicMaterial + " at " + block.getLocation());
-        magicMaterial.place(block, Bukkit.getOfflinePlayer(uuid));
+            main.debug("Attempting to create chest with material " + customBlock + " at " + block.getLocation());
+        customBlock.place(block, Bukkit.getOfflinePlayer(uuid));
+        //System.out.println("Chest created: " + originalCustomBlock);
         if (createHologram) {
             createHologram(block, uuid);
         }
@@ -448,11 +453,15 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         Objects.requireNonNull(block.getLocation().getWorld()).spawnParticle(Particle.EXPLOSION_NORMAL, block.getLocation(), 1);
         hologram.destroy();
         Graveyard graveyard = GraveyardManager.fromBlock(block);
+        if(customBlock != null) {
+            customBlock.remove();
+        }
         if(graveyard != null) {
-            graveyard.getCustomMaterial().remove(block);
+            //graveyard.getCustomMaterial().remove(block);
+
             GraveyardListener.update(block);
         } else {
-            main.getChestMaterial(this).remove(block);
+            //main.getChestMaterial(this).remove(block);
         }
     }
 
@@ -702,7 +711,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
         if (removeChest) {
             // Duplicate Start
-            main.getChestMaterial(this).remove(block);
+            if(customBlock != null) customBlock.remove();
             if (hologram != null) hologram.destroy();
         }
         // Duplicate End
@@ -789,10 +798,11 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * Unlocks this AngelChest for ALL players.
      */
     public void unlock() {
-        if(originalCustomBlock != null) {
-            originalCustomBlock.remove(block);
+        if(customBlock != null) {
+            customBlock.remove();
         }
         this.isProtected = false;
+        main.getChestMaterial(this).place(block,getPlayer());
     }
 
 }

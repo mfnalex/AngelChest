@@ -47,7 +47,7 @@ public final class ProtectionUtils {
             if (angelChest.owner.equals(openingPlayer.getUniqueId())) return true;
             return openingPlayer.hasPermission(Permissions.PROTECT_IGNORE);
         }
-        main.debug("Checking whether " + openingPlayer.getName() + "may open this chest.");
+        main.debug("Checking whether " + openingPlayer.getName() + " may open this chest.");
         main.debug("  Owner: " + angelChest.owner);
         main.debug("  Killer: " + angelChest.killer);
         if (!angelChest.isProtected) {
@@ -60,7 +60,7 @@ public final class ProtectionUtils {
         }
         if (openingPlayer.getUniqueId().equals(angelChest.owner) && angelChest.killer == null) {
             if (yamlFile.getBoolean("owner-outside-pvp")) {
-                main.debug("Player " + openingPlayer.getName() + " may open the Chest " + angelChest + " because he is the owner, didnt die in PvP and owner-outside-pvp: true in protected.yml.");
+                main.debug("Player " + openingPlayer.getName() + " may open the Chest " + angelChest + " bcause he is the owner, didnt die in PvP and owner-outside-pvp: true in protected.yml.");
                 return true;
             }
         }
@@ -79,7 +79,7 @@ public final class ProtectionUtils {
         if (!openingPlayer.getUniqueId().equals(angelChest.owner)
                 && !openingPlayer.getUniqueId().equals(angelChest.getKiller())) {
             if (yamlFile.getBoolean("others")) {
-                main.debug("Player " + openingPlayer.getName() + " may open the Chest " + angelChest + " because he is neither owner nor killer and others: true in protected.yml.");
+                main.debug("Player " + openingPlayer.getName() + " may open the Chest " + angelChest + " because he is neuither owner nor killer and others: true in protected.yml.");
                 return true;
             }
         }

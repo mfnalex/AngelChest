@@ -1,3 +1,6 @@
+PLEASE NOTE THAT USING ITEMSADDER AND ORAXEN BLOCKS / FURNITURE IS CURRENTLY IN BETA!
+YOU MAY ENCOUNTER BUGS WHEN USING ITEMSADDER OR ORAXEN BLOCKS / FURNITURE FOR YOUR ANGELCHESTS!
+
 See the following link for information on how to use custom blocks:
 
 https://wiki.jeff-media.com/books/general-information/page/custom-blocks

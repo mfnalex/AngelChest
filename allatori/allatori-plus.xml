@@ -1,7 +1,7 @@
 <config>
 
     <property name="control-flow-obfuscation" value="enable"/>
-    <property name="extensive-flow-obfuscation" value="normal"/>
+    <property name="extensive-flow-obfuscation" value="maximum"/>
     <property name="string-encryption" value="enable"/>
 
     <input>
@@ -9,39 +9,49 @@
     </input>
 
     <keep-names>
-        <class access="public" />
-        <method access="public" />
-        <field access="public" />
+        <!--<class access="public" />-->
+        <!--<method access="public" />-->
+        <!--<field access="public" />-->
+        <class template="class de.jeff_media.angelchest.AngelChest" />
+        <class template="class de.jeff_media.angelchest.AngelChestPlugin" />
+        <class template="class de.jeff_media.angelchest.Main" />
+        <method template="getHandlerList()" />
         <class template="class **API**">
             <method template="public *(**)" />
         </class>
         <method template="@org.bukkit.event.EventHandler *(**)" />
+        <method template="@java.lang.Override *(**)" />
         <class template="class **.bstats.**" />
         <class template="class **.Metrics.**" />
     </keep-names>
 
     <property name="log-file" value="log.xml"/>
 
-    <property name="packages-naming" value="keep"/>
-
     <property name="generics" value="keep"/>
-    <property name="line-numbers" value="keep"/> <!-- For Debugging: keep -->
+    <property name="line-numbers" value="obfuscate"/> <!-- For Debugging: keep -->
     <property name="inner-classes" value="keep"/>
+    <property name="default-package" value="de.jeff_media.angelchest"/>
+    <property name="force-default-package" value="enable"/>
     <property name="synthetize-methods" value="disable"/>
     <property name="synthetize-fields" value="disable"/>
     <property name="remove-toString" value="enable"/>
-    <property name="string-encryption-type" value="fast"/>
+    <property name="string-encryption-type" value="strong"/>
     <property name="string-encryption-ignored-strings" value="../allatori/spigotmc-patterns.txt"/>
     <ignore-classes>
         <!--<class template="class com.*"/>-->
         <!--<class template="class org.*"/>-->
-        <class template="class *.ConfigUpdater" />
+        <!--<class template="class *.ConfigUpdater" />
         <class template="class **.config.**" />
         <class template="class *.BlockDataManager" />
         <class template="class *.Metrics" />
         <class template="class *.jefflib.**" />
         <class template="class **.bstats.**" />
         <class template="class *.GraveyardYamlManager" />
-        <class template="class *.MMOItemsHook" />
+        <class template="class *.MMOItemsHook" />-->
+        <class template="class **.co.aikar.**" />
+        <class template="class **.nms.**" />
+        <!--<class template="class **.WorldGuard**" />
+        <class template="class **.ChunkManager" />-->
+        <!--<class template="class *.Stepsister" />-->
     </ignore-classes>
 </config>
