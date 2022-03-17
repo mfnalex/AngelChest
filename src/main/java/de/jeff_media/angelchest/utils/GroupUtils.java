@@ -7,6 +7,7 @@ import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.Group;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.daddy.CallHome;
 import de.jeff_media.daddy.Stepsister;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -27,6 +28,7 @@ public final class GroupUtils {
 
     public GroupUtils(final File yamlFile) {
         this.main = Main.getInstance();
+        CallHome.callHome(main);
         if (!yamlFile.exists()) {
             main.getLogger().info("groups.yml does not exist, skipping custom group settings.");
             return;

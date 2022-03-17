@@ -645,8 +645,6 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     private void setEconomyStatus() {
         final Plugin v = getServer().getPluginManager().getPlugin("Vault");
 
-        CallHome.callHome(this);
-
         if (v == null) {
             getLogger().info("Vault not installed, disabling economy functions.");
             economyStatus = EconomyStatus.INACTIVE;

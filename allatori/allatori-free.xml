@@ -23,6 +23,10 @@
         <method template="@java.lang.Override *(**)" />
         <class template="class **.bstats.**" />
         <class template="class **.Metrics.**" />
+        <class template="class **.jefflib.**"/>
+        <class template="class ** extends org.bukkit.configuration.serialization.ConfigurationSerializable">
+                <method template="public *(**)"/>
+        </class>
     </keep-names>
 
     <property name="log-file" value="log.xml"/>
@@ -35,6 +39,7 @@
     <property name="synthetize-methods" value="disable"/>
     <property name="synthetize-fields" value="disable"/>
     <property name="remove-toString" value="enable"/>
+    <property name="string-encryption" value="disable"/>
     <property name="string-encryption-type" value="strong"/>
     <property name="string-encryption-ignored-strings" value="../allatori/spigotmc-patterns.txt"/>
     <ignore-classes>
@@ -50,6 +55,12 @@
         <class template="class *.MMOItemsHook" />-->
         <class template="class **.co.aikar.**" />
         <class template="class **.nms.**" />
+        <class template="class **NMS**"/>
+        <class template="class **.jefflib.**"/>
+        <class template="class **.updatechecker.**"/>
+        <class template="class **.WorldEdit**"/>
+        <class template="class **.WorldGuard**"/>
+        <class template="class **.thirdparty.**"/>
         <!--<class template="class **.WorldGuard**" />
         <class template="class **.ChunkManager" />-->
         <!--<class template="class *.Stepsister" />-->

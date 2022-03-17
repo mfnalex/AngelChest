@@ -23,6 +23,10 @@
         <method template="@java.lang.Override *(**)" />
         <class template="class **.bstats.**" />
         <class template="class **.Metrics.**" />
+        <class template="class **.jefflib.**"/>
+        <class template="class ** extends org.bukkit.configuration.serialization.ConfigurationSerializable">
+            <method template="public *(**)"/>
+        </class>
     </keep-names>
 
     <property name="log-file" value="log.xml"/>
@@ -50,6 +54,13 @@
         <class template="class *.MMOItemsHook" />-->
         <class template="class **.co.aikar.**" />
         <class template="class **.nms.**" />
+        <class template="class **NMS**"/>
+        <class template="class **.updatechecker.**"/>
+        <class template="class **.jefflib.**"/>
+        <class template="class **.WorldEdit**"/>
+        <class template="class **.WorldGuard**"/>
+        <class template="class **.thirdparty.**"/>
+        <!--<class template="class de.jeff_media.angelchest.JeffLib"/>-->
         <!--<class template="class **.WorldGuard**" />
         <class template="class **.ChunkManager" />-->
         <!--<class template="class *.Stepsister" />-->

@@ -7,6 +7,7 @@ import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.angelchest.gui.GUIHolder;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
@@ -395,6 +396,16 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public void destroy(final boolean refund, final boolean expired) {
         if (main.debug) main.debug("Destroying AngelChest");
 
+        // Fix players looting already removed chests
+        for(Player viewer : Bukkit.getOnlinePlayers()) {
+            if(viewer.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder) {
+                GUIHolder holder = (GUIHolder) viewer.getOpenInventory().getTopInventory().getHolder();
+                if(holder.getAngelChest() == this) {
+                    viewer.closeInventory();
+                }
+            }
+        }
+
         if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {
             if (main.debug) main.debug("Chunk is not loaded, trying to load chunk async...");
             PaperLib.getChunkAtAsync(block.getLocation());
@@ -413,6 +424,8 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         // remove the physical chest
         destroyChest(block);
         hologram.destroy();
+
+        //main.guiManager.
 
         // drop contents
         if(main.getConfig().getBoolean(Config.DROP_CONTENTS) || !expired) {
