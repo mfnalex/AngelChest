@@ -1,6 +1,7 @@
 package de.jeff_media.angelchest;
 
 import co.aikar.commands.*;
+import com.allatori.annotations.DoNotRename;
 import de.jeff_media.angelchest.commands.*;
 import de.jeff_media.angelchest.config.*;
 import de.jeff_media.angelchest.data.*;
@@ -18,6 +19,7 @@ import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.customblocks.implentation.VanillaBlock;
+import de.jeff_media.daddy.Chicken;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.JeffLib;
 import de.jeff_media.jefflib.McVersion;
@@ -68,6 +70,8 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         Do not move me! I have to be at the top of this class
          */
     }
+
+    @DoNotRename public static boolean isPremiumVersion = true;
 
     @Getter @Setter private ItemManager itemManager;
     @Getter private final Glow glowEnchantment = new Glow();
@@ -339,6 +343,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         final File ACFolder = new File(getDataFolder().getAbsolutePath());
         final File ACPlusFolder = new File(ACFolder.getParentFile(), "AngelChestPlus");
 
+        Chicken.wing(this);
         // ACPlus folder exists
         if (ACPlusFolder.isDirectory()) {
             getLogger().warning("You are upgrading from AngelChestPlus 1.XX to " + getDescription().getVersion());
@@ -387,6 +392,9 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         Stepsister.init(this); // TODO TODO TODO
         if(Stepsister.allows(PremiumFeatures.GENERIC)) {
             Stepsister.createVerificationFile();
+            isPremiumVersion = true;
+        } else {
+            isPremiumVersion = false;
         }
         /*Daddy end*/
 

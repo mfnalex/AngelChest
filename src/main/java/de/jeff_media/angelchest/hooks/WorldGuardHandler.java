@@ -14,8 +14,7 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
-import de.jeff_media.angelchest.enums.PremiumFeatures;
-import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.angelchest.hooks.WorldGuardWrapper;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -26,7 +25,6 @@ import java.util.Objects;
  * Hooks into WorldGuard 7+. If this fails, it tries to use the WorldGuardLegacyHandler for older versions.
  */
 public final class WorldGuardHandler extends WorldGuardWrapper {
-
 
     public static StateFlag FLAG_ALLOW_ANGELCHEST = null;
     private static final Main main = Main.getInstance();
@@ -131,7 +129,7 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
         if (allow) {
             return true;
         } else {
-            if (!Stepsister.allows(PremiumFeatures.WORLD_GUARD_FLAGS)) {
+            if (!Main.isPremiumVersion) {
                 main.getLogger().warning("You are using AngelChest's WorldGuard flags, which are only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
                 return true;
             }

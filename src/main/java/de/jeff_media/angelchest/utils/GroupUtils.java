@@ -28,7 +28,6 @@ public final class GroupUtils {
 
     public GroupUtils(final File yamlFile) {
         this.main = Main.getInstance();
-        Chicken.wing(main);
         if (!yamlFile.exists()) {
             main.getLogger().info("groups.yml does not exist, skipping custom group settings.");
             return;

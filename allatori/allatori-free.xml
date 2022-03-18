@@ -15,6 +15,9 @@
         <class template="class de.jeff_media.angelchest.AngelChest" />
         <class template="class de.jeff_media.angelchest.AngelChestPlugin" />
         <class template="class de.jeff_media.angelchest.Main" />
+        <class template="class de.jeff_media.angelchest.config.Config">
+            <field access="public"/>
+        </class>
         <method template="getHandlerList()" />
         <class template="class **API**">
             <method template="public *(**)" />
@@ -58,8 +61,8 @@
         <class template="class **NMS**"/>
         <class template="class **.jefflib.**"/>
         <class template="class **.updatechecker.**"/>
-        <class template="class **.WorldEdit**"/>
-        <class template="class **.WorldGuard**"/>
+        <!--<class template="class **.WorldEdit**"/>
+        <class template="class **.WorldGuard**"/>-->
         <class template="class **.thirdparty.**"/>
         <!--<class template="class **.WorldGuard**" />
         <class template="class **.ChunkManager" />-->

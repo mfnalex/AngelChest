@@ -8,6 +8,12 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 7.0.3
+Fixed WorldGuard support
+
+## 7.0.2
+Fixed dupe bug
+
 ## 7.0.0
 **Important - please read this before updating!!**
 
