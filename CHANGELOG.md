@@ -8,6 +8,9 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 7.0.4
+Fixed chests not being removed when they were looted or expired if the server restarted inbetween
+
 ## 7.0.3
 Fixed WorldGuard support
 

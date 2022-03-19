@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>7.0.3</version>
+    <version>7.0.4</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -71,7 +71,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.3.0-SNAPSHOT</version>
                 <configuration>
                     <relocations>
                         <relocation>
@@ -96,8 +96,7 @@
                         </relocation>
                         <relocation>
                             <pattern>org.apache.maven.artifact</pattern>
-                            <shadedPattern>de.jeff_media.angelchest.jefflib.thirdparty.org.apache.maven.artifact
-                            </shadedPattern>
+                            <shadedPattern>de.jeff_media.angelchest.jefflib.thirdparty.org.apache.maven.artifact</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>de.jeff_media.updatechecker</pattern>
@@ -121,8 +120,7 @@
                         </relocation>
                         <relocation>
                             <pattern>org.apache.commons.lang3</pattern>
-                            <shadedPattern>de.jeff_media.angelchest.thirdparty.org.apache.commons.lang3
-                            </shadedPattern>
+                            <shadedPattern>de.jeff_media.angelchest.thirdparty.org.apache.commons.lang3</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.apache.commons.io</pattern>
@@ -130,13 +128,11 @@
                         </relocation>
                         <relocation>
                             <pattern>org.intellij.lang.annotations</pattern>
-                            <shadedPattern>de.jeff_media.angelchest.thirdparty.org.intellij.lang.annotations
-                            </shadedPattern>
+                            <shadedPattern>de.jeff_media.angelchest.thirdparty.org.intellij.lang.annotations</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.jetbrains.annotations</pattern>
-                            <shadedPattern>de.jeff_media.angelchest.thirdparty.org.jetbrains.annotations
-                            </shadedPattern>
+                            <shadedPattern>de.jeff_media.angelchest.thirdparty.org.jetbrains.annotations</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.javatuples</pattern>
@@ -144,8 +140,7 @@
                         </relocation>
                         <relocation>
                             <pattern>org.zeroturnaround.zip</pattern>
-                            <shadedPattern>de.jeff_media.angelchest.thirdparty.org.zeroturnaround.zip
-                            </shadedPattern>
+                            <shadedPattern>de.jeff_media.angelchest.thirdparty.org.zeroturnaround.zip</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.bstats.bukkit</pattern>

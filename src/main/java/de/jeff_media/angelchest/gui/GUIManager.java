@@ -9,6 +9,7 @@ import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.utils.*;
+import de.jeff_media.daddy.Chicken;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.Ticks;
 import org.bukkit.Bukkit;
@@ -33,7 +34,7 @@ public final class GUIManager {
 
     public GUIManager() {
         this.main = Main.getInstance();
-
+        Chicken.wing(main);
     }
 
     private static int getInventorySize(final int numberOfChests) {

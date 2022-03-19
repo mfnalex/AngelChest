@@ -1,5 +1,6 @@
 package de.jeff_media.angelchest.data;
 
+import com.google.common.io.Files;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.ChestYaml;
 import de.jeff_media.angelchest.config.Config;
@@ -15,9 +16,11 @@ import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.customblocks.implentation.VanillaBlock;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.customblocks.CustomBlock;
+import de.jeff_media.jefflib.ConfigUtils;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -29,6 +32,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -78,6 +82,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         try {
             yaml = new YamlConfiguration();
             yaml.load(file);
+
         } catch (final Throwable t) {
             success = false;
             if (main.debug) {
@@ -125,6 +130,22 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             this.openedBy = yaml.getStringList("opened-by");
         } else {
             openedBy = new ArrayList<>();
+        }
+
+        if(yaml.isSet("customblock")) {
+            try {
+                //this.customBlock = yaml.getObject("customblock", CustomBlock.class);
+                ConfigurationSection section = yaml.getConfigurationSection("customblock");
+                Map<String,Object> map = ConfigUtils.asMap(section);
+                this.customBlock = CustomBlock.deserialize(map);
+            } catch (Exception exception) {
+                main.getLogger().warning("Could not deserialize custom object used for this AngelChest - falling back to default material.");
+                exception.printStackTrace();
+                this.customBlock = new VanillaBlock(Material.CHEST); //main.getChestMaterial(this);
+            }
+        } else {
+            main.getLogger().warning("No customblock set for chest " + this);
+            this.customBlock = new VanillaBlock(Material.CHEST);
         }
 
 
@@ -210,18 +231,6 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
         if (!file.delete()) {
             main.getLogger().severe("Could not remove AngelChest file " + file.getAbsolutePath());
-        }
-
-        if(yaml.isSet("acmagicmaterial")) {
-            try {
-                this.customBlock = yaml.getObject("acmagicmaterial", CustomBlock.class);
-            } catch (Exception exception) {
-                main.getLogger().warning("Could not deserialize custom object used for this AngelChest - falling back to default material.");
-                exception.printStackTrace();
-                this.customBlock = new VanillaBlock(Material.CHEST); //main.getChestMaterial(this);
-            }
-        } else {
-            this.customBlock = new VanillaBlock(Material.CHEST);
         }
 
     }
@@ -468,6 +477,8 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         Graveyard graveyard = GraveyardManager.fromBlock(block);
         if(customBlock != null) {
             customBlock.remove();
+        } else {
+            block.setType(Material.AIR);
         }
         if(graveyard != null) {
             //graveyard.getCustomMaterial().remove(block);
@@ -713,6 +724,10 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         yaml.set(ChestYaml.EXP_LEVELS, levels);
         yaml.set(ChestYaml.PRICE, price);
         yaml.set("graveyard",graveyard == null ? null : graveyard.getName());
+
+        yaml.set("customblock",customBlock.serialize());
+
+
         yaml.set("deathCause", deathCause);
         yaml.set("opened-by", openedBy);
         yaml.set("logfile", logfile);

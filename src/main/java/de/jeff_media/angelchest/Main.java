@@ -343,7 +343,6 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         final File ACFolder = new File(getDataFolder().getAbsolutePath());
         final File ACPlusFolder = new File(ACFolder.getParentFile(), "AngelChestPlus");
 
-        Chicken.wing(this);
         // ACPlus folder exists
         if (ACPlusFolder.isDirectory()) {
             getLogger().warning("You are upgrading from AngelChestPlus 1.XX to " + getDescription().getVersion());
@@ -398,7 +397,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         }
         /*Daddy end*/
 
-        //ConfigurationSerialization.registerClass(PlacedCustomBlock.class, "acplacedcustomblock");
+        ConfigurationSerialization.registerClass(CustomBlock.class, "CustomBlock");
 
         migrateFromAngelChestPlus1X();
         ChestFileUpdater.updateChestFilesToNewDeathCause();
