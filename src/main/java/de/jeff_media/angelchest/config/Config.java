@@ -5,6 +5,8 @@ package de.jeff_media.angelchest.config;
  */
 public final class Config {
 
+    public static final String DEATH_MAPS = "death-maps";
+    public static final String DEATH_MAP_MARKER = "death-map-marker";
     public static final String ALIAS_ACFETCH = "command-aliases-acfetch";
     public static final String ALIAS_ACGUI = "command-aliases-acgui";
     public static final String ALIAS_ACLIST = "command-aliases-aclist";
@@ -136,6 +138,8 @@ public final class Config {
     public static final String AVOID_LAVA_OCEANS = "avoid-lava-oceans";
     public static final String PROHIBIT_AUTO_EQUIP = "prohibit-auto-equip";
     public static final String DISABLE_IN_CREATIVE = "disable-in-creative";
+    public static final String DEATH_MAP_LORE = "death-map-lore";
+    public static final String DEATH_MAP_NAME = "death-map-name";
 
     public static final String GUI_TELEPORT_LORE = "gui-teleport-lore";
     public static final String GUI_FETCH_LORE = "gui-fetch-lore";

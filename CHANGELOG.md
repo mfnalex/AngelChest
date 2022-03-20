@@ -8,6 +8,14 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 7.1.0
+- Added option to let players respawn with a map showing the location of their last AngelChest (disabled by default)
+- All players now have "angelchest.use" permission by default.
+  - I was tired of people not being able to read and claim that requiring permissions was a bug and not a feature.
+  - If you want certain people not to get an AngelChest, use your permissions plugin to remove the permission (e.g. `/lp user mfnalex permission set angelchest.use false`)
+- Fixed default config examples for custom ItemsAdder and Oraxen blocks and player heads. The "material" and "material-unlocked" values HAVE to be put into "double quotes".
+- Fixed errors in version 7.0.4. I accidentally shaded some dependencies, sorry!
+
 ## 7.0.4
 Fixed chests not being removed when they were looted or expired if the server restarted inbetween
 

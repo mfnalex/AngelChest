@@ -12,6 +12,7 @@ import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.events.AngelChestSpawnEvent;
 import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
 import de.jeff_media.angelchest.gui.GUIHolder;
+import de.jeff_media.angelchest.handlers.DeathMapManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.handlers.ItemManager;
 import de.jeff_media.angelchest.hooks.EcoEnchantsHook;
@@ -870,7 +871,14 @@ public final class PlayerListener implements Listener {
 
         ac.createChest();
 
-
+        if(main.getConfig().getBoolean(Config.DEATH_MAPS)) {
+            if(Stepsister.allows(PremiumFeatures.DEATH_MAP)) {
+                ItemStack deathMap = DeathMapManager.getDeathMap(ac);
+                Bukkit.getScheduler().runTaskLater(main, () -> p.getInventory().addItem(deathMap), 1);
+            } else {
+                Messages.sendPremiumOnly(Config.DEATH_MAPS);
+            }
+        }
 
         if(main.debug) {
             TimeUtils.endTimings("AngelChest spawn", main, true);

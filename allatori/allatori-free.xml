@@ -1,8 +1,11 @@
 <config>
 
-    <property name="control-flow-obfuscation" value="disable"/>
-    <property name="extensive-flow-obfuscation" value="disable"/>
-    <property name="string-encryption" value="disable"/>
+    <property name="control-flow-obfuscation" value="disable" apply2class="class **.commands.**"/>
+    <property name="control-flow-obfuscation" value="disable" apply2class="class **.hooks.**"/>
+    <property name="control-flow-obfuscation" value="enable"/>
+    <property name="extensive-flow-obfuscation" value="disable" apply2class="class **.commands.**"/>
+    <property name="extensive-flow-obfuscation" value="disable" apply2class="class **.hooks.**"/>
+    <property name="extensive-flow-obfuscation" value="maximum"/>
 
     <input>
         <jar in="AngelChest-${project.version}.jar" out="AngelChest-${project.version}.jar"/>
@@ -63,6 +66,7 @@
         <class template="class **.updatechecker.**"/>
         <!--<class template="class **.WorldEdit**"/>
         <class template="class **.WorldGuard**"/>-->
+        <class template="class **.customblocks.**"/>
         <class template="class **.thirdparty.**"/>
         <!--<class template="class **.WorldGuard**" />
         <class template="class **.ChunkManager" />-->

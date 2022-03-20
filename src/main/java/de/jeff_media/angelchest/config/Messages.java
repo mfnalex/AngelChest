@@ -264,6 +264,10 @@ message-angelchest-enabled-others: "&a{player} is now protected by Angels."
         //Main.getInstance().getLogger().warning("You are using the config option \"" + configNode + "\". This is only available in AngelChestPlus, see here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
     }
 
+    public static void sendPremiumOnly(final String configNode) {
+        Main.getInstance().getLogger().warning("You are using the config option \"" + configNode + "\". This is only available in AngelChestPlus, see here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+    }
+
     private String getGui(final String path, final String defaultText) {
         return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(path, defaultText));
     }

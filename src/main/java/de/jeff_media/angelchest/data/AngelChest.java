@@ -69,6 +69,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     double price = 0;
     public boolean isLooted = false;
     private CustomBlock customBlock;
+    //public UUID uuid = UUID.randomUUID();
 
     /**
      * Loads an AngelChest from a YAML file

@@ -37,6 +37,7 @@ commands:
 permissions:
   angelchest.use:
     description: "Players with this permission will have their items put into a chest on death by an Angel"
+    default: true
   angelchest.protect:
     description: "Players with this permission have their AngelChests protected from other players. They can unlock their chests using /acunlock"
   angelchest.protect.ignore:

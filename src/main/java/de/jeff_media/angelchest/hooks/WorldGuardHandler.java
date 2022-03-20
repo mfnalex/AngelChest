@@ -14,7 +14,6 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
-import de.jeff_media.angelchest.hooks.WorldGuardWrapper;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 

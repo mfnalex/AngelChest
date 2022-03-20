@@ -193,20 +193,25 @@ only-show-gui-after-death-if-player-can-tp-or-fetch: true
 # You can choose the Material to use for the AngelChest,
 # e.g. CHEST, ENDER_CHEST, OBSIDIAN, ...
 # It's also possible to use custom heads here, or custom blockdata, or even blocks from ItemsAdder and Oraxen.
+#
 # IMPORTANT: ItemsAdder & Oraxen integration is still EXPERIMENTAL and WILL bug out for furniture!
 #            Do NOT use ItemsAdder or Oraxen blocks and/or furniture on a production server!
+#
+# IMPORTANT: You must use "double quotes" here!
+#
 # Examples:
-#  material: DIRT (will use a dirt block)
-#  material: head:player (will use the player's head)
-#  material: head:somebase64string (will use that custom base64 texture)
-#  material: minecraft:red_candle[candles=3,lit=true] (will use 3 red, lit candles)
-#  material: itemsadder:ruby_ore (will use Ruby Ore from ItemsAdder)
-material: CHEST
+#  material: "DIRT"                                     (will use a dirt block)
+#  material: "head:player"                              (will use the player's head)
+#  material: "head:somebase64string"                    (will use that custom base64 texture)
+#  material: "minecraft:red_candle[candles=3,lit=true]" (will use 3 red, lit candles)
+#  material: "itemsadder:ruby_ore"                      (will use Ruby Ore from ItemsAdder)
+#  material: "oraxen:ruby_ore"                          (will use Ruby Ore from Oraxen)
+material: "CHEST"
 
 # You can choose another Material to use for unlocked AngelChests.
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 use-different-material-when-unlocked: false
-material-unlocked: ENDER_CHEST
+material-unlocked: "ENDER_CHEST"
 
 # When true, AngelChest will spawn the chest at the last location where a player was standing
 # before he died in the void. When false, the chest will spawn at Y=1
@@ -317,6 +322,23 @@ check-for-updates: true
 
 # When check-for-updates is true, AngelChest will check every X hours
 check-interval: 4
+
+#########################
+####   Death maps    ####
+#########################
+
+# You can make players get a map with their AngelChest location when they respawn.
+# This allows them to easily go back to their death location.
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
+death-maps: false
+
+# You can change the marker type to be used. See here for a list of valid marker types in the latest MC version:
+# https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/map/MapCursor.Type.html
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
+death-map-marker: RED_X
+
+death-map-name: "AngelChest"
+death-map-lore: "X: {x}\nY: {y}\nZ: {z}"
 
 #########################
 ####   Player heads  ####

@@ -19,17 +19,38 @@ import java.util.logging.Logger;
 public final class ConfigUpdater {
 
     // Lines STARTING WITH these names will be treated as String lists
-    private static final String[] LINES_CONTAINING_STRING_LISTS = {Config.DONT_SPAWN_ON + ":", Config.ONLY_SPAWN_IN + ":", Config.DISABLED_MATERIALS + ":", Config.DISABLED_WORLDS + ":", Config.DISABLED_WORLDGUARD_REGIONS + ":", "command-aliases-"};
+    private static final String[] LINES_CONTAINING_STRING_LISTS = {
+            Config.DONT_SPAWN_ON + ":",
+            Config.ONLY_SPAWN_IN + ":",
+            Config.DISABLED_MATERIALS + ":",
+            Config.DISABLED_WORLDS + ":",
+            Config.DISABLED_WORLDGUARD_REGIONS + ":",
+            "command-aliases-"};
     // Lines STARTING WITH these names will never get the old value applied
     private static final String[] LINES_IGNORED = {"config-version:", "plugin-version:"};
     // Lines STARTING WITH these names will get no quotes although they would match one of the lists below
     private static final String[] CONFLICTING_NODES_NEEDING_NO_QUOTES = {"gui-requires-shift"};
     // Lines STARTING WITH these names will get their values wrapped in double quotes
-    private static final String[] NODES_NEEDING_DOUBLE_QUOTES = {"message-", Config.CUSTOM_HEAD_BASE64, Config.HOLOGRAM_TEXT, Config.ANGELCHEST_INVENTORY_NAME, Config.ANGELCHEST_LIST, Config.HOLOGRAM_PROTECTED_TEXT, Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT, Config.HOLOGRAM_UNPROTECTED_TEXT, Config.PREFIX, "link-", "gui-", "log-filename", "chest-filename"};
+    private static final String[] NODES_NEEDING_DOUBLE_QUOTES = {"message-",
+            Config.CUSTOM_HEAD_BASE64,
+            Config.HOLOGRAM_TEXT,
+            Config.ANGELCHEST_INVENTORY_NAME,
+            Config.ANGELCHEST_LIST,
+            Config.HOLOGRAM_PROTECTED_TEXT,
+            Config.HOLOGRAM_PROTECTED_COUNTDOWN_TEXT,
+            Config.HOLOGRAM_UNPROTECTED_TEXT,
+            Config.PREFIX,
+            Config.DEATH_MAP_LORE,
+            "link-", "gui-", "log-filename", "chest-filename",Config.MATERIAL, Config.MATERIAL_UNLOCKED};
     // Lines STARTING WITH these names will get their values wrapped in single quotes
     private static final String[] NODES_NEEDING_SINGLE_QUOTES = {"test-"};
     // Nodes with EXACTLY THIS NAME will get their newline symbols preserved
-    private static final List<String> NODES_CONTAINING_NEWLINES = Arrays.asList("hologram-text", Config.GUI_CHEST_LORE, Config.GUI_FETCH_LORE, Config.GUI_TELEPORT_LORE, "gui-info-lore");
+    private static final List<String> NODES_CONTAINING_NEWLINES = Arrays.asList("hologram-text",
+            Config.GUI_CHEST_LORE,
+            Config.GUI_FETCH_LORE,
+            Config.GUI_TELEPORT_LORE,
+            Config.DEATH_MAP_LORE,
+            "gui-info-lore");
 
     private static void backupCurrentConfig(final Main main) {
         final File oldFile = new File(getFilePath(main, "config.yml"));
