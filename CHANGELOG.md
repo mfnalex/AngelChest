@@ -8,6 +8,10 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 7.2.0
+- General performance improvements
+- Improved serialization and deserialization of AngelChest files
+
 ## 7.1.0
 - Added option to let players respawn with a map showing the location of their last AngelChest (disabled by default)
 - All players now have "angelchest.use" permission by default.
