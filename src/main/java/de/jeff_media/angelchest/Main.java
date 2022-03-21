@@ -415,7 +415,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
             itemsAdderLoaded = true;
         }
 
-        ConfigurationSerialization.registerClass(DeathCause.class);
+        //ConfigurationSerialization.registerClass(DeathCause.class);
 
         if (isAngelChestPlus1XInstalled()) {
             emergencyMode = true;

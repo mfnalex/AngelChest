@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class DeathCause implements ConfigurationSerializable {
+public final class DeathCause {
 
     private final Main main = Main.getInstance();
     private final EntityDamageEvent.DamageCause damageCause;
@@ -123,7 +123,6 @@ public final class DeathCause implements ConfigurationSerializable {
         return getCustomName(damageCause.name());
     }
 
-    @Override
     public @NotNull Map<String, Object> serialize() {
         final HashMap<String, Object> map = new HashMap<>();
         map.put("damageCause", damageCause.toString());

@@ -1,6 +1,7 @@
 package de.jeff_media.angelchest.data;
 
 import com.google.common.io.Files;
+import de.jeff_media.angelchest.Compatibility;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.ChestYaml;
 import de.jeff_media.angelchest.config.Config;
@@ -79,6 +80,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public @Nullable AngelChest(final File file) {
         main = Main.getInstance();
         if (main.debug) main.debug("Creating AngelChest from file " + file.getName());
+        Compatibility.removeOldDeathCause(file);
         final YamlConfiguration yaml;
         try {
             yaml = new YamlConfiguration();
@@ -122,7 +124,11 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         }
 
         if (yaml.isSet("deathCause")) {
-            this.deathCause = yaml.getSerializable("deathCause", DeathCause.class);
+            try {
+                this.deathCause = DeathCause.deserialize(ConfigUtils.asMap(yaml.getConfigurationSection("deathCause")));
+            } catch (Throwable ignored) {
+                this.deathCause = new DeathCause(EntityDamageEvent.DamageCause.CUSTOM, "UNKNOWN");
+            }
         } else {
             this.deathCause = new DeathCause(EntityDamageEvent.DamageCause.CUSTOM, "UNKNOWN");
         }
@@ -729,7 +735,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         yaml.set("customblock",customBlock.serialize());
 
 
-        yaml.set("deathCause", deathCause);
+        yaml.set("deathCause", deathCause.serialize());
         yaml.set("opened-by", openedBy);
         yaml.set("logfile", logfile);
         yaml.set("storageInv", storageInv);
