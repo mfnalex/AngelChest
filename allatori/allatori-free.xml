@@ -41,7 +41,13 @@
 
     <property name="log-file" value="log.xml"/>
 
-    <property name="generics" value="keep"/>
+    <property name="packages-naming" value="abc"/>
+    <property name="classes-naming" value="windows"/>
+    <property name="methods-naming" value="keywords"/>
+    <property name="fields-naming" value="keywords"/>
+    <property name="local-variables-naming" value="optimize"/>
+
+    <property name="generics" value="remove"/>
     <property name="line-numbers" value="obfuscate"/> <!-- For Debugging: keep -->
     <property name="inner-classes" value="keep"/>
     <property name="default-package" value="de.jeff_media.angelchest"/>
