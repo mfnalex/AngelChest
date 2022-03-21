@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>7.1.0</version>
+    <version>7.2.0</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -65,6 +65,11 @@
                 <version>3.1.0</version>
                 <configuration>
                     <finalName>${project.name}-${project.version}</finalName>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.jeff_media.standalonepluginscreen.StandalonePluginScreen</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
 
@@ -150,12 +155,24 @@
                             <pattern>io.papermc.lib</pattern>
                             <shadedPattern>de.jeff_media.angelchest.thirdparty.io.papermc.lib</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>com.jeff_media.stringencryption</pattern>
+                            <shadedPattern>de.jeff_media.angelchest</shadedPattern>
+                        </relocation>
                     </relocations>
                     <artifactSet>
                         <excludes>
                             <exclude>org.slf4j</exclude>
                         </excludes>
                     </artifactSet>
+                    <filters>
+                        <filter>
+                            <artifact>com.jeff_media:StringEncryption</artifact>
+                            <excludes>
+                                <exclude>**/StringEncryption.class</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                 </configuration>
                 <executions>
                     <execution>
@@ -260,6 +277,12 @@
         </dependency>
 
         <!-- Own Libraries -->
+        <dependency>
+            <groupId>com.jeff_media</groupId>
+            <artifactId>StringEncryption</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>JeffLib</artifactId>
@@ -415,6 +438,13 @@
             <artifactId>api-itemsadder</artifactId>
             <version>2.5.5</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jeff_media</groupId>
+            <artifactId>StandalonePluginScreen</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
         </dependency>
 
         <!-- Plugins that are not available in repositories. They will be accessed via Reflection. -->
