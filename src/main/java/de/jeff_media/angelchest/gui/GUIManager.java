@@ -34,7 +34,6 @@ public final class GUIManager {
 
     public GUIManager() {
         this.main = Main.getInstance();
-        Chicken.wing(main);
     }
 
     private static int getInventorySize(final int numberOfChests) {

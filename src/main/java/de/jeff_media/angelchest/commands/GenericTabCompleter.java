@@ -2,6 +2,7 @@ package de.jeff_media.angelchest.commands;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Permissions;
+import de.jeff_media.daddy.Chicken;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -24,6 +25,7 @@ public class GenericTabCompleter implements TabCompleter {
 
     public GenericTabCompleter() {
         this.main = Main.getInstance();
+        Chicken.wing(main);
     }
 
     private int getChests(final UUID uuid) {
