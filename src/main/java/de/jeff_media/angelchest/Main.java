@@ -18,15 +18,11 @@ import de.jeff_media.angelchest.hooks.*;
 import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
-import de.jeff_media.customblocks.implentation.VanillaBlock;
-import de.jeff_media.daddy.Chicken;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.JeffLib;
 import de.jeff_media.jefflib.McVersion;
 import de.jeff_media.jefflib.Ticks;
 import de.jeff_media.customblocks.CustomBlock;
-import de.jeff_media.jefflib.exceptions.InvalidBlockDataException;
-import de.jeff_media.jefflib.exceptions.MissingPluginException;
 import de.jeff_media.updatechecker.UpdateChecker;
 import de.jeff_media.updatechecker.UserAgentBuilder;
 import io.papermc.lib.PaperLib;
@@ -46,10 +42,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
-import sun.java2d.opengl.WGLSurfaceData;
 
 import java.io.File;
 import java.util.*;
@@ -518,6 +512,9 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         commandManager.registerCommand(new ACFacadmin());
 
         Bukkit.getOnlinePlayers().forEach(itemManager::autodiscover);
+
+        // Fix NoClassDefFoundError in onDisable
+        ChunkManager.getLoadedChunks();
 
     }
 

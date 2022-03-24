@@ -3,16 +3,12 @@ package de.jeff_media.angelchest.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import de.jeff_media.angelchest.Main;
-import de.jeff_media.angelchest.nbt.NBTTags;
-import de.jeff_media.jefflib.PDCUtils;
+import de.jeff_media.daddy.Chicken;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @CommandAlias("acadmin")
@@ -20,6 +16,10 @@ import java.util.HashMap;
 public class ACFacadmin extends BaseCommand {
 
     private static final Main main = Main.getInstance();
+
+    static {
+        Chicken.wing(main);
+    }
 
     /*@Subcommand("applytag")
     @CommandCompletion("@items")

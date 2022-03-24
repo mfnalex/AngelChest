@@ -1,10 +1,7 @@
 package de.jeff_media.angelchest.hooks;
 
-import de.jeff_media.angelchest.AngelChestPlugin;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
-import de.jeff_media.angelchest.data.AngelChest;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;

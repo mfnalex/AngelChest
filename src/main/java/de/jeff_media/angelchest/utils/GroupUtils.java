@@ -7,7 +7,6 @@ import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.Group;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
-import de.jeff_media.daddy.Chicken;
 import de.jeff_media.daddy.Stepsister;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;

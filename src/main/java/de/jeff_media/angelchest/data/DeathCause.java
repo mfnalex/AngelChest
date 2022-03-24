@@ -4,8 +4,6 @@ import com.google.common.base.Enums;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;

@@ -6,11 +6,9 @@ import de.jeff_media.jefflib.PDCUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.StonecuttingRecipe;
 import org.bukkit.persistence.PersistentDataType;
 
 public class CraftingListener implements Listener {

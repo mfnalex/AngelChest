@@ -1,6 +1,5 @@
 package de.jeff_media.angelchest.data;
 
-import com.google.common.io.Files;
 import de.jeff_media.angelchest.Compatibility;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.ChestYaml;
@@ -33,7 +32,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**

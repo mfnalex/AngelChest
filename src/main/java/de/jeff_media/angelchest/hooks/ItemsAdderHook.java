@@ -1,7 +1,6 @@
 package de.jeff_media.angelchest.hooks;
 
 import de.jeff_media.angelchest.Main;
-import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ItemsAdderHook {

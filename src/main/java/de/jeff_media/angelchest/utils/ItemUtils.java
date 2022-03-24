@@ -3,7 +3,6 @@ package de.jeff_media.angelchest.utils;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.jefflib.PDCUtils;
 import org.bukkit.Material;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.persistence.PersistentDataType;

@@ -1,7 +1,6 @@
 package de.jeff_media.angelchest;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.Collectors;

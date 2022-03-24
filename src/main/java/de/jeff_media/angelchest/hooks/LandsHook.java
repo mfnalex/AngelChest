@@ -2,9 +2,7 @@
 package de.jeff_media.angelchest.hooks;
 
 import de.jeff_media.angelchest.Main;
-import me.angeschossen.lands.api.MemberHolder;
 import me.angeschossen.lands.api.integration.LandsIntegration;
-import me.angeschossen.lands.api.land.Land;
 import me.angeschossen.lands.api.player.LandPlayer;
 import me.angeschossen.lands.api.war.War;
 import org.bukkit.entity.Player;

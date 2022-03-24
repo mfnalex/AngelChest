@@ -66,6 +66,8 @@
 #                            Prints plugin version, whether you have the Plus version and what server software
 #                            you are using.
 
+# Note: You can add new command aliases, see "Command Settings" at about line 800 in this config.yml
+
 ############################
 #####   Information    #####
 ############################
@@ -790,14 +792,13 @@ prefix: "&b[&aAngelChest&b] &r"
 
 # Commands that can be used instead of /acgui
 command-aliases-acgui:
-  - ac
-  - angelchest
-  - angelchests
   - angelchestgui
 
 # Commands that can be used instead of /aclist
 command-aliases-aclist:
   - acinfo
+  - ac
+  - angelchest
   - angelchestinfo
   - angelchestlist
 

@@ -9,11 +9,9 @@ import de.jeff_media.jefflib.EnumUtils;
 import de.jeff_media.jefflib.PDCUtils;
 import de.jeff_media.jefflib.TextUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapCursor;
@@ -24,7 +22,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DeathMapManager {
@@ -32,8 +29,10 @@ public class DeathMapManager {
     private static final Main main = Main.getInstance();
 
     private static MapCursor.Type getCursorType() {
-        MapCursor.Type type = EnumUtils.getIfPresent(MapCursor.Type.class,main.getConfig().getString(Config.DEATH_MAP_MARKER.toUpperCase(Locale.ROOT)))
+        String configuredMarker = main.getConfig().getString(Config.DEATH_MAP_MARKER).toUpperCase(Locale.ROOT);
+        MapCursor.Type type = EnumUtils.getIfPresent(MapCursor.Type.class,configuredMarker)
                 .orElse(null);
+
         if(type == null) {
             type = MapCursor.Type.RED_X;
             main.getLogger().warning("You are using an invalid value for " + Config.DEATH_MAP_MARKER + ". Please see config.yml for valid values. Falling back to RED_X now.");

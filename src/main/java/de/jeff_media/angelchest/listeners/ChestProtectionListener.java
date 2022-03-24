@@ -13,8 +13,6 @@ import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 
-import java.io.File;
-
 /**
  * Listens to block related events, e.g. messing with the actual Block where an AngelChest is located
  */

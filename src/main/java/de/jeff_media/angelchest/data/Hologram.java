@@ -3,7 +3,6 @@ package de.jeff_media.angelchest.data;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
-import de.jeff_media.angelchest.hooks.ItemsAdderFontImageWrapperHook;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
 import de.jeff_media.angelchest.utils.CommandUtils;

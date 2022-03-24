@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
-import de.jeff_media.angelchest.nms.NMSHandler;
 import de.jeff_media.jefflib.SkullUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

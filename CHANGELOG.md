@@ -8,6 +8,13 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 7.3.0
+- Changed default aliases for /acgui, /aclist and /acreload to avoid people confusing the GUI with the reload command
+  - This only applies to freshly generated configs. If you are updating, your command aliases will stay the same as before this update 
+- Fixed "death-map-marker" config option not being read properly
+- Fixed exception when Sentinel NPCs die (somehow the Sentinel dev thought it was a good idea to make NON-PLAYER characters implement the PLAYER interface rather than the EntityHuman interface which was specifically designed for NPCs)
+- Fixed exception when disabling AngelChest if no AngelChest had been spawned yet
+
 ## 7.2.0
 - General performance improvements
 - Improved serialization and deserialization of AngelChest files

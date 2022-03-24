@@ -1,18 +1,5 @@
 package de.jeff_media.angelchest.nms;
 
-import com.mojang.authlib.GameProfile;
-import net.minecraft.core.BlockPosition;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.PacketPlayOutEntityStatus;
-import net.minecraft.server.level.EntityPlayer;
-import net.minecraft.server.network.PlayerConnection;
-import net.minecraft.world.level.World;
-import net.minecraft.world.level.block.entity.TileEntitySkull;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * Does NMS stuff for 1.17+
  */

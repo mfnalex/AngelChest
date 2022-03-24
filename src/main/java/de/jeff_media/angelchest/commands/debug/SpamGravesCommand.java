@@ -2,7 +2,6 @@ package de.jeff_media.angelchest.commands.debug;
 
 import de.jeff_media.angelchest.Main;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;

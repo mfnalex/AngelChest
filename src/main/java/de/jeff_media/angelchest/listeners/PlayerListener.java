@@ -5,7 +5,6 @@ import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
-import de.jeff_media.angelchest.data.AngelChestHolder;
 import de.jeff_media.angelchest.data.DeathCause;
 import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
@@ -14,11 +13,10 @@ import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
 import de.jeff_media.angelchest.gui.GUIHolder;
 import de.jeff_media.angelchest.handlers.DeathMapManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
-import de.jeff_media.angelchest.handlers.ItemManager;
 import de.jeff_media.angelchest.hooks.EcoEnchantsHook;
 import de.jeff_media.angelchest.hooks.LandsHook;
+import de.jeff_media.angelchest.hooks.SentinelHook;
 import de.jeff_media.angelchest.nbt.NBTTags;
-import de.jeff_media.angelchest.nms.NMSHandler;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.angelchest.utils.CommandUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
@@ -34,7 +32,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -42,7 +39,6 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.scheduler.BukkitTask;
@@ -418,11 +414,16 @@ public final class PlayerListener implements Listener {
      */
     private void spawnAngelChest(final PlayerDeathEvent event) {
 
+        final Player p = event.getEntity();
+
+        if(SentinelHook.isNpc(p)) {
+            main.debug("Ignoring death from NPC \"player\": " + p);
+            return;
+        }
+
         if(main.debug) {
             TimeUtils.startTimings("AngelChest spawn");
         }
-
-        final Player p = event.getEntity();
 
         if (main.debug) main.debug("\n");
         LogUtils.debugBanner(new String[]{"PlayerDeathEvent", "Player: " + p.getName(), "Location: " + p.getLocation()});

@@ -1,16 +1,5 @@
 package de.jeff_media.angelchest.nms;
 
-import com.mojang.authlib.GameProfile;
-import de.jeff_media.angelchest.Main;
-import de.jeff_media.angelchest.utils.NMSUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 public class NMSLegacy extends AbstractNMSHandler {
 
     /*private final Main main = Main.getInstance();

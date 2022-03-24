@@ -1,13 +1,5 @@
 package de.jeff_media.angelchest.nms;
 
-import com.mojang.authlib.GameProfile;
-import de.jeff_media.angelchest.Main;
-import de.jeff_media.angelchest.utils.NMSUtils;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-
-import java.lang.reflect.Method;
-
 public abstract class AbstractNMSHandler {
 
     /*protected static final byte TOTEM_MAGIC_VALUE = 35;

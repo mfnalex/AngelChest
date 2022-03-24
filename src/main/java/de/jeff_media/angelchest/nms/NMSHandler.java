@@ -1,12 +1,6 @@
 package de.jeff_media.angelchest.nms;
 
-import com.mojang.authlib.GameProfile;
 import de.jeff_media.angelchest.Main;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class NMSHandler {
 

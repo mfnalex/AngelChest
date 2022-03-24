@@ -5,7 +5,6 @@ import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.ItemStackUtils;
-import de.jeff_media.jefflib.MaterialUtils;
 import de.jeff_media.jefflib.PDCUtils;
 import de.jeff_media.jefflib.RecipeUtils;
 import lombok.Getter;
