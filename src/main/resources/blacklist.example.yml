@@ -14,24 +14,28 @@
 #
 # Available options:
 #
-#   material: <material> (e.g. DIAMOND_AXE, DIRT, "*_HELMET", or ANY)
+#   material: <material>                    (E.g. DIAMOND_AXE, DIRT, "*_HELMET", or ANY)
 #
-#   loreContains:        (the item must include every defined line)
+#   loreContains:                           (The item lore must contain every defined line)
 #     - "part of any line"
 #     - "part of another line"
 #
-#   loreExact:           (the item must include every defined line)
+#   loreExact:                              (The item lore must exactly match every defined line)
 #     - "exact text of any line"
 #     - "exact text of another line"
 #
-#   nameContains: <part of custom item name>
+#   nameContains: "part of the item name"   (The item name must contain the given name)
 #
-#   nameExact: <exact custom item name> (e.g. "&cMy awesome sword")
+#   nameExact: "exact item name"            (The item name must exactly match this, e.g. "&cMy awesome sword")
 #
-#   ignoreColors: <true|false> (whether name and lore also check for color codes)
+#   ignoreColors: <true|false>              (Whether name and lore also check for color codes)
 #
-#   enchantments:        (the item must include all given enchantments, regardless of their level)
+#   enchantments:                           (The item must include all given enchantments, regardless of their level)
 #     - soulbind
+#
+#   force-delete: <true|false>              (When true, AngelChest force-removes the item from both inventory and drops list.
+#                                            The default option is "false", meaning AngelChest won't prevent the items from
+#                                            being dropped normally, so other plugins can still handle them)
 #
 # Use '&' for color codes. If you set ignoreColors to false, do NOT add the color code.
 # If you want to see the exact name and lore values for an item that you hold in your hand,
@@ -58,3 +62,4 @@ exampleSlimefunAltar:
 
 exampleDiamonds:
   material: DIAMOND
+  force-delete: true

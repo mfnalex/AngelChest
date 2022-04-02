@@ -17,10 +17,6 @@ public class ACFacadmin extends BaseCommand {
 
     private static final Main main = Main.getInstance();
 
-    static {
-        Chicken.wing(main);
-    }
-
     /*@Subcommand("applytag")
     @CommandCompletion("@items")
     public static void setItem(Player player, String itemId) {

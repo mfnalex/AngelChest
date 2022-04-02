@@ -17,6 +17,7 @@ import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.AnimationUtils;
 import de.jeff_media.jefflib.JeffLib;
 import de.jeff_media.jefflib.ParticleUtils;
+import de.jeff_media.jefflib.data.tuples.Pair;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -127,8 +128,9 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 Messages.send(commandSender, " ");
             }
             Messages.send(commandSender, "§e===[§6Blacklist Status§e]===");
-            final String blacklisted = main.isItemBlacklisted(item);
-            Messages.send(commandSender, blacklisted == null ? "Not blacklisted" : "Blacklisted as \"" + blacklisted + "\"");
+            final Pair<String,Boolean> blacklisted = main.isItemBlacklisted(item);
+            Messages.send(commandSender, blacklisted == null ? "Not blacklisted" : "Blacklisted as \"" + blacklisted.getFirst() + "\"");
+            if(blacklisted != null && blacklisted.getSecond()) Messages.send(commandSender, "Delete: " + blacklisted.getSecond());
         } else if (args.length > 0 && args[0].equalsIgnoreCase("test")) {
             args = shift(args);
             Messages.send(commandSender, new String[]{" ", "§6===[§bAngelChest Blacklist Test§6]==="});
@@ -159,7 +161,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
 
             final BlacklistResult result = blacklistEntry.matches(item);
 
-            if (result == BlacklistResult.MATCH) {
+            if (result == BlacklistResult.MATCH_IGNORE) {
                 Messages.send(commandSender, "§aThis item matches the blacklist definition \"" + result.getName() + "\"");
             } else {
                 Messages.send(commandSender, "§cThis item does not match the blacklist definition \"" + main.itemBlacklist.get(args[0].toLowerCase()).getName() + "\"");

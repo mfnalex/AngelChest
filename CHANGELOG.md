@@ -8,6 +8,28 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 7.5.1
+- Fixed deserialization of "CustomBlock" in graveyards
+  - This should fix problems with AngelChests in Graveyards either not generating, or not properly getting removed after the
+  plugin was reloaded or the server restarted. Sorry for the trouble!
+  - If you still use the same graveyards.yml config as you did **before** updating to 7.0.0 or later,
+  please be sure that the "material" options in your graveyards.yml are valid according to the explanation about the "material" option in config.yml
+  - Please join my Discord if you have any problems / questions: https://discord.jeff-media.com
+
+## 7.5.0
+- Added "force-delete" to blacklist.yml
+  - Normally, blacklisted items are simply ignored by AngelChest, meaning they drop normally on death
+  and other plugins can still handle what happens to them.
+  - When you set "force-delete" to true, AngelChest will force-delete that item, meaning it will definitely not drop
+  but vanish for good.
+
+## 7.4.0
+- Added compatibility with AdvancedEnchantments "Holy White Scroll" thing
+- Improved performance by skipping chunk generation check
+- Improved serialization of custom block data
+- Fixed exception when players are teleporting from one world to another when both worlds have the same UID
+- Fixed warning when trying to load AngelChests in meanwhile deleted worlds 
+
 ## 7.3.0
 - Changed default aliases for /acgui, /aclist and /acreload to avoid people confusing the GUI with the reload command
   - This only applies to freshly generated configs. If you are updating, your command aliases will stay the same as before this update 

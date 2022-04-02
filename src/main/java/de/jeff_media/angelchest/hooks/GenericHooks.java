@@ -24,12 +24,24 @@ public final class GenericHooks implements Listener {
     final Main main;
     private @Nullable Plugin eliteMobsPlugin = null;
     private Boolean isEliteMobsInstalled = null;
+    private Boolean isAdvancedEnchantmentsInstalled = null;
     //ArrayList<Entity> hologramsToBeSpawned = new ArrayList<Entity>();
     //boolean hologramToBeSpawned = false;
 
     public GenericHooks() {
         this.main = Main.getInstance();
         this.inventoryPagesHook = new InventoryPagesHook();
+    }
+
+    public boolean hasAdvancedEnchantmentsWhiteScroll(ItemStack item) {
+        if(isAdvancedEnchantmentsInstalled == null) {
+            isAdvancedEnchantmentsInstalled = Bukkit.getPluginManager().getPlugin("AdvancedEnchantments") != null;
+        }
+        if(isAdvancedEnchantmentsInstalled) {
+            return AdvancedEnchantmentsHook.hasWhiteScroll(item);
+        } else {
+            return false;
+        }
     }
 
     boolean isDisabledMaterial(final ItemStack item) {
@@ -152,6 +164,7 @@ public final class GenericHooks implements Listener {
         //if (isEliteMobsSoulBound(item)) return true; // EliteMobs soulbound items are normally NOT kept on death but drop normally
         if (isNativeSoulbound(item)) return true;
         if (ExecutableItemsHook.isKeptOnDeath(item)) return true;
+        if(hasAdvancedEnchantmentsWhiteScroll(item)) return true;
         //if (MMOItemsHookWrapper.isSoulbound(item)) return true;
         return false;
     }

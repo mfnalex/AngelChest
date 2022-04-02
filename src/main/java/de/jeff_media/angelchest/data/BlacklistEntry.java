@@ -25,6 +25,7 @@ public final class BlacklistEntry {
     String material;
     boolean wildcardEnd = false;
     boolean wildcardFront = false;
+    boolean delete = false;
 
     public BlacklistEntry(final String name, final FileConfiguration config) {
         this.name = name;
@@ -67,6 +68,8 @@ public final class BlacklistEntry {
         this.enchantments = config.getStringList(name + ".enchantments");
         this.ignoreColors = config.getBoolean(name + ".ignoreColors", false);
         if (main.debug) main.debug("- ignoreColors: " + ignoreColors);
+        this.delete = config.getBoolean(name + ".force-delete",false);
+        if(main.debug) main.debug("- force-delete: " + delete);
 
     }
 
@@ -173,7 +176,7 @@ public final class BlacklistEntry {
             }
         }
 
-        final BlacklistResult result = BlacklistResult.MATCH;
+        final BlacklistResult result = delete ? BlacklistResult.MATCH_DELETE : BlacklistResult.MATCH_IGNORE;
         result.setName(name);
         return result;
     }

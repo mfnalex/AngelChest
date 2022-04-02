@@ -17,10 +17,7 @@ import de.jeff_media.jefflib.*;
 import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.boss.BarColor;
@@ -237,8 +234,8 @@ public final class CommandUtils {
         final ItemStack priceItem = action.getPriceItem(sender);
 
         // Allow TP / Fetch across worlds
-        final UUID playerWorld = sender.getWorld().getUID();
-        final UUID chestWorld = ac.worldid;
+        final World playerWorld = sender.getWorld();
+        final World chestWorld = ac.getWorld();
         if (action == CommandAction.TELEPORT_TO_CHEST && !main.groupUtils.getAllowTpAcrossWorlds(sender)) {
             if (!playerWorld.equals(chestWorld)) {
                 Messages.send(sender, main.messages.MSG_TP_ACROSS_WORLDS_NOT_ALLOWED);
@@ -258,7 +255,7 @@ public final class CommandUtils {
             }
         }
         // Max / Min TP / Fetch distance
-        if (playerWorld.equals(chestWorld)) {
+        if (playerWorld.equals(chestWorld) && playerWorld.getUID().equals(ac.worldid)) {
             final double distance = sender.getLocation().distance(ac.block.getLocation());
             if (main.debug) main.debug("Fetch / TP in same world. Distance: " + distance);
 

@@ -23,9 +23,9 @@ import de.jeff_media.jefflib.JeffLib;
 import de.jeff_media.jefflib.McVersion;
 import de.jeff_media.jefflib.Ticks;
 import de.jeff_media.customblocks.CustomBlock;
+import de.jeff_media.jefflib.data.tuples.Pair;
 import de.jeff_media.updatechecker.UpdateChecker;
 import de.jeff_media.updatechecker.UserAgentBuilder;
-import io.papermc.lib.PaperLib;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -276,14 +276,16 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         return block.getType() != getChestMaterial(chest).getMaterial();
     }
 
-    public @Nullable String isItemBlacklisted(final ItemStack item) {
+    public @Nullable Pair<String,Boolean> isItemBlacklisted(final ItemStack item) {
         if (!Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add feature here, gets called for every item on death
             return null;
         }
         for (final BlacklistEntry entry : itemBlacklist.values()) {
             final BlacklistResult result = entry.matches(item);
-            if (result == BlacklistResult.MATCH) {
-                return result.getName();
+            if (result == BlacklistResult.MATCH_IGNORE) {
+                return new Pair<>(result.getName(), false);
+            } else if (result == BlacklistResult.MATCH_DELETE) {
+                return new Pair<>(result.getName(), true);
             }
         }
         return null;
@@ -616,9 +618,9 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         // The following might only be needed for chests destroyed by end crystals spawning during the init phase of the ender dragon
         for (final Entry<Block, AngelChest> entry : angelChests.entrySet()) {
 
-            if (!PaperLib.isChunkGenerated(entry.getKey().getLocation())) {
+            /*if (!PaperLib.isChunkGenerated(entry.getKey().getLocation())) {
                 verbose("Chunk at " + entry.getKey().getLocation() + " has not been generated!");
-            }
+            }*/
 
             if (!entry.getKey().getWorld().isChunkLoaded(entry.getKey().getX() >> 4, entry.getKey().getZ() >> 4)) {
 

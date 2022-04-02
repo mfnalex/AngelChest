@@ -735,7 +735,7 @@ public final class PlayerListener implements Listener {
         Creating the chest
          */
         final DeathCause deathCause = new DeathCause(p.getLastDamageCause());
-        final AngelChest ac = new AngelChest(p, finalAngelChestBlock, main.logger.getLogFileName(event), deathCause);
+        final AngelChest ac = new AngelChest(p, finalAngelChestBlock, main.logger.getLogFileName(event), deathCause, event);
         main.angelChests.put(finalAngelChestBlock, ac);
 
 

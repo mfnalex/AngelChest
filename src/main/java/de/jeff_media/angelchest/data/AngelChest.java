@@ -12,11 +12,14 @@ import de.jeff_media.angelchest.gui.GUIHolder;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
+import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.customblocks.implentation.VanillaBlock;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.customblocks.CustomBlock;
 import de.jeff_media.jefflib.ConfigUtils;
+import de.jeff_media.jefflib.NBTAPI;
+import de.jeff_media.jefflib.data.tuples.Pair;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -25,6 +28,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -247,7 +251,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param block   Block where the AngelCcest should be created
      * @param logfile Name of the logfile for this AngelChest
      */
-    public AngelChest(final Player player, final Block block, final String logfile, final DeathCause deathCause) {
+    public AngelChest(final Player player, final Block block, final String logfile, final DeathCause deathCause, final PlayerDeathEvent event) {
 
         main = Main.getInstance();
         if (main.debug) main.debug("Creating AngelChest natively for player " + player.getName());
@@ -291,11 +295,23 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             if (Utils.isEmpty(playerInventory.getItem(i))) {
                 continue;
             }
-            final String isBlacklisted = main.isItemBlacklisted(playerInventory.getItem(i));
+            final Pair<String,Boolean> isBlacklisted = main.isItemBlacklisted(playerInventory.getItem(i));
             if (isBlacklisted != null) {
                 if (main.debug)
-                    main.debug("Slot " + i + ": [BLACKLISTED: \"" + isBlacklisted + "\"] " + playerInventory.getItem(i) + "\n");
-                blacklistedItems.add(playerInventory.getItem(i));
+                    main.debug("Slot " + i + ": [BLACKLISTED: \"" + isBlacklisted.getFirst() + "\"] " + playerInventory.getItem(i) + "\n");
+                if(isBlacklisted.getSecond()) {
+                    main.debug("(The above item will be force-deleted from both inventory and drops list)");
+                    int finalI = i;
+                    event.getDrops().removeIf(drop -> {
+                        if(drop.equals(playerInventory.getItem(finalI))) {
+                            main.debug("  (Force delete successful");
+                            return true;
+                        }
+                        return false;
+                    });
+                } else {
+                    blacklistedItems.add(playerInventory.getItem(i));
+                }
                 playerInventory.clear(i);
             } else {
                 if (main.debug) main.debug("Slot " + i + ": " + playerInventory.getItem(i) + "\n");
