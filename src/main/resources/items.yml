@@ -32,6 +32,9 @@
 # to allow your players to craft them, first set "crafting-enabled" to true on every item
 # you want to be craftable.
 
+# Items that ONLY have the material set (without a special display-name, lore, glow OR keep-on-death) will also work
+# using vanilla items.
+
 # You can also obtain every item using the admin command /acadmin giveitem <item> [player]
 
 # Example: a poisonous potato seed to have an AngelChest spawned. Set "price" to "poisonous-potato-seed"
@@ -116,3 +119,8 @@ teleport-pearl:
       - "GGG"
       - "GEG"
       - "GGG"
+
+# Example: a regular vanilla diamond. Set "price" to "diamond".
+diamond:
+  material: DIAMOND
+  priority: 1

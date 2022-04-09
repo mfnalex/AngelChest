@@ -67,7 +67,7 @@ public class ACFacadmin extends BaseCommand {
             name = item.getItemMeta().getDisplayName();
         }
 
-        sender.sendMessage("§aGave §r" + amount + "x " + name + "§r§a to " + player.getName());
+        sender.sendMessage("§aGave §r" + finalAmount + "x " + name + "§r§a to " + player.getName());
     }
 
     private static void giveItem(Player player, ItemStack item) {

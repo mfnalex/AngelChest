@@ -8,6 +8,12 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 7.6.0
+- items.yml now allow you to use vanilla items to spawn, teleport to, fetch, ... AngelChests.
+  - To use vanilla items, simply define a new item with only "material" set. Then set "price", "price-teleport" or whatever
+  to the name you assigned to this item.
+- Fixed `/acdadmin giveitem` showing "null x" instead of "1x" when getting only one item
+
 ## 7.5.1
 - Fixed deserialization of "CustomBlock" in graveyards
   - This should fix problems with AngelChests in Graveyards either not generating, or not properly getting removed after the

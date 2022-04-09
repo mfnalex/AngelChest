@@ -444,9 +444,9 @@ public final class CommandUtils {
         final Player player = (Player) sender;
 
         if(item != null && item.getItemMeta() != null) {
-            main.debug("Checking if " + sender + " has AngelChest item...");
+            main.debug("Checking if " + sender + " has AngelChest item: "+ item);
 
-            if(ItemUtils.checkForAndRemoveOneItem(PDCUtils.get(item,NBTTags.IS_TOKEN_ITEM, PersistentDataType.STRING), player.getInventory())) {
+            if(ItemUtils.checkForAndRemoveOneItem(PDCUtils.get(item,NBTTags.IS_TOKEN_ITEM, PersistentDataType.STRING), player.getInventory(), item)) {
                 main.debug("Yes, player has this item!");
                 return true;
             } else {

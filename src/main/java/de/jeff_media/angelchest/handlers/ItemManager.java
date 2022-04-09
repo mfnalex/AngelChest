@@ -74,8 +74,23 @@ public class ItemManager {
                 }
             }
             //itemNames.put(itemId, yaml.getString(itemId+".display-name", MaterialUtils.getNiceMaterialName(item.getType())));
+            ItemStack withoutPdc = item.clone();
+            PDCUtils.remove(withoutPdc, NBTTags.IS_TOKEN_ITEM);
+            if(isVanillaItem(withoutPdc)) {
+                item = withoutPdc;
+            }
             items.put(itemId, item);
             Bukkit.getOnlinePlayers().forEach(this::autodiscover);
+        }
+    }
+
+    public boolean isVanillaItem(ItemStack item) {
+        if(item.isSimilar(new ItemStack(item.getType()))) {
+            main.debug("Item " + item + " is a vanilla item.");
+            return true;
+        } else {
+            main.debug("Item " + item + " is NOT a vanilla item.");
+            return false;
         }
     }
 
