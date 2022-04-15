@@ -1,0 +1,6 @@
+# If you have custom limits for building heights in your worlds, you can add them here.
+# If the values aren't set for a world, AngelChest uses the values provided by Spigot.
+
+some_example_world:
+  min: 0
+  max: 127

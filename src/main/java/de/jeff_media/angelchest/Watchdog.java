@@ -39,7 +39,6 @@ public final class Watchdog {
         } else {
             yaml = new YamlConfiguration();
         }
-        Chicken.wing(main);
     }
 
     /**

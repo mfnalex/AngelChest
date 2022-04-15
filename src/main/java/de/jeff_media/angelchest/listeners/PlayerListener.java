@@ -14,6 +14,7 @@ import de.jeff_media.angelchest.gui.GUIHolder;
 import de.jeff_media.angelchest.handlers.DeathMapManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.hooks.EcoEnchantsHook;
+import de.jeff_media.angelchest.hooks.HookHandler;
 import de.jeff_media.angelchest.hooks.LandsHook;
 import de.jeff_media.angelchest.hooks.SentinelHook;
 import de.jeff_media.angelchest.nbt.NBTTags;
@@ -551,7 +552,7 @@ public final class PlayerListener implements Listener {
         List<Predicate<Block>> predicates = new ArrayList<>();
 
         // Player died below world
-        if (p.getLocation().getBlockY() < p.getWorld().getMinHeight()) {
+        if (p.getLocation().getBlockY() < main.getWorldMinHeight(p.getWorld())) {
             if (main.debug) main.debug("Fixing player position for " + p.getLocation() + " because Y < World#getMinHeight()");
             fixedPlayerPosition = null;
             // Void detection: use last known position
@@ -565,7 +566,7 @@ public final class PlayerListener implements Listener {
             // Void detection disabled or no last known position: set to Y=1
             if (fixedPlayerPosition == null) {
                 final Location ltmp = p.getLocation();
-                ltmp.setY(p.getWorld().getMinHeight()+1);
+                ltmp.setY(main.getWorldMinHeight(p.getWorld())+1);
                 fixedPlayerPosition = ltmp.getBlock();
                 if (main.debug)
                     main.debug("Void detection disabled or no last known player position, setting Y to minWorldHeight+1 " + fixedPlayerPosition.getLocation());
@@ -577,11 +578,11 @@ public final class PlayerListener implements Listener {
 
         // Player died above build limit
         // Note: This has to be checked AFTER the "below world" check, because the lastPlayerPositions could return 256
-        if (fixedPlayerPosition.getY() >= p.getWorld().getMaxHeight()) {
+        if (fixedPlayerPosition.getY() >= main.getWorldMaxHeight(p.getWorld())) {
             if (main.debug)
                 main.debug("Fixing player position for " + p.getLocation() + " because Y >= World#getMaxHeight()");
             final Location ltmp = p.getLocation();
-            ltmp.setY(p.getWorld().getMaxHeight() - 1);
+            ltmp.setY(main.getWorldMaxHeight(p.getWorld()) - 1);
             fixedPlayerPosition = ltmp.getBlock();
             if (main.debug)
                 main.debug("Setting Y to World#getMaxHeight()-1 " + fixedPlayerPosition.getLocation());
@@ -621,7 +622,15 @@ public final class PlayerListener implements Listener {
         });
 
         if (main.debug) main.debug("FixedPlayerPosition: " + fixedPlayerPosition);
-        Block angelChestBlock = AngelChestUtils.getChestLocation(fixedPlayerPosition, predicates.toArray(new Predicate[0]));
+        Block finalFixedPlayerPosition = fixedPlayerPosition;
+        Block angelChestBlock = AngelChestUtils.getChestLocation(fixedPlayerPosition, predicates.toArray(new Predicate[] {
+                new Predicate<Block>() {
+                    @Override
+                    public boolean test(Block block) {
+                        return HookHandler.isInsideWorldBorder(finalFixedPlayerPosition.getLocation(),event.getEntity());
+                    }
+                }
+        }));
 
         // Graveyards start
         if(Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {

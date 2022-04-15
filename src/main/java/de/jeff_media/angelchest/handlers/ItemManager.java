@@ -55,6 +55,12 @@ public class ItemManager {
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(new File(main.getDataFolder(), "items.yml"));
 
         for(String itemId : yaml.getKeys(false)) {
+            if(yaml.getConfigurationSection(itemId).isItemStack("exact")) {
+                ItemStack item = yaml.getItemStack(itemId + ".exact");
+                items.put(itemId, item);
+                continue;
+
+            }
             ItemStack item = ItemStackUtils.fromConfigurationSection(yaml.getConfigurationSection(itemId));
             PDCUtils.set(item, NBTTags.IS_TOKEN_ITEM, PersistentDataType.STRING,itemId);
             if(yaml.getBoolean(itemId+".glow")) {
@@ -86,10 +92,8 @@ public class ItemManager {
 
     public boolean isVanillaItem(ItemStack item) {
         if(item.isSimilar(new ItemStack(item.getType()))) {
-            main.debug("Item " + item + " is a vanilla item.");
             return true;
         } else {
-            main.debug("Item " + item + " is NOT a vanilla item.");
             return false;
         }
     }

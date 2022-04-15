@@ -3,12 +3,16 @@ package de.jeff_media.angelchest.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.config.ConfigUtils;
 import de.jeff_media.daddy.Chicken;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 @CommandAlias("acadmin")
@@ -28,6 +32,24 @@ public class ACFacadmin extends BaseCommand {
         ItemMeta meta = item.getItemMeta();
         PDCUtils.set(item, NBTTags.IS_TOKEN_ITEM, PersistentDataType.STRING, ); // TODO: Make it work lol
     }*/
+
+    @Subcommand("saveitem")
+    public static void onSave(Player player, String itemName) {
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if(item == null || item.getType().isAir() || item.getAmount() == 0) {
+            player.sendMessage("§cYou must hold an item in your main hand.");
+            return;
+        }
+        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(new File(main.getDataFolder(), "items.yml"));
+        yaml.set(itemName + ".exact",item);
+        player.sendMessage("§aSaved your currently held item as §6" + itemName + " §ato items.yml.");
+        try {
+            yaml.save(new File(main.getDataFolder(), "items.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ConfigUtils.reloadCompleteConfig(true);
+    }
 
     @Subcommand("giveitem")
     @CommandCompletion("@items @players @range:1-64")

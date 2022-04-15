@@ -18,6 +18,7 @@ import de.jeff_media.angelchest.hooks.*;
 import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
+import de.jeff_media.daddy.Chicken;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.JeffLib;
 import de.jeff_media.jefflib.McVersion;
@@ -82,6 +83,8 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/angelchestplus/latest-version.txt";
     private static Main instance;
     private static WorldGuardWrapper worldGuardWrapper;
+    @Getter private final Map<String,Integer> worldMinBuildHeights = new HashMap<>();
+    @Getter private final Map<String,Integer> worldMaxBuildHeights = new HashMap<>();
     //private SkinManager skinManager;
     //private NPCManager npcManager;
 
@@ -142,6 +145,16 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
             worldGuardWrapper = WorldGuardWrapper.init();
         }
         return worldGuardWrapper;
+    }
+
+    public int getWorldMinHeight(World world) {
+        return worldMinBuildHeights.getOrDefault(world.getName(),McVersion.isAtLeast(1,16,5) ? world.getMinHeight() : 0);
+    }
+
+    public int getWorldMaxHeight(World world) {
+        int result = worldMaxBuildHeights.getOrDefault(world.getName(), world.getMaxHeight());
+        //debug("MaxHeight for world " + world + " = " + result);
+        return result;
     }
 
     public void debug(final String... text) {
@@ -292,7 +305,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }
 
     public boolean isOutsideOfNormalWorld(final Block block) {
-        return block.getY() < block.getWorld().getMinHeight() || block.getY() >= block.getWorld().getMaxHeight();
+        return block.getY() < getWorldMinHeight(block.getWorld()) || block.getY() >= getWorldMaxHeight(block.getWorld());
     }
 
     public void loadAllAngelChestsFromFile() {
@@ -393,7 +406,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         }
         /*Daddy end*/
 
-        ConfigurationSerialization.registerClass(CustomBlock.class, "CustomBlock");
+        //ConfigurationSerialization.registerClass(CustomBlock.class, "CustomBlock");
 
         migrateFromAngelChestPlus1X();
         ChestFileUpdater.updateChestFilesToNewDeathCause();

@@ -8,6 +8,14 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 7.8.0
+- Added support for WorldBorderAPI (this makes AngelChets always spawn within the worldborder limit)
+
+## 7.7.0
+- items.yml now allows to use ANY custom item from any other plugin.
+  - Simply hold the item you want to use in your main hand, then enter "/acadmin saveitem &lt;customName>".
+  - You can now set "price", "price-teleport" or whatever to "&lt;customName>"
+
 ## 7.6.0
 - items.yml now allow you to use vanilla items to spawn, teleport to, fetch, ... AngelChests.
   - To use vanilla items, simply define a new item with only "material" set. Then set "price", "price-teleport" or whatever

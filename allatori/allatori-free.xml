@@ -22,18 +22,13 @@
         <class template="class de.jeff_media.angelchest.AngelChest" />
         <class template="class de.jeff_media.angelchest.AngelChestPlugin" />
         <class template="class de.jeff_media.angelchest.Main" />
-        <class template="class de.jeff_media.angelchest.config.Config">
-            <field access="public"/>
-        </class>
+        <class template="class de.jeff_media.angelchest.JeffLib" />
         <method template="getHandlerList()" />
         <class template="class **API**">
             <method template="public *(**)" />
         </class>
         <method template="@org.bukkit.event.EventHandler *(**)" />
         <method template="@java.lang.Override *(**)" />
-        <class template="class **.bstats.**" />
-        <class template="class **.Metrics.**" />
-        <class template="class **.jefflib.**"/>
         <class template="class ** extends org.bukkit.configuration.serialization.ConfigurationSerializable">
                 <method template="public *(**)"/>
         </class>
@@ -59,27 +54,12 @@
     <property name="string-encryption-type" value="strong"/>
     <property name="string-encryption-ignored-strings" value="../allatori/spigotmc-patterns.txt"/>
     <ignore-classes>
-        <!--<class template="class com.*"/>-->
-        <!--<class template="class org.*"/>-->
-        <!--<class template="class *.ConfigUpdater" />
-        <class template="class **.config.**" />
-        <class template="class *.BlockDataManager" />
-        <class template="class *.Metrics" />
-        <class template="class *.jefflib.**" />
-        <class template="class **.bstats.**" />
-        <class template="class *.GraveyardYamlManager" />
-        <class template="class *.MMOItemsHook" />-->
         <class template="class **.co.aikar.**" />
         <class template="class **.nms.**" />
         <class template="class **NMS**"/>
-        <class template="class **.jefflib.**"/>
-        <class template="class **.updatechecker.**"/>
-        <!--<class template="class **.WorldEdit**"/>
-        <class template="class **.WorldGuard**"/>-->
-        <class template="class **.customblocks.**"/>
-        <class template="class **.thirdparty.**"/>
-        <!--<class template="class **.WorldGuard**" />
-        <class template="class **.ChunkManager" />-->
-        <!--<class template="class *.Stepsister" />-->
+<!--        <class template="class **.jefflib.**"/>-->
+<!--        <class template="class **.updatechecker.**"/>-->
+<!--        <class template="class **.customblocks.**"/>-->
+<!--        <class template="class **.thirdparty.**"/>-->
     </ignore-classes>
 </config>

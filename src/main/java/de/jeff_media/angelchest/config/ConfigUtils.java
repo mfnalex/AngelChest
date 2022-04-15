@@ -15,7 +15,10 @@ import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.GroupUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
+import de.jeff_media.daddy.Chicken;
 import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.jefflib.DebugUtils;
+import de.jeff_media.jefflib.FileUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -38,9 +41,10 @@ public final class ConfigUtils {
     private static final File DEATH_CAUSE_FILE = new File(Main.getInstance().getDataFolder(),"death-causes.yml");
     private static final File ITEMS_FILE = new File(Main.getInstance().getDataFolder(), "items.yml");
 
+    static final Main main = Main.getInstance();
+
     static void createConfig() {
 
-        final Main main = Main.getInstance();
         final FileConfiguration conf = main.getConfig();
 
         metric("using_plus_version", String.valueOf(Stepsister.allows(PremiumFeatures.GENERIC)));
@@ -527,11 +531,14 @@ sound-channel: BLOCKS
         main.guiManager = new GUIManager();
         main.itemBlacklist = loadItemBlacklist();
         main.nbtUtils = new NBTUtils();
+        loadWorldHeights();
 
 
         for(Player player : Bukkit.getOnlinePlayers()) {
             GraveyardListener.callGraveyardLeaveEvent(player);
         }
+
+        if(!reload) Chicken.wing(main);
 
         GraveyardManager.init();
 
@@ -555,6 +562,30 @@ sound-channel: BLOCKS
             main.getConfig().set(Config.MAX_RADIUS, 20);
         }
 
+    }
+
+    private static void loadWorldHeights() {
+        main.getWorldMinBuildHeights().clear();
+        main.getWorldMaxBuildHeights().clear();
+        File toLoad = new File(Main.getInstance().getDataFolder(), "world-build-heights.yml");
+        if(!toLoad.exists()) {
+            main.saveResource("world-build-heights.yml",true);
+        }
+        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(toLoad);
+        for(String key : yaml.getKeys(false)) {
+            if(yaml.isInt(key + ".min")) {
+                main.getWorldMinBuildHeights().put(key,yaml.getInt(key + ".min"));
+                //main.debug("Defined Min Height for world " + key + " = " + yaml.getInt(key + ".min"));
+            }
+            if(yaml.isInt(key + ".max")) {
+                main.getWorldMaxBuildHeights().put(key,yaml.getInt(key + ".max"));
+                //main.debug("Defined Max Height for world " + key + " = " + yaml.getInt(key + ".max"));
+            }
+        }
+        if(main.debug) {
+            DebugUtils.print(main.getWorldMinBuildHeights());
+            DebugUtils.print(main.getWorldMaxBuildHeights());
+        }
     }
 
     public static void validateConfigFiles() {

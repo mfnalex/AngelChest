@@ -19,7 +19,7 @@ import java.util.function.Predicate;
 
 public class AngelChestUtils {
 
-    private static final int MAX_NETHER_HEIGHT = 128;
+    //private static final int MAX_NETHER_HEIGHT = 128;
 
     public static ArrayList<AngelChest> getAllAngelChestsFromPlayer(final UUID uuid) {
         return getAllAngelChestsFromPlayer(Bukkit.getOfflinePlayer(uuid));
@@ -112,7 +112,7 @@ public class AngelChestUtils {
 
                     final Block block = location.getWorld().getBlockAt(x, y, z);
 
-                    if (block.getType() != Material.BEDROCK && y > 0 && y < location.getWorld().getMaxHeight()) {
+                    if (block.getType() != Material.BEDROCK && y > main.getWorldMinHeight(block.getWorld()) && y < main.getWorldMaxHeight(block.getWorld())) {
                         blocks.add(block);
                     }
                 }
@@ -135,7 +135,7 @@ public class AngelChestUtils {
                     final Block block = location.getWorld().getBlockAt(x, y, z);
                     final Block oneBelow = location.getWorld().getBlockAt(x, y - 1, z);
 
-                    if ((isAir(block.getType()) || main.onlySpawnIn.contains(block.getType())) && !main.dontSpawnOn.contains(oneBelow.getType()) && y > location.getWorld().getMinHeight() && y < location.getWorld().getMaxHeight()) {
+                    if ((isAir(block.getType()) || main.onlySpawnIn.contains(block.getType())) && !main.dontSpawnOn.contains(oneBelow.getType()) && y > main.getWorldMinHeight(location.getWorld()) && y < main.getWorldMaxHeight(location.getWorld())) {
                         //main.verbose("Possible chest loc: "+block.toString());
 
                         if (main.getConfig().getInt(Config.MINIMUM_AIR_ABOVE_CHEST) > 0) {
@@ -201,12 +201,12 @@ public class AngelChestUtils {
 
     public static boolean isSafeSpot(final Location location) {
 
-        if (location.getWorld().getEnvironment() == World.Environment.NETHER) {
+        /*if (location.getWorld().getEnvironment() == World.Environment.NETHER) {
             if (location.getBlockY() >= MAX_NETHER_HEIGHT) return false;
-        }
+        }*/
         if (isAboveLava(location, 10)) return false;
 
-        if (location.getBlockY() <= location.getWorld().getMinHeight()) return false;
+        if (location.getBlockY() <= Main.getInstance().getWorldMinHeight(location.getWorld())) return false;
 
         if (location.getBlock().getType().isOccluding()) return false;
 

@@ -9,6 +9,11 @@
 # IMPORTANT: Items are defined by their "ID". That means existing items will still work
 # when you change item names, lore, etc. here, as long you as you do not change the ID.
 # In the following example item, the ID is "teleport-token".
+# Items that ONLY have the material set (without a special display-name, lore, glow OR keep-on-death) will also work
+# using vanilla items.
+# If you want to use already existing custom items (e.g. from ItemsAdder), you can do that by
+# taking the item into your main hand, then enter "/acadmin saveitem <someName>". It will then
+# automatically be added to this config file.
 
 # To make players require such item instead of money, simply set the corresponding
 # price setting (e.g. "price-teleport") in your config.yml to the item's ID
@@ -31,9 +36,6 @@
 # Note: You will find some example recipes below. They have crafting disabled, so in order
 # to allow your players to craft them, first set "crafting-enabled" to true on every item
 # you want to be craftable.
-
-# Items that ONLY have the material set (without a special display-name, lore, glow OR keep-on-death) will also work
-# using vanilla items.
 
 # You can also obtain every item using the admin command /acadmin giveitem <item> [player]
 
