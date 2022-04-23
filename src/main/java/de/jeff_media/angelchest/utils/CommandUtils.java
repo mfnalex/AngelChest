@@ -285,8 +285,8 @@ public final class CommandUtils {
 
         // TP Wait time
         if(Stepsister.allows(PremiumFeatures.TP_WAIT_TIME)) {
-            if (main.getConfig().getDouble(Config.TP_WAIT_TIME) > 0 && action == CommandAction.TELEPORT_TO_CHEST) {
-                final int delay = (int) Ticks.fromSeconds(main.getConfig().getDouble(Config.TP_WAIT_TIME));
+            if (main.groupUtils.getTpWaitTime(sender) > 0 && action == CommandAction.TELEPORT_TO_CHEST) {
+                final int delay = (int) Ticks.fromSeconds(main.groupUtils.getTpWaitTime(sender));
                 AtomicInteger ticks = new AtomicInteger(delay);
                 final BossBar bar = Bukkit.createBossBar(main.messages.MSG_TELEPORT_BOSSBAR, BarColor.GREEN, BarStyle.SOLID, new BarFlag[0]);
                 bar.setProgress(1);

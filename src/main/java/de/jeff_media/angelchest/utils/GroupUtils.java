@@ -56,8 +56,8 @@ public final class GroupUtils {
             final Boolean allowFetchAcrossWorlds = yaml.isSet(groupName + DOT + Config.ALLOW_FETCH_ACROSS_WORLDS) ? yaml.getBoolean(groupName + DOT + Config.ALLOW_FETCH_ACROSS_WORLDS) : null;
             final Integer maxTpDistance = yaml.isSet(groupName + DOT + Config.MAX_TP_DISTANCE) ? yaml.getInt(groupName + DOT + Config.MAX_TP_DISTANCE) : null;
             final Integer maxFetchDistance = yaml.isSet(groupName + DOT + Config.MAX_FETCH_DISTANCE) ? yaml.getInt(groupName + DOT + Config.MAX_FETCH_DISTANCE) : null;
-
-            final Group group = new Group(angelchestDuration, chestsPerPlayer, priceSpawn, priceOpen, priceTeleport, priceFetch, xpPercentage, unlockDuration, spawnChance, itemLoss, invulnerabilityAfterTP, allowTpAcrossWorlds, allowFetchAcrossWorlds, maxTpDistance, maxFetchDistance);
+            final Double tpWaitTime = yaml.isSet(groupName + DOT + Config.TP_WAIT_TIME) ? yaml.getDouble(groupName + DOT + Config.TP_WAIT_TIME) : null;
+            final Group group = new Group(angelchestDuration, chestsPerPlayer, priceSpawn, priceOpen, priceTeleport, priceFetch, xpPercentage, unlockDuration, spawnChance, itemLoss, invulnerabilityAfterTP, allowTpAcrossWorlds, allowFetchAcrossWorlds, maxTpDistance, maxFetchDistance, tpWaitTime);
             if (main.debug) main.debug("Created group \"" + groupName + "\": " + group);
             groups.put(groupName, group);
 
@@ -142,6 +142,33 @@ public final class GroupUtils {
             return 0;
         }
         return result;
+    }
+
+    public double getTpWaitTime(final CommandSender commandSender) {
+        final double result = getTpWaitTimePremium(commandSender);
+        if (!Stepsister.allows(PremiumFeatures.TP_WAIT_TIME)) {
+            Messages.sendPremiumOnlyConsoleMessage(Config.TP_WAIT_TIME);
+            return 0;
+        }
+        return result;
+    }
+
+    private double getTpWaitTimePremium(final CommandSender commandSender) {
+
+        if (yaml == null) return main.getConfig().getDouble(Config.TP_WAIT_TIME);
+        final Iterator<String> it = groups.keySet().iterator();
+        Double bestValueFound = null;
+        while (it.hasNext()) {
+            final String group = it.next();
+            if (!commandSender.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+            if (groups.get(group).tpWaitTime == null) continue;
+            if (bestValueFound == null) {
+                bestValueFound = groups.get(group).tpWaitTime;
+                continue;
+            }
+            bestValueFound = Math.min(bestValueFound, groups.get(group).tpWaitTime);
+        }
+        return bestValueFound == null ? main.getConfig().getInt(Config.TP_WAIT_TIME) : bestValueFound;
     }
 
     private int getMaxFetchDistancePremium(final CommandSender commandSender) {

@@ -22,8 +22,10 @@ public final class Group {
     public final Integer maxTpDistance;
     @Nullable
     public final Integer maxFetchDistance;
+    @Nullable
+    public final Double tpWaitTime;
 
-    public Group(final int duration, final int maxChests, final String priceSpawn, final String priceOpen, final String priceTeleport, final String priceFetch, final double xpPercentage, final int unlockDuration, final double spawnChance, final String itemLoss, final int invulnerabilityAfterTP, @Nullable final Boolean allowTpAcrossWorlds, @Nullable final Boolean allowFetchAcrossWorlds, @Nullable final Integer maxTpDistance, @Nullable final Integer maxFetchDistance) {
+    public Group(final int duration, final int maxChests, final String priceSpawn, final String priceOpen, final String priceTeleport, final String priceFetch, final double xpPercentage, final int unlockDuration, final double spawnChance, final String itemLoss, final int invulnerabilityAfterTP, @Nullable final Boolean allowTpAcrossWorlds, @Nullable final Boolean allowFetchAcrossWorlds, @Nullable final Integer maxTpDistance, @Nullable final Integer maxFetchDistance, @Nullable final Double tpWaitTime) {
         this.duration = duration;
         this.maxChests = maxChests;
         this.priceSpawn = priceSpawn;
@@ -39,6 +41,7 @@ public final class Group {
         this.allowFetchAcrossWorlds = allowFetchAcrossWorlds;
         this.maxTpDistance = maxTpDistance;
         this.maxFetchDistance = maxFetchDistance;
+        this.tpWaitTime = tpWaitTime;
     }
 
     @Override
@@ -59,6 +62,7 @@ public final class Group {
                 ", allowFetchAcrossWorlds=" + allowFetchAcrossWorlds +
                 ", maxTpDistance=" + maxTpDistance +
                 ", maxFetchDistance=" + maxFetchDistance +
+                ", tpWaitTime=" + tpWaitTime +
                 '}';
     }
 }

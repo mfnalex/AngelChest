@@ -8,6 +8,13 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 7.9.0
+- Made "tp-wait-time" configurable per group
+- Added configurable per-world height limits. You can use this is the actual height of your world differs from the values reported by Spigot itself
+  - See "world-build-heights.yml" for more information
+- Fixed exception caused by CMI
+- Updated Portuguese translation
+
 ## 7.8.0
 - Added support for WorldBorderAPI (this makes AngelChets always spawn within the worldborder limit)
 

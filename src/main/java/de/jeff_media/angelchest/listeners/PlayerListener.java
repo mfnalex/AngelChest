@@ -902,7 +902,7 @@ public final class PlayerListener implements Listener {
     public void onPlaceAngelChestItem(final BlockPlaceEvent event) {
         if(!main.getConfig().getBoolean(Config.PREVENT_PLACING_CUSTOM_ITEMS)) return;
         ItemStack item = event.getItemInHand();
-        if(item == null || item.getAmount() == 0) return;
+        if(item == null || item.getAmount() == 0 || item.getItemMeta() == null) return;
         if(PDCUtils.has(item,NBTTags.IS_TOKEN_ITEM,PersistentDataType.STRING)) {
             event.setCancelled(true);
         }
