@@ -10,9 +10,11 @@ import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.jefflib.TextUtils;
 import de.jeff_media.jefflib.Ticks;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -88,12 +90,16 @@ public final class GUIManager {
     }
 
     private String replacePlaceholders(final String line, final AngelChest angelChest, final int id) {
-        return line.replace("{x}", String.valueOf(angelChest.getBlock().getX()))
+        OfflinePlayer player = null;
+        if(angelChest.owner != null) {
+            player = Bukkit.getOfflinePlayer(angelChest.owner);
+        }
+        return TextUtils.format(line.replace("{x}", String.valueOf(angelChest.getBlock().getX()))
                 .replace("{y}", String.valueOf(angelChest.getBlock().getY()))
                 .replace("{z}", String.valueOf(angelChest.getBlock().getZ()))
                 .replace("{id}", String.valueOf(id))
                 .replace("{world}", angelChest.getWorld().getName())
-                .replace("{time}", CommandUtils.getTimeLeft(angelChest));
+                .replace("{time}", CommandUtils.getTimeLeft(angelChest)),player);
     }
 
     private ItemStack getConfirmAcceptButton() {

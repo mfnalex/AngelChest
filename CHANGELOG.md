@@ -8,6 +8,10 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 7.9.1
+- Fixed issue regarding items that have AE's "White Scroll" enchantment without having AE's "Holy White Scroll" enchantment
+  - Please also update AdvancedEnchantments if you have it installed. 
+
 ## 7.9.0
 - Made "tp-wait-time" configurable per group
 - Added configurable per-world height limits. You can use this is the actual height of your world differs from the values reported by Spigot itself
