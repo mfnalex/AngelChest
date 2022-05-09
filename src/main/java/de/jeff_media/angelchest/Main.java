@@ -126,6 +126,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     public boolean verbose = false;
     public Watchdog watchdog;
     public YamlConfiguration customDeathCauses;
+    public IExecutableItemsHook executableItemsHook;
     @Getter @Setter private boolean itemsAdderLoaded = false;
     boolean emergencyMode = false;
     @SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
@@ -405,6 +406,21 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
             isPremiumVersion = false;
         }
         /*Daddy end*/
+
+        if(Bukkit.getPluginManager().getPlugin("ExecutableItems") != null) {
+            try {
+                executableItemsHook = new ExecutableItems2Hook();
+            } catch (Throwable t) {
+                try {
+                    executableItemsHook = new ExecutableItemsHook();
+                } catch (Throwable t2) {
+                    executableItemsHook = new IExecutableItemsHook();
+                    Main.getInstance().getLogger().warning("Warning: Could not hook into ExecutableItems although it's installed.");
+                }
+            }
+        } else {
+            executableItemsHook = new IExecutableItemsHook();
+        }
 
         //ConfigurationSerialization.registerClass(CustomBlock.class, "CustomBlock");
 

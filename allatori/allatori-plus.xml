@@ -13,7 +13,6 @@
 
     <classpath basedir="C:\Users\mfnal\.m2\repository">
         <jar name="org/spigotmc/spigot-api/1.18.2-R0.1-SNAPSHOT/spigot-api-1.18.2-R0.1-SNAPSHOT.jar"/>
-        <jar name="com/jeff_media/stringencryption/1.0-SNAPSHOT/StringEncryption-1.0-SNAPSHOT.jar"/>
     </classpath>
 
     <keep-names>
@@ -49,8 +48,9 @@
     <property name="synthetize-methods" value="disable"/>
     <property name="synthetize-fields" value="disable"/>
     <property name="remove-toString" value="enable"/>
-    <property name="string-encryption" value="enable"/>
-    <property name="string-encryption-type" value="custom(com.jeff_media.stringencryption.StringEncryption.encryptString, de.jeff_media.angelchest.StringDecryption.decryptString)"/>
+    <property name="string-encryption" value="maximum"/>
+    <property name="string-encryption-type" value="fast"/>
+    <property name="string-encryption-version" value="v4" add="de.jeff_media.angelchest.Main"/>
     <property name="string-encryption-ignored-strings" value="../allatori/spigotmc-patterns.txt"/>
 
     <ignore-classes>

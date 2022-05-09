@@ -323,7 +323,7 @@ public final class ConfigUtils {
         conf.addDefault(Config.GUI_TELEPORT_LORE,"");
         conf.addDefault(Config.GUI_FETCH_LORE,"");
 
-        conf.addDefault(Config.DEATH_MAPS, true);
+        conf.addDefault(Config.DEATH_MAPS, false);
         conf.addDefault(Config.DEATH_MAP_MARKER, "RED_X");
 
         conf.addDefault(Config.DEATH_MAP_NAME,"AngelChest");
@@ -506,7 +506,6 @@ sound-channel: BLOCKS
         /*Daddy start*/
         //Stepsister.init(main); // TODO
         /*Daddy end*/
-        ExecutableItemsHook.init();
         if (reload) {
             main.saveAllAngelChestsToFile(true);
         }

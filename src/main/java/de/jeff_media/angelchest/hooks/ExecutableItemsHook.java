@@ -9,7 +9,7 @@ import org.bukkit.plugin.Plugin;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public final class ExecutableItemsHook {
+public final class ExecutableItemsHook extends IExecutableItemsHook {
 
     @SuppressWarnings("rawtypes")
     private static Class executableItemsAPIClass = null;
@@ -28,10 +28,9 @@ public final class ExecutableItemsHook {
      * If you think I should just ask all volunteers to download the .jar, I would get no pull requests at all.
      * If you think I should use jitpack.io: the API is not in the public ExecutableItems repo, at least I didnt find it.
      */
-    public static void init() {
+    public ExecutableItemsHook() throws NoSuchMethodException, ClassNotFoundException {
         final Plugin plugin = Bukkit.getPluginManager().getPlugin("ExecutableItems");
         if (plugin != null && Main.getInstance().getConfig().getBoolean(Config.USE_EXECUTABLEITEMS)) {
-            try {
                 executableItemsAPIClass = Class.forName("com.ssomar.executableitems.api.ExecutableItemsAPI");
                 //noinspection unchecked
                 isExecutableItemMethod = executableItemsAPIClass.getDeclaredMethod("isExecutableItem", ItemStack.class);
@@ -41,14 +40,10 @@ public final class ExecutableItemsHook {
                 //noinspection unchecked
                 isKeepItemOnDeathMethod = itemClass.getDeclaredMethod("isKeepItemOnDeath", null);
                 isExecutableItemsInstalled = true;
-            } catch (final ClassNotFoundException | NoSuchMethodException e) {
-                Main.getInstance().getLogger().warning("Warning: Could not hook into ExecutableItems although it's installed.");
-                e.printStackTrace();
-            }
         }
     }
 
-    public static boolean isKeptOnDeath(final ItemStack item) {
+    public boolean isKeptOnDeath(final ItemStack item) {
         if (!isExecutableItemsInstalled) {
             return false;
         }

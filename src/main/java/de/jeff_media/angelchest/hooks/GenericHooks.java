@@ -163,7 +163,7 @@ public final class GenericHooks implements Listener {
         if (isSlimefunSoulbound(item)) return true;
         //if (isEliteMobsSoulBound(item)) return true; // EliteMobs soulbound items are normally NOT kept on death but drop normally
         if (isNativeSoulbound(item)) return true;
-        if (ExecutableItemsHook.isKeptOnDeath(item)) return true;
+        if (main.executableItemsHook.isKeptOnDeath(item)) return true;
         if(hasAdvancedEnchantmentsWhiteScroll(item)) return true;
         //if (MMOItemsHookWrapper.isSoulbound(item)) return true;
         return false;

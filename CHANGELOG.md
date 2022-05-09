@@ -8,6 +8,10 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 7.9.2
+- Fixed AngelChest not being able to hook into ExecutableItems' new API (released on May 4th)
+- Improved overall performance
+
 ## 7.9.1
 - Fixed issue regarding items that have AE's "White Scroll" enchantment without having AE's "Holy White Scroll" enchantment
   - Please also update AdvancedEnchantments if you have it installed. 

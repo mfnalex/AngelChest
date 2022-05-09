@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>7.9.1</version>
+    <version>7.9.2</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -155,24 +155,12 @@
                             <pattern>io.papermc.lib</pattern>
                             <shadedPattern>de.jeff_media.angelchest.thirdparty.io.papermc.lib</shadedPattern>
                         </relocation>
-                        <relocation>
-                            <pattern>com.jeff_media.stringencryption</pattern>
-                            <shadedPattern>de.jeff_media.angelchest</shadedPattern>
-                        </relocation>
                     </relocations>
                     <artifactSet>
                         <excludes>
                             <exclude>org.slf4j</exclude>
                         </excludes>
                     </artifactSet>
-                    <filters>
-                        <filter>
-                            <artifact>com.jeff_media:StringEncryption</artifact>
-                            <excludes>
-                                <exclude>**/StringEncryption.class</exclude>
-                            </excludes>
-                        </filter>
-                    </filters>
                 </configuration>
                 <executions>
                     <execution>
@@ -287,12 +275,6 @@
 
         <!-- Own Libraries -->
         <dependency>
-            <groupId>com.jeff_media</groupId>
-            <artifactId>StringEncryption</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>JeffLib</artifactId>
             <version>7.8.0-SNAPSHOT</version>
@@ -343,11 +325,10 @@
 
 
         <dependency>
-            <groupId>allatori</groupId>
+            <groupId>com.allatori</groupId>
             <artifactId>allatori-annotations</artifactId>
-            <version>RELEASE</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/allatori/allatori-annotations.jar</systemPath>
+            <version>8.1</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- /*Daddy start*/ -->
@@ -453,11 +434,24 @@
             <version>5.13.0</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>com.github.LoneDev6</groupId>
             <artifactId>api-itemsadder</artifactId>
             <version>2.5.5</version>
+            <scope>provided</scope>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>com.ssomar</groupId>-->
+<!--            <artifactId>SCore</artifactId>-->
+<!--            <version>1.7.2.0</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>com.github.Ssomar-Developement</groupId>
+            <artifactId>SCore</artifactId>
+            <version>main-79660dbc87-1</version>
             <scope>provided</scope>
         </dependency>
 
