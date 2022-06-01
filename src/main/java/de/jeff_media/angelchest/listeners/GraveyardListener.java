@@ -151,16 +151,20 @@ public class GraveyardListener implements Listener {
         //System.out.println(1);
         Player player = event.getPlayer();
         Graveyard graveyard = GraveyardManager.getLastGraveyard(player);
-        if(graveyard == null) return;
+        Location graveyardRespawnLoc = GraveyardManager.getLastRespawnLoc(player);
+        if(graveyard == null && graveyardRespawnLoc == null) return;
         //System.out.println(2);
-        Location respawnLocation = graveyard.getSpawn();
+        Location respawnLocation = graveyardRespawnLoc != null ? graveyardRespawnLoc : graveyard.getSpawn();
         if(respawnLocation == null) return;
         //System.out.println(3);
         event.setRespawnLocation(respawnLocation);
         GraveyardManager.setLastGraveyard(player, null);
+        GraveyardManager.setLastRespawnLoc(player, null);
 
-        if(graveyard.hasCustomTotemAnimation()) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> AnimationUtils.playTotemAnimation(player, graveyard.getCustomTotemModelData()), 1L);
+        final Graveyard respawnGraveyard = graveyard != null ? graveyard : GraveyardManager.fromLocation(respawnLocation);
+
+        if(respawnGraveyard != null && respawnGraveyard.hasCustomTotemAnimation()) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> AnimationUtils.playTotemAnimation(player, respawnGraveyard.getCustomTotemModelData()), 1L);
         }
 
     }

@@ -8,6 +8,14 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 7.11.0
+Added config option "use-graveyard-only-as-respawn-point"
+[CODE=YAML]# When enabled, players death chest will NOT be spawned in the graveyards, but
+# at their death location. The graveyards will then only be used to respawn players
+# after they died. All defined "grave locations" will then be used as possible
+# respawn points, unless a global spawn has been set for that graveyard.
+use-graveyard-only-as-respawn-point: false[/CODE]
+
 ## 7.9.2
 - Fixed AngelChest not being able to hook into ExecutableItems' new API (released on May 4th)
 - Improved overall performance

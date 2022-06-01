@@ -388,6 +388,8 @@ sound-channel: BLOCKS
         conf.addDefault(Config.ALIAS_ACTP, Arrays.asList("acteleport", "angelchesttp", "angelchestteleport"));
         conf.addDefault(Config.ALIAS_ACUNLOCK, Arrays.asList("angelchestunlock", "unlockchest", "unlock"));
         conf.addDefault(Config.ALIAS_ACRELOAD, Collections.singletonList("angelchestreload"));
+        conf.addDefault(Config.COMBATLOGX_PREVENT_FASTLOOTING, false);
+        conf.addDefault(Config.GRAVEYARDS_ONLY_AS_RESPAWN_POINT, false);
 
         final List<String> dontSpawnOnTmp = conf.getStringList(Config.DONT_SPAWN_ON);
         main.dontSpawnOn = new ArrayList<>();
@@ -536,8 +538,6 @@ sound-channel: BLOCKS
         for(Player player : Bukkit.getOnlinePlayers()) {
             GraveyardListener.callGraveyardLeaveEvent(player);
         }
-
-        if(!reload) Chicken.wing(main);
 
         GraveyardManager.init();
 

@@ -110,11 +110,21 @@ unlock-duration: 0
 
 # The maximum amount of AngelChests a player may have at the same time.
 # If a player dies again so that they would exceed this number, the
-# first created AngelChest is destroyed and drops its contents.
+# first created AngelChest is either destroyed or drops its contents.
+# (See option below)
 # You can override this for certain players by setting up groups
 # and giving players the angelchest.group.<groupname> permission.
 # See groups.example.yml for more information.
 max-allowed-angelchests: 5
+
+# When a player has reached the above defined "max-allowed-angelchests" limit,
+# their oldest AngelChest is either destroyed (without dropping its contents)
+# or dropping all its contents.
+# When set to "drop", the oldest AngelChest will drop its contents once the
+# limit is reached.
+# When set to "delete", the oldest AngelChest will disappear without dropping
+# anything
+max-allowed-angelchests-behaviour: drop
 
 # When true, the AngelChest drops its contents when it expires
 # When false, all contents disappear
@@ -375,6 +385,12 @@ dont-store-heads-in-angelchest: true
 # individual graveyards in the graveyards.yml file. You must rename the
 # graveyards.example.yml file to graveyards.yml to enable Graveyard features.
 
+# When enabled, players death chest will NOT be spawned in the graveyards, but
+# at their death location. The graveyards will then only be used to respawn players
+# after they died. All defined "grave locations" will then be used as possible
+# respawn points, unless a global spawn has been set for that graveyard.
+use-graveyard-only-as-respawn-point: false
+
 # What happens when the closest graveyard in the current world is full?
 # When true, AngelChest will search for the next graveyard in the same world.
 # When false, or when all graveyards in this world are full, see option below
@@ -618,9 +634,12 @@ ignore-keep-inventory: false
 # If set to false, AngelChest doesn't care about what WorldBorderAPI says.
 use-worldborder-api: true
 
+# When true, players who are currently in combat cannot fast-loot AngelChests
+combatlogx-prevent-fastlooting: false
+
 # You can define the priority on which AngelChest detects the player's drops. When you use plugins to
 # manipulate what items a player drops on death, consider setting this to a high value (e.g. HIGHEST
-# or MONITOR.
+# or MONITOR).
 # If you experience problems with some items not being put into the chest but being dropped next to it,
 # try to lower the priority of AngelChest until the drops get detected.
 # If you have problems with the chest not spawning at all (but remaining in the player's inventory),
@@ -670,7 +689,7 @@ disable-interacting-with-holograms: false
 
 # The hologram text also allows you to use PlacerholderAPI placeholders
 # Use an empty string to disable the hologram.
-hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&7{items} items / {xp} XP\n&6{time}\n&cKilled by {deathcause}"
+hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&7{items} items / {xp} XP\n&6{time}\n&cKilled by {deathcause}\n{protected}"
 
 # This text is added to the hologram where you have {protected} in your "hologram-text"
 # and if your AngelChest is protected and auto unlocking is disabled.

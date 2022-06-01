@@ -13,14 +13,11 @@ import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
 import de.jeff_media.angelchest.gui.GUIHolder;
 import de.jeff_media.angelchest.handlers.DeathMapManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
-import de.jeff_media.angelchest.hooks.EcoEnchantsHook;
-import de.jeff_media.angelchest.hooks.HookHandler;
-import de.jeff_media.angelchest.hooks.LandsHook;
-import de.jeff_media.angelchest.hooks.SentinelHook;
+import de.jeff_media.angelchest.hooks.*;
 import de.jeff_media.angelchest.nbt.NBTTags;
-import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.angelchest.utils.CommandUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
+import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.*;
 import org.bukkit.*;
@@ -54,35 +51,9 @@ import java.util.function.Predicate;
  */
 public final class PlayerListener implements Listener {
 
-    private static final byte TOTEM_MAGIC_VALUE = 35;
     final static Main main = Main.getInstance();
+    private static final byte TOTEM_MAGIC_VALUE = 35;
     private final HashMap<UUID, BukkitTask> respawnTasks = new HashMap<>();
-
-    private static void dropPlayerHead(final Player player) {
-        final ItemStack head = getPlayerHead(player);
-        player.getLocation().getWorld().dropItemNaturally(player.getLocation(), head);
-    }
-
-    private static ItemStack getPlayerHead(final OfflinePlayer player) {
-        return HeadCreator.getPlayerHead(player.getUniqueId());
-    }
-
-    /**
-     * Remove all items from inventory that should not be kept on death
-     *
-     * @param inv inventory
-     */
-    private void clearInventory(final Inventory inv) {
-        for (int i = 0; i < inv.getSize(); i++) {
-            if (main.genericHooks.keepOnDeath(inv.getItem(i))) {
-                continue;
-            }
-            if (main.isItemBlacklisted(inv.getItem(i)) != null) {
-                continue;
-            }
-            inv.setItem(i, null);
-        }
-    }
 
     @SuppressWarnings("unused")
     @EventHandler
@@ -151,8 +122,8 @@ public final class PlayerListener implements Listener {
 
         boolean openGUI = false;
         if (Stepsister.allows(PremiumFeatures.GUI)) {
-            if(main.getConfig().getString(Config.ALLOW_FASTLOOTING).equalsIgnoreCase("force")) {
-                if(main.debug) main.debug("Not oening GUI because allow-fastlooting is force");
+            if (main.getConfig().getString(Config.ALLOW_FASTLOOTING).equalsIgnoreCase("force")) {
+                if (main.debug) main.debug("Not oening GUI because allow-fastlooting is force");
                 openGUI = false;
             } else if (main.getConfig().getString(Config.ALLOW_FASTLOOTING).equalsIgnoreCase("false")) {
                 if (main.debug) main.debug("Opening GUI because allow-fastlooting is disabled");
@@ -175,11 +146,79 @@ public final class PlayerListener implements Listener {
 
     }
 
+    public static void fastLoot(final Player p, final AngelChest angelChest, boolean firstOpened) {
+
+        if (main.getConfig().getBoolean(Config.COMBATLOGX_PREVENT_FASTLOOTING)) {
+            try {
+                boolean isInCombat = PluginUtils.whenInstalled("CombatLogX", () -> CombatLogXHook.isInCombat(p), false);
+                if (isInCombat) return;
+            } catch (Exception | Error ignored) {
+
+            }
+        }
+
+
+        if (p.getOpenInventory().getTopInventory() != null && p.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder) {
+            //main.getLogger().warning("Player " + p.getName() + " attempted to fastloot an AngelChest while having an inventory open - possible duplication attempt using a hacked client, or just client lag.");
+            return;
+        }
+        p.closeInventory();
+
+        Utils.applyXp(p, angelChest);
+
+        final boolean succesfullyStoredEverything;
+        //boolean isOwnChest = angelChest.owner == p.getUniqueId();
+
+        succesfullyStoredEverything = AngelChestUtils.tryToMergeInventories(main, angelChest, p.getInventory());
+        if (succesfullyStoredEverything) {
+            angelChest.isLooted = true;
+            Messages.send(p, main.messages.MSG_YOU_GOT_YOUR_INVENTORY_BACK);
+
+            // This is another player's chest
+            if (Stepsister.allows(PremiumFeatures.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_ANGELCHEST)) {
+                if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
+                    final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
+                    if (tmpPlayer != null) {
+                        Messages.send(tmpPlayer, main.messages.MSG_EMPTIED.replace("{player}", p.getName()));
+                    }
+                }
+            }
+
+            angelChest.destroy(false, false);
+            angelChest.remove();
+            if (main.getConfig().getBoolean(Config.CONSOLE_MESSAGE_ON_OPEN)) {
+                main.getLogger().info(p.getName() + " emptied the AngelChest of " + Bukkit.getOfflinePlayer(angelChest.owner).getName() + " at " + angelChest.block.getLocation());
+            }
+        } else {
+            Messages.send(p, main.messages.MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK);
+
+            // This is another player's chest
+            if (Stepsister.allows(PremiumFeatures.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_ANGELCHEST)) {
+                if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
+                    final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
+                    if (tmpPlayer != null) {
+                        if (firstOpened) {
+                            Messages.send(tmpPlayer, main.messages.MSG_OPENED.replace("{player}", p.getName()));
+                            firstOpened = false;
+                        }
+                    }
+                }
+            }
+
+            //p.openInventory(angelChest.overflowInv);
+            main.guiManager.showPreviewGUI(p, angelChest, false, firstOpened);
+            main.getLogger().info(p.getName() + " opened the AngelChest of " + Bukkit.getOfflinePlayer(angelChest.owner).getName() + " at " + angelChest.block.getLocation());
+        }
+
+        main.guiManager.updatePreviewInvs(null, angelChest);
+
+    }
+
     @SuppressWarnings("unused")
     @EventHandler
     public void onArmorStandRightClick(final PlayerInteractAtEntityEvent event) {
 
-        if(main.getConfig().getBoolean(Config.DISABLE_HOLOGRAM_INTERACTION)) {
+        if (main.getConfig().getBoolean(Config.DISABLE_HOLOGRAM_INTERACTION)) {
             return;
         }
 
@@ -218,7 +257,7 @@ public final class PlayerListener implements Listener {
         if (!main.getConfig().getBoolean(Config.AUTO_RESPAWN)) return;
         final int delay = main.getConfig().getInt(Config.AUTO_RESPAWN_DELAY);
 
-        respawnTasks.put(event.getEntity().getUniqueId(),Bukkit.getScheduler().runTaskLater(main, () -> {
+        respawnTasks.put(event.getEntity().getUniqueId(), Bukkit.getScheduler().runTaskLater(main, () -> {
             if (event.getEntity().isDead()) {
                 event.getEntity().spigot().respawn();
             }
@@ -227,7 +266,7 @@ public final class PlayerListener implements Listener {
 
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
-        if(respawnTasks.containsKey(event.getPlayer().getUniqueId())) {
+        if (respawnTasks.containsKey(event.getPlayer().getUniqueId())) {
             respawnTasks.get(event.getPlayer().getUniqueId()).cancel();
             respawnTasks.remove(event.getPlayer().getUniqueId());
         }
@@ -345,67 +384,29 @@ public final class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onMobGrief(EntityChangeBlockEvent event) {
-        if(main.isAngelChest(event.getBlock())) {
+        if (main.isAngelChest(event.getBlock())) {
             event.setCancelled(true);
         }
     }
 
-    public static void fastLoot(final Player p, final AngelChest angelChest, boolean firstOpened) {
-
-        if(p.getOpenInventory().getTopInventory() != null && p.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder) {
-            main.getLogger().warning("Player " + p.getName() + " attempted to fastloot an AngelChest while having an inventory open - possible duplication attempt using a hacked client, or just client lag.");
-            return;
-        }
-        p.closeInventory();
-
-        Utils.applyXp(p, angelChest);
-
-        final boolean succesfullyStoredEverything;
-        //boolean isOwnChest = angelChest.owner == p.getUniqueId();
-
-        succesfullyStoredEverything = AngelChestUtils.tryToMergeInventories(main, angelChest, p.getInventory());
-        if (succesfullyStoredEverything) {
-            angelChest.isLooted = true;
-            Messages.send(p, main.messages.MSG_YOU_GOT_YOUR_INVENTORY_BACK);
-
-            // This is another player's chest
-            if (Stepsister.allows(PremiumFeatures.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_ANGELCHEST)) {
-                if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
-                    final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
-                    if (tmpPlayer != null) {
-                        Messages.send(tmpPlayer, main.messages.MSG_EMPTIED.replace("{player}", p.getName()));
-                    }
-                }
-            }
-
-            angelChest.destroy(false, false);
-            angelChest.remove();
-            if (main.getConfig().getBoolean(Config.CONSOLE_MESSAGE_ON_OPEN)) {
-                main.getLogger().info(p.getName() + " emptied the AngelChest of " + Bukkit.getOfflinePlayer(angelChest.owner).getName() + " at " + angelChest.block.getLocation());
-            }
-        } else {
-            Messages.send(p, main.messages.MSG_YOU_GOT_PART_OF_YOUR_INVENTORY_BACK);
-
-            // This is another player's chest
-            if (Stepsister.allows(PremiumFeatures.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_ANGELCHEST)) {
-                if (!p.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
-                    final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
-                    if (tmpPlayer != null) {
-                        if (firstOpened) {
-                            Messages.send(tmpPlayer, main.messages.MSG_OPENED.replace("{player}", p.getName()));
-                            firstOpened = false;
-                        }
-                    }
-                }
-            }
-
-            //p.openInventory(angelChest.overflowInv);
-            main.guiManager.showPreviewGUI(p, angelChest, false, firstOpened);
-            main.getLogger().info(p.getName() + " opened the AngelChest of " + Bukkit.getOfflinePlayer(angelChest.owner).getName() + " at " + angelChest.block.getLocation());
+    @EventHandler
+    public void onPlaceAngelChestItem(final BlockPlaceEvent event) {
+        if (!main.getConfig().getBoolean(Config.PREVENT_PLACING_CUSTOM_ITEMS)) return;
+        ItemStack item = event.getItemInHand();
+        if (item == null || item.getAmount() == 0 || item.getItemMeta() == null) return;
+        if (PDCUtils.has(item, NBTTags.IS_TOKEN_ITEM, PersistentDataType.STRING)) {
+            event.setCancelled(true);
         }
 
-        main.guiManager.updatePreviewInvs(null, angelChest);
+    }
 
+    @SuppressWarnings("unused")
+    @EventHandler(priority = EventPriority.HIGH)
+    public void spawnAngelChestHigh(final PlayerDeathEvent event) {
+        if (Utils.getEventPriority(main.getConfig().getString(Config.EVENT_PRIORITY)) == EventPriority.HIGH) {
+            if (main.debug) main.debug("PlayerDeathEvent Priority HIGH");
+            spawnAngelChest(event);
+        }
     }
 
     /**
@@ -417,12 +418,12 @@ public final class PlayerListener implements Listener {
 
         final Player p = event.getEntity();
 
-        if(SentinelHook.isNpc(p)) {
+        if (SentinelHook.isNpc(p)) {
             main.debug("Ignoring death from NPC \"player\": " + p);
             return;
         }
 
-        if(main.debug) {
+        if (main.debug) {
             TimeUtils.startTimings("AngelChest spawn");
         }
 
@@ -435,8 +436,8 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        if(main.getConfig().getBoolean(Config.DISABLE_IN_CREATIVE) && p.getGameMode() == GameMode.CREATIVE) {
-            if(main.debug) main.debug("Cancelled: Player is in Creative and disable-in-creative is true");
+        if (main.getConfig().getBoolean(Config.DISABLE_IN_CREATIVE) && p.getGameMode() == GameMode.CREATIVE) {
+            if (main.debug) main.debug("Cancelled: Player is in Creative and disable-in-creative is true");
             return;
         }
 
@@ -484,11 +485,8 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        if(Stepsister.allows(PremiumFeatures.GENERIC)
-                && main.getConfig().getBoolean(Config.DONT_PROTECT_WHEN_AT_WAR)
-                && Bukkit.getPluginManager().getPlugin("Lands") != null
-                && LandsHook.isWarDeath(event)) {
-            if(main.debug) main.debug("Cancelled: Player was in war with their killer (Lands plugin)");
+        if (Stepsister.allows(PremiumFeatures.GENERIC) && main.getConfig().getBoolean(Config.DONT_PROTECT_WHEN_AT_WAR) && Bukkit.getPluginManager().getPlugin("Lands") != null && LandsHook.isWarDeath(event)) {
+            if (main.debug) main.debug("Cancelled: Player was in war with their killer (Lands plugin)");
             return;
         }
 
@@ -526,8 +524,8 @@ public final class PlayerListener implements Listener {
         }
 
         // EcoEnchants Telekinesis
-        if(EcoEnchantsHook.dontSpawnChestBecausePlayerWasKilledByTelekinesis(event)) {
-            if(main.debug) main.debug("Cancelled: Player was killed by telekinesis");
+        if (EcoEnchantsHook.dontSpawnChestBecausePlayerWasKilledByTelekinesis(event)) {
+            if (main.debug) main.debug("Cancelled: Player was killed by telekinesis");
             Utils.sendDelayedMessage(p, main.messages.MSG_NO_CHEST_IN_PVP, 1);
             return;
         }
@@ -553,20 +551,20 @@ public final class PlayerListener implements Listener {
 
         // Player died below world
         if (p.getLocation().getBlockY() < main.getWorldMinHeight(p.getWorld())) {
-            if (main.debug) main.debug("Fixing player position for " + p.getLocation() + " because Y < World#getMinHeight()");
+            if (main.debug)
+                main.debug("Fixing player position for " + p.getLocation() + " because Y < World#getMinHeight()");
             fixedPlayerPosition = null;
             // Void detection: use last known position
             if (main.getConfig().getBoolean(Config.VOID_DETECTION)) {
                 if (main.lastPlayerPositions.containsKey(p.getUniqueId())) {
                     fixedPlayerPosition = main.lastPlayerPositions.get(p.getUniqueId());
-                    if (main.debug)
-                        main.debug("Using last known player position " + fixedPlayerPosition.getLocation());
+                    if (main.debug) main.debug("Using last known player position " + fixedPlayerPosition.getLocation());
                 }
             }
             // Void detection disabled or no last known position: set to Y=1
             if (fixedPlayerPosition == null) {
                 final Location ltmp = p.getLocation();
-                ltmp.setY(main.getWorldMinHeight(p.getWorld())+1);
+                ltmp.setY(main.getWorldMinHeight(p.getWorld()) + 1);
                 fixedPlayerPosition = ltmp.getBlock();
                 if (main.debug)
                     main.debug("Void detection disabled or no last known player position, setting Y to minWorldHeight+1 " + fixedPlayerPosition.getLocation());
@@ -584,28 +582,25 @@ public final class PlayerListener implements Listener {
             final Location ltmp = p.getLocation();
             ltmp.setY(main.getWorldMaxHeight(p.getWorld()) - 1);
             fixedPlayerPosition = ltmp.getBlock();
-            if (main.debug)
-                main.debug("Setting Y to World#getMaxHeight()-1 " + fixedPlayerPosition.getLocation());
+            if (main.debug) main.debug("Setting Y to World#getMaxHeight()-1 " + fixedPlayerPosition.getLocation());
         } else {
             //fixedPlayerPosition = p.getLocation().getBlock();
-            if (main.debug)
-                main.debug("MaxHeight fixing not needed for " + fixedPlayerPosition.getLocation());
+            if (main.debug) main.debug("MaxHeight fixing not needed for " + fixedPlayerPosition.getLocation());
         }
 
         // Player died in Lava
         boolean diedThroughLava = false;
-        if(p.getLastDamageCause() != null && p.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
+        if (p.getLastDamageCause() != null && p.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
             diedThroughLava = true;
         }
         if (main.getConfig().getBoolean(Config.LAVA_DETECTION) && (fixedPlayerPosition.getType() == Material.LAVA || diedThroughLava)) {
             if (main.debug) main.debug("Fixing player position for " + p.getLocation() + " because there's lava");
             if (main.lastPlayerPositions.containsKey(p.getUniqueId())) {
                 fixedPlayerPosition = main.lastPlayerPositions.get(p.getUniqueId());
-                if (main.debug)
-                    main.debug("Using last known player position " + fixedPlayerPosition.getLocation());
+                if (main.debug) main.debug("Using last known player position " + fixedPlayerPosition.getLocation());
             }
         }
-        if(main.getConfig().getBoolean(Config.AVOID_LAVA_OCEANS) && fixedPlayerPosition.getType() == Material.LAVA) {
+        if (main.getConfig().getBoolean(Config.AVOID_LAVA_OCEANS) && fixedPlayerPosition.getType() == Material.LAVA) {
             if (main.debug) main.debug("Adding predicate \"avoid-lava-oceans\"");
             predicates.add(block -> !(block.getY() < p.getLocation().getY()));
         }
@@ -613,8 +608,8 @@ public final class PlayerListener implements Listener {
         // Prevent destroying itemframes
         predicates.add(block -> {
             Collection<Entity> nearby = block.getWorld().getNearbyEntities(BoundingBox.of(block));
-            for(Entity entity : nearby) {
-                if(entity instanceof Hanging) {
+            for (Entity entity : nearby) {
+                if (entity instanceof Hanging) {
                     return false;
                 }
             }
@@ -623,33 +618,40 @@ public final class PlayerListener implements Listener {
 
         if (main.debug) main.debug("FixedPlayerPosition: " + fixedPlayerPosition);
         Block finalFixedPlayerPosition = fixedPlayerPosition;
-        Block angelChestBlock = AngelChestUtils.getChestLocation(fixedPlayerPosition, predicates.toArray(new Predicate[] {
-                new Predicate<Block>() {
-                    @Override
-                    public boolean test(Block block) {
-                        return HookHandler.isInsideWorldBorder(finalFixedPlayerPosition.getLocation(),event.getEntity());
-                    }
-                }
-        }));
+        Block angelChestBlock = AngelChestUtils.getChestLocation(fixedPlayerPosition, predicates.toArray(new Predicate[]{new Predicate<Block>() {
+            @Override
+            public boolean test(Block block) {
+                return HookHandler.isInsideWorldBorder(finalFixedPlayerPosition.getLocation(), event.getEntity());
+            }
+        }}));
+
+        Location graveyardBlock = null;
 
         // Graveyards start
-        if(Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
+        if (Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
             //if(GraveyardManager.hasGraveyard(angelChestBlock.getWorld())) {
             boolean tryClosest = main.getConfig().getBoolean(Config.TRY_CLOSEST_GRAVEYARD);
             boolean tryGlobal = main.getConfig().getBoolean(Config.TRY_GLOBAL_GRAVEYARD);
             boolean fallbackToDeathLocation = main.getConfig().getBoolean(Config.FALLBACK_TO_DEATHLOCATION);
-                Block grave = GraveyardManager.getGraveLocation(angelChestBlock.getLocation(), tryClosest, tryGlobal);
-                if(grave == null) {
-                    if(fallbackToDeathLocation) {
-                        main.debug("Could not find a matching grave for player "+p.getName()+". Using normal death location.");
-                    } else {
-                        main.debug("Could not find a matching grave for player "+p.getName()+". Disabling AngelChest spawn.");
-                        return;
-                    }
+            Block grave = GraveyardManager.getGraveLocation(angelChestBlock.getLocation(), tryClosest, tryGlobal);
+            if (grave == null) {
+                if (fallbackToDeathLocation) {
+                    main.debug("Could not find a matching grave for player " + p.getName() + ". Using normal death location.");
                 } else {
-                    //System.out.println("Player will be sent to a graveyard");
+                    main.debug("Could not find a matching grave for player " + p.getName() + ". Disabling AngelChest spawn.");
+                    return;
+                }
+            } else {
+                //System.out.println("Player will be sent to a graveyard");
+                if(!main.getConfig().getBoolean(Config.GRAVEYARDS_ONLY_AS_RESPAWN_POINT)) {
                     angelChestBlock = grave;
                 }
+                graveyardBlock = grave.getLocation().add(0.5,0.0,0.5);
+                Graveyard yard = GraveyardManager.fromLocation(graveyardBlock);
+                if(yard != null && yard.getSpawn() != null) {
+                    graveyardBlock = yard.getSpawn();
+                }
+            }
             //}
         }
         // Graveyards end
@@ -681,26 +683,26 @@ public final class PlayerListener implements Listener {
         final List<ItemStack> inventoryAsList = Arrays.asList(p.getInventory().getContents());
 
         // TODO: Maybe rename this to keptItems in general?
-        HashMap<Integer,ItemStack> keptAngelChestTokens = new HashMap<>();
-        for(int i = 0; i < p.getInventory().getSize(); i++) {
+        HashMap<Integer, ItemStack> keptAngelChestTokens = new HashMap<>();
+        for (int i = 0; i < p.getInventory().getSize(); i++) {
             ItemStack tmp = p.getInventory().getItem(i);
-            if(tmp == null || tmp.getType().isAir() || tmp.getAmount()==0) continue;
-            if(PDCUtils.has(tmp,NBTTags.IS_TOKEN_ITEM_KEEP, PersistentDataType.BYTE)) {
-                keptAngelChestTokens.put(i,tmp);
+            if (tmp == null || tmp.getType().isAir() || tmp.getAmount() == 0) continue;
+            if (PDCUtils.has(tmp, NBTTags.IS_TOKEN_ITEM_KEEP, PersistentDataType.BYTE)) {
+                keptAngelChestTokens.put(i, tmp);
                 p.getInventory().setItem(i, null);
             }
         }
 
         Bukkit.getScheduler().runTaskLater(main, () -> {
-            for(Map.Entry<Integer,ItemStack> entry : keptAngelChestTokens.entrySet()) {
+            for (Map.Entry<Integer, ItemStack> entry : keptAngelChestTokens.entrySet()) {
                 ItemStack inInv = p.getInventory().getItem(entry.getKey());
-                if(inInv == null || inInv.getType().isAir() || inInv.getAmount()==0) {
+                if (inInv == null || inInv.getType().isAir() || inInv.getAmount() == 0) {
                     p.getInventory().setItem(entry.getKey(), entry.getValue());
                 } else {
                     p.getInventory().addItem(entry.getValue());
                 }
             }
-        },1);
+        }, 1);
 
         LogUtils.debugBanner(new String[]{"ADDITIONAL DEATH DROP LIST"});
         if (main.debug) main.debug("The following items are in the drops list, but not in the inventory.");
@@ -802,9 +804,11 @@ public final class PlayerListener implements Listener {
          */
 
         Graveyard graveyard = ac.graveyard;
-        if(graveyard != null) {
+        if (graveyard != null) {
             //System.out.println("[GRAVEYARDS] Registering Graveyard death");
-            GraveyardManager.setLastGraveyard(p,graveyard);
+            GraveyardManager.setLastGraveyard(p, graveyard);
+        } else if(graveyardBlock != null) {
+            GraveyardManager.setLastRespawnLoc(p, graveyardBlock);
         }
 
         //ac.createChest(ac.block, ac.owner);
@@ -822,8 +826,8 @@ public final class PlayerListener implements Listener {
 
         // send message after one twentieth second
         String playerDeathMessage = main.messages.MSG_ANGELCHEST_CREATED;
-        if(graveyard != null) {
-            playerDeathMessage = main.messages.MSG_BURIED_IN_GRAVEYARD.replace("{graveyard}",graveyard.getName());
+        if (graveyard != null) {
+            playerDeathMessage = main.messages.MSG_BURIED_IN_GRAVEYARD.replace("{graveyard}", graveyard.getName());
         }
         Utils.sendDelayedMessage(p, playerDeathMessage, 1);
 
@@ -835,10 +839,10 @@ public final class PlayerListener implements Listener {
         final ArrayList<AngelChest> chests = AngelChestUtils.getAllAngelChestsFromPlayer(p);
         //System.out.println(chests.size()+" chests.size");
         if (chests.size() > maxChests) {
-            for(Player viewer : Bukkit.getOnlinePlayers()) {
-                if(viewer.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder) {
+            for (Player viewer : Bukkit.getOnlinePlayers()) {
+                if (viewer.getOpenInventory().getTopInventory().getHolder() instanceof GUIHolder) {
                     GUIHolder holder = (GUIHolder) viewer.getOpenInventory().getTopInventory().getHolder();
-                    if(holder.getAngelChest() == chests.get(0)) {
+                    if (holder.getAngelChest() == chests.get(0)) {
                         viewer.closeInventory();
                     }
                 }
@@ -881,8 +885,8 @@ public final class PlayerListener implements Listener {
 
         ac.createChest();
 
-        if(main.getConfig().getBoolean(Config.DEATH_MAPS)) {
-            if(Stepsister.allows(PremiumFeatures.DEATH_MAP)) {
+        if (main.getConfig().getBoolean(Config.DEATH_MAPS)) {
+            if (Stepsister.allows(PremiumFeatures.DEATH_MAP)) {
                 ItemStack deathMap = DeathMapManager.getDeathMap(ac);
                 Bukkit.getScheduler().runTaskLater(main, () -> p.getInventory().addItem(deathMap), 1);
             } else {
@@ -890,7 +894,7 @@ public final class PlayerListener implements Listener {
             }
         }
 
-        if(main.debug) {
+        if (main.debug) {
             TimeUtils.endTimings("AngelChest spawn", main, true);
         }
 
@@ -898,23 +902,29 @@ public final class PlayerListener implements Listener {
 
     }
 
-    @EventHandler
-    public void onPlaceAngelChestItem(final BlockPlaceEvent event) {
-        if(!main.getConfig().getBoolean(Config.PREVENT_PLACING_CUSTOM_ITEMS)) return;
-        ItemStack item = event.getItemInHand();
-        if(item == null || item.getAmount() == 0 || item.getItemMeta() == null) return;
-        if(PDCUtils.has(item,NBTTags.IS_TOKEN_ITEM,PersistentDataType.STRING)) {
-            event.setCancelled(true);
-        }
-
+    private static void dropPlayerHead(final Player player) {
+        final ItemStack head = getPlayerHead(player);
+        player.getLocation().getWorld().dropItemNaturally(player.getLocation(), head);
     }
 
-    @SuppressWarnings("unused")
-    @EventHandler(priority = EventPriority.HIGH)
-    public void spawnAngelChestHigh(final PlayerDeathEvent event) {
-        if (Utils.getEventPriority(main.getConfig().getString(Config.EVENT_PRIORITY)) == EventPriority.HIGH) {
-            if (main.debug) main.debug("PlayerDeathEvent Priority HIGH");
-            spawnAngelChest(event);
+    private static ItemStack getPlayerHead(final OfflinePlayer player) {
+        return HeadCreator.getPlayerHead(player.getUniqueId());
+    }
+
+    /**
+     * Remove all items from inventory that should not be kept on death
+     *
+     * @param inv inventory
+     */
+    private void clearInventory(final Inventory inv) {
+        for (int i = 0; i < inv.getSize(); i++) {
+            if (main.genericHooks.keepOnDeath(inv.getItem(i))) {
+                continue;
+            }
+            if (main.isItemBlacklisted(inv.getItem(i)) != null) {
+                continue;
+            }
+            inv.setItem(i, null);
         }
     }
 

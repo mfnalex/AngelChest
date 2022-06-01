@@ -10,6 +10,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,6 +23,7 @@ public class GraveyardManager {
     private static List<Graveyard> GRAVEYARDS;
     private static Graveyard GLOBAL_GRAVEYARD;
     private static final Map<UUID, Graveyard> LAST_GRAVEYARDS = new HashMap<>();
+    private static final Map<UUID, Location> LAST_RESPAWN_LOCATIONS = new HashMap<>();
 
     @Nullable
     public static Graveyard getLastGraveyard(OfflinePlayer player) {
@@ -31,11 +33,25 @@ public class GraveyardManager {
         return null;
     }
 
+    public static Location getLastRespawnLoc(OfflinePlayer player) {
+        if(LAST_RESPAWN_LOCATIONS.containsKey(player.getUniqueId())) {
+            return LAST_RESPAWN_LOCATIONS.get(player.getUniqueId());
+        }
+        return null;
+    }
+
     public static void setLastGraveyard(OfflinePlayer player, Graveyard graveyard) {
         if(graveyard == null) {
             LAST_GRAVEYARDS.remove(player.getUniqueId());
         }
         LAST_GRAVEYARDS.put(player.getUniqueId(), graveyard);
+    }
+
+    public static void setLastRespawnLoc(OfflinePlayer player, Location respawnLoc) {
+        if(respawnLoc == null) {
+            LAST_RESPAWN_LOCATIONS.remove(player.getUniqueId());
+        }
+        LAST_RESPAWN_LOCATIONS.put(player.getUniqueId(), respawnLoc);
     }
 
     @Nullable

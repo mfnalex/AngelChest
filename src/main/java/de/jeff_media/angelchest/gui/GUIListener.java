@@ -275,16 +275,16 @@ public final class GUIListener implements Listener {
         final Player player = (Player) event.getWhoClicked();
 
         if (event.getClickedInventory() == null) {
-            //if(main.debug) main.debug("Return: getClicked Inv is null");
+            main.debug("Return: getClicked Inv is null");
             return;
         }
         if (!(event.getClickedInventory().getHolder() instanceof GUIHolder)) {
-            //if(main.debug) main.debug("Return: clicked inventory is no GUIHolder");
+            main.debug("Return: clicked inventory is no GUIHolder");
             return;
         }
         final GUIHolder guiHolder = (GUIHolder) event.getClickedInventory().getHolder();
         if (guiHolder.getContext() != GUIContext.PREVIEW_MENU) {
-            //if(main.debug) main.debug("Return: GUICOntext is not PREVIEW");
+            main.debug("Return: GUICOntext is not PREVIEW");
             return;
         }
 

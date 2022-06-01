@@ -140,6 +140,8 @@ public class Config {
     public static String DISABLE_IN_CREATIVE = "disable-in-creative";
     public static String DEATH_MAP_LORE = "death-map-lore";
     public static String DEATH_MAP_NAME = "death-map-name";
+    public static String COMBATLOGX_PREVENT_FASTLOOTING = "combatlogx-prevent-fastlooting";
+    public static String GRAVEYARDS_ONLY_AS_RESPAWN_POINT = "use-graveyard-only-as-respawn-point";
 
     public static String GUI_TELEPORT_LORE = "gui-teleport-lore";
     public static String GUI_FETCH_LORE = "gui-fetch-lore";
