@@ -7,6 +7,7 @@ import de.jeff_media.angelchest.data.CommandArgument;
 import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.utils.AngelChestUtils;
 import de.jeff_media.angelchest.utils.CommandUtils;
+import de.jeff_media.daddy.Chicken;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,6 +22,7 @@ public final class CommandList implements CommandExecutor {
 
     public CommandList() {
         this.main = Main.getInstance();
+        Chicken.wing(main);
     }
 
     @Override

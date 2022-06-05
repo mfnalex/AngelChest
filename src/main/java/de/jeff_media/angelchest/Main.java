@@ -567,6 +567,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     private void registerCommands() {
         final String[][] commands = new String[][]{{"acgui", Permissions.USE}, {"aclist", Permissions.USE}, {"acfetch", Permissions.FETCH}, {"actp", Permissions.TP}, {"acunlock", Permissions.PROTECT}, {"acreload", Permissions.RELOAD}, {"acdebug", Permissions.DEBUG}, {"acversion", Permissions.VERSION}, {"actoggle", Permissions.TOGGLE}};
+        Chicken.wing(this);
         for (final String[] commandAndPermission : commands) {
             final ArrayList<String> command = new ArrayList<>();
             command.add(commandAndPermission[0]);

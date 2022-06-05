@@ -385,10 +385,12 @@ dont-store-heads-in-angelchest: true
 # individual graveyards in the graveyards.yml file. You must rename the
 # graveyards.example.yml file to graveyards.yml to enable Graveyard features.
 
-# When enabled, players death chest will NOT be spawned in the graveyards, but
+# When enabled, player's AngelChests will NOT be spawned in the graveyards, but
 # at their death location. The graveyards will then only be used to respawn players
 # after they died. All defined "grave locations" will then be used as possible
 # respawn points, unless a global spawn has been set for that graveyard.
+# When this is enabled, players will also respawn at graveyards even when
+# they didn't get an AngelChest because their inventory was empty.
 use-graveyard-only-as-respawn-point: false
 
 # What happens when the closest graveyard in the current world is full?

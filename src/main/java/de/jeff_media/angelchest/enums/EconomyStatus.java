@@ -10,7 +10,4 @@ public enum EconomyStatus {
 
     ACTIVE, INACTIVE, UNKNOWN;
 
-    static {
-        Chicken.wing(Main.getInstance());
-    }
 }

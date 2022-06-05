@@ -8,6 +8,12 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 7.12.0
+- Fixed tools keeping the high efficiency level when people die while having a "super-boosted" tool from McMMO in their inventory
+
+## 7.11.2
+- When "use-graveyard-only-as-respawn-point" is enabled, players will now respawn at the garveyard no matter whether an AngelChest was spawned or not
+
 ## 7.11.0
 Added config option "use-graveyard-only-as-respawn-point"
 [CODE=YAML]# When enabled, players death chest will NOT be spawned in the graveyards, but

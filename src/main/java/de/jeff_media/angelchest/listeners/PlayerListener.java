@@ -20,6 +20,7 @@ import de.jeff_media.angelchest.utils.ProtectionUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.*;
+import de.jeff_media.jefflib.pluginhooks.McMMOUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -779,6 +780,8 @@ public final class PlayerListener implements Listener {
                 event.setDroppedExp(0);
             }
 
+        Graveyard graveyard = ac.graveyard;
+
         /*
         Check if player has any drops
          */
@@ -792,6 +795,11 @@ public final class PlayerListener implements Listener {
             main.angelChests.remove(finalAngelChestBlock);
 
             Utils.sendDelayedMessage(p, main.messages.MSG_INVENTORY_WAS_EMPTY, 1);
+
+            if(main.getConfig().getBoolean(Config.GRAVEYARDS_ONLY_AS_RESPAWN_POINT)) {
+                setRespawnLocationToGraveyardIfApplicable(p, graveyardBlock, graveyard);
+            }
+
             return;
         }
 
@@ -803,13 +811,8 @@ public final class PlayerListener implements Listener {
 
          */
 
-        Graveyard graveyard = ac.graveyard;
-        if (graveyard != null) {
-            //System.out.println("[GRAVEYARDS] Registering Graveyard death");
-            GraveyardManager.setLastGraveyard(p, graveyard);
-        } else if(graveyardBlock != null) {
-            GraveyardManager.setLastRespawnLoc(p, graveyardBlock);
-        }
+
+        setRespawnLocationToGraveyardIfApplicable(p, graveyardBlock, graveyard);
 
         //ac.createChest(ac.block, ac.owner);
 
@@ -866,6 +869,16 @@ public final class PlayerListener implements Listener {
 
         //Utils.reloadAngelChest(ac,plugin);
 
+        // mcMMO Super ability start
+        for (ItemStack itemStack : ac.getStorageInv()) {
+            McMMOUtils.removeSuperAbilityBoost(itemStack);
+        }
+        for(ItemStack itemStack : ac.getArmorInv()) {
+            McMMOUtils.removeSuperAbilityBoost(itemStack);
+        }
+        McMMOUtils.removeSuperAbilityBoost(ac.getOffhandItem());
+        // mcMMO Super ability end
+
         @SuppressWarnings("RedundantCast") final AngelChestSpawnEvent angelChestSpawnEvent = new AngelChestSpawnEvent(
                 /* DO NOT REMOVE THE CAST!                      */
                 /* It would result in a MethodNotFoundException */
@@ -900,6 +913,15 @@ public final class PlayerListener implements Listener {
 
         LogUtils.debugBanner(new String[]{"PlayerDeathEvent END"});
 
+    }
+
+    private void setRespawnLocationToGraveyardIfApplicable(Player p, Location graveyardBlock, Graveyard graveyard) {
+        if (graveyard != null) {
+            //System.out.println("[GRAVEYARDS] Registering Graveyard death");
+            GraveyardManager.setLastGraveyard(p, graveyard);
+        } else if(graveyardBlock != null) {
+            GraveyardManager.setLastRespawnLoc(p, graveyardBlock);
+        }
     }
 
     private static void dropPlayerHead(final Player player) {
