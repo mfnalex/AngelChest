@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>7.12.0</version>
+    <version>8.0.0</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -282,7 +282,7 @@
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>JeffLib</artifactId>
-            <version>7.8.0-SNAPSHOT</version>
+            <version>8.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -332,7 +332,7 @@
         <dependency>
             <groupId>com.allatori</groupId>
             <artifactId>allatori-annotations</artifactId>
-            <version>8.1</version>
+            <version>8.0</version>
             <scope>provided</scope>
         </dependency>
 
