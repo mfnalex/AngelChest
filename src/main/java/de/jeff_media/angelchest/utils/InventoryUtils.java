@@ -2,6 +2,9 @@ package de.jeff_media.angelchest.utils;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -36,7 +39,8 @@ public class InventoryUtils {
         return slots;
     }
 
-    public static Set<ItemStack> removeRandomItemsFromInventory(final PlayerInventory inventory, final int amount) {
+    public static Set<ItemStack> removeRandomItemsFromInventory(final PlayerInventory inventory, final int amount, final Location dropLocation) {
+        final boolean drop = main.getConfig().getBoolean(Config.RANDOM_ITEM_LOSS_DROP, false);
         final ArrayList<Integer> slots = getNonEmptySlots(inventory);
         final Set<ItemStack> removedItems = new HashSet<>();
 
@@ -53,11 +57,15 @@ public class InventoryUtils {
                     if(tmp.getItemMeta().hasEnchants()) continue;
                 }
             }
-
+            ItemStack toDrop = inventory.getItem(slots.get(slot)).clone();
             removedItems.add(inventory.getItem(slots.get(slot)));
             inventory.clear(slots.get(slot));
             slots.remove(slot);
             remaining--;
+            // random-item-loss-drop
+            if(drop) {
+                dropLocation.getWorld().dropItemNaturally(dropLocation, toDrop);
+            }
         }
 
         return removedItems;

@@ -325,7 +325,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             if (Stepsister.allows(PremiumFeatures.RANDOM_ITEM_LOSS)) {
                 LogUtils.debugBanner(new String[]{"RANDOM ITEM LOSS"});
                 if (main.debug) main.debug("Removed " + randomItemLoss + " item stacks randomly:");
-                randomlyLostItems = InventoryUtils.removeRandomItemsFromInventory(playerInventory, randomItemLoss);
+                randomlyLostItems = InventoryUtils.removeRandomItemsFromInventory(playerInventory, randomItemLoss,player.getLocation());
                 for (final ItemStack lostItem : randomlyLostItems) {
                     if (main.debug) main.debug(lostItem.toString() + "\n");
                 }

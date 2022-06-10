@@ -8,6 +8,7 @@ import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.angelchest.events.AngelChestOpenEvent;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.TextUtils;
@@ -247,6 +248,14 @@ public final class GUIManager {
     }
 
     public void showPreviewGUI(final Player player, final AngelChest angelChest, final boolean isPreview, final boolean firstOpened) {
+        if(!isPreview) {
+            AngelChestOpenEvent openEvent = new AngelChestOpenEvent(angelChest, player, AngelChestOpenEvent.Reason.OPEN_GUI);
+            Bukkit.getPluginManager().callEvent(openEvent);
+            if(openEvent.isCancelled()) {
+                main.debug("AngelChestOpenEvent (Open GUI) was cancelled.");
+                return;
+            }
+        }
         final GUIHolder holder = new GUIHolder(player, GUIContext.PREVIEW_MENU);
         final Inventory inventory = Bukkit.createInventory(holder, 54, main.messages.GUI_TITLE_MAIN.replace("{player}",player.getName()));
         holder.setInventory(inventory);

@@ -4,6 +4,7 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.daddy.Chicken;
 import de.jeff_media.daddy.Stepsister;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,6 +21,7 @@ public final class CommandGUI implements CommandExecutor {
 
     public CommandGUI() {
         this.main = Main.getInstance();
+        Chicken.wing(main);
     }
 
     @Override

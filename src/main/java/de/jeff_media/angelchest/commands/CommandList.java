@@ -22,7 +22,6 @@ public final class CommandList implements CommandExecutor {
 
     public CommandList() {
         this.main = Main.getInstance();
-        Chicken.wing(main);
     }
 
     @Override

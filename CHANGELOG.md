@@ -8,6 +8,19 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.0.0
+- Added new cancellable API event "AngelChestOpenEvent", that's called when a player opens an AngelChest's GUI, fastloots it or breaks an AngelChest.
+  - Latest API version is now 9.0.0-SNAPSHOT 
+  - Check out the API on GitHub: https://github.com/JEFF-Media-GbR/AngelChestAPI
+  - Javadocs are available here: https://hub.jeff-media.com/javadocs/angelchestapi/
+  - Note that you **must not** shade the AngelChestAPI!
+- Prevented AngelChest from enabling when using illegal command aliases. It will instead print a warning.
+- Removed {protected} from the default hologram since it's only available in the Plus version
+
+## 8.1.0
+- Added option "random-item-loss-drop" to drop randomly lost items (see config option "random-item-loss") instead of removing them
+- The UpdateChecker won't show the "you're up to date messages" anymore and defaults to one update check every 24 hours now
+
 ## 7.12.0
 - Fixed tools keeping the high efficiency level when people die while having a "super-boosted" tool from McMMO in their inventory
 

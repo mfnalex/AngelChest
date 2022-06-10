@@ -171,6 +171,9 @@ spawn-chance: 1.0
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 random-item-loss: 0
 
+# When true, all items that would be lost due to "random-item-loss" will be dropped instead of just be removed
+random-item-loss-drop: false
+
 # When set to true, the random-item-loss defined above will NOT apply to enchanted items!
 # That means that enchanted items will always be stored in the AngelChest regardless of random item loss chance.
 random-item-loss-ignores-enchanted-items: false
@@ -333,7 +336,7 @@ async-chunk-loading: true
 check-for-updates: true
 
 # When check-for-updates is true, AngelChest will check every X hours
-check-interval: 4
+check-interval: 24
 
 #########################
 ####   Death maps    ####
@@ -691,7 +694,7 @@ disable-interacting-with-holograms: false
 
 # The hologram text also allows you to use PlacerholderAPI placeholders
 # Use an empty string to disable the hologram.
-hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&7{items} items / {xp} XP\n&6{time}\n&cKilled by {deathcause}\n{protected}"
+hologram-text: "&a&l[AngelChest]&r\n&b{player}\n&7{items} items / {xp} XP\n&6{time}\n&cKilled by {deathcause}"
 
 # This text is added to the hologram where you have {protected} in your "hologram-text"
 # and if your AngelChest is protected and auto unlocking is disabled.

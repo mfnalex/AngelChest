@@ -8,6 +8,7 @@ import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.DeathCause;
 import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.angelchest.events.AngelChestOpenEvent;
 import de.jeff_media.angelchest.events.AngelChestSpawnEvent;
 import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
 import de.jeff_media.angelchest.gui.GUIHolder;
@@ -148,6 +149,13 @@ public final class PlayerListener implements Listener {
     }
 
     public static void fastLoot(final Player p, final AngelChest angelChest, boolean firstOpened) {
+
+        AngelChestOpenEvent openEvent = new AngelChestOpenEvent(angelChest, p, AngelChestOpenEvent.Reason.FAST_LOOT);
+        Bukkit.getPluginManager().callEvent(openEvent);
+        if(openEvent.isCancelled()) {
+            main.debug("AngelChestOpenEvent (Fast Loot) was cancelled.");
+            return;
+        }
 
         if (main.getConfig().getBoolean(Config.COMBATLOGX_PREVENT_FASTLOOTING)) {
             try {

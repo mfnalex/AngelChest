@@ -142,6 +142,7 @@ public class Config {
     public static String DEATH_MAP_NAME = "death-map-name";
     public static String COMBATLOGX_PREVENT_FASTLOOTING = "combatlogx-prevent-fastlooting";
     public static String GRAVEYARDS_ONLY_AS_RESPAWN_POINT = "use-graveyard-only-as-respawn-point";
+    public static String RANDOM_ITEM_LOSS_DROP = "random-item-loss-drop";
 
     public static String GUI_TELEPORT_LORE = "gui-teleport-lore";
     public static String GUI_FETCH_LORE = "gui-fetch-lore";

@@ -3,6 +3,8 @@ package de.jeff_media.angelchest.listeners;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.data.AngelChest;
+import de.jeff_media.angelchest.events.AngelChestOpenEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.event.EventHandler;
@@ -42,6 +44,15 @@ public final class ChestProtectionListener implements Listener {
             event.setCancelled(true);
             return;
         }
+
+        AngelChestOpenEvent openEvent = new AngelChestOpenEvent(angelChest, event.getPlayer(), AngelChestOpenEvent.Reason.BREAK);
+        Bukkit.getPluginManager().callEvent(openEvent);
+        if(openEvent.isCancelled()) {
+            main.debug("AngelChestOpenEvent (Break) was cancelled.");
+            event.setCancelled(true);
+            return;
+        }
+
         if (!angelChest.hasPaidForOpening(event.getPlayer())) {
             event.setCancelled(true);
             return;

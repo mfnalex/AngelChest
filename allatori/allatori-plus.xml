@@ -24,6 +24,9 @@
         <class template="class **API**">
             <method template="public *(**)" />
         </class>
+        <class template="@com.allatori.annotations.DoNotRename class *">
+            <method template="public *(**)" />
+        </class>
         <method template="@org.bukkit.event.EventHandler *(**)" />
         <method template="@java.lang.Override *(**)" />
         <class template="class ** extends org.bukkit.configuration.serialization.ConfigurationSerializable">

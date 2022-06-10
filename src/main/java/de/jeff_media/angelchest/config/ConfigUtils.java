@@ -251,6 +251,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.ITEM_LOSS, 0);
         metric(Config.ITEM_LOSS);
 
+        conf.addDefault(Config.RANDOM_ITEM_LOSS_DROP, false);
+        metric(Config.RANDOM_ITEM_LOSS_DROP);
+
         conf.addDefault(Config.DROP_HEADS, false);
         metric(Config.DROP_HEADS);
 

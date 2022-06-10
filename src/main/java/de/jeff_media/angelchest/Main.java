@@ -252,6 +252,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
                 .setNameFreeVersion("Free")
                 .setNotifyRequesters(true)
                 .setNotifyOpsOnJoin(true)
+                .suppressUpToDateMessage(true)
                 .setTimeout(10000);
 
 
@@ -567,14 +568,18 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     private void registerCommands() {
         final String[][] commands = new String[][]{{"acgui", Permissions.USE}, {"aclist", Permissions.USE}, {"acfetch", Permissions.FETCH}, {"actp", Permissions.TP}, {"acunlock", Permissions.PROTECT}, {"acreload", Permissions.RELOAD}, {"acdebug", Permissions.DEBUG}, {"acversion", Permissions.VERSION}, {"actoggle", Permissions.TOGGLE}};
-        Chicken.wing(this);
         for (final String[] commandAndPermission : commands) {
             final ArrayList<String> command = new ArrayList<>();
-            command.add(commandAndPermission[0]);
-            final List<String> aliases = getConfig().getStringList("command-aliases-" + commandAndPermission[0]);
-            command.addAll(aliases);
-            CommandManager.registerCommand(commandAndPermission[1], command.toArray(new String[0]));
+            try {
+                command.add(commandAndPermission[0]);
+                final List<String> aliases = getConfig().getStringList("command-aliases-" + commandAndPermission[0]);
+                command.addAll(aliases);
+                CommandManager.registerCommand(commandAndPermission[1], command.toArray(new String[0]));
+            } catch (Throwable t) {
+                getLogger().severe("Could not register command: " + command.stream().collect(Collectors.joining(", ")) + " - are those all valid command names?");
+            }
         }
+        Chicken.wing(this);
     }
 
     public void saveAllAngelChestsToFile(final boolean removeChests) {
