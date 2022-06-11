@@ -8,6 +8,9 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.0.1
+- Fixed AngelChestOpenEvent$Reason accidentally being renamed
+
 ## 9.0.0
 - Added new cancellable API event "AngelChestOpenEvent", that's called when a player opens an AngelChest's GUI, fastloots it or breaks an AngelChest.
   - Latest API version is now 9.0.0-SNAPSHOT 
