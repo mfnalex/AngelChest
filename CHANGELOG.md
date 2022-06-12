@@ -8,6 +8,10 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.0.2
+- Fixed "message-teleporting" always using the default message
+- Fixed automatic config updater replacing "\n" with an actual new line in "angechest-list"
+
 ## 9.0.1
 - Fixed AngelChestOpenEvent$Reason accidentally being renamed
 

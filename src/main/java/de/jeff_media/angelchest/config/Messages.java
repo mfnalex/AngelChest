@@ -104,7 +104,7 @@ public final class Messages {
 
         MSG_PREMIUMONLY = PREFIX + "§6This feature is only available in AngelChestPlus.";
 
-        MSG_TELEPORT_BOSSBAR = PREFIX + "§aTeleporting to AngelChest...";
+        MSG_TELEPORT_BOSSBAR = PREFIX + ChatColor.translateAlternateColorCodes('&',main.getConfig().getString("message-teleporting", "§aTeleporting to AngelChest..."));
 
         MSG_NO_PERMISSION = PREFIX + ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-no-permission", "&cYou do not have the permission to use this command."));
 

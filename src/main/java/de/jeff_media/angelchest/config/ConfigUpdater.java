@@ -50,6 +50,7 @@ public final class ConfigUpdater {
             Config.GUI_FETCH_LORE,
             Config.GUI_TELEPORT_LORE,
             Config.DEATH_MAP_LORE,
+            Config.ANGELCHEST_LIST,
             "gui-info-lore");
 
     private static void backupCurrentConfig(final Main main) {
