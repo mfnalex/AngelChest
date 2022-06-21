@@ -21,6 +21,7 @@ import de.jeff_media.angelchest.utils.ProtectionUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.*;
+import de.jeff_media.jefflib.cooldown.Cooldown;
 import de.jeff_media.jefflib.pluginhooks.McMMOUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -45,6 +46,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.BoundingBox;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 
@@ -56,6 +58,7 @@ public final class PlayerListener implements Listener {
     final static Main main = Main.getInstance();
     private static final byte TOTEM_MAGIC_VALUE = 35;
     private final HashMap<UUID, BukkitTask> respawnTasks = new HashMap<>();
+    private final Cooldown pvpCooldowns = new Cooldown();
 
     @SuppressWarnings("unused")
     @EventHandler
@@ -138,6 +141,8 @@ public final class PlayerListener implements Listener {
                 openGUI = true;
             }
         }
+
+        DeathMapManager.removeDeathMap(angelChest);
 
         if (openGUI) {
             main.guiManager.showPreviewGUI(player, angelChest, false, firstOpened);
@@ -523,6 +528,22 @@ public final class PlayerListener implements Listener {
 
                 Utils.sendDelayedMessage(p, main.messages.MSG_NO_CHEST_IN_PVP, 1);
                 return;
+            }
+        }
+
+        if(main.getConfig().getDouble(Config.PVP_COOLDOWN) > 0 && Stepsister.allows(PremiumFeatures.PVP_COOLDOWN)) {
+            int pvpCooldown = (int) main.getConfig().getDouble(Config.PVP_COOLDOWN);
+            if(isPvpDeath) {
+                boolean isInCooldown = pvpCooldowns.hasCooldown(p);
+                if(isInCooldown) {
+                    if(main.debug) {
+                        main.debug("Cancelled: player is still in pvp-cooldown");
+                    }
+                    Messages.send(p,main.messages.MSG_PVP_COOLDOWN);
+                    return;
+                } else {
+                    pvpCooldowns.setCooldown(p,pvpCooldown, TimeUnit.SECONDS);
+                }
             }
         }
 

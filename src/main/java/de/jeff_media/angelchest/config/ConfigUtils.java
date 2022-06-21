@@ -8,17 +8,14 @@ import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.handlers.ItemManager;
-import de.jeff_media.angelchest.hooks.ExecutableItemsHook;
 import de.jeff_media.angelchest.hooks.GenericHooks;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.GroupUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
-import de.jeff_media.daddy.Chicken;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.DebugUtils;
-import de.jeff_media.jefflib.FileUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -253,6 +250,9 @@ public final class ConfigUtils {
 
         conf.addDefault(Config.RANDOM_ITEM_LOSS_DROP, false);
         metric(Config.RANDOM_ITEM_LOSS_DROP);
+
+        conf.addDefault(Config.PVP_COOLDOWN, 0);
+        metric(Config.PVP_COOLDOWN);
 
         conf.addDefault(Config.DROP_HEADS, false);
         metric(Config.DROP_HEADS);

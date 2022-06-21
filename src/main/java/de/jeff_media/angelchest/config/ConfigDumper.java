@@ -20,6 +20,7 @@ import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -103,9 +104,9 @@ public final class ConfigDumper {
         // Other plugins
         Messages.send(sender, "Saving plugin list...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Installed plugins"));
-        for (final Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+        Arrays.stream(Bukkit.getPluginManager().getPlugins()).sorted(Comparator.comparing(Plugin::getName)).forEachOrdered(plugin -> {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, plugin.getName() + " " + plugin.getDescription().getVersion() + (plugin.isEnabled() ? "" : " (DISABLED)"));
-        }
+        });
 
         // Gamerules
         Messages.send(sender, "Saving relevant gamerules...");

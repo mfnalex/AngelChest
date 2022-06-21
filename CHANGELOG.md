@@ -8,6 +8,12 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.2.0
+- AngelChest now removes the death map once a player opens the AngelChest, or when it expires
+
+## 9.1.0
+- Added config option "pvp-cooldown". If set, players who died in PvP get a cooldown for the defined time before their next AngelChest can be spawned
+
 ## 9.0.2
 - Fixed "message-teleporting" always using the default message
 - Fixed automatic config updater replacing "\n" with an actual new line in "angechest-list"

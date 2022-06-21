@@ -178,6 +178,10 @@ random-item-loss-drop: false
 # That means that enchanted items will always be stored in the AngelChest regardless of random item loss chance.
 random-item-loss-ignores-enchanted-items: false
 
+# When set to higher than 0, players dying in PvP will get a cooldown before the next AngelChest can be spawned (in seconds)
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
+pvp-cooldown: 0
+
 # When set to true, players will receive a message telling them where the AngelChest
 # is located, including clickable links to teleport, fetch or unlock the chest if
 # the player has permission for those commands.
@@ -942,6 +946,7 @@ message-angelchest-disabled-others: "&c{player} is no longer protected by Angels
 message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 #########################
 ##### Translations ######
@@ -997,6 +1002,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 #message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### Azerbaijan Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eBütün AngelChest'lərinin kilidi onsuzda açıqdır."
@@ -1043,6 +1049,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 #message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### Bulgarian
 #message-all-your-angelchests-were-already-unlocked: "&eВсичките Ваши AngelChest-ове бяха отключени."
@@ -1090,6 +1097,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 #message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### Chinese Simplified 简体中文
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天使之箱都已解锁."
@@ -1137,6 +1145,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 #message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### Chinese Traditional 繁體中文
 #message-all-your-angelchests-were-already-unlocked: "&e所有的天使之箱已被解鎖"
@@ -1184,6 +1193,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 #message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### Danish 
 #message-all-your-angelchests-were-already-unlocked: "&eAlle dine AngelChests var allerede låst op."
@@ -1231,6 +1241,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} er nu beskyttet af engle."
 #message-has-no-item: "&cDu skal bruge mindst én {item}&r&c for at gøre dette."
 #message-has-no-item2: "&cEn engel prøvede at samle dine ting, men du havde ingen {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### Dutch
 #message-all-your-angelchests-were-already-unlocked: "&eAlle AngelChests die je hebt zijn al ontgrendeld"
@@ -1278,6 +1289,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 #message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/ 
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
@@ -1325,6 +1337,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 #message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### German
 #message-all-your-angelchests-were-already-unlocked: "&eAlle deine AngelChests waren bereits aufgeschlossen."
@@ -1372,6 +1385,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} wird jetzt von Engeln beschützt."
 #message-has-no-item: "&cDu brauchst mindestens 1 {item}&r&c um dies zu tun."
 #message-has-no-item2: "&cEin Engel hat versucht deine Sachen einzusammeln, aber du hattest nicht genug {item}&r&c."
+#message-pvp-cooldown: "&cEin Engel hat versucht deine Sachen einzusammeln, war aber noch zu müde."
 
 ##### Hungarian
 # message-all-your-angelchests-were-already-unlocked: "&eAz összes AngyalLádád már fel van oldva."
@@ -1419,6 +1433,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 #message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### Indonesian
 #message-all-your-angelchests-were-already-unlocked: "&eSemua AngelChest kamu sudah tidak terkunci."
@@ -1466,6 +1481,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 #message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### Italian
 #message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChests sono già state sbloccate."
@@ -1513,6 +1529,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 #message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### Pirate Speak
 #message-all-your-angelchests-were-already-unlocked: "&eAll yer AngelChests was already unlocked."
@@ -1560,6 +1577,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 #message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect yer stuff but was still too tired to do so."
 
 ##### Polish
 #message-all-your-angelchests-were-already-unlocked: "&eWszystkie twoje AnielskieSkrzynie zostały już odblokowane."
@@ -1607,6 +1625,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} jest teraz chroniony przez  Anioły."
 #message-has-no-item: "&cPotrzebujesz przynajmniej jeden {item}&r&c aby to zrobić."
 #message-has-no-item2: "&cAnioł próbował podnieść twoje itemy, lecz nie miałeś żadnego {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### Portuguese
 #message-all-your-angelchests-were-already-unlocked: "&eTodos os seus Baús Angelicais já estavam destrancados."
@@ -1654,6 +1673,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} agora está protegido pelos Anjos."
 #message-has-no-item: "&cVocê precisa de pelo menos um {item}&r&c para fazer isso."
 #message-has-no-item2: "&cUm Anjo tentou coletar suas coisas, mas você não tinha nenhum {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### Russian - Thanks to @GEEK for translating
 #message-all-your-angelchests-were-already-unlocked: "&eВсе ваши Ангельские сундуки разблокированы."
@@ -1701,6 +1721,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} теперь защищён Ангелами."
 #message-has-no-item: "&cЧтобы сделать это, вам нужен как минимум один {item}."
 #message-has-no-item2: "&cАнгел пытался собрать твои вещи, но у вас не было {item}."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 
 ##### Spanish Spain (es_ES)
@@ -1749,6 +1770,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 #message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### Spanish 2
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus AngelChest ya se encuentran desbloqueados."
@@ -1796,6 +1818,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 #message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### Swedish
 #message-all-your-angelchests-were-already-unlocked: "&eAlla dina AngelChests är redan upplåsta"
@@ -1842,6 +1865,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} är nu skyddad av Änglar"
 #message-has-no-item: "&cDu behöver minst en {item}&r&c för att göra detta."
 #message-has-no-item2: "&cEn Ängel försökte att samla dina saker men du hade inte någon {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 ##### Turkish (Turkey Turkish)
 #message-all-your-angelchests-were-already-unlocked: "&eTüm AngelChest'lerinin kilidi zaten açık."
@@ -1888,6 +1912,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 #message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 #message-has-no-item: "&cYou need at least one {item}&r&c to do this."
 #message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 
 #########################
 #####     Done!     #####

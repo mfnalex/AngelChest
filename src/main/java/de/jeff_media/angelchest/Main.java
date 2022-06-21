@@ -4,8 +4,9 @@ import co.aikar.commands.*;
 import com.allatori.annotations.DoNotRename;
 import de.jeff_media.angelchest.commands.*;
 import de.jeff_media.angelchest.config.*;
-import de.jeff_media.angelchest.data.*;
 import de.jeff_media.angelchest.data.AngelChest;
+import de.jeff_media.angelchest.data.BlacklistEntry;
+import de.jeff_media.angelchest.data.PendingConfirm;
 import de.jeff_media.angelchest.enchantments.Glow;
 import de.jeff_media.angelchest.enums.BlacklistResult;
 import de.jeff_media.angelchest.enums.EconomyStatus;
@@ -13,17 +14,21 @@ import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIListener;
 import de.jeff_media.angelchest.gui.GUIManager;
 import de.jeff_media.angelchest.handlers.ChunkManager;
+import de.jeff_media.angelchest.handlers.DeathMapManager;
 import de.jeff_media.angelchest.handlers.ItemManager;
 import de.jeff_media.angelchest.hooks.*;
 import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
-import de.jeff_media.angelchest.utils.*;
+import de.jeff_media.angelchest.utils.AngelChestUtils;
+import de.jeff_media.angelchest.utils.GroupUtils;
+import de.jeff_media.angelchest.utils.HologramFixer;
+import de.jeff_media.angelchest.utils.ProtectionUtils;
+import de.jeff_media.customblocks.CustomBlock;
 import de.jeff_media.daddy.Chicken;
 import de.jeff_media.daddy.Stepsister;
 import de.jeff_media.jefflib.JeffLib;
 import de.jeff_media.jefflib.McVersion;
 import de.jeff_media.jefflib.Ticks;
-import de.jeff_media.customblocks.CustomBlock;
 import de.jeff_media.jefflib.data.tuples.Pair;
 import de.jeff_media.updatechecker.UpdateChecker;
 import de.jeff_media.updatechecker.UserAgentBuilder;
@@ -36,7 +41,6 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -57,13 +61,7 @@ import java.util.stream.Collectors;
 public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     {
-        /*
-        Do not move me! I have to be at the top of this class
-         */
         JeffLib.init(this);
-        /*
-        Do not move me! I have to be at the top of this class
-         */
     }
 
     @DoNotRename public static boolean isPremiumVersion = true;
@@ -149,7 +147,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }
 
     public int getWorldMinHeight(World world) {
-        return worldMinBuildHeights.getOrDefault(world.getName(),McVersion.isAtLeast(1,16,5) ? world.getMinHeight() : 0);
+        return worldMinBuildHeights.getOrDefault(world.getName(),McVersion.current().isAtLeast(1,16,5) ? world.getMinHeight() : 0);
     }
 
     public int getWorldMaxHeight(World world) {
@@ -428,7 +426,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         migrateFromAngelChestPlus1X();
         ChestFileUpdater.updateChestFilesToNewDeathCause();
 
-        if (!McVersion.isAtLeast(1,14,1)) {
+        if (!McVersion.current().isAtLeast(1,14,1)) {
             EmergencyMode.severe(EmergencyMode.UNSUPPORTED_MC_VERSION_1_13);
             emergencyMode = true;
             return;
@@ -562,6 +560,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     @Override
     public void onLoad() {
+        JeffLib.enableNMS();
         instance = this;
         WorldGuardWrapper.tryToRegisterFlags();
     }
@@ -625,6 +624,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
             if (ac == null) continue;
             ac.secondsLeft--;
             if (ac.secondsLeft < 0 && !ac.infinite) {
+                DeathMapManager.removeDeathMap(ac);
                 if (getServer().getPlayer(ac.owner) != null) {
                     Messages.send(getServer().getPlayer(ac.owner), messages.MSG_ANGELCHEST_DISAPPEARED);
                 }

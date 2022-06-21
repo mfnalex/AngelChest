@@ -12,13 +12,11 @@ import de.jeff_media.angelchest.gui.GUIHolder;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
-import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
+import de.jeff_media.customblocks.CustomBlock;
 import de.jeff_media.customblocks.implentation.VanillaBlock;
 import de.jeff_media.daddy.Stepsister;
-import de.jeff_media.customblocks.CustomBlock;
 import de.jeff_media.jefflib.ConfigUtils;
-import de.jeff_media.jefflib.NBTAPI;
 import de.jeff_media.jefflib.data.tuples.Pair;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
@@ -71,6 +69,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public UUID worldid;
     double price = 0;
     public boolean isLooted = false;
+    public UUID uniqueId;
     private CustomBlock customBlock;
     //public UUID uuid = UUID.randomUUID();
 
@@ -115,6 +114,9 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.logfile = yaml.getString("logfile", null);
         this.created = yaml.getLong("created", 0);
         this.experience = yaml.getInt("experience",0);
+        if(yaml.isString("uniqueId")) {
+            this.uniqueId = UUID.fromString(yaml.getString("uniqueId"));
+        }
 
         if(yaml.isSet("graveyard")) {
             Graveyard yard = GraveyardManager.fromName(yaml.getString("graveyard"));
@@ -261,6 +263,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.block = block;
         this.worldid = block.getWorld().getUID();
         this.logfile = logfile;
+        this.uniqueId = UUID.randomUUID();
         this.openedBy = new ArrayList<>();
         this.price = main.groupUtils.getSpawnPricePerPlayer(player);
         this.isProtected = Objects.requireNonNull(main.getServer().getPlayer(owner)).hasPermission(Permissions.PROTECT);
@@ -727,6 +730,10 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         final File yamlFile = new File(main.getDataFolder() + File.separator + "angelchests", this.getFileName());
         final YamlConfiguration yaml = YamlConfiguration.loadConfiguration(yamlFile);
         yaml.set(ChestYaml.SAVE_VERSION, 2);
+
+        if(uniqueId != null) {
+            yaml.set("uniqueId", uniqueId.toString());
+        }
 
         // We are not using block objects to avoid problems with unloaded or removed worlds
         yaml.set(ChestYaml.WORLD_UID, Objects.requireNonNull(block.getLocation().getWorld()).getUID().toString());

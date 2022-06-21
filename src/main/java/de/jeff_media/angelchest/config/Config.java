@@ -152,4 +152,6 @@ public class Config {
     public static String TRY_GLOBAL_GRAVEYARD = "try-global-graveyard";
     public static String FALLBACK_TO_DEATHLOCATION = "fallback-to-deathlocation";
 
+    public static String PVP_COOLDOWN = "pvp-cooldown";
+
 }

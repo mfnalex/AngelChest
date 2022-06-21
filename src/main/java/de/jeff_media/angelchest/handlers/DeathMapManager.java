@@ -22,34 +22,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class DeathMapManager {
 
     private static final Main main = Main.getInstance();
-
-    private static MapCursor.Type getCursorType() {
-        String configuredMarker = main.getConfig().getString(Config.DEATH_MAP_MARKER).toUpperCase(Locale.ROOT);
-        MapCursor.Type type = EnumUtils.getIfPresent(MapCursor.Type.class,configuredMarker)
-                .orElse(null);
-
-        if(type == null) {
-            type = MapCursor.Type.RED_X;
-            main.getLogger().warning("You are using an invalid value for " + Config.DEATH_MAP_MARKER + ". Please see config.yml for valid values. Falling back to RED_X now.");
-        }
-        return type;
-    }
-
-    private static List<String> getLore(AngelChest chest) {
-        return LoreUtils.applyNewlines(main.getConfig().getString(Config.DEATH_MAP_LORE)).stream().map(line ->
-                TextUtils.format(line.replace("{x}",String.valueOf(chest.getBlock().getX()))
-                .replace("{y}",String.valueOf(chest.getBlock().getY()))
-                .replace("{z}",String.valueOf(chest.getBlock().getZ())))).collect(Collectors.toList());
-    }
-
-    private static String getName() {
-        return TextUtils.format(main.getConfig().getString(Config.DEATH_MAP_NAME));
-    }
 
     public static ItemStack getDeathMap(AngelChest chest) {
         ItemStack map = new ItemStack(Material.FILLED_MAP);
@@ -62,23 +40,78 @@ public class DeathMapManager {
         view.setTrackingPosition(true);
         view.addRenderer(new DeathMapRenderer(getCursorType()));
         meta.setMapView(view);
-        PDCUtils.set(meta, NBTTags.DEATH_MAP, PersistentDataType.BYTE,(byte) 1);
+        PDCUtils.set(meta, NBTTags.DEATH_MAP, PersistentDataType.BYTE, (byte) 1);
+        if (chest instanceof de.jeff_media.angelchest.data.AngelChest) {
+            de.jeff_media.angelchest.data.AngelChest angelChestImpl = (de.jeff_media.angelchest.data.AngelChest) chest;
+            UUID uuid = angelChestImpl.uniqueId;
+            if (uuid != null) {
+                PDCUtils.set(meta, NBTTags.DEATH_MAP_UID, PersistentDataType.STRING, uuid.toString());
+            }
+        }
         meta.setDisplayName(getName());
         meta.setLore(getLore(chest));
         map.setItemMeta(meta);
         return map;
     }
 
+    private static MapCursor.Type getCursorType() {
+        String configuredMarker = main.getConfig().getString(Config.DEATH_MAP_MARKER).toUpperCase(Locale.ROOT);
+        MapCursor.Type type = EnumUtils.getIfPresent(MapCursor.Type.class, configuredMarker).orElse(null);
+
+        if (type == null) {
+            type = MapCursor.Type.RED_X;
+            main.getLogger().warning("You are using an invalid value for " + Config.DEATH_MAP_MARKER + ". Please see config.yml for valid values. Falling back to RED_X now.");
+        }
+        return type;
+    }
+
+    private static String getName() {
+        return TextUtils.format(main.getConfig().getString(Config.DEATH_MAP_NAME));
+    }
+
+    private static List<String> getLore(AngelChest chest) {
+        return LoreUtils.applyNewlines(main.getConfig().getString(Config.DEATH_MAP_LORE)).stream().map(line -> TextUtils.format(line.replace("{x}", String.valueOf(chest.getBlock().getX())).replace("{y}", String.valueOf(chest.getBlock().getY())).replace("{z}", String.valueOf(chest.getBlock().getZ())))).collect(Collectors.toList());
+    }
+
+    public static void removeDeathMap(de.jeff_media.angelchest.data.AngelChest angelChest) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            removeDeathMap(player, angelChest);
+        }
+    }
+
+    private static void removeDeathMap(Player player, de.jeff_media.angelchest.data.AngelChest angelChest) {
+        UUID chestId = angelChest.uniqueId;
+        if (chestId == null) return;
+        player.getInventory().setStorageContents(removeDeathMap(player.getInventory().getStorageContents(), chestId));
+        player.getInventory().setArmorContents(removeDeathMap(player.getInventory().getArmorContents(), chestId));
+        player.getInventory().setExtraContents(removeDeathMap(player.getInventory().getExtraContents(), chestId));
+    }
+
+    private static ItemStack[] removeDeathMap(ItemStack[] items, UUID chestId) {
+        for (int i = 0; i < items.length; i++) {
+            ItemStack item = items[i];
+            if (item == null) continue;
+            if (!isDeathMap(item)) continue;
+            String mapIdString = PDCUtils.getOrDefault(item, NBTTags.DEATH_MAP_UID, PersistentDataType.STRING, "");
+            if (mapIdString.isEmpty()) continue;
+            UUID mapId = UUID.fromString(mapIdString);
+            if (chestId.equals(mapId)) {
+                items[i] = null;
+            }
+        }
+        return items;
+    }
+
     public static boolean isDeathMap(ItemStack itemStack) {
-        if(itemStack == null) return false;
-        if(!itemStack.hasItemMeta()) return false;
-        return PDCUtils.has(itemStack,NBTTags.DEATH_MAP,PersistentDataType.BYTE);
+        if (itemStack == null) return false;
+        if (!itemStack.hasItemMeta()) return false;
+        return PDCUtils.has(itemStack, NBTTags.DEATH_MAP, PersistentDataType.BYTE);
     }
 
     private static class DeathMapRenderer extends MapRenderer {
 
-        private boolean isDone = false;
         private final MapCursor.Type type;
+        private boolean isDone = false;
 
         private DeathMapRenderer(MapCursor.Type type) {
             this.type = type;
@@ -86,9 +119,9 @@ public class DeathMapManager {
 
         @Override
         public void render(@NotNull MapView map, @NotNull MapCanvas canvas, @NotNull Player player) {
-            if(isDone) return;
+            if (isDone) return;
             isDone = true;
-            canvas.getCursors().addCursor(new MapCursor((byte)0, (byte)0, (byte)0, type, true));
+            canvas.getCursors().addCursor(new MapCursor((byte) 0, (byte) 0, (byte) 0, type, true));
         }
     }
 }
