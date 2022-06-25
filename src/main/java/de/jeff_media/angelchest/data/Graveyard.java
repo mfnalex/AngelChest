@@ -277,6 +277,7 @@ public class Graveyard {
                         Future<Chunk> future = PaperLib.getChunkAtAsync(getWorldBoundingBox().getWorld(), chunkCoordinates.getX(), chunkCoordinates.getZ());
                         while (!future.isDone() && !future.isCancelled()) {
                             try {
+                                if(isCancelled()) return;
                                 Thread.sleep(1);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();

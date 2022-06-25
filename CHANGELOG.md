@@ -8,6 +8,10 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.2.1
+- Fixed exception when shutting down the server while AngelChest still asynchronously scans a Graveyard for possible grave locations
+- Updated some translations
+
 ## 9.2.0
 - AngelChest now removes the death map once a player opens the AngelChest, or when it expires
 
