@@ -8,6 +8,11 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.3.0
+- Added new config option "cooldown"
+  - Works like "pvp-cooldown" but for non-pvp deaths
+  - Premium version only
+
 ## 9.2.1
 - Fixed exception when shutting down the server while AngelChest still asynchronously scans a Graveyard for possible grave locations
 - Updated some translations

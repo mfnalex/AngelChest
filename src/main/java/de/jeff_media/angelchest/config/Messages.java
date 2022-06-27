@@ -84,6 +84,7 @@ public final class Messages {
     public final String MSG_BURIED_IN_GRAVEYARD;
     public final String MSG_CANT_FETCH_HERE;
     public final String MSG_PVP_COOLDOWN;
+    public final String MSG_COOLDOWN;
     public final String PREFIX;
     public final String MSG_ANGELCHEST_ENABLED_OTHERS;
     public final String MSG_ANGELCHEST_DISABLED_OTHERS;
@@ -188,6 +189,8 @@ public final class Messages {
         MSG_ACTIONBAR_INVULNERABLE = getMsg("invulnerable", "&a&lYou are invulnerable for {time}.");
 
         MSG_PVP_COOLDOWN = getMsg("pvp-cooldown","&cAn Angel tried to collect your stuff but was still too tired to do so.");
+
+        MSG_COOLDOWN = getMsg("cooldown","&cAn Angel tried to collect your stuff but was still too tired to do so.");
 
         MSG_ACTIONBAR_VULNERABLE = getMsg("vulnerable", "&c&lYou are no longer invulnerable.");
 

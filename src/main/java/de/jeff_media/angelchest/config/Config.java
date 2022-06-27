@@ -153,5 +153,6 @@ public class Config {
     public static String FALLBACK_TO_DEATHLOCATION = "fallback-to-deathlocation";
 
     public static String PVP_COOLDOWN = "pvp-cooldown";
+    public static String COOLDOWN = "cooldown";
 
 }

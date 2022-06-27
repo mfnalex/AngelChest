@@ -59,6 +59,7 @@ public final class PlayerListener implements Listener {
     private static final byte TOTEM_MAGIC_VALUE = 35;
     private final HashMap<UUID, BukkitTask> respawnTasks = new HashMap<>();
     private final Cooldown pvpCooldowns = new Cooldown();
+    private final Cooldown cooldowns = new Cooldown();
 
     @SuppressWarnings("unused")
     @EventHandler
@@ -157,7 +158,7 @@ public final class PlayerListener implements Listener {
 
         AngelChestOpenEvent openEvent = new AngelChestOpenEvent(angelChest, p, AngelChestOpenEvent.Reason.FAST_LOOT);
         Bukkit.getPluginManager().callEvent(openEvent);
-        if(openEvent.isCancelled()) {
+        if (openEvent.isCancelled()) {
             main.debug("AngelChestOpenEvent (Fast Loot) was cancelled.");
             return;
         }
@@ -531,18 +532,34 @@ public final class PlayerListener implements Listener {
             }
         }
 
-        if(main.getConfig().getDouble(Config.PVP_COOLDOWN) > 0 && Stepsister.allows(PremiumFeatures.PVP_COOLDOWN)) {
-            int pvpCooldown = (int) main.getConfig().getDouble(Config.PVP_COOLDOWN);
-            if(isPvpDeath) {
+        if (isPvpDeath) {
+            if (main.getConfig().getDouble(Config.PVP_COOLDOWN) > 0 && Stepsister.allows(PremiumFeatures.PVP_COOLDOWN)) {
+                int pvpCooldown = (int) main.getConfig().getDouble(Config.PVP_COOLDOWN);
+
                 boolean isInCooldown = pvpCooldowns.hasCooldown(p);
-                if(isInCooldown) {
-                    if(main.debug) {
+                if (isInCooldown) {
+                    if (main.debug) {
                         main.debug("Cancelled: player is still in pvp-cooldown");
                     }
-                    Messages.send(p,main.messages.MSG_PVP_COOLDOWN);
+                    Messages.send(p, main.messages.MSG_PVP_COOLDOWN);
                     return;
                 } else {
-                    pvpCooldowns.setCooldown(p,pvpCooldown, TimeUnit.SECONDS);
+                    pvpCooldowns.setCooldown(p, pvpCooldown, TimeUnit.SECONDS);
+                }
+            }
+        } else {
+            if (main.getConfig().getDouble(Config.COOLDOWN) > 0 && Stepsister.allows(PremiumFeatures.COOLDOWN)) {
+                int cooldown = (int) main.getConfig().getDouble(Config.COOLDOWN);
+
+                boolean isInCooldown = cooldowns.hasCooldown(p);
+                if (isInCooldown) {
+                    if (main.debug) {
+                        main.debug("Cancelled: player is still in no-pvp-cooldown");
+                    }
+                    Messages.send(p, main.messages.MSG_COOLDOWN);
+                    return;
+                } else {
+                    cooldowns.setCooldown(p, cooldown, TimeUnit.SECONDS);
                 }
             }
         }
@@ -673,12 +690,12 @@ public final class PlayerListener implements Listener {
                 }
             } else {
                 //System.out.println("Player will be sent to a graveyard");
-                if(!main.getConfig().getBoolean(Config.GRAVEYARDS_ONLY_AS_RESPAWN_POINT)) {
+                if (!main.getConfig().getBoolean(Config.GRAVEYARDS_ONLY_AS_RESPAWN_POINT)) {
                     angelChestBlock = grave;
                 }
-                graveyardBlock = grave.getLocation().add(0.5,0.0,0.5);
+                graveyardBlock = grave.getLocation().add(0.5, 0.0, 0.5);
                 Graveyard yard = GraveyardManager.fromLocation(graveyardBlock);
-                if(yard != null && yard.getSpawn() != null) {
+                if (yard != null && yard.getSpawn() != null) {
                     graveyardBlock = yard.getSpawn();
                 }
             }
@@ -825,7 +842,7 @@ public final class PlayerListener implements Listener {
 
             Utils.sendDelayedMessage(p, main.messages.MSG_INVENTORY_WAS_EMPTY, 1);
 
-            if(main.getConfig().getBoolean(Config.GRAVEYARDS_ONLY_AS_RESPAWN_POINT)) {
+            if (main.getConfig().getBoolean(Config.GRAVEYARDS_ONLY_AS_RESPAWN_POINT)) {
                 setRespawnLocationToGraveyardIfApplicable(p, graveyardBlock, graveyard);
             }
 
@@ -902,7 +919,7 @@ public final class PlayerListener implements Listener {
         for (ItemStack itemStack : ac.getStorageInv()) {
             McMMOUtils.removeSuperAbilityBoost(itemStack);
         }
-        for(ItemStack itemStack : ac.getArmorInv()) {
+        for (ItemStack itemStack : ac.getArmorInv()) {
             McMMOUtils.removeSuperAbilityBoost(itemStack);
         }
         McMMOUtils.removeSuperAbilityBoost(ac.getOffhandItem());
@@ -944,15 +961,6 @@ public final class PlayerListener implements Listener {
 
     }
 
-    private void setRespawnLocationToGraveyardIfApplicable(Player p, Location graveyardBlock, Graveyard graveyard) {
-        if (graveyard != null) {
-            //System.out.println("[GRAVEYARDS] Registering Graveyard death");
-            GraveyardManager.setLastGraveyard(p, graveyard);
-        } else if(graveyardBlock != null) {
-            GraveyardManager.setLastRespawnLoc(p, graveyardBlock);
-        }
-    }
-
     private static void dropPlayerHead(final Player player) {
         final ItemStack head = getPlayerHead(player);
         player.getLocation().getWorld().dropItemNaturally(player.getLocation(), head);
@@ -960,6 +968,15 @@ public final class PlayerListener implements Listener {
 
     private static ItemStack getPlayerHead(final OfflinePlayer player) {
         return HeadCreator.getPlayerHead(player.getUniqueId());
+    }
+
+    private void setRespawnLocationToGraveyardIfApplicable(Player p, Location graveyardBlock, Graveyard graveyard) {
+        if (graveyard != null) {
+            //System.out.println("[GRAVEYARDS] Registering Graveyard death");
+            GraveyardManager.setLastGraveyard(p, graveyard);
+        } else if (graveyardBlock != null) {
+            GraveyardManager.setLastRespawnLoc(p, graveyardBlock);
+        }
     }
 
     /**

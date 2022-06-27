@@ -254,6 +254,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.PVP_COOLDOWN, 0);
         metric(Config.PVP_COOLDOWN);
 
+        conf.addDefault(Config.COOLDOWN, 0);
+        metric(Config.COOLDOWN);
+
         conf.addDefault(Config.DROP_HEADS, false);
         metric(Config.DROP_HEADS);
 
