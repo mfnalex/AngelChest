@@ -1106,7 +1106,9 @@ message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too 
 #message-angelchest-enabled-others: "&a{player} вече е закрилян от Ангелите."
 #message-has-no-item: "&cТрябва да имате поне един {item}&r&c, за да направите това."
 #message-has-no-item2: "&cАнгелът се опита да събере Вашите предмети, но Вие нямахте никакви {item}&r&c."
-
+#message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
+#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
+ 
 ##### Chinese Simplified 简体中文
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天使之箱都已解锁."
 #message-angelchest-created: "&a一位善良的天使捡起了你的物品并放到了你死亡地点附近的箱子内."
