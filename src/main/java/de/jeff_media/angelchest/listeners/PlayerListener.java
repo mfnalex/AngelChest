@@ -828,6 +828,10 @@ public final class PlayerListener implements Listener {
 
         Graveyard graveyard = ac.graveyard;
 
+        if(main.getConfig().getBoolean(Config.DISPOSE_DEATH_MAPS)) {
+            DeathMapManager.removeDeathMapsFromChestContents(ac);
+        }
+
         /*
         Check if player has any drops
          */

@@ -357,9 +357,12 @@ check-interval: 24
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 death-maps: false
 
+# When set to true, death Maps created by AngelChest will never be put into any
+# AngelChests on the next death. This avoids filling up inventories when dying several times in a row.
+dispose-death-maps: false
+
 # You can change the marker type to be used. See here for a list of valid marker types in the latest MC version:
 # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/map/MapCursor.Type.html
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 death-map-marker: RED_X
 
 death-map-name: "AngelChest"

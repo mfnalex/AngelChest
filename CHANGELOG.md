@@ -8,6 +8,10 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.4.0
+- Added config option "dispose-death-maps" (false by default)
+  - When enabled, death Maps created by AngelChest will never be put into any AngelChests anymore. This avoids filling up inventories when dying several times in a row.
+
 ## 9.3.0
 - Added new config option "cooldown"
   - Works like "pvp-cooldown" but for non-pvp deaths

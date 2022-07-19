@@ -79,6 +79,27 @@ public class DeathMapManager {
         }
     }
 
+    public static void removeDeathMapsFromChestContents(de.jeff_media.angelchest.data.AngelChest angelChest) {
+        removeDeathMap(angelChest.armorInv);
+        removeDeathMap(angelChest.extraInv);
+        removeDeathMap(angelChest.storageInv);
+    }
+
+    private static void removeDeathMap(ItemStack[] items) {
+        for(int i = 0; i < items.length; i++) {
+            ItemStack item = items[i];
+            if (item == null) {
+                continue;
+            }
+            if (item.getType() != Material.FILLED_MAP) {
+                continue;
+            }
+            if(isDeathMap(item)) {
+                items[i] = null;
+            }
+        }
+    }
+
     private static void removeDeathMap(Player player, de.jeff_media.angelchest.data.AngelChest angelChest) {
         UUID chestId = angelChest.uniqueId;
         if (chestId == null) return;

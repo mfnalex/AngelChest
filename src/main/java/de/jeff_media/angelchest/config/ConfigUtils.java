@@ -245,6 +245,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.NEVER_REPLACE_BEDROCK, true);
         metric(Config.NEVER_REPLACE_BEDROCK);
 
+        conf.addDefault(Config.DISPOSE_DEATH_MAPS, false);
+        metric(Config.DISPOSE_DEATH_MAPS);
+
         conf.addDefault(Config.ITEM_LOSS, 0);
         metric(Config.ITEM_LOSS);
 
