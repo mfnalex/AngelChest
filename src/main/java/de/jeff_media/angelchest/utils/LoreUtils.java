@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.utils;
 
-import de.jeff_media.jefflib.TextUtils;
+import com.jeff_media.jefflib.TextUtils;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Nullable;

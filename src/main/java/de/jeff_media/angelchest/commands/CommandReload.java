@@ -4,7 +4,7 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.ConfigUtils;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
-import de.jeff_media.jefflib.TimeUtils;
+import com.jeff_media.jefflib.TimeUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

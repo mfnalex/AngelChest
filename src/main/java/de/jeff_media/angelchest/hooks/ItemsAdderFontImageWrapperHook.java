@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.hooks;
 
-import de.jeff_media.jefflib.TextUtils;
+import com.jeff_media.jefflib.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 

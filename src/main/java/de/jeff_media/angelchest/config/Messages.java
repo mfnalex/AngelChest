@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.config;
 
 import de.jeff_media.angelchest.Main;
-import de.jeff_media.jefflib.Msg;
+import com.jeff_media.jefflib.Msg;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;

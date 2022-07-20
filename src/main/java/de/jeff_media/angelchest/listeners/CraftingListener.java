@@ -2,7 +2,7 @@ package de.jeff_media.angelchest.listeners;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.nbt.NBTTags;
-import de.jeff_media.jefflib.PDCUtils;
+import com.jeff_media.jefflib.PDCUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

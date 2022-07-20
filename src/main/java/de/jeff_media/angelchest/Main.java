@@ -2,6 +2,7 @@ package de.jeff_media.angelchest;
 
 import co.aikar.commands.*;
 import com.allatori.annotations.DoNotRename;
+import com.jeff_media.jefflib.Tasks;
 import de.jeff_media.angelchest.commands.*;
 import de.jeff_media.angelchest.config.*;
 import de.jeff_media.angelchest.data.AngelChest;
@@ -16,6 +17,7 @@ import de.jeff_media.angelchest.gui.GUIManager;
 import de.jeff_media.angelchest.handlers.ChunkManager;
 import de.jeff_media.angelchest.handlers.DeathMapManager;
 import de.jeff_media.angelchest.handlers.ItemManager;
+import de.jeff_media.angelchest.handlers.PvpTracker;
 import de.jeff_media.angelchest.hooks.*;
 import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
@@ -26,10 +28,10 @@ import de.jeff_media.angelchest.utils.ProtectionUtils;
 import de.jeff_media.customblocks.CustomBlock;
 import de.jeff_media.daddy.Chicken;
 import de.jeff_media.daddy.Stepsister;
-import de.jeff_media.jefflib.JeffLib;
-import de.jeff_media.jefflib.McVersion;
-import de.jeff_media.jefflib.Ticks;
-import de.jeff_media.jefflib.data.tuples.Pair;
+import com.jeff_media.jefflib.JeffLib;
+import com.jeff_media.jefflib.McVersion;
+import com.jeff_media.jefflib.Ticks;
+import com.jeff_media.jefflib.data.tuples.Pair;
 import de.jeff_media.updatechecker.UpdateChecker;
 import de.jeff_media.updatechecker.UserAgentBuilder;
 import lombok.Getter;
@@ -68,6 +70,8 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     @Getter @Setter private ItemManager itemManager;
     @Getter private final Glow glowEnchantment = new Glow();
+
+    @Getter private PvpTracker pvpTrackerDropHeads = new PvpTracker(this, () -> getConfig().getDouble("only-drop-heads-in-pvp-cooldown"));
 
     public static final int BSTATS_ID = 3194;
     public static final String DISCORD_LINK = "https://discord.jeff-media.de";
@@ -609,6 +613,13 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
         // Remove dead holograms
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::removeDeadHolograms, Ticks.fromMinutes(1), Ticks.fromMinutes(1));
+
+        // Clear Cooldown entries
+        Tasks.repeatAsync(this::clearCooldowns,Ticks.fromMinutes(10), Ticks.fromMinutes(10));
+    }
+
+    private void clearCooldowns() {
+        pvpTrackerDropHeads.getTracker().clearOldEntries();
     }
 
     private void removeDeadHolograms() {

@@ -381,11 +381,13 @@ death-map-lore: "X: {x}\nY: {y}\nZ: {z}"
 drop-heads: false
 
 # When set to true, heads are only dropped when a player dies in PvP
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 only-drop-heads-in-pvp: true
 
+# Time in seconds since the last PVP hit until a player is not considered to be in PVP anymore
+# If set to 0, only the last hit is considered
+only-drop-heads-in-pvp-cooldown: 10
+
 # When set to true, heads are dropped next to the AngelChest instead of being put inside
-# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 dont-store-heads-in-angelchest: true
 
 #########################

@@ -11,7 +11,7 @@ import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
 import de.jeff_media.daddy.Stepsister;
-import de.jeff_media.jefflib.NBTAPI;
+import com.jeff_media.jefflib.NBTAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;

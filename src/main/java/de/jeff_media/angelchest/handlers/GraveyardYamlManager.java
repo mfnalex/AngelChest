@@ -2,7 +2,7 @@ package de.jeff_media.angelchest.handlers;
 
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.data.Graveyard;
-import de.jeff_media.jefflib.FileUtils;
+import com.jeff_media.jefflib.FileUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.WeatherType;

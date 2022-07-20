@@ -4,7 +4,7 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.events.PlayerEnterLeaveGraveyardEvent;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
-import de.jeff_media.jefflib.AnimationUtils;
+import com.jeff_media.jefflib.AnimationUtils;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

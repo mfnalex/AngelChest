@@ -3,7 +3,7 @@
 //import de.jeff_media.angelchest.Main;
 //import de.jeff_media.angelchest.config.Messages;
 //import de.jeff_media.angelchest.config.Permissions;
-//import de.jeff_media.jefflib.BlockUtils;
+//import com.jeff_media.jefflib.BlockUtils;
 //import org.bukkit.block.Block;
 //import org.bukkit.block.data.BlockData;
 //import org.bukkit.command.Command;

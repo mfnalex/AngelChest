@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.enchantments;
 
 import de.jeff_media.angelchest.Main;
-import de.jeff_media.jefflib.PDCUtils;
+import com.jeff_media.jefflib.PDCUtils;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;

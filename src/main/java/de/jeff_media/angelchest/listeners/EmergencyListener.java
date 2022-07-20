@@ -3,7 +3,7 @@ package de.jeff_media.angelchest.listeners;
 import de.jeff_media.angelchest.EmergencyMode;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Messages;
-import de.jeff_media.jefflib.Ticks;
+import com.jeff_media.jefflib.Ticks;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

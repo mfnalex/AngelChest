@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.utils;
 
-import de.jeff_media.jefflib.BlockUtils;
-import de.jeff_media.jefflib.VectorUtils;
+import com.jeff_media.jefflib.BlockUtils;
+import com.jeff_media.jefflib.VectorUtils;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 

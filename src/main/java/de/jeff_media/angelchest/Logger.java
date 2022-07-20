@@ -4,7 +4,7 @@ import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.daddy.Stepsister;
-import de.jeff_media.jefflib.Ticks;
+import com.jeff_media.jefflib.Ticks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

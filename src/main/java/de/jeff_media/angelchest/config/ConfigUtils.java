@@ -15,7 +15,7 @@ import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.GroupUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
 import de.jeff_media.daddy.Stepsister;
-import de.jeff_media.jefflib.DebugUtils;
+import com.jeff_media.jefflib.DebugUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -372,6 +372,9 @@ sound-channel: BLOCKS
 
         conf.addDefault(Config.DROP_CONTENTS, true);
         metric(Config.DROP_CONTENTS);
+
+        conf.addDefault(Config.ONLY_DROP_HEADS_IN_PVP_COOLDOWN, 10.0D);
+        metric(Config.ONLY_DROP_HEADS_IN_PVP_COOLDOWN);
 
         conf.addDefault(Config.PROHIBIT_AUTO_EQUIP, false);
         metric(Config.PROHIBIT_AUTO_EQUIP);

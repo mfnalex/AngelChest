@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>9.4.0</version>
+    <version>9.5.0</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -79,7 +79,7 @@
                 <configuration>
                     <relocations>
                         <relocation>
-                            <pattern>de.jeff_media.jefflib</pattern>
+                            <pattern>com.jeff_media.jefflib</pattern>
                             <shadedPattern>de.jeff_media.angelchest</shadedPattern>
                         </relocation>
                         <relocation>
@@ -279,9 +279,9 @@
 
         <!-- Own Libraries -->
         <dependency>
-            <groupId>de.jeff_media</groupId>
+            <groupId>com.jeff_media</groupId>
             <artifactId>JeffLib</artifactId>
-            <version>9.0.0-SNAPSHOT</version>
+            <version>10.0.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

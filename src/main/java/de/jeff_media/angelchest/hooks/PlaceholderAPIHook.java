@@ -6,7 +6,7 @@ import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.utils.AngelChestUtils;
 import de.jeff_media.angelchest.utils.CommandUtils;
-import de.jeff_media.jefflib.PDCUtils;
+import com.jeff_media.jefflib.PDCUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.persistence.PersistentDataType;

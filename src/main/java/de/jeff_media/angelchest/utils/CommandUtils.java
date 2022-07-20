@@ -13,7 +13,7 @@ import de.jeff_media.angelchest.listeners.InvulnerabilityListener;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
 import de.jeff_media.daddy.Stepsister;
-import de.jeff_media.jefflib.*;
+import com.jeff_media.jefflib.*;
 import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;

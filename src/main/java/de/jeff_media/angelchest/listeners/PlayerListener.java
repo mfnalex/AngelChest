@@ -20,9 +20,9 @@ import de.jeff_media.angelchest.utils.CommandUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
-import de.jeff_media.jefflib.*;
-import de.jeff_media.jefflib.cooldown.Cooldown;
-import de.jeff_media.jefflib.pluginhooks.McMMOUtils;
+import com.jeff_media.jefflib.*;
+import com.jeff_media.jefflib.data.Cooldown;
+import com.jeff_media.jefflib.pluginhooks.McMMOUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -58,7 +58,7 @@ public final class PlayerListener implements Listener {
     final static Main main = Main.getInstance();
     private static final byte TOTEM_MAGIC_VALUE = 35;
     private final HashMap<UUID, BukkitTask> respawnTasks = new HashMap<>();
-    private final Cooldown pvpCooldowns = new Cooldown();
+    private final Cooldown pvpCooldowns = new Cooldown(); // TODO: Replace with PvpTracker
     private final Cooldown cooldowns = new Cooldown();
 
     @SuppressWarnings("unused")
