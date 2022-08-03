@@ -59,6 +59,7 @@ public class Config {
     public static String GUI_TITLE_CHEST = "gui-title-chest";
     public static String GUI_CHEST_NAME = "gui-chest-name";
     public static String GUI_TITLE_MAIN = "gui-title-main";
+    public static String DROP_BEHAVIOUR_MAX_ANGELCHESTS = "max-allowed-angelchests-behaviour";
     public static String HEAD_USES_PLAYER_NAME = "head-uses-player-name";
     public static String HOLOGRAM_OFFSET = "hologram-offset";
     public static String HOLOGRAM_OFFSET_PER_LINE = "hologram-offset-per-line";

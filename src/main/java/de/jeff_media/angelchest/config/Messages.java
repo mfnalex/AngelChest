@@ -1,7 +1,8 @@
 package de.jeff_media.angelchest.config;
 
-import de.jeff_media.angelchest.Main;
 import com.jeff_media.jefflib.Msg;
+import com.jeff_media.jefflib.TextUtils;
+import de.jeff_media.angelchest.Main;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -275,13 +276,13 @@ message-angelchest-enabled-others: "&a{player} is now protected by Angels."
     }
 
     private String getGui(final String path, final String defaultText) {
-        return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(path, defaultText));
+        return TextUtils.format(main.getConfig().getString(path, defaultText));
     }
 
     private String getMsg(final String path, final String defaultText) {
 
         //if(main.getConfig().getString("message-" + path, defaultText).isEmpty()) return "";
 
-        return ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("message-" + path, defaultText));
+        return TextUtils.format(main.getConfig().getString("message-" + path, defaultText));
     }
 }

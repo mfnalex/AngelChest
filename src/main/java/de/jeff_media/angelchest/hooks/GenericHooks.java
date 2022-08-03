@@ -175,6 +175,7 @@ public final class GenericHooks implements Listener {
         if (isDisabledMaterial(item)) return true;
         if (inventoryPagesHook.isButton(item)) return true;
         if (isGenericSoulbound(item)) return true;
+        if (CommandPanelsHook.isCommandPanelsIgnoredItem(item)) return true;
         return false;
     }
 }

@@ -1,5 +1,7 @@
 package de.jeff_media.angelchest.data;
 
+import com.jeff_media.jefflib.ConfigUtils;
+import com.jeff_media.jefflib.data.tuples.Pair;
 import de.jeff_media.angelchest.Compatibility;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.ChestYaml;
@@ -16,11 +18,10 @@ import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.customblocks.CustomBlock;
 import de.jeff_media.customblocks.implentation.VanillaBlock;
 import de.jeff_media.daddy.Stepsister;
-import com.jeff_media.jefflib.ConfigUtils;
-import com.jeff_media.jefflib.data.tuples.Pair;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -451,28 +452,54 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             }
         }
 
+        try {
+            destroyChest(block);
+        } catch (Throwable debug) {
+            if (main.debug) {
+                main.debug("Error while destroying AngelChest");
+                debug.printStackTrace();
+            }
+        }
 
-        if (!main.isAngelChest(block)) return;
+        try {
+            hologram.destroy();
+        } catch (Throwable debug) {
+            if (main.debug) {
+                main.debug("Error while destroying hologram");
+                debug.printStackTrace();
+            }
+        }
 
+        try {
+            main.angelChests.remove(this);
+        } catch (Throwable debug) {
+            if (main.debug) {
+                main.debug("Error while removing AngelChest from list");
+                debug.printStackTrace();
+            }
+        }
+
+//        if (!main.isAngelChest(block)) {
+//            //System.out.println("Couldnt remove chest physically although it should be a chest");
+//            return;
+//        }
+
+        //System.out.println("Removing chest physically now");
+
+        //System.out.println("Before removal: " + block);
         // remove the physical chest
-        destroyChest(block);
-        hologram.destroy();
+
+
+        //System.out.println("After removal: " + block);
 
         //main.guiManager.
 
         // drop contents
+        main.debug("Drop Contents: " + main.getConfig().getBoolean(Config.DROP_CONTENTS));
+        main.debug("Expired: " + expired);
         if(main.getConfig().getBoolean(Config.DROP_CONTENTS) || !expired) {
-            Utils.dropItems(block, armorInv);
-            armorInv = new ItemStack[4];
-            Utils.dropItems(block, storageInv);
-            storageInv = new ItemStack[36];
-            Utils.dropItems(block, extraInv);
-            extraInv = new ItemStack[1];
-
-            if (experience > 0) {
-                Utils.dropExp(block, experience);
-            }
-            experience = 0;
+            main.debug("That means, dropping contents now");
+            dropContents();
         }
 
         //Utils.dropItems(block, overflowInv);
@@ -489,6 +516,21 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
     }
 
+    public void dropContents() {
+        main.debug("AngelChest " + this + " is dropping its contents now");
+        Utils.dropItems(block, armorInv);
+        armorInv = new ItemStack[4];
+        Utils.dropItems(block, storageInv);
+        storageInv = new ItemStack[36];
+        Utils.dropItems(block, extraInv);
+        extraInv = new ItemStack[1];
+
+        if (experience > 0) {
+            Utils.dropExp(block, experience);
+        }
+        experience = 0;
+    }
+
     /**
      * Removes the chest block from the world and displays explosion particles.
      *
@@ -499,14 +541,25 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         Objects.requireNonNull(block.getLocation().getWorld()).spawnParticle(Particle.EXPLOSION_NORMAL, block.getLocation(), 1);
         hologram.destroy();
         Graveyard graveyard = GraveyardManager.fromBlock(block);
+        //BlockData originalBlockData = block.getBlockData();
         if(customBlock != null) {
-            customBlock.remove();
+            //System.out.println("Custom Block is != null, calling CustomBlock.remove: " + customBlock);
+            BlockData originalBlockData = customBlock.getOriginalBlockData();
+            if(originalBlockData != null) {
+                block.setBlockData(originalBlockData);
+            } else {
+                block.setType(Material.AIR);
+            }
         } else {
             block.setType(Material.AIR);
         }
+        /*BlockData newBlockData = block.getBlockData();
+        if(newBlockData.matches(originalBlockData)) {
+            block.setType(Material.AIR, true);
+        }*/
         if(graveyard != null) {
             //graveyard.getCustomMaterial().remove(block);
-
+            //System.out.println("Updating Graveyard: " + graveyard);
             GraveyardListener.update(block);
         } else {
             //main.getChestMaterial(this).remove(block);
@@ -694,7 +747,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      */
     public void remove() {
         if (main.debug) main.debug("Removing AngelChest");
-        main.angelChests.remove(block);
+        main.angelChests.remove(this);
     }
 
     /**
@@ -861,4 +914,16 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         main.getChestMaterial(this).place(block,getPlayer());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AngelChest that = (AngelChest) o;
+        return created == that.created && Objects.equals(block.getLocation(), that.block.getLocation()) && Objects.equals(owner, that.owner) && Objects.equals(killer, that.killer) && Objects.equals(worldid, that.worldid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(block.getLocation(), created, owner, killer, worldid);
+    }
 }

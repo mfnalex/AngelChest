@@ -27,7 +27,7 @@ public class AngelChestUtils {
 
     public static ArrayList<AngelChest> getAllAngelChestsFromPlayer(final OfflinePlayer p) {
         final ArrayList<AngelChest> angelChests = new ArrayList<>();
-        for (final AngelChest angelChest : Main.getInstance().angelChests.values()) {
+        for (final AngelChest angelChest : Main.getInstance().angelChests) {
             if (!angelChest.owner.equals(p.getUniqueId())) continue;
             angelChests.add(angelChest);
         }

@@ -382,6 +382,9 @@ sound-channel: BLOCKS
         conf.addDefault(Config.DONT_PROTECT_WHEN_AT_WAR, false);
         metric(Config.DONT_PROTECT_WHEN_AT_WAR);
 
+        conf.addDefault(Config.DROP_BEHAVIOUR_MAX_ANGELCHESTS, "drop");
+        metric(Config.DROP_BEHAVIOUR_MAX_ANGELCHESTS);
+
         conf.addDefault("tp-distance", 2);
 
         conf.addDefault(Config.GUI_BUTTON_BACK, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY0Zjc3OWE4ZTNmZmEyMzExNDNmYTY5Yjk2YjE0ZWUzNWMxNmQ2NjllMTljNzVmZDFhN2RhNGJmMzA2YyJ9fX0=");
@@ -559,6 +562,7 @@ sound-channel: BLOCKS
 
         //main.debugger = new AngelChestDebugger(main);
         if (reload) {
+            main.angelChests.clear();
             main.loadAllAngelChestsFromFile();
         }
         validateConfigFiles();

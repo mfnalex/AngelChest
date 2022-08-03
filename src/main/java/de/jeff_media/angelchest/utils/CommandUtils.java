@@ -1,5 +1,6 @@
 package de.jeff_media.angelchest.utils;
 
+import com.jeff_media.jefflib.*;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
@@ -13,7 +14,6 @@ import de.jeff_media.angelchest.listeners.InvulnerabilityListener;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
 import de.jeff_media.daddy.Stepsister;
-import com.jeff_media.jefflib.*;
 import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -21,7 +21,6 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.command.CommandSender;
@@ -207,8 +206,8 @@ public final class CommandUtils {
         BlockDataUtils.setBlockDirection(newBlock, facing);
 
         // Swap the block in code
-        main.angelChests.put(newBlock, main.angelChests.remove(oldBlock));
-        main.angelChests.get(newBlock).block = newBlock;
+        //main.angelChests.add(newBlock, main.angelChests.remove(oldBlock));
+        ac.block = newBlock;
 
         Messages.send(player, main.messages.MSG_RETRIEVED);
     }
@@ -288,7 +287,7 @@ public final class CommandUtils {
             if (main.groupUtils.getTpWaitTime(sender) > 0 && action == CommandAction.TELEPORT_TO_CHEST) {
                 final int delay = (int) Ticks.fromSeconds(main.groupUtils.getTpWaitTime(sender));
                 AtomicInteger ticks = new AtomicInteger(delay);
-                final BossBar bar = Bukkit.createBossBar(main.messages.MSG_TELEPORT_BOSSBAR, BarColor.GREEN, BarStyle.SOLID, new BarFlag[0]);
+                final BossBar bar = Bukkit.createBossBar(main.messages.MSG_TELEPORT_BOSSBAR, BarColor.GREEN, BarStyle.SOLID);
                 bar.setProgress(1);
                 bar.addPlayer(sender);
                 final Vector position = sender.getLocation().toVector();

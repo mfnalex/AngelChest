@@ -8,6 +8,13 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.6.0
+- Fixed "Postmortal" advancement not being given when using "totems-of-undying-works-everywhere" when dying with a totem that's not in the main or offhand
+- Fixed a player's oldest AngelChest's block not properly disappearing and the newest chest generating only a hologram when a player dies while generating their newest chest inside a graveyard while also exceeding their "max-angelchest-amount"
+- Fixed items from CommandPanels being included in the chest when a player died while having a CommandPanel GUI open that altered their actual inventory instead of just the "upper panel"
+
+This update fundamentally changes how AngelChests are stored in memory. I have thoroughly tested it, but if any bugs occur, please let me know on Discord: https://discord.jeff-media.com
+
 ## 9.4.0
 - Added config option "dispose-death-maps" (false by default)
   - When enabled, death Maps created by AngelChest will never be put into any AngelChests anymore. This avoids filling up inventories when dying several times in a row.

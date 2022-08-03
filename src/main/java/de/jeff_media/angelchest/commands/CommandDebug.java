@@ -1,5 +1,9 @@
 package de.jeff_media.angelchest.commands;
 
+import com.jeff_media.jefflib.AnimationUtils;
+import com.jeff_media.jefflib.JeffLib;
+import com.jeff_media.jefflib.ParticleUtils;
+import com.jeff_media.jefflib.data.tuples.Pair;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.*;
 import de.jeff_media.angelchest.data.AngelChest;
@@ -14,10 +18,6 @@ import de.jeff_media.angelchest.utils.BlacklistUtils;
 import de.jeff_media.angelchest.utils.HologramFixer;
 import de.jeff_media.angelchest.utils.Utils;
 import de.jeff_media.daddy.Stepsister;
-import com.jeff_media.jefflib.AnimationUtils;
-import com.jeff_media.jefflib.JeffLib;
-import com.jeff_media.jefflib.ParticleUtils;
-import com.jeff_media.jefflib.data.tuples.Pair;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -314,7 +314,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         final int expectedHolograms = main.getAllArmorStandUUIDs().size();
         int realHolograms = 0;
 
-        for (final AngelChest angelChest : main.angelChests.values()) {
+        for (final AngelChest angelChest : main.angelChests) {
             if (angelChest != null) {
                 realAngelChests++;
             }
@@ -393,6 +393,10 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                         System.out.println(type.name());
                     }
                     return true;
+
+                case "listchests":
+                    listchests(commandSender);
+                    return true;
             }
         }
 
@@ -408,9 +412,18 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 "/acd disableac §6Disables AngelChest spawning",
                 "/acd enableac §6Enables AngelChest spawning",
                 "/acd totemanimation [id] §6Previews the Totem animation",
-                "/acd graveyard §6Shows graveyard specific commands");
+                "/acd graveyard §6Shows graveyard specific commands",
+                "/acd listchests §6Lists all chests");
 
         return true;
+    }
+
+    private void listchests(CommandSender commandSender) {
+        for(AngelChest entry : main.angelChests) {
+            commandSender.sendMessage(entry.block.toString());
+            commandSender.sendMessage(entry.toString());
+            commandSender.sendMessage(" ");
+        }
     }
 
     private void graveyard(@NotNull CommandSender commandSender, String[] args) {

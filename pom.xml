@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>9.5.0</version>
+    <version>9.6.0</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -287,7 +287,7 @@
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>CustomBlocks</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>1.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

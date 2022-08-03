@@ -2,7 +2,11 @@ package de.jeff_media.angelchest;
 
 import co.aikar.commands.*;
 import com.allatori.annotations.DoNotRename;
+import com.jeff_media.jefflib.JeffLib;
+import com.jeff_media.jefflib.McVersion;
 import com.jeff_media.jefflib.Tasks;
+import com.jeff_media.jefflib.Ticks;
+import com.jeff_media.jefflib.data.tuples.Pair;
 import de.jeff_media.angelchest.commands.*;
 import de.jeff_media.angelchest.config.*;
 import de.jeff_media.angelchest.data.AngelChest;
@@ -28,10 +32,6 @@ import de.jeff_media.angelchest.utils.ProtectionUtils;
 import de.jeff_media.customblocks.CustomBlock;
 import de.jeff_media.daddy.Chicken;
 import de.jeff_media.daddy.Stepsister;
-import com.jeff_media.jefflib.JeffLib;
-import com.jeff_media.jefflib.McVersion;
-import com.jeff_media.jefflib.Ticks;
-import com.jeff_media.jefflib.data.tuples.Pair;
 import de.jeff_media.updatechecker.UpdateChecker;
 import de.jeff_media.updatechecker.UserAgentBuilder;
 import lombok.Getter;
@@ -54,7 +54,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.*;
-import java.util.Map.Entry;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -71,7 +71,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     @Getter @Setter private ItemManager itemManager;
     @Getter private final Glow glowEnchantment = new Glow();
 
-    @Getter private PvpTracker pvpTrackerDropHeads = new PvpTracker(this, () -> getConfig().getDouble("only-drop-heads-in-pvp-cooldown"));
+    @Getter private PvpTracker pvpTrackerDropHeads;
 
     public static final int BSTATS_ID = 3194;
     public static final String DISCORD_LINK = "https://discord.jeff-media.de";
@@ -98,7 +98,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         return npcManager;
     }*/
 
-    public LinkedHashMap<Block, AngelChest> angelChests;
+    public List<AngelChest> angelChests;
     public boolean debug = false;
     //public java.util.logging.Logger debugLogger;
     public boolean disableDeathEvent = false;
@@ -174,7 +174,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     // AngelChestPlugin interface
     @Override
     public Set<de.jeff_media.angelchest.AngelChest> getAllAngelChests() {
-        final Set<de.jeff_media.angelchest.AngelChest> chests = new HashSet<>(angelChests.values());
+        final Set<de.jeff_media.angelchest.AngelChest> chests = new HashSet<>(angelChests);
         chests.stream().sorted(Comparator.comparingLong(de.jeff_media.angelchest.AngelChest::getCreated)).collect(Collectors.toList());
         return chests;
     }
@@ -188,7 +188,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     public ArrayList<UUID> getAllArmorStandUUIDs() {
         final ArrayList<UUID> armorStandUUIDs = new ArrayList<>();
-        for (final AngelChest ac : angelChests.values()) {
+        for (final AngelChest ac : angelChests) {
             if (ac == null || ac.hologram == null) continue;
             armorStandUUIDs.addAll(ac.hologram.armorStandUUIDs);
         }
@@ -196,10 +196,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }
 
     public @Nullable AngelChest getAngelChest(final Block block) {
-        if (angelChests.containsKey(block)) {
-            return angelChests.get(block);
-        }
-        return null;
+        return angelChests.stream().filter(ac -> ac.block.equals(block)).findFirst().orElse(null);
     }
 
     @Override
@@ -208,7 +205,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }
 
     public AngelChest getAngelChestByHologram(final ArmorStand armorStand) {
-        for (final AngelChest angelChest : angelChests.values()) {
+        for (final AngelChest angelChest : angelChests) {
             if (angelChest == null) continue;
             if (angelChest.hologram == null) continue;
             if (angelChest.hologram.armorStandUUIDs.contains(armorStand.getUniqueId())) {
@@ -272,7 +269,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }
 
     public boolean isAngelChest(final Block block) {
-        return angelChests.containsKey(block);
+        return angelChests.stream().anyMatch(ac -> ac.block.equals(block));
     }
 
     public boolean isAngelChestHologram(final Entity e) {
@@ -287,10 +284,18 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }
 
     public boolean isBrokenAngelChest(final Block block, final AngelChest chest) {
-        if (isOutsideOfNormalWorld(block)) return false;
+        if (isOutsideOfNormalWorld(block)) {
+            return false;
+        }
         Material shouldBe = getChestMaterial(chest).getMaterial();
-        if(shouldBe == null) return false;
-        return block.getType() != getChestMaterial(chest).getMaterial();
+        if(shouldBe == null) {
+            return false;
+        }
+        Material actuallyIs = block.getLocation().getBlock().getType();
+        //System.out.println("Should be " + shouldBe + " actually is " + actuallyIs);
+        boolean result = block.getType() != getChestMaterial(chest).getMaterial();
+        //System.out.println("Is broken: " + result);
+        return result;
     }
 
     public @Nullable Pair<String,Boolean> isItemBlacklisted(final ItemStack item) {
@@ -322,7 +327,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
                 try {
                     final AngelChest ac = new AngelChest(child);
                     if (ac.success) {
-                        angelChests.put(ac.block, ac);
+                        angelChests.add(ac);
                     } else {
                         debug("Error while loading " + child.getName() + ", probably the world is not loaded yet. Will try again on next world load.");
                     }
@@ -342,7 +347,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
                 try {
                     final AngelChest ac = new AngelChest(child);
                     if (ac.success) {
-                        angelChests.put(ac.block, ac);
+                        angelChests.add(ac);
                     }
                 } catch (Throwable ignored) {
 
@@ -396,6 +401,8 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     @Override
     public void onEnable() {
+
+        pvpTrackerDropHeads  = new PvpTracker(this, () -> getConfig().getDouble("only-drop-heads-in-pvp-cooldown"));
 
         //skinManager = new SkinManager();
         //npcManager = new NPCManager();
@@ -460,7 +467,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         ConfigUtils.reloadCompleteConfig(false);
 
 
-        angelChests = new LinkedHashMap<>();
+        angelChests = new CopyOnWriteArrayList<>();
         lastPlayerPositions = new HashMap<>();
         invulnerableTasks = new HashMap<>();
         killers = new HashMap<>();
@@ -590,13 +597,16 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         //for(Entry<Block,AngelChest> entry : angelChests.entrySet()) {
         //	Utils.destroyAngelChest(entry.getKey(), entry.getValue(), this);
         //}
-        for (final Entry<Block, AngelChest> entry : angelChests.entrySet()) {
-            entry.getValue().saveToFile(removeChests);
+        for (final AngelChest entry : angelChests) {
+            entry.saveToFile(removeChests);
 
             // The following line isn't needed anymore but it doesn't hurt either
             if (removeChests) {
-                entry.getValue().hologram.destroy();
+                entry.hologram.destroy();
             }
+        }
+        if(removeChests) {
+            angelChests.clear();
         }
     }
 
@@ -606,7 +616,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::trackPlayerPositions, Ticks.fromSeconds(1), Ticks.fromSeconds(1));
 
         // Fix broken AngelChests
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::fixBrokenAngelChests, 0L, Ticks.fromSeconds(2));
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> fixBrokenAngelChests(true), 0L, Ticks.fromSeconds(2));
 
         // Holograms, Durations
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::updateAngelChests, 0, Ticks.fromSeconds(1));
@@ -629,9 +639,9 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }
 
     private void updateAngelChests() {
-        final Iterator<AngelChest> it = angelChests.values().iterator();
-        while (it.hasNext()) {
-            final AngelChest ac = it.next();
+
+       for(AngelChest it : angelChests) {
+            final AngelChest ac = it;
             if (ac == null) continue;
             ac.secondsLeft--;
             if (ac.secondsLeft < 0 && !ac.infinite) {
@@ -640,7 +650,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
                     Messages.send(getServer().getPlayer(ac.owner), messages.MSG_ANGELCHEST_DISAPPEARED);
                 }
                 ac.destroy(true, true);
-                it.remove();
+                angelChests.remove(it);
                 logger.logRemoval(logger.getLogFile(ac.logfile));
                 continue;
             }
@@ -660,26 +670,38 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         }
     }
 
-    private void fixBrokenAngelChests() {
+    private void fixBrokenAngelChests(boolean fix) {
+        if(fix) {
+            //System.out.println("===================================== FIX START =====================================");
+        }
+        ArrayList<AngelChest> toRemove = new ArrayList<>();
+        ArrayList<AngelChest> toAdd = new ArrayList<>();
         // The following might only be needed for chests destroyed by end crystals spawning during the init phase of the ender dragon
-        for (final Entry<Block, AngelChest> entry : angelChests.entrySet()) {
+        for (final AngelChest entry : angelChests) {
 
-            /*if (!PaperLib.isChunkGenerated(entry.getKey().getLocation())) {
-                verbose("Chunk at " + entry.getKey().getLocation() + " has not been generated!");
-            }*/
-
-            if (!entry.getKey().getWorld().isChunkLoaded(entry.getKey().getX() >> 4, entry.getKey().getZ() >> 4)) {
-
-                verbose("Chunk at " + entry.getKey().getLocation() + " is not loaded, skipping repeating task regarding angelChests.entrySet()");
+            World world = entry.getWorld();
+            if(world == null) continue;
+            if (!world.isChunkLoaded(entry.block.getX() >> 4, entry.getBlock().getZ() >> 4)) {
+                //verbose("Chunk at " + entry.getKey().getLocation() + " is not loaded, skipping repeating task regarding angelChests.entrySet()");
                 // CONTINUE IF CHUNK IS NOT LOADED
-
                 continue;
             }
-            if (isBrokenAngelChest(entry.getKey(), entry.getValue())) {
-                final Block block = entry.getKey();
-                debug("Fixing broken AngelChest at " + block.getLocation());
-                entry.setValue(new AngelChest(Objects.requireNonNull(getAngelChest(block)).saveToFile(true)));
+            final Block block = entry.block;
+
+            //System.out.println(entry.uniqueId + " @ " + entry.block);
+            if (isBrokenAngelChest(block, entry)) {
+                if(fix) {
+                    //System.out.println("Fixing broken AngelChest at " + block.getLocation() + " with AngelChest ID " + entry.uniqueId);
+                    toAdd.add(new AngelChest(Objects.requireNonNull(getAngelChest(block)).saveToFile(true)));
+                    toRemove.add(entry);
+                }
             }
+            angelChests.removeAll(toRemove);
+            angelChests.addAll(toAdd);
+            angelChests.sort(Comparator.comparing(AngelChest::getCreated));
+        }
+        if(fix) {
+            //System.out.println("===================================== FIX END =====================================");
         }
     }
 

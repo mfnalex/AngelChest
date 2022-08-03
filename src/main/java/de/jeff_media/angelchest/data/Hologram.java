@@ -100,9 +100,11 @@ public final class Hologram {
      */
     public void destroy() {
         for (final ArmorStand armorStand : getArmorStands()) {
-            if (armorStand != null) armorStand.remove();
+            if (armorStand != null) {
+                armorStand.remove();
+                armorStandUUIDs.remove(armorStand.getUniqueId());
+            }
 
-            armorStandUUIDs.remove(armorStand.getUniqueId());
         }
         main.watchdog.save();
     }

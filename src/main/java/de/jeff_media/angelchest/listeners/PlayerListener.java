@@ -1,5 +1,8 @@
 package de.jeff_media.angelchest.listeners;
 
+import com.jeff_media.jefflib.*;
+import com.jeff_media.jefflib.data.Cooldown;
+import com.jeff_media.jefflib.pluginhooks.McMMOUtils;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
@@ -20,10 +23,9 @@ import de.jeff_media.angelchest.utils.CommandUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.daddy.Stepsister;
-import com.jeff_media.jefflib.*;
-import com.jeff_media.jefflib.data.Cooldown;
-import com.jeff_media.jefflib.pluginhooks.McMMOUtils;
 import org.bukkit.*;
+import org.bukkit.advancement.Advancement;
+import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -39,12 +41,14 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.BoundingBox;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -57,6 +61,7 @@ public final class PlayerListener implements Listener {
 
     final static Main main = Main.getInstance();
     private static final byte TOTEM_MAGIC_VALUE = 35;
+    private static final NamespacedKey TOTEM_ADVANCEMENT = NamespacedKey.minecraft("adventure/totem_of_undying");
     private final HashMap<UUID, BukkitTask> respawnTasks = new HashMap<>();
     private final Cooldown pvpCooldowns = new Cooldown(); // TODO: Replace with PvpTracker
     private final Cooldown cooldowns = new Cooldown();
@@ -65,7 +70,7 @@ public final class PlayerListener implements Listener {
     @EventHandler
     public void onAngelChestClose(final InventoryCloseEvent event) {
 
-        for (final AngelChest angelChest : main.angelChests.values()) {
+        for (final AngelChest angelChest : main.angelChests) {
             if (!angelChest.overflowInv.equals(event.getInventory())) {
                 continue;
             }
@@ -75,6 +80,7 @@ public final class PlayerListener implements Listener {
                 // plugin.angelChests.remove(Utils.getKeyByValue(plugin.angelChests,
                 // angelChest));
                 angelChest.destroy(false, false);
+                main.angelChests.remove(angelChest);
 
                 if (main.debug) main.debug("Inventory empty, removing chest");
                 // Messages.send(event.getPlayer(),"You have emptied an AngelChest. It is now
@@ -105,7 +111,9 @@ public final class PlayerListener implements Listener {
 
         event.setCancelled(true);
 
-        final AngelChest angelChest = main.angelChests.get(block);
+        final AngelChest angelChest = main.getAngelChest(block);
+
+        if(angelChest == null) return;
 
         // Test here if player is allowed to open THIS angelchest
         if (!main.protectionUtils.playerMayOpenThisChest(event.getPlayer(), angelChest)) {
@@ -311,6 +319,7 @@ public final class PlayerListener implements Listener {
             if (is.getType().name().equals("TOTEM_OF_UNDYING") || is.getType().name().equals("TOTEM")) {
                 e.setCancelled(false);
                 is.setAmount(is.getAmount() - 1);
+                giveTotemAchievement(p);
                 final ItemStack offHand = p.getInventory().getItemInOffHand();
                 if (offHand != null && offHand.getAmount() != 0 && offHand.getType() != Material.AIR) {
                     final ItemStack finalOffHand = offHand.clone();
@@ -320,6 +329,18 @@ public final class PlayerListener implements Listener {
             }
         }
 
+    }
+
+    private void giveTotemAchievement(final @Nonnull Player player) {
+        if(McVersion.current().isAtLeast(1,16)) {
+            Advancement advancement = Bukkit.getAdvancement(TOTEM_ADVANCEMENT);
+            if (advancement != null) {
+                AdvancementProgress progress = player.getAdvancementProgress(advancement);
+                for (String crit : progress.getRemainingCriteria()) {
+                    progress.awardCriteria(crit);
+                }
+            }
+        }
     }
 
     /**
@@ -431,10 +452,10 @@ public final class PlayerListener implements Listener {
      */
     private void spawnAngelChest(final PlayerDeathEvent event) {
 
-        final Player p = event.getEntity();
+        final Player player = event.getEntity();
 
-        if (SentinelHook.isNpc(p)) {
-            main.debug("Ignoring death from NPC \"player\": " + p);
+        if (SentinelHook.isNpc(player)) {
+            main.debug("Ignoring death from NPC \"player\": " + player);
             return;
         }
 
@@ -443,7 +464,7 @@ public final class PlayerListener implements Listener {
         }
 
         if (main.debug) main.debug("\n");
-        LogUtils.debugBanner(new String[]{"PlayerDeathEvent", "Player: " + p.getName(), "Location: " + p.getLocation()});
+        LogUtils.debugBanner(new String[]{"PlayerDeathEvent", "Player: " + player.getName(), "Location: " + player.getLocation()});
 
         if (main.disableDeathEvent) {
             if (main.debug)
@@ -451,14 +472,14 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        if (main.getConfig().getBoolean(Config.DISABLE_IN_CREATIVE) && p.getGameMode() == GameMode.CREATIVE) {
+        if (main.getConfig().getBoolean(Config.DISABLE_IN_CREATIVE) && player.getGameMode() == GameMode.CREATIVE) {
             if (main.debug) main.debug("Cancelled: Player is in Creative and disable-in-creative is true");
             return;
         }
 
         //final long startTime = System.nanoTime();
 
-        final boolean isPvpDeath = p.getKiller() != null && p.getKiller() != p;
+        final boolean isPvpDeath = player.getKiller() != null && player.getKiller() != player;
 
         // Print out all plugins/listeners that listen to the PlayerDeathEvent
         if (main.debug) {
@@ -470,32 +491,32 @@ public final class PlayerListener implements Listener {
 
         if (main.debug) main.debug("PlayerListener -> spawnAngelChest");
 
-        if (!p.hasPermission(Permissions.USE)) {
+        if (!player.hasPermission(Permissions.USE)) {
             if (main.debug) main.debug("Cancelled: no permission (angelchest.use)");
             return;
         }
 
-        if (NBTAPI.hasNBT(p, NBTTags.HAS_ANGELCHEST_DISABLED)) {
+        if (NBTAPI.hasNBT(player, NBTTags.HAS_ANGELCHEST_DISABLED)) {
             if (main.debug) main.debug("Cancelled: this player disabled AngelChest using /actoggle");
             return;
         }
 
-        if (!Utils.isWorldEnabled(p.getLocation().getWorld())) {
-            if (main.debug) main.debug("Cancelled: world disabled (" + p.getLocation().getWorld());
+        if (!Utils.isWorldEnabled(player.getLocation().getWorld())) {
+            if (main.debug) main.debug("Cancelled: world disabled (" + player.getLocation().getWorld());
             return;
         }
 
-        if (Main.getWorldGuardWrapper().isBlacklisted(p.getLocation().getBlock())) {
+        if (Main.getWorldGuardWrapper().isBlacklisted(player.getLocation().getBlock())) {
             if (main.debug) main.debug("Cancelled: region disabled.");
             return;
         }
 
-        if (!Main.getWorldGuardWrapper().getAngelChestFlag(p)) {
+        if (!Main.getWorldGuardWrapper().getAngelChestFlag(player)) {
             if (main.debug) main.debug("Cancelled: World Guard flag \"allow-angelchest\" is \"deny\"");
             return;
         }
 
-        if (main.getConfig().getBoolean(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD) && !ProtectionUtils.playerMayBuildHere(p, p.getLocation())) {
+        if (main.getConfig().getBoolean(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD) && !ProtectionUtils.playerMayBuildHere(player, player.getLocation())) {
             if (main.debug) main.debug("Cancelled: BlockPlaceEvent cancelled");
             return;
         }
@@ -506,12 +527,12 @@ public final class PlayerListener implements Listener {
         }
 
         if (Stepsister.allows(PremiumFeatures.PROHIBIT_CHEST_IN_LAVA_OR_VOID)) {
-            if (!main.getConfig().getBoolean(Config.ALLOW_CHEST_IN_LAVA) && p.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
+            if (!main.getConfig().getBoolean(Config.ALLOW_CHEST_IN_LAVA) && player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
                 if (main.debug) main.debug("Cancelled: Lava, allow-chest-in-lava: false");
                 return;
             }
 
-            if (!main.getConfig().getBoolean(Config.ALLOW_CHEST_IN_VOID) && p.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID) {
+            if (!main.getConfig().getBoolean(Config.ALLOW_CHEST_IN_VOID) && player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID) {
                 if (main.debug) main.debug("Cancelled: Void, allow-chest-in-void: false");
                 return;
             }
@@ -523,11 +544,11 @@ public final class PlayerListener implements Listener {
                     main.debug("Cancelled: allow-angelchest-in-pvp is false and this seemed to be a pvp death");
                 if (main.getConfig().getBoolean(Config.DROP_HEADS)) {
                     if (Stepsister.allows(PremiumFeatures.DROP_HEADS)) {
-                        dropPlayerHead(p);
+                        dropPlayerHead(player);
                     }
                 }
 
-                Utils.sendDelayedMessage(p, main.messages.MSG_NO_CHEST_IN_PVP, 1);
+                Utils.sendDelayedMessage(player, main.messages.MSG_NO_CHEST_IN_PVP, 1);
                 return;
             }
         }
@@ -536,44 +557,44 @@ public final class PlayerListener implements Listener {
             if (main.getConfig().getDouble(Config.PVP_COOLDOWN) > 0 && Stepsister.allows(PremiumFeatures.PVP_COOLDOWN)) {
                 int pvpCooldown = (int) main.getConfig().getDouble(Config.PVP_COOLDOWN);
 
-                boolean isInCooldown = pvpCooldowns.hasCooldown(p);
+                boolean isInCooldown = pvpCooldowns.hasCooldown(player);
                 if (isInCooldown) {
                     if (main.debug) {
                         main.debug("Cancelled: player is still in pvp-cooldown");
                     }
-                    Messages.send(p, main.messages.MSG_PVP_COOLDOWN);
+                    Messages.send(player, main.messages.MSG_PVP_COOLDOWN);
                     return;
                 } else {
-                    pvpCooldowns.setCooldown(p, pvpCooldown, TimeUnit.SECONDS);
+                    pvpCooldowns.setCooldown(player, pvpCooldown, TimeUnit.SECONDS);
                 }
             }
         } else {
             if (main.getConfig().getDouble(Config.COOLDOWN) > 0 && Stepsister.allows(PremiumFeatures.COOLDOWN)) {
                 int cooldown = (int) main.getConfig().getDouble(Config.COOLDOWN);
 
-                boolean isInCooldown = cooldowns.hasCooldown(p);
+                boolean isInCooldown = cooldowns.hasCooldown(player);
                 if (isInCooldown) {
                     if (main.debug) {
                         main.debug("Cancelled: player is still in no-pvp-cooldown");
                     }
-                    Messages.send(p, main.messages.MSG_COOLDOWN);
+                    Messages.send(player, main.messages.MSG_COOLDOWN);
                     return;
                 } else {
-                    cooldowns.setCooldown(p, cooldown, TimeUnit.SECONDS);
+                    cooldowns.setCooldown(player, cooldown, TimeUnit.SECONDS);
                 }
             }
         }
 
-        if (!AngelChestUtils.spawnChance(main.groupUtils.getSpawnChancePerPlayer(p))) {
+        if (!AngelChestUtils.spawnChance(main.groupUtils.getSpawnChancePerPlayer(player))) {
             if (main.debug) main.debug("Cancelled: unlucky, spawnChance returned false!");
-            Utils.sendDelayedMessage(p, main.messages.MSG_SPAWN_CHANCE_UNSUCCESFULL, 1);
+            Utils.sendDelayedMessage(player, main.messages.MSG_SPAWN_CHANCE_UNSUCCESFULL, 1);
             return;
         }
 
         // EcoEnchants Telekinesis
         if (EcoEnchantsHook.dontSpawnChestBecausePlayerWasKilledByTelekinesis(event)) {
             if (main.debug) main.debug("Cancelled: Player was killed by telekinesis");
-            Utils.sendDelayedMessage(p, main.messages.MSG_NO_CHEST_IN_PVP, 1);
+            Utils.sendDelayedMessage(player, main.messages.MSG_NO_CHEST_IN_PVP, 1);
             return;
         }
 
@@ -583,7 +604,7 @@ public final class PlayerListener implements Listener {
                 if (main.debug) main.debug("Please check if your kept your inventory on death!");
                 if (main.debug)
                     main.debug("This is probably because some other plugin tries to handle your inv on death.");
-                if (main.debug) main.debug(p.getDisplayName() + " is OP: " + p.isOp());
+                if (main.debug) main.debug(player.getDisplayName() + " is OP: " + player.isOp());
                 return;
             } else {
                 if (main.debug)
@@ -592,42 +613,50 @@ public final class PlayerListener implements Listener {
             }
         }
 
+        // Start fix for CommandPanels
+        InventoryView view = player.getOpenInventory();
+        if(view != null) {
+            InventoryCloseEvent closeEvent = new InventoryCloseEvent(view);
+            Bukkit.getServer().getPluginManager().callEvent(closeEvent);
+        }
+        // End fix for CommandPanels
+
 
         Block fixedPlayerPosition;
         List<Predicate<Block>> predicates = new ArrayList<>();
 
         // Player died below world
-        if (p.getLocation().getBlockY() < main.getWorldMinHeight(p.getWorld())) {
+        if (player.getLocation().getBlockY() < main.getWorldMinHeight(player.getWorld())) {
             if (main.debug)
-                main.debug("Fixing player position for " + p.getLocation() + " because Y < World#getMinHeight()");
+                main.debug("Fixing player position for " + player.getLocation() + " because Y < World#getMinHeight()");
             fixedPlayerPosition = null;
             // Void detection: use last known position
             if (main.getConfig().getBoolean(Config.VOID_DETECTION)) {
-                if (main.lastPlayerPositions.containsKey(p.getUniqueId())) {
-                    fixedPlayerPosition = main.lastPlayerPositions.get(p.getUniqueId());
+                if (main.lastPlayerPositions.containsKey(player.getUniqueId())) {
+                    fixedPlayerPosition = main.lastPlayerPositions.get(player.getUniqueId());
                     if (main.debug) main.debug("Using last known player position " + fixedPlayerPosition.getLocation());
                 }
             }
             // Void detection disabled or no last known position: set to Y=1
             if (fixedPlayerPosition == null) {
-                final Location ltmp = p.getLocation();
-                ltmp.setY(main.getWorldMinHeight(p.getWorld()) + 1);
+                final Location ltmp = player.getLocation();
+                ltmp.setY(main.getWorldMinHeight(player.getWorld()) + 1);
                 fixedPlayerPosition = ltmp.getBlock();
                 if (main.debug)
                     main.debug("Void detection disabled or no last known player position, setting Y to minWorldHeight+1 " + fixedPlayerPosition.getLocation());
             }
         } else {
-            fixedPlayerPosition = p.getLocation().getBlock();
+            fixedPlayerPosition = player.getLocation().getBlock();
             if (main.debug) main.debug("Void fixing not needed for " + fixedPlayerPosition.getLocation());
         }
 
         // Player died above build limit
         // Note: This has to be checked AFTER the "below world" check, because the lastPlayerPositions could return 256
-        if (fixedPlayerPosition.getY() >= main.getWorldMaxHeight(p.getWorld())) {
+        if (fixedPlayerPosition.getY() >= main.getWorldMaxHeight(player.getWorld())) {
             if (main.debug)
-                main.debug("Fixing player position for " + p.getLocation() + " because Y >= World#getMaxHeight()");
-            final Location ltmp = p.getLocation();
-            ltmp.setY(main.getWorldMaxHeight(p.getWorld()) - 1);
+                main.debug("Fixing player position for " + player.getLocation() + " because Y >= World#getMaxHeight()");
+            final Location ltmp = player.getLocation();
+            ltmp.setY(main.getWorldMaxHeight(player.getWorld()) - 1);
             fixedPlayerPosition = ltmp.getBlock();
             if (main.debug) main.debug("Setting Y to World#getMaxHeight()-1 " + fixedPlayerPosition.getLocation());
         } else {
@@ -637,19 +666,19 @@ public final class PlayerListener implements Listener {
 
         // Player died in Lava
         boolean diedThroughLava = false;
-        if (p.getLastDamageCause() != null && p.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
+        if (player.getLastDamageCause() != null && player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
             diedThroughLava = true;
         }
         if (main.getConfig().getBoolean(Config.LAVA_DETECTION) && (fixedPlayerPosition.getType() == Material.LAVA || diedThroughLava)) {
-            if (main.debug) main.debug("Fixing player position for " + p.getLocation() + " because there's lava");
-            if (main.lastPlayerPositions.containsKey(p.getUniqueId())) {
-                fixedPlayerPosition = main.lastPlayerPositions.get(p.getUniqueId());
+            if (main.debug) main.debug("Fixing player position for " + player.getLocation() + " because there's lava");
+            if (main.lastPlayerPositions.containsKey(player.getUniqueId())) {
+                fixedPlayerPosition = main.lastPlayerPositions.get(player.getUniqueId());
                 if (main.debug) main.debug("Using last known player position " + fixedPlayerPosition.getLocation());
             }
         }
         if (main.getConfig().getBoolean(Config.AVOID_LAVA_OCEANS) && fixedPlayerPosition.getType() == Material.LAVA) {
             if (main.debug) main.debug("Adding predicate \"avoid-lava-oceans\"");
-            predicates.add(block -> !(block.getY() < p.getLocation().getY()));
+            predicates.add(block -> !(block.getY() < player.getLocation().getY()));
         }
 
         // Prevent destroying itemframes
@@ -683,9 +712,9 @@ public final class PlayerListener implements Listener {
             Block grave = GraveyardManager.getGraveLocation(angelChestBlock.getLocation(), tryClosest, tryGlobal);
             if (grave == null) {
                 if (fallbackToDeathLocation) {
-                    main.debug("Could not find a matching grave for player " + p.getName() + ". Using normal death location.");
+                    main.debug("Could not find a matching grave for player " + player.getName() + ". Using normal death location.");
                 } else {
-                    main.debug("Could not find a matching grave for player " + p.getName() + ". Disabling AngelChest spawn.");
+                    main.debug("Could not find a matching grave for player " + player.getName() + ". Disabling AngelChest spawn.");
                     return;
                 }
             } else {
@@ -704,9 +733,9 @@ public final class PlayerListener implements Listener {
         // Graveyards end
 
         // Calling Event
-        EntityDamageEvent lastDamageEvent = p.getLastDamageCause();
+        EntityDamageEvent lastDamageEvent = player.getLastDamageCause();
         EntityDamageEvent.DamageCause lastDamageCause = lastDamageEvent == null ? null : lastDamageEvent.getCause();
-        final AngelChestSpawnPrepareEvent angelChestSpawnPrepareEvent = new AngelChestSpawnPrepareEvent(p, angelChestBlock, lastDamageCause, event);
+        final AngelChestSpawnPrepareEvent angelChestSpawnPrepareEvent = new AngelChestSpawnPrepareEvent(player, angelChestBlock, lastDamageCause, event);
         Bukkit.getPluginManager().callEvent(angelChestSpawnPrepareEvent);
         if (angelChestSpawnPrepareEvent.isCancelled()) {
             if (main.debug) main.debug("AngelChestCreateEvent has been cancelled!");
@@ -716,7 +745,7 @@ public final class PlayerListener implements Listener {
         final Block finalAngelChestBlock = angelChestBlock;
         final ItemStack priceItem = main.getItemManager().getItem(main.getConfig().getString(Config.PRICE));
 
-        if (!CommandUtils.hasEnoughMoney(p, main.groupUtils.getSpawnPricePerPlayer(p), priceItem, main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, main.messages.MSG_HAS_NO_ITEM2, "AngelChest spawned")) {
+        if (!CommandUtils.hasEnoughMoney(player, main.groupUtils.getSpawnPricePerPlayer(player), priceItem, main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, main.messages.MSG_HAS_NO_ITEM2, "AngelChest spawned")) {
             return;
         }
 
@@ -727,26 +756,26 @@ public final class PlayerListener implements Listener {
         // DETECT ALL DROPS, EVEN FRESHLY ADDED
         final ArrayList<ItemStack> freshDrops = new ArrayList<>();
         final ItemStack[] drops = event.getDrops().toArray(new ItemStack[0]);
-        final List<ItemStack> inventoryAsList = Arrays.asList(p.getInventory().getContents());
+        final List<ItemStack> inventoryAsList = Arrays.asList(player.getInventory().getContents());
 
         // TODO: Maybe rename this to keptItems in general?
         HashMap<Integer, ItemStack> keptAngelChestTokens = new HashMap<>();
-        for (int i = 0; i < p.getInventory().getSize(); i++) {
-            ItemStack tmp = p.getInventory().getItem(i);
+        for (int i = 0; i < player.getInventory().getSize(); i++) {
+            ItemStack tmp = player.getInventory().getItem(i);
             if (tmp == null || tmp.getType().isAir() || tmp.getAmount() == 0) continue;
             if (PDCUtils.has(tmp, NBTTags.IS_TOKEN_ITEM_KEEP, PersistentDataType.BYTE)) {
                 keptAngelChestTokens.put(i, tmp);
-                p.getInventory().setItem(i, null);
+                player.getInventory().setItem(i, null);
             }
         }
 
         Bukkit.getScheduler().runTaskLater(main, () -> {
             for (Map.Entry<Integer, ItemStack> entry : keptAngelChestTokens.entrySet()) {
-                ItemStack inInv = p.getInventory().getItem(entry.getKey());
+                ItemStack inInv = player.getInventory().getItem(entry.getKey());
                 if (inInv == null || inInv.getType().isAir() || inInv.getAmount() == 0) {
-                    p.getInventory().setItem(entry.getKey(), entry.getValue());
+                    player.getInventory().setItem(entry.getKey(), entry.getValue());
                 } else {
-                    p.getInventory().addItem(entry.getValue());
+                    player.getInventory().addItem(entry.getValue());
                 }
             }
         }, 1);
@@ -773,18 +802,18 @@ public final class PlayerListener implements Listener {
 
             if (dropHead) {
                 if (main.getConfig().getBoolean(Config.DONT_STORE_HEADS_IN_ANGELCHEST)) {
-                    dropPlayerHead(p);
+                    dropPlayerHead(player);
                 } else {
-                    freshDrops.add(getPlayerHead(p));
+                    freshDrops.add(getPlayerHead(player));
                 }
             }
         }
 
         for (final ItemStack freshDrop : freshDrops) {
-            for (final ItemStack leftover : p.getInventory().addItem(freshDrop).values()) {
+            for (final ItemStack leftover : player.getInventory().addItem(freshDrop).values()) {
                 if (leftover == null || leftover.getAmount() == 0 || leftover.getType() == Material.AIR) continue;
-                p.getWorld().dropItemNaturally(p.getLocation(), leftover);
-                main.getLogger().info("Could not add item to already full AngelChest of player " + p.getName() + ": " + leftover + ", dropping it to world @ " + p.getLocation());
+                player.getWorld().dropItemNaturally(player.getLocation(), leftover);
+                main.getLogger().info("Could not add item to already full AngelChest of player " + player.getName() + ": " + leftover + ", dropping it to world @ " + player.getLocation());
             }
         }
         // END DETECT ALL DROPS
@@ -792,9 +821,9 @@ public final class PlayerListener implements Listener {
         /*
         Creating the chest
          */
-        final DeathCause deathCause = new DeathCause(p.getLastDamageCause());
-        final AngelChest ac = new AngelChest(p, finalAngelChestBlock, main.logger.getLogFileName(event), deathCause, event);
-        main.angelChests.put(finalAngelChestBlock, ac);
+        final DeathCause deathCause = new DeathCause(player.getLastDamageCause());
+        final AngelChest ac = new AngelChest(player, finalAngelChestBlock, main.logger.getLogFileName(event), deathCause, event);
+        main.angelChests.add(ac);
 
 
         /*
@@ -804,18 +833,18 @@ public final class PlayerListener implements Listener {
         if (Stepsister.allows(PremiumFeatures.DISALLOW_XP_COLLECTION) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("false")) {
             // Do nothing
         } else //noinspection StatementWithEmptyBody
-            if (Stepsister.allows(PremiumFeatures.DISALLOW_XP_COLLECTION_IN_PVP) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("nopvp") && (p.getKiller() != null && p.getKiller() != p)) {
+            if (Stepsister.allows(PremiumFeatures.DISALLOW_XP_COLLECTION_IN_PVP) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("nopvp") && (player.getKiller() != null && player.getKiller() != player)) {
                 // Do nothing
             } else if (!event.getKeepLevel() && event.getDroppedExp() != 0) {
-                final double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(p);
+                final double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(player);
                 if (main.debug) main.debug("Player has xpPercentage of " + xpPercentage);
                 if (xpPercentage == -1 || !Stepsister.allows(PremiumFeatures.PERCENTAL_XP_LOSS)) {
                     ac.experience = event.getDroppedExp();
                 } else {
-                    final float currentXP = XPUtils.getTotalXPRequiredForLevel(p.getLevel());
+                    final float currentXP = XPUtils.getTotalXPRequiredForLevel(player.getLevel());
                     if (main.debug) main.debug("currentXP = " + currentXP + " (for this level)");
-                    if (main.debug) main.debug("p.getEXP = " + p.getExp());
-                    final double remainingXP = p.getExp() * XPUtils.getXPRequiredForNextLevel(p.getLevel());
+                    if (main.debug) main.debug("p.getEXP = " + player.getExp());
+                    final double remainingXP = player.getExp() * XPUtils.getXPRequiredForNextLevel(player.getLevel());
                     if (main.debug) main.debug("Remaining XP = " + remainingXP);
                     final double totalXP = currentXP + remainingXP;
                     if (main.debug) main.debug("Total XP = " + totalXP);
@@ -842,12 +871,12 @@ public final class PlayerListener implements Listener {
 
             ac.remove();
             ac.destroy(true, false);
-            main.angelChests.remove(finalAngelChestBlock);
+            main.angelChests.remove(ac);
 
-            Utils.sendDelayedMessage(p, main.messages.MSG_INVENTORY_WAS_EMPTY, 1);
+            Utils.sendDelayedMessage(player, main.messages.MSG_INVENTORY_WAS_EMPTY, 1);
 
             if (main.getConfig().getBoolean(Config.GRAVEYARDS_ONLY_AS_RESPAWN_POINT)) {
-                setRespawnLocationToGraveyardIfApplicable(p, graveyardBlock, graveyard);
+                setRespawnLocationToGraveyardIfApplicable(player, graveyardBlock, graveyard);
             }
 
             return;
@@ -862,7 +891,7 @@ public final class PlayerListener implements Listener {
          */
 
 
-        setRespawnLocationToGraveyardIfApplicable(p, graveyardBlock, graveyard);
+        setRespawnLocationToGraveyardIfApplicable(player, graveyardBlock, graveyard);
 
         //ac.createChest(ac.block, ac.owner);
 
@@ -872,7 +901,7 @@ public final class PlayerListener implements Listener {
         Clearing inventory
          */
         // Delete players inventory except excluded items
-        clearInventory(p.getInventory());
+        clearInventory(player.getInventory());
 
         // Clear the drops except blacklisted items
         event.getDrops().removeIf(drop -> !ac.blacklistedItems.contains(drop));
@@ -882,14 +911,14 @@ public final class PlayerListener implements Listener {
         if (graveyard != null) {
             playerDeathMessage = main.messages.MSG_BURIED_IN_GRAVEYARD.replace("{graveyard}", graveyard.getName());
         }
-        Utils.sendDelayedMessage(p, playerDeathMessage, 1);
+        Utils.sendDelayedMessage(player, playerDeathMessage, 1);
 
         if (main.getConfig().getBoolean(Config.SHOW_LOCATION)) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> CommandUtils.sendListOfAngelChests(main, p, p), 2);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> CommandUtils.sendListOfAngelChests(main, player, player), 2);
         }
 
-        final int maxChests = main.groupUtils.getChestsPerPlayer(p);
-        final ArrayList<AngelChest> chests = AngelChestUtils.getAllAngelChestsFromPlayer(p);
+        final int maxChests = main.groupUtils.getChestsPerPlayer(player);
+        final ArrayList<AngelChest> chests = AngelChestUtils.getAllAngelChestsFromPlayer(player);
         //System.out.println(chests.size()+" chests.size");
         if (chests.size() > maxChests) {
             for (Player viewer : Bukkit.getOnlinePlayers()) {
@@ -900,18 +929,23 @@ public final class PlayerListener implements Listener {
                     }
                 }
             }
-            chests.get(0).destroy(true, false);
-            chests.get(0).remove();
+            AngelChest toExplode = chests.get(0);
+                    toExplode.destroy(true, false);
+                    if(main.getConfig().getString(Config.DROP_BEHAVIOUR_MAX_ANGELCHESTS, "drop").equalsIgnoreCase("drop")) {
+                        toExplode.dropContents();
+                    }
+                    main.angelChests.remove(toExplode);
+
             Bukkit.getScheduler().runTaskLater(main, () -> {
-                Messages.send(p, " ");
-                Messages.send(p, main.messages.MSG_ANGELCHEST_EXPLODED);
+                Messages.send(player, " ");
+                Messages.send(player, main.messages.MSG_ANGELCHEST_EXPLODED);
             }, 3L);
 
         }
 
         if (Stepsister.allows(PremiumFeatures.DONT_PROTECT_ANGELCHESTS_IN_PVP)) {
             if (main.getConfig().getBoolean(Config.DONT_PROTECT_CHEST_IF_PLAYER_DIED_IN_PVP)) {
-                if (p.getKiller() != null && p.getKiller() != p) {
+                if (player.getKiller() != null && player.getKiller() != player) {
                     ac.isProtected = false;
                 }
             }
@@ -943,15 +977,17 @@ public final class PlayerListener implements Listener {
         if (main.debug) main.debug(" ");
 
         if (Stepsister.allows(PremiumFeatures.PLAY_TOTEM_ANIMATION) && main.getConfig().getBoolean(Config.PLAY_TOTEM_ANIMATION)) {
-            AnimationUtils.playTotemAnimation(p, main.getConfig().getInt(Config.TOTEM_CUSTOM_MODEL_DATA));
+            AnimationUtils.playTotemAnimation(player, main.getConfig().getInt(Config.TOTEM_CUSTOM_MODEL_DATA));
         }
 
         ac.createChest();
 
+        //System.out.println("New added chest: " + ac.block);
+
         if (main.getConfig().getBoolean(Config.DEATH_MAPS)) {
             if (Stepsister.allows(PremiumFeatures.DEATH_MAP)) {
                 ItemStack deathMap = DeathMapManager.getDeathMap(ac);
-                Bukkit.getScheduler().runTaskLater(main, () -> p.getInventory().addItem(deathMap), 1);
+                Bukkit.getScheduler().runTaskLater(main, () -> player.getInventory().addItem(deathMap), 1);
             } else {
                 Messages.sendPremiumOnly(Config.DEATH_MAPS);
             }
