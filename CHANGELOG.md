@@ -8,6 +8,9 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.6.1
+- Adjusted obfuscation settings to not use class names anymore that Windows is too stupid to use
+
 ## 9.6.0
 - Fixed "Postmortal" advancement not being given when using "totems-of-undying-works-everywhere" when dying with a totem that's not in the main or offhand
 - Fixed a player's oldest AngelChest's block not properly disappearing and the newest chest generating only a hologram when a player dies while generating their newest chest inside a graveyard while also exceeding their "max-angelchest-amount"
