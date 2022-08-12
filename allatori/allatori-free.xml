@@ -39,6 +39,11 @@
 
     <property name="log-file" value="log.xml"/>
 
+    <property name="classes-naming-prefix" value="AngelChest$"/>
+    <property name="methods-naming-prefix" value="_"/>
+    <property name="fields-naming-prefix" value="_"/>
+
+    <property name="classes-naming" value="compact"/>
     <property name="packages-naming" value="abc"/>
     <property name="methods-naming" value="keywords"/>
     <property name="fields-naming" value="keywords"/>

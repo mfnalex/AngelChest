@@ -8,6 +8,9 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.6.2
+- Fixed default config.yml generating with broken UTF-8 symbols for some people
+
 ## 9.6.1
 - Adjusted obfuscation settings to not use class names anymore that Windows is too stupid to use
 
