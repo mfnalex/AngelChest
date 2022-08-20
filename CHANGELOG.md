@@ -8,6 +8,12 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.7.0
+- Added "slot" option for blacklist.yml
+- Changed weight of "force-delete" option in blacklist.yml.
+  - Before this version, the first matching blacklist entry would decide whether an item gets force-deleted or dropped
+  - From now on, when more than one blacklist entry matches, and any of those has force-delete set to true, the item will be deleted
+
 ## 9.6.2
 - Fixed default config.yml generating with broken UTF-8 symbols for some people
 

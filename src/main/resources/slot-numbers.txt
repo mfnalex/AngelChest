@@ -1,0 +1,13 @@
+You can use the following slot numbers in your blacklist.yml file:
+
+Hotbar:               0 (left)  - 8  (right)
+Upper inventory row:  9 (left)  - 17 (right)
+Middle inventory row: 18 (left) - 26 (right)
+Lower inventory row:  27 (left) - 35 (right)
+Boots:                36
+Leggings:             37
+Chestplate:           38
+Helmet:               39
+Offhand:              40
+
+Check out "slot-numbers.png" for a screenshot with all slot numbers.

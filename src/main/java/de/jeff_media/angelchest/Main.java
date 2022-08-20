@@ -18,10 +18,7 @@ import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIListener;
 import de.jeff_media.angelchest.gui.GUIManager;
-import de.jeff_media.angelchest.handlers.ChunkManager;
-import de.jeff_media.angelchest.handlers.DeathMapManager;
-import de.jeff_media.angelchest.handlers.ItemManager;
-import de.jeff_media.angelchest.handlers.PvpTracker;
+import de.jeff_media.angelchest.handlers.*;
 import de.jeff_media.angelchest.hooks.*;
 import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
@@ -129,6 +126,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     public Watchdog watchdog;
     public YamlConfiguration customDeathCauses;
     public IExecutableItemsHook executableItemsHook;
+    @Getter @Setter private IgnoredSlotsHandler ignoredSlotsHandler;
     @Getter @Setter private boolean itemsAdderLoaded = false;
     boolean emergencyMode = false;
     @SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
@@ -298,19 +296,22 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         return result;
     }
 
-    public @Nullable Pair<String,Boolean> isItemBlacklisted(final ItemStack item) {
+    public @Nullable Pair<String,Boolean> isItemBlacklisted(final ItemStack item, int slot) {
         if (!Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add feature here, gets called for every item on death
             return null;
         }
+        Pair<String,Boolean> firstFound = null;
         for (final BlacklistEntry entry : itemBlacklist.values()) {
-            final BlacklistResult result = entry.matches(item);
+            final BlacklistResult result = entry.matches(item, slot);
             if (result == BlacklistResult.MATCH_IGNORE) {
-                return new Pair<>(result.getName(), false);
+                if(firstFound == null) {
+                    firstFound = new Pair<>(result.getName(), false);
+                }
             } else if (result == BlacklistResult.MATCH_DELETE) {
                 return new Pair<>(result.getName(), true);
             }
         }
-        return null;
+        return firstFound;
     }
 
     public boolean isOutsideOfNormalWorld(final Block block) {
@@ -401,6 +402,12 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     @Override
     public void onEnable() {
+
+        if(!getDataFolder().exists()) {
+            if(!getDataFolder().mkdirs()) {
+                throw new RuntimeException("Could not create data folder");
+            }
+        }
 
         pvpTrackerDropHeads  = new PvpTracker(this, () -> getConfig().getDouble("only-drop-heads-in-pvp-cooldown"));
 

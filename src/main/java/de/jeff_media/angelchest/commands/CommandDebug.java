@@ -128,7 +128,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 Messages.send(commandSender, " ");
             }
             Messages.send(commandSender, "§e===[§6Blacklist Status§e]===");
-            final Pair<String,Boolean> blacklisted = main.isItemBlacklisted(item);
+            final Pair<String,Boolean> blacklisted = main.isItemBlacklisted(item,player.getInventory().getHeldItemSlot());
             Messages.send(commandSender, blacklisted == null ? "Not blacklisted" : "Blacklisted as \"" + blacklisted.getFirst() + "\"");
             if(blacklisted != null && blacklisted.getSecond()) Messages.send(commandSender, "Delete: " + blacklisted.getSecond());
         } else if (args.length > 0 && args[0].equalsIgnoreCase("test")) {
@@ -159,7 +159,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 return;
             }
 
-            final BlacklistResult result = blacklistEntry.matches(item);
+            final BlacklistResult result = blacklistEntry.matches(item, player.getInventory().getHeldItemSlot());
 
             if (result == BlacklistResult.MATCH_IGNORE) {
                 Messages.send(commandSender, "§aThis item matches the blacklist definition \"" + result.getName() + "\"");

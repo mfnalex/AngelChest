@@ -1,12 +1,14 @@
 package de.jeff_media.angelchest.config;
 
 import com.google.common.base.Enums;
+import com.jeff_media.jefflib.FileUtils;
 import de.jeff_media.angelchest.EmergencyMode;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.data.BlacklistEntry;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
+import de.jeff_media.angelchest.handlers.IgnoredSlotsHandler;
 import de.jeff_media.angelchest.handlers.ItemManager;
 import de.jeff_media.angelchest.hooks.GenericHooks;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
@@ -50,6 +52,9 @@ public final class ConfigUtils {
         main.saveResource("groups.example.yml", true);
         main.saveResource("blacklist.example.yml", true);
         main.saveResource("graveyards.example.yml", true);
+
+        FileUtils.saveResourceIfNotExists("slot-numbers.png");
+        FileUtils.saveResourceIfNotExists("slot-numbers.txt");
 
         if(!DEATH_CAUSE_FILE.exists()) {
             main.saveResource("death-causes.yml", false);
@@ -547,6 +552,7 @@ sound-channel: BLOCKS
         main.guiManager = new GUIManager();
         main.itemBlacklist = loadItemBlacklist();
         main.nbtUtils = new NBTUtils();
+        main.setIgnoredSlotsHandler(new IgnoredSlotsHandler(com.jeff_media.jefflib.ConfigUtils.getConfig("ignored-slots.yml")));
         loadWorldHeights();
 
 

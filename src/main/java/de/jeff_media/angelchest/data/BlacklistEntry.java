@@ -26,12 +26,14 @@ public final class BlacklistEntry {
     boolean wildcardEnd = false;
     boolean wildcardFront = false;
     boolean delete = false;
+    final int slot;
 
     public BlacklistEntry(final String name, final FileConfiguration config) {
         this.name = name;
         final Main main = Main.getInstance();
         if (main.debug) main.debug("Reading Blacklist entry \"" + this.name + "\"");
         String materialName = config.getString(name + ".material", "any");
+        slot = config.getInt(name + ".slot",-1);
         assert materialName != null;
         if (materialName.equalsIgnoreCase("any")) {
             materialName = null;
@@ -86,9 +88,19 @@ public final class BlacklistEntry {
         return result.toString();
     }
 
-    public BlacklistResult matches(final ItemStack item) {
+    public BlacklistResult matches(final ItemStack item, int slot) {
         final Main main = Main.getInstance();
         if (item == null) return null;
+        if(this.slot != -1) {
+            //System.out.println("Slot: " + this.slot + " - " + slot);
+            int blacklisted = this.slot;
+            //System.out.println("Blacklisted: " + blacklisted + " - " + slot);
+
+            if(blacklisted != slot) {
+                return BlacklistResult.NO_MATCH_SLOT;
+            }
+        }  //System.out.println("Slot is -1");
+
         if (material != null) {
             if (!materialMatches(item.getType())) {
                 main.verbose("Blacklist: no, other material");

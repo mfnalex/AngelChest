@@ -42,9 +42,9 @@
     <property name="default-package" value="de.jeff_media.angelchest"/>
     <property name="force-default-package" value="enable"/>
 
-    <property name="classes-naming-prefix" value="AngelChest$"/>
-    <property name="methods-naming-prefix" value="_"/>
-    <property name="fields-naming-prefix" value="_"/>
+    <property name="classes-naming-prefix" value="Main$"/>
+    <property name="methods-naming-prefix" value="$"/>
+    <property name="fields-naming-prefix" value="$"/>
 
     <property name="classes-naming" value="compact"/>
     <property name="packages-naming" value="abc"/>

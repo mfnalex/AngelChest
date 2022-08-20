@@ -904,7 +904,21 @@ public final class PlayerListener implements Listener {
         clearInventory(player.getInventory());
 
         // Clear the drops except blacklisted items
-        event.getDrops().removeIf(drop -> !ac.blacklistedItems.contains(drop));
+        // DEBUG
+        // TODO
+        // Fix duplication of items blacklisted by slot
+        // Original code: event.getDrops().removeIf(drop -> !ac.blacklistedItems.contains(drop));
+        // Working solution start
+        event.getDrops().removeIf(drop -> {
+            boolean remove = !ac.blacklistedItems.contains(drop);
+            if(!remove) {
+                ac.blacklistedItems.remove(drop);
+            }
+            return remove;
+        });
+        // Working solution end
+        //event.getDrops().removeIf(ac.blacklistedItems::remove);
+        //event.getDrops().removeIf(drop -> !EqualUtils.contains(ac.blacklistedItems, drop));
 
         // send message after one twentieth second
         String playerDeathMessage = main.messages.MSG_ANGELCHEST_CREATED;
@@ -1029,7 +1043,7 @@ public final class PlayerListener implements Listener {
             if (main.genericHooks.keepOnDeath(inv.getItem(i))) {
                 continue;
             }
-            if (main.isItemBlacklisted(inv.getItem(i)) != null) {
+            if (main.isItemBlacklisted(inv.getItem(i), i) != null) {
                 continue;
             }
             inv.setItem(i, null);

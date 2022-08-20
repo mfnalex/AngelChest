@@ -36,6 +36,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Represents an AngelChest including its content and all other relevant information
@@ -271,7 +272,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.secondsLeft = main.groupUtils.getDurationPerPlayer(main.getServer().getPlayer(owner));
         this.unlockIn = main.groupUtils.getUnlockDurationPerPlayer(main.getServer().getPlayer(owner));
         this.deathCause = deathCause;
-        this.blacklistedItems = new ArrayList<>();
+        this.blacklistedItems = new CopyOnWriteArrayList<>();
         this.created = System.currentTimeMillis();
         this.graveyard = GraveyardManager.fromBlock(block);
 
@@ -299,7 +300,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             if (Utils.isEmpty(playerInventory.getItem(i))) {
                 continue;
             }
-            final Pair<String,Boolean> isBlacklisted = main.isItemBlacklisted(playerInventory.getItem(i));
+            final Pair<String,Boolean> isBlacklisted = main.isItemBlacklisted(playerInventory.getItem(i), i);
             if (isBlacklisted != null) {
                 if (main.debug)
                     main.debug("Slot " + i + ": [BLACKLISTED: \"" + isBlacklisted.getFirst() + "\"] " + playerInventory.getItem(i) + "\n");
@@ -455,8 +456,8 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         try {
             destroyChest(block);
         } catch (Throwable debug) {
-            if (main.debug) {
-                main.debug("Error while destroying AngelChest");
+            if (main.verbose) {
+                main.verbose("Error while destroying AngelChest");
                 debug.printStackTrace();
             }
         }
@@ -464,8 +465,8 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         try {
             hologram.destroy();
         } catch (Throwable debug) {
-            if (main.debug) {
-                main.debug("Error while destroying hologram");
+            if (main.verbose) {
+                main.verbose("Error while destroying hologram");
                 debug.printStackTrace();
             }
         }
@@ -473,8 +474,8 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         try {
             main.angelChests.remove(this);
         } catch (Throwable debug) {
-            if (main.debug) {
-                main.debug("Error while removing AngelChest from list");
+            if (main.verbose) {
+                main.verbose("Error while removing AngelChest from list");
                 debug.printStackTrace();
             }
         }
