@@ -24,7 +24,7 @@ public final class HologramListener implements Listener {
     @SuppressWarnings("unused")
     @EventHandler
     public void manipulate(final PlayerArmorStandManipulateEvent event) {
-        if (event.getRightClicked().isVisible()) return;
+        //if (event.getRightClicked().isVisible()) return;
         if (!main.isAngelChestHologram(event.getRightClicked())) return;
         event.setCancelled(true);
     }

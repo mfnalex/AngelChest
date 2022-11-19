@@ -1,12 +1,12 @@
 package de.jeff_media.angelchest.hooks;
 
+import com.jeff_media.jefflib.PDCUtils;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.utils.AngelChestUtils;
 import de.jeff_media.angelchest.utils.CommandUtils;
-import com.jeff_media.jefflib.PDCUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.persistence.PersistentDataType;
@@ -51,7 +51,7 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
      * <br>We specify the value identifier in this method.
      * <br>Since version 2.9.1 can you use OfflinePlayers in your requests.
      *
-     * @param player     A {@link org.bukkit.OfflinePlayer OfflinePlayer}.
+     * @param player     A {@link OfflinePlayer OfflinePlayer}.
      * @param identifier A String containing the identifier/value.
      * @return Possibly-null String of the requested identifier.
      */

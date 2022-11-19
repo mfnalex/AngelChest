@@ -521,6 +521,11 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         getServer().getPluginManager().registerEvents(new InvulnerabilityListener(), this);
         getServer().getPluginManager().registerEvents(new EnderCrystalListener(), this);
         getServer().getPluginManager().registerEvents(new CraftingListener(), this);
+        Tasks.nextTick(() -> {
+            if(Bukkit.getPluginManager().isPluginEnabled("ChestSort")) {
+                getServer().getPluginManager().registerEvents(new ChestSortListener(), this);
+            }
+        });
         //getServer().getPluginManager().registerEvents(new NPCListener(), this);
         guiListener = new GUIListener();
         getServer().getPluginManager().registerEvents(guiListener, this);

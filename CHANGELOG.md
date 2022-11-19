@@ -8,6 +8,8 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+
+
 ## 9.7.0
 - Added "slot" option for blacklist.yml
 - Changed weight of "force-delete" option in blacklist.yml.

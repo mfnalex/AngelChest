@@ -1,5 +1,6 @@
 package de.jeff_media.angelchest.config;
 
+import com.jeff_media.jefflib.McVersion;
 import org.apache.commons.io.FileUtils;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
@@ -26,6 +27,18 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public final class ConfigDumper {
+
+    /**
+     * in 1.16, getName() is declared in World.
+     * in 1.17, getName() is declared in WorldInfo.
+     * Even when using World::getName(), it still actually refers to WorldInfo::getName(), so it wouldnt work on 1.16
+     * That's why we have this useless comparator that checks whether o1 is null - because without this check, IntelliJ
+     * would convert this to Comparator.comparing(World::getName)
+     */
+    private static final Comparator<? super World> worldByNameComparator = (o1, o2) -> {
+        if(o1 == null) return -1; // not needed - but without this, IntelliJ wants to convert this to Comparator.comparing(World::getName)
+        return o1.getName().compareTo(o2.getName());
+    };
 
     private static String banner(final String header) {
         return StringUtils.center(" " + header + " ", 60, "=");
@@ -111,7 +124,7 @@ public final class ConfigDumper {
         // Gamerules
         Messages.send(sender, "Saving relevant gamerules...");
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Gamerules"));
-        for (final World world : Bukkit.getWorlds().stream().sorted(Comparator.comparing(World::getName)).collect(Collectors.toList())) {
+        for (final World world : Bukkit.getWorlds().stream().sorted(worldByNameComparator).collect(Collectors.toList())) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, world.getName() + "[" + world.getUID() + "]");
             @SuppressWarnings("rawtypes") final GameRule[] rules = new GameRule[]{GameRule.DO_ENTITY_DROPS, GameRule.KEEP_INVENTORY};
             //noinspection rawtypes
@@ -228,9 +241,13 @@ public final class ConfigDumper {
         }
 
 
-        Messages.send(sender, "Compressing all files into zip archive...");
-        ZipUtil.unexplode(dumpDir);
-        Messages.send(sender, "Cleaning up...");
+        if(McVersion.current().isAtLeast(1,16,5)) {
+            Messages.send(sender, "Compressing all files into zip archive...");
+            ZipUtil.unexplode(dumpDir);
+            Messages.send(sender, "Cleaning up...");
+        } else {
+            Messages.send(sender, "§4Warning: §cYou are using an outdated version of Bukkit. §cZipping the dump file is only available in 1.16.5 or newer. You have to manually zip the dump folder inside your AngelChest directory.");
+        }
         Messages.send(sender, "Done!");
     }
 

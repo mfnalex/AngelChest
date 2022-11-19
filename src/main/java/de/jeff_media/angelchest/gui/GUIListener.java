@@ -18,7 +18,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.*;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
@@ -97,15 +99,6 @@ public final class GUIListener implements Listener {
         return false;
     }
 
-    /*
-    @SuppressWarnings("unused")
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onChestSortEvent(final ChestSortEvent event) {
-        if (event.getInventory() != null && event.getInventory().getHolder() != null && event.getInventory().getHolder() instanceof GUIHolder) {
-            if (main.debug) main.debug("Prevented ChestSort from sorting AngelChest GUI");
-            event.setCancelled(true);
-        }
-    }*/
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
