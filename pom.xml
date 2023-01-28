@@ -75,7 +75,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.0-SNAPSHOT</version>
+                <version>3.4.1</version>
                 <configuration>
                     <relocations>
                         <relocation>
@@ -258,7 +258,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.18-rc3-R0.1-SNAPSHOT</version>
+            <version>1.19.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -285,7 +285,7 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>de.jeff_media</groupId>
+            <groupId>com.jeff_media</groupId>
             <artifactId>CustomBlocks</artifactId>
             <version>1.2-SNAPSHOT</version>
             <scope>compile</scope>
@@ -421,9 +421,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.TheBusyBiscuit</groupId>
+            <groupId>com.github.slimefun</groupId>
             <artifactId>Slimefun4</artifactId>
-            <version>RC-15</version>
+            <version>RC-33</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -459,9 +459,9 @@
 <!--        </dependency>-->
 
         <dependency>
-            <groupId>com.github.Ssomar-Developement</groupId>
+            <groupId>com.ssomar</groupId>
             <artifactId>SCore</artifactId>
-            <version>main-79660dbc87-1</version>
+            <version>42.42.42</version>
             <scope>provided</scope>
         </dependency>
 
