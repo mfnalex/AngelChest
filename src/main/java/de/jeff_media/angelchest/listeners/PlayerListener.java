@@ -944,7 +944,7 @@ public final class PlayerListener implements Listener {
                 }
             }
             AngelChest toExplode = chests.get(0);
-                    toExplode.destroy(true, false);
+                    toExplode.destroy(true, false, main.getConfig().getString(Config.DROP_BEHAVIOUR_MAX_ANGELCHESTS, "drop").equalsIgnoreCase("delete"));
                     if(main.getConfig().getString(Config.DROP_BEHAVIOUR_MAX_ANGELCHESTS, "drop").equalsIgnoreCase("drop")) {
                         toExplode.dropContents();
                     }

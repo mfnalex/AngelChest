@@ -423,12 +423,15 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         hologram = new Hologram(block, hologramText, this);
     }
 
+    public void destroy(boolean refund, boolean expired) {
+        destroy(refund, expired, false);
+    }
     /**
      * Removes the Block from the world. Attempts to load the chunk first.
      *
      * @param refund Whether the owner should get the price back they paid to have the chest spawned.
      */
-    public void destroy(final boolean refund, final boolean expired) {
+    public void destroy(final boolean refund, final boolean expired, boolean preventDrops) {
         if (main.debug) main.debug("Destroying AngelChest");
 
         // Fix players looting already removed chests
@@ -498,7 +501,8 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         // drop contents
         main.debug("Drop Contents: " + main.getConfig().getBoolean(Config.DROP_CONTENTS));
         main.debug("Expired: " + expired);
-        if(main.getConfig().getBoolean(Config.DROP_CONTENTS) || !expired) {
+        main.debug("Prevent drops: " + preventDrops);
+        if((main.getConfig().getBoolean(Config.DROP_CONTENTS) || !expired) && !preventDrops) {
             main.debug("That means, dropping contents now");
             dropContents();
         }

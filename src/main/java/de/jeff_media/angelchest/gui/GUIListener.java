@@ -60,27 +60,6 @@ public final class GUIListener implements Listener {
         event.setCancelled(true);
     }
 
-    /*
-    @SuppressWarnings("unused")
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void cancel(final InventoryMoveItemEvent event) {
-        if (event.getSource() != null) {
-            if (event.getSource().getHolder() instanceof GUIHolder) {
-                if (main.debug) main.debug("[GUIListener] " + "cancel(InventoryMoveItemEvent): cancelled -> true (1)");
-                event.setCancelled(true);
-            }
-        }
-        if (event.getDestination() != null) {
-            if (event.getDestination().getHolder() instanceof GUIHolder) {
-                if (main.debug) main.debug("[GUIListener] " + "cancel(InventoryMoveItemEvent): cancelled -> true (2)");
-                event.setCancelled(true);
-            }
-        }
-        //if(main.debug) main.debug("[GUIListener] "+"cancel(InventoryMoveItemEvent): cancelled -> true (3)");
-        //event.setCancelled(true);
-    }
-    */
-
 
     @SuppressWarnings("unused")
     private void confirmOrTeleport(final InventoryClickEvent event, final Player player, final GUIHolder holder, final CommandAction action) {
