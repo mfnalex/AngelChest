@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
@@ -250,6 +251,29 @@ public final class GUIListener implements Listener {
             main.debug("Return: getClicked Inv is null");
             return;
         }
+
+        // Dupe fix by collecting to cursor start
+        if(event.getView().getTopInventory().getHolder() instanceof GUIHolder) {
+//            if(event.getClickedInventory() == event.getView().getBottomInventory()) {
+//                main.debug("Cancel: Clicked bottom inventory");
+//                event.setCancelled(true);
+//                return;
+//            }
+//
+//            if(event.getClickedInventory().equals(event.getView().getBottomInventory())) {
+//                main.debug("Cancel: Clicked bottom inventory equals");
+//                event.setCancelled(true);
+//                return;
+//            }
+
+            if(event.getAction() == InventoryAction.COLLECT_TO_CURSOR) {
+                main.debug("Cancel: Clicked collect to cursor");
+                event.setCancelled(true);
+                return;
+            }
+        }
+        // Dupe fix end
+
         if (!(event.getClickedInventory().getHolder() instanceof GUIHolder)) {
             main.debug("Return: clicked inventory is no GUIHolder");
             return;
@@ -292,6 +316,8 @@ public final class GUIListener implements Listener {
                 }
             }
         }
+
+
 
         if (GUIUtils.isLootableInPreview(event.getSlot())) {
 

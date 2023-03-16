@@ -7,7 +7,6 @@ import de.jeff_media.angelchest.data.CommandArgument;
 import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.utils.AngelChestUtils;
 import de.jeff_media.angelchest.utils.CommandUtils;
-import de.jeff_media.daddy.Chicken;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,7 +28,7 @@ public final class CommandList implements CommandExecutor {
 
         if (!command.getName().equalsIgnoreCase("aclist")) return false;
 
-        if (!requester.hasPermission(Permissions.USE)) {
+        if (!requester.hasPermission(Permissions.USE) || !requester.hasPermission(Permissions.LIST)) {
             Messages.send(requester, main.messages.MSG_NO_PERMISSION);
             return true;
         }

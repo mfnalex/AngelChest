@@ -3,7 +3,7 @@ package de.jeff_media.angelchest;
 import co.aikar.commands.*;
 import com.allatori.annotations.DoNotRename;
 import com.jeff_media.jefflib.JeffLib;
-import com.jeff_media.jefflib.McVersion;
+import com.jeff_media.jefflib.data.McVersion;
 import com.jeff_media.jefflib.Tasks;
 import com.jeff_media.jefflib.Ticks;
 import com.jeff_media.jefflib.data.tuples.Pair;

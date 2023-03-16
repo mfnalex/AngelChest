@@ -47,6 +47,12 @@ permissions:
   angelchest.unlock:
     description: "Players with this permission can unlock their protected AngelChests using /acunlock"
     default: true
+  angelchest.list:
+    description: "Players with this permission can list their AngelChests using /aclist"
+    default: true
+  angelchest.gui:
+    description: "Players with this permission can open the AngelChest GUI using /acgui"
+    default: true
   angelchest.tp:
     description: "Allows players to teleport to their AngelChests"
   angelchest.preview:

@@ -8,7 +8,7 @@
     <property name="extensive-flow-obfuscation" value="maximum"/>
 
     <input>
-        <jar in="AngelChest-${project.version}.jar" out="AngelChest-${project.version}.jar"/>
+        <jar in="AngelChest-${project.version}.jar" out="AngelChest-${project.version}-obf.jar"/>
     </input>
 
     <classpath basedir="C:\Users\mfnal\.m2\repository">
@@ -37,7 +37,7 @@
     <property name="log-file" value="log.xml"/>
 
     <property name="generics" value="remove"/>
-    <property name="line-numbers" value="obfuscate"/> <!-- For Debugging: keep -->
+    <property name="line-numbers" value="keep"/> <!-- For Debugging: keep -->
     <property name="inner-classes" value="remove"/>
     <property name="default-package" value="de.jeff_media.angelchest"/>
     <property name="force-default-package" value="enable"/>

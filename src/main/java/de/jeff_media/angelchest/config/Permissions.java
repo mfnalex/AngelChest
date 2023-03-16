@@ -19,4 +19,6 @@ public final class Permissions {
     public static final String USE = "angelchest.use";
     public static final String VERSION = "angelchest.version";
     public static final String ADMIN = "angelchest.admin";
+    public static final String LIST = "angelchest.list";
+    public static final String GUI = "angelchest.gui";
 }

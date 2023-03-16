@@ -73,6 +73,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public boolean isLooted = false;
     public UUID uniqueId;
     private CustomBlock customBlock;
+    private BlockData originalBlockData;
     //public UUID uuid = UUID.randomUUID();
 
     /**
@@ -116,6 +117,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.logfile = yaml.getString("logfile", null);
         this.created = yaml.getLong("created", 0);
         this.experience = yaml.getInt("experience",0);
+        this.originalBlockData = Bukkit.createBlockData(yaml.getString("blockdata", "minecraft:air"));
         if(yaml.isString("uniqueId")) {
             this.uniqueId = UUID.fromString(yaml.getString("uniqueId"));
         }
@@ -275,6 +277,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.blacklistedItems = new CopyOnWriteArrayList<>();
         this.created = System.currentTimeMillis();
         this.graveyard = GraveyardManager.fromBlock(block);
+        this.originalBlockData = block.getBlockData();
 
         if (player.getKiller() == null) {
             if (deathCause.isEnderCrystalDeath() && EnderCrystalListener.lastEnderCrystalKiller != null && !EnderCrystalListener.lastEnderCrystalKiller.equals(owner)) {
@@ -549,7 +552,6 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         //BlockData originalBlockData = block.getBlockData();
         if(customBlock != null) {
             //System.out.println("Custom Block is != null, calling CustomBlock.remove: " + customBlock);
-            BlockData originalBlockData = customBlock.getOriginalBlockData();
             if(originalBlockData != null) {
                 block.setBlockData(originalBlockData);
             } else {

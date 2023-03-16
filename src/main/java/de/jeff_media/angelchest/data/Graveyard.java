@@ -141,9 +141,12 @@ public class Graveyard {
 
         Location spawn = null;
         if(config.isSet("spawn") && config.isConfigurationSection("spawn")) {
+            if(!config.isSet("spawn.world")) {
+                config.set("spawn.world",config.getString("location.world"));
+            }
             try {
                 spawn = LocationUtils.getLocationFromSection(config.getConfigurationSection("spawn"), world);
-            } catch (InvalidLocationDefinitionException exception) {
+            } catch (NullPointerException | InvalidLocationDefinitionException exception) {
                 main.getLogger().warning("Invalid spawn location defined for graveyard " + name + ", ignoring spawn location");
                 exception.printStackTrace();
                 spawn = null;

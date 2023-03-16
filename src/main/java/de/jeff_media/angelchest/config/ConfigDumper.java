@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.config;
 
-import com.jeff_media.jefflib.McVersion;
+import com.jeff_media.jefflib.data.McVersion;
 import org.apache.commons.io.FileUtils;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.enums.PremiumFeatures;

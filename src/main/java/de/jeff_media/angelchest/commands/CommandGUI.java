@@ -32,7 +32,7 @@ public final class CommandGUI implements CommandExecutor {
             return true;
         }
 
-        if (!sender.hasPermission(Permissions.USE)) {
+        if (!sender.hasPermission(Permissions.USE) || !sender.hasPermission(Permissions.GUI)) {
             Messages.send(sender, main.messages.MSG_NO_PERMISSION);
             return true;
         }
