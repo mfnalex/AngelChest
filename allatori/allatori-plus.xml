@@ -8,7 +8,7 @@
     <property name="extensive-flow-obfuscation" value="maximum"/>
 
     <input>
-        <jar in="AngelChest-${project.version}.jar" out="AngelChest-${project.version}-obf.jar"/>
+        <jar in="AngelChest-${project.version}.jar" out="AngelChest-${project.version}.jar"/>
     </input>
 
     <classpath basedir="C:\Users\mfnal\.m2\repository">
