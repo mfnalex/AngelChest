@@ -269,60 +269,62 @@ public class Graveyard {
     }
 
     private void populateBlocksInsideAsync() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                main.getLogger().info("Scanning graveyard " + name + " asynchronously for possible grave locations...");
-                TimeUtils.startTimings("Find grave locations for graveyard " + name);
-                for (int x = boundingBox.getMinBlock().getX(); x <= boundingBox.getMaxBlock().getX() + 16; x += 16) {
-                    for (int z = boundingBox.getMinBlock().getZ(); z <= boundingBox.getMaxBlock().getZ() + 16; z += 16) {
-                        LocationUtils.ChunkCoordinates chunkCoordinates = LocationUtils.getChunkCoordinates(x, z);
-                        Future<Chunk> future = PaperLib.getChunkAtAsync(getWorldBoundingBox().getWorld(), chunkCoordinates.getX(), chunkCoordinates.getZ());
-                        while (!future.isDone() && !future.isCancelled()) {
-                            try {
-                                if(isCancelled()) return;
-                                Thread.sleep(1);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                                future.cancel(false);
-                                return;
+        if(Main.SCHEDULE_TASKS) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    main.getLogger().info("Scanning graveyard " + name + " asynchronously for possible grave locations...");
+                    TimeUtils.startTimings("Find grave locations for graveyard " + name);
+                    for (int x = boundingBox.getMinBlock().getX(); x <= boundingBox.getMaxBlock().getX() + 16; x += 16) {
+                        for (int z = boundingBox.getMinBlock().getZ(); z <= boundingBox.getMaxBlock().getZ() + 16; z += 16) {
+                            LocationUtils.ChunkCoordinates chunkCoordinates = LocationUtils.getChunkCoordinates(x, z);
+                            Future<Chunk> future = PaperLib.getChunkAtAsync(getWorldBoundingBox().getWorld(), chunkCoordinates.getX(), chunkCoordinates.getZ());
+                            while (!future.isDone() && !future.isCancelled()) {
+                                try {
+                                    if (isCancelled()) return;
+                                    Thread.sleep(1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                    future.cancel(false);
+                                    return;
+                                }
                             }
-                        }
-                        Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
-                            try {
-                                Chunk chunk = future.get();
-                                for (int bx = 0; bx < 16; bx++) {
-                                    for (int by = (int) boundingBox.getBoundingBox().getMinY(); by < boundingBox.getBoundingBox().getMaxY(); by++) {
-                                        for (int bz = 0; bz < 16; bz++) {
-                                            //Location location = new Location(chunk.getWorld(), bx, by, bz);
-                                            Block block = chunk.getBlock(bx,by,bz);
-                                            if (boundingBox.contains(block)) {
-                                                if (isValidSpawnOn(block)) {
+                            Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                                try {
+                                    Chunk chunk = future.get();
+                                    for (int bx = 0; bx < 16; bx++) {
+                                        for (int by = (int) boundingBox.getBoundingBox().getMinY(); by < boundingBox.getBoundingBox().getMaxY(); by++) {
+                                            for (int bz = 0; bz < 16; bz++) {
+                                                //Location location = new Location(chunk.getWorld(), bx, by, bz);
+                                                Block block = chunk.getBlock(bx, by, bz);
+                                                if (boundingBox.contains(block)) {
+                                                    if (isValidSpawnOn(block)) {
                                                     /*if(Main.getInstance().debug) {
                                                         System.out.println("Found valid grave: " + block);
                                                     }*/
-                                                    cachedValidGraveLocations.add(block);
-                                                    ChunkManager.keepLoaded(block);
+                                                        cachedValidGraveLocations.add(block);
+                                                        ChunkManager.keepLoaded(block);
+                                                    }
                                                 }
                                             }
                                         }
                                     }
+                                } catch (InterruptedException | ExecutionException e) {
+                                    e.printStackTrace();
                                 }
-                            } catch (InterruptedException | ExecutionException e) {
-                                e.printStackTrace();
-                            }
-                        });
+                            });
+                        }
+                    }
+                    Bukkit.getScheduler().runTask(Main.getInstance(), () -> Collections.shuffle(cachedValidGraveLocations));
+                    try {
+                        long duration = TimeUtils.endTimings("Find grave locations for graveyard " + name, main, false);
+                        Bukkit.getScheduler().runTaskLater(main, () -> main.getLogger().info("Found " + cachedValidGraveLocations.size() + " possible grave locations in graveyard " + name + " (Duration: " + TimeUtils.formatNanoseconds(duration) + ")"), 1L);
+                    } catch (Exception ignored) {
+
                     }
                 }
-                Bukkit.getScheduler().runTask(Main.getInstance(), () -> Collections.shuffle(cachedValidGraveLocations));
-                try {
-                    long duration = TimeUtils.endTimings("Find grave locations for graveyard " + name, main, false);
-                    Bukkit.getScheduler().runTaskLater(main, () -> main.getLogger().info("Found " + cachedValidGraveLocations.size() + " possible grave locations in graveyard " + name + " (Duration: " + TimeUtils.formatNanoseconds(duration)+")"), 1L);
-                } catch (Exception ignored) {
-
-                }
-            }
-        }.runTaskAsynchronously(Main.getInstance());
+            }.runTaskAsynchronously(Main.getInstance());
+        }
     }
 
     public boolean hasCustomMaterial() {

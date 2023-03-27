@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.commands;
 
-import com.jeff_media.jefflib.AnimationUtils;
+import com.jeff_media.jefflib.EntityUtils;
 import com.jeff_media.jefflib.JeffLib;
 import com.jeff_media.jefflib.ParticleUtils;
 import com.jeff_media.jefflib.data.tuples.Pair;
@@ -494,7 +494,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 return;
             }
         }
-        AnimationUtils.playTotemAnimation((Player) commandSender, modelData);
+        EntityUtils.playTotemAnimation((Player) commandSender, modelData);
         return;
     }
 

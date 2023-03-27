@@ -59,6 +59,8 @@ import java.util.stream.Collectors;
  */
 public final class Main extends JavaPlugin implements AngelChestPlugin {
 
+    public static boolean SCHEDULE_TASKS = true;
+
     {
         JeffLib.init(this);
     }
@@ -394,10 +396,32 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }
 
     public void onDisable() {
+
+        getLogger().info("Disabling AngelChest...");
+        getLogger().info("Tasks:");
+        showTasks();
+
         if (emergencyMode) return;
 
         saveAllAngelChestsToFile(true);
         ChunkManager.reset();
+
+        Stepsister.terminate();
+        getLogger().info("Tasks:");
+        showTasks();
+
+//        Bukkit.getScheduler().getActiveWorkers().stream().filter(worker -> worker.getOwner() == this).forEach(worker -> {
+//            worker.getThread().interrupt();
+//        });
+    }
+
+    private void showTasks() {
+        getServer().getScheduler().getActiveWorkers().stream().filter(worker -> worker.getOwner() == this).forEach(worker -> {
+            System.out.println("Worker " + worker);
+        });
+        getServer().getScheduler().getPendingTasks().stream().filter(task -> task.getOwner() == this).forEach(task -> {
+            System.out.println("Task " + task);
+        });
     }
 
     @Override
@@ -415,9 +439,9 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         //npcManager = new NPCManager();
 
         /*Daddy start*/
-        Stepsister.init(this); // TODO TODO TODO
+        Stepsister.init(this, SCHEDULE_TASKS); // TODO TODO TODO
         if(Stepsister.allows(PremiumFeatures.GENERIC)) {
-            Stepsister.createVerificationFile();
+            Stepsister.createVerificationFile(SCHEDULE_TASKS);
             isPremiumVersion = true;
         } else {
             isPremiumVersion = false;
@@ -601,7 +625,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
                 getLogger().severe("Could not register command: " + command.stream().collect(Collectors.joining(", ")) + " - are those all valid command names?");
             }
         }
-        Chicken.wing(this);
+        //Chicken.wing(this, SCHEDULE_TASKS);
     }
 
     public void saveAllAngelChestsToFile(final boolean removeChests) {
@@ -637,7 +661,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::removeDeadHolograms, Ticks.fromMinutes(1), Ticks.fromMinutes(1));
 
         // Clear Cooldown entries
-        Tasks.repeatAsync(this::clearCooldowns,Ticks.fromMinutes(10), Ticks.fromMinutes(10));
+        if(SCHEDULE_TASKS) Tasks.repeatAsync(this::clearCooldowns,Ticks.fromMinutes(10), Ticks.fromMinutes(10));
     }
 
     private void clearCooldowns() {

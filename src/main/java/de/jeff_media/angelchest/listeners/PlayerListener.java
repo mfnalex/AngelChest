@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.listeners;
 
-import com.jeff_media.jefflib.AnimationUtils;
+import com.jeff_media.jefflib.EntityUtils;
 import com.jeff_media.jefflib.NBTAPI;
 import com.jeff_media.jefflib.PDCUtils;
 import com.jeff_media.jefflib.PluginUtils;
@@ -1024,7 +1024,7 @@ public final class PlayerListener implements Listener {
         if (main.debug) main.debug(" ");
 
         if (Stepsister.allows(PremiumFeatures.PLAY_TOTEM_ANIMATION) && main.getConfig().getBoolean(Config.PLAY_TOTEM_ANIMATION)) {
-            AnimationUtils.playTotemAnimation(player, main.getConfig().getInt(Config.TOTEM_CUSTOM_MODEL_DATA));
+            EntityUtils.playTotemAnimation(player, main.getConfig().getInt(Config.TOTEM_CUSTOM_MODEL_DATA));
         }
 
         ac.createChest();

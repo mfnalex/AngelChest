@@ -21,7 +21,7 @@ public final class CommandGUI implements CommandExecutor {
 
     public CommandGUI() {
         this.main = Main.getInstance();
-        Chicken.wing(main);
+        //Chicken.wing(main, Main.SCHEDULE_TASKS);
     }
 
     @Override
