@@ -13,7 +13,7 @@ import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.listeners.InvulnerabilityListener;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
-import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.daddy.Daddy_Stepsister;
 import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -148,7 +148,7 @@ public final class CommandUtils {
 
         // Add invulnerability
         final int seconds = main.groupUtils.getInvulnerabilityTimePerPlayer(player);
-        if (seconds > 0 && Stepsister.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
+        if (seconds > 0 && Daddy_Stepsister.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
 
             if (main.debug)
                 main.debug("Making player " + player.getName() + " invulnerable for " + main.getConfig().getDouble(Config.INVULNERABILITY_AFTER_TP) + " seconds");
@@ -183,7 +183,7 @@ public final class CommandUtils {
         } else if (seconds <= 0) {
             if (main.debug) main.debug("Invulnerability time is set to 0.");
         } else {
-            if (!Stepsister.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
+            if (!Daddy_Stepsister.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
                 Messages.sendPremiumOnlyConsoleMessage(Config.INVULNERABILITY_AFTER_TP);
             }
         }
@@ -283,7 +283,7 @@ public final class CommandUtils {
         }
 
         // TP Wait time
-        if(Stepsister.allows(PremiumFeatures.TP_WAIT_TIME)) {
+        if(Daddy_Stepsister.allows(PremiumFeatures.TP_WAIT_TIME)) {
             if (main.groupUtils.getTpWaitTime(sender) > 0 && action == CommandAction.TELEPORT_TO_CHEST) {
                 final int delay = (int) Ticks.fromSeconds(main.groupUtils.getTpWaitTime(sender));
                 AtomicInteger ticks = new AtomicInteger(delay);
@@ -428,7 +428,7 @@ public final class CommandUtils {
 
     public static boolean hasEnoughMoney(final CommandSender sender, final double money, @Nullable ItemStack item, final String messageWhenNotEnoughMoney, final String messageWhenNotEnoughItems, final String reason) {
 
-        if(item != null && !Stepsister.allows(PremiumFeatures.CUSTOM_ITEMS)) {
+        if(item != null && !Daddy_Stepsister.allows(PremiumFeatures.CUSTOM_ITEMS)) {
             Main.getInstance().getLogger().warning("Using custom items for payments is only available in AngelChest Plus.");
             return true;
         }

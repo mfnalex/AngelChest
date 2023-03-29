@@ -3,7 +3,7 @@ package de.jeff_media.angelchest.handlers;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.nbt.NBTTags;
-import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.daddy.Daddy_Stepsister;
 import com.jeff_media.jefflib.ItemStackUtils;
 import com.jeff_media.jefflib.PDCUtils;
 import com.jeff_media.jefflib.RecipeUtils;
@@ -38,7 +38,7 @@ public class ItemManager {
         //itemNames = new HashMap<>();
         autodiscoverRecipes = new HashSet<>();
 
-        if(!Stepsister.allows(PremiumFeatures.CUSTOM_ITEMS)) return;
+        if(!Daddy_Stepsister.allows(PremiumFeatures.CUSTOM_ITEMS)) return;
 
         Set<NamespacedKey> recipesToRemove = new HashSet<>();
         Iterator<Recipe> iterator = Bukkit.recipeIterator();

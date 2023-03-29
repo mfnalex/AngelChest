@@ -8,6 +8,10 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.10.0
+- Fixed async tasks
+- Added config option "detect-additional-drops"
+
 ## 9.9.0
 - Added 1.19.4 support
 - Added permissions "angelchest.list" and "angelchest.gui" to allow players to see the list of chests and open the GUI (both permissions are given to everyone by default)

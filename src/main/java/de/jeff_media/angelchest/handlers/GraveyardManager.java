@@ -3,7 +3,7 @@ package de.jeff_media.angelchest.handlers;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
-import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.daddy.Daddy_Stepsister;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -200,7 +200,7 @@ public class GraveyardManager {
         GRAVEYARDS = new ArrayList<>();
         GLOBAL_GRAVEYARD = null;
         File file = new File(main.getDataFolder(), "graveyards.yml");
-        if(!Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
+        if(!Daddy_Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
             main.getLogger().info("Not using premium version, disabling Graveyards feature");
             return;
         }

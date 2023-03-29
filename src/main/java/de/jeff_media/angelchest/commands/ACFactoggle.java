@@ -11,7 +11,7 @@ import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.nbt.NBTValues;
-import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.daddy.Daddy_Stepsister;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -58,7 +58,7 @@ public class ACFactoggle extends BaseCommand {
 
     private static void toggle(Player player, CommandSender sender, boolean enable) {
 
-        if (!Stepsister.allows(PremiumFeatures.ACTOGGLE)) {
+        if (!Daddy_Stepsister.allows(PremiumFeatures.ACTOGGLE)) {
             Messages.send(sender, main.messages.MSG_PREMIUMONLY);
             return;
         }

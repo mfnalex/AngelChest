@@ -4,8 +4,7 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
-import de.jeff_media.daddy.Chicken;
-import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.daddy.Daddy_Stepsister;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,7 +26,7 @@ public final class CommandGUI implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String alias, final String[] args) {
 
-        if (!Stepsister.allows(PremiumFeatures.GUI)) {
+        if (!Daddy_Stepsister.allows(PremiumFeatures.GUI)) {
             Messages.send(sender, main.messages.MSG_PREMIUMONLY);
             return true;
         }

@@ -5,7 +5,7 @@ import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
-import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.daddy.Daddy_Stepsister;
 import de.jeff_media.updatechecker.UpdateChecker;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -32,7 +32,7 @@ public final class CommandVersion implements CommandExecutor {
             return true;
         }
 
-        final String[] output = new String[]{"§6===[§bAngelChest Version§6]===", "§eAngelChest" + (Stepsister.allows(PremiumFeatures.GENERIC) ? "Plus " : " ") + Main.getInstance().getDescription().getVersion(),
+        final String[] output = new String[]{"§6===[§bAngelChest Version§6]===", "§eAngelChest" + (Daddy_Stepsister.allows(PremiumFeatures.GENERIC) ? "Plus " : " ") + Main.getInstance().getDescription().getVersion(),
                 //"§e" + Bukkit.getBukkitVersion(),
                 "§e" + Bukkit.getVersion(), "",};
 

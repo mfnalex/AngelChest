@@ -10,7 +10,7 @@ import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.events.AngelChestOpenEvent;
 import de.jeff_media.angelchest.utils.*;
-import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.daddy.Daddy_Stepsister;
 import com.jeff_media.jefflib.TextUtils;
 import com.jeff_media.jefflib.Ticks;
 import org.bukkit.Bukkit;
@@ -273,7 +273,7 @@ public final class GUIManager {
             inventory.setItem(GUI.SLOT_PREVIEW_XP, getButton(Material.EXPERIENCE_BOTTLE, "§6" + XPUtils.xpToString(angelChest.experience), null));
         }
 
-        if (Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add feature here
+        if (Daddy_Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add feature here
             if (!isPreview && firstOpened && !player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_OPENS_CHEST)) {
                 final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                 if (tmpPlayer != null) {

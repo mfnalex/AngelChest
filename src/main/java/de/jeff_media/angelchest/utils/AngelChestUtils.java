@@ -4,7 +4,7 @@ import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
-import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.daddy.Daddy_Stepsister;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -228,7 +228,7 @@ public class AngelChestUtils {
     public static boolean spawnChance(final double chance) {
         final Main main = Main.getInstance();
 
-        if (!Stepsister.allows(PremiumFeatures.SPAWN_CHANCE)) {
+        if (!Daddy_Stepsister.allows(PremiumFeatures.SPAWN_CHANCE)) {
             return true;
         }
 
@@ -258,7 +258,7 @@ public class AngelChestUtils {
 
         // Try to auto-equip armor
         for (int i = 0; i < armor_merged.length; i++) {
-            if (Utils.isEmpty(armor_merged[i]) && (!main.getConfig().getBoolean(Config.PROHIBIT_AUTO_EQUIP) || !Stepsister.allows(PremiumFeatures.PROHIBIT_FAST_EQUIP))) {
+            if (Utils.isEmpty(armor_merged[i]) && (!main.getConfig().getBoolean(Config.PROHIBIT_AUTO_EQUIP) || !Daddy_Stepsister.allows(PremiumFeatures.PROHIBIT_FAST_EQUIP))) {
                 armor_merged[i] = source.armorInv[i];
                 main.logger.logItemTaken(player, source.armorInv[i], file);
             } else if (!Utils.isEmpty(source.armorInv[i])) {

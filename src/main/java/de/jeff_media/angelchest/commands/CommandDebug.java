@@ -17,7 +17,7 @@ import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.utils.BlacklistUtils;
 import de.jeff_media.angelchest.utils.HologramFixer;
 import de.jeff_media.angelchest.utils.Utils;
-import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.daddy.Daddy_Stepsister;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -51,7 +51,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
 
     private void blacklist(final CommandSender commandSender, String[] args) {
 
-        if (!Stepsister.allows(PremiumFeatures.GENERIC)) {
+        if (!Daddy_Stepsister.allows(PremiumFeatures.GENERIC)) {
             Messages.send(commandSender, main.messages.MSG_PREMIUMONLY);
             return;
         }

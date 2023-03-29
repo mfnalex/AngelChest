@@ -1,6 +1,5 @@
 package de.jeff_media.angelchest;
 
-import de.jeff_media.daddy.Chicken;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.ArmorStand;

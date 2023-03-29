@@ -190,7 +190,7 @@ public final class ConfigUpdater {
 
             String updatedLine = defaultLine;
 
-            /*if (Stepsister.allows(Features.GENERIC)) {
+            /*if (Daddy_Stepsister.allows(Features.GENERIC)) {
                 if (updatedLine.startsWith("# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!")) {
                     updatedLine = null;
                 }

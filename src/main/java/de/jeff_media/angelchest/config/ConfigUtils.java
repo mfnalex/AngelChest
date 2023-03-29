@@ -16,7 +16,7 @@ import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.GroupUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
-import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.daddy.Daddy_Stepsister;
 import com.jeff_media.jefflib.DebugUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -46,7 +46,7 @@ public final class ConfigUtils {
 
         final FileConfiguration conf = main.getConfig();
 
-        metric("using_plus_version", String.valueOf(Stepsister.allows(PremiumFeatures.GENERIC)));
+        metric("using_plus_version", String.valueOf(Daddy_Stepsister.allows(PremiumFeatures.GENERIC)));
 
         main.saveDefaultConfig();
         main.saveResource("groups.example.yml", true);
@@ -98,6 +98,9 @@ public final class ConfigUtils {
 
         conf.addDefault(Config.MAX_ALLOWED_ANGELCHESTS, 5);
         metric(Config.MAX_ALLOWED_ANGELCHESTS);
+
+        conf.addDefault(Config.DETECT_ADDITIONAL_DROPS, true);
+        metric(Config.DETECT_ADDITIONAL_DROPS);
 
         conf.addDefault(Config.HOLOGRAM_OFFSET, 0.0);
         metric(Config.HOLOGRAM_OFFSET);

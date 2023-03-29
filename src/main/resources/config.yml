@@ -615,6 +615,10 @@ only-spawn-chests-if-player-may-build: false
 # generation. None of those plugins is required, and you do NOT have to
 # disable the integration if a certain plugin is not installed.
 
+# Some plugins add additional drops to the death of a player. AngelChest can detect
+# those. If you experience any duplication issues, try disabling this setting.
+detect-additional-drops: true
+
 # Some plugins offer a telekinesis enchant that prevent getting AngelChests spawned
 # when a player with telekinesis kills another player.
 # This is intended behaviour. If you still want the victim to get an AngelChest,

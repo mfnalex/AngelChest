@@ -4,7 +4,6 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.ConfigUtils;
-import de.jeff_media.daddy.Chicken;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;

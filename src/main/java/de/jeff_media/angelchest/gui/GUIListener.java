@@ -10,7 +10,7 @@ import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.utils.CommandUtils;
 import de.jeff_media.angelchest.utils.Utils;
-import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.daddy.Daddy_Stepsister;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -368,7 +368,7 @@ public final class GUIListener implements Listener {
                         ((Player)viewer).updateInventory();
                     }
                 }
-                if (Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add feature here
+                if (Daddy_Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add feature here
                     if (!player.getUniqueId().equals(angelChest.owner) && main.getConfig().getBoolean(Config.SHOW_MESSAGE_WHEN_OTHER_PLAYER_EMPTIES_CHEST)) {
                         final Player tmpPlayer = Bukkit.getPlayer(angelChest.owner);
                         if (tmpPlayer != null) {

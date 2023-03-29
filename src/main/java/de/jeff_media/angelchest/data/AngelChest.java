@@ -17,7 +17,7 @@ import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.customblocks.CustomBlock;
 import de.jeff_media.customblocks.implentation.VanillaBlock;
-import de.jeff_media.daddy.Stepsister;
+import de.jeff_media.daddy.Daddy_Stepsister;
 import io.papermc.lib.PaperLib;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -330,7 +330,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
 
         final int randomItemLoss = main.groupUtils.getItemLossPerPlayer(player);
         if (randomItemLoss > 0) {
-            if (Stepsister.allows(PremiumFeatures.RANDOM_ITEM_LOSS)) {
+            if (Daddy_Stepsister.allows(PremiumFeatures.RANDOM_ITEM_LOSS)) {
                 LogUtils.debugBanner(new String[]{"RANDOM ITEM LOSS"});
                 if (main.debug) main.debug("Removed " + randomItemLoss + " item stacks randomly:");
                 randomlyLostItems = InventoryUtils.removeRandomItemsFromInventory(playerInventory, randomItemLoss,player.getLocation());

@@ -339,7 +339,7 @@
         <dependency>
             <groupId>com.jeff_media</groupId>
             <artifactId>Stepsister</artifactId>
-            <version>13.0.0</version>
+            <version>14</version>
             <scope>compile</scope>
         </dependency>
         <!-- /*Daddy end*/ -->
@@ -423,7 +423,7 @@
         <dependency>
             <groupId>com.github.slimefun</groupId>
             <artifactId>Slimefun4</artifactId>
-            <version>RC-33</version>
+            <version>master-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
