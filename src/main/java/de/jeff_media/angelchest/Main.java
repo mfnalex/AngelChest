@@ -62,6 +62,7 @@ import de.jeff_media.angelchest.listeners.PistonListener;
 import de.jeff_media.angelchest.listeners.PlayerListener;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.AngelChestUtils;
+import de.jeff_media.angelchest.utils.CurrencyFormatter;
 import de.jeff_media.angelchest.utils.GroupUtils;
 import de.jeff_media.angelchest.utils.HologramFixer;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
@@ -123,6 +124,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     @Getter private final Glow glowEnchantment = new Glow();
 
     @Getter private PvpTracker pvpTrackerDropHeads;
+    @Getter private final CurrencyFormatter currencyFormatter = new CurrencyFormatter(this);
 
     public static final int BSTATS_ID = 3194;
     public static final String DISCORD_LINK = "https://discord.jeff-media.de";

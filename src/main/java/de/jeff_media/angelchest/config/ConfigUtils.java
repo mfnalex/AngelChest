@@ -102,6 +102,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.DETECT_ADDITIONAL_DROPS, true);
         metric(Config.DETECT_ADDITIONAL_DROPS);
 
+        conf.addDefault(Config.PRICE_FORMAT, "%,.2f");
+        metric(Config.PRICE_FORMAT);
+
         conf.addDefault(Config.HOLOGRAM_OFFSET, 0.0);
         metric(Config.HOLOGRAM_OFFSET);
 

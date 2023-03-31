@@ -489,6 +489,13 @@ confirm: true
 # When set to true, no player will be able to place ANY custom AngelChest items.
 prevent-placing-custom-items: true
 
+# The format used to display prices in chat messages or GUIs.
+# Must be valid format for Java's String#format() method.
+# Only change this if you know what you are doing!
+# The default is %,.2f which means two decimal places and a comma as thousands separator.
+# If you want to use dots as thousands separator, use %.,2f
+price-format: "%,.2f"
+
 #################################
 #### Max. TP/Fetch distance #####
 #################################

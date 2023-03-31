@@ -13,6 +13,8 @@ must be replaced with any integer. Please note that the `<ID>` cannot be less th
 
 `%angelchest_price_fetch%`: Amount of money needed to teleport the AngelChest to yourself
 
+`%angelchest_price_open%`: Amount of money needed to open the AngelChest
+
 `%angelchest_enabled%`: returns "true" or "false" whether this player has AngelChest enabled
 
 `%angelchest_isactive_<ID>%`: Returns "true" when the player has an AngelChest with this ID, otherwise "false"

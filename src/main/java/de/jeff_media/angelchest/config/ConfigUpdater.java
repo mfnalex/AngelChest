@@ -41,6 +41,7 @@ public final class ConfigUpdater {
             Config.HOLOGRAM_UNPROTECTED_TEXT,
             Config.PREFIX,
             Config.DEATH_MAP_LORE,
+            Config.PRICE_FORMAT,
             "link-", "gui-", "log-filename", "chest-filename",Config.MATERIAL, Config.MATERIAL_UNLOCKED};
     // Lines STARTING WITH these names will get their values wrapped in single quotes
     private static final String[] NODES_NEEDING_SINGLE_QUOTES = {"test-"};

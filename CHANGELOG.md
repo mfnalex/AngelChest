@@ -8,6 +8,13 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.11.1
+- Fixed automatic config updater breaking config.yml because of missing quotes in "price-format"
+
+## 9.11.0
+- Added PAPI placeholder "%angelchest_price_open%"
+- Added config option "price-format" to change the format of prices in the GUI (e.g. "%,.2f" for 1,000.00)
+
 ## 9.10.0
 - Fixed async tasks
 - Added config option "detect-additional-drops"

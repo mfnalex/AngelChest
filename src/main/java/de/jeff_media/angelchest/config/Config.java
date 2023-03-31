@@ -92,6 +92,7 @@ public class Config {
     public static String PREFIX = "prefix";
     public static String PREFIX_MESSAGES = "add-prefix";
     public static String PRICE = "price";
+    public static String PRICE_FORMAT = "price-format";
     public static String PRICE_FETCH = "price-fetch";
     public static String PRICE_OPEN = "price-open";
     public static String PRICE_TELEPORT = "price-teleport";

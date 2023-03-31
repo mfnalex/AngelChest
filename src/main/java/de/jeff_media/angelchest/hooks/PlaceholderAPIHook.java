@@ -9,6 +9,7 @@ import de.jeff_media.angelchest.utils.AngelChestUtils;
 import de.jeff_media.angelchest.utils.CommandUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
@@ -61,13 +62,17 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
         //UUID uuid = player.getUniqueId();
         final ArrayList<AngelChest> allChests = AngelChestUtils.getAllAngelChestsFromPlayer(player);
 
+        Player onlinePlayer = player.isOnline() ? player.getPlayer() : null;
+
         switch (identifier) {
             case "price":
-                return Double.toString(main.getConfig().getDouble(Config.PRICE));
+                return main.getCurrencyFormatter().format(onlinePlayer == null ? main.getConfig().getDouble(Config.PRICE) : main.groupUtils.getSpawnPricePerPlayer(onlinePlayer));
             case "price_teleport":
-                return Double.toString(main.getConfig().getDouble(Config.PRICE_TELEPORT));
+                return main.getCurrencyFormatter().format(onlinePlayer == null ? main.getConfig().getDouble(Config.PRICE_TELEPORT) : main.groupUtils.getTeleportPricePerPlayer(onlinePlayer));
             case "price_fetch":
-                return Double.toString(main.getConfig().getDouble(Config.PRICE_FETCH));
+                return main.getCurrencyFormatter().format(onlinePlayer == null ? main.getConfig().getDouble(Config.PRICE_FETCH) : main.groupUtils.getFetchPricePerPlayer(onlinePlayer));
+            case "price-open":
+                return main.getCurrencyFormatter().format(onlinePlayer == null ? main.getConfig().getDouble(Config.PRICE_OPEN) : main.groupUtils.getOpenPricePerPlayer(onlinePlayer));
             case "activechests":
                 return Integer.toString(allChests.size());
             case "enabled":

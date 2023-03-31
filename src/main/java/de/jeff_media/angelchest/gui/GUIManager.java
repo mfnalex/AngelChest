@@ -136,7 +136,7 @@ public final class GUIManager {
 
     private String replaceBalancePlaceholders(Player player, double price, String text) {
         String currency = CommandUtils.getCurrency(price);
-        return text.replace("{price}",String.valueOf(price)).replace("{currency}",currency).replace("{balance}",String.valueOf(CommandUtils.getBalance(player)));
+        return text.replace("{price}",main.getCurrencyFormatter().format(price)).replace("{currency}",currency).replace("{balance}",main.getCurrencyFormatter().format(CommandUtils.getBalance(player)));
     }
 
     private ItemStack getTPButton(Player player) {
