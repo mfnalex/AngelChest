@@ -27,6 +27,7 @@ import de.jeff_media.angelchest.hooks.CombatLogXHook;
 import de.jeff_media.angelchest.hooks.EcoEnchantsHook;
 import de.jeff_media.angelchest.hooks.HookHandler;
 import de.jeff_media.angelchest.hooks.LandsHook;
+import de.jeff_media.angelchest.hooks.MoneyhuntersHook;
 import de.jeff_media.angelchest.hooks.SentinelHook;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.utils.AngelChestUtils;
@@ -381,7 +382,7 @@ public final class PlayerListener implements Listener {
      *
      * @param event EntityDamageByEntityEvent
      */
-    @SuppressWarnings("unused")
+
     @EventHandler
     public void onEntityDamageByEntity(final EntityDamageByEntityEvent event) {
         final UUID player = event.getEntity().getUniqueId();
@@ -405,7 +406,7 @@ public final class PlayerListener implements Listener {
         }
     }
 
-    @SuppressWarnings("unused")
+
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerRespawn(final PlayerRespawnEvent playerRespawnEvent) {
         if (main.debug) main.debug("Player Respawn: Show GUI to player?");
@@ -845,6 +846,14 @@ public final class PlayerListener implements Listener {
         }
 
         for (final ItemStack freshDrop : freshDrops) {
+
+            // Moneyhunters start
+            if(MoneyhuntersHook.isMoneyHuntersItem(freshDrop)) {
+                player.getWorld().dropItemNaturally(player.getLocation(), freshDrop);
+                continue;
+            }
+            // Moneyhunters end
+
             for (final ItemStack leftover : player.getInventory().addItem(freshDrop).values()) {
                 if (leftover == null || leftover.getAmount() == 0 || leftover.getType() == Material.AIR) continue;
                 player.getWorld().dropItemNaturally(player.getLocation(), leftover);
@@ -897,6 +906,13 @@ public final class PlayerListener implements Listener {
         }
 
         /*
+        Clearing inventory
+         */
+        // TODO: DEBUG: This was previously BELOW the block "if (ac.isEmpty()) {"
+        // Delete players inventory except excluded items
+        clearInventory(player.getInventory());
+
+        /*
         Check if player has any drops
          */
         if (ac.isEmpty()) {
@@ -931,12 +947,6 @@ public final class PlayerListener implements Listener {
         //ac.createChest(ac.block, ac.owner);
 
         main.logger.logDeath(event, ac);
-
-        /*
-        Clearing inventory
-         */
-        // Delete players inventory except excluded items
-        clearInventory(player.getInventory());
 
         // Clear the drops except blacklisted items
         // DEBUG

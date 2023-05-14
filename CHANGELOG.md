@@ -8,6 +8,19 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.13.0
+- Money dropped by Moneyhunters on death will no longer be included in the AngelChest
+- Added command "/acadmin open" that opens the GUI of a player's AngelChest
+  - Syntax: /acadmin open <nameOfPlayerToOpenGUITo> <nameOfPlayerWhoOwnsTheChest> <chestId> <isPreviewOnly>
+  - Example to open mfnalex' first chest to some_admin in preview-mode: /acadmin open some_admin mfnalex 1 true
+  - Example to open mfnalex' first chest to some_admin in edit-mode: /acadmin open some_admin mfnalex 1 false 
+- Fixed placeholder "%angelchest_price_open%" not working
+- Fixed hex colors not working in "angelchest-list"
+
+
+## 9.12.0
+- Added compatibility with EcoEnchants' soulbound enchantment again (they changed their internals again)
+
 ## 9.11.1
 - Fixed automatic config updater breaking config.yml because of missing quotes in "price-format"
 

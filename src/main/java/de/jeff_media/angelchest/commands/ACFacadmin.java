@@ -1,10 +1,20 @@
 package de.jeff_media.angelchest.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.*;
+import co.aikar.commands.CommandHelp;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.HelpCommand;
+import co.aikar.commands.annotation.Optional;
+import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.Syntax;
+import de.jeff_media.angelchest.AngelChest;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.ConfigUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -13,6 +23,9 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+
+import static co.aikar.commands.ACFBukkitUtil.sendMsg;
 
 @CommandAlias("acadmin")
 @CommandPermission("angelchest.admin")
@@ -33,6 +46,7 @@ public class ACFacadmin extends BaseCommand {
     }*/
 
     @Subcommand("saveitem")
+    @Syntax("<itemname>")
     public static void onSave(Player player, String itemName) {
         ItemStack item = player.getInventory().getItemInMainHand();
         if(item == null || item.getType().isAir() || item.getAmount() == 0) {
@@ -52,6 +66,7 @@ public class ACFacadmin extends BaseCommand {
 
     @Subcommand("giveitem")
     @CommandCompletion("@items @players @range:1-64")
+    @Syntax("<item> [player] [amount]")
     public static void onDefault(CommandSender sender, String itemName, @Optional String playerName, @Optional Integer amount) {
         Player player = null;
         int finalAmount = 1;
@@ -110,5 +125,50 @@ public class ACFacadmin extends BaseCommand {
             }
 
         }
+    }
+
+    @Subcommand("open")
+    @CommandCompletion("@onlinePlayerNames @offlinePlayerNamesWithChests @chestsBySecondArg @truefalse")
+    @Syntax("<player> <owner> <chestId> <preview>")
+    public void open(CommandSender sender, String player, String owner, int chestId, boolean preview) {
+        if(player == null) {
+            sender.sendMessage("§cEnter a valid player name.");
+            return;
+        }
+        Player aPlayer = Bukkit.getPlayer(player);
+        if(aPlayer == null) {
+            sender.sendMessage("§cPlayer not found: " + player);
+            return;
+        }
+        if(owner == null) {
+            sender.sendMessage("§cEnter a valid owner name.");
+            return;
+        }
+        AngelChest someChestFromThisPlayer = main.getAllAngelChests().stream().filter(ac -> {
+            String name = ac.getPlayer().getName();
+            if(name == null) return false;
+            return name.equalsIgnoreCase(owner);
+        }).findFirst().orElse(null);
+        if(someChestFromThisPlayer == null) {
+            sender.sendMessage("§cOwner not found, or they don't have any AngelChests: " + owner);
+            return;
+        }
+        OfflinePlayer aOwner = someChestFromThisPlayer.getPlayer();
+        LinkedHashSet<AngelChest> chests = main.getAllAngelChestsFromPlayer(aOwner);
+        chestId--;
+        if(chestId < 0 || chestId >= chests.size()) {
+            sender.sendMessage("§cInvalid chest ID.");
+            return;
+        }
+        de.jeff_media.angelchest.data.AngelChest chest = (de.jeff_media.angelchest.data.AngelChest) chests.toArray()[chestId];
+        main.guiManager.showPreviewGUI(aPlayer, chest, preview, false);
+    }
+
+    @HelpCommand
+    @Default
+    @Syntax("")
+    public void doHelp(CommandSender sender, CommandHelp help) {
+        sendMsg(sender, "§6AngelChest Admin Commands:");
+        help.showHelp();
     }
 }

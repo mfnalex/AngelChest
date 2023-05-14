@@ -3,6 +3,7 @@ package de.jeff_media.angelchest.utils;
 import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Permissions;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.OfflinePlayer;
@@ -38,7 +39,10 @@ public final class LinkUtils {
             if (main.getConfig().getBoolean(Config.SHOW_LINKS_ON_SEPARATE_LINE)) preText = preText + "\n";
         }
 
-        final TextComponent text = new TextComponent(preText);
+        final TextComponent text = new TextComponent();
+        for(BaseComponent comp : TextComponent.fromLegacyText(preText)) {
+            text.addExtra(comp);
+        }
 
         if (commandTp != null) {
             final TextComponent link = createCommandLink(main.messages.LINK_TP, commandTp);

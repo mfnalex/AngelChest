@@ -162,7 +162,7 @@ public final class GenericHooks implements Listener {
         if (item == null) return false;
         if (isSlimefunSoulbound(item)) return true;
         //if (isEliteMobsSoulBound(item)) return true; // EliteMobs soulbound items are normally NOT kept on death but drop normally
-        if (isNativeSoulbound(item)) return true;
+        if (!EcoEnchantsHook.isEcoEnchantsSoulbound(item) && isNativeSoulbound(item)) return true; // I think this was only used by EcoEnchants, but they again changed how it works
         if (main.executableItemsHook.isKeptOnDeath(item)) return true;
         if(hasAdvancedEnchantmentsWhiteScroll(item)) return true;
         //if (MMOItemsHookWrapper.isSoulbound(item)) return true;
@@ -172,6 +172,8 @@ public final class GenericHooks implements Listener {
     public boolean removeOnDeath(final ItemStack item) {
         if (item == null) return false;
         //if(isEliteMobsSoulBound(item)) return true;
+        //if (isNativeSoulbound(item)) return true; // TODO: DEBUG: EcoEnchants fucking shit
+        if(EcoEnchantsHook.isEcoEnchantsSoulbound(item)) return true;
         if (isDisabledMaterial(item)) return true;
         if (inventoryPagesHook.isButton(item)) return true;
         if (isGenericSoulbound(item)) return true;

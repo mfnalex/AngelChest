@@ -72,6 +72,7 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
             case "price_fetch":
                 return main.getCurrencyFormatter().format(onlinePlayer == null ? main.getConfig().getDouble(Config.PRICE_FETCH) : main.groupUtils.getFetchPricePerPlayer(onlinePlayer));
             case "price-open":
+            case "price_open":
                 return main.getCurrencyFormatter().format(onlinePlayer == null ? main.getConfig().getDouble(Config.PRICE_OPEN) : main.groupUtils.getOpenPricePerPlayer(onlinePlayer));
             case "activechests":
                 return Integer.toString(allChests.size());

@@ -106,6 +106,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * AngelChest Main class
@@ -622,6 +623,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
                 });
 
         PaperCommandManager commandManager = new PaperCommandManager(this);
+        commandManager.enableUnstableAPI("help");
         CommandReplacements replacements = commandManager.getCommandReplacements();
         replacements.addReplacement("actoggle",getCommandReplacements("actoggle"));
         commandManager.registerCommand(new ACFactoggle());
@@ -631,7 +633,20 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
                 return itemManager.getItems().keySet();
             }
         });
-        commandManager.registerCommand(new ACFacadmin());
+        commandManager.getCommandCompletions().registerCompletion("onlinePlayerNames", context -> Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()));
+        commandManager.getCommandCompletions().registerAsyncCompletion("offlinePlayerNamesWithChests", context -> angelChests.stream().map(AngelChest::getPlayer).distinct().map(OfflinePlayer::getName).collect(Collectors.toList()));
+                commandManager.registerCommand(new ACFacadmin());
+                commandManager.getCommandCompletions().registerAsyncCompletion("chestsBySecondArg", new CommandCompletions.AsyncCommandCompletionHandler<BukkitCommandCompletionContext>() {
+                    @Override
+                    public Collection<String> getCompletions(BukkitCommandCompletionContext context) throws InvalidCommandArgument {
+                        String owner = context.getContextValueByName(String.class, "owner");
+                        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(owner);
+                        int size = getAllAngelChestsFromPlayer(offlinePlayer).size();
+                        if(size == 0) return null;
+                        return IntStream.rangeClosed(1, size).mapToObj(String::valueOf).collect(Collectors.toList());
+                    }
+                });
+
 
         Bukkit.getOnlinePlayers().forEach(itemManager::autodiscover);
 

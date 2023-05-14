@@ -63,15 +63,21 @@
 #                            Enables/disables AngelChest for this player.
 #                            Also requires permission angelchest.others when changing other player's settings.
 #
+# /acgraveyard               Permission: angelchest.admin
+#                            Manage graveyard settings
+#
+# /acadmin                   Permission: angelchest.admin
+#                            Admin commands
+#
+# /acversion                 Permission: angelchest.version
+#                            Prints plugin version, whether you have the Plus version and what server software
+#                            you are using.
+#
 # /acreload                  Permission: angelchest.reload
 #                            Reloads the config
 #
 # /acdebug                   Permission: angelchest.debug
 #                            Main debug command. Enter /acdebug for more information
-#
-# /acversion                 Permission: angelchest.version
-#                            Prints plugin version, whether you have the Plus version and what server software
-#                            you are using.
 
 # Note: You can add new command aliases, see "Command Settings" at about line 800 in this config.yml
 
