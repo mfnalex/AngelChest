@@ -1,32 +1,15 @@
 package de.jeff_media.angelchest;
 
-import co.aikar.commands.BukkitCommandCompletionContext;
-import co.aikar.commands.CommandCompletions;
-import co.aikar.commands.CommandReplacements;
-import co.aikar.commands.InvalidCommandArgument;
-import co.aikar.commands.PaperCommandManager;
+import co.aikar.commands.*;
 import com.allatori.annotations.DoNotRename;
 import com.jeff_media.jefflib.JeffLib;
 import com.jeff_media.jefflib.Tasks;
 import com.jeff_media.jefflib.Ticks;
 import com.jeff_media.jefflib.data.McVersion;
 import com.jeff_media.jefflib.data.tuples.Pair;
-import de.jeff_media.angelchest.commands.ACFacadmin;
-import de.jeff_media.angelchest.commands.ACFactoggle;
-import de.jeff_media.angelchest.commands.CommandDebug;
-import de.jeff_media.angelchest.commands.CommandFetchOrTeleport;
-import de.jeff_media.angelchest.commands.CommandGUI;
-import de.jeff_media.angelchest.commands.CommandGraveyard;
-import de.jeff_media.angelchest.commands.CommandList;
-import de.jeff_media.angelchest.commands.CommandReload;
-import de.jeff_media.angelchest.commands.CommandUnlock;
-import de.jeff_media.angelchest.commands.CommandVersion;
-import de.jeff_media.angelchest.commands.GenericTabCompleter;
-import de.jeff_media.angelchest.config.ChestFileUpdater;
-import de.jeff_media.angelchest.config.Config;
-import de.jeff_media.angelchest.config.ConfigUtils;
-import de.jeff_media.angelchest.config.Messages;
-import de.jeff_media.angelchest.config.Permissions;
+import com.jeff_media.jefflib.exceptions.NMSNotSupportedException;
+import de.jeff_media.angelchest.commands.*;
+import de.jeff_media.angelchest.config.*;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.BlacklistEntry;
 import de.jeff_media.angelchest.data.PendingConfirm;
@@ -36,36 +19,11 @@ import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIListener;
 import de.jeff_media.angelchest.gui.GUIManager;
-import de.jeff_media.angelchest.handlers.ChunkManager;
-import de.jeff_media.angelchest.handlers.DeathMapManager;
-import de.jeff_media.angelchest.handlers.IgnoredSlotsHandler;
-import de.jeff_media.angelchest.handlers.ItemManager;
-import de.jeff_media.angelchest.handlers.PvpTracker;
-import de.jeff_media.angelchest.hooks.ExecutableItems2Hook;
-import de.jeff_media.angelchest.hooks.ExecutableItemsHook;
-import de.jeff_media.angelchest.hooks.GenericHooks;
-import de.jeff_media.angelchest.hooks.IExecutableItemsHook;
-import de.jeff_media.angelchest.hooks.ItemsAdderHook;
-import de.jeff_media.angelchest.hooks.ItemsAdderInitListener;
-import de.jeff_media.angelchest.hooks.MinepacksHook;
-import de.jeff_media.angelchest.hooks.PlaceholderAPIHook;
-import de.jeff_media.angelchest.hooks.WorldGuardWrapper;
-import de.jeff_media.angelchest.listeners.ChestProtectionListener;
-import de.jeff_media.angelchest.listeners.ChestSortListener;
-import de.jeff_media.angelchest.listeners.CraftingListener;
-import de.jeff_media.angelchest.listeners.EmergencyListener;
-import de.jeff_media.angelchest.listeners.EnderCrystalListener;
-import de.jeff_media.angelchest.listeners.GraveyardListener;
-import de.jeff_media.angelchest.listeners.HologramListener;
-import de.jeff_media.angelchest.listeners.InvulnerabilityListener;
-import de.jeff_media.angelchest.listeners.PistonListener;
-import de.jeff_media.angelchest.listeners.PlayerListener;
+import de.jeff_media.angelchest.handlers.*;
+import de.jeff_media.angelchest.hooks.*;
+import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
-import de.jeff_media.angelchest.utils.AngelChestUtils;
-import de.jeff_media.angelchest.utils.CurrencyFormatter;
-import de.jeff_media.angelchest.utils.GroupUtils;
-import de.jeff_media.angelchest.utils.HologramFixer;
-import de.jeff_media.angelchest.utils.ProtectionUtils;
+import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.customblocks.CustomBlock;
 import de.jeff_media.daddy.Daddy_Stepsister;
 import de.jeff_media.updatechecker.UpdateChecker;
@@ -75,11 +33,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -93,17 +47,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -667,7 +611,11 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     @Override
     public void onLoad() {
-        JeffLib.enableNMS();
+        try {
+            JeffLib.enableNMS();
+        } catch (NMSNotSupportedException ex) {
+
+        }
         instance = this;
         WorldGuardWrapper.tryToRegisterFlags();
     }

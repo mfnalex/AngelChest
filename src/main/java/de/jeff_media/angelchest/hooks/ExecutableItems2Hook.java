@@ -9,9 +9,13 @@ import java.util.Optional;
 public class ExecutableItems2Hook extends IExecutableItemsHook{
     @Override
     public boolean isKeptOnDeath(ItemStack item) {
-        Optional<ExecutableItemInterface> optional = ExecutableItemsAPI.getExecutableItemsManager().getExecutableItem(item);
-        if(!optional.isPresent()) return false;
-        ExecutableItemInterface execItem = optional.get();
-        return execItem.hasKeepItemOnDeath();
+        try {
+            Optional<ExecutableItemInterface> optional = ExecutableItemsAPI.getExecutableItemsManager().getExecutableItem(item);
+            if (!optional.isPresent()) return false;
+            ExecutableItemInterface execItem = optional.get();
+            return execItem.hasKeepItemOnDeath();
+        } catch (Throwable ignored) {
+            return false;
+        }
     }
 }
