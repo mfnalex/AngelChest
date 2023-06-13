@@ -127,7 +127,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     public Watchdog watchdog;
     public YamlConfiguration customDeathCauses;
     public IExecutableItemsHook executableItemsHook;
-    @Getter @Setter private IgnoredSlotsHandler ignoredSlotsHandler;
+    //@Getter @Setter private IgnoredSlotsHandler ignoredSlotsHandler;
     @Getter @Setter private boolean itemsAdderLoaded = false;
     boolean emergencyMode = false;
     @SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})

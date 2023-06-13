@@ -19,6 +19,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -183,6 +184,11 @@ public class GraveyardListener implements Listener {
         }
         //System.out.println("[GRAVEYARDS] Respawning");
         Bukkit.getScheduler().runTask(main,() -> event.getEntity().spigot().respawn());
+    }
+
+    @EventHandler
+    public void onWorldLoad(WorldLoadEvent event) {
+        GraveyardManager.init(false);
     }
 
 }

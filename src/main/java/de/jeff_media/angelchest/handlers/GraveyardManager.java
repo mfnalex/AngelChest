@@ -10,12 +10,17 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class GraveyardManager {
 
@@ -197,14 +202,18 @@ public class GraveyardManager {
     }
 
     public static void init() {
+        init(true);
+    }
+
+    public static void init(boolean output) {
         GRAVEYARDS = new ArrayList<>();
         GLOBAL_GRAVEYARD = null;
         File file = new File(main.getDataFolder(), "graveyards.yml");
-        if(!Daddy_Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
+        if(output && !Daddy_Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
             main.getLogger().info("Not using premium version, disabling Graveyards feature");
             return;
         }
-        if(!file.exists()) {
+        if(output && !file.exists()) {
             main.getLogger().info("No graveyards.yml found, disabling Graveyards feature");
             return;
         }
@@ -213,7 +222,9 @@ public class GraveyardManager {
 
         for(String graveyardName : yaml.getKeys(false)) {
             if(Bukkit.getWorld(yaml.getString(graveyardName+".location.world")) == null) {
-                main.getLogger().warning("Could not load graveyard " + graveyardName + " because world " + yaml.getString(graveyardName+".location.world") + " does not exist.");
+                if(output) {
+                    main.getLogger().info("Could not load graveyard " + graveyardName + " because world " + yaml.getString(graveyardName + ".location.world") + " does not exist or wasn't loaded yet.");
+                }
                 continue;
             }
             Graveyard next = Graveyard.fromConfig(yaml.getConfigurationSection(graveyardName));

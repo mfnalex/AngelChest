@@ -996,7 +996,7 @@ public final class PlayerListener implements Listener {
                     main.angelChests.remove(toExplode);
 
             Bukkit.getScheduler().runTaskLater(main, () -> {
-                Messages.send(player, " ");
+                //Messages.send(player, " ");
                 Messages.send(player, main.messages.MSG_ANGELCHEST_EXPLODED);
             }, 3L);
 
