@@ -1,0 +1,19 @@
+# When set to true, countdowns (despawn duration, unlock duration, etc) only count down while the player is online ("online time")
+# When set to false (default), countdowns use "real time"
+suspend-countdowns-when-player-is-offline: false
+
+
+
+AnimeDrache — 22.07.2023 10:45
+Hey guys =),
+
+as from another ticket I had with mfnalex (Comission ticket):
+
+mfnalex [EN/DE] — heute um 01:57 Uhr
+"pls add an option to have a separate angelchest-duration for pvp and no-pvp kills in angelchest"
+
+We need that so if people get killed on pvp, the pvp killer can't steal their items after the chest despawns. So it would be gread to have either:
+
+a second duration time for pvp kills which we can set on infinite
+the possibility to teleport to a chest for free after a pvp kill
+the possibility to teleport the chest to the owner for free after a pvp kill
