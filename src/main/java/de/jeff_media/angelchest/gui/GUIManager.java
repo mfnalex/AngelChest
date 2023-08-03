@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.gui;
 
 import com.google.common.base.Enums;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
@@ -28,10 +28,10 @@ import java.util.List;
 
 public final class GUIManager {
 
-    private final Main main;
+    private final AngelChestMain main;
 
     public GUIManager() {
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
     }
 
     private static int getInventorySize(final int numberOfChests) {
@@ -116,7 +116,7 @@ public final class GUIManager {
     }
 
     private ItemStack getFetchButton(Player player) {
-        double price = main.groupUtils.getFetchPricePerPlayer(player);
+        double price = main.groupManager.getFetchPricePerPlayer(player);
         ItemStack button = getButton(main.getConfig().getString(Config.GUI_BUTTON_FETCH), replaceBalancePlaceholders(player, price, main.messages.GUI_FETCH), null);
         LoreUtils.applyLore(button, LoreUtils.applyNewlines(replaceBalancePlaceholders(player, price, main.getConfig().getString(Config.GUI_FETCH_LORE))));
         return button;
@@ -140,7 +140,7 @@ public final class GUIManager {
     }
 
     private ItemStack getTPButton(Player player) {
-        double price = main.groupUtils.getTeleportPricePerPlayer(player);
+        double price = main.groupManager.getTeleportPricePerPlayer(player);
         ItemStack button = getButton(main.getConfig().getString(Config.GUI_BUTTON_TELEPORT), replaceBalancePlaceholders(player, price, main.messages.GUI_TELEPORT), null);
         LoreUtils.applyLore(button, LoreUtils.applyNewlines(replaceBalancePlaceholders(player, price, main.getConfig().getString(Config.GUI_TELEPORT_LORE))));
         return button;

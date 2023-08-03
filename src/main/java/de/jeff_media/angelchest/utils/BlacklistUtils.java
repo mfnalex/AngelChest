@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.utils;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -18,7 +18,7 @@ public final class BlacklistUtils {
 
     public static String[] addToBlacklist(final ItemStack item, final String name) {
 
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
 
         final File blacklistFile = new File(main.getDataFolder(), "blacklist.yml");
 

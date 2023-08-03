@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.commands;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
@@ -16,10 +16,10 @@ import org.jetbrains.annotations.NotNull;
 
 public final class CommandUnlock implements CommandExecutor {
 
-    final Main main;
+    final AngelChestMain main;
 
     public CommandUnlock() {
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
     }
 
     @Override

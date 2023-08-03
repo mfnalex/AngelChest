@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.listeners;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.gui.GUIHolder;
 import de.jeff_media.chestsort.api.ChestSortEvent;
 import org.bukkit.event.EventHandler;
@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 
 public class ChestSortListener implements Listener {
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.LOWEST)

@@ -1,11 +1,11 @@
 package de.jeff_media.angelchest.hooks;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ItemsAdderHook {
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
 
     public static void runOnceItemsAdderLoaded(Runnable runnable) {
         new BukkitRunnable() {

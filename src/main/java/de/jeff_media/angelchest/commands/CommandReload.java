@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.commands;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.ConfigUtils;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
@@ -20,7 +20,7 @@ public final class CommandReload implements CommandExecutor {
     public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String s, @NotNull final String[] args) {
 
         if (!commandSender.hasPermission(Permissions.RELOAD)) {
-            Messages.send(commandSender, Main.getInstance().messages.MSG_NO_PERMISSION);
+            Messages.send(commandSender, AngelChestMain.getInstance().messages.MSG_NO_PERMISSION);
             return true;
         }
         Messages.send(commandSender, ChatColor.GRAY + "Reloading AngelChest configuration...");

@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.hooks;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.bukkit.Bukkit;
@@ -21,7 +21,7 @@ public final class GenericHooks implements Listener {
 
     //final @Nullable Plugin eliteMobsPlugin;
     final InventoryPagesHook inventoryPagesHook;
-    final Main main;
+    final AngelChestMain main;
     private @Nullable Plugin eliteMobsPlugin = null;
     private Boolean isEliteMobsInstalled = null;
     private Boolean isAdvancedEnchantmentsInstalled = null;
@@ -29,7 +29,7 @@ public final class GenericHooks implements Listener {
     //boolean hologramToBeSpawned = false;
 
     public GenericHooks() {
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
         this.inventoryPagesHook = new InventoryPagesHook();
     }
 

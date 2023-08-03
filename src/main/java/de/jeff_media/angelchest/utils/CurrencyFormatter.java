@@ -1,12 +1,12 @@
 package de.jeff_media.angelchest.utils;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 
 public class CurrencyFormatter {
 
-    private final Main main;
+    private final AngelChestMain main;
 
-    public CurrencyFormatter(Main main) {
+    public CurrencyFormatter(AngelChestMain main) {
         this.main = main;
     }
 

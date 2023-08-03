@@ -1,12 +1,13 @@
-package de.jeff_media.angelchest.utils;
+package de.jeff_media.angelchest.handlers;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.Group;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
+import de.jeff_media.angelchest.utils.InventoryUtils;
 import de.jeff_media.daddy.Daddy_Stepsister;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -19,14 +20,15 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public final class GroupUtils {
+public final class GroupManager {
 
-    final Main main;
-    LinkedHashMap<String, Group> groups;
-    YamlConfiguration yaml;
+    private static final String DOT = ".";
+    private final AngelChestMain main;
+    private LinkedHashMap<String, Group> groups;
+    private YamlConfiguration yaml;
 
-    public GroupUtils(final File yamlFile) {
-        this.main = Main.getInstance();
+    public GroupManager(final File yamlFile) {
+        this.main = AngelChestMain.getInstance();
         if (!yamlFile.exists()) {
             main.getLogger().info("groups.yml does not exist, skipping custom group settings.");
             return;
@@ -34,9 +36,14 @@ public final class GroupUtils {
         this.yaml = YamlConfiguration.loadConfiguration(yamlFile);
         groups = new LinkedHashMap<>();
 
-        final String DOT = ".";
+
         for (final String groupName : yaml.getKeys(false)) {
             final int angelchestDuration = yaml.getInt(groupName + DOT + Config.ANGELCHEST_DURATION, -1);
+            final int angelChestDurationPvp = yaml.getInt(groupName + DOT + Config.ANGELCHEST_DURATION_IN_PVP, -2);
+            Boolean suspendWhenOffline = null;
+            if (yaml.isSet(groupName + DOT + Config.SUSPEND_COUNTDOWN_OFFLINE_PLAYERS)) {
+                suspendWhenOffline = yaml.getBoolean(groupName + DOT + Config.SUSPEND_COUNTDOWN_OFFLINE_PLAYERS, false);
+            }
             final int chestsPerPlayer = yaml.getInt(groupName + DOT + Config.MAX_ALLOWED_ANGELCHESTS, -1);
             final String priceSpawn;
             if (yaml.isSet(groupName + DOT + "price-spawn")) {
@@ -57,7 +64,7 @@ public final class GroupUtils {
             final Integer maxTpDistance = yaml.isSet(groupName + DOT + Config.MAX_TP_DISTANCE) ? yaml.getInt(groupName + DOT + Config.MAX_TP_DISTANCE) : null;
             final Integer maxFetchDistance = yaml.isSet(groupName + DOT + Config.MAX_FETCH_DISTANCE) ? yaml.getInt(groupName + DOT + Config.MAX_FETCH_DISTANCE) : null;
             final Double tpWaitTime = yaml.isSet(groupName + DOT + Config.TP_WAIT_TIME) ? yaml.getDouble(groupName + DOT + Config.TP_WAIT_TIME) : null;
-            final Group group = new Group(angelchestDuration, chestsPerPlayer, priceSpawn, priceOpen, priceTeleport, priceFetch, xpPercentage, unlockDuration, spawnChance, itemLoss, invulnerabilityAfterTP, allowTpAcrossWorlds, allowFetchAcrossWorlds, maxTpDistance, maxFetchDistance, tpWaitTime);
+            final Group group = new Group(angelchestDuration, angelChestDurationPvp, suspendWhenOffline, chestsPerPlayer, priceSpawn, priceOpen, priceTeleport, priceFetch, xpPercentage, unlockDuration, spawnChance, itemLoss, invulnerabilityAfterTP, allowTpAcrossWorlds, allowFetchAcrossWorlds, maxTpDistance, maxFetchDistance, tpWaitTime);
             if (main.debug) main.debug("Created group \"" + groupName + "\": " + group);
             groups.put(groupName, group);
 
@@ -65,10 +72,10 @@ public final class GroupUtils {
     }
 
     private static int getPercentageItemLoss(final Player p, final String value) {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         if (value.endsWith("p")) {
             if (!Daddy_Stepsister.allows(PremiumFeatures.RANDOM_ITEM_LOSS)) {
-                main.getLogger().warning("You are using percentage random-item-loss in your config file. This is only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+                main.getLogger().warning("You are using percentage random-item-loss in your config file. This is only available in AngelChestPlus. See here: " + AngelChestMain.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
                 return 0;
             }
             final double percentage = Double.parseDouble(value.substring(0, value.length() - 1));
@@ -77,7 +84,7 @@ public final class GroupUtils {
             }
             final int result = (int) (InventoryUtils.getAmountOfItemStacks(p.getInventory()) * percentage);
             if (main.debug)
-                main.debug("GroupUtils -> Item Loss -> " + value + " contains a p, getting percentage for player " + p.getName() + ": " + result);
+                main.debug("GroupManager -> Item Loss -> " + value + " contains a p, getting percentage for player " + p.getName() + ": " + result);
             return result;
         } else {
             return Integer.parseInt(value);
@@ -85,10 +92,10 @@ public final class GroupUtils {
     }
 
     public static double getPercentagePrice(final CommandSender commandSender, final String value) {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         if (value.endsWith("p")) {
             if (!Daddy_Stepsister.allows(PremiumFeatures.SET_PRICES_AS_PERCENTAGE)) {
-                main.getLogger().warning("You are using percentage prices in your config file. This is only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+                main.getLogger().warning("You are using percentage prices in your config file. This is only available in AngelChestPlus. See here: " + AngelChestMain.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
                 return 0;
             }
             final double percentage = Double.parseDouble(value.substring(0, value.length() - 1));
@@ -133,6 +140,27 @@ public final class GroupUtils {
             bestValueFound = false;
         }
         return bestValueFound == null && main.getConfig().getBoolean(Config.ALLOW_TP_ACROSS_WORLDS);
+    }
+
+    public boolean getSuspendWhenOffline(final CommandSender commandSender) {
+        if (yaml == null) return main.getConfig().getBoolean(Config.SUSPEND_COUNTDOWN_OFFLINE_PLAYERS);
+        final Iterator<String> it = groups.keySet().iterator();
+        Boolean bestValueFound = null;
+        while (it.hasNext()) {
+            final String group = it.next();
+            if (groups.get(group).suspendWhenOffline != null) {
+                if (groups.get(group).suspendWhenOffline) {
+                    return true;
+                } else {
+                    bestValueFound = false;
+                }
+            }
+        }
+        if (bestValueFound == null) {
+            return main.getConfig().getBoolean(Config.SUSPEND_COUNTDOWN_OFFLINE_PLAYERS);
+        } else {
+            return bestValueFound;
+        }
     }
 
     public int getMaxFetchDistance(final CommandSender commandSender) {
@@ -256,6 +284,45 @@ public final class GroupUtils {
             return bestValueFound;
         } else {
             return main.getConfig().getInt(Config.ANGELCHEST_DURATION);
+        }
+    }
+
+    public int getPvpDurationPerPlayer(final Player p) {
+
+        int globalPvpDefault = main.getConfig().getInt(Config.ANGELCHEST_DURATION_IN_PVP);
+        int globalNonPvpDefault = main.getConfig().getInt(Config.ANGELCHEST_DURATION);
+
+        if (yaml == null) {
+            if (globalPvpDefault == -1) {
+                return globalNonPvpDefault;
+            } else {
+                return globalPvpDefault;
+            }
+        }
+
+        final Iterator<String> it = groups.keySet().iterator();
+        Integer bestValueFound = null;
+        while (it.hasNext()) {
+            final String group = it.next();
+            if (!p.hasPermission(Permissions.PREFIX_GROUP + group)) continue;
+            final int declared = groups.get(group).pvpDuration;
+            int valuePerPlayer = declared != -1 ? declared : groups.get(group).duration;
+            if (valuePerPlayer == -2) {
+                continue;
+            }
+            if (valuePerPlayer == -1) {
+                valuePerPlayer = groups.get(group).duration;
+            }
+
+            if (valuePerPlayer == 0) {
+                return 0;
+            }
+            bestValueFound = bestValueFound == null ? valuePerPlayer : Math.max(valuePerPlayer, bestValueFound);
+        }
+        if (bestValueFound != null) {
+            return bestValueFound;
+        } else {
+            return main.getConfig().getInt(Config.ANGELCHEST_DURATION_IN_PVP);
         }
     }
 

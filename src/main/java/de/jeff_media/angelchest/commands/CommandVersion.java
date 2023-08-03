@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.commands;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
@@ -28,17 +28,17 @@ public final class CommandVersion implements CommandExecutor {
     public boolean onCommand(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String alias, @NotNull final String[] args) {
 
         if (!commandSender.hasPermission(Permissions.VERSION)) {
-            Messages.send(commandSender, Main.getInstance().messages.MSG_NO_PERMISSION);
+            Messages.send(commandSender, AngelChestMain.getInstance().messages.MSG_NO_PERMISSION);
             return true;
         }
 
-        final String[] output = new String[]{"§6===[§bAngelChest Version§6]===", "§eAngelChest" + (Daddy_Stepsister.allows(PremiumFeatures.GENERIC) ? "Plus " : " ") + Main.getInstance().getDescription().getVersion(),
+        final String[] output = new String[]{"§6===[§bAngelChest Version§6]===", "§eAngelChest" + (Daddy_Stepsister.allows(PremiumFeatures.GENERIC) ? "Plus " : " ") + AngelChestMain.getInstance().getDescription().getVersion(),
                 //"§e" + Bukkit.getBukkitVersion(),
                 "§e" + Bukkit.getVersion(), "",};
 
         final TextComponent discord = new TextComponent("(Click here for Discord support)");
-        discord.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, Main.DISCORD_LINK));
-        discord.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Discord: " + Main.DISCORD_LINK)));
+        discord.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, AngelChestMain.DISCORD_LINK));
+        discord.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Discord: " + AngelChestMain.DISCORD_LINK)));
         discord.setItalic(true);
         discord.setColor(ChatColor.GOLD);
 
@@ -49,7 +49,7 @@ public final class CommandVersion implements CommandExecutor {
             Messages.send(commandSender, ChatColor.GOLD + "Discord support: https://discord.jeff-media.de");
         }
 
-        if (!Main.getInstance().getConfig().getString(Config.CHECK_FOR_UPDATES).equalsIgnoreCase("false")) {
+        if (!AngelChestMain.getInstance().getConfig().getString(Config.CHECK_FOR_UPDATES).equalsIgnoreCase("false")) {
             Messages.send(commandSender, "");
             UpdateChecker.getInstance().checkNow(commandSender);
         }

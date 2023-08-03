@@ -1,7 +1,7 @@
 
 package de.jeff_media.angelchest.hooks;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import me.angeschossen.lands.api.integration.LandsIntegration;
 import me.angeschossen.lands.api.player.LandPlayer;
 import me.angeschossen.lands.api.war.War;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class LandsHook {
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
     private static final LandsIntegration lands = new LandsIntegration(main);
 
     public static boolean isInWar(Player player1, Player player2) {

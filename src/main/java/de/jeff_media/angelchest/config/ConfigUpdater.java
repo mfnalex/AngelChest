@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.config;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -54,7 +54,7 @@ public final class ConfigUpdater {
             Config.ANGELCHEST_LIST,
             "gui-info-lore");
 
-    private static void backupCurrentConfig(final Main main) {
+    private static void backupCurrentConfig(final AngelChestMain main) {
         final File oldFile = new File(getFilePath(main, "config.yml"));
         final File newFile = new File(getFilePath(main, "config-backup-" + main.getConfig().getString(Config.CONFIG_PLUGIN_VERSION) + ".yml"));
         if (newFile.exists()) newFile.delete();
@@ -73,11 +73,11 @@ public final class ConfigUpdater {
         }
     }
 
-    private static String getFilePath(final Main main, final String fileName) {
+    private static String getFilePath(final AngelChestMain main, final String fileName) {
         return main.getDataFolder() + File.separator + fileName;
     }
 
-    private static List<String> getNewConfigAsArrayList(final Main main) {
+    private static List<String> getNewConfigAsArrayList(final AngelChestMain main) {
         final List<String> lines;
         try {
             lines = Files.readAllLines(Paths.get(getFilePath(main, "config.yml")), StandardCharsets.UTF_8);
@@ -94,7 +94,7 @@ public final class ConfigUpdater {
      * @return default config version
      */
     private static long getNewConfigVersion() {
-        final InputStream in = Main.getInstance().getClass().getResourceAsStream("/config-version.txt");
+        final InputStream in = AngelChestMain.getInstance().getClass().getResourceAsStream("/config-version.txt");
         final BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         try {
             return Long.parseLong(reader.readLine());
@@ -149,7 +149,7 @@ public final class ConfigUpdater {
         return false;
     }
 
-    private static void saveArrayListToConfig(final Main main, final List<String> lines) {
+    private static void saveArrayListToConfig(final AngelChestMain main, final List<String> lines) {
         try {
             final BufferedWriter fw = Files.newBufferedWriter(new File(getFilePath(main, "config.yml")).toPath(), StandardCharsets.UTF_8);
             for (final String line : lines) {
@@ -165,7 +165,7 @@ public final class ConfigUpdater {
      * Attempts to update the config
      */
     public static void updateConfig() {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         final Logger logger = main.getLogger();
         debug(logger, "Newest config version  = " + getNewConfigVersion());
         debug(logger, "Current config version = " + main.getConfig().getLong(Config.CONFIG_VERSION));

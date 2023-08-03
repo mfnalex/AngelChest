@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.handlers;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.daddy.Daddy_Stepsister;
@@ -26,7 +26,7 @@ import java.util.Set;
 
 public class ItemManager {
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
 
     @Getter private final HashMap<String, ItemStack> items;
     //@Getter private final HashMap<String, String> itemNames;

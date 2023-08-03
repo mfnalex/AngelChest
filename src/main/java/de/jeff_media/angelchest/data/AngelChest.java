@@ -3,7 +3,7 @@ package de.jeff_media.angelchest.data;
 import com.jeff_media.jefflib.ConfigUtils;
 import com.jeff_media.jefflib.data.tuples.Pair;
 import de.jeff_media.angelchest.Compatibility;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.ChestYaml;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
@@ -46,6 +46,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     private static final int MAX_INVENTORY_SIZE = 54;
     private static final int STORAGE_INVENTORY_SIZE = 36;
     public ItemStack[] armorInv;
+    public boolean suspendWhenOffline = false;
     public List<ItemStack> blacklistedItems;
     public Block block;
     public long created;
@@ -57,7 +58,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public boolean isProtected;
     public int levels = 0;
     public String logfile;
-    public Main main;
+    public AngelChestMain main;
     public List<String> openedBy;
     public Inventory overflowInv;
     public UUID owner;
@@ -82,7 +83,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param file File containing the AngelChest data
      */
     public @Nullable AngelChest(final File file) {
-        main = Main.getInstance();
+        main = AngelChestMain.getInstance();
         if (main.debug) main.debug("Creating AngelChest from file " + file.getName());
         Compatibility.removeOldDeathCause(file);
         final YamlConfiguration yaml;
@@ -105,9 +106,12 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             return;
         }*/
 
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
         this.owner = UUID.fromString(Objects.requireNonNull(yaml.getString(ChestYaml.OWNER_UUID)));
         this.levels = yaml.getInt(ChestYaml.EXP_LEVELS, 0);
+        if(yaml.isSet(Config.SUSPEND_COUNTDOWN_OFFLINE_PLAYERS)) {
+            this.suspendWhenOffline = yaml.getBoolean(Config.SUSPEND_COUNTDOWN_OFFLINE_PLAYERS);
+        }
         this.isProtected = yaml.getBoolean(ChestYaml.IS_PROTECTED);
         this.secondsLeft = yaml.getInt(ChestYaml.SECONDS_LEFT);
         this.infinite = yaml.getBoolean(ChestYaml.IS_INFINITE, false);
@@ -259,20 +263,28 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      */
     public AngelChest(final Player player, final Block block, final String logfile, final DeathCause deathCause, final PlayerDeathEvent event) {
 
-        main = Main.getInstance();
+        main = AngelChestMain.getInstance();
         if (main.debug) main.debug("Creating AngelChest natively for player " + player.getName());
 
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
         this.owner = player.getUniqueId();
         this.block = block;
+        this.suspendWhenOffline = main.groupManager.getSuspendWhenOffline(player);
         this.worldid = block.getWorld().getUID();
         this.logfile = logfile;
         this.uniqueId = UUID.randomUUID();
         this.openedBy = new ArrayList<>();
-        this.price = main.groupUtils.getSpawnPricePerPlayer(player);
+        this.price = main.groupManager.getSpawnPricePerPlayer(player);
         this.isProtected = Objects.requireNonNull(main.getServer().getPlayer(owner)).hasPermission(Permissions.PROTECT);
-        this.secondsLeft = main.groupUtils.getDurationPerPlayer(main.getServer().getPlayer(owner));
-        this.unlockIn = main.groupUtils.getUnlockDurationPerPlayer(main.getServer().getPlayer(owner));
+        this.secondsLeft = main.groupManager.getDurationPerPlayer(main.getServer().getPlayer(owner));
+
+        if(player.getKiller() != null && !player.getKiller().equals(player)) {
+            int newDuration = main.groupManager.getPvpDurationPerPlayer(main.getServer().getPlayer(owner));
+            main.debug("Adjusting secondsLeft for pvp death from " + secondsLeft + " to " + newDuration);
+            this.secondsLeft = newDuration;
+        }
+
+        this.unlockIn = main.groupManager.getUnlockDurationPerPlayer(main.getServer().getPlayer(owner));
         this.deathCause = deathCause;
         this.blacklistedItems = new CopyOnWriteArrayList<>();
         this.created = System.currentTimeMillis();
@@ -328,7 +340,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         }
         LogUtils.debugBanner(new String[]{"PLAYER INVENTORY CONTENTS END"});
 
-        final int randomItemLoss = main.groupUtils.getItemLossPerPlayer(player);
+        final int randomItemLoss = main.groupManager.getItemLossPerPlayer(player);
         if (randomItemLoss > 0) {
             if (Daddy_Stepsister.allows(PremiumFeatures.RANDOM_ITEM_LOSS)) {
                 LogUtils.debugBanner(new String[]{"RANDOM ITEM LOSS"});
@@ -339,7 +351,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
                 }
                 LogUtils.debugBanner(new String[]{"RANDOM ITEM LOSS END"});
             } else {
-                main.getLogger().warning("You are using random-item-loss, which is only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+                main.getLogger().warning("You are using random-item-loss, which is only available in AngelChestPlus. See here: " + AngelChestMain.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
             }
         }
 
@@ -690,7 +702,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             if (main.debug) main.debug("Yes, they did!");
             return true;
         }
-        final double price = main.groupUtils.getOpenPricePerPlayer(player);
+        final double price = main.groupManager.getOpenPricePerPlayer(player);
         final ItemStack priceItem = main.getItemManager().getItem(main.getConfig().getString(Config.PRICE_OPEN));
         if (main.debug) main.debug("No, they didn't... It will cost " + price);
         main.logger.logPaidForChest(player, price, main.logger.getLogFile(logfile));
@@ -794,6 +806,8 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         if(uniqueId != null) {
             yaml.set("uniqueId", uniqueId.toString());
         }
+
+        yaml.set(Config.SUSPEND_COUNTDOWN_OFFLINE_PLAYERS, suspendWhenOffline);
 
         // We are not using block objects to avoid problems with unloaded or removed worlds
         yaml.set(ChestYaml.WORLD_UID, Objects.requireNonNull(block.getLocation().getWorld()).getUID().toString());

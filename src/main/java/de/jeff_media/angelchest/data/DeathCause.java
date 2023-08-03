@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.data;
 
 import com.google.common.base.Enums;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 public final class DeathCause {
 
-    private final Main main = Main.getInstance();
+    private final AngelChestMain main = AngelChestMain.getInstance();
     private final EntityDamageEvent.DamageCause damageCause;
     private String killerName;
     private boolean enderCrystalDeath = false;
@@ -31,7 +31,7 @@ public final class DeathCause {
     }*/
 
     public DeathCause(final EntityDamageEvent entityDamageEvent) {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
 
         // Some plugins do strange stuff and kill players without EntityDamageEvent
         if (entityDamageEvent == null) {

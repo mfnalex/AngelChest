@@ -2,8 +2,8 @@ package de.jeff_media.angelchest.config;
 
 import com.google.common.base.Enums;
 import com.jeff_media.jefflib.FileUtils;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.EmergencyMode;
-import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.data.BlacklistEntry;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIManager;
@@ -14,7 +14,7 @@ import de.jeff_media.angelchest.hooks.GenericHooks;
 import de.jeff_media.angelchest.hooks.MinepacksHook;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
 import de.jeff_media.angelchest.nbt.NBTUtils;
-import de.jeff_media.angelchest.utils.GroupUtils;
+import de.jeff_media.angelchest.handlers.GroupManager;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
 import de.jeff_media.daddy.Daddy_Stepsister;
 import com.jeff_media.jefflib.DebugUtils;
@@ -37,10 +37,10 @@ import java.util.stream.Collectors;
  */
 public final class ConfigUtils {
 
-    private static final File DEATH_CAUSE_FILE = new File(Main.getInstance().getDataFolder(),"death-causes.yml");
-    private static final File ITEMS_FILE = new File(Main.getInstance().getDataFolder(), "items.yml");
+    private static final File DEATH_CAUSE_FILE = new File(AngelChestMain.getInstance().getDataFolder(),"death-causes.yml");
+    private static final File ITEMS_FILE = new File(AngelChestMain.getInstance().getDataFolder(), "items.yml");
 
-    static final Main main = Main.getInstance();
+    static final AngelChestMain main = AngelChestMain.getInstance();
 
     static void createConfig() {
 
@@ -92,6 +92,12 @@ public final class ConfigUtils {
 
         conf.addDefault(Config.SHOW_LOCATION, true);
         metric(Config.SHOW_LOCATION);
+
+        conf.addDefault(Config.ANGELCHEST_DURATION_IN_PVP, -1);
+        metric(Config.ANGELCHEST_DURATION_IN_PVP);
+
+        conf.addDefault(Config.SUSPEND_COUNTDOWN_OFFLINE_PLAYERS, false);
+        metric(Config.SUSPEND_COUNTDOWN_OFFLINE_PLAYERS);
 
         conf.addDefault(Config.ANGELCHEST_DURATION, 600);
         metric(Config.ANGELCHEST_DURATION);
@@ -464,7 +470,7 @@ sound-channel: BLOCKS
 
     @SuppressWarnings("SameParameterValue")
     static void createDirectory(final String name) {
-        final File folder = new File(Main.getInstance().getDataFolder().getPath() + File.separator + name);
+        final File folder = new File(AngelChestMain.getInstance().getDataFolder().getPath() + File.separator + name);
         if (!folder.getAbsoluteFile().exists()) {
             folder.mkdirs();
         }
@@ -473,27 +479,27 @@ sound-channel: BLOCKS
     public static @Nullable String[] getBrokenConfigFiles() {
         final ArrayList<String> files = new ArrayList<>();
         for (final String fileName : new String[]{"config.yml", "blacklist.yml", "groups.yml","graveyards.yml"}) {
-            Main.getInstance().debug("Checking if file is broken: " + fileName);
-            final File file = new File(Main.getInstance().getDataFolder(), fileName);
+            AngelChestMain.getInstance().debug("Checking if file is broken: " + fileName);
+            final File file = new File(AngelChestMain.getInstance().getDataFolder(), fileName);
 
             if (!file.exists()) continue;
 
             final YamlConfiguration config = new YamlConfiguration();
             try {
                 config.load(file);
-                Main.getInstance().debug("- Valid file: " + fileName);
+                AngelChestMain.getInstance().debug("- Valid file: " + fileName);
             } catch (final FileNotFoundException e) {
-                Main.getInstance().debug("- Missing file: " + fileName);
+                AngelChestMain.getInstance().debug("- Missing file: " + fileName);
             } catch (final Exception e) {
                 files.add(fileName);
-                Main.getInstance().debug("- Broken file: " + fileName);
+                AngelChestMain.getInstance().debug("- Broken file: " + fileName);
             }
         }
         return files.isEmpty() ? null : files.toArray(new String[0]);
     }
 
     private static Map<String, BlacklistEntry> loadItemBlacklist() {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         final Map<String, BlacklistEntry> set = new HashMap<>();
         final File yamlFile = new File(main.getDataFolder() + File.separator + "blacklist.yml");
         if (!yamlFile.exists()) {
@@ -511,15 +517,17 @@ sound-channel: BLOCKS
         if (value.length() > 2 && value.endsWith(".0")) value = value.substring(0, value.length() - 2);
         final String finalValue = value;
         try {
-            Main.getInstance().metrics.addCustomChart(new Metrics.SimplePie(name.replace('-', '_').toLowerCase(), () -> finalValue));
+            if(false) {
+                AngelChestMain.getInstance().metrics.addCustomChart(new Metrics.SimplePie(name.replace('-', '_').toLowerCase(), () -> finalValue));
+            }
         } catch (NullPointerException e) {
-            Main.getInstance().getLogger().warning("Could not add metrics value for " + name);
+            AngelChestMain.getInstance().getLogger().warning("Could not add metrics value for " + name);
         }
         //System.out.println("Adding metric "+name+" -> "+value);
     }
 
     static void metric(final String name) {
-        metric(name, Main.getInstance().getConfig().getString(name));
+        metric(name, AngelChestMain.getInstance().getConfig().getString(name));
     }
 
     static void metric(final String name, final List<String> values) {
@@ -530,7 +538,7 @@ sound-channel: BLOCKS
 
     public static void reloadCompleteConfig(final boolean reload) {
 
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         /*Daddy start*/
         //Stepsister.init(main); // TODO
         /*Daddy end*/
@@ -549,7 +557,7 @@ sound-channel: BLOCKS
         main.pendingConfirms = new HashMap<>();
         final File groupsFile = new File(main.getDataFolder() + File.separator + "groups.yml");
         final File protectionFile = new File(main.getDataFolder() + File.separator + "protected.yml");
-        main.groupUtils = new GroupUtils(groupsFile);
+        main.groupManager = new GroupManager(groupsFile);
         main.protectionUtils = new ProtectionUtils(protectionFile);
         // TODO: Reload WorldGuardWrapper only on reload, not on startup
         //main.worldGuardWrapper = WorldGuardWrapper.init();
@@ -594,7 +602,7 @@ sound-channel: BLOCKS
     private static void loadWorldHeights() {
         main.getWorldMinBuildHeights().clear();
         main.getWorldMaxBuildHeights().clear();
-        File toLoad = new File(Main.getInstance().getDataFolder(), "world-build-heights.yml");
+        File toLoad = new File(AngelChestMain.getInstance().getDataFolder(), "world-build-heights.yml");
         if(!toLoad.exists()) {
             main.saveResource("world-build-heights.yml",true);
         }
@@ -616,7 +624,7 @@ sound-channel: BLOCKS
     }
 
     public static void validateConfigFiles() {
-        Main.getInstance().invalidConfigFiles = getBrokenConfigFiles();
+        AngelChestMain.getInstance().invalidConfigFiles = getBrokenConfigFiles();
         EmergencyMode.warnBrokenConfig();
     }
 }

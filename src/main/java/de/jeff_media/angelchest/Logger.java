@@ -27,14 +27,14 @@ import java.util.Set;
  */
 public final class Logger {
 
-    final Main main;
+    final AngelChestMain main;
     final long maxOffsetBeforeRemoval;
     final String path;
     final double removeEveryXHours;
     final double removeOlderThanXHours;
 
     public Logger() {
-        main = Main.getInstance();
+        main = AngelChestMain.getInstance();
         path = main.getDataFolder() + File.separator + "logs";
         if (!Files.isDirectory(new File(path).toPath())) {
             main.getLogger().info("Created log folder at " + path);

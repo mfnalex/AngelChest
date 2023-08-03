@@ -1,6 +1,6 @@
 //package de.jeff_media.angelchest.listeners;
 //
-//import de.jeff_media.angelchest.Main;
+//import de.jeff_media.angelchest.AngelChestMain;
 //import org.bukkit.ChatColor;
 //import org.bukkit.command.CommandSender;
 //import org.bukkit.entity.Player;
@@ -10,10 +10,10 @@
 //
 //public class UpdateCheckListener implements @NotNull Listener {
 //
-//    private final Main main;
+//    private final AngelChestMain main;
 //
 //    public UpdateCheckListener() {
-//        this.main = Main.getInstance();
+//        this.main = AngelChestMain.getInstance();
 //    }
 //
 //    @EventHandler

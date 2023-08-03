@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.commands;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.CommandArgument;
@@ -19,10 +19,10 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class CommandFetchOrTeleport implements CommandExecutor {
 
-    final Main main;
+    final AngelChestMain main;
 
     public CommandFetchOrTeleport() {
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
     }
 
     @Override

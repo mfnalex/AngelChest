@@ -18,7 +18,7 @@
     <keep-names>
         <class template="class de.jeff_media.angelchest.AngelChest" />
         <class template="class de.jeff_media.angelchest.AngelChestPlugin" />
-        <class template="class de.jeff_media.angelchest.Main" />
+        <class template="class de.jeff_media.angelchest.AngelChestMain" />
         <class template="class de.jeff_media.angelchest.JeffLib" />
         <method template="getHandlerList()" />
         <class template="class **API**">
@@ -42,9 +42,9 @@
     <property name="default-package" value="de.jeff_media.angelchest"/>
     <property name="force-default-package" value="enable"/>
 
-    <property name="classes-naming-prefix" value="Main$"/>
-    <property name="methods-naming-prefix" value="$"/>
-    <property name="fields-naming-prefix" value="$"/>
+    <property name="classes-naming-prefix" value="AngelChestMain$$"/>
+    <property name="methods-naming-prefix" value="$$"/>
+    <property name="fields-naming-prefix" value="$$"/>
 
     <property name="classes-naming" value="compact"/>
     <property name="packages-naming" value="abc"/>
@@ -54,10 +54,10 @@
 
     <property name="synthetize-methods" value="disable"/>
     <property name="synthetize-fields" value="disable"/>
-    <property name="remove-toString" value="enable"/>
+    <property name="remove-toString" value="disable"/>
     <property name="string-encryption" value="maximum"/>
     <property name="string-encryption-type" value="fast"/>
-    <property name="string-encryption-version" value="v4" add="de.jeff_media.angelchest.Main"/>
+    <property name="string-encryption-version" value="v4" add="de.jeff_media.angelchest.AngelChestMain"/>
     <property name="string-encryption-ignored-strings" value="../allatori/spigotmc-patterns.txt"/>
 
     <ignore-classes>

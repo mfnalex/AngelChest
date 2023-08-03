@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.utils;
 
 import com.google.common.base.Enums;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.data.AngelChest;
 import org.bukkit.Bukkit;
@@ -79,7 +79,7 @@ public final class Utils {
      * @return true if world is enabled, false if it's on the blacklist
      */
     public static boolean isWorldEnabled(final World world) {
-        for (final String worldName : Main.getInstance().disabledWorlds) {
+        for (final String worldName : AngelChestMain.getInstance().disabledWorlds) {
             if (world.getName().equalsIgnoreCase(worldName)) {
                 return false;
             }
@@ -88,7 +88,7 @@ public final class Utils {
     }
 
     public static void sendDelayedMessage(final Player p, final String message, final long delay) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(AngelChestMain.getInstance(), () -> {
             if (p == null) return;
             if (!(p instanceof Player)) return;
             if (!p.isOnline()) return;

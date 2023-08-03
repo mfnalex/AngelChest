@@ -11,7 +11,7 @@ import co.aikar.commands.annotation.Optional;
 import co.aikar.commands.annotation.Subcommand;
 import co.aikar.commands.annotation.Syntax;
 import de.jeff_media.angelchest.AngelChest;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.ConfigUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -31,7 +31,7 @@ import static co.aikar.commands.ACFBukkitUtil.sendMsg;
 @CommandPermission("angelchest.admin")
 public class ACFacadmin extends BaseCommand {
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
 
     /*@Subcommand("applytag")
     @CommandCompletion("@items")

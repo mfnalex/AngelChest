@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.enchantments;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import com.jeff_media.jefflib.PDCUtils;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Glow extends Enchantment {
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
 
     public Glow() {
         super(PDCUtils.getKey("acglow"));

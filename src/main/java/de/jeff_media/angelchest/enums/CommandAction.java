@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.enums;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Permissions;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +16,7 @@ public enum CommandAction {
     UNLOCK_CHEST(Permissions.PROTECT, "", "acunlock"),
     LIST_CHESTS(Permissions.USE, "", "aclist");
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
 
     private final String command;
     private final String economyReason;
@@ -49,11 +49,11 @@ public enum CommandAction {
     }
 
     public double getPrice(final CommandSender player) {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         if (this == TELEPORT_TO_CHEST) {
-            return main.groupUtils.getTeleportPricePerPlayer(player);
+            return main.groupManager.getTeleportPricePerPlayer(player);
         } else if (this == FETCH_CHEST) {
-            return main.groupUtils.getFetchPricePerPlayer(player);
+            return main.groupManager.getFetchPricePerPlayer(player);
         } else {
             return 0.0D;
         }

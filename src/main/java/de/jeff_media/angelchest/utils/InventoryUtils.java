@@ -1,10 +1,8 @@
 package de.jeff_media.angelchest.utils;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -15,7 +13,7 @@ import java.util.Set;
 
 public class InventoryUtils {
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
 
     public static int getAmountOfItemStacks(final PlayerInventory playerInventory) {
         int stacks = 0;

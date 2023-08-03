@@ -10,9 +10,14 @@
 # Every option here has an identical option in the config.yml. You can find information
 # there whether one of the options is premium only or also available in the free version.
 #
+# IMPORTANT: If you want to use the global setting for an option for a specific group,
+# you should UNSET the option in the group instead of setting it to false or 0 or whatever.
+#
 # Available options:
 #   angelchest-duration: <duration in seconds> (e.g. 600, 0 = infinite chest)
+#   angelchest-duration-in-pvp: <duration in seconds> (e.g. 600, 0 = infinite chest, -1 = same as "angelchest-duration")
 #   unlock-duration: <duration in seconds> (e.g. 300, 0 = never unlock automatically)
+#   suspend-countdowns-when-player-is-offline: true|false
 #   max-allowed-angelchests: <number of chests> (e.g. 10)
 #   price: <price for spawning the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
 #   price-open: <price for opening the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
@@ -32,7 +37,9 @@
 
 admin:
   angelchest-duration: 1500
+  angelchest-duration-in-pvp: 3000
   unlock-duration: 0
+  suspend-countdowns-when-player-is-offline: true
   max-allowed-angelchests: 999
   price: 0
   price-open: 0
@@ -50,12 +57,14 @@ admin:
 mod:
   angelchest-duration: 1200
   unlock-duration: 0
+  suspend-countdowns-when-player-is-offline: true
   max-allowed-angelchests: 10
   xp-percentage: 0.8
   spawn-chance: 1.0
 donor:
   angelchest-duration: 900
   unlock-duration: 450
+  suspend-countdowns-when-player-is-offline: true
   max-allowed-angelchests: 7
   spawn-chance: 1.0
 noob:

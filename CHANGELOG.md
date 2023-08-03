@@ -8,6 +8,17 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 9.15.0
+- Added config option "suspend-countdowns-when-player-is-offline"
+  - When set to false (default), AngelChest will continue counting down the time until a chest expires even when the player is offline
+  - When set to true, AngelChest will suspend the countdown when the player is offline and resume it when the player logs in again
+  - This can of course also be configured per group in groups.yml
+- Added config option "angelchest-duration-in-pvp" to change the duration of AngelChests spawned during PvP
+  - Default is -1, which means that the duration is the same as for non-PvP deaths
+  - Set to 0 for infinite duration
+  - Set to any positive number to set the duration in seconds
+  - Can also be changed per group in groups.yml
+
 ## 9.13.0
 - Money dropped by Moneyhunters on death will no longer be included in the AngelChest
 - Added command "/acadmin open" that opens the GUI of a player's AngelChest

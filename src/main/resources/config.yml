@@ -77,7 +77,7 @@
 #                            Reloads the config
 #
 # /acdebug                   Permission: angelchest.debug
-#                            Main debug command. Enter /acdebug for more information
+#                            AngelChestMain debug command. Enter /acdebug for more information
 
 # Note: You can add new command aliases, see "Command Settings" at about line 800 in this config.yml
 
@@ -111,6 +111,11 @@
 # Default is 600 seconds = 10 minutes
 angelchest-duration: 600
 
+# The "angelchest-duration" (see above) for players who died in PvP.
+# Use 0 for infinite duration.
+# When set to -1, it uses the same value as the normal "angelchest-duration" setting.
+angelchest-duration-in-pvp: -1
+
 # If players have their chests protected (angelchest.protect permission),
 # you can define a duration in seconds to automatically unlock the chests.
 # Use 0 to never automatically unlock chests.
@@ -120,6 +125,12 @@ angelchest-duration: 600
 # Default is 0 = never
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 unlock-duration: 0
+
+# When set to true, countdowns (angelchest-duration, angelchest-duration-in-pvp, unlock-duration)
+# only count down while the player is online ("online time").
+# When set to false (default), countdowns use "real time"
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
+suspend-countdowns-when-player-is-offline: false
 
 # The maximum amount of AngelChests a player may have at the same time.
 # If a player dies again so that they would exceed this number, the

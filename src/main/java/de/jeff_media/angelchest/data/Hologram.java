@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.data;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.nbt.NBTTags;
@@ -34,7 +34,7 @@ public final class Hologram {
     public final ArrayList<UUID> armorStandUUIDs;
     public final String text;
     final double lineOffset;
-    private final Main main;
+    private final AngelChestMain main;
     boolean usePapi = false;
 
     /**
@@ -45,7 +45,7 @@ public final class Hologram {
      * @param chest AngelChest this hologram belongs to
      */
     public Hologram(final Block block, final String text, final AngelChest chest) {
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
         final int totalLineNumbers = text.split("\n").length;
         lineOffset = main.getConfig().getDouble(Config.HOLOGRAM_OFFSET_PER_LINE);
         final Location location = block.getLocation().add(new Vector(0.5, -1.3 + main.getConfig().getDouble(Config.HOLOGRAM_OFFSET), 0.5)).add(new Vector(0, lineOffset * totalLineNumbers, 0));

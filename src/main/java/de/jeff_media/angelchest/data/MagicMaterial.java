@@ -1,6 +1,6 @@
 //package de.jeff_media.angelchest.data;
 //
-//import de.jeff_media.angelchest.Main;
+//import de.jeff_media.angelchest.AngelChestMain;
 //import de.jeff_media.angelchest.config.Config;
 //import de.jeff_media.angelchest.hooks.OraxenHook;
 //import de.jeff_media.angelchest.utils.HeadCreator;
@@ -21,7 +21,7 @@
 //@AllArgsConstructor
 //public class MagicMaterial {
 //
-//    private static final Main main = Main.getInstance();
+//    private static final AngelChestMain main = AngelChestMain.getInstance();
 //
 //    @Getter @NotNull private Material material;
 //    @Getter @Nullable private String customName;
@@ -85,7 +85,7 @@
 //    }
 //
 //    public static MagicMaterial fromString(String itemName, Material defaultMaterial) {
-//        final Main main = Main.getInstance();
+//        final AngelChestMain main = AngelChestMain.getInstance();
 //
 //        // BlockData
 //        if(itemName.contains(":") && itemName.contains("[") && itemName.contains("]")) {

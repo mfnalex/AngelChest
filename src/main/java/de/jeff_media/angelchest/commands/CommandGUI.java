@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.commands;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
@@ -16,11 +16,11 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class CommandGUI implements CommandExecutor {
 
-    final Main main;
+    final AngelChestMain main;
 
     public CommandGUI() {
-        this.main = Main.getInstance();
-        //Chicken.wing(main, Main.SCHEDULE_TASKS);
+        this.main = AngelChestMain.getInstance();
+        //Chicken.wing(main, AngelChestMain.SCHEDULE_TASKS);
     }
 
     @Override

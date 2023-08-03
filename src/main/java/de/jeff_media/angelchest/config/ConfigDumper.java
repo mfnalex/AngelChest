@@ -1,8 +1,9 @@
 package de.jeff_media.angelchest.config;
 
 import com.jeff_media.jefflib.data.McVersion;
+import de.jeff_media.angelchest.utils.SpigotIdGetter;
 import org.apache.commons.io.FileUtils;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.daddy.Daddy_Stepsister;
 import org.apache.commons.lang.StringUtils;
@@ -45,7 +46,7 @@ public final class ConfigDumper {
     }
 
     public static void dump(final CommandSender sender) {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         final File dumpDir = new File(main.getDataFolder(), "dump.zip");
         if (dumpDir.exists()) {
             dumpDir.delete();
@@ -94,7 +95,7 @@ public final class ConfigDumper {
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, banner("Server information"));
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Server Version: " + Bukkit.getVersion());
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Bukkit API Version: " + Bukkit.getBukkitVersion());
-        de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Plugin version: " + main.getDescription().getName() + (Daddy_Stepsister.allows(PremiumFeatures.GENERIC) ? "Plus" : "") + " " + main.getDescription().getVersion());
+        de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "Plugin version: " + main.getDescription().getName() + (Daddy_Stepsister.allows(PremiumFeatures.GENERIC) ? "Plus" : "") + " " + main.getDescription().getVersion() + (AngelChestMain.isPremiumVersion ? " @ " + SpigotIdGetter.getSpigotId() : ""));
 
         // Broken config files
         Messages.send(sender, "Saving config check...");

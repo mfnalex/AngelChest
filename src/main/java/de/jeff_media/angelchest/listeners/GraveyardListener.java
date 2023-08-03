@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.listeners;
 
 import com.jeff_media.jefflib.EntityUtils;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.events.PlayerEnterLeaveGraveyardEvent;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
@@ -29,7 +29,7 @@ import java.util.HashMap;
 public class GraveyardListener implements Listener {
 
     private static final int CHECK_RADIUS = 3;
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
     private static final HashMap<Player, Graveyard> playerGraveyardMap = new HashMap<>();
     @Getter private static final HashMap<Player, Collection<PotionEffect>> activePotionEffects = new HashMap<>();
 

@@ -49,27 +49,15 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * AngelChest Main class
+ * AngelChest AngelChestMain class
  */
-public final class Main extends JavaPlugin implements AngelChestPlugin {
+public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin {
 
-    public static boolean SCHEDULE_TASKS = true;
-
-    {
-        JeffLib.init(this);
-    }
-
-    @DoNotRename public static boolean isPremiumVersion = true;
-
-    @Getter @Setter private ItemManager itemManager;
-    @Getter private final Glow glowEnchantment = new Glow();
-
-    @Getter private PvpTracker pvpTrackerDropHeads;
-    @Getter private final CurrencyFormatter currencyFormatter = new CurrencyFormatter(this);
 
     public static final int BSTATS_ID = 3194;
     public static final String DISCORD_LINK = "https://discord.jeff-media.de";
@@ -81,13 +69,31 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     public static final String UPDATECHECKER_LINK_DOWNLOAD_PLUS = "https://www.spigotmc.org/resources/" + SPIGOT_RESOURCE_ID_PLUS;
     public static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/" + SPIGOT_RESOURCE_ID_PLUS + "/updates";
     private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/angelchestplus/latest-version.txt";
-    private static Main instance;
+    public static boolean SCHEDULE_TASKS = true;
+    @DoNotRename
+    public static boolean isPremiumVersion = true;
+    private static AngelChestMain instance;
     private static WorldGuardWrapper worldGuardWrapper;
-    @Getter private final Map<String,Integer> worldMinBuildHeights = new HashMap<>();
-    @Getter private final Map<String,Integer> worldMaxBuildHeights = new HashMap<>();
-    //private SkinManager skinManager;
-    //private NPCManager npcManager;
-
+    @Getter
+    public final Object A_ENSURE_JEFFLIB_INIT = ((Supplier<Object>) () -> {
+        try {
+            JeffLib.init(AngelChestMain.this);
+        } catch (Throwable ignored) {
+        }
+        return null;
+    }).get();
+    @Getter
+    private final Glow glowEnchantment = new Glow();
+    @Getter
+    private final CurrencyFormatter currencyFormatter = new CurrencyFormatter(this);
+    @Getter
+    private final Map<String, Integer> worldMinBuildHeights = new HashMap<>();
+    @Getter
+    private final Map<String, Integer> worldMaxBuildHeights = new HashMap<>();
+    public List<AngelChest> angelChests;
+    public boolean debug = false;
+    //public java.util.logging.Logger debugLogger;
+    public boolean disableDeathEvent = false;
     /*public SkinManager getSkinManager() {
         return skinManager;
     }
@@ -95,19 +101,16 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     public NPCManager getNpcManager() {
         return npcManager;
     }*/
-
-    public List<AngelChest> angelChests;
-    public boolean debug = false;
-    //public java.util.logging.Logger debugLogger;
-    public boolean disableDeathEvent = false;
     public List<String> disabledMaterials;
+    //private SkinManager skinManager;
+    //private NPCManager npcManager;
     public List<String> disabledRegions;
     public List<String> disabledWorlds;
     public List<Material> dontSpawnOn;
     public Economy econ;
     public EconomyStatus economyStatus = EconomyStatus.UNKNOWN;
     public GenericHooks genericHooks;
-    public GroupUtils groupUtils;
+    public GroupManager groupManager;
     public ProtectionUtils protectionUtils;
     public GUIListener guiListener;
     public GUIManager guiManager;
@@ -127,9 +130,16 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     public Watchdog watchdog;
     public YamlConfiguration customDeathCauses;
     public IExecutableItemsHook executableItemsHook;
-    //@Getter @Setter private IgnoredSlotsHandler ignoredSlotsHandler;
-    @Getter @Setter private boolean itemsAdderLoaded = false;
     boolean emergencyMode = false;
+    @Getter
+    @Setter
+    private ItemManager itemManager;
+    @Getter
+    private PvpTracker pvpTrackerDropHeads;
+    //@Getter @Setter private IgnoredSlotsHandler ignoredSlotsHandler;
+    @Getter
+    @Setter
+    private boolean itemsAdderLoaded = false;
     @SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
     private String NONCE = "%%__NONCE__%%";
     @SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
@@ -137,7 +147,15 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     @SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
     private String UID = "%%__USER__%%";
 
-    public static Main getInstance() {
+    {
+        try {
+            JeffLib.init(this);
+        } catch (Throwable ignored) {
+
+        }
+    }
+
+    public static AngelChestMain getInstance() {
         return instance;
     }
 
@@ -150,7 +168,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }
 
     public int getWorldMinHeight(World world) {
-        return worldMinBuildHeights.getOrDefault(world.getName(),McVersion.current().isAtLeast(1,16,5) ? world.getMinHeight() : 0);
+        return worldMinBuildHeights.getOrDefault(world.getName(), McVersion.current().isAtLeast(1, 16, 5) ? world.getMinHeight() : 0);
     }
 
     public int getWorldMaxHeight(World world) {
@@ -216,16 +234,16 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     @SneakyThrows
     private CustomBlock getCustomBlock(String id, Material fallback) {
-        return CustomBlock.fromStringOrDefault(id,fallback);
+        return CustomBlock.fromStringOrDefault(id, fallback);
     }
 
     public CustomBlock getChestMaterial(final AngelChest chest) {
         if (!Daddy_Stepsister.allows(PremiumFeatures.GENERIC)) {
             return getCustomBlock(getConfig().getString(Config.MATERIAL), Material.CHEST);
         }
-        if(Daddy_Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
-            if(chest.getGraveyard() != null) {
-                if(chest.getGraveyard().hasCustomMaterial()) {
+        if (Daddy_Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
+            if (chest.getGraveyard() != null) {
+                if (chest.getGraveyard().hasCustomMaterial()) {
                     return chest.getGraveyard().getCustomMaterial();
                 }
             }
@@ -287,7 +305,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
             return false;
         }
         Material shouldBe = getChestMaterial(chest).getMaterial();
-        if(shouldBe == null) {
+        if (shouldBe == null) {
             return false;
         }
         Material actuallyIs = block.getLocation().getBlock().getType();
@@ -297,15 +315,15 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         return result;
     }
 
-    public @Nullable Pair<String,Boolean> isItemBlacklisted(final ItemStack item, int slot) {
+    public @Nullable Pair<String, Boolean> isItemBlacklisted(final ItemStack item, int slot) {
         if (!Daddy_Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add feature here, gets called for every item on death
             return null;
         }
-        Pair<String,Boolean> firstFound = null;
+        Pair<String, Boolean> firstFound = null;
         for (final BlacklistEntry entry : itemBlacklist.values()) {
             final BlacklistResult result = entry.matches(item, slot);
             if (result == BlacklistResult.MATCH_IGNORE) {
-                if(firstFound == null) {
+                if (firstFound == null) {
                     firstFound = new Pair<>(result.getName(), false);
                 }
             } else if (result == BlacklistResult.MATCH_DELETE) {
@@ -335,7 +353,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
                     }
                 } catch (Throwable t) {
                     child.renameTo(new File(getDataFolder().getPath() + File.separator + "angelchests" + File.separator + "shadow", child.getName()));
-                    if(debug) t.printStackTrace();
+                    if (debug) t.printStackTrace();
                 }
             }
         }
@@ -417,20 +435,21 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     @Override
     public void onEnable() {
 
-        if(!getDataFolder().exists()) {
-            if(!getDataFolder().mkdirs()) {
+        if (!getDataFolder().exists()) {
+            if (!getDataFolder().mkdirs()) {
                 throw new RuntimeException("Could not create data folder");
             }
         }
 
-        pvpTrackerDropHeads  = new PvpTracker(this, () -> getConfig().getDouble("only-drop-heads-in-pvp-cooldown"));
+        pvpTrackerDropHeads = new PvpTracker(this, () -> getConfig().getDouble("only-drop-heads-in-pvp-cooldown"));
 
         //skinManager = new SkinManager();
         //npcManager = new NPCManager();
 
         /*Daddy start*/
+        isPremiumVersion = false; // DO NOT REMOVE THIS LINE
         Daddy_Stepsister.init(this); // TODO TODO TODO
-        if(Daddy_Stepsister.allows(PremiumFeatures.GENERIC)) {
+        if (Daddy_Stepsister.allows(PremiumFeatures.GENERIC)) {
             Daddy_Stepsister.createVerificationFile();
             isPremiumVersion = true;
         } else {
@@ -438,7 +457,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         }
         /*Daddy end*/
 
-        if(Bukkit.getPluginManager().getPlugin("ExecutableItems") != null) {
+        if (Bukkit.getPluginManager().getPlugin("ExecutableItems") != null) {
             try {
                 executableItemsHook = new ExecutableItems2Hook();
             } catch (Throwable t) {
@@ -446,7 +465,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
                     executableItemsHook = new ExecutableItemsHook();
                 } catch (Throwable t2) {
                     executableItemsHook = new IExecutableItemsHook();
-                    Main.getInstance().getLogger().warning("Warning: Could not hook into ExecutableItems although it's installed.");
+                    AngelChestMain.getInstance().getLogger().warning("Warning: Could not hook into ExecutableItems although it's installed.");
                 }
             }
         } else {
@@ -458,13 +477,13 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         migrateFromAngelChestPlus1X();
         ChestFileUpdater.updateChestFilesToNewDeathCause();
 
-        if (!McVersion.current().isAtLeast(1,14,1)) {
+        if (!McVersion.current().isAtLeast(1, 14, 1)) {
             EmergencyMode.severe(EmergencyMode.UNSUPPORTED_MC_VERSION_1_13);
             emergencyMode = true;
             return;
         }
 
-        if(Bukkit.getPluginManager().getPlugin("ItemsAdder") != null) {
+        if (Bukkit.getPluginManager().getPlugin("ItemsAdder") != null) {
             itemsAdderLoaded = false;
             Bukkit.getPluginManager().registerEvents(new ItemsAdderInitListener(), this);
         } else {
@@ -536,14 +555,14 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         getServer().getPluginManager().registerEvents(new EnderCrystalListener(), this);
         getServer().getPluginManager().registerEvents(new CraftingListener(), this);
         Tasks.nextTick(() -> {
-            if(Bukkit.getPluginManager().isPluginEnabled("ChestSort")) {
+            if (Bukkit.getPluginManager().isPluginEnabled("ChestSort")) {
                 getServer().getPluginManager().registerEvents(new ChestSortListener(), this);
             }
         });
         //getServer().getPluginManager().registerEvents(new NPCListener(), this);
         guiListener = new GUIListener();
         getServer().getPluginManager().registerEvents(guiListener, this);
-        if(Daddy_Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
+        if (Daddy_Stepsister.allows(PremiumFeatures.GRAVEYARDS)) {
             getServer().getPluginManager().registerEvents(new GraveyardListener(), this);
         }
 
@@ -554,22 +573,22 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         setEconomyStatus();
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
-                    final char color = Daddy_Stepsister.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? 'a' : '6';
-                    if(color == '6') // Do not mock paid users
-                    for (final String line : Daddy_Stepsister.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? Messages.usingPlusVersion : Messages.usingFreeVersion) {
-                        getLogger().info(ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', "&" + color + line)));
-                    }
-                }, 60L);
+            final char color = Daddy_Stepsister.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? 'a' : '6';
+            if (color == '6') // Do not mock paid users
+                for (final String line : Daddy_Stepsister.allows(PremiumFeatures.DONT_SHOW_NAG_MESSAGE) ? Messages.usingPlusVersion : Messages.usingFreeVersion) {
+                    getLogger().info(ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', "&" + color + line)));
+                }
+        }, 60L);
 
         ItemsAdderHook.runOnceItemsAdderLoaded(() -> {
-                    debug("Loading AngelChests from disk");
-                    loadAllAngelChestsFromFile();
-                });
+            debug("Loading AngelChests from disk");
+            loadAllAngelChestsFromFile();
+        });
 
         PaperCommandManager commandManager = new PaperCommandManager(this);
         commandManager.enableUnstableAPI("help");
         CommandReplacements replacements = commandManager.getCommandReplacements();
-        replacements.addReplacement("actoggle",getCommandReplacements("actoggle"));
+        replacements.addReplacement("actoggle", getCommandReplacements("actoggle"));
         commandManager.registerCommand(new ACFactoggle());
         commandManager.getCommandCompletions().registerCompletion("items", new CommandCompletions.CommandCompletionHandler<BukkitCommandCompletionContext>() {
             @Override
@@ -579,17 +598,17 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         });
         commandManager.getCommandCompletions().registerCompletion("onlinePlayerNames", context -> Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()));
         commandManager.getCommandCompletions().registerAsyncCompletion("offlinePlayerNamesWithChests", context -> angelChests.stream().map(AngelChest::getPlayer).distinct().map(OfflinePlayer::getName).collect(Collectors.toList()));
-                commandManager.registerCommand(new ACFacadmin());
-                commandManager.getCommandCompletions().registerAsyncCompletion("chestsBySecondArg", new CommandCompletions.AsyncCommandCompletionHandler<BukkitCommandCompletionContext>() {
-                    @Override
-                    public Collection<String> getCompletions(BukkitCommandCompletionContext context) throws InvalidCommandArgument {
-                        String owner = context.getContextValueByName(String.class, "owner");
-                        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(owner);
-                        int size = getAllAngelChestsFromPlayer(offlinePlayer).size();
-                        if(size == 0) return null;
-                        return IntStream.rangeClosed(1, size).mapToObj(String::valueOf).collect(Collectors.toList());
-                    }
-                });
+        commandManager.registerCommand(new ACFacadmin());
+        commandManager.getCommandCompletions().registerAsyncCompletion("chestsBySecondArg", new CommandCompletions.AsyncCommandCompletionHandler<BukkitCommandCompletionContext>() {
+            @Override
+            public Collection<String> getCompletions(BukkitCommandCompletionContext context) throws InvalidCommandArgument {
+                String owner = context.getContextValueByName(String.class, "owner");
+                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(owner);
+                int size = getAllAngelChestsFromPlayer(offlinePlayer).size();
+                if (size == 0) return null;
+                return IntStream.rangeClosed(1, size).mapToObj(String::valueOf).collect(Collectors.toList());
+            }
+        });
 
 
         Bukkit.getOnlinePlayers().forEach(itemManager::autodiscover);
@@ -597,14 +616,18 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         // Fix NoClassDefFoundError in onDisable
         ChunkManager.getLoadedChunks();
 
+        String plusTag = isPremiumVersion ? " Plus" : "";
+        String versionAddendum = isPremiumVersion ? "/" + SpigotIdGetter.getSpigotId() : "";
+        getLogger().info("Successfully enabled AngelChest" + plusTag + " v" + getDescription().getVersion() + versionAddendum + " (Premium: " + isPremiumVersion + ")");
+
     }
 
     private String getCommandReplacements(String command) {
         String alias = command;
-        if(getConfig().isSet("command-aliases-"+command) && getConfig().isList("command-aliases-"+command)) {
-            String aliases = getConfig().getStringList("command-aliases-"+command)
+        if (getConfig().isSet("command-aliases-" + command) && getConfig().isList("command-aliases-" + command)) {
+            String aliases = getConfig().getStringList("command-aliases-" + command)
                     .stream().map(s -> s.split("\\[")[0]).collect(Collectors.joining("|"));
-            return alias+"|"+aliases;
+            return alias + "|" + aliases;
         }
         return alias;
     }
@@ -649,7 +672,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
                 entry.hologram.destroy();
             }
         }
-        if(removeChests) {
+        if (removeChests) {
             angelChests.clear();
         }
     }
@@ -669,7 +692,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::removeDeadHolograms, Ticks.fromMinutes(1), Ticks.fromMinutes(1));
 
         // Clear Cooldown entries
-        if(SCHEDULE_TASKS) Tasks.repeatAsync(this::clearCooldowns,Ticks.fromMinutes(10), Ticks.fromMinutes(10));
+        if (SCHEDULE_TASKS) Tasks.repeatAsync(this::clearCooldowns, Ticks.fromMinutes(10), Ticks.fromMinutes(10));
     }
 
     private void clearCooldowns() {
@@ -684,10 +707,17 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
     private void updateAngelChests() {
 
-       for(AngelChest it : angelChests) {
+        boolean allowSuspendOffline = Daddy_Stepsister.allows(Config.SUSPEND_COUNTDOWN_OFFLINE_PLAYERS);
+
+        for (AngelChest it : angelChests) {
+
+            boolean suspendThis = allowSuspendOffline && it.suspendWhenOffline && it.owner != null && Bukkit.getPlayer(it.owner) == null;
+
             final AngelChest ac = it;
             if (ac == null) continue;
-            ac.secondsLeft--;
+            if (!suspendThis) {
+                ac.secondsLeft--;
+            }
             if (ac.secondsLeft < 0 && !ac.infinite) {
                 DeathMapManager.removeDeathMap(ac);
                 if (getServer().getPlayer(ac.owner) != null) {
@@ -699,7 +729,9 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
                 continue;
             }
             if (Daddy_Stepsister.allows(PremiumFeatures.GENERIC) && ac.isProtected && ac.unlockIn > -1) { // Don't add feature here, gets called every second
-                ac.unlockIn--;
+                if (!suspendThis) {
+                    ac.unlockIn--;
+                }
                 if (ac.unlockIn == -1) {
                     ac.unlock();
                     ac.scheduleBlockChange();
@@ -715,7 +747,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
     }
 
     private void fixBrokenAngelChests(boolean fix) {
-        if(fix) {
+        if (fix) {
             //System.out.println("===================================== FIX START =====================================");
         }
         ArrayList<AngelChest> toRemove = new ArrayList<>();
@@ -724,7 +756,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
         for (final AngelChest entry : angelChests) {
 
             World world = entry.getWorld();
-            if(world == null) continue;
+            if (world == null) continue;
             if (!world.isChunkLoaded(entry.block.getX() >> 4, entry.getBlock().getZ() >> 4)) {
                 //verbose("Chunk at " + entry.getKey().getLocation() + " is not loaded, skipping repeating task regarding angelChests.entrySet()");
                 // CONTINUE IF CHUNK IS NOT LOADED
@@ -734,7 +766,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
 
             //System.out.println(entry.uniqueId + " @ " + entry.block);
             if (isBrokenAngelChest(block, entry)) {
-                if(fix) {
+                if (fix) {
                     //System.out.println("Fixing broken AngelChest at " + block.getLocation() + " with AngelChest ID " + entry.uniqueId);
                     toAdd.add(new AngelChest(Objects.requireNonNull(getAngelChest(block)).saveToFile(true)));
                     toRemove.add(entry);
@@ -744,7 +776,7 @@ public final class Main extends JavaPlugin implements AngelChestPlugin {
             angelChests.addAll(toAdd);
             angelChests.sort(Comparator.comparing(AngelChest::getCreated));
         }
-        if(fix) {
+        if (fix) {
             //System.out.println("===================================== FIX END =====================================");
         }
     }

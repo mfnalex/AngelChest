@@ -12,7 +12,7 @@ import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -26,12 +26,12 @@ import java.util.Objects;
 public final class WorldGuardHandler extends WorldGuardWrapper {
 
     public static StateFlag FLAG_ALLOW_ANGELCHEST = null;
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
     public boolean disabled = false;
     RegionContainer regionContainer;
     WorldGuardPlugin worldGuardPlugin;
 
-    public WorldGuardHandler(final Main main) {
+    public WorldGuardHandler(final AngelChestMain main) {
 
         if (main.getConfig().getBoolean(Config.DISABLE_WORLDGUARD_INTEGRATION)) {
             disabled = true;
@@ -80,7 +80,7 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
 
     public static void tryToRegisterFlags() {
 
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         //if(main.debug) main.debug("Trying to register WorldGuard Flags");
 
         // Check if WorldGuard is installed AND IF ITS A SUPPORTED VERSION (7+)
@@ -128,8 +128,8 @@ public final class WorldGuardHandler extends WorldGuardWrapper {
         if (allow) {
             return true;
         } else {
-            if (!Main.isPremiumVersion) {
-                main.getLogger().warning("You are using AngelChest's WorldGuard flags, which are only available in AngelChestPlus. See here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+            if (!AngelChestMain.isPremiumVersion) {
+                main.getLogger().warning("You are using AngelChest's WorldGuard flags, which are only available in AngelChestPlus. See here: " + AngelChestMain.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
                 return true;
             }
             return false;

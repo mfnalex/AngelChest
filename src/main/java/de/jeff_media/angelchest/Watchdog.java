@@ -22,9 +22,9 @@ import java.util.UUID;
 public final class Watchdog {
 
     final YamlConfiguration yaml;
-    private final Main main;
+    private final AngelChestMain main;
 
-    public Watchdog(final Main main) {
+    public Watchdog(final AngelChestMain main) {
         this.main = main;
         // If the Watchdog file exists, we have to delete all leftover holograms
         if (getFile().exists()) {

@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.hooks;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
@@ -30,7 +30,7 @@ public final class ExecutableItemsHook extends IExecutableItemsHook {
      */
     public ExecutableItemsHook() throws NoSuchMethodException, ClassNotFoundException {
         final Plugin plugin = Bukkit.getPluginManager().getPlugin("ExecutableItems");
-        if (plugin != null && Main.getInstance().getConfig().getBoolean(Config.USE_EXECUTABLEITEMS)) {
+        if (plugin != null && AngelChestMain.getInstance().getConfig().getBoolean(Config.USE_EXECUTABLEITEMS)) {
                 executableItemsAPIClass = Class.forName("com.ssomar.executableitems.api.ExecutableItemsAPI");
                 //noinspection unchecked
                 isExecutableItemMethod = executableItemsAPIClass.getDeclaredMethod("isExecutableItem", ItemStack.class);
@@ -57,13 +57,13 @@ public final class ExecutableItemsHook extends IExecutableItemsHook {
             final boolean isKeptOnDeath = (boolean) isKeepItemOnDeathMethod.invoke(config, null);
 
             if (isKeptOnDeath) {
-                Main.getInstance().debug("Found \"Keep on Death\" Item by ExecutableItems: " + item.toString());
+                AngelChestMain.getInstance().debug("Found \"Keep on Death\" Item by ExecutableItems: " + item.toString());
                 return true;
             }
             return false;
 
         } catch (final InvocationTargetException | IllegalAccessException e) {
-            Main.getInstance().getLogger().warning("Warning: Could not access ExecutableItems's API although it's installed.");
+            AngelChestMain.getInstance().getLogger().warning("Warning: Could not access ExecutableItems's API although it's installed.");
             e.printStackTrace();
             isExecutableItemsInstalled = false;
             return false;

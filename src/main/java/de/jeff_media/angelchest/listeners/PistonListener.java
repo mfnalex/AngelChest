@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.listeners;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -16,10 +16,10 @@ import java.util.List;
  */
 public final class PistonListener implements Listener {
 
-    final Main main;
+    final AngelChestMain main;
 
     public PistonListener() {
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
     }
 
     /**

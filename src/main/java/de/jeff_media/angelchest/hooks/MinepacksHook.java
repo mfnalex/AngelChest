@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.hooks;
 
 import at.pcgamingfreaks.Minepacks.Bukkit.API.MinepacksPlugin;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -28,7 +28,7 @@ public final class MinepacksHook {
             return minepacks.isBackpackItem(is);
         }
         final Plugin minepacksCandidate = Bukkit.getPluginManager().getPlugin("Minepacks");
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         if (minepacksCandidate == null) {
             if (main.debug) main.debug("Minepacks is not installed");
             disabled = true;

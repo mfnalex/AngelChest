@@ -3,7 +3,7 @@ package de.jeff_media.angelchest.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import com.jeff_media.jefflib.NBTAPI;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
@@ -20,7 +20,7 @@ import org.bukkit.entity.Player;
 @CommandPermission("angelchest.toggle")
 public class ACFactoggle extends BaseCommand {
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
 
     @Default
     @CommandCompletion("@players")

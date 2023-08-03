@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.gui;
 
 import com.google.common.base.Enums;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.data.AngelChest;
 import org.bukkit.Material;
@@ -27,18 +27,18 @@ public final class GUIUtils {
     }
 
     private static ItemStack getPlaceholder() {
-        ItemStack placeholder = new ItemStack(Enums.getIfPresent(Material.class, Main.getInstance().getConfig().getString(Config.GUI_BUTTON_PREVIEW_PLACEHOLDER)).or(Material.GRAY_STAINED_GLASS_PANE));
+        ItemStack placeholder = new ItemStack(Enums.getIfPresent(Material.class, AngelChestMain.getInstance().getConfig().getString(Config.GUI_BUTTON_PREVIEW_PLACEHOLDER)).or(Material.GRAY_STAINED_GLASS_PANE));
         if(placeholder.getType().isAir()) placeholder = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta meta = placeholder.getItemMeta();
         meta.setDisplayName("§8");
-        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getInstance(),"placeholder"), PersistentDataType.BYTE, (byte) 1);
+        meta.getPersistentDataContainer().set(new NamespacedKey(AngelChestMain.getInstance(),"placeholder"), PersistentDataType.BYTE, (byte) 1);
         placeholder.setItemMeta(meta);
         return placeholder;
     }
 
     public static boolean isPlaceholder(ItemStack item) {
         if(!item.hasItemMeta()) return false;
-        return item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(Main.getInstance(),"placeholder"), PersistentDataType.BYTE);
+        return item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(AngelChestMain.getInstance(),"placeholder"), PersistentDataType.BYTE);
     }
 
     public static void loadChestIntoPreviewInventory(final AngelChest angelChest, final Inventory inventory) {

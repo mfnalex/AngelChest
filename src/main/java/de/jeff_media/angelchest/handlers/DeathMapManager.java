@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.handlers;
 
 import de.jeff_media.angelchest.AngelChest;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.utils.LoreUtils;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 public class DeathMapManager {
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
 
     public static ItemStack getDeathMap(AngelChest chest) {
         ItemStack map = new ItemStack(Material.FILLED_MAP);

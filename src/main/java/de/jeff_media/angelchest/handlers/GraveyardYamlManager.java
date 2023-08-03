@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.handlers;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.data.Graveyard;
 import com.jeff_media.jefflib.FileUtils;
 import org.bukkit.Location;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class GraveyardYamlManager {
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
     private static final String HEADER = String.join(System.lineSeparator(), FileUtils.readFileFromResources(main, "graveyards.header"));
     private static final File EXAMPLE_FILE = new File(main.getDataFolder(), "graveyards.example.yml");
     private static final File FILE = new File(main.getDataFolder(), "graveyards.yml");

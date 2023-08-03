@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.hooks;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,14 +14,14 @@ import java.io.File;
  */
 public final class InventoryPagesHook {
 
-    final Main main;
+    final AngelChestMain main;
     boolean disabled = false;
     YamlConfiguration inventoryPagesConfig;
     Material prevMat, nextMat, noPageMat;
     String prevName, nextName, noPageName;
 
     public InventoryPagesHook() {
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
 
         final File inventoryPagesConfigFile = new File(main.getDataFolder() + File.separator + ".." + File.separator + "InventoryPages" + File.separator + "config.yml");
 

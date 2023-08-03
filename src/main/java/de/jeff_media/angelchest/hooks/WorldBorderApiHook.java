@@ -2,7 +2,7 @@ package de.jeff_media.angelchest.hooks;
 
 import com.github.yannicklamprecht.worldborder.api.Position;
 import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -13,7 +13,7 @@ public class WorldBorderApiHook {
 
     public static boolean isWithinWorldWorder(Location loc, Player player) {
 
-        if(!Main.getInstance().getConfig().getBoolean("use-worldborder-api")) return true;
+        if(!AngelChestMain.getInstance().getConfig().getBoolean("use-worldborder-api")) return true;
 
         RegisteredServiceProvider<WorldBorderApi> worldBorderApiRegisteredServiceProvider = getServer().getServicesManager().getRegistration(WorldBorderApi.class);
 
@@ -25,7 +25,7 @@ public class WorldBorderApiHook {
         Position min = worldBorderApiRegisteredServiceProvider.getProvider().getWorldBorder(player).getMin();
 
         if(max == null || min == null) {
-            Main.getInstance().debug("  Yes, because min or max or null");
+            AngelChestMain.getInstance().debug("  Yes, because min or max or null");
             return true;
         }
 

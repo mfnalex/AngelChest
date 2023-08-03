@@ -1,13 +1,13 @@
 package de.jeff_media.angelchest.utils;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 
 import java.util.stream.Stream;
 
 public final class LogUtils {
 
     public static void debugBanner(final String[] lines) {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         final StringBuilder sb = new StringBuilder();
         int longestLine = 0;
         for (final String line : lines) {

@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.hooks;
 
 import com.jeff_media.jefflib.PDCUtils;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -18,7 +18,7 @@ import java.util.Objects;
 public class EcoEnchantsHook {
 
     private static final Enchantment telekinesisEnchant;
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
     private static final NamespacedKey soulboundKey = Objects.requireNonNull(NamespacedKey.fromString("ecoenchants:soulbound"));
 
     static {

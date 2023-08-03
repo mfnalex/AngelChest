@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.listeners;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
@@ -10,10 +10,10 @@ import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
  */
 public final class HologramListener implements Listener {
 
-    final Main main;
+    final AngelChestMain main;
 
     public HologramListener() {
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
     }
 
     /**

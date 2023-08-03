@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.utils;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
@@ -27,7 +27,7 @@ public class AngelChestUtils {
 
     public static ArrayList<AngelChest> getAllAngelChestsFromPlayer(final OfflinePlayer p) {
         final ArrayList<AngelChest> angelChests = new ArrayList<>();
-        for (final AngelChest angelChest : Main.getInstance().angelChests) {
+        for (final AngelChest angelChest : AngelChestMain.getInstance().angelChests) {
             if (!angelChest.owner.equals(p.getUniqueId())) continue;
             angelChests.add(angelChest);
         }
@@ -77,7 +77,7 @@ public class AngelChestUtils {
     }
 
     public static Block getChestLocation(@NotNull final Block playerLoc, @Nullable final Predicate<Block>... predicates) {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         Block fixedAngelChestBlock = playerLoc;
 
         //if (!playerLoc.getType().equals(Material.AIR)) {
@@ -103,7 +103,7 @@ public class AngelChestUtils {
     }
 
     public static List<Block> getNonBedrockBlocks(final Location location) {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         final int radius = main.getConfig().getInt(Config.MAX_RADIUS);
         final List<Block> blocks = new ArrayList<>();
         for (int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
@@ -122,7 +122,7 @@ public class AngelChestUtils {
     }
 
     public static List<Block> getPossibleChestLocations(final Location location, @Nullable final Predicate<Block>... predicates) {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         final int radius = main.getConfig().getInt(Config.MAX_RADIUS);
         final List<Block> blocks = new ArrayList<>();
         // TODO: Start with death location. Continue if a location has been found.
@@ -206,7 +206,7 @@ public class AngelChestUtils {
         }*/
         if (isAboveLava(location, 10)) return false;
 
-        if (location.getBlockY() <= Main.getInstance().getWorldMinHeight(location.getWorld())) return false;
+        if (location.getBlockY() <= AngelChestMain.getInstance().getWorldMinHeight(location.getWorld())) return false;
 
         if (location.getBlock().getType().isOccluding()) return false;
 
@@ -226,7 +226,7 @@ public class AngelChestUtils {
     }
 
     public static boolean spawnChance(final double chance) {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
 
         if (!Daddy_Stepsister.allows(PremiumFeatures.SPAWN_CHANCE)) {
             return true;
@@ -246,8 +246,8 @@ public class AngelChestUtils {
         return random <= chancePercent;
     }
 
-    public static boolean tryToMergeInventories(final Main main, final AngelChest source, final PlayerInventory dest) {
-        final File file = Main.getInstance().logger.getLogFile(source.logfile);
+    public static boolean tryToMergeInventories(final AngelChestMain main, final AngelChest source, final PlayerInventory dest) {
+        final File file = AngelChestMain.getInstance().logger.getLogFile(source.logfile);
         final Player player = (Player) dest.getHolder();
         if (!Utils.isEmpty(source.overflowInv)) return false; // Already applied inventory
 

@@ -1,123 +1,123 @@
-##### PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
-
-You can define certain graveyard areas here. If a player dies in a world where graveyards are enabled,
-the AngelChest will not spawn at the player's death location, but somewhere inside the nearest graveyard.
-
-You can also use the /acgraveyard (Permission: angelchest.admin) to define and change graveyards.
-
-IMPORTANT: You must rename this file to "graveyards.yml" to use the Graveyards feature!
-
-Every graveyard must have specified AT LEAST the location (world, min.x, min.y, min.z, max.x, max.y, max.z)
-
-
-Optional values:
-
-
-  global: When set to true, players will be sent to this graveyard when there is no graveyard in the player's current world.
-          You should only define one global graveyard.
-          When not set, it defaults to false.
-
-          Example:
-            global: true
-
-
-  grave-locations: When set, the graves will only spawn on top of the given blocks.
-                   When not set, graves can spawn on top of any block.
-
-                   Example:
-                     grave-locations:
-                     - ROOTED_DIRT
-                     - GRAVEL
-
-
-  material: When set, the AngelChests in this graveyard will use this material
-            When not set, AngelChests will use the default material
-            See the explanation in config.yml for the "material" section for more information
-
-            Example:
-              material: CANDLE
-
-
-  hologram-text: Set a custom hologram text that only applies to graves in this graveyard.
-
-                 Example:
-                   hologram-text: "&c&l[Rest in Peace]&r\n&7Here lies\n§6{player}\nKilled by {deathcause}"
-
-
-  spawn: You can define a location where players will be spawned after they were buried at this graveyard.
-         When not set, AngelChest will not change the player's spawn location.
-         You can also define another world. If world is not set, it uses the graveyard's world.
-         Yaw is the "left/right" rotation of the player.
-              0 = facing south
-             90 = facing west
-            180 = facing north
-            270 = facing east
-         Pitch is the "up/down" rotation of the player.
-              0 = facing straightforward
-            -90 = facing at the sky
-             90 = facing at the ground.
-
-          Example:
-            spawn:
-              x: 20.5
-              y: 64
-              z: 30
-              yaw: 90             (optional)
-              pitch: 0            (optional)
-              world: otherworld   (optional)
-
-
-  instant-respawn: When true, players will be instantly respawned after being buried in this graveyard.
-                   You will probably only want to use this when you defined a spawn for this graveyard.
-                   Defaults to false.
-
-                   Example:
-                     instant-respawn: true
-
-
-  totem-animation: When true, players will be shown a totem of undying animation when they respawn inside
-                   a graveyard. You will probably only want to use this when you defined a spawn for this
-                   graveyard.
-                   You can set this to true to play a regular totem animation, or use an integer if you
-                   are using CustomModelData for your totems.
-                   Defaults to false.
-
-                   Example:
-                     totem-animation: true
-                   or:
-                     totem-animation: 3
-
-
-  potion-effects: You can define potion effects that will be applied to all players while they are inside
-                  the graveyard. Their previous effects will be restored once they leave the graveyard.
-                  You can also set the effect's multiplicator.
-
-                  Example:
-                    potion-effects:
-                      BLINDNESS: 0        (= blindness level lvl 1)
-                      MINING_FATIGUE: 9   (= mining fatigue lvl 10)
-
-
-  local-time: You can have the graveyard use a specific time. Normal values range from 0 to 24000.
-              You can also use values above 24000 to change the moon phase.
-              This does NOT affect mob spawning etc, it's just a cosmetic effect.
-              When not set, the graveyard uses the world's current time.
-              Normal time: https://minecraft.fandom.com/wiki/Daylight_cycle#24-hour_Minecraft_day
-              Moon phases: https://minecraft.fandom.com/wiki/Daylight_cycle#Moon_phases
-
-              Examples:
-                local-time: 6000     (noon)
-              or:
-                local-time: 14000    (full moon starting to rise)
-              or:
-                local-time: 18000    (full moon at its peak)
-              or:
-                local-time: 110000   (new moon)
-
-
-  local-weather: Same as local-time, just for weather.
-                 When not set, the graveyard uses the world's current wheather.
-                 Available values: sun, rain
-
-                 Example:
-                   local-weather: rain
+# ##### PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
+# 
+# You can define certain graveyard areas here. If a player dies in a world where graveyards are enabled,
+# the AngelChest will not spawn at the player's death location, but somewhere inside the nearest graveyard.
+# 
+# You can also use the /acgraveyard (Permission: angelchest.admin) to define and change graveyards.
+# 
+# IMPORTANT: You must rename this file to "graveyards.yml" to use the Graveyards feature!
+# 
+# Every graveyard must have specified AT LEAST the location (world, min.x, min.y, min.z, max.x, max.y, max.z)
+# 
+# 
+# Optional values:
+# 
+# 
+#   global: When set to true, players will be sent to this graveyard when there is no graveyard in the player's current world.
+#           You should only define one global graveyard.
+#           When not set, it defaults to false.
+# 
+#           Example:
+#             global: true
+# 
+# 
+#   grave-locations: When set, the graves will only spawn on top of the given blocks.
+#                    When not set, graves can spawn on top of any block.
+# 
+#                    Example:
+#                      grave-locations:
+#                      - ROOTED_DIRT
+#                      - GRAVEL
+# 
+# 
+#   material: When set, the AngelChests in this graveyard will use this material
+#             When not set, AngelChests will use the default material
+#             See the explanation in config.yml for the "material" section for more information
+# 
+#             Example:
+#               material: CANDLE
+# 
+# 
+#   hologram-text: Set a custom hologram text that only applies to graves in this graveyard.
+# 
+#                  Example:
+#                    hologram-text: "&c&l[Rest in Peace]&r\n&7Here lies\n§6{player}\nKilled by {deathcause}"
+# 
+# 
+#   spawn: You can define a location where players will be spawned after they were buried at this graveyard.
+#          When not set, AngelChest will not change the player's spawn location.
+#          You can also define another world. If world is not set, it uses the graveyard's world.
+#          Yaw is the "left/right" rotation of the player.
+#               0 = facing south
+#              90 = facing west
+#             180 = facing north
+#             270 = facing east
+#          Pitch is the "up/down" rotation of the player.
+#               0 = facing straightforward
+#             -90 = facing at the sky
+#              90 = facing at the ground.
+# 
+#           Example:
+#             spawn:
+#               x: 20.5
+#               y: 64
+#               z: 30
+#               yaw: 90             (optional)
+#               pitch: 0            (optional)
+#               world: otherworld   (optional)
+# 
+# 
+#   instant-respawn: When true, players will be instantly respawned after being buried in this graveyard.
+#                    You will probably only want to use this when you defined a spawn for this graveyard.
+#                    Defaults to false.
+# 
+#                    Example:
+#                      instant-respawn: true
+# 
+# 
+#   totem-animation: When true, players will be shown a totem of undying animation when they respawn inside
+#                    a graveyard. You will probably only want to use this when you defined a spawn for this
+#                    graveyard.
+#                    You can set this to true to play a regular totem animation, or use an integer if you
+#                    are using CustomModelData for your totems.
+#                    Defaults to false.
+# 
+#                    Example:
+#                      totem-animation: true
+#                    or:
+#                      totem-animation: 3
+# 
+# 
+#   potion-effects: You can define potion effects that will be applied to all players while they are inside
+#                   the graveyard. Their previous effects will be restored once they leave the graveyard.
+#                   You can also set the effect's multiplicator.
+# 
+#                   Example:
+#                     potion-effects:
+#                       BLINDNESS: 0        (= blindness level lvl 1)
+#                       MINING_FATIGUE: 9   (= mining fatigue lvl 10)
+# 
+# 
+#   local-time: You can have the graveyard use a specific time. Normal values range from 0 to 24000.
+#               You can also use values above 24000 to change the moon phase.
+#               This does NOT affect mob spawning etc, it's just a cosmetic effect.
+#               When not set, the graveyard uses the world's current time.
+#               Normal time: https://minecraft.fandom.com/wiki/Daylight_cycle#24-hour_Minecraft_day
+#               Moon phases: https://minecraft.fandom.com/wiki/Daylight_cycle#Moon_phases
+# 
+#               Examples:
+#                 local-time: 6000     (noon)
+#               or:
+#                 local-time: 14000    (full moon starting to rise)
+#               or:
+#                 local-time: 18000    (full moon at its peak)
+#               or:
+#                 local-time: 110000   (new moon)
+# 
+# 
+#   local-weather: Same as local-time, just for weather.
+#                  When not set, the graveyard uses the world's current wheather.
+#                  Available values: sun, rain
+# 
+#                  Example:
+#                    local-weather: rain

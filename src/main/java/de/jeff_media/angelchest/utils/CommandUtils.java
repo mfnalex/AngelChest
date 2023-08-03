@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.utils;
 
 import com.jeff_media.jefflib.*;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
@@ -42,7 +42,7 @@ public final class CommandUtils {
 
     static final int CHUNK_SIZE = 16;
 
-    private static boolean areChunksLoadedNearby(final Location loc, final Main main) {
+    private static boolean areChunksLoadedNearby(final Location loc, final AngelChestMain main) {
         boolean allChunksLoaded = true;
         //ArrayList<Location> locs = new ArrayList<>();
         for (int x = -CHUNK_SIZE; x <= CHUNK_SIZE; x += CHUNK_SIZE) {
@@ -61,7 +61,7 @@ public final class CommandUtils {
     AngelChest = affected chest
     Player = chest owner
      */
-    public static @Nullable Triplet<Integer, AngelChest, OfflinePlayer> argIdx2AngelChest(final Main main, final CommandSender sendTo, final OfflinePlayer affectedPlayer, final String chest) {
+    public static @Nullable Triplet<Integer, AngelChest, OfflinePlayer> argIdx2AngelChest(final AngelChestMain main, final CommandSender sendTo, final OfflinePlayer affectedPlayer, final String chest) {
 
         int chestIdStartingAt1;
 
@@ -98,7 +98,7 @@ public final class CommandUtils {
         return new Triplet<>(chestIdStartingAt1, angelChestsFromThisPlayer.get(chestIdStartingAt1 - 1), affectedPlayer);
     }
 
-    private static void doActualTeleport(final Main main, final Player player, final AngelChest ac) {
+    private static void doActualTeleport(final AngelChestMain main, final Player player, final AngelChest ac) {
         final Location acloc = ac.block.getLocation();
         Location tploc = acloc.clone();
         final double tpDistance = main.getConfig().getDouble("tp-distance");
@@ -147,7 +147,7 @@ public final class CommandUtils {
         player.teleport(tploc, TeleportCause.PLUGIN);
 
         // Add invulnerability
-        final int seconds = main.groupUtils.getInvulnerabilityTimePerPlayer(player);
+        final int seconds = main.groupManager.getInvulnerabilityTimePerPlayer(player);
         if (seconds > 0 && Daddy_Stepsister.allows(PremiumFeatures.INVULNERABILITY_ON_TP)) {
 
             if (main.debug)
@@ -189,7 +189,7 @@ public final class CommandUtils {
         }
     }
 
-    private static void fetchChestToPlayer(final Main main, final Player player, final AngelChest ac) {
+    private static void fetchChestToPlayer(final AngelChestMain main, final Player player, final AngelChest ac) {
 
         final String dir = AngelChestUtils.getCardinalDirection(player);
         final Location newLoc = BlockDataUtils.getLocationInDirection(player.getLocation(), dir);
@@ -215,7 +215,7 @@ public final class CommandUtils {
     /**
      * If args is null, skip the confirmation stuff
      */
-    public static void fetchOrTeleport(final Main main, final Player sender, final AngelChest ac, final int chestIdStartingAt1, final CommandAction action, final boolean askForConfirmation) {
+    public static void fetchOrTeleport(final AngelChestMain main, final Player sender, final AngelChest ac, final int chestIdStartingAt1, final CommandAction action, final boolean askForConfirmation) {
 
         if (!sender.hasPermission(action.getPermission())) {
             Messages.send(sender, main.messages.MSG_NO_PERMISSION);
@@ -235,7 +235,7 @@ public final class CommandUtils {
         // Allow TP / Fetch across worlds
         final World playerWorld = sender.getWorld();
         final World chestWorld = ac.getWorld();
-        if (action == CommandAction.TELEPORT_TO_CHEST && !main.groupUtils.getAllowTpAcrossWorlds(sender)) {
+        if (action == CommandAction.TELEPORT_TO_CHEST && !main.groupManager.getAllowTpAcrossWorlds(sender)) {
             if (!playerWorld.equals(chestWorld)) {
                 Messages.send(sender, main.messages.MSG_TP_ACROSS_WORLDS_NOT_ALLOWED);
                 if (main.debug) main.debug("Forbidden TP across worlds detected.");
@@ -244,7 +244,7 @@ public final class CommandUtils {
                 return;
             }
         }
-        if (action == CommandAction.FETCH_CHEST && !main.groupUtils.getAllowFetchAcrossWorlds(sender)) {
+        if (action == CommandAction.FETCH_CHEST && !main.groupManager.getAllowFetchAcrossWorlds(sender)) {
             if (!playerWorld.equals(chestWorld)) {
                 Messages.send(sender, main.messages.MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED);
                 if (main.debug) main.debug("Forbidden Fetch across worlds detected.");
@@ -259,8 +259,8 @@ public final class CommandUtils {
             if (main.debug) main.debug("Fetch / TP in same world. Distance: " + distance);
 
             // Max distance
-            final int maxTpDistance = main.groupUtils.getMaxTpDistance(sender);
-            final int maxFetchDistance = main.groupUtils.getMaxFetchDistance(sender);
+            final int maxTpDistance = main.groupManager.getMaxTpDistance(sender);
+            final int maxFetchDistance = main.groupManager.getMaxFetchDistance(sender);
             if (action == CommandAction.TELEPORT_TO_CHEST && maxTpDistance > 0 && distance > maxTpDistance) {
                 Messages.send(sender, main.messages.MSG_MAX_TP_DISTANCE.replace("{distance}", String.valueOf(maxTpDistance)));
                 return;
@@ -284,8 +284,8 @@ public final class CommandUtils {
 
         // TP Wait time
         if(Daddy_Stepsister.allows(PremiumFeatures.TP_WAIT_TIME)) {
-            if (main.groupUtils.getTpWaitTime(sender) > 0 && action == CommandAction.TELEPORT_TO_CHEST) {
-                final int delay = (int) Ticks.fromSeconds(main.groupUtils.getTpWaitTime(sender));
+            if (main.groupManager.getTpWaitTime(sender) > 0 && action == CommandAction.TELEPORT_TO_CHEST) {
+                final int delay = (int) Ticks.fromSeconds(main.groupManager.getTpWaitTime(sender));
                 AtomicInteger ticks = new AtomicInteger(delay);
                 final BossBar bar = Bukkit.createBossBar(main.messages.MSG_TELEPORT_BOSSBAR, BarColor.GREEN, BarStyle.SOLID);
                 bar.setProgress(1);
@@ -357,7 +357,7 @@ public final class CommandUtils {
 
         if (econ == null) return "";*/
 
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         if (main.economyStatus == EconomyStatus.ACTIVE) {
             return money == 1 ? main.econ.currencyNameSingular() : main.econ.currencyNamePlural();
         }
@@ -395,12 +395,12 @@ public final class CommandUtils {
         return getFormattedTime(angelChest.getUnlockIn(), false);
     }
 
-    private static boolean hasConfirmed(final Main main, final CommandSender p, final int chestIdStartingAt1, final double price, final CommandAction action) {
+    private static boolean hasConfirmed(final AngelChestMain main, final CommandSender p, final int chestIdStartingAt1, final double price, final CommandAction action) {
         if (main.debug) main.debug("Creating confirm message for Chest ID " + chestIdStartingAt1);
         if (main.debug) main.debug("Action: " + action.toString());
         String confirmCommand = String.format("/%s ", action.getCommand());
         confirmCommand += chestIdStartingAt1;
-        final UUID uuid = p instanceof Player ? ((Player) p).getUniqueId() : Main.consoleSenderUUID;
+        final UUID uuid = p instanceof Player ? ((Player) p).getUniqueId() : AngelChestMain.consoleSenderUUID;
         if (price > 0) {
             final PendingConfirm newConfirm = new PendingConfirm(chestIdStartingAt1, action);
             final PendingConfirm oldConfirm = main.pendingConfirms.get(uuid);
@@ -417,7 +417,7 @@ public final class CommandUtils {
     }
 
     public static double getBalance(Player player) {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
 
         if (main.economyStatus != EconomyStatus.ACTIVE) {
             return 0;
@@ -429,11 +429,11 @@ public final class CommandUtils {
     public static boolean hasEnoughMoney(final CommandSender sender, final double money, @Nullable ItemStack item, final String messageWhenNotEnoughMoney, final String messageWhenNotEnoughItems, final String reason) {
 
         if(item != null && !Daddy_Stepsister.allows(PremiumFeatures.CUSTOM_ITEMS)) {
-            Main.getInstance().getLogger().warning("Using custom items for payments is only available in AngelChest Plus.");
+            AngelChestMain.getInstance().getLogger().warning("Using custom items for payments is only available in AngelChest Plus.");
             return true;
         }
 
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
 
         if (!(sender instanceof Player)) {
             if (main.debug) main.debug(sender.getName() + " is no player, so they should have enough money lol");
@@ -494,7 +494,7 @@ public final class CommandUtils {
 
     public static void payMoney(final OfflinePlayer p, final double money, final String reason) {
 
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
 
         if (money <= 0) {
             return;
@@ -506,12 +506,12 @@ public final class CommandUtils {
     }
 
     public static void sendConfirmMessage(final CommandSender sender, final String command, final double price, final String message) {
-        final TextComponent text = new TextComponent(message.replace("{price}", Main.getInstance().getCurrencyFormatter().format(price)).replace("{currency}", getCurrency(price)));
+        final TextComponent text = new TextComponent(message.replace("{price}", AngelChestMain.getInstance().getCurrencyFormatter().format(price)).replace("{currency}", getCurrency(price)));
         text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
         sender.spigot().sendMessage(text);
     }
 
-    public static void sendListOfAngelChests(final Main main, final CommandSender sendTo, final OfflinePlayer affectedPlayer) {
+    public static void sendListOfAngelChests(final AngelChestMain main, final CommandSender sendTo, final OfflinePlayer affectedPlayer) {
         // Get all AngelChests by this player
         final ArrayList<AngelChest> angelChestsFromThisPlayer = AngelChestUtils.getAllAngelChestsFromPlayer(affectedPlayer);
 
@@ -559,7 +559,7 @@ public final class CommandUtils {
         }
     }
 
-    private static void teleportPlayerToChest(final Main main, final Player p, final AngelChest ac) {
+    private static void teleportPlayerToChest(final AngelChestMain main, final Player p, final AngelChest ac) {
         if (main.getConfig().getBoolean(Config.ASYNC_CHUNK_LOADING)) {
             final AtomicInteger chunkLoadingTask = new AtomicInteger();
             chunkLoadingTask.set(Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
@@ -578,7 +578,7 @@ public final class CommandUtils {
         }
     }
 
-    public static void unlockSingleChest(final Main main, final CommandSender requester, final AngelChest ac) {
+    public static void unlockSingleChest(final AngelChestMain main, final CommandSender requester, final AngelChest ac) {
 //		if(!p.hasPermission("angelchest.tp")) {
 //			Messages.send(p,plugin.getCommand("aclist").getPermissionMessage());
 //			return;
@@ -602,7 +602,7 @@ public final class CommandUtils {
     }
 
     /*
-    public static void unlockAllChests(Main main, Player p) {
+    public static void unlockAllChests(AngelChestMain main, Player p) {
         ArrayList<AngelChest> angelChestsFromThisPlayer = Utils.getAllAngelChestsFromPlayer(p);
 
         int chestsUnlocked = 0;

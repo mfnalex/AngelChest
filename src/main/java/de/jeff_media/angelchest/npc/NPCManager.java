@@ -1,6 +1,6 @@
 //package de.jeff_media.angelchest.npc;
 //
-//import de.jeff_media.angelchest.Main;
+//import de.jeff_media.angelchest.AngelChestMain;
 //import org.bukkit.Location;
 //import org.bukkit.World;
 //import org.bukkit.entity.Player;
@@ -13,7 +13,7 @@
 //public class NPCManager {
 //
 //    private final Set<NPC> npcs = new HashSet<>();
-//    private final Main main = Main.getInstance();
+//    private final AngelChestMain main = AngelChestMain.getInstance();
 //
 //    public NPCManager() {
 //

@@ -2,7 +2,7 @@
 //
 //import com.mojang.authlib.GameProfile;
 //import com.mojang.authlib.properties.Property;
-//import de.jeff_media.angelchest.Main;
+//import de.jeff_media.angelchest.AngelChestMain;
 //import de.jeff_media.angelchest.utils.NMSUtils;
 //import org.bukkit.Bukkit;
 //import org.bukkit.OfflinePlayer;
@@ -20,7 +20,7 @@
 //
 //    private final HashMap<UUID, String> skins = new HashMap<>();
 //    private final HashMap<UUID, String> signatures = new HashMap<>();
-//    private final Main main = Main.getInstance();
+//    private final AngelChestMain main = AngelChestMain.getInstance();
 //
 //    public SkinManager() {
 //        if(Bukkit.getOnlinePlayers().isEmpty()) return;

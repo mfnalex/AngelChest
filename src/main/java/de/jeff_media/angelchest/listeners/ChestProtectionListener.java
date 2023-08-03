@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.listeners;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.events.AngelChestOpenEvent;
@@ -20,10 +20,10 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
  */
 public final class ChestProtectionListener implements Listener {
 
-    final Main main;
+    final AngelChestMain main;
 
     public ChestProtectionListener() {
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
     }
 
     /**

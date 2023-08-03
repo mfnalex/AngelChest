@@ -1,7 +1,6 @@
 package de.jeff_media.angelchest.utils;
 
-import de.jeff_media.angelchest.Main;
-import de.jeff_media.angelchest.handlers.ItemManager;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import com.jeff_media.jefflib.PDCUtils;
 import org.bukkit.Material;
@@ -11,7 +10,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class ItemUtils {
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
 
     public static boolean checkForAndRemoveOneItem(String itemId, PlayerInventory inventory, ItemStack vanillaItem) {
 
@@ -21,7 +20,7 @@ public class ItemUtils {
             main.debug("Exact item: " + vanillaItem);
         }
 
-        //ItemStack priceItem = Main.getInstance().getItemManager().getItem(itemId);
+        //ItemStack priceItem = AngelChestMain.getInstance().getItemManager().getItem(itemId);
         for(int i = 0; i < inventory.getSize(); i++) {
             ItemStack item = inventory.getItem(i);
             if(item == null || item.getType() == Material.AIR || item.getAmount() == 0) continue;
@@ -38,7 +37,7 @@ public class ItemUtils {
             }
 
             // Vanilla items
-            if(itemId == null && Main.getInstance().getItemManager().isVanillaItem(vanillaItem) && item.isSimilar(vanillaItem)) {
+            if(itemId == null && AngelChestMain.getInstance().getItemManager().isVanillaItem(vanillaItem) && item.isSimilar(vanillaItem)) {
                 item.setAmount(item.getAmount() - 1);
                 inventory.setItem(i, item);
                 return true;

@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.utils;
 
 import com.google.common.base.Enums;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.enums.CommandAction;
@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 public class SoundUtils {
 
     public static void playTpFetchSound(final Player player, final Location location, final CommandAction action) {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         if (action == CommandAction.FETCH_CHEST) {
             if (!main.getConfig().getBoolean(Config.PLAY_SOUND_ON_FETCH)) {
                 return;

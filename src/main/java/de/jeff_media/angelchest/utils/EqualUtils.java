@@ -1,11 +1,11 @@
 package de.jeff_media.angelchest.utils;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import org.bukkit.NamespacedKey;
 
 public class EqualUtils {
 
-    private static final NamespacedKey SLOT_KEY = new NamespacedKey(Main.getInstance(), "slot");
+    private static final NamespacedKey SLOT_KEY = new NamespacedKey(AngelChestMain.getInstance(), "slot");
 
     {
         //CopyOnWriteArrayList

@@ -2,7 +2,7 @@ package de.jeff_media.angelchest.config;
 
 import com.jeff_media.jefflib.Msg;
 import com.jeff_media.jefflib.TextUtils;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
  */
 public final class Messages {
 
-    public static final String[] usingFreeVersion = new String[]{"========================================================", "You are using the free version of AngelChest. There is", "also a premium version available, called AngelChestPlus.", "It includes TONS of new features and exclusive Discord", "support. The free version will still receive bugfixes,", "but there won't be ANY new features!", "If you like AngelChest, you will LOVE AngelChestPlus, so", "please consider upgrading! Thank you for using AngelChest.", "", Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS, "========================================================",};
+    public static final String[] usingFreeVersion = new String[]{"========================================================", "You are using the free version of AngelChest. There is", "also a premium version available, called AngelChestPlus.", "It includes TONS of new features and exclusive Discord", "support. The free version will still receive bugfixes,", "but there won't be ANY new features!", "If you like AngelChest, you will LOVE AngelChestPlus, so", "please consider upgrading! Thank you for using AngelChest.", "", AngelChestMain.UPDATECHECKER_LINK_DOWNLOAD_PLUS, "========================================================",};
     public static final String[] usingPlusVersion = new String[]{"========================================================", "Thanks for buying AngelChestPlus! Premium features have", "been unlocked successfully. Have fun!", "========================================================",};
     public final String MSG_TELEPORT_BOSSBAR;
     public final String GUI_CHEST_NAME;
@@ -91,14 +91,14 @@ public final class Messages {
     public final String MSG_ANGELCHEST_DISABLED_OTHERS;
     public final String MSG_HAS_NO_ITEM;
     public final String MSG_HAS_NO_ITEM2;
-    private final Main main;
+    private final AngelChestMain main;
 
     public static void showReloadNotice(CommandSender sender) {
         sender.sendMessage("§7(Use §6/acreload §7to update existing chests)");
     }
 
-    public Messages(final Main main) {
-        this.main = Main.getInstance();
+    public Messages(final AngelChestMain main) {
+        this.main = AngelChestMain.getInstance();
         if (main.getConfig().getBoolean(Config.PREFIX_MESSAGES)) {
             PREFIX = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString(Config.PREFIX));
         } else {
@@ -258,7 +258,7 @@ message-angelchest-enabled-others: "&a{player} is now protected by Angels."
 
     public static void send(final CommandSender receiver, final String message) {
         if (receiver == null) return;
-        if (message.equals("") || message.equals(Main.getInstance().messages.PREFIX)) return;
+        if (message.equals("") || message.equals(AngelChestMain.getInstance().messages.PREFIX)) return;
         Msg.send(receiver, message);
     }
 
@@ -268,11 +268,11 @@ message-angelchest-enabled-others: "&a{player} is now protected by Angels."
     }
 
     public static void sendPremiumOnlyConsoleMessage(final String configNode) {
-        //Main.getInstance().getLogger().warning("You are using the config option \"" + configNode + "\". This is only available in AngelChestPlus, see here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+        //AngelChestMain.getInstance().getLogger().warning("You are using the config option \"" + configNode + "\". This is only available in AngelChestPlus, see here: " + AngelChestMain.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
     }
 
     public static void sendPremiumOnly(final String configNode) {
-        Main.getInstance().getLogger().warning("You are using the config option \"" + configNode + "\". This is only available in AngelChestPlus, see here: " + Main.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+        AngelChestMain.getInstance().getLogger().warning("You are using the config option \"" + configNode + "\". This is only available in AngelChestPlus, see here: " + AngelChestMain.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
     }
 
     private String getGui(final String path, final String defaultText) {

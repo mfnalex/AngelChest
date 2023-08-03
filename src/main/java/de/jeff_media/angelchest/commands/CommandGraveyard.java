@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.commands;
 
 import com.google.common.base.Enums;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.Graveyard;
@@ -37,7 +37,7 @@ import static de.jeff_media.angelchest.config.Messages.showReloadNotice;
 
 public class CommandGraveyard implements CommandExecutor, TabCompleter {
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
     private static final File FILE = new File(main.getDataFolder(), "graveyards.yml");
 
     public CommandGraveyard() {

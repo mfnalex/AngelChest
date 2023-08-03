@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.listeners;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import com.jeff_media.jefflib.PDCUtils;
 import org.bukkit.event.EventHandler;
@@ -13,7 +13,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class CraftingListener implements Listener {
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onCraft(PrepareItemCraftEvent event) {

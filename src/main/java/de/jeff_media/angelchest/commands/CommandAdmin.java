@@ -1,6 +1,6 @@
 //package de.jeff_media.angelchest.commands;
 //
-//import de.jeff_media.angelchest.Main;
+//import de.jeff_media.angelchest.AngelChestMain;
 //import de.jeff_media.angelchest.config.Messages;
 //import de.jeff_media.angelchest.config.Permissions;
 //import com.jeff_media.jefflib.BlockUtils;
@@ -24,7 +24,7 @@
 // */
 //public final class CommandAdmin implements CommandExecutor, TabCompleter {
 //
-//    private final Main main = Main.getInstance();
+//    private final AngelChestMain main = AngelChestMain.getInstance();
 //
 //    private static String[] shift(final String[] args) {
 //        return Arrays.stream(args).skip(1).toArray(String[]::new);

@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.utils;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -26,7 +26,7 @@ public final class FileUtils {
     }
 
     public static List<String> readFileFromResources(final String fileName) {
-        final InputStream input = Main.getInstance().getResource(fileName);
+        final InputStream input = AngelChestMain.getInstance().getResource(fileName);
         final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
         final List<String> lines = new ArrayList<>();
         String line;

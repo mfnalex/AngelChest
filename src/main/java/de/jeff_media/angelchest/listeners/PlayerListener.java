@@ -9,7 +9,7 @@ import com.jeff_media.jefflib.TimeUtils;
 import com.jeff_media.jefflib.data.Cooldown;
 import com.jeff_media.jefflib.data.McVersion;
 import com.jeff_media.jefflib.pluginhooks.McMMOUtils;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
@@ -93,7 +93,7 @@ import java.util.function.Predicate;
  */
 public final class PlayerListener implements Listener {
 
-    final static Main main = Main.getInstance();
+    final static AngelChestMain main = AngelChestMain.getInstance();
     private static final byte TOTEM_MAGIC_VALUE = 35;
     private static final NamespacedKey TOTEM_ADVANCEMENT = NamespacedKey.minecraft("adventure/totem_of_undying");
     private final HashMap<UUID, BukkitTask> respawnTasks = new HashMap<>();
@@ -540,12 +540,12 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        if (Main.getWorldGuardWrapper().isBlacklisted(player.getLocation().getBlock())) {
+        if (AngelChestMain.getWorldGuardWrapper().isBlacklisted(player.getLocation().getBlock())) {
             if (main.debug) main.debug("Cancelled: region disabled.");
             return;
         }
 
-        if (!Main.getWorldGuardWrapper().getAngelChestFlag(player)) {
+        if (!AngelChestMain.getWorldGuardWrapper().getAngelChestFlag(player)) {
             if (main.debug) main.debug("Cancelled: World Guard flag \"allow-angelchest\" is \"deny\"");
             return;
         }
@@ -619,7 +619,7 @@ public final class PlayerListener implements Listener {
             }
         }
 
-        if (!AngelChestUtils.spawnChance(main.groupUtils.getSpawnChancePerPlayer(player))) {
+        if (!AngelChestUtils.spawnChance(main.groupManager.getSpawnChancePerPlayer(player))) {
             if (main.debug) main.debug("Cancelled: unlucky, spawnChance returned false!");
             Utils.sendDelayedMessage(player, main.messages.MSG_SPAWN_CHANCE_UNSUCCESFULL, 1);
             return;
@@ -779,7 +779,7 @@ public final class PlayerListener implements Listener {
         final Block finalAngelChestBlock = angelChestBlock;
         final ItemStack priceItem = main.getItemManager().getItem(main.getConfig().getString(Config.PRICE));
 
-        if (!CommandUtils.hasEnoughMoney(player, main.groupUtils.getSpawnPricePerPlayer(player), priceItem, main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, main.messages.MSG_HAS_NO_ITEM2, "AngelChest spawned")) {
+        if (!CommandUtils.hasEnoughMoney(player, main.groupManager.getSpawnPricePerPlayer(player), priceItem, main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, main.messages.MSG_HAS_NO_ITEM2, "AngelChest spawned")) {
             return;
         }
 
@@ -880,7 +880,7 @@ public final class PlayerListener implements Listener {
             if (Daddy_Stepsister.allows(PremiumFeatures.DISALLOW_XP_COLLECTION_IN_PVP) && main.getConfig().getString(Config.COLLECT_XP).equalsIgnoreCase("nopvp") && (player.getKiller() != null && player.getKiller() != player)) {
                 // Do nothing
             } else if (!event.getKeepLevel() && event.getDroppedExp() != 0) {
-                final double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(player);
+                final double xpPercentage = main.groupManager.getXPPercentagePerPlayer(player);
                 if (main.debug) main.debug("Player has xpPercentage of " + xpPercentage);
                 if (xpPercentage == -1 || !Daddy_Stepsister.allows(PremiumFeatures.PERCENTAL_XP_LOSS)) {
                     ac.experience = event.getDroppedExp();
@@ -976,7 +976,7 @@ public final class PlayerListener implements Listener {
             Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> CommandUtils.sendListOfAngelChests(main, player, player), 2);
         }
 
-        final int maxChests = main.groupUtils.getChestsPerPlayer(player);
+        final int maxChests = main.groupManager.getChestsPerPlayer(player);
         final ArrayList<AngelChest> chests = AngelChestUtils.getAllAngelChestsFromPlayer(player);
         //System.out.println(chests.size()+" chests.size");
         if (chests.size() > maxChests) {

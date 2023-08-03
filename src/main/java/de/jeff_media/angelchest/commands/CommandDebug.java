@@ -4,7 +4,7 @@ import com.jeff_media.jefflib.EntityUtils;
 import com.jeff_media.jefflib.JeffLib;
 import com.jeff_media.jefflib.ParticleUtils;
 import com.jeff_media.jefflib.data.tuples.Pair;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.*;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.BlacklistEntry;
@@ -39,10 +39,10 @@ import java.util.*;
  */
 public final class CommandDebug implements CommandExecutor, TabCompleter {
 
-    private final Main main;
+    private final AngelChestMain main;
 
     public CommandDebug() {
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
     }
 
     private static String[] shift(final String[] args) {
@@ -246,7 +246,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         }
 
         if (deadHolograms == 0) {
-            Messages.send(commandSender, ChatColor.GRAY + "There are no dead AngelChest holograms.", ChatColor.GRAY + "Please note that this command can only remove holograms in loaded chunks created in AngelChest 3.3.0 or later. Join my discord to get a command that can remove all dead holograms (including those created by other plugins): " + Main.DISCORD_LINK);
+            Messages.send(commandSender, ChatColor.GRAY + "There are no dead AngelChest holograms.", ChatColor.GRAY + "Please note that this command can only remove holograms in loaded chunks created in AngelChest 3.3.0 or later. Join my discord to get a command that can remove all dead holograms (including those created by other plugins): " + AngelChestMain.DISCORD_LINK);
         } else {
             Messages.send(commandSender, ChatColor.GREEN + "Removed " + deadHolograms + " dead AngelChest holograms.");
         }
@@ -276,23 +276,27 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
             }
         }
 
-        final int maxChests = main.groupUtils.getChestsPerPlayer(player);
-        final int duration = main.groupUtils.getDurationPerPlayer(player);
-        final double priceSpawn = main.groupUtils.getSpawnPricePerPlayer(player);
-        final double priceOpen = main.groupUtils.getOpenPricePerPlayer(player);
-        final double priceTeleport = main.groupUtils.getTeleportPricePerPlayer(player);
-        final double priceFetch = main.groupUtils.getFetchPricePerPlayer(player);
-        final double xpPercentage = main.groupUtils.getXPPercentagePerPlayer(player);
-        final int unlockDuration = main.groupUtils.getUnlockDurationPerPlayer(player);
-        final double spawnChance = main.groupUtils.getSpawnChancePerPlayer(player);
-        final int itemLoss = main.groupUtils.getItemLossPerPlayer(player);
-        final boolean allowTPAcrossWorlds = main.groupUtils.getAllowTpAcrossWorlds(player);
-        final boolean allowFetchAcrossWorlds = main.groupUtils.getAllowFetchAcrossWorlds(player);
-        final int maxTpDistance = main.groupUtils.getMaxTpDistance(player);
-        final int maxFetchDistance = main.groupUtils.getMaxFetchDistance(player);
+        final int maxChests = main.groupManager.getChestsPerPlayer(player);
+        final int duration = main.groupManager.getDurationPerPlayer(player);
+        final int pvpDuration = main.groupManager.getPvpDurationPerPlayer(player);
+        final double priceSpawn = main.groupManager.getSpawnPricePerPlayer(player);
+        final double priceOpen = main.groupManager.getOpenPricePerPlayer(player);
+        final double priceTeleport = main.groupManager.getTeleportPricePerPlayer(player);
+        final double priceFetch = main.groupManager.getFetchPricePerPlayer(player);
+        final double xpPercentage = main.groupManager.getXPPercentagePerPlayer(player);
+        final int unlockDuration = main.groupManager.getUnlockDurationPerPlayer(player);
+        final double spawnChance = main.groupManager.getSpawnChancePerPlayer(player);
+        final int itemLoss = main.groupManager.getItemLossPerPlayer(player);
+        final boolean allowTPAcrossWorlds = main.groupManager.getAllowTpAcrossWorlds(player);
+        final boolean allowFetchAcrossWorlds = main.groupManager.getAllowFetchAcrossWorlds(player);
+        final int maxTpDistance = main.groupManager.getMaxTpDistance(player);
+        final int maxFetchDistance = main.groupManager.getMaxFetchDistance(player);
+        final boolean suspendWhenOffline = main.groupManager.getSuspendWhenOffline(player);
 
         Messages.send(commandSender, "§6Max Chests:§b " + maxChests);
         Messages.send(commandSender, "§6Duration:§b " + duration);
+        Messages.send(commandSender, "§6PvP Duration:§b " + pvpDuration);
+        Messages.send(commandSender, "§6Suspend when offline: §b" + suspendWhenOffline);
         Messages.send(commandSender, "§6Price Spawn:§b " + priceSpawn + " §8(depending on current balance)");
         Messages.send(commandSender, "§6Price Open:§b " + priceOpen + " §8(depending on current balance)");
         Messages.send(commandSender, "§6Price Teleport:§b " + priceTeleport + " §8(depending on current balance)");

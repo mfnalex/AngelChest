@@ -2,7 +2,7 @@ package de.jeff_media.angelchest.commands;
 
 import com.jeff_media.jefflib.NBTAPI;
 import de.jeff_media.angelchest.CommandManager;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.data.AngelChest;
@@ -21,10 +21,10 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CommandToggle implements CommandExecutor {
 
-    private final Main main;
+    private final AngelChestMain main;
 
     public CommandToggle() {
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
     }
 
     @Override

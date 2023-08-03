@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.utils;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Permissions;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -32,7 +32,7 @@ public final class LinkUtils {
 
     protected static TextComponent getLinks(final CommandSender sendTo, @SuppressWarnings("unused") final OfflinePlayer affectedPlayer, String preText, final String commandTp, final String commandUnlock, final String commandFetch) {
 
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
 
         String placeholder = " ";
         if ((sendTo.hasPermission(Permissions.TP) && commandTp != null) || (sendTo.hasPermission(Permissions.FETCH) && commandFetch != null) || (sendTo.hasPermission(Permissions.PROTECT) && commandUnlock != null)) {

@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.data;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.enums.BlacklistResult;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -30,7 +30,7 @@ public final class BlacklistEntry {
 
     public BlacklistEntry(final String name, final FileConfiguration config) {
         this.name = name;
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         if (main.debug) main.debug("Reading Blacklist entry \"" + this.name + "\"");
         String materialName = config.getString(name + ".material", "any");
         slot = config.getInt(name + ".slot",-1);
@@ -89,7 +89,7 @@ public final class BlacklistEntry {
     }
 
     public BlacklistResult matches(final ItemStack item, int slot) {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         if (item == null) return null;
         if(this.slot != -1) {
             //System.out.println("Slot: " + this.slot + " - " + slot);

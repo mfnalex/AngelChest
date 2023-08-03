@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.commands.debug;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -32,7 +32,7 @@ public class SpamGravesCommand {
                     player.setHealth(0);
                 }
             }
-        }.runTaskTimer(Main.getInstance(), 0, 1);
+        }.runTaskTimer(AngelChestMain.getInstance(), 0, 1);
     }
 
 }

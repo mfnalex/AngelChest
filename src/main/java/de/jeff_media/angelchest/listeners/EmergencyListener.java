@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.listeners;
 
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.EmergencyMode;
-import de.jeff_media.angelchest.Main;
 import de.jeff_media.angelchest.config.Messages;
 import com.jeff_media.jefflib.Ticks;
 import org.bukkit.Bukkit;
@@ -15,14 +15,14 @@ public final class EmergencyListener implements Listener {
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent playerJoinEvent) {
 
-        if (Main.getInstance().invalidConfigFiles == null) return;
+        if (AngelChestMain.getInstance().invalidConfigFiles == null) return;
 
         if (playerJoinEvent.getPlayer().isOp()) {
             int i = 0;
-            for (final String file : Main.getInstance().invalidConfigFiles) {
+            for (final String file : AngelChestMain.getInstance().invalidConfigFiles) {
                 final String[] text = EmergencyMode.BROKEN_CONFIG_FILE.clone();
                 i++;
-                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(AngelChestMain.getInstance(), () -> {
                     for (int j = 0; j < text.length; j++) {
                         text[j] = text[j].replace("{filename}", file);
                     }

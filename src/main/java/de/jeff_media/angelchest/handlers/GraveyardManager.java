@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.handlers;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.daddy.Daddy_Stepsister;
@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class GraveyardManager {
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
     private static List<Graveyard> GRAVEYARDS;
     private static Graveyard GLOBAL_GRAVEYARD;
     private static final Map<UUID, Graveyard> LAST_GRAVEYARDS = new HashMap<>();

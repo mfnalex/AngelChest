@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.commands;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.CommandArgument;
@@ -17,10 +17,10 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class CommandList implements CommandExecutor {
 
-    final Main main;
+    final AngelChestMain main;
 
     public CommandList() {
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
     }
 
     @Override

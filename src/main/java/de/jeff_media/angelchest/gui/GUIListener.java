@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.gui;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
@@ -30,10 +30,10 @@ import java.util.HashMap;
 
 public final class GUIListener implements Listener {
 
-    private final Main main;
+    private final AngelChestMain main;
 
     public GUIListener() {
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
     }
 
     @SuppressWarnings("unused")

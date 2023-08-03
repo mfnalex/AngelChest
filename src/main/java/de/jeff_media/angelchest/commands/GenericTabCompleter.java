@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.commands;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -17,12 +17,12 @@ import java.util.*;
 
 public class GenericTabCompleter implements TabCompleter {
 
-    private final Main main;
+    private final AngelChestMain main;
     private static final List<String> BLOCKS = new ArrayList<>();
     private static final List<String> POTION_EFFECT_TYPES = new ArrayList<>();
 
     public GenericTabCompleter() {
-        this.main = Main.getInstance();
+        this.main = AngelChestMain.getInstance();
     }
 
     private int getChests(final UUID uuid) {
@@ -62,7 +62,7 @@ public class GenericTabCompleter implements TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String s, @NotNull final String[] args) {
         final List<String> list = new ArrayList<>();
-        UUID uuid = commandSender instanceof Player ? ((Player) commandSender).getUniqueId() : Main.consoleSenderUUID;
+        UUID uuid = commandSender instanceof Player ? ((Player) commandSender).getUniqueId() : AngelChestMain.consoleSenderUUID;
         if (args.length == 1) {
             for (int i = 1; i <= getChests(uuid); i++) {
                 if (String.valueOf(i).startsWith(args[0])) {

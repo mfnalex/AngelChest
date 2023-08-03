@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.data;
 
 import com.google.common.base.Enums;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.exceptions.InvalidLocationDefinitionException;
 import de.jeff_media.angelchest.handlers.ChunkManager;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
@@ -41,7 +41,7 @@ public class Graveyard {
     private final Long localTime;
     private final WeatherType weatherType;
 
-    private static final Main main = Main.getInstance();
+    private static final AngelChestMain main = AngelChestMain.getInstance();
 
     private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable CustomBlock magicMaterial, @Nullable String hologramText, boolean global, @Nullable Location spawn, boolean instantRespawn, Integer totemAnimation, Collection<PotionEffect> potionEffects, @Nullable Long localTime, @Nullable WeatherType weatherType) {
         this.name = name;
@@ -113,7 +113,7 @@ public class Graveyard {
                 if (mat != null) {
                     spawnOn.add(mat);
                 } else {
-                    Main.getInstance().getLogger().warning("Unknown material defined in graveyard " + name + ": " + matName);
+                    AngelChestMain.getInstance().getLogger().warning("Unknown material defined in graveyard " + name + ": " + matName);
                 }
             }
             if (spawnOn.isEmpty()) {
@@ -258,7 +258,7 @@ public class Graveyard {
                 }
                 Collections.shuffle(cachedValidGraveLocations);
             }
-        }.runTaskAsynchronously(Main.getInstance());*/
+        }.runTaskAsynchronously(AngelChestMain.getInstance());*/
 
     public List<Block> getCachedValidGraveLocations() {
         return cachedValidGraveLocations;
@@ -269,7 +269,7 @@ public class Graveyard {
     }
 
     private void populateBlocksInsideAsync() {
-        if(Main.SCHEDULE_TASKS) {
+        if(AngelChestMain.SCHEDULE_TASKS) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -289,7 +289,7 @@ public class Graveyard {
                                     return;
                                 }
                             }
-                            Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                            Bukkit.getScheduler().runTask(AngelChestMain.getInstance(), () -> {
                                 try {
                                     Chunk chunk = future.get();
                                     for (int bx = 0; bx < 16; bx++) {
@@ -299,7 +299,7 @@ public class Graveyard {
                                                 Block block = chunk.getBlock(bx, by, bz);
                                                 if (boundingBox.contains(block)) {
                                                     if (isValidSpawnOn(block)) {
-                                                    /*if(Main.getInstance().debug) {
+                                                    /*if(AngelChestMain.getInstance().debug) {
                                                         System.out.println("Found valid grave: " + block);
                                                     }*/
                                                         cachedValidGraveLocations.add(block);
@@ -315,7 +315,7 @@ public class Graveyard {
                             });
                         }
                     }
-                    Bukkit.getScheduler().runTask(Main.getInstance(), () -> Collections.shuffle(cachedValidGraveLocations));
+                    Bukkit.getScheduler().runTask(AngelChestMain.getInstance(), () -> Collections.shuffle(cachedValidGraveLocations));
                     try {
                         long duration = TimeUtils.endTimings("Find grave locations for graveyard " + name, main, false);
                         Bukkit.getScheduler().runTaskLater(main, () -> main.getLogger().info("Found " + cachedValidGraveLocations.size() + " possible grave locations in graveyard " + name + " (Duration: " + TimeUtils.formatNanoseconds(duration) + ")"), 1L);
@@ -323,7 +323,7 @@ public class Graveyard {
 
                     }
                 }
-            }.runTaskAsynchronously(Main.getInstance());
+            }.runTaskAsynchronously(AngelChestMain.getInstance());
         }
     }
 

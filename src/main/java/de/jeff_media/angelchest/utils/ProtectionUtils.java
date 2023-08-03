@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.utils;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
@@ -20,7 +20,7 @@ import java.util.List;
 public final class ProtectionUtils {
 
     private final YamlConfiguration yamlFile;
-    private final Main main = Main.getInstance();
+    private final AngelChestMain main = AngelChestMain.getInstance();
 
     public ProtectionUtils(final File file) {
         if (!file.exists()) {
@@ -30,7 +30,7 @@ public final class ProtectionUtils {
     }
 
     public static boolean playerMayBuildHere(final Player p, final Location loc) {
-        final Main main = Main.getInstance();
+        final AngelChestMain main = AngelChestMain.getInstance();
         final BlockPlaceEvent event = new BlockPlaceEvent(loc.getBlock(), loc.getBlock().getState(), loc.getBlock().getRelative(BlockFace.DOWN), new ItemStack(Material.DIRT), p, true, EquipmentSlot.HAND);
         main.getServer().getPluginManager().callEvent(event);
         if (event.isCancelled()) {

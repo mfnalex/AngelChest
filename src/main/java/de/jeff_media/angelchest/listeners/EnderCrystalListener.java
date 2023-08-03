@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.listeners;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -15,7 +15,7 @@ import java.util.UUID;
 public class EnderCrystalListener implements Listener {
 
     public static UUID lastEnderCrystalKiller = null;
-    private final Main main = Main.getInstance();
+    private final AngelChestMain main = AngelChestMain.getInstance();
 
     @EventHandler
     public void onKillEndCrystal(final EntityDamageByEntityEvent event) {

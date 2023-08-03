@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.handlers;
 
 import com.jeff_media.jefflib.NumberUtils;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import com.jeff_media.jefflib.data.Cooldown;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -20,12 +20,12 @@ import java.util.function.Supplier;
 
 public class PvpTracker implements Listener {
 
-    private final Main main;
+    private final AngelChestMain main;
     private final Supplier<Double> cooldownSupplier;
 
     @Getter private final Cooldown tracker = new Cooldown(TimeUnit.MILLISECONDS);
 
-    public PvpTracker(Main main, Supplier<Double> cooldownSupplier) {
+    public PvpTracker(AngelChestMain main, Supplier<Double> cooldownSupplier) {
         this.main = main;
         this.cooldownSupplier = cooldownSupplier;
 

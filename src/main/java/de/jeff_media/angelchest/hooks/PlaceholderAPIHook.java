@@ -1,7 +1,7 @@
 package de.jeff_media.angelchest.hooks;
 
 import com.jeff_media.jefflib.PDCUtils;
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.nbt.NBTTags;
@@ -20,9 +20,9 @@ import java.util.ArrayList;
  */
 public final class PlaceholderAPIHook extends PlaceholderExpansion {
 
-    final Main main;
+    final AngelChestMain main;
 
-    public PlaceholderAPIHook(final Main main) {
+    public PlaceholderAPIHook(final AngelChestMain main) {
         this.main = main;
     }
 
@@ -66,14 +66,14 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
 
         switch (identifier) {
             case "price":
-                return main.getCurrencyFormatter().format(onlinePlayer == null ? main.getConfig().getDouble(Config.PRICE) : main.groupUtils.getSpawnPricePerPlayer(onlinePlayer));
+                return main.getCurrencyFormatter().format(onlinePlayer == null ? main.getConfig().getDouble(Config.PRICE) : main.groupManager.getSpawnPricePerPlayer(onlinePlayer));
             case "price_teleport":
-                return main.getCurrencyFormatter().format(onlinePlayer == null ? main.getConfig().getDouble(Config.PRICE_TELEPORT) : main.groupUtils.getTeleportPricePerPlayer(onlinePlayer));
+                return main.getCurrencyFormatter().format(onlinePlayer == null ? main.getConfig().getDouble(Config.PRICE_TELEPORT) : main.groupManager.getTeleportPricePerPlayer(onlinePlayer));
             case "price_fetch":
-                return main.getCurrencyFormatter().format(onlinePlayer == null ? main.getConfig().getDouble(Config.PRICE_FETCH) : main.groupUtils.getFetchPricePerPlayer(onlinePlayer));
+                return main.getCurrencyFormatter().format(onlinePlayer == null ? main.getConfig().getDouble(Config.PRICE_FETCH) : main.groupManager.getFetchPricePerPlayer(onlinePlayer));
             case "price-open":
             case "price_open":
-                return main.getCurrencyFormatter().format(onlinePlayer == null ? main.getConfig().getDouble(Config.PRICE_OPEN) : main.groupUtils.getOpenPricePerPlayer(onlinePlayer));
+                return main.getCurrencyFormatter().format(onlinePlayer == null ? main.getConfig().getDouble(Config.PRICE_OPEN) : main.groupManager.getOpenPricePerPlayer(onlinePlayer));
             case "activechests":
                 return Integer.toString(allChests.size());
             case "enabled":

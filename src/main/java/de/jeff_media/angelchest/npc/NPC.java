@@ -3,7 +3,7 @@
 //
 //import com.mojang.authlib.GameProfile;
 //import com.mojang.authlib.properties.Property;
-//import de.jeff_media.angelchest.Main;
+//import de.jeff_media.angelchest.AngelChestMain;
 //import de.jeff_media.angelchest.utils.NMSUtils;
 //import net.minecraft.server.v1_16_R3.*;
 //import org.bukkit.Bukkit;
@@ -26,7 +26,7 @@
 //
 //    private final Location location;
 //    private final Location bed;
-//    private final Main main = Main.getInstance();
+//    private final AngelChestMain main = AngelChestMain.getInstance();
 //    private final String name;
 //    private final EntityPlayer npc;
 //    private final UUID uuid;
@@ -78,7 +78,7 @@
 //            playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
 //            playerConnection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
 //            playerConnection.sendPacket(new PacketPlayOutEntityMetadata(npc.getId(), npc.getDataWatcher(), false));
-//            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), ()->((CraftPlayer) otherPlayer).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc)), 1);
+//            Bukkit.getScheduler().scheduleSyncDelayedTask(AngelChestMain.getInstance(), ()->((CraftPlayer) otherPlayer).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc)), 1);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }

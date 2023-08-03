@@ -38,7 +38,7 @@ public class Compatibility {
                         bufferedWriter.write(line);
                         bufferedWriter.newLine();
                     }
-                    Main.getInstance().getLogger().info("Migrated old AngelChest save file " + file.getAbsolutePath());
+                    AngelChestMain.getInstance().getLogger().info("Migrated old AngelChest save file " + file.getAbsolutePath());
                 } catch (IOException ignored) {
 
                 }

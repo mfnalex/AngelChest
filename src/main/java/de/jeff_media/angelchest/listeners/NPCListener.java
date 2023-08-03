@@ -1,6 +1,6 @@
 //package de.jeff_media.angelchest.listeners;
 //
-//import de.jeff_media.angelchest.Main;
+//import de.jeff_media.angelchest.AngelChestMain;
 //import de.jeff_media.angelchest.npc.NPC;
 //import org.bukkit.Location;
 //import org.bukkit.entity.Player;
@@ -13,7 +13,7 @@
 //
 //public class NPCListener implements Listener {
 //
-//    private final Main main = Main.getInstance();
+//    private final AngelChestMain main = AngelChestMain.getInstance();
 //
 //    private void showNPCs(Player player) {
 //        for(NPC npc : main.getNpcManager().getNPCs()) {

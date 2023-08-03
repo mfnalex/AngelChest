@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.hooks;
 
-import de.jeff_media.angelchest.Main;
+import de.jeff_media.angelchest.AngelChestMain;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -19,7 +19,7 @@ public class WorldGuardWrapper {
         WorldGuardWrapper handler = new WorldGuardWrapper();
         if(Bukkit.getPluginManager().getPlugin("WorldGuard") != null) {
             try {
-                handler = new WorldGuardHandler(Main.getInstance());
+                handler = new WorldGuardHandler(AngelChestMain.getInstance());
             } catch (final Throwable t) {
                 t.printStackTrace();
             }
