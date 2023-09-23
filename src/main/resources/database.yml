@@ -1,0 +1,11 @@
+# Available types:
+#   file  - Saves data to human-readable and editable .yml files
+#   mysql - Saves data to a MySQL database
+type: file
+
+# Only used when type is set to mysql
+host: localhost
+port: 3306
+database: mydatabase
+username: root
+password: ''

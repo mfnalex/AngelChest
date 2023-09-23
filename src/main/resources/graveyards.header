@@ -91,11 +91,12 @@
 #   potion-effects: You can define potion effects that will be applied to all players while they are inside
 #                   the graveyard. Their previous effects will be restored once they leave the graveyard.
 #                   You can also set the effect's multiplicator.
+#                   See here for the Spigot names of PotionEffectTypes: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
 # 
 #                   Example:
 #                     potion-effects:
 #                       BLINDNESS: 0        (= blindness level lvl 1)
-#                       MINING_FATIGUE: 9   (= mining fatigue lvl 10)
+#                       SLOW_DIGGING: 9     (= mining fatigue lvl 10)
 # 
 # 
 #   local-time: You can have the graveyard use a specific time. Normal values range from 0 to 24000.

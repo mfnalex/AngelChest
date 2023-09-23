@@ -217,8 +217,7 @@ pvp-cooldown: 0
 # the player has permission for those commands.
 show-location: true
 
-# When set to true, players will receive the list of AngelChests again after
-# rejoining.
+# When set to true, players will receive the list of AngelChests again after rejoining.
 show-location-on-join: true
 
 # Whether to show a message to the AngelChest owner when other players open or empty their chest
@@ -686,7 +685,7 @@ lands-dont-protect-when-at-war: false
 # from detecting the drops. If you get the message that your inventory was empty
 # on death, try setting the "event-priority" below to LOWEST, then raise it slowly
 # to the highest possible value where it still works.
-ignore-keep-inventory: false
+ignore-keep-inventory: true
 
 # If set to true, AngelChest will try to only spawn chests INSIDE the world border as dictated by WorldBorderAPI.
 # If set to false, AngelChest doesn't care about what WorldBorderAPI says.

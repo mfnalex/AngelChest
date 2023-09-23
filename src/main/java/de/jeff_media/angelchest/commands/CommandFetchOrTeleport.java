@@ -1,6 +1,7 @@
 package de.jeff_media.angelchest.commands;
 
 import de.jeff_media.angelchest.AngelChestMain;
+import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.CommandArgument;
@@ -57,7 +58,7 @@ public final class CommandFetchOrTeleport implements CommandExecutor {
 
         final int chestIdStartingAt1 = chestResult.getValue0();
         final AngelChest angelChest = chestResult.getValue1();
-        CommandUtils.fetchOrTeleport(main, (Player) requester, angelChest, chestIdStartingAt1, action, true);
+        CommandUtils.fetchOrTeleport(main, (Player) requester, angelChest, chestIdStartingAt1, action, main.getConfig().getBoolean(Config.CONFIRM, true));
 
         return true;
     }

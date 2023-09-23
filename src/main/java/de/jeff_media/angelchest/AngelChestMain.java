@@ -49,6 +49,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -57,6 +58,14 @@ import java.util.stream.IntStream;
  * AngelChest AngelChestMain class
  */
 public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin {
+
+    private static boolean isPremium0() {
+        String percent = "%";
+        if(System.getProperty("hopefullyundefinedproperty_" + ThreadLocalRandom.current().nextInt()) != null) {
+            percent = ".";
+        }
+        return !"%%__USER__%%".startsWith(percent);
+    }
 
 
     public static final int BSTATS_ID = 3194;
@@ -71,7 +80,8 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
     private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/angelchestplus/latest-version.txt";
     public static boolean SCHEDULE_TASKS = true;
     @DoNotRename
-    public static boolean isPremiumVersion = true;
+    public static boolean isPremiumVersion = isPremium0();
+
     private static AngelChestMain instance;
     private static WorldGuardWrapper worldGuardWrapper;
     @Getter
@@ -130,6 +140,7 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
     public Watchdog watchdog;
     public YamlConfiguration customDeathCauses;
     public IExecutableItemsHook executableItemsHook;
+    public MySqlManager mySqlManager;
     boolean emergencyMode = false;
     @Getter
     @Setter

@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>9.15.0</version>
+    <version>9.15.2</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -238,12 +238,12 @@
         </repository>
 
         <repository>
-            <id>jeff-media-thirdparty</id>
-            <url>https://hub.jeff-media.com/nexus/repository/jeff-media-thirdparty/</url>
+            <id>jeff-media-private</id>
+            <url>https://repo.jeff-media.com/private</url>
         </repository>
         <repository>
             <id>jeff-media-public</id>
-            <url>https://hub.jeff-media.com/nexus/repository/jeff-media-public/</url>
+            <url>https://repo.jeff-media.com/public/</url>
         </repository>
 
 <!--        <repository>-->
@@ -449,6 +449,12 @@
             <artifactId>CombatLogX-API</artifactId>
             <version>10.0.0.0-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>5.0.1</version>
+            <scope>compile</scope>
         </dependency>
 
 <!--        <dependency>-->
