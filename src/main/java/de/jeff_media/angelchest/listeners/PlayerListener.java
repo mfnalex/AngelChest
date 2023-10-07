@@ -913,27 +913,6 @@ public final class PlayerListener implements Listener {
         clearInventory(player.getInventory());
 
         /*
-        Check if player has any drops
-         */
-        if (ac.isEmpty()) {
-            if (main.debug) main.debug("Cancelled: AngelChest would be empty.");
-            if (main.debug) main.debug("Either your inventory and XP was empty, or another plugin set your");
-            if (main.debug) main.debug("drops and XP to zero.");
-
-            ac.remove();
-            ac.destroy(true, false);
-            main.angelChests.remove(ac);
-
-            Utils.sendDelayedMessage(player, main.messages.MSG_INVENTORY_WAS_EMPTY, 1);
-
-            if (main.getConfig().getBoolean(Config.GRAVEYARDS_ONLY_AS_RESPAWN_POINT)) {
-                setRespawnLocationToGraveyardIfApplicable(player, graveyardBlock, graveyard);
-            }
-
-            return;
-        }
-
-        /*
 
         From here, there's no way to cancel the chest creation anymore-
         Todo: Don't even spawn the chest yet.
@@ -964,6 +943,32 @@ public final class PlayerListener implements Listener {
         // Working solution end
         //event.getDrops().removeIf(ac.blacklistedItems::remove);
         //event.getDrops().removeIf(drop -> !EqualUtils.contains(ac.blacklistedItems, drop));
+
+
+
+
+                /*
+        Check if player has any drops
+         */
+        if (ac.isEmpty()) {
+            if (main.debug) main.debug("Cancelled: AngelChest would be empty.");
+            if (main.debug) main.debug("Either your inventory and XP was empty, or another plugin set your");
+            if (main.debug) main.debug("drops and XP to zero.");
+
+            ac.remove();
+            ac.destroy(true, false);
+            main.angelChests.remove(ac);
+
+            Utils.sendDelayedMessage(player, main.messages.MSG_INVENTORY_WAS_EMPTY, 1);
+
+            if (main.getConfig().getBoolean(Config.GRAVEYARDS_ONLY_AS_RESPAWN_POINT)) {
+                setRespawnLocationToGraveyardIfApplicable(player, graveyardBlock, graveyard);
+            }
+
+            return;
+        }
+
+
 
         // send message after one twentieth second
         String playerDeathMessage = main.messages.MSG_ANGELCHEST_CREATED;

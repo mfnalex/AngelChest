@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>9.15.2</version>
+    <version>9.15.3</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -75,7 +75,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.5.1</version>
                 <configuration>
                     <relocations>
                         <relocation>
@@ -119,6 +119,10 @@
                             <shadedPattern>de.jeff_media.angelchest.acf.locales</shadedPattern>
                         </relocation>
                         <relocation>
+                            <pattern>com.jeff_media.cesspool</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.cesspool</shadedPattern>
+                        </relocation>
+                        <relocation>
                             <pattern>com.google.gson</pattern>
                             <shadedPattern>de.jeff_media.angelchest.thirdparty.com.google.gson</shadedPattern>
                         </relocation>
@@ -153,6 +157,10 @@
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
                             <shadedPattern>de.jeff_media.angelchest.thirdparty.io.papermc.lib</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.tcoded.folialib</pattern>
+                            <shadedPattern>de.jeff_media.angelchest.thirdparty.com.tcoded.folialib</shadedPattern>
                         </relocation>
                     </relocations>
                     <artifactSet>
@@ -203,6 +211,10 @@
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>devmart-other</id>
+            <url>https://nexuslite.gcnt.net/repos/other/</url>
         </repository>
         <repository>
             <id>pcgf-repo</id>
@@ -279,11 +291,17 @@
 
         <!-- Own Libraries -->
         <dependency>
-            <groupId>com.jeff_media</groupId>
-            <artifactId>JeffLib</artifactId>
-            <version>12.4.2</version>
+            <groupId>com.jeff-media.jefflib</groupId>
+            <artifactId>jefflib</artifactId>
+            <version>13.0.1</version>
             <scope>compile</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.jeff-media.cesspool</groupId>-->
+<!--            <artifactId>cesspool</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.jeff_media</groupId>
             <artifactId>CustomBlocks</artifactId>
@@ -294,6 +312,12 @@
             <groupId>com.jeff_media</groupId>
             <artifactId>CustomBlockData</artifactId>
             <version>2.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tcoded</groupId>
+            <artifactId>FoliaLib</artifactId>
+            <version>0.2.5</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
