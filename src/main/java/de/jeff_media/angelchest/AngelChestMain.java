@@ -13,7 +13,6 @@ import de.jeff_media.angelchest.config.*;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.BlacklistEntry;
 import de.jeff_media.angelchest.data.PendingConfirm;
-import de.jeff_media.angelchest.enchantments.Glow;
 import de.jeff_media.angelchest.enums.BlacklistResult;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
@@ -92,8 +91,6 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
         }
         return null;
     }).get();
-    @Getter
-    private final Glow glowEnchantment = new Glow();
     @Getter
     private final CurrencyFormatter currencyFormatter = new CurrencyFormatter(this);
     @Getter

@@ -1,5 +1,6 @@
 package de.jeff_media.angelchest.handlers;
 
+import com.jeff_media.jefflib.internal.glowenchantment.GlowEnchantmentFactory;
 import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.nbt.NBTTags;
@@ -64,7 +65,7 @@ public class ItemManager {
             ItemStack item = ItemStackUtils.fromConfigurationSection(yaml.getConfigurationSection(itemId));
             PDCUtils.set(item, NBTTags.IS_TOKEN_ITEM, PersistentDataType.STRING,itemId);
             if(yaml.getBoolean(itemId+".glow")) {
-                item.addUnsafeEnchantment(main.getGlowEnchantment(), 1);
+                item.addUnsafeEnchantment(GlowEnchantmentFactory.getInstance(), 1);
             }
             if(yaml.getBoolean(itemId+".keep-on-death")) {
                 PDCUtils.set(item, NBTTags.IS_TOKEN_ITEM_KEEP, PersistentDataType.BYTE,(byte) 1);
