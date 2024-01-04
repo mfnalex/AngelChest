@@ -19,7 +19,7 @@ public class EcoEnchantsHook {
 
     private static final Enchantment telekinesisEnchant;
     private static final AngelChestMain main = AngelChestMain.getInstance();
-    private static final NamespacedKey soulboundKey = Objects.requireNonNull(NamespacedKey.fromString("ecoenchants:soulbound"));
+    private static final NamespacedKey soulboundKey = Objects.requireNonNull(PDCUtils.getKeyFromString("ecoenchants","soulbound"));
 
     static {
         telekinesisEnchant = getTelekinesisEnchant();

@@ -1,12 +1,13 @@
 package de.jeff_media.angelchest.hooks;
 
+import com.jeff_media.jefflib.PDCUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 
 public class CommandPanelsHook {
 
-    private static final NamespacedKey KEY = NamespacedKey.fromString("commandpanels:commandpanelsitem");
+    private static final NamespacedKey KEY = PDCUtils.getKeyFromString("commandpanels","commandpanelsitem");
 
     private static Boolean IS_COMMANDPANELS_INSTALLED = null;
 
