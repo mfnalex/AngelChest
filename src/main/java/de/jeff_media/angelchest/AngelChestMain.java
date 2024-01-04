@@ -5,6 +5,7 @@ import com.allatori.annotations.DoNotRename;
 import com.jeff_media.jefflib.JeffLib;
 import com.jeff_media.jefflib.Tasks;
 import com.jeff_media.jefflib.Ticks;
+import com.jeff_media.jefflib.WorldUtils;
 import com.jeff_media.jefflib.data.McVersion;
 import com.jeff_media.jefflib.data.tuples.Pair;
 import com.jeff_media.jefflib.exceptions.NMSNotSupportedException;
@@ -176,7 +177,7 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
     }
 
     public int getWorldMinHeight(World world) {
-        return worldMinBuildHeights.getOrDefault(world.getName(), McVersion.current().isAtLeast(1, 16, 5) ? world.getMinHeight() : 0);
+        return worldMinBuildHeights.getOrDefault(world.getName(), WorldUtils.getWorldMinHeight(world));
     }
 
     public int getWorldMaxHeight(World world) {
