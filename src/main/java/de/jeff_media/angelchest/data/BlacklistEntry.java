@@ -13,6 +13,10 @@ import org.bukkit.persistence.PersistentDataContainer;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+import java.util.stream.Collectors;
 
 public final class BlacklistEntry {
 
@@ -21,6 +25,7 @@ public final class BlacklistEntry {
     final List<String> loreExact;
     final List<String> enchantments;
     final List<String> pdcKeys;
+    final List<Pattern> toStringRegex;
     final String name;
     final String nameContains;
     final String nameExact;
@@ -76,6 +81,16 @@ public final class BlacklistEntry {
         if(main.debug) main.debug("- force-delete: " + delete);
         this.pdcKeys = config.getStringList(name + ".pdcKeys");
         if (main.debug) main.debug("- pdcKeys: " + pdcKeys);
+        this.toStringRegex = config.getStringList(name + ".toStringRegex").stream().map(entry -> {
+            entry = entry.replace("\\n", "\n");
+            try {
+                return Pattern.compile(entry);
+            } catch (PatternSyntaxException exception) {
+                main.getLogger().warning("Invalid regex in blacklist entry \"" + name + "\": " + entry);
+                return null;
+            }
+        }).filter(Objects::nonNull).collect(Collectors.toList());;
+        if( main.debug) main.debug("- toStringRegex: " + toStringRegex.stream().map(Pattern::toString).collect(Collectors.joining(System.lineSeparator())));
 
     }
 
@@ -204,6 +219,22 @@ public final class BlacklistEntry {
                     main.verbose("Blacklist: no, pdcKeys but no match for " + key);
                     return BlacklistResult.NO_MATCH_PDC_KEYS;
                 }
+            }
+        }
+
+        // ToStringRegex
+        if(toStringRegex != null && toStringRegex.size() > 0) {
+            try {
+                String itemAsString = item.toString();
+                for(Pattern pattern : toStringRegex) {
+                    if(!pattern.matcher(itemAsString).find()) {
+                        main.verbose("Blacklist: no, toStringRegex but no match for " + pattern.pattern());
+                        return BlacklistResult.NO_MATCH_TO_STRING_REGEX;
+                    }
+                }
+            } catch (Throwable paper) {
+                main.verbose("Could not turn ItemStack to string:");
+                if(main.verbose) paper.printStackTrace();
             }
         }
 

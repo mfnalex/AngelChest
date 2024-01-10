@@ -45,7 +45,17 @@
 #   pdcKeys:                                 (PDC keys used by other plugins. Do not touch this unless you know what you're
 #     - "plugin:keyname"                      doing. PDC keys are in the format "plugin:keyname". You can find them out
 #                                             by using "/data get entity <player> SelectedItem" on a player who has the item
-#                                             in their hand, then checking the "PublicBukkitValues" section.
+#                                             in their hand, then checking the "PublicBukkitValues" section.)
+#
+#   toStringRegex:                           (This can be used to detect ANY custom items, even e.g. books with certain contents.
+#     - "<regex>"                             The item must match the given regular expression. Do not touch this unless
+#                                             you know what you're doing. You can find out the string by using "/acd on",
+#                                             then holding the item in your hand while dying. The whole item string will
+#                                             be printed to console. You can then use regex101.com to create a regular
+#                                             expression to match that string. Please note that you have to properly escape
+#                                             special symbols. Feel free to join my Discord if you need help in creating
+#                                             the regular expression: https://discord.jeff-media.com [verified buyers only])
+
 #
 #
 # Use '&' for color codes. If you set ignoreColors to false, do NOT add the color code.

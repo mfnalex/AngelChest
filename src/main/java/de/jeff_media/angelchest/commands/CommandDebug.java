@@ -23,6 +23,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -33,6 +34,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Handles the /acd command
@@ -356,6 +359,13 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 case "blacklist":
                     blacklist(commandSender, shift(args));
                     return true;
+                case "dumpitem":
+                    String playerName = null;
+                    if(args.length > 1) {
+                        playerName = args[1];
+                    }
+                    dumpitem(commandSender, playerName);
+                    return true;
                 case "info":
                     info(commandSender);
                     return true;
@@ -412,6 +422,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 "/acd info §6Shows general debug information",
                 "/acd group §6Shows group information",
                 "/acd dump §6Dump debug information",
+                "/acd dumpitem §6Dumps the item in your hand to console",
                 "/acd fixholograms §6Removes dead holograms",
                 "/acd disableac §6Disables AngelChest spawning",
                 "/acd enableac §6Enables AngelChest spawning",
@@ -420,6 +431,51 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
                 "/acd listchests §6Lists all chests");
 
         return true;
+    }
+
+    private void dumpitem(CommandSender commandSender, String playerName) {
+        Player player = null;
+        if (!(commandSender instanceof Player) && playerName == null) {
+            commandSender.sendMessage(main.messages.MSG_PLAYERSONLY);
+            return;
+        }
+        if(playerName == null) {
+            player = (Player) commandSender;
+        } else {
+            player = Bukkit.getPlayerExact(playerName);
+            if(player == null) {
+                commandSender.sendMessage("§cPlayer " + playerName + " not found.");
+                return;
+            }
+        }
+
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if(item==null || item.getAmount() == 0 || item.getType() == Material.AIR) {
+            player.sendMessage("§cYou must hold an item in your hand.");
+            return;
+        }
+
+        String toString = item.toString();
+        String asRegex = "^" + Pattern.quote(toString.replace("\n","\\n")) + "$";
+        YamlConfiguration yaml = new YamlConfiguration();
+        yaml.set("toStringRegex", Arrays.asList(asRegex));
+        asRegex = Arrays.stream(yaml.saveToString().split("\n")).map(line -> "  " + line).collect(Collectors.joining("\n"));
+
+
+        if(commandSender instanceof Player) {
+            commandSender.sendMessage("\n\n§6=== REGULAR EXPRESSION (for usage with blacklist.yml) ===\n\n§r" + asRegex
+            + "\n§6=== ItemStack.toString() ===\n\n§r" + toString
+            + "\n\n" + ChatColor.GRAY + "\n(The above information was also printed to console)");
+        }
+
+        main.getLogger().info(
+                "\n\n=== REGULAR EXPRESSION (for usage with blacklist.yml) ==="
+                        + "\n\n" + asRegex
+                        + "\n"
+                        + "\n=== ItemStack.toString() ==="
+                        + "\n\n" + toString
+                        + "\n\n");
+
     }
 
     private void listchests(CommandSender commandSender) {
@@ -504,7 +560,7 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command, @NotNull final String s, @NotNull final String[] args) {
-        final String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig", "dump", "fixholograms", "disableac", "enableac", "totemanimation", "graveyard"};
+        final String[] mainCommands = {"on", "off", "blacklist", "info", "group", "checkconfig", "dump", "dumpitem", "fixholograms", "disableac", "enableac", "totemanimation", "graveyard"};
         final String[] blacklistCommands = {"info", "test", "add"};
         final String[] graveyardCommands = {"showgraves"/*,"spamgraves"*/,"loadedchunks","info"};
 
