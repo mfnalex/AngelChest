@@ -74,7 +74,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public boolean isLooted = false;
     public UUID uniqueId;
     private CustomBlock customBlock;
-    private BlockData originalBlockData;
+    public BlockData originalBlockData;
     //public UUID uuid = UUID.randomUUID();
 
     /**

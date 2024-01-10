@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ public final class BlacklistEntry {
     final List<String> loreContains;
     final List<String> loreExact;
     final List<String> enchantments;
+    final List<String> pdcKeys;
     final String name;
     final String nameContains;
     final String nameExact;
@@ -72,6 +74,8 @@ public final class BlacklistEntry {
         if (main.debug) main.debug("- ignoreColors: " + ignoreColors);
         this.delete = config.getBoolean(name + ".force-delete",false);
         if(main.debug) main.debug("- force-delete: " + delete);
+        this.pdcKeys = config.getStringList(name + ".pdcKeys");
+        if (main.debug) main.debug("- pdcKeys: " + pdcKeys);
 
     }
 
@@ -188,9 +192,28 @@ public final class BlacklistEntry {
             }
         }
 
+        // PDC Keys
+        if(pdcKeys != null && pdcKeys.size() > 0) {
+            for(String key : pdcKeys) {
+                if(!item.hasItemMeta()) {
+                    main.verbose("Blacklist: no, pdcKeys but no meta");
+                    return BlacklistResult.NO_MATCH_PDC_KEYS;
+                }
+                PersistentDataContainer pdc = meta.getPersistentDataContainer();
+                if(!hasPdcKey(pdc,key)) {
+                    main.verbose("Blacklist: no, pdcKeys but no match for " + key);
+                    return BlacklistResult.NO_MATCH_PDC_KEYS;
+                }
+            }
+        }
+
         final BlacklistResult result = delete ? BlacklistResult.MATCH_DELETE : BlacklistResult.MATCH_IGNORE;
         result.setName(name);
         return result;
+    }
+
+    private static boolean hasPdcKey(PersistentDataContainer pdc, String keyToCheck) {
+        return pdc.getKeys().stream().anyMatch(key -> key.toString().equalsIgnoreCase(keyToCheck));
     }
 
     private boolean materialMatches(final Material type) {

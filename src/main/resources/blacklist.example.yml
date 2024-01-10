@@ -42,6 +42,12 @@
 #                                            one blacklist entry matches, the item will be force-deleted if ANY of the entries
 #                                            has it set to true.)
 #
+#   pdcKeys:                                 (PDC keys used by other plugins. Do not touch this unless you know what you're
+#     - "plugin:keyname"                      doing. PDC keys are in the format "plugin:keyname". You can find them out
+#                                             by using "/data get entity <player> SelectedItem" on a player who has the item
+#                                             in their hand, then checking the "PublicBukkitValues" section.
+#
+#
 # Use '&' for color codes. If you set ignoreColors to false, do NOT add the color code.
 # If you want to see the exact name and lore values for an item that you hold in your hand,
 # enter "/acd blacklist info" to get information about the current item.
@@ -82,3 +88,8 @@ exampleTridentWhenInOffhand:
   material: TRIDENT
   slot: 40
   force-delete: true
+
+# Ignores items with the pdc key "simplesoulbound:soulbound"
+examplePdcSoulbound:
+    pdcKeys:
+        - "simplesoulbound:soulbound"

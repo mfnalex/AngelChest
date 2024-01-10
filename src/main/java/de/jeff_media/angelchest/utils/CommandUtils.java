@@ -20,6 +20,8 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Waterlogged;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -200,6 +202,8 @@ public final class CommandUtils {
 
         // Move the block in game
         ac.destroyChest(oldBlock);
+        oldBlock.setBlockData(ac.originalBlockData);
+        BlockData newOriginalBlockData = newBlock.getBlockData().clone();
         ac.createChest(newBlock, ac.owner);
 
         // Make the chest face the player
@@ -208,8 +212,19 @@ public final class CommandUtils {
         // Swap the block in code
         //main.angelChests.add(newBlock, main.angelChests.remove(oldBlock));
         ac.block = newBlock;
+        ac.originalBlockData = newOriginalBlockData;
+
+        //setWaterloggedFalse(newBlock);
 
         Messages.send(player, main.messages.MSG_RETRIEVED);
+    }
+
+    private static void setWaterloggedFalse(Block newBlock) {
+        BlockData data = newBlock.getBlockData();
+        if(!(data instanceof Waterlogged)) return;
+        Waterlogged waterlogged = (Waterlogged) data;
+        waterlogged.setWaterlogged(false);
+        newBlock.setBlockData(waterlogged);
     }
 
     /**
