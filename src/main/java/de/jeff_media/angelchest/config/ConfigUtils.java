@@ -99,6 +99,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.SUSPEND_COUNTDOWN_OFFLINE_PLAYERS, false);
         metric(Config.SUSPEND_COUNTDOWN_OFFLINE_PLAYERS);
 
+        conf.addDefault(Config.DONT_CLEAR_INVENTORY, false);
+        metric(Config.DONT_CLEAR_INVENTORY);
+
         conf.addDefault(Config.ANGELCHEST_DURATION, 600);
         metric(Config.ANGELCHEST_DURATION);
 

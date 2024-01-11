@@ -751,8 +751,11 @@ public final class PlayerListener implements Listener {
         }
 
         // Enable keep inventory to prevent drops (this is not preventing the drops at the moment due to spigot)
+        // (unless DONT_CLEAR_INVENTORY is set, in that case don't do anything)
         // TODO: Move this below
-        event.setKeepInventory(true);
+        if(!main.getConfig().getBoolean(Config.DONT_CLEAR_INVENTORY)) {
+            event.setKeepInventory(true);
+        }
 
         // DETECT ALL DROPS, EVEN FRESHLY ADDED
         final ArrayList<ItemStack> freshDrops = new ArrayList<>();
@@ -895,7 +898,11 @@ public final class PlayerListener implements Listener {
          */
         // TODO: DEBUG: This was previously BELOW the block "if (ac.isEmpty()) {"
         // Delete players inventory except excluded items
-        clearInventory(player.getInventory());
+        if(!main.getConfig().getBoolean(Config.DONT_CLEAR_INVENTORY)) {
+            clearInventory(player.getInventory());
+        } else {
+            clearDeathDrops(event.getDrops());
+        }
 
         /*
 
@@ -1083,6 +1090,19 @@ public final class PlayerListener implements Listener {
             }
             inv.setItem(i, null);
         }
+    }
+
+    private void clearDeathDrops(final List<ItemStack> inv) {
+        inv.removeIf(item -> !main.genericHooks.keepOnDeath(item) && main.isItemBlacklisted(item, -1) == null);
+//        for (int i = 0; i < inv.size(); i++) {
+//            if (main.genericHooks.keepOnDeath(inv.get(i))) {
+//                continue;
+//            }
+//            if (main.isItemBlacklisted(inv.get(i), i) != null) {
+//                continue;
+//            }
+//            inv.set(i, null);
+//        }
     }
 
     @SuppressWarnings("unused")

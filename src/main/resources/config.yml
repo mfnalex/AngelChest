@@ -642,6 +642,11 @@ only-spawn-chests-if-player-may-build: false
 # those. If you experience any duplication issues, try disabling this setting.
 detect-additional-drops: true
 
+# If you use a plugin that logs player deaths, you can set this option to true.
+# This will however prevent the "slot" option in blacklist.yml to work and might also
+# cause issues with other plugins.
+dont-clear-inventory: false
+
 # Some plugins offer a telekinesis enchant that prevent getting AngelChests spawned
 # when a player with telekinesis kills another player.
 # This is intended behaviour. If you still want the victim to get an AngelChest,

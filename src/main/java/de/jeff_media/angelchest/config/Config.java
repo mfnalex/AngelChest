@@ -32,6 +32,7 @@ public class Config {
     public static String CONFIG_PLUGIN_VERSION = "plugin-version";
     public static String CONFIG_VERSION = "config-version";
     public static String CONFIRM = "confirm";
+    public static String DONT_CLEAR_INVENTORY = "dont-clear-inventory";
     public static String CONSOLE_MESSAGE_ON_OPEN = "console-message-on-open";
     public static String CUSTOM_HEAD_BASE64 = "custom-head-base64";
     public static String DEBUG = "debug";
