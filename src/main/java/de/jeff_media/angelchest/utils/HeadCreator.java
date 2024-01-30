@@ -1,10 +1,10 @@
 package de.jeff_media.angelchest.utils;
 
+import com.jeff_media.jefflib.SkullUtils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
-import com.jeff_media.jefflib.SkullUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -13,7 +13,6 @@ import org.bukkit.block.Skull;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.lang.reflect.Field;
 import java.util.UUID;
 
 public final class HeadCreator {
@@ -54,22 +53,23 @@ public final class HeadCreator {
 
     public static ItemStack getHead(final String base64) {
 
-        final ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-        final SkullMeta meta = (SkullMeta) head.getItemMeta();
-        final GameProfile profile = new GameProfile(UUID.randomUUID(), "");
-        profile.getProperties().put("textures", new Property("textures", base64));
-        final Field profileField;
-        try {
-            profileField = meta.getClass().getDeclaredField("profile");
-            profileField.setAccessible(true);
-            profileField.set(meta, profile);
-        } catch (final IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-            e.printStackTrace();
-            return new ItemStack(Material.PLAYER_HEAD);
-        }
-
-        head.setItemMeta(meta);
-        return head;
+//        final ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+//        final SkullMeta meta = (SkullMeta) head.getItemMeta();
+//        final GameProfile profile = new GameProfile(UUID.randomUUID(), "");
+//        profile.getProperties().put("textures", new Property("textures", base64));
+//        final Field profileField;
+//        try {
+//            profileField = meta.getClass().getDeclaredField("profile");
+//            profileField.setAccessible(true);
+//            profileField.set(meta, profile);
+//        } catch (final IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+//            e.printStackTrace();
+//            return new ItemStack(Material.PLAYER_HEAD);
+//        }
+//
+//        head.setItemMeta(meta);
+//        return head;
+        return SkullUtils.getHead(base64);
     }
 
     @SuppressWarnings("unused")
