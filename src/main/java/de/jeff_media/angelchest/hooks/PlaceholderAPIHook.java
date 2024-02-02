@@ -3,6 +3,7 @@ package de.jeff_media.angelchest.hooks;
 import com.jeff_media.jefflib.PDCUtils;
 import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
+import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.angelchest.utils.AngelChestUtils;
@@ -81,6 +82,19 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
                     return "false";
                 } else {
                     return PDCUtils.has(player.getPlayer(), NBTTags.HAS_ANGELCHEST_DISABLED, PersistentDataType.STRING) ? "false" : "true";
+                }
+            case "allowed":
+                if(!player.isOnline()) {
+                    return "false";
+                } else {
+                    return player.getPlayer().hasPermission(Permissions.USE) ? "true" : "false";
+                }
+
+            case "enabled_and_allowed":
+                if(!player.isOnline()) {
+                    return "false";
+                } else {
+                    return PDCUtils.has(player.getPlayer(), NBTTags.HAS_ANGELCHEST_DISABLED, PersistentDataType.STRING) ? "false" : player.getPlayer().hasPermission(Permissions.USE) ? "true" : "false";
                 }
         }
 

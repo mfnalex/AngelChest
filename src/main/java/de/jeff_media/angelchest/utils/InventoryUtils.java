@@ -3,6 +3,7 @@ package de.jeff_media.angelchest.utils;
 import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import org.bukkit.Location;
+import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -55,6 +56,15 @@ public class InventoryUtils {
                     if(tmp.getItemMeta().hasEnchants()) continue;
                 }
             }
+
+            if(main.getConfig().getBoolean(Config.RANDOM_ITEM_LOSS_IGNORES_SHULKERBOXES)) {
+                ItemStack tmp = inventory.getItem(slots.get(slot));
+                if(tmp.hasItemMeta()) {
+                    remaining--;
+                    if(isShulkerBox(tmp)) continue;
+                }
+            }
+
             ItemStack toDrop = inventory.getItem(slots.get(slot)).clone();
             removedItems.add(inventory.getItem(slots.get(slot)));
             inventory.clear(slots.get(slot));
@@ -67,6 +77,15 @@ public class InventoryUtils {
         }
 
         return removedItems;
+    }
+
+
+
+    private static boolean isShulkerBox(final ItemStack tmp) {
+        if(Tag.SHULKER_BOXES.isTagged(tmp.getType())) {
+            return true;
+        }
+        return false;
     }
 
 }

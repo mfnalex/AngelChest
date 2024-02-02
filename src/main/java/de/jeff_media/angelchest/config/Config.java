@@ -138,6 +138,7 @@ public class Config {
     public static String ALLOW_FASTLOOTING = "allow-fastlooting";
     public static String TP_WAIT_TIME = "tp-wait-time";
     public static String RANDOM_ITEM_LOSS_IGNORES_ENCHANTED_ITEMS = "random-item-loss-ignores-enchanted-items";
+    public static String RANDOM_ITEM_LOSS_IGNORES_SHULKERBOXES = "random-item-loss-ignores-shulkerboxes";
     public static String DROP_CONTENTS = "drop-contents-when-expired";
     public static String DONT_PROTECT_WHEN_AT_WAR = "lands-dont-protect-when-at-war";
     public static String AVOID_LAVA_OCEANS = "avoid-lava-oceans";

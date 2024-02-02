@@ -202,6 +202,9 @@ random-item-loss-drop: false
 # That means that enchanted items will always be stored in the AngelChest regardless of random item loss chance.
 random-item-loss-ignores-enchanted-items: false
 
+# When set to true, the random-item-loss defined above will NOT apply to shulkerboxes!
+random-item-loss-ignores-shulkerboxes: false
+
 # When set to higher than 0, players dying outside of PvP will get a cooldown before the next AngelChest can be spawned (in seconds)
 # This is separate from the "pvp-cooldown".
 ## PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
