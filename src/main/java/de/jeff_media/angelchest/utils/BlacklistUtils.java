@@ -44,6 +44,7 @@ public final class BlacklistUtils {
         assert meta != null;
         final String metaName = meta.hasDisplayName() ? meta.getDisplayName() : null;
         final List<String> metaLore = meta.hasLore() ? meta.getLore() : null;
+        final int modelData = meta.hasCustomModelData() ? meta.getCustomModelData() : -1;
 
         final List<String> pdcKeys = new ArrayList<>();
         for (final NamespacedKey namespacedKey : meta.getPersistentDataContainer().getKeys()) {
@@ -73,6 +74,9 @@ public final class BlacklistUtils {
                 stringBuilder.append(indent).append(indent).append("- ").append(pdcKey).append(System.lineSeparator());
             }
         }
+        stringBuilder.append(indent).append("customModelData:").append(System.lineSeparator());
+        stringBuilder.append(indent).append(indent).append("min: ").append(modelData).append(System.lineSeparator());
+        stringBuilder.append(indent).append(indent).append("max: ").append(modelData).append(System.lineSeparator());
         final String[] lines = stringBuilder.toString().split(System.lineSeparator());
         FileUtils.appendLines(blacklistFile, lines);
         return lines;

@@ -26,6 +26,9 @@ public final class BlacklistEntry {
     final List<String> enchantments;
     final List<String> pdcKeys;
     final List<Pattern> toStringRegex;
+
+    Integer modelDataMin = null;
+    Integer modelDataMax = null;
     final String name;
     final String nameContains;
     final String nameExact;
@@ -92,6 +95,15 @@ public final class BlacklistEntry {
         }).filter(Objects::nonNull).collect(Collectors.toList());;
         if( main.debug) main.debug("- toStringRegex: " + toStringRegex.stream().map(Pattern::toString).collect(Collectors.joining(System.lineSeparator())));
 
+        if(config.isInt(name + ".customModelData.max")) {
+            modelDataMax = config.getInt(name + ".customModelData.max");
+            if(main.debug) main.debug("- customModelData.max: " + modelDataMax);
+        }
+        if(config.isInt(name + ".customModelData.min")) {
+            modelDataMin = config.getInt(name + ".customModelData.min");
+            if(main.debug) main.debug("- customModelData.min: " + modelDataMin);
+        }
+
     }
 
     public String getName() {
@@ -110,19 +122,23 @@ public final class BlacklistEntry {
     public BlacklistResult matches(final ItemStack item, int slot) {
         final AngelChestMain main = AngelChestMain.getInstance();
         if (item == null) return null;
+        if(main.debug) {
+            main.debug("Checking if " + item + " matches blacklist entry " + name + " ...");
+        }
         if(this.slot != -1) {
             //System.out.println("Slot: " + this.slot + " - " + slot);
             int blacklisted = this.slot;
             //System.out.println("Blacklisted: " + blacklisted + " - " + slot);
 
             if(blacklisted != slot) {
+                main.debug("Blacklist: no, slot does not match");
                 return BlacklistResult.NO_MATCH_SLOT;
             }
         }  //System.out.println("Slot is -1");
 
         if (material != null) {
             if (!materialMatches(item.getType())) {
-                main.verbose("Blacklist: no, other material");
+                main.debug("Blacklist: no, other material");
                 return BlacklistResult.NO_MATCH_MATERIAL;
             }
         }
@@ -132,36 +148,63 @@ public final class BlacklistEntry {
         // Exact name
         if (nameExact != null && !nameExact.isEmpty()) {
             if (!meta.hasDisplayName()) {
-                main.verbose("Blacklist: no, nameExact but no name");
+                main.debug("Blacklist: no, nameExact but no name");
                 return BlacklistResult.NO_MATCH_NAME_EXACT;
             }
             if (ignoreColors) {
                 if (!ChatColor.stripColor(meta.getDisplayName()).equals(nameExact)) {
-                    main.verbose("Blacklist: no, nameExact but no match (ignore colors)");
+                    main.debug("Blacklist: no, nameExact but no match (ignore colors)");
                     return BlacklistResult.NO_MATCH_NAME_EXACT;
                 }
             } else {
                 if (!meta.getDisplayName().equals(nameExact)) {
-                    main.verbose("Blacklist: no, nameExact but no match (check colors)");
+                    main.debug("Blacklist: no, nameExact but no match (check colors)");
                     return BlacklistResult.NO_MATCH_NAME_EXACT;
                 }
+            }
+        }
+
+        Integer modelData = null;
+        if(meta.hasCustomModelData()) {
+            modelData = meta.getCustomModelData();
+        }
+
+        if(modelData == null) {
+            // Fallback to using -1 as model data
+            modelData = -1;
+        }
+        main.debug(" ModelData: " + modelData);
+        main.debug(" ModelDataMin: " + modelDataMin);
+        main.debug(" ModelDataMax: " + modelDataMax);
+
+        // Custom Model Data
+        if(modelDataMin != null) {
+            if(modelData < modelDataMin) {
+                main.debug("BlackList: no, modelDataMin but modelData is too low");
+                return BlacklistResult.NO_MATCH_CUSTOM_MODEL_DATA_MIN;
+            }
+        }
+        if(modelDataMax != null) {
+            if(modelData > modelDataMax) {
+                main.debug("BlackList: no, modelDataMax but modelData is too high");
+                return BlacklistResult.NO_MATCH_CUSTOM_MODEL_DATA_MAX;
             }
         }
 
         // Name contains
         if (nameContains != null && !nameContains.isEmpty()) {
             if (!meta.hasDisplayName()) {
-                main.verbose("Blacklist: no, nameContains but no name");
+                main.debug("Blacklist: no, nameContains but no name");
                 return BlacklistResult.NO_MATCH_NAME_CONTAINS;
             }
             if (ignoreColors) {
                 if (!ChatColor.stripColor(meta.getDisplayName()).contains(nameContains)) {
-                    main.verbose("Blacklist: no, nameContains but no match (ignore colors)");
+                    main.debug("Blacklist: no, nameContains but no match (ignore colors)");
                     return BlacklistResult.NO_MATCH_NAME_CONTAINS;
                 }
             } else {
                 if (!meta.getDisplayName().contains(nameContains)) {
-                    main.verbose("Blacklist: no, nameContains but no match (check colors)");
+                    main.debug("Blacklist: no, nameContains but no match (check colors)");
                     return BlacklistResult.NO_MATCH_NAME_CONTAINS;
                 }
             }
@@ -169,26 +212,26 @@ public final class BlacklistEntry {
 
         if (loreContains != null && !loreContains.isEmpty()) {
             if (!meta.hasLore()) {
-                main.verbose("Blacklist: no, loreContains but no lore");
+                main.debug("Blacklist: no, loreContains but no lore");
                 return BlacklistResult.NO_MATCH_LORE_CONTAINS;
             }
             for (final String lineBlacklist : loreContains) {
                 final String loreItem = join(meta.getLore(), ignoreColors);
                 if (!loreItem.contains(lineBlacklist)) {
-                    main.verbose("Blacklist: no, loreContains but no match");
+                    main.debug("Blacklist: no, loreContains but no match");
                     return BlacklistResult.NO_MATCH_LORE_CONTAINS;
                 }
             }
         }
         if (loreExact != null && !loreExact.isEmpty()) {
             if (!meta.hasLore()) {
-                main.verbose("Blacklist: no, loreExact but no lore");
+                main.debug("Blacklist: no, loreExact but no lore");
                 return BlacklistResult.NO_MATCH_LORE_EXACT;
             }
             for (final String lineBlacklist : loreExact) {
                 final String loreItem = join(meta.getLore(), ignoreColors);
                 if (!loreItem.contains("\n" + lineBlacklist + "\n")) {
-                    main.verbose("Blacklist: no, loreExact but no match");
+                    main.debug("Blacklist: no, loreExact but no match");
                     return BlacklistResult.NO_MATCH_LORE_EXACT;
                 }
             }
@@ -211,12 +254,12 @@ public final class BlacklistEntry {
         if(pdcKeys != null && pdcKeys.size() > 0) {
             for(String key : pdcKeys) {
                 if(!item.hasItemMeta()) {
-                    main.verbose("Blacklist: no, pdcKeys but no meta");
+                    main.debug("Blacklist: no, pdcKeys but no meta");
                     return BlacklistResult.NO_MATCH_PDC_KEYS;
                 }
                 PersistentDataContainer pdc = meta.getPersistentDataContainer();
                 if(!hasPdcKey(pdc,key)) {
-                    main.verbose("Blacklist: no, pdcKeys but no match for " + key);
+                    main.debug("Blacklist: no, pdcKeys but no match for " + key);
                     return BlacklistResult.NO_MATCH_PDC_KEYS;
                 }
             }
@@ -228,13 +271,13 @@ public final class BlacklistEntry {
                 String itemAsString = item.toString();
                 for(Pattern pattern : toStringRegex) {
                     if(!pattern.matcher(itemAsString).find()) {
-                        main.verbose("Blacklist: no, toStringRegex but no match for " + pattern.pattern());
+                        main.debug("Blacklist: no, toStringRegex but no match for " + pattern.pattern());
                         return BlacklistResult.NO_MATCH_TO_STRING_REGEX;
                     }
                 }
             } catch (Throwable paper) {
-                main.verbose("Could not turn ItemStack to string:");
-                if(main.verbose) paper.printStackTrace();
+                main.debug("Could not turn ItemStack to string:");
+                if(main.debug) paper.printStackTrace();
             }
         }
 

@@ -30,6 +30,11 @@
 #
 #   ignoreColors: <true|false>              (Whether name and lore also check for color codes)
 #
+#   customModelData:                        (The item must have the given custom model data. -1 represents no custom data)
+#     min: <number>                         (The item must have at least (including) this custom model data)
+#     max: <number>                         (The item must have at most (including) this custom model data)
+#
+#
 #   enchantments:                           (The item must include all given enchantments, regardless of their level)
 #     - soulbind
 #
@@ -103,3 +108,26 @@ exampleTridentWhenInOffhand:
 examplePdcSoulbound:
     pdcKeys:
         - "simplesoulbound:soulbound"
+
+# This matches all items that have *any* custom model data
+exampleAnyCustomModelData:
+  customModelData:
+    min: 0
+
+# This matches all items with custom model data between 100 and 200
+exampleCustomModelData:
+  customModelData:
+    min: 100
+    max: 200
+
+# This matches all items that have exactly 69 as custom model data
+exampleCustomModelDataExact:
+  customModelData:
+    min: 69
+    max: 69
+
+# This matches all items that do not have any custom model data
+#exampleNoCustomModelData:
+#  customModelData:
+#    min: -1
+#    max: -1

@@ -19,6 +19,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.io.IOException;
@@ -170,5 +171,48 @@ public class ACFacadmin extends BaseCommand {
     public void doHelp(CommandSender sender, CommandHelp help) {
         sendMsg(sender, "§6AngelChest Admin Commands:");
         help.showHelp();
+    }
+
+    @Subcommand("custommodeldataset")
+    public void setCustomModelData(Player player, int modelData) {
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if(item == null || item.getType().isAir() || item.getAmount() == 0 || item.getItemMeta() == null) {
+            player.sendMessage("§cYou must hold an item in your main hand to run this command.");
+            return;
+        }
+        ItemMeta meta = item.getItemMeta();
+        meta.setCustomModelData(modelData);
+        item.setItemMeta(meta);
+        player.getInventory().setItemInMainHand(item);
+        player.sendMessage("§aSet CustomModelData to §6" + modelData + "§a.");
+    }
+
+    @Subcommand("custommodeldataremove")
+    public void removeCustomModelData(Player player) {
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if(item == null || item.getType().isAir() || item.getAmount() == 0 || item.getItemMeta() == null) {
+            player.sendMessage("§cYou must hold an item in your main hand to run this command.");
+            return;
+        }
+        ItemMeta meta = item.getItemMeta();
+        meta.setCustomModelData(null);
+        item.setItemMeta(meta);
+        player.getInventory().setItemInMainHand(item);
+        player.sendMessage("§aRemoved CustomModelData.");
+    }
+
+    @Subcommand("custommodeldataget")
+    public void getCustomModelData(Player player) {
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if(item == null || item.getType().isAir() || item.getAmount() == 0 || item.getItemMeta() == null) {
+            player.sendMessage("§cYou must hold an item in your main hand to run this command.");
+            return;
+        }
+        ItemMeta meta = item.getItemMeta();
+        if(meta.hasCustomModelData()) {
+            player.sendMessage("§aCustomModelData: §6" + meta.getCustomModelData());
+        } else {
+            player.sendMessage("§aNo CustomModelData found.");
+        }
     }
 }

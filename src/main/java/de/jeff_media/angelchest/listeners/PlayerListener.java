@@ -93,7 +93,7 @@ public final class PlayerListener implements Listener {
     }
 
     @SuppressWarnings("unused")
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
     public void onAngelChestRightClick(final PlayerInteractEvent event) {
         final Player p = event.getPlayer();
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
