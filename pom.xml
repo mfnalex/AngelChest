@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>10.2.0</version>
+    <version>11.0.0</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -474,12 +474,12 @@
             <version>10.0.0.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>5.0.1</version>
-            <scope>compile</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.zaxxer</groupId>-->
+<!--            <artifactId>HikariCP</artifactId>-->
+<!--            <version>5.0.1</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
 
 <!--        <dependency>-->
 <!--            <groupId>com.ssomar</groupId>-->

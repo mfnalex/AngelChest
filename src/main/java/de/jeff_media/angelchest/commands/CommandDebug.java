@@ -5,20 +5,27 @@ import com.jeff_media.jefflib.JeffLib;
 import com.jeff_media.jefflib.ParticleUtils;
 import com.jeff_media.jefflib.data.tuples.Pair;
 import de.jeff_media.angelchest.AngelChestMain;
-import de.jeff_media.angelchest.config.*;
+import de.jeff_media.angelchest.config.Config;
+import de.jeff_media.angelchest.config.ConfigDumper;
+import de.jeff_media.angelchest.config.ConfigUtils;
+import de.jeff_media.angelchest.config.Messages;
+import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.BlacklistEntry;
 import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.debug.tasks.BlockMarkerTask;
 import de.jeff_media.angelchest.enums.BlacklistResult;
-import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.handlers.ChunkManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.utils.BlacklistUtils;
 import de.jeff_media.angelchest.utils.HologramFixer;
 import de.jeff_media.angelchest.utils.Utils;
-import de.jeff_media.daddy.Daddy_Stepsister;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,7 +40,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -54,10 +65,10 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
 
     private void blacklist(final CommandSender commandSender, String[] args) {
 
-        if (!Daddy_Stepsister.allows(PremiumFeatures.GENERIC)) {
-            Messages.send(commandSender, main.messages.MSG_PREMIUMONLY);
-            return;
-        }
+//        if (!Daddy_Stepsister.allows(PremiumFeatures.GENERIC)) {
+//            Messages.send(commandSender, main.messages.MSG_PREMIUMONLY);
+//            return;
+//        }
 
         if (args.length > 0 && args[0].equalsIgnoreCase("add")) {
             if (!(commandSender instanceof Player)) {

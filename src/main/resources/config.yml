@@ -566,8 +566,10 @@ sound-channel: BLOCKS
 # type here. Future versions will also allow to filter for items by
 # lore or custom name and more 3rd party plugins hooks
 
-# When using AngelChestPlus, you can instead use the blacklist.yml file
-# to filter items according to material, name and lore!
+# You can also use blacklist.yml for more detailed filtering. It allows you
+# to filter items by name, lore, PDC Keys (or NBT tags), custom model data,
+# and more. It also lets you allow to define whether blacklisted items should
+# drop normally or be deleted.
 
 # Example:
 
@@ -1256,6 +1258,55 @@ message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too 
 #message-has-no-item2: "&c一個天使嘗試收集你的掉落物，但你缺少{item}&r&c."
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
+
+##### Czech
+#message-all-your-angelchests-were-already-unlocked: "&eVšechny tvé hroby byly již odemčeny."
+#message-angelchest-created: "&aAnděl posbíral tvé věci a uložil je do hrobu na místě tvé smrti."
+#message-angelchest-disappeared: "&cByl(a) jsi příliš pomalý(á)... Tvůj hrob zmizel a vypustil svůj obsah."
+#message-error-players-only: "&cChyba: Tento příkaz mohou používat pouze hráči."
+#message-inventory-was-empty: "&eAnděl hledal tvé věci, ale nic nenašel."
+#message-not-allowed-to-break-other-angelchests: "&cNemáš povolení rozbít tento hrob."
+#message-not-allowed-to-open-other-angelchests: "&cNemáš povolení otevřít tento hrob."
+#message-unlocked-more-angelchests: "&aOdemkl(a) jsi %d hrobů."
+#message-unlocked-one-angelchest: "&aOdemkl(a) jsi svůj hrob."
+#message-you-dont-have-any-angelchests: "&eNemáš žádné hroby."
+#message-you-got-part-of-your-inventory-back: "&eZískal(a) jsi část svého inventáře zpět, ale některé předměty jsou stále v hrobě."
+#message-you-got-your-inventory-back: "&aZískal(a) jsi svůj inventář zpět!"
+#message-angelchest-location: "&eMísta tvých hrobů:"
+#message-not-enough-money: "&cNemáš dost peněz."
+#message-not-enough-money2: "&cAnděl se pokusil sesbírat tvé věci, ale neměl(a) jsi dost peněz."
+#message-please-select-chest: "&7Prosím, specifikuj, který hrob chceš vybrat."
+#message-already-unlocked: "&cTento hrob je již odemčen."
+#message-too-many-angelchests: "&cMěl(a) jsi více hrobů, než mohl tvůj anděl zvládnout... Tvůj nejstarší hrob vybuchl."
+#message-no-angelchest-in-pvp: "&cAnděl se pokusil sesbírat tvé věci a dát je do hrobu, ale tvůj vrah ho vyhnal."
+#message-angelchest-retrieved: "&aHrob byl úspěšně vyplundrován!"
+#message-confirm: "&6Chystáš se utratit {price}{currency}. Klikni na tento text pro pokračování."
+#message-paid-open: "&8Utratil(a) jsi {price}{currency} na otevření hrobu."
+#message-unlocked-automatically: "&8Tvůj hrob byl automaticky odemčen."
+#message-angelchest-opened: "&6Hráč(ka) {player} otevřel(a) tvůj hrob."
+#message-angelchest-emptied: "&cHráč(ka) {player} vyprázdnil(a) tvůj hrob."
+#message-spawn-chance-unsuccessful: "&cTvůj anděl zapomněl sesbírat tvé věci, smůla!"
+#message-no-permission: "&cNemáš povolení používat tento příkaz."
+#message-invulnerable: "&a&lJsi nezranitelný(á) po dobu {time}."
+#message-vulnerable: "&c&lJsi již zranitelný(á)."
+#message-tp-across-worlds-not-allowed: "&cNemůžeš se teleportovat ke svému hrobu do jiného světa."
+#message-fetch-across-worlds-not-allowed: "&cNemůžeš získat obsah svého hrobu z jiného světa."
+#message-max-tp-distance: "&cNemůžeš se teleportovat ke hrobům vzdáleným více než {distance} bloků."
+#message-max-fetch-distance: "&cNemůžeš získat obsah hrobů vzdálených více než {distance} bloků."
+#message-angelchest-disabled: "&cUž nejsi chráněn(á) anděly."
+#message-angelchest-enabled: "&aNyní jsi chráněn(á) anděly."
+#message-angelchest-fetched: "&aHrob byl úspěšně vyplundrován."
+#message-angelchest-teleported: "&aÚspěšně jsi se teleportoval(a) ke svému hrobu."
+#message-min-distance: "&cJsi již blízko svého hrobu."
+#message-buried-in-graveyard: "&aAnděl sesbíral tvé věci a pohřbil je na místě &6{graveyard}."
+#message-cant-fetch-here: "&cZde nemůžeš získat obsah svého hrobu."
+#message-teleporting: "&aTeleportuji tě k hrobu..."
+#message-angelchest-disabled-others: "&cHráč(ka) {player} již není chráněn(á) anděly."
+#message-angelchest-enabled-others: "&aHráč(ka) {player} je nyní chráněn(á) anděly."
+#message-has-no-item: "&cPotřebuješ minimálně jeden {item}&r&c k provedení této akce."
+#message-has-no-item2: "&cAnděl se pokusil sesbírat tvé věci, ale neměl(a) jsi {item}&r&c."
+#message-cooldown: "&cAnděl se pokusil sesbírat tvé věci, ale byl stále příliš unaven, aby to udělal."
+#message-pvp-cooldown: "&cAnděl se pokusil sesbírat tvé věci, ale byl stále příliš unaven, aby to udělal."
 
 ##### Danish 
 #message-all-your-angelchests-were-already-unlocked: "&eAlle dine AngelChests var allerede låst op."

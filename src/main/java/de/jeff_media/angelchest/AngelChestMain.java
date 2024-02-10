@@ -138,7 +138,7 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
     public Watchdog watchdog;
     public YamlConfiguration customDeathCauses;
     public IExecutableItemsHook executableItemsHook;
-    public MySqlManager mySqlManager;
+    //public MySqlManager mySqlManager;
     boolean emergencyMode = false;
     @Getter
     @Setter
@@ -325,9 +325,9 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
     }
 
     public @Nullable Pair<String, Boolean> isItemBlacklisted(final ItemStack item, int slot) {
-        if (!Daddy_Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add feature here, gets called for every item on death
-            return null;
-        }
+//        if (!Daddy_Stepsister.allows(PremiumFeatures.GENERIC)) { // Don't add feature here, gets called for every item on death
+//            return null;
+//        }
         Pair<String, Boolean> firstFound = null;
         for (final BlacklistEntry entry : itemBlacklist.values()) {
             final BlacklistResult result = entry.matches(item, slot);
