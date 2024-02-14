@@ -1,0 +1,58 @@
+# If you don't use a permissions plugin, you can set the default permissions here.
+# This only sets the "default value" for permissions, so you can still override them with an actual permissions plugin.
+
+# Available values:
+# - "true" (everyone has access)
+# - "op" (requires op)
+# - "false" (no one has access)
+
+# Whether players have access to AngelChest and get a death chest spawned on death
+angelchest.use: true # All players have access to AngelChests by default - set to "op" to require op
+
+# Whether players can see a list of their AngelChests using `/aclist`
+angelchest.list: true
+
+# Whether players can open the GUI using `/acgui`
+# PREMIUM FEATURE: Only available in AngelChest Plus
+angelchest.gui: true
+
+# Whether players can unlock their protected chests using `/acunlock`
+angelchest.unlock: true
+
+# Whether player's AngelChests are protected from other players
+angelchest.protect: op
+
+# Whether players can bypass the protection of other players' AngelChests
+angelchest.protect.ignore: op
+
+# Whether players can teleport to their chests using `/actp` or `/aclist` etc
+angelchest.tp: op
+
+# Whether players can teleport their chests to themselves using `/acfetch`
+angelchest.fetch: op
+
+# Whether players can enable/disable AngelChests for themselves
+angelchest.toggle: op
+
+# Whether players can remotely look at their AngelChests' contents using `/acgui`
+angelchest.preview: op
+
+
+### Admin permissions ###
+
+# Whether players can use generic admin commands such as `/acadmin blacklist`
+angelchest.admin: op
+
+# Whether players can enable AngelChest Debug mode and can run other debug commands such as `/acd dump`
+angelchest.debug: op
+
+# Whether players can run commands on behalf of others, e.g. unlock someone else's chest using `/acunlock <player>`
+angelchest.others: op
+
+# Whether players can reload the config using `/acreload`
+angelchest.reload: op
+
+# Whether players can check the version of AngelChest using `/acversion`
+angelchest.version: op
+
+
