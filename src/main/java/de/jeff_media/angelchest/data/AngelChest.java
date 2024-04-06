@@ -275,16 +275,16 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.uniqueId = UUID.randomUUID();
         this.openedBy = new ArrayList<>();
         this.price = main.groupManager.getSpawnPricePerPlayer(player);
-        this.isProtected = Objects.requireNonNull(main.getServer().getPlayer(owner)).hasPermission(Permissions.PROTECT);
-        this.secondsLeft = main.groupManager.getDurationPerPlayer(main.getServer().getPlayer(owner));
+        this.isProtected = Objects.requireNonNull(player).hasPermission(Permissions.PROTECT);
+        this.secondsLeft = main.groupManager.getDurationPerPlayer(player);
 
         if(player.getKiller() != null && !player.getKiller().equals(player)) {
-            int newDuration = main.groupManager.getPvpDurationPerPlayer(main.getServer().getPlayer(owner));
+            int newDuration = main.groupManager.getPvpDurationPerPlayer(player);
             main.debug("Adjusting secondsLeft for pvp death from " + secondsLeft + " to " + newDuration);
             this.secondsLeft = newDuration;
         }
 
-        this.unlockIn = main.groupManager.getUnlockDurationPerPlayer(main.getServer().getPlayer(owner));
+        this.unlockIn = main.groupManager.getUnlockDurationPerPlayer(player);
         this.deathCause = deathCause;
         this.blacklistedItems = new CopyOnWriteArrayList<>();
         this.created = System.currentTimeMillis();

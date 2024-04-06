@@ -720,6 +720,9 @@ event-priority: HIGHEST
 # Only set the following option to "true" if you really know what you are doing!
 disable-interacting-with-holograms: false
 
+# If true, AngelChest tries to ignore deaths of NPCs (players that aren't actual players)
+try-to-ignore-npc-deaths: true
+
 #########################
 ##### Localization ######
 #########################

@@ -429,6 +429,8 @@ sound-channel: BLOCKS
         conf.addDefault(Config.COMBATLOGX_PREVENT_FASTLOOTING, false);
         conf.addDefault(Config.GRAVEYARDS_ONLY_AS_RESPAWN_POINT, false);
 
+        conf.addDefault(Config.IGNORE_NPC_DEATHS, true);
+
         final List<String> dontSpawnOnTmp = conf.getStringList(Config.DONT_SPAWN_ON);
         main.dontSpawnOn = new ArrayList<>();
         for (final String string : dontSpawnOnTmp) {

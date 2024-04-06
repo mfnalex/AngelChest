@@ -455,6 +455,21 @@ public final class PlayerListener implements Listener {
 
         final Player player = event.getEntity();
 
+        try {
+            if(player.hasMetadata("NPC") && main.getConfig().getBoolean(Config.IGNORE_NPC_DEATHS)) {
+                {
+                    if (main.debug) main.debug("Ignoring death from possible NPC \"player\": " + player);
+                    return;
+                }
+            }
+        } catch (Throwable ignored) { }
+
+        // Check if actually a player?
+        if(Bukkit.getPlayerExact(player.getName())==null && main.getConfig().getBoolean(Config.IGNORE_NPC_DEATHS)) {
+            if(main.debug) main.debug("Ignoring death from possible NPC \"player\": "+player);
+            return;
+        }
+
         if (SentinelHook.isNpc(player)) {
             main.debug("Ignoring death from NPC \"player\": " + player);
             return;

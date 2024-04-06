@@ -137,6 +137,7 @@ public class Config {
     public static String MINIMUM_AIR_ABOVE_CHEST = "minimum-air-above-chest";
     public static String ALLOW_FASTLOOTING = "allow-fastlooting";
     public static String TP_WAIT_TIME = "tp-wait-time";
+    public static String IGNORE_NPC_DEATHS = "try-to-ignore-npc-deaths";
     public static String RANDOM_ITEM_LOSS_IGNORES_ENCHANTED_ITEMS = "random-item-loss-ignores-enchanted-items";
     public static String RANDOM_ITEM_LOSS_IGNORES_SHULKERBOXES = "random-item-loss-ignores-shulkerboxes";
     public static String DROP_CONTENTS = "drop-contents-when-expired";
