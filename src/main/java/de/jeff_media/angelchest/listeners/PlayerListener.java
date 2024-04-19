@@ -1,6 +1,11 @@
 package de.jeff_media.angelchest.listeners;
 
-import com.jeff_media.jefflib.*;
+import com.jeff_media.jefflib.EntityUtils;
+import com.jeff_media.jefflib.NBTAPI;
+import com.jeff_media.jefflib.PDCUtils;
+import com.jeff_media.jefflib.PluginUtils;
+import com.jeff_media.jefflib.Ticks;
+import com.jeff_media.jefflib.TimeUtils;
 import com.jeff_media.jefflib.data.Cooldown;
 import com.jeff_media.jefflib.data.McVersion;
 import com.jeff_media.jefflib.pluginhooks.McMMOUtils;
@@ -18,24 +23,47 @@ import de.jeff_media.angelchest.events.AngelChestSpawnPrepareEvent;
 import de.jeff_media.angelchest.gui.GUIHolder;
 import de.jeff_media.angelchest.handlers.DeathMapManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
-import de.jeff_media.angelchest.hooks.*;
+import de.jeff_media.angelchest.hooks.CombatLogXHook;
+import de.jeff_media.angelchest.hooks.EcoEnchantsHook;
+import de.jeff_media.angelchest.hooks.HookHandler;
+import de.jeff_media.angelchest.hooks.LandsHook;
+import de.jeff_media.angelchest.hooks.MoneyhuntersHook;
+import de.jeff_media.angelchest.hooks.SentinelHook;
 import de.jeff_media.angelchest.nbt.NBTTags;
+import de.jeff_media.angelchest.utils.AngelChestUtils;
 import de.jeff_media.angelchest.utils.CommandUtils;
+import de.jeff_media.angelchest.utils.HeadCreator;
+import de.jeff_media.angelchest.utils.LogUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
-import de.jeff_media.angelchest.utils.*;
+import de.jeff_media.angelchest.utils.Utils;
+import de.jeff_media.angelchest.utils.XPUtils;
 import de.jeff_media.daddy.Daddy_Stepsister;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.block.Block;
-import org.bukkit.entity.*;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Hanging;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.*;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityResurrectEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -50,7 +78,13 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.BoundingBox;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
@@ -512,6 +546,10 @@ public final class PlayerListener implements Listener {
             return;
         }
 
+        if(main.getConfig().getBoolean(Config.FORCE_CLOSE_INVENTORIES)) {
+            player.closeInventory();
+        }
+
         if (NBTAPI.hasNBT(player, NBTTags.HAS_ANGELCHEST_DISABLED)) {
             if (main.debug) main.debug("Cancelled: this player disabled AngelChest using /actoggle");
             return;
@@ -630,13 +668,14 @@ public final class PlayerListener implements Listener {
         }
 
         // Start fix for CommandPanels
-        InventoryView view = player.getOpenInventory();
-        if(view != null) {
-            InventoryCloseEvent closeEvent = new InventoryCloseEvent(view);
-            Bukkit.getServer().getPluginManager().callEvent(closeEvent);
+        if(main.getConfig().getBoolean(Config.FORCE_CLOSE_INVENTORIES_MANUALLY)) {
+            InventoryView view = player.getOpenInventory();
+            if (view != null && view.getType() != InventoryType.CRAFTING) {
+                InventoryCloseEvent closeEvent = new InventoryCloseEvent(view);
+                Bukkit.getServer().getPluginManager().callEvent(closeEvent);
+            }
         }
         // End fix for CommandPanels
-
 
         Block fixedPlayerPosition;
         List<Predicate<Block>> predicates = new ArrayList<>();

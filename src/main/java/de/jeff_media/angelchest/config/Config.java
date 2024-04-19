@@ -149,6 +149,9 @@ public class Config {
     public static String DEATH_MAP_NAME = "death-map-name";
     public static String COMBATLOGX_PREVENT_FASTLOOTING = "combatlogx-prevent-fastlooting";
 
+    public static String FORCE_CLOSE_INVENTORIES = "force-close-open-inventory-on-angelchest-spawn";
+    public static String FORCE_CLOSE_INVENTORIES_MANUALLY = "call-inventory-close-event-manually-if-needed";
+
     public static String DETECT_ADDITIONAL_DROPS = "detect-additional-drops";
 
     public static String ONLY_DROP_HEADS_IN_PVP_COOLDOWN = "only-drop-heads-in-pvp-cooldown";

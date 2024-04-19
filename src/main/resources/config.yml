@@ -723,6 +723,11 @@ disable-interacting-with-holograms: false
 # If true, AngelChest tries to ignore deaths of NPCs (players that aren't actual players)
 try-to-ignore-npc-deaths: true
 
+# Miscellaneous plugins might cause issues when not force-closing inventories on AngelChest spawn.
+# Normally, you don't want to change these options and keep them both enabled.
+force-close-open-inventory-on-angelchest-spawn: true
+call-inventory-close-event-manually-if-needed: true
+
 #########################
 ##### Localization ######
 #########################
