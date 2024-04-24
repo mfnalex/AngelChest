@@ -1,3 +1,5 @@
+People who compile it themselves get no support whatsoever. Support is only available to verified buyers. See below on how to buy an official copy.
+
 # AngelChest
 
 Download Links (SpigotMC):
