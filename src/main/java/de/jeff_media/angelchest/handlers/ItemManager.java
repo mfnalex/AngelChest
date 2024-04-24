@@ -1,13 +1,13 @@
 package de.jeff_media.angelchest.handlers;
 
-import com.jeff_media.jefflib.internal.glowenchantment.GlowEnchantmentFactory;
+import com.jeff_media.jefflib.EnchantmentUtils;
+import com.jeff_media.jefflib.ItemStackUtils;
+import com.jeff_media.jefflib.PDCUtils;
+import com.jeff_media.jefflib.RecipeUtils;
 import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.nbt.NBTTags;
 import de.jeff_media.daddy.Daddy_Stepsister;
-import com.jeff_media.jefflib.ItemStackUtils;
-import com.jeff_media.jefflib.PDCUtils;
-import com.jeff_media.jefflib.RecipeUtils;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
@@ -65,7 +65,7 @@ public class ItemManager {
             ItemStack item = ItemStackUtils.fromConfigurationSection(yaml.getConfigurationSection(itemId));
             PDCUtils.set(item, NBTTags.IS_TOKEN_ITEM, PersistentDataType.STRING,itemId);
             if(yaml.getBoolean(itemId+".glow")) {
-                item.addUnsafeEnchantment(GlowEnchantmentFactory.getInstance(), 1);
+                EnchantmentUtils.addGlowEffect(item);
             }
             if(yaml.getBoolean(itemId+".keep-on-death")) {
                 PDCUtils.set(item, NBTTags.IS_TOKEN_ITEM_KEEP, PersistentDataType.BYTE,(byte) 1);
