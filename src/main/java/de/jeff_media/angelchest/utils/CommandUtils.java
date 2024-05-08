@@ -315,10 +315,12 @@ public final class CommandUtils {
                     @Override
                     public void run() {
                         final int remaining = ticks.decrementAndGet();
-                        if (sender.getLocation().toVector().distanceSquared(position) > 0.25) {
-                            remove();
-                            return;
-                        }
+                        try {
+                            if (sender.getLocation().toVector().distanceSquared(position) > 0.25) {
+                                remove();
+                                return;
+                            }
+                        }catch (Throwable ignored) { }
                         if (remaining == 0) {
                             remove();
                             if ((price > 0 || priceItem != null ) && !hasEnoughMoney(sender, price, priceItem, main.messages.MSG_NOT_ENOUGH_MONEY, main.messages.MSG_HAS_NO_ITEM,action.getEconomyReason())) {

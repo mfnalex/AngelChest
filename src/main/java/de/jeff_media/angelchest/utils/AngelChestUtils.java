@@ -219,6 +219,9 @@ public class AngelChestUtils {
 
     public static void sortBlocksByDistance(final Block angelChestBlock, final List<Block> blocksNearby) {
         blocksNearby.sort((b1, b2) -> {
+            if(b1.getLocation().getWorld() != angelChestBlock.getLocation().getWorld()) return 0;
+            if(b2.getLocation().getWorld() != angelChestBlock.getLocation().getWorld()) return 0;
+
             final double dist1 = b1.getLocation().distance(angelChestBlock.getLocation());
             final double dist2 = b2.getLocation().distance(angelChestBlock.getLocation());
             return Double.compare(dist1, dist2);

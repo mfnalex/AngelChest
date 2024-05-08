@@ -106,11 +106,13 @@ public class GraveyardManager {
 
         for(Graveyard graveyard : GRAVEYARDS) {
             if(!graveyard.getWorldBoundingBox().getWorld().equals(location.getWorld())) continue;
-            double distance = graveyard.getWorldBoundingBox().getBoundingBox().getCenter().distanceSquared(location.toVector());
-            if(distance < nearestDistance) {
-                nearest = graveyard;
-                nearestDistance = distance;
-            }
+            try {
+                double distance = graveyard.getWorldBoundingBox().getBoundingBox().getCenter().distanceSquared(location.toVector());
+                if (distance < nearestDistance) {
+                    nearest = graveyard;
+                    nearestDistance = distance;
+                }
+            }catch (Throwable ignored) { }
         }
 
         return nearest;
