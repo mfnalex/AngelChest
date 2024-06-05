@@ -5,6 +5,7 @@ import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.CommandAction;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,19 +13,40 @@ import org.jetbrains.annotations.Nullable;
 
 public class CommandArgument {
 
-    private final OfflinePlayer affectedPlayer;
+    private final OfflinePlayer chestOwner;
     private final String chest;
     private final CommandSender sender;
+    private final Player toTeleport;
 
-    private CommandArgument(final CommandSender sender, final String chest, final OfflinePlayer affectedPlayer) {
-        this.sender = sender;
+    private CommandArgument(final CommandSender sender, final String chest, final OfflinePlayer chestOwner, Player toTeleport) {
+        this.sender =sender;
         this.chest = chest;
-        this.affectedPlayer = affectedPlayer;
+        this.chestOwner = chestOwner;
+        if(toTeleport == null && sender instanceof Player) {
+            toTeleport = (Player) sender;
+        }
+        this.toTeleport = toTeleport;
     }
 
     public static @Nullable CommandArgument parse(final CommandAction action, final CommandSender requester, final String[] args) {
         OfflinePlayer chestOwner = null;
         String chest = null;
+        Player toTeleport = null;
+
+        String syntax = "";
+        if(action == CommandAction.UNLOCK_CHEST) {
+            syntax = action.getCommand() + " <chestOwner> <chestId>";
+        }
+        if(action == CommandAction.FETCH_CHEST || action == CommandAction.TELEPORT_TO_CHEST) {
+            syntax = action.getCommand() + " <chestOwner> <chestId> [targetPlayer]";
+        }
+        if(action == CommandAction.LIST_CHESTS) {
+            syntax = action.getCommand() + " <chestOwner>";
+        }
+
+        if(!syntax.isEmpty()) {
+            syntax = ChatColor.RESET.toString() + ChatColor.GRAY + " (" + syntax + ")";
+        }
 
         switch (action) {
             case UNLOCK_CHEST:
@@ -35,10 +57,34 @@ public class CommandArgument {
                         chest = args[1];
                         //noinspection deprecation
                         chestOwner = Bukkit.getOfflinePlayer(args[0]);
+
+                        if(requester instanceof Player) {
+                            toTeleport = (Player) requester;
+                        }
+
+                        if(args.length >= 3 && requester.hasPermission(Permissions.OTHERS)) {
+                            toTeleport = Bukkit.getPlayer(args[2]);
+
+                            if (toTeleport == null || !toTeleport.isOnline()) {
+                                Messages.send(requester, String.format(AngelChestMain.getInstance().messages.MSG_UNKNOWN_PLAYER, args[2]));
+                                return null;
+                            }
+                        } else {
+                            if(toTeleport == null) {
+                                if (chestOwner.isOnline()) {
+                                    toTeleport = (Player) chestOwner;
+                                } else {
+                                    Messages.send(requester, AngelChestMain.getInstance().messages.MSG_MUST_SPECIFY_PLAYER + syntax);
+                                    return null;
+                                }
+                            }
+                        }
+
                         if (chestOwner == null) {
                             Messages.send(requester, String.format(AngelChestMain.getInstance().messages.MSG_UNKNOWN_PLAYER, args[0]));
                             return null;
                         }
+
                     } else {
                         Messages.send(requester, AngelChestMain.getInstance().messages.MSG_NO_PERMISSION);
                         return null;
@@ -82,11 +128,11 @@ public class CommandArgument {
         if (main.debug) main.debug("ChestOwner = " + chestOwner.getName());
         if (main.debug) main.debug("Chest      = " + chest);
 
-        return new CommandArgument(requester, chest, chestOwner);
+        return new CommandArgument(requester, chest, chestOwner, toTeleport);
     }
 
-    public OfflinePlayer getAffectedPlayer() {
-        return affectedPlayer;
+    public OfflinePlayer getChestOwner() {
+        return chestOwner;
     }
 
     public @Nullable String getChest() {
@@ -95,6 +141,10 @@ public class CommandArgument {
 
     public CommandSender getRequester() {
         return sender;
+    }
+
+    public @Nullable Player getToTeleport() {
+        return toTeleport;
     }
 
 }

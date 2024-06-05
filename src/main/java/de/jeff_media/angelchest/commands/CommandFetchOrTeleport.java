@@ -51,14 +51,18 @@ public final class CommandFetchOrTeleport implements CommandExecutor {
             return true;
         }
 
-        final Triplet<Integer, AngelChest, OfflinePlayer> chestResult = CommandUtils.argIdx2AngelChest(main, requester, commandArgument.getAffectedPlayer(), commandArgument.getChest());
+        final Triplet<Integer, AngelChest, OfflinePlayer> chestResult = CommandUtils.argIdx2AngelChest(main, requester, commandArgument.getChestOwner(), commandArgument.getChest());
         if (chestResult == null) {
             return true;
         }
 
         final int chestIdStartingAt1 = chestResult.getValue0();
         final AngelChest angelChest = chestResult.getValue1();
-        CommandUtils.fetchOrTeleport(main, (Player) requester, angelChest, chestIdStartingAt1, action, main.getConfig().getBoolean(Config.CONFIRM, true));
+        Player toTeleport = commandArgument.getToTeleport();
+        if(toTeleport == null) {
+            toTeleport = (Player) requester;
+        }
+        CommandUtils.fetchOrTeleport(main, toTeleport, angelChest, chestIdStartingAt1, action, main.getConfig().getBoolean(Config.CONFIRM, true));
 
         return true;
     }

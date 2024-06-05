@@ -37,11 +37,11 @@ public final class CommandList implements CommandExecutor {
         if (commandArgument == null) return true;
 
         // Only send this message if the player has chests
-        if (!AngelChestUtils.getAllAngelChestsFromPlayer(commandArgument.getAffectedPlayer()).isEmpty()) {
+        if (!AngelChestUtils.getAllAngelChestsFromPlayer(commandArgument.getChestOwner()).isEmpty()) {
             Messages.send(requester, main.messages.MSG_ANGELCHEST_LOCATION);
         }
 
-        CommandUtils.sendListOfAngelChests(main, requester, commandArgument.getAffectedPlayer());
+        CommandUtils.sendListOfAngelChests(main, requester, commandArgument.getChestOwner());
 
         return true;
     }

@@ -35,7 +35,7 @@ public final class CommandUnlock implements CommandExecutor {
         final CommandArgument commandArgument = CommandArgument.parse(CommandAction.UNLOCK_CHEST, requester, args);
         if (commandArgument == null) return true;
 
-        final Triplet<Integer, AngelChest, OfflinePlayer> chestResult = CommandUtils.argIdx2AngelChest(main, commandArgument.getRequester(), commandArgument.getAffectedPlayer(), commandArgument.getChest());
+        final Triplet<Integer, AngelChest, OfflinePlayer> chestResult = CommandUtils.argIdx2AngelChest(main, commandArgument.getRequester(), commandArgument.getChestOwner(), commandArgument.getChest());
         if (chestResult == null) {
             return true;
         }

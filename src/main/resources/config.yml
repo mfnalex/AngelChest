@@ -37,10 +37,10 @@
 # angelchest.unlock          Allows the player to unlock their protected chests using /acunlock
 
 #############################
-#####     Commands      #####
+#####  Player Commands  #####
 #############################
 
-# The following commands are available:
+# The following player commands are available:
 #
 # /acgui                     Permission: angelchest.use
 #                            Opens the AngelChest GUI, listing all your AngelChests with buttons for teleporting to,
@@ -62,6 +62,33 @@
 # /actoggle [player]         Permission: angelchest.toggle
 #                            Enables/disables AngelChest for this player.
 #                            Also requires permission angelchest.others when changing other player's settings.
+
+#############################
+#####  Admin Commands   #####
+#############################
+
+# The following player commands can also be used by admins/console to specify a target player:
+#
+# /aclist <chestOwner>                                Permissions: angelchest.use and angelchest.others
+#                                                     Shows a list of <chestOwner>'s AngelChests, including links for
+#                                                     teleporting to, fetching and unlocking each chest.
+#
+# /acfetch <chestOwner> <chestId> [targetPlayer]      Permissions: angelchest.fetch and angelchest.others
+#                                                     Teleports one of <chestOwner>'s chests to [targetPlayer], or to
+#                                                     the command sender if [targetPlayer] is not specified. If ran
+#                                                     from console and [targetPlayer] is not specified, the chest will
+#                                                     be teleported to its owner.
+#
+# /actp <chestOwner> <chestId> [targetPlayer]         Permissions: angelchest.tp and angelchest.others
+#                                                     Teleports [targetPlayer] to one of <chestOwner>'s chests, or to
+#                                                     the command sender if [targetPlayer] is not specified. If ran
+#                                                     from console and [targetPlayer] is not specified, the chest owner
+#                                                     will be teleported.
+#
+# /acunlock <chestOwner> <chestId>                    Permissions: angelchest.protect, angelchest.unlock and angelchest.others
+#                                                     Unlocks one of <chestOwner>'s AngelChests
+
+# The following admin commands are available:
 #
 # /acgraveyard               Permission: angelchest.admin
 #                            Manage graveyard settings
