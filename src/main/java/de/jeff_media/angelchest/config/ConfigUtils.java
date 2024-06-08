@@ -408,6 +408,16 @@ sound-channel: BLOCKS
         conf.addDefault(Config.DROP_BEHAVIOUR_MAX_ANGELCHESTS, "drop");
         metric(Config.DROP_BEHAVIOUR_MAX_ANGELCHESTS);
 
+        conf.addDefault(Config.PREVENT_BUILDING_IN_RADIUS, 0);
+        metric(Config.PREVENT_BUILDING_IN_RADIUS);
+
+        conf.addDefault(Config.PREVENT_BREAKING_IN_RADIUS, 0);
+        metric(Config.PREVENT_BUILDING_IN_RADIUS);
+
+
+        conf.addDefault(Config.ONLY_PREVENT_BUILDING_IN_RADIUS_FOR_PROTECTED_CHESTS, true);
+        metric(Config.ONLY_PREVENT_BUILDING_IN_RADIUS_FOR_PROTECTED_CHESTS);
+
         conf.addDefault("tp-distance", 2);
 
         conf.addDefault(Config.GUI_BUTTON_BACK, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY0Zjc3OWE4ZTNmZmEyMzExNDNmYTY5Yjk2YjE0ZWUzNWMxNmQ2NjllMTljNzVmZDFhN2RhNGJmMzA2YyJ9fX0=");

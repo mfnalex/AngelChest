@@ -62,7 +62,7 @@ public final class CommandFetchOrTeleport implements CommandExecutor {
         if(toTeleport == null) {
             toTeleport = (Player) requester;
         }
-        CommandUtils.fetchOrTeleport(main, toTeleport, angelChest, chestIdStartingAt1, action, main.getConfig().getBoolean(Config.CONFIRM, true));
+        CommandUtils.fetchOrTeleport(main, requester, toTeleport, angelChest, chestIdStartingAt1, action, main.getConfig().getBoolean(Config.CONFIRM, true));
 
         return true;
     }

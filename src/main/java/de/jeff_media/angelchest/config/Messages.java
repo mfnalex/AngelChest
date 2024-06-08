@@ -91,6 +91,7 @@ public final class Messages {
     public final String MSG_ANGELCHEST_DISABLED_OTHERS;
     public final String MSG_HAS_NO_ITEM;
     public final String MSG_HAS_NO_ITEM2;
+    public final String MSG_CANNOT_BUILD_IN_RADIUS;
     private final AngelChestMain main;
 
     public static void showReloadNotice(CommandSender sender) {
@@ -201,10 +202,7 @@ public final class Messages {
 
         MSG_ANGELCHEST_FETCHED = PREFIX + getMsg("angelchest-fetched", "&aAngelChest fetched succesfully.");
 
-        /*
-        message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
-message-angelchest-enabled-others: "&a{player} is now protected by Angels."
-         */
+        MSG_CANNOT_BUILD_IN_RADIUS = PREFIX + getMsg("cant-build-in-radius","&cYou cannot place blocks in the vicinity of other player's AngelChests.");
 
         MSG_ANGELCHEST_DISABLED_OTHERS = PREFIX + getMsg("angelchest-disabled-others","&c{player} is no longer protected by Angels.");
 

@@ -4,14 +4,17 @@ import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.events.AngelChestOpenEvent;
+import de.jeff_media.angelchest.utils.PreventBuildingInRadius;
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 
@@ -24,6 +27,22 @@ public final class ChestProtectionListener implements Listener {
 
     public ChestProtectionListener() {
         this.main = AngelChestMain.getInstance();
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onPlace(final BlockPlaceEvent event) {
+        if(!main.preventBuildingInRadius.canBuild(event.getPlayer(), event.getBlock(),PreventBuildingInRadius.BuildType.PLACING)) {
+            Messages.send(event.getPlayer(), main.messages.MSG_CANNOT_BUILD_IN_RADIUS);
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onBreak(final BlockBreakEvent event) {
+        if(!main.preventBuildingInRadius.canBuild(event.getPlayer(), event.getBlock(),PreventBuildingInRadius.BuildType.BREAKING)) {
+            Messages.send(event.getPlayer(), main.messages.MSG_CANNOT_BUILD_IN_RADIUS);
+            event.setCancelled(true);
+        }
     }
 
     /**

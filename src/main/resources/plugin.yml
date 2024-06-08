@@ -69,6 +69,8 @@ permissions:
     description: "Allows to use the debug command /acdebug"
   angelchest.version:
     description: "Allows to use the version command /acversion"
+  angelchest.ignorepreventbuilding:
+    description: "Allows to build in the vicinity of other player's AngelChests"
   angelchest.admin:
     description: "Allows to use /acadmin, /acgraveyard, /acreload, /acdebug and /acversion"
     children:

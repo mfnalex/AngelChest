@@ -67,7 +67,7 @@ public final class GUIListener implements Listener {
         if (main.getConfig().getBoolean(Config.CONFIRM) && action.getPrice(player) > 0.0d && main.economyStatus == EconomyStatus.ACTIVE) {
             main.guiManager.showConfirmGUI(player, holder, action);
         } else {
-            CommandUtils.fetchOrTeleport(main, player, holder.getAngelChest(), holder.getChestIdStartingAt1(), action, false);
+            CommandUtils.fetchOrTeleport(main, player, player, holder.getAngelChest(), holder.getChestIdStartingAt1(), action, false);
             player.closeInventory();
         }
     }
@@ -205,7 +205,7 @@ public final class GUIListener implements Listener {
         final CommandAction action = holder.getAction();
         switch (clickedSlot) {
             case GUI.SLOT_CONFIRM_ACCEPT:
-                CommandUtils.fetchOrTeleport(main, player, holder.getAngelChest(), holder.getChestIdStartingAt1(), action, false);
+                CommandUtils.fetchOrTeleport(main, player, player, holder.getAngelChest(), holder.getChestIdStartingAt1(), action, false);
                 player.closeInventory();
                 break;
             case GUI.SLOT_CONFIRM_DECLINE:

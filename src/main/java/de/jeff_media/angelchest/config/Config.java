@@ -152,6 +152,10 @@ public class Config {
     public static String FORCE_CLOSE_INVENTORIES = "force-close-open-inventory-on-angelchest-spawn";
     public static String FORCE_CLOSE_INVENTORIES_MANUALLY = "call-inventory-close-event-manually-if-needed";
 
+    public static String PREVENT_BUILDING_IN_RADIUS = "prevent-building-in-radius";
+    public static String PREVENT_BREAKING_IN_RADIUS = "prevent-breaking-in-radius";
+    public static String ONLY_PREVENT_BUILDING_IN_RADIUS_FOR_PROTECTED_CHESTS = "only-prevent-building-in-radius-for-protected-chests";
+
     public static String DETECT_ADDITIONAL_DROPS = "detect-additional-drops";
 
     public static String ONLY_DROP_HEADS_IN_PVP_COOLDOWN = "only-drop-heads-in-pvp-cooldown";

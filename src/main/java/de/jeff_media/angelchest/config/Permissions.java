@@ -12,6 +12,7 @@ public final class Permissions {
     public static final String PREVIEW = "angelchest.preview";
     public static final String PROTECT = "angelchest.protect";
     public static final String PROTECT_IGNORE = "angelchest.protect.ignore";
+    public static final String IGNORE_PREVENT_BUILDING = "angelchest.ignorepreventbuilding";
     public static final String UNLOCK = "angelchest.unlock";
     public static final String TOGGLE = "angelchest.toggle";
     public static final String RELOAD = "angelchest.reload";

@@ -8,6 +8,13 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 11.3.0
+- Added config options:
+  - "prevent-building-in-radius": Prevents placing blocks in a certain radius around other player's chests
+  - "prevent-breaking-in-radius": Prevents breaking blocks in a certain radius around other player's chests
+  - "only-prevent-building-in-radius-for-protected-chests": Whether "prevent-building-in-radius" and "prevent-breaking-in-radius" only applies to protected chests
+- Fixed targetPlayers requiring angelchest.others permission instead of the command sender
+
 ## 9.15.0
 - Added config option "suspend-countdowns-when-player-is-offline"
   - When set to false (default), AngelChest will continue counting down the time until a chest expires even when the player is offline

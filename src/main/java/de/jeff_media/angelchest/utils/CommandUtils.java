@@ -230,38 +230,38 @@ public final class CommandUtils {
     /**
      * If args is null, skip the confirmation stuff
      */
-    public static void fetchOrTeleport(final AngelChestMain main, final Player sender, final AngelChest ac, final int chestIdStartingAt1, final CommandAction action, final boolean askForConfirmation) {
+    public static void fetchOrTeleport(final AngelChestMain main, final CommandSender requester, final Player toTeleport, final AngelChest ac, final int chestIdStartingAt1, final CommandAction action, final boolean askForConfirmation) {
 
-        if (!sender.hasPermission(action.getPermission())) {
-            Messages.send(sender, main.messages.MSG_NO_PERMISSION);
+        if (!requester.hasPermission(action.getPermission())) {
+            Messages.send(requester, main.messages.MSG_NO_PERMISSION);
             return;
         }
 
-        final UUID uuid = sender.getUniqueId();
+        final UUID uuid = toTeleport.getUniqueId();
 
-        if (!ac.owner.equals(uuid) && !sender.hasPermission(Permissions.OTHERS)) {
-            Messages.send(sender, main.messages.ERR_NOTOWNER);
+        if (!ac.owner.equals(uuid) && !requester.hasPermission(Permissions.OTHERS)) {
+            Messages.send(requester, main.messages.ERR_NOTOWNER);
             return;
         }
 
-        final double price = action.getPrice(sender);
-        final ItemStack priceItem = action.getPriceItem(sender);
+        final double price = action.getPrice(toTeleport);
+        final ItemStack priceItem = action.getPriceItem(toTeleport);
 
         // Allow TP / Fetch across worlds
-        final World playerWorld = sender.getWorld();
+        final World playerWorld = toTeleport.getWorld();
         final World chestWorld = ac.getWorld();
-        if (action == CommandAction.TELEPORT_TO_CHEST && !main.groupManager.getAllowTpAcrossWorlds(sender)) {
+        if (action == CommandAction.TELEPORT_TO_CHEST && !main.groupManager.getAllowTpAcrossWorlds(toTeleport)) {
             if (!playerWorld.equals(chestWorld)) {
-                Messages.send(sender, main.messages.MSG_TP_ACROSS_WORLDS_NOT_ALLOWED);
+                Messages.send(toTeleport, main.messages.MSG_TP_ACROSS_WORLDS_NOT_ALLOWED);
                 if (main.debug) main.debug("Forbidden TP across worlds detected.");
                 if (main.debug) main.debug("Player World: " + playerWorld);
                 if (main.debug) main.debug("Chest  World: " + chestWorld.toString());
                 return;
             }
         }
-        if (action == CommandAction.FETCH_CHEST && !main.groupManager.getAllowFetchAcrossWorlds(sender)) {
+        if (action == CommandAction.FETCH_CHEST && !main.groupManager.getAllowFetchAcrossWorlds(toTeleport)) {
             if (!playerWorld.equals(chestWorld)) {
-                Messages.send(sender, main.messages.MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED);
+                Messages.send(toTeleport, main.messages.MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED);
                 if (main.debug) main.debug("Forbidden Fetch across worlds detected.");
                 if (main.debug) main.debug("Player World: " + playerWorld);
                 if (main.debug) main.debug("Chest  World: " + chestWorld.toString());
@@ -270,45 +270,45 @@ public final class CommandUtils {
         }
         // Max / Min TP / Fetch distance
         if (playerWorld.equals(chestWorld) && playerWorld.getUID().equals(ac.worldid)) {
-            final double distance = sender.getLocation().distance(ac.block.getLocation());
+            final double distance = toTeleport.getLocation().distance(ac.block.getLocation());
             if (main.debug) main.debug("Fetch / TP in same world. Distance: " + distance);
 
             // Max distance
-            final int maxTpDistance = main.groupManager.getMaxTpDistance(sender);
-            final int maxFetchDistance = main.groupManager.getMaxFetchDistance(sender);
+            final int maxTpDistance = main.groupManager.getMaxTpDistance(toTeleport);
+            final int maxFetchDistance = main.groupManager.getMaxFetchDistance(toTeleport);
             if (action == CommandAction.TELEPORT_TO_CHEST && maxTpDistance > 0 && distance > maxTpDistance) {
-                Messages.send(sender, main.messages.MSG_MAX_TP_DISTANCE.replace("{distance}", String.valueOf(maxTpDistance)));
+                Messages.send(toTeleport, main.messages.MSG_MAX_TP_DISTANCE.replace("{distance}", String.valueOf(maxTpDistance)));
                 return;
             }
             if (action == CommandAction.FETCH_CHEST && maxFetchDistance > 0 && distance > maxFetchDistance) {
-                Messages.send(sender, main.messages.MSG_MAX_FETCH_DISTANCE.replace("{distance}", String.valueOf(maxFetchDistance)));
+                Messages.send(toTeleport, main.messages.MSG_MAX_FETCH_DISTANCE.replace("{distance}", String.valueOf(maxFetchDistance)));
                 return;
             }
 
             // Min distance
             final int minDistance = main.getConfig().getInt(Config.MIN_DISTANCE);
             if (minDistance > 0 && distance < minDistance) {
-                Messages.send(sender, main.messages.MSG_MIN_DISTANCE);
+                Messages.send(toTeleport, main.messages.MSG_MIN_DISTANCE);
                 return;
             }
         }
 
         if (askForConfirmation && main.economyStatus != EconomyStatus.INACTIVE) {
-            if (!hasConfirmed(main, sender, chestIdStartingAt1, price, action)) return;
+            if (!hasConfirmed(main, toTeleport, chestIdStartingAt1, price, action)) return;
         }
 
         // TP Wait time
         if(Daddy_Stepsister.allows(PremiumFeatures.TP_WAIT_TIME)) {
-            if (main.groupManager.getTpWaitTime(sender) > 0 && action == CommandAction.TELEPORT_TO_CHEST) {
-                final int delay = (int) Ticks.fromSeconds(main.groupManager.getTpWaitTime(sender));
+            if (main.groupManager.getTpWaitTime(toTeleport) > 0 && action == CommandAction.TELEPORT_TO_CHEST) {
+                final int delay = (int) Ticks.fromSeconds(main.groupManager.getTpWaitTime(toTeleport));
                 AtomicInteger ticks = new AtomicInteger(delay);
                 final BossBar bar = Bukkit.createBossBar(main.messages.MSG_TELEPORT_BOSSBAR, BarColor.GREEN, BarStyle.SOLID);
                 bar.setProgress(1);
-                bar.addPlayer(sender);
-                final Vector position = sender.getLocation().toVector();
+                bar.addPlayer(toTeleport);
+                final Vector position = toTeleport.getLocation().toVector();
                 new BukkitRunnable() {
                     private void remove() {
-                        bar.removePlayer(sender);
+                        bar.removePlayer(toTeleport);
                         cancel();
                     }
 
@@ -316,18 +316,18 @@ public final class CommandUtils {
                     public void run() {
                         final int remaining = ticks.decrementAndGet();
                         try {
-                            if (sender.getLocation().toVector().distanceSquared(position) > 0.25) {
+                            if (toTeleport.getLocation().toVector().distanceSquared(position) > 0.25) {
                                 remove();
                                 return;
                             }
                         }catch (Throwable ignored) { }
                         if (remaining == 0) {
                             remove();
-                            if ((price > 0 || priceItem != null ) && !hasEnoughMoney(sender, price, priceItem, main.messages.MSG_NOT_ENOUGH_MONEY, main.messages.MSG_HAS_NO_ITEM,action.getEconomyReason())) {
+                            if ((price > 0 || priceItem != null ) && !hasEnoughMoney(toTeleport, price, priceItem, main.messages.MSG_NOT_ENOUGH_MONEY, main.messages.MSG_HAS_NO_ITEM,action.getEconomyReason())) {
                                 return;
                             }
-                            teleportPlayerToChest(main, sender, ac);
-                            Messages.send(sender, main.messages.MSG_ANGELCHEST_TELEPORTED);
+                            teleportPlayerToChest(main, toTeleport, ac);
+                            Messages.send(toTeleport, main.messages.MSG_ANGELCHEST_TELEPORTED);
                             return;
                         }
                         bar.setProgress((double) ticks.get() / (double) delay);
@@ -338,24 +338,24 @@ public final class CommandUtils {
         }
 
         if(action == CommandAction.FETCH_CHEST) {
-            if(!ProtectionUtils.playerMayBuildHere(sender, sender.getLocation()) && main.getConfig().getBoolean(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD)) {
-                sender.sendMessage(main.messages.MSG_CANT_FETCH_HERE);
+            if(!ProtectionUtils.playerMayBuildHere(toTeleport, toTeleport.getLocation()) && main.getConfig().getBoolean(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD)) {
+                toTeleport.sendMessage(main.messages.MSG_CANT_FETCH_HERE);
                 return;
             }
         }
 
-        if ((price > 0 || priceItem != null) && !hasEnoughMoney(sender, price, priceItem, main.messages.MSG_NOT_ENOUGH_MONEY, main.messages.MSG_HAS_NO_ITEM, action.getEconomyReason())) {
+        if ((price > 0 || priceItem != null) && !hasEnoughMoney(toTeleport, price, priceItem, main.messages.MSG_NOT_ENOUGH_MONEY, main.messages.MSG_HAS_NO_ITEM, action.getEconomyReason())) {
             return;
         }
         switch (action) {
             case TELEPORT_TO_CHEST:
-                teleportPlayerToChest(main, sender, ac);
-                Messages.send(sender, main.messages.MSG_ANGELCHEST_TELEPORTED);
+                teleportPlayerToChest(main, toTeleport, ac);
+                Messages.send(toTeleport, main.messages.MSG_ANGELCHEST_TELEPORTED);
                 break;
             case FETCH_CHEST:
-                fetchChestToPlayer(main, sender, ac);
-                Messages.send(sender, main.messages.MSG_ANGELCHEST_FETCHED);
-                SoundUtils.playTpFetchSound(sender, sender.getLocation(), CommandAction.FETCH_CHEST);
+                fetchChestToPlayer(main, toTeleport, ac);
+                Messages.send(toTeleport, main.messages.MSG_ANGELCHEST_FETCHED);
+                SoundUtils.playTpFetchSound(toTeleport, toTeleport.getLocation(), CommandAction.FETCH_CHEST);
                 break;
         }
     }

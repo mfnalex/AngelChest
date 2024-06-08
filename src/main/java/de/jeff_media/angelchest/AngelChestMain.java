@@ -98,6 +98,7 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
     private final Map<String, Integer> worldMinBuildHeights = new HashMap<>();
     @Getter
     private final Map<String, Integer> worldMaxBuildHeights = new HashMap<>();
+    public final PreventBuildingInRadius preventBuildingInRadius = new PreventBuildingInRadius(this);
     public List<AngelChest> angelChests;
     public boolean debug = false;
     //public java.util.logging.Logger debugLogger;
