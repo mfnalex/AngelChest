@@ -588,6 +588,10 @@ min-distance: 0
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 tp-wait-time: 0
 
+# Which color to use for the teleportation bossbar.
+# See here for possible values: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
+tp-bossbar-color: GREEN
+
 #################################
 #### Sounds for TP / Fetch  #####
 #################################

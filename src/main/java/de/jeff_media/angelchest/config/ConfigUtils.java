@@ -414,6 +414,9 @@ sound-channel: BLOCKS
         conf.addDefault(Config.PREVENT_BREAKING_IN_RADIUS, 0);
         metric(Config.PREVENT_BUILDING_IN_RADIUS);
 
+        conf.addDefault(Config.TP_BOSSBAR_COLOR, "GREEN");
+        metric(Config.TP_BOSSBAR_COLOR);
+
 
         conf.addDefault(Config.ONLY_PREVENT_BUILDING_IN_RADIUS_FOR_PROTECTED_CHESTS, true);
         metric(Config.ONLY_PREVENT_BUILDING_IN_RADIUS_FOR_PROTECTED_CHESTS);

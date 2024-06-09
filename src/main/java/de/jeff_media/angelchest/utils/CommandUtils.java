@@ -299,10 +299,13 @@ public final class CommandUtils {
 
         // TP Wait time
         if(Daddy_Stepsister.allows(PremiumFeatures.TP_WAIT_TIME)) {
+
+            BarColor barColor = EnumUtils.getIfPresent(BarColor.class, main.getConfig().getString(Config.TP_BOSSBAR_COLOR)).orElse(BarColor.GREEN);
+
             if (main.groupManager.getTpWaitTime(toTeleport) > 0 && action == CommandAction.TELEPORT_TO_CHEST) {
                 final int delay = (int) Ticks.fromSeconds(main.groupManager.getTpWaitTime(toTeleport));
                 AtomicInteger ticks = new AtomicInteger(delay);
-                final BossBar bar = Bukkit.createBossBar(main.messages.MSG_TELEPORT_BOSSBAR, BarColor.GREEN, BarStyle.SOLID);
+                final BossBar bar = Bukkit.createBossBar(main.messages.MSG_TELEPORT_BOSSBAR, barColor, BarStyle.SOLID);
                 bar.setProgress(1);
                 bar.addPlayer(toTeleport);
                 final Vector position = toTeleport.getLocation().toVector();

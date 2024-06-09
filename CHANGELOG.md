@@ -8,6 +8,9 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 11.4.0
+- Made bossbar color configurable for tp-wait-time
+
 ## 11.3.0
 - Added config options:
   - "prevent-building-in-radius": Prevents placing blocks in a certain radius around other player's chests
