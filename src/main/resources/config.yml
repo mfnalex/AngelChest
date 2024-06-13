@@ -273,8 +273,8 @@ only-show-gui-after-death-if-player-can-tp-or-fetch: true
 # e.g. CHEST, ENDER_CHEST, OBSIDIAN, ...
 # It's also possible to use custom heads here, or custom blockdata, or even blocks from ItemsAdder and Oraxen.
 #
-# IMPORTANT: ItemsAdder & Oraxen integration is still EXPERIMENTAL and WILL bug out for furniture!
-#            Do NOT use ItemsAdder or Oraxen blocks and/or furniture on a production server!
+# Note for ItemsAdder users: ItemsAdder blocks are 100% supported! ItemsAdder furniture is experimental.
+# Note for Oraxen users: Oraxen blocks and Oraxen furniture are 100% supported!
 #
 # IMPORTANT: You must use "double quotes" here!
 #
@@ -283,7 +283,7 @@ only-show-gui-after-death-if-player-can-tp-or-fetch: true
 #  material: "head:player"                              (will use the player's head)
 #  material: "head:somebase64string"                    (will use that custom base64 texture)
 #  material: "minecraft:red_candle[candles=3,lit=true]" (will use 3 red, lit candles)
-#  material: "itemsadder:ruby_ore"                      (will use Ruby Ore from ItemsAdder)
+#  material: "itemsadder:iasurvival:ruby_ore"           (will use Ruby Ore from ItemsAdder)
 #  material: "oraxen:ruby_ore"                          (will use Ruby Ore from Oraxen)
 material: "CHEST"
 
@@ -336,6 +336,7 @@ only-spawn-in:
   - AIR
   - WATER
   - SNOW
+  - SHORT_GRASS
 
 # When the block where the player died doesn't match "dont-spawn-on" and "only-spawn-in"
 # we will search for another block inside max-radius. Default is 10 blocks.

@@ -2,13 +2,13 @@
 
     <property name="control-flow-obfuscation" value="disable" apply2class="class **.commands.**"/>
     <property name="control-flow-obfuscation" value="disable" apply2class="class **.hooks.**"/>
-    <property name="control-flow-obfuscation" value="enable"/>
+    <property name="control-flow-obfuscation" value="disable"/>
     <property name="extensive-flow-obfuscation" value="disable" apply2class="class **.commands.**"/>
     <property name="extensive-flow-obfuscation" value="disable" apply2class="class **.hooks.**"/>
-    <property name="extensive-flow-obfuscation" value="maximum"/>
+    <property name="extensive-flow-obfuscation" value="disable"/>
 
     <input>
-        <jar in="AngelChest-${project.version}.jar" out="AngelChest-${project.version}-obf.jar"/>
+        <jar in="AngelChest-${project.version}.jar" out="AngelChest-${project.version}.jar"/>
     </input>
 
     <classpath basedir="C:\Users\mfnal\.m2\repository">

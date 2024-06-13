@@ -2,8 +2,8 @@ package de.jeff_media.angelchest.data;
 
 import com.jeff_media.jefflib.ConfigUtils;
 import com.jeff_media.jefflib.data.tuples.Pair;
-import de.jeff_media.angelchest.Compatibility;
 import de.jeff_media.angelchest.AngelChestMain;
+import de.jeff_media.angelchest.Compatibility;
 import de.jeff_media.angelchest.config.ChestYaml;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
@@ -14,14 +14,22 @@ import de.jeff_media.angelchest.gui.GUIHolder;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
-import de.jeff_media.angelchest.utils.*;
+import de.jeff_media.angelchest.utils.AngelChestUtils;
+import de.jeff_media.angelchest.utils.CommandUtils;
+import de.jeff_media.angelchest.utils.InventoryUtils;
+import de.jeff_media.angelchest.utils.LogUtils;
+import de.jeff_media.angelchest.utils.Utils;
 import de.jeff_media.customblocks.CustomBlock;
 import de.jeff_media.customblocks.implentation.VanillaBlock;
 import de.jeff_media.daddy.Daddy_Stepsister;
 import io.papermc.lib.PaperLib;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -35,7 +43,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -74,7 +87,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public boolean isLooted = false;
     public UUID uniqueId;
     private CustomBlock customBlock;
-    public BlockData originalBlockData;
+    //public BlockData originalBlockData;
     //public UUID uuid = UUID.randomUUID();
 
     /**
@@ -121,7 +134,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.logfile = yaml.getString("logfile", null);
         this.created = yaml.getLong("created", 0);
         this.experience = yaml.getInt("experience",0);
-        this.originalBlockData = Bukkit.createBlockData(yaml.getString("blockdata", "minecraft:air"));
+        //this.originalBlockData = Bukkit.createBlockData(Objects.requireNonNull(yaml.getString("blockdata"/*, "minecraft:air"*/), "blockdata can't be null"));
         if(yaml.isString("uniqueId")) {
             this.uniqueId = UUID.fromString(yaml.getString("uniqueId"));
         }
@@ -156,7 +169,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
                 //this.customBlock = yaml.getObject("customblock", CustomBlock.class);
                 ConfigurationSection section = yaml.getConfigurationSection("customblock");
                 Map<String,Object> map = ConfigUtils.asMap(section);
-                this.customBlock = CustomBlock.deserialize(map);
+                this.customBlock = Objects.requireNonNull(CustomBlock.deserialize(map), "customBlock can't be null");
             } catch (Exception exception) {
                 main.getLogger().warning("Could not deserialize custom object used for this AngelChest - falling back to default material.");
                 exception.printStackTrace();
@@ -289,7 +302,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.blacklistedItems = new CopyOnWriteArrayList<>();
         this.created = System.currentTimeMillis();
         this.graveyard = GraveyardManager.fromBlock(block);
-        this.originalBlockData = block.getBlockData();
+        //this.originalBlockData = Objects.requireNonNull(block.getBlockData(), "originalBlockData can't be null");
 
         if (player.getKiller() == null) {
             if (deathCause.isEnderCrystalDeath() && EnderCrystalListener.lastEnderCrystalKiller != null && !EnderCrystalListener.lastEnderCrystalKiller.equals(owner)) {
@@ -561,17 +574,23 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         Objects.requireNonNull(block.getLocation().getWorld()).spawnParticle(Particle.EXPLOSION_NORMAL, block.getLocation(), 1);
         hologram.destroy();
         Graveyard graveyard = GraveyardManager.fromBlock(block);
-        //BlockData originalBlockData = block.getBlockData();
+
         if(customBlock != null) {
-            //System.out.println("Custom Block is != null, calling CustomBlock.remove: " + customBlock);
-            if(originalBlockData != null) {
-                block.setBlockData(originalBlockData);
-            } else {
-                block.setType(Material.AIR);
-            }
+            customBlock.remove();
         } else {
-            block.setType(Material.AIR);
+            throw new IllegalStateException("CustomBlock is null");
         }
+        //BlockData originalBlockData = block.getBlockData();
+        //if(customBlock != null) {
+            //System.out.println("Custom Block is != null, calling CustomBlock.remove: " + customBlock);
+//            if(originalBlockData != null) {
+//                block.setBlockData(originalBlockData);
+//            } else {
+//                block.setType(Material.AIR);
+//            }
+        /*} else {
+            block.setType(Material.AIR);
+        }*/
         /*BlockData newBlockData = block.getBlockData();
         if(newBlockData.matches(originalBlockData)) {
             block.setType(Material.AIR, true);
@@ -837,6 +856,8 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         yaml.set("armorInv", armorInv);
         yaml.set("extraInv", extraInv);
         yaml.set("overflowInv", overflowInv.getContents());
+
+        //yaml.set("blockdata", originalBlockData.getAsString(false));
 
 
         if (removeChest) {
