@@ -29,7 +29,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -212,7 +211,6 @@ public final class CommandUtils {
         ac.destroyChest(oldBlock);
         //main.debug(">>>>> Setting back Old block data: " + ac.originalBlockData);
         //if(ac.originalBlockData != null) oldBlock.setBlockData(ac.originalBlockData); else main.debug(">>>>> CANT: ITS NULL");
-        BlockData newOriginalBlockData = newBlock.getBlockData();
         ac.createChest(newBlock, ac.owner);
 
         // Make the chest face the player

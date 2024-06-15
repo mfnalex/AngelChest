@@ -419,12 +419,27 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * @param uuid  The owner's UUID (to correctly set player heads)
      */
     public void createChest(final Block block, final UUID uuid, final boolean createHologram) {
-        //System.out.println("Create Chest: " + this);
-        if(customBlock != null) customBlock.remove();
-        customBlock = main.getChestMaterial(this);
+//        if(!createHologram) {
+//            main.debug(" Warning: createHologram is false, although createChest calls destroyChest first. Ignoring createHologram=false");
+//        }
+        main.debug("Creating Chest: " + this);
+//        try {
+//            this.destroyChest(block, false);
+//        }catch (Throwable ignored) { }
+//        if(this.customBlock != null) {
+//            this.customBlock.setBlock(block);
+//            main.debug("  Removing old custom block: " + customBlock);
+//            this.customBlock.remove();
+//        }
+        this.customBlock = main.getChestMaterial(this);
+
         if (main.debug)
-            main.debug("Attempting to create chest with material " + customBlock + " at " + block.getLocation());
-        customBlock.place(block, Bukkit.getOfflinePlayer(uuid));
+            main.debug("  Attempting to create chest with material " + customBlock + " at " + block.getLocation());
+        main.debug("Old Blockdata: " + block.getBlockData().getAsString());
+        this.customBlock.place(block, Bukkit.getOfflinePlayer(uuid));
+        main.debug("New Blockdata: " + block.getBlockData().getAsString());
+        if(main.debug)
+            main.debug("  Chest created. Original Block Data: " + customBlock.getOriginalBlockData());
         //System.out.println("Chest created: " + originalCustomBlock);
         if (createHologram) {
             createHologram(block, uuid);
@@ -564,19 +579,30 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         experience = 0;
     }
 
+    public void destroyChest(Block block) {
+        destroyChest(block, true);
+    }
+
     /**
      * Removes the chest block from the world and displays explosion particles.
      *
      * @param block Block where the AngelChest was spawned
      */
-    public void destroyChest(final Block block) {
-        if (main.debug) main.debug("Destroying chest at " + block.getLocation() + this);
-        Objects.requireNonNull(block.getLocation().getWorld()).spawnParticle(Particle.EXPLOSION_NORMAL, block.getLocation(), 1);
-        hologram.destroy();
+    public void destroyChest(final Block block, boolean particles) {
+        this.customBlock.setBlock(block);
+        if (main.debug) main.debug("Destroying chest at " + block.getLocation() + ": " + this);
+        if(particles) {
+            Objects.requireNonNull(block.getLocation().getWorld()).spawnParticle(Particle.EXPLOSION_NORMAL, block.getLocation(), 1);
+        }
+        if(hologram != null) {
+            hologram.destroy();
+        }
         Graveyard graveyard = GraveyardManager.fromBlock(block);
 
         if(customBlock != null) {
-            customBlock.remove();
+            main.debug("AngelChest#destroyChest: Removing custom block: " + customBlock);
+            customBlock.remove(false);
+            main.debug("AngelChest#destroyChest: After removing custom block: " + customBlock);
         } else {
             throw new IllegalStateException("CustomBlock is null");
         }
@@ -875,10 +901,11 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     }
 
     public void scheduleBlockChange() {
-        scheduleBlockChange(true);
+        scheduleBlockChange(true, 0);
     }
 
-    public void scheduleBlockChange(final boolean firstTry) {
+    public void scheduleBlockChange(final boolean firstTry, int tryCount) {
+        tryCount++;
         if (firstTry) {
             if (main.debug) main.debug("scheduleBlockChange: " + block.toString());
         }
@@ -890,15 +917,20 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         final int x = block.getX();
         final int z = block.getZ();
 
-        if (!block.getWorld().isChunkLoaded(x >> 4, z >> 4)) {
+        if (!block.getWorld().isChunkLoaded(x >> 4, z >> 4) && tryCount <= 20) {
             if (firstTry) {
                 if (main.debug)
                     main.debug("Tried to change block for chest in unloaded chunk because of unlocking, will do so once chunk is loaded.");
             }
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> scheduleBlockChange(false), 1L);
+            int finalTryCount = tryCount;
+            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> scheduleBlockChange(false, finalTryCount), 1L);
         } else {
             if (main.debug) main.debug("Changed block for chest because of unlocking.");
-            createChest(block, owner, false);
+            main.debug("1 Old Blockdata: " + customBlock.getOriginalBlockData().getAsString());
+            destroyChest(block, false);
+            main.debug("2 Inbetween Old Blockdata: " + customBlock.getOriginalBlockData().getAsString());
+            createChest(block, owner, true);
+            main.debug("3 New old Blockdata: " + customBlock.getOriginalBlockData().getAsString());
         }
 
     }
@@ -933,6 +965,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public String toString() {
         return "AngelChest{" +
                 "block=" + block +
+                ", customBlock: " + customBlock +
                 ", created=" + created +
                 ", deathCause=" + deathCause +
                 ", infinite=" + infinite +
