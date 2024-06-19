@@ -109,9 +109,79 @@ public final class GroupManager {
             if (main.debug)
                 main.debug(value + " contains a p, getting percentage for player " + commandSender.getName() + ": " + result);
             return result;
+        } else if(value.contains("%")) {
+            if (!Daddy_Stepsister.allows(PremiumFeatures.SET_PRICES_AS_PERCENTAGE)) {
+                main.getLogger().warning("You are using percentage prices in your config file. This is only available in AngelChestPlus. See here: " + AngelChestMain.UPDATECHECKER_LINK_DOWNLOAD_PLUS);
+                return 0;
+            }
+
+            String[] split = value.split(",");
+            Double min = parseMinPrice(split);
+            Double max = parseMaxPrice(split);
+            Double percent = parsePercent(split);
+            MinMaxPrice minMaxPrice = new MinMaxPrice(min, max, percent);
+            return minMaxPrice.getEffectivePrice(main, commandSender);
         } else {
             return Double.parseDouble(value);
         }
+    }
+
+    static class MinMaxPrice {
+        public final Double min;
+        public final Double max;
+        public final Double percent;
+
+        MinMaxPrice(Double min, Double max, Double percent) {
+            this.min = min;
+            this.max = max;
+            this.percent = percent;
+        }
+
+        double getEffectivePrice(AngelChestMain main, CommandSender sender) {
+            if(!(sender instanceof Player)) return 0;
+            if(main.economyStatus != EconomyStatus.ACTIVE) return 0;
+            OfflinePlayer player = (OfflinePlayer) sender;
+            double balance = main.econ.getBalance(player);
+            double percentageOfBalance = balance * percent / 100;
+            main.debug("Calculating effective price for player " + player.getName() + " with min=" + min + ", max=" + max + ", percent=" + percent + ", balance=" + balance + ", percentageOfBalance=" + percentageOfBalance);
+            if(min != null && percentageOfBalance < min) {
+                main.debug("Returning min: " + min);
+                return min;
+            }
+            if(max != null && percentageOfBalance > max) {
+                main.debug("Returning max: " + max);
+                return max;
+            }
+            main.debug("Returning percentageOfBalance: " + percentageOfBalance);
+            return percentageOfBalance;
+        }
+    }
+
+    private static Double parseMinPrice(String[] split) {
+        for(String s : split) {
+            if(s.startsWith("min=")) {
+                return Double.parseDouble(s.substring(4));
+            }
+        }
+        return null;
+    }
+
+    private static Double parseMaxPrice(String[] split) {
+        for(String s : split) {
+            if(s.startsWith("max=")) {
+                return Double.parseDouble(s.substring(4));
+            }
+        }
+        return null;
+    }
+
+    private static Double parsePercent(String[] split) {
+        for(String s : split) {
+            if(s.endsWith("%")) {
+                return Double.parseDouble(s.substring(0, s.length()-1));
+            }
+        }
+        return null;
     }
 
     public boolean getAllowFetchAcrossWorlds(final CommandSender commandSender) {

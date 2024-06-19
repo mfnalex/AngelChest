@@ -19,10 +19,10 @@
 #   unlock-duration: <duration in seconds> (e.g. 300, 0 = never unlock automatically)
 #   suspend-countdowns-when-player-is-offline: true|false
 #   max-allowed-angelchests: <number of chests> (e.g. 10)
-#   price: <price for spawning the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
-#   price-open: <price for opening the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
-#   price-teleport: <price for teleporting to the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
-#   price-fetch: <price for fetching the chest> (e.g. 5000 or 0.1p = 10% of player's balance)
+#   price: <price for spawning the chest> (e.g. 5000 or 10% = 10% of player's balance or 10%,min=5000 = 10% of player's balance, but at least 5000)
+#   price-open: <price for opening the chest>
+#   price-teleport: <price for teleporting to the chest>
+#   price-fetch: <price for fetching the chest>
 #   xp-percentage: <percentage of how much XP to keep> (e.g. 1 = 100%, 0.5 = 50%, -1 = vanilla behaviour)
 #   spawn-chance: <spawn chance of an angelchest> (e.g 1.0 = 100%, 0.5 = 50%, 0.01 = 1%)
 #   random-item-loss: <number of item stacks randomly lost> (e.g. 2 = 2 item stacks or 0.5p = 50% of player's item stacks)

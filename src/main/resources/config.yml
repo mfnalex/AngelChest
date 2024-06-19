@@ -511,10 +511,18 @@ fallback-to-deathlocation: true
 # If you request a feature in the review section, it will probably be ignored.
 # You can also adjust those prices individually for each group. See groups.example.yml
 
-# You can also add the letter "p" to the end of the number to use percentages.
-# E.g. when using "0.2p", a user has to pay 20% of his account balance.
+###### Using Percentages/Min/Max Prices #####
+# In AngelChest Plus, you can also use percentages of the player's balance:
+#   price-example1: 50%              (50% of player's balance)
+#
+# It is also possible to define a minimum and/or maximum price:
+#   price-example2: 10%,min=1000             (10%, but at least 1000)
+#   price-example3: 50%,max=1000             (50%, but at most 10000)
+#   price-example4: 30%,min=500,max=10000    (30%, but at least 500 and at most 10000)
+#
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 
+###### Using Items instead of money #####
 # You can also use certain items that have to be "paid" with instead of money.
 # See items.yml file for more information
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
@@ -1674,55 +1682,56 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 
-##### Italian
-#message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChests sono già state sbloccate."
+##### Italian - Thanks to Polkanizki for translating!
+#message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChest sono già state sbloccate."
 #message-angelchest-created: "&aUn Angelo ha raccolto le tue cose e le ha messe dove sei morto."
 #message-angelchest-disappeared: "&cSei stato troppo lento... La tua AngelChest è scomparsa ed il suo contenuto è stato lasciato a terra."
 #message-error-players-only: "&cErrore: Questo comando può essere eseguito solo dai giocatori."
 #message-inventory-was-empty: "&eUn Angelo ha cercato le tue cose ma non è riuscito a trovare nulla."
-#message-not-allowed-to-break-other-angelchests: "&cYou are not allowed to break this AngelChest."
-#message-not-allowed-to-open-other-angelchests: "&cYou are not allowed to open this AngelChest."
-#message-unlocked-more-angelchests: "&aHai sbloccato le tue %d AngelChests."
+#message-not-allowed-to-break-other-angelchests: "&cNon puoi rompere questa AngelChest."
+#message-not-allowed-to-open-other-angelchests: "&cNon puoi aprire questa AngelChest."
+#message-unlocked-more-angelchests: "&aHai sbloccato le tue %d AngelChest."
 #message-unlocked-one-angelchest: "&aHai sbloccato la tua AngelChest."
-#message-you-dont-have-any-angelchests: "&eNon hai nessuna AngelChests."
+#message-you-dont-have-any-angelchests: "&eNon hai nessuna AngelChest."
 #message-you-got-part-of-your-inventory-back: "&eHai ricevuto alcune delle tue cose indietro, ma ce ne sono ancora alcune nella tua AngelChest."
 #message-you-got-your-inventory-back: "&aHai ricevuto il tuo inventario!"
-#message-angelchest-location: "&eEcco dove sono le tue AngelChests:"
+#message-angelchest-location: "&eEcco dove sono le tue AngelChest:"
 #message-not-enough-money: "&cNon hai abbastanza soldi."
-#message-not-enough-money2: "&cAn Angel tried to collect your stuff but you didn't have enough money."
-#message-please-select-chest: "&7Per piacere, specifica quale AngelChest vuoi selezionare."
+#message-not-enough-money2: "&cUn Angelo ha provato a prendere le tue cose ma non hai abbastanza soldi."
+#message-please-select-chest: "&7Per favore, specifica quale AngelChest vuoi selezionare."
 #message-already-unlocked: "&cQuesta AngelChest è già stata sbloccata."
-#message-too-many-angelchests: "&cYou had more AngelChests than your Angel could handle... Your oldest AngelChest has exploded."
-#message-no-angelchest-in-pvp: "&cAn Angel tried to collect your stuff but was put to flight by the presence of your killer."
-#message-angelchest-retrieved: "&aAngelChest retrieved!"
-#message-confirm: "&6You are about to spend {price}{currency}. Click this message to continue."
-#message-paid-open: "&8You spent {price}{currency} to open an AngelChest."
-#message-unlocked-automatically: "&8Your AngelChest has been unlocked automatically."
-#message-angelchest-opened: "&6{player} has opened your AngelChest."
-#message-angelchest-emptied: "&c{player} has emptied your AngelChest."
-#message-spawn-chance-unsuccessful: "&cYour Angel forgot to collect your stuff, unlucky!"
-#message-no-permission: "&cYou do not have the permission to use this command."
-#message-invulnerable: "&a&lYou are invulnerable for {time}."
-#message-vulnerable: "&c&lYou are no longer invulnerable."
-#message-tp-across-worlds-not-allowed: "&cYou cannot teleport to your AngelChest across worlds."
-#message-fetch-across-worlds-not-allowed: "&cYou cannot fetch your AngelChest across worlds."
-#message-max-tp-distance: "&cYou cannot teleport to AngelChests more than {distance} blocks away."
-#message-max-fetch-distance: "&cYou cannot fetch AngelChests more than {distance} blocks away."
-#message-angelchest-disabled: "&cYou are no longer protected by Angels."
-#message-angelchest-enabled: "&aYou are now protected by Angels."
-#message-angelchest-fetched: "&aAngelChest fetched succesfully."
-#message-angelchest-teleported: "&aSuccessfully teleported you to your AngelChest."
-#message-min-distance: "&cYou already are nearby your AngelChest."
-#message-buried-in-graveyard: "&aAn Angel collected your stuff and buried it at &6{graveyard}."
-#message-cant-fetch-here: "&cYou cannot fetch your AngelChest here."
-#message-teleporting: "&aTeleporting to AngelChest..."
-#message-angelchest-disabled-others: "&c{player} is no longer protected by Angels."
-#message-angelchest-enabled-others: "&a{player} is now protected by Angels."
-#message-has-no-item: "&cYou need at least one {item}&r&c to do this."
-#message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c."
-#message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
-#message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
+#message-too-many-angelchests: "&cHai più AngelChest di quanto il tuo Angelo potrebbe gestire... La tua AngelChest meno recente è esplosa."
+#message-no-angelchest-in-pvp: "&cUn Angelo ha provato a prendere le tue cose ma è stato messo in fuga dalla presenza del tuo assassino."
+#message-angelchest-retrieved: "&aAngelChest recuperata!"
+#message-confirm: "&6Stai per spendere {price}{currency}. Clicca questo messaggio per continuare."
+#message-paid-open: "&8Hai speso {price}{currency} per aprire una AngelChest."
+#message-unlocked-automatically: "&8La tua AngelChest è stata sbloccata automaticamente."
+#message-angelchest-opened: "&6{player} ha aperto la tua AngelChest."
+#message-angelchest-emptied: "&c{player} ha svuotato la tua AngelChest."
+#message-spawn-chance-unsuccessful: "&cIl tuo Angelo ha dimenticato di raccogliere le tue cose, che sfortuna!"
+#message-no-permission: "&cNon hai il permesso di utilizzare questo comando."
+#message-invulnerable: "&a&lSei invulnerabile per {time}."
+#message-vulnerable: "&c&lNon sei più invulnerabile."
+#message-tp-across-worlds-not-allowed: "&cNon puoi teletrasportarti alla tua AngelChest tra mondi diversi."
+#message-fetch-across-worlds-not-allowed: "&cNon puoi recuperare la tua AngelChest tra mondi diversi."
+#message-max-tp-distance: "&cNon puoi teletrasportarti alle AngelChest distanti più di {distance} blocchi."
+#message-max-fetch-distance: "&cNon puoi recuperare le AngelChest distanti più di {distance} blocchi."
+#message-angelchest-disabled: "&cNon sei più protetto dagli Angeli."
+#message-angelchest-enabled: "&aSei ora protetto dagli Angeli."
+#message-angelchest-fetched: "&aAngelChest recuperata con successo."
+#message-angelchest-teleported: "&aTeletrasportato con successo alla tua AngelChest."
+#message-min-distance: "&cSei già vicino alla tua AngelChest."
+#message-buried-in-graveyard: "&aUn Angelo ha raccolto le tue cose e le ha seppellite a &6{graveyard}."
+#message-cant-fetch-here: "&cNon puoi recuperare la tua AngelChest qui."
+#message-teleporting: "&aTeletrasporto all'AngelChest..."
+#message-angelchest-disabled-others: "&c{player} non è più protetto dagli Angeli."
+#message-angelchest-enabled-others: "&a{player} è ora protetto dagli Angeli."
+#message-has-no-item: "&cHai bisogno almeno di un {item}&r&c per farlo."
+#message-has-no-item2: "&cUn Angelo ha provato a prendere le tue cose ma non hai nessun {item}&r&c."
+#message-cooldown: "&cUn Angelo ha provato a prendere le tue cose ma era troppo stanco per farlo."
+#message-pvp-cooldown: "&cUn Angelo ha provato a prendere le tue cose ma era troppo stanco per farlo."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-cant-build-in-radius: "&cNon puoi posizionare blocchi vicini alle AngelChest di altri giocatori"
 
 ##### Pirate Speak
 #message-all-your-angelchests-were-already-unlocked: "&eAll yer AngelChests was already unlocked."
@@ -1738,7 +1747,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-you-got-part-of-your-inventory-back: "&eYe got a part o' yer inventory aft, but some items still in the AngelChest."
 #message-you-got-your-inventory-back: "&aYe got yer inventory aft!"
 #message-angelchest-location: "&eLocations o' yer AngelChests:"
-#message-not-enough-money: "&cYe don't 'ave enough money."
+#message-not-enough-money: "&cYe don't 'ave enough money."P
 #message-not-enough-money2: "&cAn Angel tried to collect yer stuff but ye did nay 'ave enough money."
 #message-please-select-chest: "&7Please specify which AngelChest ye would like to select."
 #message-already-unlocked: "&cThis AngelChest is already unlocked."

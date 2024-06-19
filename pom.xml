@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>12.1.1</version>
+    <version>12.2.0</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -19,7 +19,6 @@
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <config.version>${maven.build.timestamp}</config.version>
     </properties>
-
 
     <build>
         <resources>
