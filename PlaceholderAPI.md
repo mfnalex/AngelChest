@@ -17,6 +17,10 @@ must be replaced with any integer. Please note that the `<ID>` cannot be less th
 
 `%angelchest_enabled%`: returns "true" or "false" whether this player has AngelChest enabled
 
+`%angelchest_allowed%`: returns "true" or "false" whether this player is allowed to use AngelChest through Permissions
+
+`%angelchest_enabled_and_allowed%`: Returns "true" if %angelchest_enabled% and %angelchest_allowed% are true, otherwise false
+
 `%angelchest_isactive_<ID>%`: Returns "true" when the player has an AngelChest with this ID, otherwise "false"
 
 `%angelchest_time_<ID>%`: Remaining time for this AngelChest. Returns an empty String if no AngelChest with this ID
@@ -29,3 +33,5 @@ exists.
 `%angelchest_z_<ID>%`: Z coordinate of this AngelChest. Returns an empty String if no AngelChest with this ID exists.
 
 `%angelchest_world_<ID>%`: World name of this AngelChest. Returns an empty String if no AngelChest with this ID exists.
+
+`%angelchest_remaining_charges%`: The number of remaining Charges, or -1 if player is not online

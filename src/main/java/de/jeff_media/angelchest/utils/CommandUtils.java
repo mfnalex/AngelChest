@@ -12,6 +12,7 @@ import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.PendingConfirm;
+import de.jeff_media.angelchest.data.Transaction;
 import de.jeff_media.angelchest.enums.CommandAction;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
@@ -455,18 +456,25 @@ public final class CommandUtils {
         return main.econ.getBalance(player);
     }
 
+
+
     public static boolean hasEnoughMoney(final CommandSender sender, final double money, @Nullable ItemStack item, final String messageWhenNotEnoughMoney, final String messageWhenNotEnoughItems, final String reason) {
+        return hasEnoughMoneyAndGetTransaction(sender, money, item, messageWhenNotEnoughMoney, messageWhenNotEnoughItems, reason) != null;
+    }
+
+    @Nullable
+    public static Transaction hasEnoughMoneyAndGetTransaction(final CommandSender sender, final double money, @Nullable ItemStack item, final String messageWhenNotEnoughMoney, final String messageWhenNotEnoughItems, final String reason) {
 
         if(item != null && !Daddy_Stepsister.allows(PremiumFeatures.CUSTOM_ITEMS)) {
             AngelChestMain.getInstance().getLogger().warning("Using custom items for payments is only available in AngelChest Plus.");
-            return true;
+            return Transaction.EMPTY;
         }
 
         final AngelChestMain main = AngelChestMain.getInstance();
 
         if (!(sender instanceof Player)) {
             if (main.debug) main.debug(sender.getName() + " is no player, so they should have enough money lol");
-            return true;
+            return Transaction.EMPTY;
         }
 
         final Player player = (Player) sender;
@@ -476,7 +484,7 @@ public final class CommandUtils {
 
             if(ItemUtils.checkForAndRemoveOneItem(PDCUtils.get(item,NBTTags.IS_TOKEN_ITEM, PersistentDataType.STRING), player.getInventory(), item)) {
                 main.debug("Yes, player has this item!");
-                return true;
+                return new Transaction(0, item.clone());
             } else {
                 main.debug("No, the player doesn't have this item!");
                 String itemName = MaterialUtils.getNiceMaterialName(item.getType());
@@ -484,7 +492,7 @@ public final class CommandUtils {
                         && item.getItemMeta().getDisplayName() != null
                         && !item.getItemMeta().getDisplayName().isEmpty()) itemName = item.getItemMeta().getDisplayName();
                 Messages.send(player, messageWhenNotEnoughItems.replace("{item}",itemName));
-                return false;
+                return null;
             }
 
         }
@@ -496,22 +504,22 @@ public final class CommandUtils {
         if (main.economyStatus != EconomyStatus.ACTIVE) {
             if (main.debug)
                 main.debug("We already know that economy support is not active, so all players have enough money!");
-            return true;
+            return Transaction.EMPTY;
         }
 
         if (money <= 0) {
             if (main.debug) main.debug("yes: money <= 0");
-            return true;
+            return Transaction.EMPTY;
         }
 
         if (main.econ.getBalance(player) >= money) {
             main.econ.withdrawPlayer(player, reason, money);
             if (main.debug) main.debug("yes, enough money and paid");
-            return true;
+            return new Transaction(money, null);
         } else {
             if (main.debug) main.debug("no, not enough money - nothing paid");
             Messages.send(player, messageWhenNotEnoughMoney);
-            return false;
+            return null;
         }
 
     }

@@ -175,4 +175,6 @@ public class Config {
     public static String PVP_COOLDOWN = "pvp-cooldown";
     public static String COOLDOWN = "cooldown";
 
+    public static String ENABLE_CHARGES_SYSTEM = "enable-charges-system";
+
 }

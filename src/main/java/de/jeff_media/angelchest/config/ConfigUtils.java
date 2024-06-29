@@ -396,6 +396,9 @@ sound-channel: BLOCKS
         conf.addDefault(Config.DROP_CONTENTS, true);
         metric(Config.DROP_CONTENTS);
 
+        conf.addDefault(Config.ENABLE_CHARGES_SYSTEM, false);
+        metric(Config.ENABLE_CHARGES_SYSTEM);
+
         conf.addDefault(Config.ONLY_DROP_HEADS_IN_PVP_COOLDOWN, 10.0D);
         metric(Config.ONLY_DROP_HEADS_IN_PVP_COOLDOWN);
 

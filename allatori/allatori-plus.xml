@@ -27,6 +27,7 @@
         <class template="@com.allatori.annotations.DoNotRename class *">
             <method template="public *(**)" />
         </class>
+        <class template="@com.jeff_media.jefflib.internal.annotations.NMS class *" />
         <method template="@org.bukkit.event.EventHandler *(**)" />
         <method template="@java.lang.Override *(**)" />
         <class template="class ** extends org.bukkit.configuration.serialization.ConfigurationSerializable">

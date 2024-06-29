@@ -126,6 +126,8 @@
 #
 # PlaceholderAPI works in most messages, but not all. Let me know when I missed a message.
 # ItemsAdder emojis & similar features from other plugins should also work, if not: https://discord.jeff-media.com :)
+#
+# AngelChest also has builtin PlaceholderAPI placeholders, see here: https://github.com/mfnalex/AngelChest/blob/master/PlaceholderAPI.md
 
 ############################
 ##### General settings #####
@@ -848,6 +850,32 @@ hologram-offset: 0.0
 hologram-offset-per-line: 0.25
 
 #########################
+#####   Charges    ######
+#########################
+
+# PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
+
+# When the Charges System is enabled, players require a "Charge" to get an AngelChest spawned.
+# Charges are like a virtual currency and can be currently only acquired through the /acadmin command, so you
+# can sell them to players or give them away as rewards, or whatever.
+
+# When a player dies, they will be charged one charge for the chest to spawn.
+# When they don't have a charge, the chest will not spawn and the items will drop normally.
+
+# Additional settings you have set still apply though, so if you set a price for the chest to spawn,
+# they still have to pay that amount. A charge will only be used if the chest successfully spawned.
+
+# Commands available (also work for offline Players if they have played before):
+# /acadmin charges get <player>             - Get the amount of charges a player has
+# /acadmin charges set <player> <amount>    - Set the amount of charges a player has
+# /acadmin charges add <player> <amount>    - Add charges to a player
+# /acadmin charges remove <player> <amount> - Remove charges from a player
+
+# If this system is disabled, no charges will be required.
+
+enable-charges-system: false
+
+#########################
 #####     GUI      ######
 #########################
 
@@ -1074,6 +1102,7 @@ message-has-no-item2: "&cAn Angel tried to collect your stuff but you didn't hav
 message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 #########################
 ##### Translations ######
@@ -1132,6 +1161,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Azerbaijan Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eBütün AngelChest'lərinin kilidi onsuzda açıqdır."
@@ -1181,6 +1211,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Bulgarian
 #message-all-your-angelchests-were-already-unlocked: "&eВсичките Ваши AngelChests са вече отключени."
@@ -1231,6 +1262,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Chinese Simplified 简体中文
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天使之箱都已解锁."
@@ -1281,6 +1313,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Chinese Traditional 繁體中文
 #message-all-your-angelchests-were-already-unlocked: "&e所有的天使之箱已被解鎖"
@@ -1331,6 +1364,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Czech
 #message-all-your-angelchests-were-already-unlocked: "&eVšechny tvé hroby byly již odemčeny."
@@ -1381,6 +1415,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAnděl se pokusil sesbírat tvé věci, ale byl stále příliš unaven, aby to udělal."
 #message-pvp-cooldown: "&cAnděl se pokusil sesbírat tvé věci, ale byl stále příliš unaven, aby to udělal."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Danish 
 #message-all-your-angelchests-were-already-unlocked: "&eAlle dine AngelChests var allerede låst op."
@@ -1431,6 +1466,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Dutch
 #message-all-your-angelchests-were-already-unlocked: "&eAlle AngelChests die je hebt zijn al ontgrendeld"
@@ -1481,6 +1517,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cEen Engel probeerde je spullen te verzamelen maar was nog te moe om dat te doen."
 #message-pvp-cooldown: "&cEeen Engel probeerde je spullen te verzamelen maar was nog te moe om dat te doen."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
@@ -1531,6 +1568,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cUn ange aura tenté de sauver ton matos mais la fatigue eu raison de lui."
 #message-pvp-cooldown: "&cUn ange aura essayé de préserver ton matos mais épuisé, il échoua."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### German
 #message-all-your-angelchests-were-already-unlocked: "&eAlle deine AngelChests waren bereits aufgeschlossen."
@@ -1581,6 +1619,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cEin Engel hat versucht deine Sachen einzusammeln, war aber noch zu müde"
 #message-pvp-cooldown: "&cEin Engel hat versucht deine Sachen einzusammeln, war aber noch zu müde."
 #message-cant-build-in-radius: "&cDu kannst in der Nähe von fremden AngelChests keine Blöcke platzieren."
+#message-no-charges-left: "&cEin Engel hat versucht deine Sachen einzusammeln, aber du hattest keine Aufladungen mehr."
 
 ##### Hungarian
 # message-all-your-angelchests-were-already-unlocked: "&eAz összes AngyalLádád már fel van oldva."
@@ -1631,6 +1670,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Indonesian
 #message-all-your-angelchests-were-already-unlocked: "&eSemua AngelChest kamu sudah tidak terkunci."
@@ -1681,6 +1721,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Italian - Thanks to Polkanizki for translating!
 #message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChest sono già state sbloccate."
@@ -1732,6 +1773,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-pvp-cooldown: "&cUn Angelo ha provato a prendere le tue cose ma era troppo stanco per farlo."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-cant-build-in-radius: "&cNon puoi posizionare blocchi vicini alle AngelChest di altri giocatori"
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Pirate Speak
 #message-all-your-angelchests-were-already-unlocked: "&eAll yer AngelChests was already unlocked."
@@ -1782,6 +1824,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect yer stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Polish
 #message-all-your-angelchests-were-already-unlocked: "&eWszystkie twoje AnielskieSkrzynie zostały już odblokowane."
@@ -1832,6 +1875,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Portuguese
 #message-all-your-angelchests-were-already-unlocked: "&eTodos os seus Baús Angelicais já estavam destrancados."
@@ -1882,6 +1926,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Romanian (Română)
 #message-all-your-angelchests-were-already-unlocked: "Toate Angel Chest-urile tale au fost deja deblocate."
@@ -1932,6 +1977,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect yer stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Russian - Thanks to @GEEK for translating
 #message-all-your-angelchests-were-already-unlocked: "&eВсе ваши Ангельские сундуки разблокированы."
@@ -1982,6 +2028,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Spanish Spain (es_ES)
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus Artefactos Angelicales se han desprotegido."
@@ -2032,6 +2079,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Spanish 2
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus AngelChest ya se encuentran desbloqueados."
@@ -2082,6 +2130,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Swedish
 #message-all-your-angelchests-were-already-unlocked: "&eAlla dina AngelChests är redan upplåsta"
@@ -2131,6 +2180,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 ##### Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eTüm AngelChest'lerinin kilidi zaten açık."
@@ -2180,6 +2230,7 @@ message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of othe
 #message-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too tired to do so."
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
+#message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 
 #########################
 #####     Done!     #####

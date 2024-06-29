@@ -25,6 +25,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static co.aikar.commands.ACFBukkitUtil.sendMsg;
 
@@ -33,6 +36,7 @@ import static co.aikar.commands.ACFBukkitUtil.sendMsg;
 public class ACFacadmin extends BaseCommand {
 
     private static final AngelChestMain main = AngelChestMain.getInstance();
+    private static final Logger logger = main.getLogger();
 
     /*@Subcommand("applytag")
     @CommandCompletion("@items")
@@ -214,5 +218,93 @@ public class ACFacadmin extends BaseCommand {
         } else {
             player.sendMessage("§aNo CustomModelData found.");
         }
+    }
+
+    private static CompletableFuture<OfflinePlayer> getPlayer(String name) {
+        return CompletableFuture.supplyAsync(() -> {
+            Player exact = Bukkit.getPlayerExact(name);
+            if (exact != null) return exact;
+            OfflinePlayer offline = Bukkit.getOfflinePlayer(name);
+            if (offline.hasPlayedBefore()) return offline;
+            return null;
+        });
+    }
+
+    // CHARGES
+
+    @Subcommand("charges set")
+    @CommandCompletion("@players")
+    public void setCharges(CommandSender sender, String player, int charges) {
+        getPlayer(player).thenAcceptAsync(offlinePlayer -> {
+            if(offlinePlayer == null) {
+                sender.sendMessage("§cPlayer not found: " + player);
+                return;
+            }
+            sender.sendMessage("§aSet charges for §e" + player + "§a to §e" + charges);
+            main.getChargesManager().setRemainingCharges(offlinePlayer.getUniqueId(), charges).join();
+        }).exceptionally(ex -> {
+            logger.log(Level.SEVERE, "Error while setting charges", ex);
+            sender.sendMessage("§cAn error occurred while setting charges: " + ex.getMessage());
+            return null;
+        });
+    }
+
+    @Subcommand("charges get")
+    @CommandCompletion("@players")
+    public void getCharges(CommandSender sender, String player) {
+        getPlayer(player).thenAcceptAsync(offlinePlayer -> {
+            if(offlinePlayer == null) {
+                sender.sendMessage("§cPlayer not found: " + player);
+                return;
+            }
+            int charges = main.getChargesManager().getRemainingCharges(offlinePlayer.getUniqueId()).join();
+            sender.sendMessage("§e" + player + "§a has §e" + charges + "§a charges.");
+        }).exceptionally(ex -> {
+            logger.log(Level.SEVERE, "Error while getting charges", ex);
+            sender.sendMessage("§cAn error occurred while getting charges: " + ex.getMessage());
+            return null;
+        });
+    }
+
+    @Subcommand("charges add")
+    @CommandCompletion("@players")
+    public void addCharges(CommandSender sender, String player, int charges) {
+        getPlayer(player).thenAcceptAsync(offlinePlayer -> {
+            if(charges < 0) {
+                sender.sendMessage("§cCharges must be positive.");
+                return;
+            }
+            if(offlinePlayer == null) {
+                sender.sendMessage("§cPlayer not found: " + player);
+                return;
+            }
+            int newTotal = main.getChargesManager().addCharges(offlinePlayer.getUniqueId(), charges).join();
+            sender.sendMessage("§aAdded §e" + charges + "§a charges to §e" + player + "§a. New total: §e" + newTotal);
+        }).exceptionally(ex -> {
+            logger.log(Level.SEVERE, "Error while adding charges", ex);
+            sender.sendMessage("§cAn error occurred while adding charges: " + ex.getMessage());
+            return null;
+        });
+    }
+
+    @Subcommand("charges remove")
+    @CommandCompletion("@players")
+    public void removeCharges(CommandSender sender, String player, int charges) {
+        getPlayer(player).thenAcceptAsync(offlinePlayer -> {
+            if(charges < 0) {
+                sender.sendMessage("§cCharges must be positive.");
+                return;
+            }
+            if(offlinePlayer == null) {
+                sender.sendMessage("§cPlayer not found: " + player);
+                return;
+            }
+            int newTotal = main.getChargesManager().removeCharges(offlinePlayer.getUniqueId(), charges).join();
+            sender.sendMessage("§cRemoved §e" + charges + "§a charges from §e" + player + "§a. New total: §e" + newTotal);
+        }).exceptionally(ex -> {
+            logger.log(Level.SEVERE, "Error while adding charges", ex);
+            sender.sendMessage("§cAn error occurred while removing charges: " + ex.getMessage());
+            return null;
+        });
     }
 }

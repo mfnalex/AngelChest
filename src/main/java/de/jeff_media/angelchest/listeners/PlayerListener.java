@@ -16,6 +16,7 @@ import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.data.DeathCause;
 import de.jeff_media.angelchest.data.Graveyard;
+import de.jeff_media.angelchest.data.Transaction;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.events.AngelChestOpenEvent;
 import de.jeff_media.angelchest.events.AngelChestSpawnEvent;
@@ -800,7 +801,19 @@ public final class PlayerListener implements Listener {
         final Block finalAngelChestBlock = angelChestBlock;
         final ItemStack priceItem = main.getItemManager().getItem(main.getConfig().getString(Config.PRICE));
 
-        if (!CommandUtils.hasEnoughMoney(player, main.groupManager.getSpawnPricePerPlayer(player), priceItem, main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, main.messages.MSG_HAS_NO_ITEM2, "AngelChest spawned")) {
+        final Transaction transaction = CommandUtils.hasEnoughMoneyAndGetTransaction(player, main.groupManager.getSpawnPricePerPlayer(player), priceItem, main.messages.MSG_NOT_ENOUGH_MONEY_CHEST, main.messages.MSG_HAS_NO_ITEM2, "AngelChest spawned");
+        if(transaction == null) {
+            main.debug("Player didn't have enough money or items, no chest for them!");
+            return;
+        }
+        main.debug("Successful Transaction: " + transaction);
+
+        if(main.getChargesManager().hasEnoughChargesAndReduceByOne(player)) {
+            if (main.debug) main.debug("Player has enough charges and they have been reduced by one. Charges left now: " + main.getChargesManager().getRemainingCharges(player));
+        } else {
+            if (main.debug) main.debug("Player has no charges left, refunding transaction");
+            transaction.refund(player);
+            Messages.send(player, main.messages.MSG_NO_CHARGES_LEFT);
             return;
         }
 

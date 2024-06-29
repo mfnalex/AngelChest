@@ -157,6 +157,9 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
     @SuppressWarnings({"FieldMayBeFinal", "CanBeFinal", "FieldCanBeLocal"})
     private String UID = "%%__USER__%%";
 
+    @Getter
+    private final ChargesManager chargesManager = new ChargesManager(this);
+
     {
         try {
             JeffLib.init(this);

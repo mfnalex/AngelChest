@@ -96,6 +96,13 @@ public final class PlaceholderAPIHook extends PlaceholderExpansion {
                 } else {
                     return PDCUtils.has(player.getPlayer(), NBTTags.HAS_ANGELCHEST_DISABLED, PersistentDataType.STRING) ? "false" : player.getPlayer().hasPermission(Permissions.USE) ? "true" : "false";
                 }
+
+            case "remaining_charges":
+                if(!player.isOnline() || onlinePlayer == null) {
+                    return "-1";
+                } else {
+                    return String.valueOf(main.getChargesManager().getRemainingCharges(onlinePlayer));
+                }
         }
 
         final String[] split = identifier.split("_");
