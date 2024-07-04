@@ -89,6 +89,7 @@ public class Config {
     public static String ONLY_DROP_HEADS_IN_PVP = "only-drop-heads-in-pvp";
     public static String ONLY_SHOW_GUI_AFTER_DEATH_IF_PLAYER_CAN_TP_OR_FETCH = "only-show-gui-after-death-if-player-can-tp-or-fetch";
     public static String ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD = "only-spawn-chests-if-player-may-build";
+    public static String ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD_BLOCKPLACEEVENT = "only-spawn-chests-if-player-may-build-check-blockplaceevent";
     public static String ONLY_SPAWN_IN = "only-spawn-in";
     public static String PLAY_TOTEM_ANIMATION = "play-totem-animation";
     public static String GUI_REQUIRES_SHIFT = "gui-requires-shift";

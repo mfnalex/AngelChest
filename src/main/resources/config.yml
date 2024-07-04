@@ -696,6 +696,11 @@ disable-worldguard-integration: false
 # Fetching chests into areas where players cannot build will also be prohibited.
 only-spawn-chests-if-player-may-build: false
 
+# When true, AngelChest additionally calls a BlockPlaceEvent to check if a player is allowed
+# to build at a certain location. Only enable this if "only-spawn-chests-if-player-may-build"
+# isn't working for you.
+only-spawn-chests-if-player-may-build-check-blockplaceevent: false
+
 #########################
 ##    Other plugins    ##
 #########################

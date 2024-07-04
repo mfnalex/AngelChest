@@ -1,10 +1,12 @@
 package de.jeff_media.angelchest.utils;
 
 import de.jeff_media.angelchest.AngelChestMain;
+import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.daddy.Daddy_Stepsister;
+import io.th0rgal.protectionlib.ProtectionLib;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -31,12 +33,27 @@ public final class ProtectionUtils {
 
     public static boolean playerMayBuildHere(final Player p, final Location loc) {
         final AngelChestMain main = AngelChestMain.getInstance();
-        final BlockPlaceEvent event = new BlockPlaceEvent(loc.getBlock(), loc.getBlock().getState(), loc.getBlock().getRelative(BlockFace.DOWN), new ItemStack(Material.DIRT), p, true, EquipmentSlot.HAND);
-        main.getServer().getPluginManager().callEvent(event);
-        if (event.isCancelled()) {
-            if (main.debug)
-                main.debug("AngelChest spawn prevented because player " + p.getName() + " is not allowed to place blocks at " + loc);
-            return false;
+
+        try {
+            if (!ProtectionLib.canBuild(p, loc)) {
+                main.debug("AngelChest spawn prevented because player " + p.getName() + " is not allowed to place blocks at " + loc + " through ProtectionLib");
+                return false;
+            }
+        } catch (Throwable t) {
+            main.debug("Couldn't call ProtectionLib.canBuild: " + t.getMessage());
+            if(main.debug) {
+                t.printStackTrace();
+            }
+        }
+
+        if(main.getConfig().getBoolean(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD_BLOCKPLACEEVENT)) {
+            final BlockPlaceEvent event = new BlockPlaceEvent(loc.getBlock(), loc.getBlock().getState(), loc.getBlock().getRelative(BlockFace.DOWN), new ItemStack(Material.DIRT), p, true, EquipmentSlot.HAND);
+            main.getServer().getPluginManager().callEvent(event);
+            if (event.isCancelled()) {
+                if (main.debug)
+                    main.debug("AngelChest spawn prevented because player " + p.getName() + " is not allowed to place blocks at " + loc + " through BlockPlaceEvent");
+                return false;
+            }
         }
         return true;
     }

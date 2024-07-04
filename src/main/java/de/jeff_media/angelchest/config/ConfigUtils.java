@@ -141,6 +141,9 @@ public final class ConfigUtils {
         conf.addDefault(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD, false);
         metric(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD);
 
+        conf.addDefault(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD_BLOCKPLACEEVENT, false);
+        metric(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD_BLOCKPLACEEVENT);
+
         conf.addDefault(Config.DISABLE_WORLDGUARD_INTEGRATION, false);
         metric(Config.DISABLE_WORLDGUARD_INTEGRATION);
 
