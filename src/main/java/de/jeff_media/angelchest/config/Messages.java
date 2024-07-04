@@ -93,6 +93,7 @@ public final class Messages {
     public final String MSG_HAS_NO_ITEM2;
     public final String MSG_CANNOT_BUILD_IN_RADIUS;
     public final String MSG_NO_CHARGES_LEFT;
+    public final String MSG_CANT_BUILD;
     private final AngelChestMain main;
 
     public static void showReloadNotice(CommandSender sender) {
@@ -222,6 +223,8 @@ public final class Messages {
         MSG_HAS_NO_ITEM2 = PREFIX + getMsg("has-no-item2","&cAn Angel tried to collect your stuff but you didn't have any {item}&r&c.");
 
         MSG_NO_CHARGES_LEFT = PREFIX + getMsg("no-charges-left", "&cAn Angel tried to collect your stuff but you didn't have any charges left.");
+
+        MSG_CANT_BUILD = PREFIX + getMsg("cant-build", "&cAn Angel tried to collect your stuff but couldn't enter that place.");
 
 
 

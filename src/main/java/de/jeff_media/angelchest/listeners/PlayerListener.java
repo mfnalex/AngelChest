@@ -573,6 +573,7 @@ public final class PlayerListener implements Listener {
 
         if (main.getConfig().getBoolean(Config.ONLY_SPAWN_CHESTS_IF_PLAYER_MAY_BUILD) && !ProtectionUtils.playerMayBuildHere(player, player.getLocation())) {
             if (main.debug) main.debug("Cancelled: BlockPlaceEvent cancelled");
+            Messages.send(player, main.messages.MSG_CANT_BUILD);
             return;
         }
 
