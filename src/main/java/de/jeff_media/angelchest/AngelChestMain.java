@@ -747,7 +747,7 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
                 }
                 if (ac.unlockIn == -1) {
                     ac.unlock();
-                    ac.scheduleBlockChange();
+                    //ac.scheduleBlockChange();
                     if (getServer().getPlayer(ac.owner) != null) {
                         Messages.send(getServer().getPlayer(ac.owner), messages.MSG_UNLOCKED_AUTOMATICALLY);
                     }

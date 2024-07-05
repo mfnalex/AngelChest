@@ -900,40 +900,40 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         return yamlFile;
     }
 
-    public void scheduleBlockChange() {
-        scheduleBlockChange(true, 0);
-    }
+//    public void scheduleBlockChange() {
+//        scheduleBlockChange(true, 0);
+//    }
 
-    public void scheduleBlockChange(final boolean firstTry, int tryCount) {
-        tryCount++;
-        if (firstTry) {
-            if (main.debug) main.debug("scheduleBlockChange: " + block.toString());
-        }
-        // TODO: leftover
-        /*if (main.chestMaterial == main.chestMaterialUnlocked) {
-            if (main.debug) main.debug("scheduleBlockChange abort: matching materials");
-            return;
-        }*/
-        final int x = block.getX();
-        final int z = block.getZ();
-
-        if (!block.getWorld().isChunkLoaded(x >> 4, z >> 4) && tryCount <= 20) {
-            if (firstTry) {
-                if (main.debug)
-                    main.debug("Tried to change block for chest in unloaded chunk because of unlocking, will do so once chunk is loaded.");
-            }
-            int finalTryCount = tryCount;
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> scheduleBlockChange(false, finalTryCount), 1L);
-        } else {
-            if (main.debug) main.debug("Changed block for chest because of unlocking.");
-            main.debug("1 Old Blockdata: " + customBlock.getOriginalBlockData().getAsString());
-            destroyChest(block, false);
-            main.debug("2 Inbetween Old Blockdata: " + customBlock.getOriginalBlockData().getAsString());
-            createChest(block, owner, true);
-            main.debug("3 New old Blockdata: " + customBlock.getOriginalBlockData().getAsString());
-        }
-
-    }
+//    public void scheduleBlockChange(final boolean firstTry, int tryCount) {
+//        tryCount++;
+//        if (firstTry) {
+//            if (main.debug) main.debug("scheduleBlockChange: " + block.toString());
+//        }
+//        // TODO: leftover
+//        /*if (main.chestMaterial == main.chestMaterialUnlocked) {
+//            if (main.debug) main.debug("scheduleBlockChange abort: matching materials");
+//            return;
+//        }*/
+//        final int x = block.getX();
+//        final int z = block.getZ();
+//
+//        if (!block.getWorld().isChunkLoaded(x >> 4, z >> 4) && tryCount <= 20) {
+//            if (firstTry) {
+//                if (main.debug)
+//                    main.debug("Tried to change block for chest in unloaded chunk because of unlocking, will do so once chunk is loaded.");
+//            }
+//            int finalTryCount = tryCount;
+//            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> scheduleBlockChange(false, finalTryCount), 1L);
+//        } else {
+//            if (main.debug) main.debug("Changed block for chest because of unlocking.");
+//            main.debug("1 Old Blockdata: " + customBlock.getOriginalBlockData().getAsString());
+//            destroyChest(block, false);
+//            main.debug("2 Inbetween Old Blockdata: " + customBlock.getOriginalBlockData().getAsString());
+//            createChest(block, owner, true);
+//            main.debug("3 New old Blockdata: " + customBlock.getOriginalBlockData().getAsString());
+//        }
+//
+//    }
 
     /**
      * Checks whether this item should be removed from the inventory
@@ -982,11 +982,13 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      * Unlocks this AngelChest for ALL players.
      */
     public void unlock() {
-        if(customBlock != null) {
-            customBlock.remove();
-        }
+        destroyChest(block, false);
+//        if(customBlock != null) {
+//            customBlock.remove();
+//        }
         this.isProtected = false;
-        main.getChestMaterial(this).place(block,getPlayer());
+        createChest();
+        //main.getChestMaterial(this).place(block,getPlayer());
     }
 
     @Override

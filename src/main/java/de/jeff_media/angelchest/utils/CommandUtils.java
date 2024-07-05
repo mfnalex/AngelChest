@@ -633,8 +633,10 @@ public final class CommandUtils {
         }
         //main.getChestMaterial(ac).remove(ac.block);
         //ac.destroyChest(ac.block);
+        //ac.destroyChest(ac.block, false);
         ac.unlock();
-        ac.scheduleBlockChange();
+        //ac.createChest();
+        //ac.scheduleBlockChange();
         Messages.send(requester, main.messages.MSG_UNLOCKED_ONE_ANGELCHEST);
     }
 

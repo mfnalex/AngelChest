@@ -8,6 +8,11 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 13.1.0
+- "cant-build" message is now sent when players don't get a chest because the worldguard flag is set to deny, or when they die in a blacklisted WG region
+- Fixed oraxen furniture not being deleted when a chest gets unlocked
+- Fixed ItemsAdder furniture not getting deleted properly at all
+
 ## 11.4.0
 - Made bossbar color configurable for tp-wait-time
 
