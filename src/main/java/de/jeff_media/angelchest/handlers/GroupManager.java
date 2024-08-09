@@ -87,7 +87,9 @@ public final class GroupManager {
                 final int totalItems = InventoryUtils.countTotalItems(p.getInventory());
             }
 
-            final int result = (int) (InventoryUtils.getAmountOfItemStacks(p.getInventory()) * percentage);
+            final int result =  main.getConfig().getBoolean(Config.RANDOM_ITEM_LOSS_SPLIT_STACKS)
+                    ? (int) (InventoryUtils.getAmountOfItems(p.getInventory()) * percentage)
+                    : (int) (InventoryUtils.getAmountOfItemStacks(p.getInventory()) * percentage);
             if (main.debug)
                 main.debug("GroupManager -> Item Loss -> " + value + " contains a p, getting percentage for player " + p.getName() + ": " + result);
             return result;

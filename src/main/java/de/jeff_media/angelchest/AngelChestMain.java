@@ -445,15 +445,6 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
 //        });
     }
 
-    private void showTasks() {
-        getServer().getScheduler().getActiveWorkers().stream().filter(worker -> worker.getOwner() == this).forEach(worker -> {
-            System.out.println("Worker " + worker);
-        });
-        getServer().getScheduler().getPendingTasks().stream().filter(task -> task.getOwner() == this).forEach(task -> {
-            System.out.println("Task " + task);
-        });
-    }
-
     @Override
     public void onEnable() {
 

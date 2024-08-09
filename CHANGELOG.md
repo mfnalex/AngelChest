@@ -829,12 +829,13 @@ support Minecraft 1.12!!!
 ## 1.7.0
 
 - Added option to automatically unlock chests after a specific amount of time.
-    - Default is 0 = never automatically unlock
-    - Configurable per group in groups.yml, or globally in the config.yml
-- Fixed player heads being shown as "regular" head to the player after he tried to break the head using a water bucket
-- Fixed exception when taking last item from AngelChest through the GUI
-- Fixed AngelChest not despawning when taking last item from AngelChest through the GUI
-- Added "fixed-chest-offset" (see config.yml for more information)
+[LIST]
+    [*] Default is 0 = never automatically unlock
+    [*] Configurable per group in groups.yml, or globally in the config.yml
+[/LIST]
+[*] Fixed player heads being shown as "regular" head to the player after he tried to break the head using a water bucket
+[*] Fixed exception when taking last item from AngelChest through the GUI
+[*] Fixed AngelChest not despawning when taking last item from AngelChest through the GUI
 
 ## 1.6.2
 
