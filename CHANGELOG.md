@@ -8,6 +8,15 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 13.2.0
+- Added config option "random-item-loss-split-stacks"
+  - When true, random item loss randomly remove items one by one instead of stack-wise
+  - Default option is false = previous behaviour
+- Added permission "angelchest.preventvictimchest"
+  - Players killed by players with this permission won't get a chest spawned 
+- Added new API methods for developers (see Javadocs)
+- Fixed exception on 1.21 when using death maps
+
 ## 13.1.0
 - "cant-build" message is now sent when players don't get a chest because the worldguard flag is set to deny, or when they die in a blacklisted WG region
 - Fixed oraxen furniture not being deleted when a chest gets unlocked
@@ -825,6 +834,7 @@ support Minecraft 1.12!!!
 - Fixed player heads being shown as "regular" head to the player after he tried to break the head using a water bucket
 - Fixed exception when taking last item from AngelChest through the GUI
 - Fixed AngelChest not despawning when taking last item from AngelChest through the GUI
+- Added "fixed-chest-offset" (see config.yml for more information)
 
 ## 1.6.2
 

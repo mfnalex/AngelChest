@@ -1,5 +1,6 @@
 package de.jeff_media.angelchest.listeners;
 
+import com.jeff_media.jefflib.OldBukkitEnums;
 import de.jeff_media.angelchest.AngelChestMain;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -27,7 +28,7 @@ public class EnderCrystalListener implements Listener {
             }
         }
         if (damager.getType() != EntityType.PLAYER) return;
-        if (event.getEntityType() != EntityType.ENDER_CRYSTAL) return;
+        if (event.getEntityType() != OldBukkitEnums.entityTypes().ENDER_CRYSTAL) return;
 
         final Player player = (Player) damager;
         if (main.debug) main.debug("" + player.getName() + " is a possible End Crystal killer");

@@ -44,6 +44,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -232,6 +233,14 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
     @Override
     public de.jeff_media.angelchest.AngelChest getAngelChestAtBlock(final Block block) {
         return getAngelChest(block);
+    }
+
+    @Override
+    public de.jeff_media.angelchest.@NotNull AngelChest createAngelChest(AngelChestBuilder angelChestBuilder) {
+        AngelChest ac = new AngelChest(angelChestBuilder);
+        angelChests.add(ac);
+        ac.createChest();
+        return ac;
     }
 
     public AngelChest getAngelChestByHologram(final ArmorStand armorStand) {

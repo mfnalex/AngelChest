@@ -1,10 +1,10 @@
 package de.jeff_media.angelchest;
 
+import com.jeff_media.jefflib.Ticks;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.data.AngelChest;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.daddy.Daddy_Stepsister;
-import com.jeff_media.jefflib.Ticks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -19,8 +19,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * Logs all AngelChest interactions to files
@@ -121,7 +121,7 @@ public final class Logger {
             write("> " + item, file);
         }
 
-        final Set<ItemStack> lostItems = ac.randomlyLostItems;
+        final Collection<ItemStack> lostItems = ac.randomlyLostItems;
         if (lostItems != null && !lostItems.isEmpty()) {
             write("", file);
             write("=== Random Item loss ===", file);

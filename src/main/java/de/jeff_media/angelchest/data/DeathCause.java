@@ -1,7 +1,9 @@
 package de.jeff_media.angelchest.data;
 
 import com.google.common.base.Enums;
+import com.jeff_media.jefflib.OldBukkitEnums;
 import de.jeff_media.angelchest.AngelChestMain;
+import de.jeff_media.angelchest.DeathReason;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -22,6 +24,16 @@ public final class DeathCause {
     private final EntityDamageEvent.DamageCause damageCause;
     private String killerName;
     private boolean enderCrystalDeath = false;
+
+    public static DeathCause fromDeathReason(DeathReason reason) {
+        if(reason.getLastDamageEvent() != null) {
+            return new DeathCause(reason.getLastDamageEvent());
+        } else if(reason.getDamageCause() != null) {
+            return new DeathCause(reason.getDamageCause(),reason.getKillerName());
+        } else {
+            throw new IllegalArgumentException("Empty DeathReason cannot be converted to DeathCause");
+        }
+    }
 /*
     static {
         System.out.println("DEBUG: DamageCause");
@@ -48,7 +60,7 @@ public final class DeathCause {
         // Cceck for end crystal death
         if (entityDamageEvent instanceof EntityDamageByEntityEvent) {
             final EntityDamageByEntityEvent entityDamageByEntityEvent = (EntityDamageByEntityEvent) entityDamageEvent;
-            if (entityDamageByEntityEvent.getDamager().getType() == EntityType.ENDER_CRYSTAL) {
+            if (entityDamageByEntityEvent.getDamager().getType() == OldBukkitEnums.entityTypes().ENDER_CRYSTAL) {
                 enderCrystalDeath = true;
                 if (EnderCrystalListener.lastEnderCrystalKiller != null && !EnderCrystalListener.lastEnderCrystalKiller.equals(victim.getUniqueId())) {
                     killer = Bukkit.getEntity(EnderCrystalListener.lastEnderCrystalKiller);
@@ -61,8 +73,7 @@ public final class DeathCause {
 
         if (killer != null) {
             //noinspection SwitchStatementWithTooFewBranches
-            switch (killer.getType()) {
-                case PRIMED_TNT:
+            if(killer.getType() == OldBukkitEnums.entityTypes().PRIMED_TNT) {
                     killerName = "TNT";
                     return;
             }

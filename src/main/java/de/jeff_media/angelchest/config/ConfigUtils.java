@@ -423,11 +423,19 @@ sound-channel: BLOCKS
         conf.addDefault(Config.TP_BOSSBAR_COLOR, "GREEN");
         metric(Config.TP_BOSSBAR_COLOR);
 
+        conf.addDefault(Config.RANDOM_ITEM_LOSS_SPLIT_STACKS, false);
+        metric(Config.RANDOM_ITEM_LOSS_SPLIT_STACKS);
+
 
         conf.addDefault(Config.ONLY_PREVENT_BUILDING_IN_RADIUS_FOR_PROTECTED_CHESTS, true);
         metric(Config.ONLY_PREVENT_BUILDING_IN_RADIUS_FOR_PROTECTED_CHESTS);
 
         conf.addDefault("tp-distance", 2);
+
+        conf.addDefault(Config.FIXED_CHEST_OFFSET, 0);
+        conf.addDefault(Config.FIXED_CHEST_OFFSET_Y, 0);
+        conf.addDefault(Config.FIXED_CHEST_OFFSET_Z, 0);
+        conf.addDefault(Config.FIXED_CHEST_OFFSET_X, 0);
 
         conf.addDefault(Config.GUI_BUTTON_BACK, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY0Zjc3OWE4ZTNmZmEyMzExNDNmYTY5Yjk2YjE0ZWUzNWMxNmQ2NjllMTljNzVmZDFhN2RhNGJmMzA2YyJ9fX0=");
         conf.addDefault(Config.GUI_BUTTON_INFO, "PAPER");

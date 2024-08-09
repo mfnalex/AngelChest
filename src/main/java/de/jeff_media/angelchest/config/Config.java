@@ -23,6 +23,7 @@ public class Config {
     public static String ANGELCHEST_LIST = "angelchest-list";
     public static String ASYNC_CHUNK_LOADING = "async-chunk-loading";
     public static String AUTO_RESPAWN = "auto-respawn";
+    public static String RANDOM_ITEM_LOSS_SPLIT_STACKS = "random-item-loss-split-stacks";
     public static String AUTO_RESPAWN_DELAY = "auto-respawn-delay";
     public static String CHECK_FOR_UPDATES = "check-for-updates";
     public static String CHECK_FOR_UPDATES_INTERVAL = "check-interval";
@@ -81,6 +82,10 @@ public class Config {
     public static String LINK_UNLOCK = "link-unlock";
     public static String LOG_ANGELCHESTS = "log-angelchests";
     public static String LOG_FILENAME = "log-filename";
+    public static String FIXED_CHEST_OFFSET = "fixed-chest-offset";
+    public static String FIXED_CHEST_OFFSET_X="fixed-chest-offset-value-x";
+    public static String FIXED_CHEST_OFFSET_Y="fixed-chest-offset-value-y";
+    public static String FIXED_CHEST_OFFSET_Z="fixed-chest-offset-value-z";
     public static String MATERIAL = "material";
     public static String MATERIAL_UNLOCKED = "material-unlocked";
     public static String MAX_ALLOWED_ANGELCHESTS = "max-allowed-angelchests";

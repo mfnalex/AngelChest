@@ -1,7 +1,9 @@
 package de.jeff_media.angelchest.data;
 
 import com.jeff_media.jefflib.ConfigUtils;
+import com.jeff_media.jefflib.ParticleUtils;
 import com.jeff_media.jefflib.data.tuples.Pair;
+import de.jeff_media.angelchest.AngelChestBuilder;
 import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.Compatibility;
 import de.jeff_media.angelchest.config.ChestYaml;
@@ -14,21 +16,12 @@ import de.jeff_media.angelchest.gui.GUIHolder;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
-import de.jeff_media.angelchest.utils.AngelChestUtils;
-import de.jeff_media.angelchest.utils.CommandUtils;
-import de.jeff_media.angelchest.utils.InventoryUtils;
-import de.jeff_media.angelchest.utils.LogUtils;
-import de.jeff_media.angelchest.utils.Utils;
+import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.customblocks.CustomBlock;
 import de.jeff_media.customblocks.implentation.VanillaBlock;
 import de.jeff_media.daddy.Daddy_Stepsister;
 import io.papermc.lib.PaperLib;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -43,18 +36,51 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Represents an AngelChest including its content and all other relevant information
  */
 public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
+
+    public AngelChest(AngelChestBuilder builder) {
+        this.main = AngelChestMain.getInstance();
+        this.owner = builder.owner();
+        this.block = builder.block();
+        this.suspendWhenOffline = builder.suspendWhenOffline();
+        this.worldid = block.getWorld().getUID();
+        this.uniqueId = UUID.randomUUID();
+        this.logfile = builder.logFile() == null ? uniqueId + ".log" : builder.logFile();
+        this.openedBy = new ArrayList<>();
+        this.price = 0;
+        this.isProtected = builder.isProtected();
+        this.secondsLeft = builder.secondsLeft();
+
+        this.unlockIn = builder.unlockIn();
+        this.deathCause = DeathCause.fromDeathReason(builder.deathReason());
+        this.blacklistedItems = new CopyOnWriteArrayList<>();
+        this.created = System.currentTimeMillis();
+        this.graveyard = GraveyardManager.fromBlock(block);
+        //this.originalBlockData = Objects.requireNonNull(block.getBlockData(), "originalBlockData can't be null");
+
+
+        if (secondsLeft <= 0) infinite = true;
+
+        final String inventoryName = main.messages.ANGELCHEST_INVENTORY_NAME.replace("{player}", builder.ownerName());
+        overflowInv = Bukkit.createInventory(null, MAX_INVENTORY_SIZE, inventoryName);
+
+
+        armorInv = builder.armorInv();
+        storageInv = builder.storageInv();
+        extraInv = builder.extraInv();
+
+        if(builder.consumer() != null) {
+            builder.consumer().accept(this);
+        }
+
+    }
+
 
     private static final int MAX_INVENTORY_SIZE = 54;
     private static final int STORAGE_INVENTORY_SIZE = 36;
@@ -77,7 +103,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     public UUID owner;
     public UUID killer;
     public @Nullable Graveyard graveyard;
-    public Set<ItemStack> randomlyLostItems = null;
+    public Collection<ItemStack> randomlyLostItems = null;
     public int secondsLeft;
     public ItemStack[] storageInv;
     public boolean success = true;
@@ -358,7 +384,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             if (Daddy_Stepsister.allows(PremiumFeatures.RANDOM_ITEM_LOSS)) {
                 LogUtils.debugBanner(new String[]{"RANDOM ITEM LOSS"});
                 if (main.debug) main.debug("Removed " + randomItemLoss + " item stacks randomly:");
-                randomlyLostItems = InventoryUtils.removeRandomItemsFromInventory(playerInventory, randomItemLoss,player.getLocation());
+                randomlyLostItems = InventoryUtils.removeRandomItemsFromInventory(playerInventory, randomItemLoss,player.getLocation(), main.getConfig().getBoolean(Config.RANDOM_ITEM_LOSS_SPLIT_STACKS));
                 for (final ItemStack lostItem : randomlyLostItems) {
                     if (main.debug) main.debug(lostItem.toString() + "\n");
                 }
@@ -592,7 +618,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         this.customBlock.setBlock(block);
         if (main.debug) main.debug("Destroying chest at " + block.getLocation() + ": " + this);
         if(particles) {
-            Objects.requireNonNull(block.getLocation().getWorld()).spawnParticle(Particle.EXPLOSION_NORMAL, block.getLocation(), 1);
+            Objects.requireNonNull(block.getLocation().getWorld()).spawnParticle(ParticleUtils.PARTICLE_EXPLOSION_NORMAL, block.getLocation(), 1);
         }
         if(hologram != null) {
             hologram.destroy();

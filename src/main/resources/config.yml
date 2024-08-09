@@ -23,6 +23,7 @@
 # angelchest.protect.ignore         Players can open other player's locked AngelChests
 # angelchest.fetch                  Allows the player to teleport their chests to them
 # angelchest.tp                     The player can teleport to their AngelChests
+# angelchest.preventvictimchest     Prevents players getting killed by this player to get an AngelChest spawned
 # angelchest.preview                Allows the player to preview their AngelChests' contents in /acgui
 # angelchest.toggle                 Allows to enable/disable AngelChest per player
 # angelchest.ignorepreventbuilding  Allows to build in the radius around other player's AngelChests (see prevent-building-in-radius)
@@ -224,6 +225,11 @@ spawn-chance: 1.0
 # E.g. when using "0.2p", 20% of item stacks will be lost.
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 random-item-loss: 0
+
+# When false, random-item-loss deletes full stacks (e.g. you have one full stack of cobblestone, and one full stack dirt,
+# and random-item-loss is "0.5p", then one of those stacks will be deleted fully.
+# If true, the stacks will be split and you will lose e.g. 40 cobblestone and 22 dirt.
+random-item-loss-split-stacks: false
 
 # When true, all items that would be lost due to "random-item-loss" will be dropped instead of just be removed
 random-item-loss-drop: false
@@ -1025,6 +1031,12 @@ command-aliases-acdebug:
 #########################
 #####     Misc      #####
 #########################
+
+# When set to true, the AngelChest will be placed at the exact location where the player died + the given offset
+fixed-chest-offset: false
+fixed-chest-offset-value-x: 0
+fixed-chest-offset-value-y: 0
+fixed-chest-offset-value-z: 0
 
 # Whether to show a console message when a player opens an AngelChest
 console-message-on-open: false

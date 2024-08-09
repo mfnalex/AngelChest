@@ -643,6 +643,16 @@ public final class PlayerListener implements Listener {
             }
         }
 
+        if(isPvpDeath) {
+            Player killer = player.getKiller();
+            if(killer != null) {
+                if(killer.hasPermission(Permissions.PREVENT_VICTIM_CHEST)) {
+                    Messages.send(player, main.messages.MSG_NO_CHEST_IN_PVP);
+                    return;
+                }
+            }
+        }
+
         if (!AngelChestUtils.spawnChance(main.groupManager.getSpawnChancePerPlayer(player))) {
             if (main.debug) main.debug("Cancelled: unlucky, spawnChance returned false!");
             Utils.sendDelayedMessage(player, main.messages.MSG_SPAWN_CHANCE_UNSUCCESFULL, 1);
@@ -674,7 +684,7 @@ public final class PlayerListener implements Listener {
         // Start fix for CommandPanels
         if(main.getConfig().getBoolean(Config.FORCE_CLOSE_INVENTORIES_MANUALLY)) {
             InventoryView view = player.getOpenInventory();
-            if (view != null && view.getType() != InventoryType.CRAFTING) {
+            if (view != null && view.getType().equals(InventoryType.CRAFTING)) {
                 InventoryCloseEvent closeEvent = new InventoryCloseEvent(view);
                 Bukkit.getServer().getPluginManager().callEvent(closeEvent);
             }
@@ -794,6 +804,20 @@ public final class PlayerListener implements Listener {
         // Calling Event
         EntityDamageEvent lastDamageEvent = player.getLastDamageCause();
         EntityDamageEvent.DamageCause lastDamageCause = lastDamageEvent == null ? null : lastDamageEvent.getCause();
+
+        if(main.getConfig().getBoolean(Config.FIXED_CHEST_OFFSET, false)) {
+            Location loc = player.getLocation().add(
+                    main.getConfig().getDouble(Config.FIXED_CHEST_OFFSET_X),
+                    main.getConfig().getDouble(Config.FIXED_CHEST_OFFSET_Y),
+                    main.getConfig().getDouble(Config.FIXED_CHEST_OFFSET_Z)
+            );
+
+            angelChestBlock = loc.getBlock();
+            if(main.debug) {
+                main.debug("Fixed chest offset in effect, setting block to " + angelChestBlock);
+            }
+        }
+
         final AngelChestSpawnPrepareEvent angelChestSpawnPrepareEvent = new AngelChestSpawnPrepareEvent(player, angelChestBlock, lastDamageCause, event);
         Bukkit.getPluginManager().callEvent(angelChestSpawnPrepareEvent);
         if (angelChestSpawnPrepareEvent.isCancelled()) {

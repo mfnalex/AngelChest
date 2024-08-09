@@ -55,6 +55,9 @@ permissions:
     default: true
   angelchest.tp:
     description: "Allows players to teleport to their AngelChests"
+  angelchest.preventvictimchest:
+    description: "Prevents players getting killed by this player to get an AngelChest spawned"
+    default: false
   angelchest.preview:
     description: "Allows to view your AngelChests' contents using /acgui"
   angelchest.fetch:
