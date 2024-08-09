@@ -187,7 +187,9 @@ public final class PlayerListener implements Listener {
             }
         }
 
-        DeathMapManager.removeDeathMap(angelChest);
+        if(angelChest.owner.equals(player.getUniqueId())) {
+            DeathMapManager.removeDeathMap(angelChest);
+        }
 
         if (openGUI) {
             main.guiManager.showPreviewGUI(player, angelChest, false, firstOpened);

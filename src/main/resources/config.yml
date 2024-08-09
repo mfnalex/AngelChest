@@ -440,7 +440,7 @@ death-maps: false
 
 # When set to true, death Maps created by AngelChest will never be put into any
 # AngelChests on the next death. This avoids filling up inventories when dying several times in a row.
-dispose-death-maps: false
+dispose-death-maps: true
 
 # You can change the marker type to be used. See here for a list of valid marker types in the latest MC version:
 # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/map/MapCursor.Type.html
@@ -929,11 +929,12 @@ gui-chest-lore: "§4{time}\n§aX: §f{x}\n§aY: §f{y}\n§aZ: §f{z}\n§f{world}
 
 ##### Inventory title in GUI after selecting a specific chest
 # {id} is the number of the chest
+# {player} is the owner's name
 # {time} is the amount of time left
 gui-title-chest: "&4&l[&c&lAngelChest&4&l] &c#{id} &4| &c{time}"
 
 ##### Chest inventory name
-# {player} is the player's name.
+# {player} is the owner's name
 angelchest-inventory-name: "&4&l[&c&lAngelChest&4&l] &b{player}&r"
 
 ##### Button names and lore

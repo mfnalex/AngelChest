@@ -13,6 +13,7 @@ import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.enums.EconomyStatus;
 import de.jeff_media.angelchest.enums.PremiumFeatures;
 import de.jeff_media.angelchest.gui.GUIHolder;
+import de.jeff_media.angelchest.handlers.DeathMapManager;
 import de.jeff_media.angelchest.handlers.GraveyardManager;
 import de.jeff_media.angelchest.listeners.EnderCrystalListener;
 import de.jeff_media.angelchest.listeners.GraveyardListener;
@@ -837,6 +838,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
      */
     public void remove() {
         if (main.debug) main.debug("Removing AngelChest");
+        DeathMapManager.removeDeathMap(this);
         main.angelChests.remove(this);
     }
 
