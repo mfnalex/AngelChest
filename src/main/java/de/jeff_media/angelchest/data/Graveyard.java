@@ -9,6 +9,7 @@ import com.jeff_media.jefflib.LocationUtils;
 import com.jeff_media.jefflib.TimeUtils;
 import de.jeff_media.customblocks.CustomBlock;
 import io.papermc.lib.PaperLib;
+import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -40,10 +41,15 @@ public class Graveyard {
     private final Collection<PotionEffect> potionEffects;
     private final Long localTime;
     private final WeatherType weatherType;
+    @Nullable @Getter private final String title;
+    @Nullable @Getter private final String subtitle;
+    @Getter private final int titleFadein;
+    @Getter private final int titleStay;
+    @Getter private final int titleFadeout;
 
     private static final AngelChestMain main = AngelChestMain.getInstance();
 
-    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable CustomBlock magicMaterial, @Nullable String hologramText, boolean global, @Nullable Location spawn, boolean instantRespawn, Integer totemAnimation, Collection<PotionEffect> potionEffects, @Nullable Long localTime, @Nullable WeatherType weatherType) {
+    private Graveyard(String name, WorldBoundingBox worldBoundingBox, @Nullable Collection<Material> spawnOn, @Nullable CustomBlock magicMaterial, @Nullable String hologramText, boolean global, @Nullable Location spawn, boolean instantRespawn, Integer totemAnimation, Collection<PotionEffect> potionEffects, @Nullable Long localTime, @Nullable WeatherType weatherType, @Nullable String title, @Nullable String subtitle, int titleFadein, int titleStay, int titleFadeout) {
         this.name = name;
         this.boundingBox = worldBoundingBox;
         this.spawnOn = spawnOn;
@@ -56,6 +62,11 @@ public class Graveyard {
         this.localTime = localTime;
         this.weatherType = weatherType;
         this.magicMaterial = magicMaterial;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.titleFadein = titleFadein;
+        this.titleStay = titleStay;
+        this.titleFadeout = titleFadeout;
         populateBlocksInsideAsync();
     }
 
@@ -195,7 +206,21 @@ public class Graveyard {
             }
         }
 
-        return new Graveyard(name, boundingBox, spawnOn, magicMaterial, hologram, global, spawn, instantRespawn, totemAnimation, potionEffects, localTime, weatherType);
+        String title = null;
+        if(config.isSet("title")) {
+            title = config.getString("title");
+        }
+
+        String subtitle = null;
+        if(config.isSet("subtitle")) {
+            subtitle = config.getString("subtitle");
+        }
+
+        int fadein = config.getInt("title-fadein",20);
+        int stay = config.getInt("title-stay",40);
+        int fadeout = config.getInt("title-fadeout",20);
+
+        return new Graveyard(name, boundingBox, spawnOn, magicMaterial, hologram, global, spawn, instantRespawn, totemAnimation, potionEffects, localTime, weatherType, title, subtitle, fadein, stay, fadeout);
     }
 
     public void applyPotionEffects(Player player) {

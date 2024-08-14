@@ -1,6 +1,7 @@
 package de.jeff_media.angelchest.listeners;
 
 import com.jeff_media.jefflib.EntityUtils;
+import com.jeff_media.jefflib.TextUtils;
 import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.data.Graveyard;
 import de.jeff_media.angelchest.events.PlayerEnterLeaveGraveyardEvent;
@@ -166,6 +167,20 @@ public class GraveyardListener implements Listener {
 
         if(respawnGraveyard != null && respawnGraveyard.hasCustomTotemAnimation()) {
             Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> EntityUtils.playTotemAnimation(player, respawnGraveyard.getCustomTotemModelData()), 1L);
+        }
+
+        if(respawnGraveyard != null) {
+            String title = respawnGraveyard.getTitle();
+            String subtitle = respawnGraveyard.getSubtitle();
+            if(title == null) title = "";
+            if(subtitle == null) subtitle = "";
+            final String ftitle = title;
+            final String fsubtitle = subtitle;
+            if(!title.isEmpty() || !subtitle.isEmpty()) {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+                    event.getPlayer().sendTitle(TextUtils.format(ftitle, event.getPlayer()), TextUtils.format(fsubtitle, event.getPlayer()), respawnGraveyard.getTitleFadein(), respawnGraveyard.getTitleStay(), respawnGraveyard.getTitleFadeout());
+                }, 2L);
+            }
         }
 
     }

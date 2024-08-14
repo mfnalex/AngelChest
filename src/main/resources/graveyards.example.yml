@@ -27,6 +27,8 @@ global-graveyard:
     MINING_FATIGUE: 9
   local-time: 14000
   local-weather: rain
+  title: "&cYou have died!"
+  subtitle: "&aBut you have been given a second change."
 
 nether-graveyard:
   location:

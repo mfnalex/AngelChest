@@ -122,3 +122,33 @@
 # 
 #                  Example:
 #                    local-weather: rain
+#
+#
+#   title: If set, this message is shown as title when a player respawns in this graveyard.
+#
+#          Example:
+#            title: "&cYou have died!"
+#
+#
+#   subtitle: If set, this message is shown as subtitle when a player respawns in this graveyard.
+#
+#             Example:
+#               subtitle: "&7But you have been given a second chance."
+#
+#
+#   title-fadein: The duration (in ticks) for the titles to fade in
+#
+#                 Example:
+#                   title-fadein: 20
+#
+#
+#   title-stay: The duration (in ticks) for the titles to stay
+#
+#               Example:
+#                 title-stay: 60
+#
+#
+#   title-fadeout: The duration (in ticks) for the titles to fade out
+#
+#                  Example:
+#                    title-fadeout: 20
