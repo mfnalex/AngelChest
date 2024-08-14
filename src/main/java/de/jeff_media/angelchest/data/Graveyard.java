@@ -216,8 +216,8 @@ public class Graveyard {
             subtitle = config.getString("subtitle");
         }
 
-        int fadein = config.getInt("title-fadein",20);
-        int stay = config.getInt("title-stay",40);
+        int fadein = config.getInt("title-fadein",10);
+        int stay = config.getInt("title-stay",70);
         int fadeout = config.getInt("title-fadeout",20);
 
         return new Graveyard(name, boundingBox, spawnOn, magicMaterial, hologram, global, spawn, instantRespawn, totemAnimation, potionEffects, localTime, weatherType, title, subtitle, fadein, stay, fadeout);
