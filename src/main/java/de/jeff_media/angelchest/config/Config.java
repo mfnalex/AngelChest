@@ -20,6 +20,7 @@ public class Config {
     public static String ALLOW_CHEST_IN_VOID = "allow-chest-in-void";
     public static String ANGELCHEST_DURATION = "angelchest-duration";
     public static String ANGELCHEST_INVENTORY_NAME = "angelchest-inventory-name";
+    public static String ALWAYS_RESET_BLOCK_TO_ORIGINAL = "always-reset-block-to-original";
     public static String ANGELCHEST_LIST = "angelchest-list";
     public static String ASYNC_CHUNK_LOADING = "async-chunk-loading";
     public static String AUTO_RESPAWN = "auto-respawn";

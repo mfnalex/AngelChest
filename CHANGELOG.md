@@ -8,6 +8,13 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 13.3.0
+- Added support for 1.21.1
+- Added config option "always-reset-block-to-original"
+  - When true, AngelChest always resets the block to its state before the chest was spawned when the chest despawns
+  - When false, AngelChest resets the block to the original blockstate, or to whatever blockstate another plugin or /setblock has set it to
+  - Default behaviour is "false", while older versions of AngelChest always behaved as if this setting would have been set to "true"
+
 ## 13.2.0
 - Added config option "random-item-loss-split-stacks"
   - When true, random item loss randomly remove items one by one instead of stack-wise

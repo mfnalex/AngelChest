@@ -426,6 +426,7 @@ sound-channel: BLOCKS
         conf.addDefault(Config.RANDOM_ITEM_LOSS_SPLIT_STACKS, false);
         metric(Config.RANDOM_ITEM_LOSS_SPLIT_STACKS);
 
+        conf.addDefault(Config.ALWAYS_RESET_BLOCK_TO_ORIGINAL, false);
 
         conf.addDefault(Config.ONLY_PREVENT_BUILDING_IN_RADIUS_FOR_PROTECTED_CHESTS, true);
         metric(Config.ONLY_PREVENT_BUILDING_IN_RADIUS_FOR_PROTECTED_CHESTS);

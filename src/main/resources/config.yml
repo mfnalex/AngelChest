@@ -1039,6 +1039,11 @@ fixed-chest-offset-value-x: 0
 fixed-chest-offset-value-y: 0
 fixed-chest-offset-value-z: 0
 
+# When true, AngelChest will always set a chest's blockstate to its original blockstate when despawning a chest,
+# even if the block has changed meanwhile. This should only happen if /setblock is used, or if another plugin replaces
+# the chest's block.
+always-reset-block-to-original: false
+
 # Whether to show a console message when a player opens an AngelChest
 console-message-on-open: false
 

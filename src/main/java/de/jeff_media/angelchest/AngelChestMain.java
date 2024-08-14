@@ -36,6 +36,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -330,11 +331,8 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
         if (shouldBe == null) {
             return false;
         }
-        Material actuallyIs = block.getLocation().getBlock().getType();
-        //System.out.println("Should be " + shouldBe + " actually is " + actuallyIs);
-        boolean result = block.getType() != getChestMaterial(chest).getMaterial();
-        //System.out.println("Is broken: " + result);
-        return result;
+        Material actuallyIs = block.getType();
+        return actuallyIs != getChestMaterial(chest).getMaterial();
     }
 
     public @Nullable Pair<String, Boolean> isItemBlacklisted(final ItemStack item, int slot) {
@@ -696,7 +694,7 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::trackPlayerPositions, Ticks.fromSeconds(1), Ticks.fromSeconds(1));
 
         // Fix broken AngelChests
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> fixBrokenAngelChests(true), 0L, Ticks.fromSeconds(2));
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::fixBrokenAngelChests, 0L, Ticks.fromSeconds(2));
 
         // Holograms, Durations
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::updateAngelChests, 0, Ticks.fromSeconds(1));
@@ -759,39 +757,35 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
         }
     }
 
-    private void fixBrokenAngelChests(boolean fix) {
-        if (fix) {
-            //System.out.println("===================================== FIX START =====================================");
-        }
+    private void fixBrokenAngelChests() {
         ArrayList<AngelChest> toRemove = new ArrayList<>();
         ArrayList<AngelChest> toAdd = new ArrayList<>();
-        // The following might only be needed for chests destroyed by end crystals spawning during the init phase of the ender dragon
         for (final AngelChest entry : angelChests) {
 
             World world = entry.getWorld();
             if (world == null) continue;
             if (!world.isChunkLoaded(entry.block.getX() >> 4, entry.getBlock().getZ() >> 4)) {
-                //verbose("Chunk at " + entry.getKey().getLocation() + " is not loaded, skipping repeating task regarding angelChests.entrySet()");
-                // CONTINUE IF CHUNK IS NOT LOADED
                 continue;
             }
             final Block block = entry.block;
 
             //System.out.println(entry.uniqueId + " @ " + entry.block);
             if (isBrokenAngelChest(block, entry)) {
-                if (fix) {
-                    //System.out.println("Fixing broken AngelChest at " + block.getLocation() + " with AngelChest ID " + entry.uniqueId);
-                    toAdd.add(new AngelChest(Objects.requireNonNull(getAngelChest(block)).saveToFile(true)));
-                    toRemove.add(entry);
+                //System.out.println("Fixing broken AngelChest at " + block.getLocation() + " with AngelChest ID " + entry.uniqueId);
+                BlockData changedBlockData = block.getBlockData().clone();
+                AngelChest angelchest = new AngelChest(Objects.requireNonNull(getAngelChest(block)).saveToFile(true));
+                if(!getConfig().getBoolean(Config.ALWAYS_RESET_BLOCK_TO_ORIGINAL)) {
+                    //angelchest.createChest(block, angelchest.owner, false);
+                    angelchest.customBlock.setOriginalBlockData(changedBlockData);
                 }
+                toAdd.add(angelchest);
+                toRemove.add(entry);
             }
             angelChests.removeAll(toRemove);
             angelChests.addAll(toAdd);
             angelChests.sort(Comparator.comparing(AngelChest::getCreated));
         }
-        if (fix) {
-            //System.out.println("===================================== FIX END =====================================");
-        }
+        //System.out.println("===================================== FIX END =====================================");
     }
 
     private void trackPlayerPositions() {

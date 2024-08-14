@@ -113,7 +113,7 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
     double price = 0;
     public boolean isLooted = false;
     public UUID uniqueId;
-    private CustomBlock customBlock;
+    public CustomBlock customBlock;
     //public BlockData originalBlockData;
     //public UUID uuid = UUID.randomUUID();
 
@@ -626,34 +626,32 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         }
         Graveyard graveyard = GraveyardManager.fromBlock(block);
 
+        CustomBlock shouldBe = main.getChestMaterial(this);
+        Material shouldBeMat = shouldBe.getMaterial();
+        Material isMat = block.getType();
+
+        boolean dontTouchBlock = false;
+        if(!isMat.equals(shouldBeMat)) {
+            main.debug("AngelChest#destroyChest: Material of this chest is not the expected material. Expected " + shouldBeMat + ", is "+ isMat + ". CustomBlock should be: " + shouldBe);
+            if(!main.getConfig().getBoolean(Config.ALWAYS_RESET_BLOCK_TO_ORIGINAL)) {
+                dontTouchBlock = true;
+            }
+        }
+
         if(customBlock != null) {
-            main.debug("AngelChest#destroyChest: Removing custom block: " + customBlock);
-            customBlock.remove(false);
-            main.debug("AngelChest#destroyChest: After removing custom block: " + customBlock);
+            if(!dontTouchBlock) {
+                main.debug("AngelChest#destroyChest: Removing custom block: " + customBlock);
+                customBlock.remove(false);
+                main.debug("AngelChest#destroyChest: After removing custom block: " + customBlock);
+            } else {
+                main.debug("Not setting block back to original because always-reset-block-to-original is false");
+            }
         } else {
             throw new IllegalStateException("CustomBlock is null");
         }
-        //BlockData originalBlockData = block.getBlockData();
-        //if(customBlock != null) {
-            //System.out.println("Custom Block is != null, calling CustomBlock.remove: " + customBlock);
-//            if(originalBlockData != null) {
-//                block.setBlockData(originalBlockData);
-//            } else {
-//                block.setType(Material.AIR);
-//            }
-        /*} else {
-            block.setType(Material.AIR);
-        }*/
-        /*BlockData newBlockData = block.getBlockData();
-        if(newBlockData.matches(originalBlockData)) {
-            block.setType(Material.AIR, true);
-        }*/
         if(graveyard != null) {
-            //graveyard.getCustomMaterial().remove(block);
-            //System.out.println("Updating Graveyard: " + graveyard);
+
             GraveyardListener.update(block);
-        } else {
-            //main.getChestMaterial(this).remove(block);
         }
     }
 
