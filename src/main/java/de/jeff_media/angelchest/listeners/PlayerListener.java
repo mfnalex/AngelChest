@@ -587,14 +587,16 @@ public final class PlayerListener implements Listener {
         }
 
         if (Daddy_Stepsister.allows(PremiumFeatures.PROHIBIT_CHEST_IN_LAVA_OR_VOID)) {
-            if (!main.getConfig().getBoolean(Config.ALLOW_CHEST_IN_LAVA) && player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
-                if (main.debug) main.debug("Cancelled: Lava, allow-chest-in-lava: false");
-                return;
-            }
+            if(player.getLastDamageCause() != null) {
+                if (!main.getConfig().getBoolean(Config.ALLOW_CHEST_IN_LAVA) && player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
+                    if (main.debug) main.debug("Cancelled: Lava, allow-chest-in-lava: false");
+                    return;
+                }
 
-            if (!main.getConfig().getBoolean(Config.ALLOW_CHEST_IN_VOID) && player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID) {
-                if (main.debug) main.debug("Cancelled: Void, allow-chest-in-void: false");
-                return;
+                if (!main.getConfig().getBoolean(Config.ALLOW_CHEST_IN_VOID) && player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID) {
+                    if (main.debug) main.debug("Cancelled: Void, allow-chest-in-void: false");
+                    return;
+                }
             }
         }
 
