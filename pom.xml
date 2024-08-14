@@ -296,7 +296,7 @@
         <dependency>
             <groupId>com.jeff-media.jefflib</groupId>
             <artifactId>jefflib</artifactId>
-            <version>14.2.1</version>
+            <version>14.2.2</version>
             <scope>compile</scope>
         </dependency>
 <!--        <dependency>-->
