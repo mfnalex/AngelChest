@@ -697,7 +697,7 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::trackPlayerPositions, Ticks.fromSeconds(1), Ticks.fromSeconds(1));
 
         // Fix broken AngelChests
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::fixBrokenAngelChests, 0L, Ticks.fromSeconds(2));
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::fixBrokenAngelChests, 0L, getConfig().getLong("block-change-check-tick-interval", 40));
 
         // Holograms, Durations
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::updateAngelChests, 0, Ticks.fromSeconds(1));

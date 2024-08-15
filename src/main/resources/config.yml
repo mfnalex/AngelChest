@@ -1058,6 +1058,9 @@ fixed-chest-offset-value-x: 0
 fixed-chest-offset-value-y: 0
 fixed-chest-offset-value-z: 0
 
+# Interval between checking if a block has changed after the chest has been placed
+block-change-check-tick-interval: 40
+
 # When true, AngelChest will always set a chest's blockstate to its original blockstate when despawning a chest,
 # even if the block has changed meanwhile. This should only happen if /setblock is used, or if another plugin replaces
 # the chest's block.
