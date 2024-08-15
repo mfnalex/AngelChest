@@ -609,7 +609,7 @@ max-fetch-distance: 0
 
 # The maximum allowed distance for players to use /acopen. Can be overriden
 # using permission "angelchest.open.<distance>", e.g. "angelchest.open.5" for 5 blocks
-max-open-distance: 10
+max-open-distance: 5
 
 # You can also set a minimum distance to avoid players teleporting to their chest or
 # fetching it, for example to avoid them accidentally clicking the link twice and

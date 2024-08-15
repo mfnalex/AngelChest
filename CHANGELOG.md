@@ -9,8 +9,11 @@
 - TODO: Fix logging, see experimental branch
 
 ## 13.6.0
-- Added option "move-chest-when-block-gets-changed"
-- Added command /acopen
+- Added command /acopen to open a nearby AngelChest 
+  - Required permission "angelchest.open" which is given by default 
+  - The player must stand within a certain radius around the chest, see "max-open-radius" (default: 5 blocks)
+  - The radius can be overridden using permissions, e.g. for 10 blocks: "angelchest.open.10" 
+- Added option "move-chest-when-block-gets-changed" (see config.yml for more information)
 
 ## 13.3.0
 - Added support for 1.21.1

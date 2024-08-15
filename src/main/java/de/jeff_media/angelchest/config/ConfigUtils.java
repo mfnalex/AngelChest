@@ -310,7 +310,7 @@ public final class ConfigUtils {
         conf.addDefault(Config.MAX_TP_DISTANCE, 0);
         metric(Config.MAX_TP_DISTANCE);
 
-        conf.addDefault(Config.MAX_OPEN_DISTANCE, 10);
+        conf.addDefault(Config.MAX_OPEN_DISTANCE, 5);
 
         conf.addDefault(Config.MAX_FETCH_DISTANCE, 0);
         metric(Config.MAX_FETCH_DISTANCE);
