@@ -454,10 +454,11 @@ death-map-lore: "X: {x}\nY: {y}\nZ: {z}"
 #########################
 
 # You can have AngelChest drop the player's head when they die.
+# Important: If you want to use a player head for the chest itself, see the "material" option instead.
 # Note: The head will only drop if the player has an AngelChest spawned.
 # That means that no heads will drop when the player does not have the
 # angelchest.use permission, if they don't have enough money for the chest,
-# or if they die in a blacklisted world / region.
+# or if they die in a blacklisted world / region etc.
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus!
 drop-heads: false
 
@@ -470,6 +471,13 @@ only-drop-heads-in-pvp-cooldown: 10
 
 # When set to true, heads are dropped next to the AngelChest instead of being put inside
 dont-store-heads-in-angelchest: true
+
+# The head's name and lore. Set to an empty string ("") to disable.
+# You can use any PAPI placeholder and the following placeholders:
+#   {player}       Name of the player who died
+#   {deathcause}   Name of the killer, or LAVA, VOID etc. when not killed in PvP
+head-name: "{player}'s head"
+head-lore: "Brutally murdered\nby {deathcause}"
 
 #########################
 ####    Graveyards   ####

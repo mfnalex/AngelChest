@@ -5,6 +5,8 @@ package de.jeff_media.angelchest.config;
  */
 public class Config {
 
+    public static String HEAD_NAME = "head-name";
+    public static String HEAD_LORE = "head-lore";
     public static String SUSPEND_COUNTDOWN_OFFLINE_PLAYERS = "suspend-countdowns-when-player-is-offline";
     public static String ANGELCHEST_DURATION_IN_PVP = "angelchest-duration-in-pvp";
     public static String DEATH_MAPS = "death-maps";

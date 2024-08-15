@@ -32,6 +32,8 @@ public final class ConfigUpdater {
     private static final String[] CONFLICTING_NODES_NEEDING_NO_QUOTES = {"gui-requires-shift"};
     // Lines STARTING WITH these names will get their values wrapped in double quotes
     private static final String[] NODES_NEEDING_DOUBLE_QUOTES = {"message-",
+            Config.HEAD_LORE,
+            Config.HEAD_NAME,
             Config.CUSTOM_HEAD_BASE64,
             Config.HOLOGRAM_TEXT,
             Config.ANGELCHEST_INVENTORY_NAME,
@@ -47,6 +49,7 @@ public final class ConfigUpdater {
     private static final String[] NODES_NEEDING_SINGLE_QUOTES = {"test-"};
     // Nodes with EXACTLY THIS NAME will get their newline symbols preserved
     private static final List<String> NODES_CONTAINING_NEWLINES = Arrays.asList("hologram-text",
+            Config.HEAD_LORE,
             Config.GUI_CHEST_LORE,
             Config.GUI_FETCH_LORE,
             Config.GUI_TELEPORT_LORE,

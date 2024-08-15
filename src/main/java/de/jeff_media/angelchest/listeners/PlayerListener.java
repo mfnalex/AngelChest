@@ -1,15 +1,11 @@
 package de.jeff_media.angelchest.listeners;
 
-import com.jeff_media.jefflib.EntityUtils;
-import com.jeff_media.jefflib.NBTAPI;
-import com.jeff_media.jefflib.PDCUtils;
-import com.jeff_media.jefflib.PluginUtils;
-import com.jeff_media.jefflib.Ticks;
-import com.jeff_media.jefflib.TimeUtils;
+import com.jeff_media.jefflib.*;
 import com.jeff_media.jefflib.data.Cooldown;
 import com.jeff_media.jefflib.data.McVersion;
 import com.jeff_media.jefflib.pluginhooks.McMMOUtils;
 import de.jeff_media.angelchest.AngelChestMain;
+import de.jeff_media.angelchest.DeathReason;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
 import de.jeff_media.angelchest.config.Permissions;
@@ -31,13 +27,9 @@ import de.jeff_media.angelchest.hooks.LandsHook;
 import de.jeff_media.angelchest.hooks.MoneyhuntersHook;
 import de.jeff_media.angelchest.hooks.SentinelHook;
 import de.jeff_media.angelchest.nbt.NBTTags;
-import de.jeff_media.angelchest.utils.AngelChestUtils;
+import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.angelchest.utils.CommandUtils;
-import de.jeff_media.angelchest.utils.HeadCreator;
-import de.jeff_media.angelchest.utils.LogUtils;
 import de.jeff_media.angelchest.utils.ProtectionUtils;
-import de.jeff_media.angelchest.utils.Utils;
-import de.jeff_media.angelchest.utils.XPUtils;
 import de.jeff_media.daddy.Daddy_Stepsister;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -73,19 +65,14 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.BoundingBox;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
@@ -1161,7 +1148,39 @@ public final class PlayerListener implements Listener {
     }
 
     private static ItemStack getPlayerHead(final OfflinePlayer player) {
-        return HeadCreator.getPlayerHead(player.getUniqueId());
+        ItemStack skull = HeadCreator.getPlayerHead(player.getUniqueId());
+        ItemMeta meta = skull.getItemMeta();
+        if(meta == null) return skull;
+
+        String name = main.getConfig().getString(Config.HEAD_NAME, "");
+        String lore = main.getConfig().getString(Config.HEAD_LORE, "");
+        name = replace(name, player);
+        lore = replace(lore, player);
+        if(!name.isEmpty()) {
+            meta.setDisplayName(name);
+        }
+        if(!lore.isEmpty()) {
+            meta.setLore(LoreUtils.applyNewlines(lore));
+        }
+        skull.setItemMeta(meta);
+        return skull;
+    }
+
+    private static String replace(String text, OfflinePlayer offlinePlayer) {
+        return TextUtils.format(replace0(text, offlinePlayer), offlinePlayer);
+    }
+
+    private static String replace0(String text, OfflinePlayer offlinePlayer) {
+        if(offlinePlayer instanceof Player) {
+            Player player = (Player) offlinePlayer;
+            EntityDamageEvent lastDamageCause = player.getLastDamageCause();
+            if (lastDamageCause != null) {
+                text = text.replace("{deathcause}", DeathCause.fromDeathReason(new DeathReason(lastDamageCause)).getText());
+            } else {
+                text = text.replace("{deathcause}", "unknown");
+            }
+        }
+        return text.replace("{player}", Optional.ofNullable(offlinePlayer.getName()).orElse("unknown"));
     }
 
     private void setRespawnLocationToGraveyardIfApplicable(Player p, Location graveyardBlock, Graveyard graveyard) {
