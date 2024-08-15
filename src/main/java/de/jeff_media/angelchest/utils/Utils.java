@@ -2,7 +2,9 @@ package de.jeff_media.angelchest.utils;
 
 import com.google.common.base.Enums;
 import de.jeff_media.angelchest.AngelChestMain;
+import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
+import de.jeff_media.angelchest.config.Permissions;
 import de.jeff_media.angelchest.data.AngelChest;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -57,6 +59,27 @@ public final class Utils {
         }
 
         return true;
+
+    }
+
+    public static int getMaxOpenDistance(Player player) {
+        int confDefault = AngelChestMain.getInstance().getConfig().getInt(Config.MAX_OPEN_DISTANCE);
+        //System.out.println("confDefault = " + confDefault);
+        int maxPerm = player.getEffectivePermissions().stream().filter(info -> info.getValue() && info.getPermission().startsWith(Permissions.OPEN + ".")).map(info -> info.getPermission().substring((Permissions.OPEN + ".").length())).mapToInt(value -> {
+            //System.out.println("Found permission: " + value);
+            try {
+                return Integer.parseInt(value);
+            } catch (NumberFormatException e) {
+                return -1;
+            }
+        }).max().orElse(-1);
+        //System.out.println("maxPerm = " + maxPerm);
+        if(maxPerm == -1) {
+            //System.out.println("it's -1, returning confDefault: " + confDefault);
+            return confDefault;
+        }
+        //System.out.println("returning maxPerm: " + maxPerm);
+        return maxPerm;
 
     }
 

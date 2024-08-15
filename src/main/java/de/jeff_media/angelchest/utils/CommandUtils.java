@@ -199,6 +199,23 @@ public final class CommandUtils {
         }
     }
 
+    public static void moveChest(final AngelChestMain main, final AngelChest ac, final Block targetBlock, @Nullable BlockFace facing) {
+
+        final Block oldBlock = ac.block;
+        final Block newBlock = targetBlock;
+
+        ac.destroyChest(oldBlock);
+
+        ac.block = newBlock;
+        ac.customBlock = main.getChestMaterial(ac);
+
+        ac.createChest(newBlock, ac.owner);
+
+        if(facing != null) {
+            BlockDataUtils.setBlockDirection(newBlock, facing);
+        }
+    }
+
     private static void fetchChestToPlayer(final AngelChestMain main, final Player player, final AngelChest ac) {
 
         final String dir = AngelChestUtils.getCardinalDirection(player);
@@ -208,34 +225,16 @@ public final class CommandUtils {
         final Block newBlock = AngelChestUtils.getChestLocation(newLoc.getBlock());
         final Block oldBlock = ac.block;
 
-        // Move the block in game
         ac.destroyChest(oldBlock);
-        //main.debug(">>>>> Setting back Old block data: " + ac.originalBlockData);
-        //if(ac.originalBlockData != null) oldBlock.setBlockData(ac.originalBlockData); else main.debug(">>>>> CANT: ITS NULL");
         ac.createChest(newBlock, ac.owner);
 
         // Make the chest face the player
         BlockDataUtils.setBlockDirection(newBlock, facing);
 
-        // Swap the block in code
-        //main.angelChests.add(newBlock, main.angelChests.remove(oldBlock));
         ac.block = newBlock;
-
-        //main.debug(">>>>> Saving new Old Block Data: " + newOriginalBlockData);
-        //ac.originalBlockData = newOriginalBlockData;
-
-        //setWaterloggedFalse(newBlock);
 
         Messages.send(player, main.messages.MSG_RETRIEVED);
     }
-
-//    private static void setWaterloggedFalse(Block newBlock) {
-//        BlockData data = newBlock.getBlockData();
-//        if(!(data instanceof Waterlogged)) return;
-//        Waterlogged waterlogged = (Waterlogged) data;
-//        waterlogged.setWaterlogged(false);
-//        newBlock.setBlockData(waterlogged);
-//    }
 
     /**
      * If args is null, skip the confirmation stuff

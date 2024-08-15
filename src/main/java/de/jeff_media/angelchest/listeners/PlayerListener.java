@@ -146,11 +146,11 @@ public final class PlayerListener implements Listener {
 
         final boolean firstOpened = !angelChest.openedBy.contains(p.getUniqueId().toString());
 
-        openGUIorFastLoot(p, angelChest, firstOpened);
+        openGUIorFastLoot(p, angelChest, firstOpened, false);
 
     }
 
-    private void openGUIorFastLoot(final Player player, final AngelChest angelChest, final boolean firstOpened) {
+    public void openGUIorFastLoot(final Player player, final AngelChest angelChest, final boolean firstOpened, boolean forceGui) {
         if (main.debug) main.debug("Attempting to open AngelChest " + angelChest + " for player " + player);
 
         if (!angelChest.hasPaidForOpening(player)) {
@@ -178,7 +178,7 @@ public final class PlayerListener implements Listener {
             DeathMapManager.removeDeathMap(angelChest);
         }
 
-        if (openGUI) {
+        if (openGUI || forceGui) {
             main.guiManager.showPreviewGUI(player, angelChest, false, firstOpened);
         } else {
             main.debug("Fastlooting chest");
@@ -291,7 +291,7 @@ public final class PlayerListener implements Listener {
         }
         final boolean firstOpened = !atomicAngelChest.get().openedBy.contains(event.getPlayer().getUniqueId().toString());
 
-        openGUIorFastLoot(event.getPlayer(), atomicAngelChest.get(), firstOpened);
+        openGUIorFastLoot(event.getPlayer(), atomicAngelChest.get(), firstOpened, false);
     }
 
     /**

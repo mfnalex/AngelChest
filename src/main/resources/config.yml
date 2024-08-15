@@ -37,6 +37,7 @@
 # angelchest.list            Allows to use the list command /aclist (also requires angelchest.use)
 # angelchest.gui             Allows to use the GUI command /acgui (also requires angelchest.use)
 # angelchest.unlock          Allows the player to unlock their protected chests using /acunlock
+# angelchest.open            Allows the player to open a nearby AngelChest using /acopen
 
 #############################
 #####  Player Commands  #####
@@ -51,6 +52,9 @@
 # /aclist                    Permission: angelchest.use
 #                            Shows a list of your AngelChests, including links for teleporting to, fetching and
 #                            unlocking each chest. This is basically the "chat-only" version of /acgui
+#
+# /acopen                    Permission: angelchest.open (and angelchest.open.<distance>)
+#                            Opens a nearby AngelChest without having to physically interact with it.
 #
 # /acfetch [chestID]         Permission: angelchest.fetch
 #                            Teleports one of the chests to the player
@@ -595,13 +599,17 @@ price-format: "%,.2f"
 allow-tp-across-worlds: true
 allow-fetch-across-worlds: true
 
-# You can set a max distance for players who want to tp to or fetch their AngelChest.
+# You can set a max distance for players who want to tp or fetch their AngelChest.
 # If set to 0, players can teleport/fetch regardless of the distance to their chest.
 # When using this, consider to disallow TPing or fetching between worlds because
 # otherwise players could just bypass this by going into another world.
 # PREMIUM FEATURE: ONLY AVAILABLE IN AngelChest Plus! Free version will always use 0
 max-tp-distance: 0
 max-fetch-distance: 0
+
+# The maximum allowed distance for players to use /acopen. Can be overriden
+# using permission "angelchest.open.<distance>", e.g. "angelchest.open.5" for 5 blocks
+max-open-distance: 10
 
 # You can also set a minimum distance to avoid players teleporting to their chest or
 # fetching it, for example to avoid them accidentally clicking the link twice and
@@ -1007,6 +1015,9 @@ command-aliases-aclist:
   - angelchestinfo
   - angelchestlist
 
+command-aliases-acopen:
+  - angelchestopen
+
 # Commands that can be used instead of /acfetch
 command-aliases-acfetch:
   - acretrieve
@@ -1051,6 +1062,12 @@ fixed-chest-offset-value-z: 0
 # even if the block has changed meanwhile. This should only happen if /setblock is used, or if another plugin replaces
 # the chest's block.
 always-reset-block-to-original: false
+
+# When true, AngelChest will move the chest one block up if the chest's block has been replaced with another block
+# after the chest was created. This should only happen if /setblock is used, or if another plugin replaces
+# the chest's block.
+# If the chest already is at the highest possible building height, the chest will stay at its current location.
+move-chest-when-block-gets-changed: false
 
 # Whether to show a console message when a player opens an AngelChest
 console-message-on-open: false
@@ -1135,6 +1152,7 @@ message-pvp-cooldown: "&cAn Angel tried to collect your stuff but was still too 
 message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 #########################
 ##### Translations ######
@@ -1195,6 +1213,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Azerbaijan Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eBütün AngelChest'lərinin kilidi onsuzda açıqdır."
@@ -1246,6 +1265,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Bulgarian
 #message-all-your-angelchests-were-already-unlocked: "&eВсичките Ваши AngelChests са вече отключени."
@@ -1298,6 +1318,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Chinese Simplified 简体中文
 #message-all-your-angelchests-were-already-unlocked: "&e你所有的天使之箱都已解锁."
@@ -1350,6 +1371,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Chinese Traditional 繁體中文
 #message-all-your-angelchests-were-already-unlocked: "&e所有的天使之箱已被解鎖"
@@ -1402,6 +1424,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Czech
 #message-all-your-angelchests-were-already-unlocked: "&eVšechny tvé hroby byly již odemčeny."
@@ -1454,6 +1477,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Danish 
 #message-all-your-angelchests-were-already-unlocked: "&eAlle dine AngelChests var allerede låst op."
@@ -1506,6 +1530,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Dutch
 #message-all-your-angelchests-were-already-unlocked: "&eAlle AngelChests die je hebt zijn al ontgrendeld"
@@ -1558,6 +1583,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### French - Thanks to AngelCynara for translating! -> https://www.spigotmc.org/members/angelcynara.398643/
 #message-all-your-angelchests-were-already-unlocked: "&eTout vos AngeCoffres sont débloqués."
@@ -1610,6 +1636,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### German
 #message-all-your-angelchests-were-already-unlocked: "&eAlle deine AngelChests waren bereits aufgeschlossen."
@@ -1662,6 +1689,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cDu kannst in der Nähe von fremden AngelChests keine Blöcke platzieren."
 #message-no-charges-left: "&cEin Engel hat versucht deine Sachen einzusammeln, aber du hattest keine Aufladungen mehr."
 #message-cant-build: "&cEin Engel hat versucht deine Sachen einzusammeln, aber konnte den Ort nicht betreten."
+#message-no-chest-nearby: "&cEs ist keine AngelChest in der Nähe."
 
 ##### Hungarian
 # message-all-your-angelchests-were-already-unlocked: "&eAz összes AngyalLádád már fel van oldva."
@@ -1714,6 +1742,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Indonesian
 #message-all-your-angelchests-were-already-unlocked: "&eSemua AngelChest kamu sudah tidak terkunci."
@@ -1766,6 +1795,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Italian - Thanks to Polkanizki for translating!
 #message-all-your-angelchests-were-already-unlocked: "&eTutte le tue AngelChest sono già state sbloccate."
@@ -1819,6 +1849,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cNon puoi posizionare blocchi vicini alle AngelChest di altri giocatori"
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Pirate Speak
 #message-all-your-angelchests-were-already-unlocked: "&eAll yer AngelChests was already unlocked."
@@ -1871,6 +1902,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Polish
 #message-all-your-angelchests-were-already-unlocked: "&eWszystkie twoje AnielskieSkrzynie zostały już odblokowane."
@@ -1923,6 +1955,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Portuguese
 #message-all-your-angelchests-were-already-unlocked: "&eTodos os seus Baús Angelicais já estavam destrancados."
@@ -1975,6 +2008,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Romanian (Română)
 #message-all-your-angelchests-were-already-unlocked: "Toate Angel Chest-urile tale au fost deja deblocate."
@@ -2027,6 +2061,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Russian - Thanks to @GEEK for translating
 #message-all-your-angelchests-were-already-unlocked: "&eВсе ваши Ангельские сундуки разблокированы."
@@ -2079,6 +2114,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Spanish Spain (es_ES)
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus Artefactos Angelicales se han desprotegido."
@@ -2131,6 +2167,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Spanish 2
 #message-all-your-angelchests-were-already-unlocked: "&eTodos tus AngelChest ya se encuentran desbloqueados."
@@ -2183,6 +2220,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Swedish
 #message-all-your-angelchests-were-already-unlocked: "&eAlla dina AngelChests är redan upplåsta"
@@ -2234,6 +2272,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 ##### Turkish
 #message-all-your-angelchests-were-already-unlocked: "&eTüm AngelChest'lerinin kilidi zaten açık."
@@ -2285,6 +2324,7 @@ message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter t
 #message-cant-build-in-radius: "&cYou cannot place blocks in the vicinity of other player's AngelChests."
 #message-no-charges-left: "&cAn Angel tried to collect your stuff but you didn't have any charges left."
 #message-cant-build: "&cAn Angel tried to collect your stuff but couldn't enter that place."
+#message-no-chest-nearby: "&cThere's no AngelChest nearby."
 
 #########################
 #####     Done!     #####

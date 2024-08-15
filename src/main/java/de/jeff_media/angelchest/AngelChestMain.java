@@ -70,7 +70,7 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
     }
 
 
-    public static final int BSTATS_ID = 3194;
+    public static final int BSTATS_ID = 23018;
     public static final String DISCORD_LINK = "https://discord.jeff-media.de";
     public static final String UPDATECHECKER_LINK_DONATE = "https://paypal.me/mfnalex";
     public static final UUID consoleSenderUUID = UUID.randomUUID();
@@ -526,6 +526,8 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
 
         ItemsAdderHook.runOnceItemsAdderLoaded(this::scheduleRepeatingTasks);
 
+        PlayerListener playerListener = new PlayerListener();
+
         debug("Registering commands");
         registerCommands();
         //BukkitCommandManager acfCommandManager = new BukkitCommandManager(this);
@@ -536,6 +538,7 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
         Objects.requireNonNull(this.getCommand("acunlock")).setExecutor(new CommandUnlock());
         Objects.requireNonNull(this.getCommand("acunlock")).setTabCompleter(genericTabCompleter);
         Objects.requireNonNull(this.getCommand("aclist")).setExecutor(new CommandList());
+        Objects.requireNonNull(this.getCommand("acopen")).setExecutor(new CommandOpen(this, playerListener));
         Objects.requireNonNull(this.getCommand("acfetch")).setExecutor(commandFetchOrTeleport);
         Objects.requireNonNull(this.getCommand("acfetch")).setTabCompleter(genericTabCompleter);
         Objects.requireNonNull(this.getCommand("actp")).setExecutor(commandFetchOrTeleport);
@@ -557,7 +560,7 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
 
 
         debug("Registering listeners");
-        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        getServer().getPluginManager().registerEvents(playerListener, this);
         getServer().getPluginManager().registerEvents(new HologramListener(), this);
         getServer().getPluginManager().registerEvents(new ChestProtectionListener(), this);
         getServer().getPluginManager().registerEvents(new PistonListener(), this);
@@ -655,7 +658,7 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
     }
 
     private void registerCommands() {
-        final String[][] commands = new String[][]{{"acgui", Permissions.USE}, {"aclist", Permissions.USE}, {"acfetch", Permissions.FETCH}, {"actp", Permissions.TP}, {"acunlock", Permissions.PROTECT}, {"acreload", Permissions.RELOAD}, {"acdebug", Permissions.DEBUG}, {"acversion", Permissions.VERSION}, {"actoggle", Permissions.TOGGLE}};
+        final String[][] commands = new String[][]{{"acgui", Permissions.USE}, {"acopen", Permissions.OPEN},{"aclist", Permissions.USE}, {"acfetch", Permissions.FETCH}, {"actp", Permissions.TP}, {"acunlock", Permissions.PROTECT}, {"acreload", Permissions.RELOAD}, {"acdebug", Permissions.DEBUG}, {"acversion", Permissions.VERSION}, {"actoggle", Permissions.TOGGLE}};
         for (final String[] commandAndPermission : commands) {
             final ArrayList<String> command = new ArrayList<>();
             try {
@@ -774,10 +777,24 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
                 //System.out.println("Fixing broken AngelChest at " + block.getLocation() + " with AngelChest ID " + entry.uniqueId);
                 BlockData changedBlockData = block.getBlockData().clone();
                 AngelChest angelchest = new AngelChest(Objects.requireNonNull(getAngelChest(block)).saveToFile(true));
+
                 if(!getConfig().getBoolean(Config.ALWAYS_RESET_BLOCK_TO_ORIGINAL)) {
                     //angelchest.createChest(block, angelchest.owner, false);
                     angelchest.customBlock.setOriginalBlockData(changedBlockData);
                 }
+
+                if(getConfig().getBoolean(Config.MOVE_CHEST_WHEN_BLOCK_GETS_CHANGED)) {
+                    int highestPossibleY = world.getMaxHeight();
+                    int highestBlockY = world.getHighestBlockYAt(block.getLocation());
+                    if(highestBlockY >= highestPossibleY) {
+                        // Nothing
+                    } else {
+                        angelchest.customBlock.setOriginalBlockData(changedBlockData);
+                        Block nextFree = world.getBlockAt(block.getX(), highestBlockY + 1, block.getZ());
+                        CommandUtils.moveChest(this, angelchest, nextFree, null);
+                    }
+                }
+
                 toAdd.add(angelchest);
                 toRemove.add(entry);
             }

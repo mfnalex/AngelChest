@@ -58,6 +58,9 @@ permissions:
   angelchest.preventvictimchest:
     description: "Prevents players getting killed by this player to get an AngelChest spawned"
     default: false
+  angelchest.open:
+    description: "Allows players to open a nearby AngelChest using /acopen"
+    default: true
   angelchest.preview:
     description: "Allows to view your AngelChests' contents using /acgui"
   angelchest.fetch:

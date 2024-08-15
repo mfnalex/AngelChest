@@ -310,6 +310,8 @@ public final class ConfigUtils {
         conf.addDefault(Config.MAX_TP_DISTANCE, 0);
         metric(Config.MAX_TP_DISTANCE);
 
+        conf.addDefault(Config.MAX_OPEN_DISTANCE, 10);
+
         conf.addDefault(Config.MAX_FETCH_DISTANCE, 0);
         metric(Config.MAX_FETCH_DISTANCE);
 
@@ -383,6 +385,7 @@ sound-channel: BLOCKS
 
         conf.addDefault(Config.SOUND_PITCH, 1.0);
 
+        conf.addDefault(Config.MOVE_CHEST_WHEN_BLOCK_GETS_CHANGED, false);
         conf.addDefault(Config.SOUND_CHANNEL, "BLOCKS");
 
         conf.addDefault(Config.DISABLE_HOLOGRAM_INTERACTION, false);
@@ -450,6 +453,7 @@ sound-channel: BLOCKS
         conf.addDefault(Config.GUI_BUTTON_CONFIRM_DECLINE, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTljZGI5YWYzOGNmNDFkYWE1M2JjOGNkYTc2NjVjNTA5NjMyZDE0ZTY3OGYwZjE5ZjI2M2Y0NmU1NDFkOGEzMCJ9fX0=");
         conf.addDefault(Config.ALIAS_ACGUI, Arrays.asList("ac", "angelchest", "angelchests", "angelchestgui"));
         conf.addDefault(Config.ALIAS_ACLIST, Arrays.asList("acinfo", "angelchestinfo", "angelchestlist"));
+        conf.addDefault(Config.ALIAS_ACOPEN, Arrays.asList("angelchestopen"));
         conf.addDefault(Config.ALIAS_ACFETCH, Arrays.asList("acretrieve", "angelchestretrieve", "angelchestfetch"));
         conf.addDefault(Config.ALIAS_ACTP, Arrays.asList("acteleport", "angelchesttp", "angelchestteleport"));
         conf.addDefault(Config.ALIAS_ACUNLOCK, Arrays.asList("angelchestunlock", "unlockchest", "unlock"));
@@ -566,7 +570,7 @@ sound-channel: BLOCKS
     }
 
     static void metric(final String name) {
-        metric(name, AngelChestMain.getInstance().getConfig().getString(name));
+       // metric(name, AngelChestMain.getInstance().getConfig().getString(name));
     }
 
     static void metric(final String name, final List<String> values) {

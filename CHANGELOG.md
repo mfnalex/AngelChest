@@ -8,6 +8,10 @@
 - TODO: Make GUI behave like normal inventory (let people take out items manually)
 - TODO: Fix logging, see experimental branch
 
+## 13.6.0
+- Added option "move-chest-when-block-gets-changed"
+- Added command /acopen
+
 ## 13.3.0
 - Added support for 1.21.1
 - Added config option "always-reset-block-to-original"

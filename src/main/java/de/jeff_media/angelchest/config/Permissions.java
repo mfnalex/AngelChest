@@ -23,4 +23,5 @@ public final class Permissions {
     public static final String LIST = "angelchest.list";
     public static final String GUI = "angelchest.gui";
     public static final String PREVENT_VICTIM_CHEST = "angelchest.preventvictimchest";
+    public static final String OPEN = "angelchest.open";
 }

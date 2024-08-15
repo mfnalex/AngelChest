@@ -22,6 +22,7 @@ public final class Messages {
     public final String GUI_CHEST_LORE;
     public final String MSG_TP_ACROSS_WORLDS_NOT_ALLOWED;
     public final String MSG_FETCH_ACROSS_WORLDS_NOT_ALLOWED;
+    public final String MSG_NO_CHEST_NEARBY;
     public final String MSG_MAX_FETCH_DISTANCE;
     public final String MSG_MAX_TP_DISTANCE;
     public final String ANGELCHEST_INVENTORY_NAME;
@@ -191,6 +192,8 @@ public final class Messages {
         MSG_MAX_FETCH_DISTANCE = PREFIX + getMsg("max-fetch-distance", "&cYou cannot fetch AngelChests more than {distance} blocks away.");
 
         MSG_ACTIONBAR_INVULNERABLE = getMsg("invulnerable", "&a&lYou are invulnerable for {time}.");
+
+        MSG_NO_CHEST_NEARBY = getMsg("no-chest-nearby", "&cThere's no AngelChest nearby.");
 
         MSG_PVP_COOLDOWN = getMsg("pvp-cooldown","&cAn Angel tried to collect your stuff but was still too tired to do so.");
 

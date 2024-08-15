@@ -14,6 +14,7 @@ public class Config {
     public static String ALIAS_ACFETCH = "command-aliases-acfetch";
     public static String ALIAS_ACGUI = "command-aliases-acgui";
     public static String ALIAS_ACLIST = "command-aliases-aclist";
+    public static String ALIAS_ACOPEN = "command-aliases-acopen";
     public static String ALIAS_ACRELOAD = "command-aliases-acreload";
     public static String ALIAS_ACTP = "command-aliases-actp";
     public static String ALIAS_ACUNLOCK = "command-aliases-acunlock";
@@ -73,6 +74,7 @@ public class Config {
     public static String HOLOGRAM_PROTECTED_COUNTDOWN_TEXT = "hologram-protected-countdown-text";
     public static String HOLOGRAM_PROTECTED_TEXT = "hologram-protected-text";
     public static String HOLOGRAM_TEXT = "hologram-text";
+    public static String MOVE_CHEST_WHEN_BLOCK_GETS_CHANGED = "move-chest-when-block-gets-changed";
     public static String IGNORE_TELEKINESIS = "ignore-telekinesis";
     public static String HOLOGRAM_UNPROTECTED_TEXT = "hologram-unprotected-text";
     public static String IGNORE_KEEP_INVENTORY = "ignore-keep-inventory";
@@ -132,6 +134,7 @@ public class Config {
     public static String ALLOW_TP_ACROSS_WORLDS = "allow-tp-across-worlds";
     public static String ALLOW_FETCH_ACROSS_WORLDS = "allow-fetch-across-worlds";
     public static String MAX_TP_DISTANCE = "max-tp-distance";
+    public static String MAX_OPEN_DISTANCE = "max-open-distance";
     public static String MAX_FETCH_DISTANCE = "max-fetch-distance";
     public static String EXEMPT_ELITEMOBS_SOULBOUND_ITEMS_FROM_GENERIC_SOULBOUND_DETECTION = "exempt-elitemobs-soulbound-items-from-generic-soulbound-detection";
     public static String USING_ACTOGGLE_BREAKS_EXISTING_CHESTS = "using-actoggle-breaks-existing-chests";
