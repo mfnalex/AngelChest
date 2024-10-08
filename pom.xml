@@ -31,7 +31,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.13.0</version>
                 <executions>
                     <execution>
                         <id>compile</id>
@@ -49,8 +49,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <compilerArgs>
                         <arg>-parameters</arg> <!-- for ACF -->
                     </compilerArgs>
@@ -60,7 +60,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.4.2</version>
                 <configuration>
                     <finalName>${project.name}-${project.version}</finalName>
                     <archive>
