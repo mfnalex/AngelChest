@@ -780,7 +780,9 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
             openedBy.add(player.getUniqueId().toString());
             if (main.economyStatus == EconomyStatus.ACTIVE) {
                 if (price > 0) {
-                    Messages.send(player, main.messages.MSG_PAID_OPEN.replace("{price}", String.valueOf(price)).replace("{currency}", CommandUtils.getCurrency(price)));
+                    Messages.send(player, main.messages.MSG_PAID_OPEN
+                            .replace("{price}", main.getCurrencyFormatter().format(price))
+                            .replace("{currency}", CommandUtils.getCurrency(price)));
                 }
             }
             return true;

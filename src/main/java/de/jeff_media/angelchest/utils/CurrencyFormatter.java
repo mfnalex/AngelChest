@@ -12,7 +12,7 @@ public class CurrencyFormatter {
 
     public String format(double price) {
         try {
-            return String.format(main.getConfig().getString("currency-format", "%,.2f"), price);
+            return String.format(main.getConfig().getString("price-format", "%,.2f"), price);
         } catch (Throwable t) {
             return String.format("%,.2f", price);
         }

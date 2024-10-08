@@ -805,8 +805,20 @@ public final class PlayerListener implements Listener {
 
             angelChestBlock = loc.getBlock();
             if(main.debug) {
-                main.debug("Fixed chest offset in effect, setting block to " + angelChestBlock);
+                main.debug("Absolute Fixed chest offset in effect, setting block to " + angelChestBlock);
             }
+        } else {
+                Location loc = angelChestBlock.getLocation().add(
+                        main.getConfig().getDouble(Config.FIXED_CHEST_OFFSET_X),
+                        main.getConfig().getDouble(Config.FIXED_CHEST_OFFSET_Y),
+                        main.getConfig().getDouble(Config.FIXED_CHEST_OFFSET_Z)
+                );
+
+
+                if(!angelChestBlock.equals(loc.getBlock())) {
+                    angelChestBlock = loc.getBlock();
+                    main.debug("Relative Fixed chest offset in effect, setting block to " + angelChestBlock);
+                }
         }
 
         final AngelChestSpawnPrepareEvent angelChestSpawnPrepareEvent = new AngelChestSpawnPrepareEvent(player, angelChestBlock, lastDamageCause, event);
