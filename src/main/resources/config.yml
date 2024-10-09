@@ -1108,6 +1108,10 @@ log-filename: "{player}_{world}_{date}.log"
 # {x}, {y}, {z}  - Coordinates
 chest-filename: "{player}_{world}_{x}_{y}_{z}.yml"
 
+# Undocumented settings
+tp-distance: 2
+tp-no-safe-space-y-offset: 1
+
 #########################
 #####   Messages   ######
 #########################

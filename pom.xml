@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>13.7.0</version>
+    <version>13.8.0-SNAPSHOT</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -215,10 +215,10 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-        <repository>
-            <id>devmart-other</id>
-            <url>https://nexuslite.gcnt.net/repos/other/</url>
-        </repository>
+<!--        <repository>-->
+<!--            <id>devmart-other</id>-->
+<!--            <url>https://nexuslite.gcnt.net/repos/other/</url>-->
+<!--        </repository>-->
         <repository>
             <id>pcgf-repo</id>
             <url>https://repo.pcgamingfreaks.at/repository/maven-everything</url>
@@ -317,12 +317,12 @@
             <version>2.0.0</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>com.tcoded</groupId>
-            <artifactId>FoliaLib</artifactId>
-            <version>0.2.5</version>
-            <scope>compile</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.tcoded</groupId>-->
+<!--            <artifactId>FoliaLib</artifactId>-->
+<!--            <version>0.2.5</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>yannicklamprecht</groupId>
             <artifactId>worldborderapi</artifactId>

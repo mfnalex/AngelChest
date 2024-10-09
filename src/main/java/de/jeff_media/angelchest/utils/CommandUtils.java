@@ -109,9 +109,11 @@ public final class CommandUtils {
     }
 
     private static void doActualTeleport(final AngelChestMain main, final Player player, final AngelChest ac) {
+        main.debug("Teleporting player " + player.getName() + " to AngelChest at " + ac.block.getLocation());
         final Location acloc = ac.block.getLocation();
         Location tploc = acloc.clone();
         final double tpDistance = main.getConfig().getDouble("tp-distance");
+        main.debug("Teleport distance: " + tpDistance);
         // TODO: Find safe spot instead of just any block
         try {
             // offset the target location
@@ -131,20 +133,24 @@ public final class CommandUtils {
                 default:
                     break;
             }
-            Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> SoundUtils.playTpFetchSound(player, ac.getBlock().getLocation(), CommandAction.TELEPORT_TO_CHEST), 1L);
-        } catch (final Throwable ignored) {
 
+        } catch (final Throwable ignored) {
+            main.debug("Failed to get block direction, using default offset 0,0,0");
         }
 
+        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> SoundUtils.playTpFetchSound(player, ac.getBlock().getLocation(), CommandAction.TELEPORT_TO_CHEST), 1L);
+
         // Search for a safe spawn point
-        final List<Block> possibleSpawnPoints = AngelChestUtils.getPossibleTPLocations(tploc, main.getConfig().getInt(Config.MAX_RADIUS));
+        final List<Block> possibleSpawnPoints = AngelChestUtils.getPossibleTPLocations(tploc.clone(), main.getConfig().getInt(Config.MAX_RADIUS));
         AngelChestUtils.sortBlocksByDistance(tploc.getBlock(), possibleSpawnPoints);
 
         if (!possibleSpawnPoints.isEmpty()) {
             tploc = possibleSpawnPoints.get(0).getLocation();
+            main.debug("Found safe location at " + tploc);
         }
         if (possibleSpawnPoints.isEmpty()) {
-            tploc = acloc.getBlock().getRelative(0, 1, 0).getLocation();
+            tploc = acloc.getBlock().getRelative(0, main.getConfig().getInt("tp-no-safe-space-y-offset"), 0).getLocation();
+            main.debug("No safe location found, teleporting to " + tploc + " (tp-no-safe-space-y-offset=" + main.getConfig().getInt("tp-no-safe-space-y-offset") + ")");
         }
 
         // Set yaw and pitch of camera
@@ -155,6 +161,7 @@ public final class CommandUtils {
         tploc.add(0.5, 0, 0.5);
 
         player.teleport(tploc, TeleportCause.PLUGIN);
+        main.debug("Final teleport location: " + tploc + ", " + tploc.getBlock());
 
         // Add invulnerability
         final int seconds = main.groupManager.getInvulnerabilityTimePerPlayer(player);

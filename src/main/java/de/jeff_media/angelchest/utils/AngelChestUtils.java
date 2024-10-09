@@ -165,13 +165,18 @@ public class AngelChestUtils {
         return blocks;
     }
 
-    public static List<Block> getPossibleTPLocations(final Location location, final int radius) {
+    public static List<Block> getPossibleTPLocations(final Location location, int radius) {
+        if(main.debug) {
+            main.debug("#### Getting Possible TP locations for " + location + " with radius " + radius);
+            main.debug("  Original Block: " + location.getBlock());
+        }
+        if(radius > 50) radius = 50;
         final List<Block> blocks = new ArrayList<>();
         for (int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
             for (int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
                 for (int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
                     final Block block = location.getWorld().getBlockAt(x, y, z);
-                    if (isSafeSpot(location)) blocks.add(block);
+                    if (isSafeSpot(block)) blocks.add(block);
                 }
             }
         }
@@ -179,13 +184,13 @@ public class AngelChestUtils {
     }
 
     @SuppressWarnings("SameParameterValue")
-    static boolean isAboveLava(final Location loc, final int height) {
-        final Block block = loc.getBlock();
+    static boolean isAboveLava(final Block block, final int height) {
         for (int i = 0; i < height; i++) {
-            if (block.getRelative(0, -i, 0).getType() == Material.LAVA) return true;
+            Material mat = block.getRelative(0, -i, 0).getType();
+            if (mat == Material.LAVA) return true;
 
             // TODO: Does this work?
-            if (block.getRelative(0, -i, 0).getType().isSolid()) return false;
+            if (mat.isSolid()) return false;
         }
         return false;
     }
@@ -199,20 +204,45 @@ public class AngelChestUtils {
         return (items.length == 0);
     }
 
-    public static boolean isSafeSpot(final Location location) {
+    private static final AngelChestMain main = AngelChestMain.getInstance();
+
+    public static boolean isSafeSpot(final Block block) {
+
+        //Block block = location.getBlock();
+
+        if(main.debug) {
+            main.debug("## Checking if " + block + " is a safe spot...");
+        }
 
         /*if (location.getWorld().getEnvironment() == World.Environment.NETHER) {
             if (location.getBlockY() >= MAX_NETHER_HEIGHT) return false;
         }*/
-        if (isAboveLava(location, 10)) return false;
+        if (isAboveLava(block, 10)) {
+            main.debug("  ## Not a safe spot: Above lava");
+            return false;
+        }
 
-        if (location.getBlockY() <= AngelChestMain.getInstance().getWorldMinHeight(location.getWorld())) return false;
+        if (block.getY() <= AngelChestMain.getInstance().getWorldMinHeight(block.getWorld())) {
+            main.debug("  ## Not a safe spot: Below world min height");
+            return false;
+        }
 
-        if (location.getBlock().getType().isOccluding()) return false;
+        if (block.getType().isOccluding()) {
+            main.debug("  ## Not a safe spot: Block is occluding");
+            return false;
+        }
 
-        if (location.getBlock().getRelative(0, -1, 0).getType().isSolid() || location.getBlock().getRelative(0, -1, 0).getType() == Material.WATER) {
+        if (block.getType().isSolid()) {
+            main.debug("  ## Not a safe spot: Block is solid");
+            return false;
+        }
+
+        if (block.getRelative(0, -1, 0).getType().isSolid() || block.getRelative(0, -1, 0).getType() == Material.WATER) {
+            main.debug(" SAFE SPOT FOUND");
             return true;
         }
+
+        main.debug("  ## Not a safe spot: Block below is not solid or water");
 
         return false;
     }
@@ -222,8 +252,8 @@ public class AngelChestUtils {
             if(b1.getLocation().getWorld() != angelChestBlock.getLocation().getWorld()) return 0;
             if(b2.getLocation().getWorld() != angelChestBlock.getLocation().getWorld()) return 0;
 
-            final double dist1 = b1.getLocation().distance(angelChestBlock.getLocation());
-            final double dist2 = b2.getLocation().distance(angelChestBlock.getLocation());
+            final double dist1 = b1.getLocation().distanceSquared(angelChestBlock.getLocation());
+            final double dist2 = b2.getLocation().distanceSquared(angelChestBlock.getLocation());
             return Double.compare(dist1, dist2);
         });
     }
