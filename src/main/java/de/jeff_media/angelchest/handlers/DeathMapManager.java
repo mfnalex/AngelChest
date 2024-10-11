@@ -70,7 +70,13 @@ public class DeathMapManager {
     }
 
     private static List<String> getLore(AngelChest chest) {
-        return LoreUtils.applyNewlines(main.getConfig().getString(Config.DEATH_MAP_LORE)).stream().map(line -> TextUtils.format(line.replace("{x}", String.valueOf(chest.getBlock().getX())).replace("{y}", String.valueOf(chest.getBlock().getY())).replace("{z}", String.valueOf(chest.getBlock().getZ())))).collect(Collectors.toList());
+        return LoreUtils.applyNewlines(main.getConfig().getString(Config.DEATH_MAP_LORE)).stream().map(
+                line -> TextUtils.format(
+                        line.replace("{x}", String.valueOf(chest.getBlock().getX()))
+                                .replace("{y}", String.valueOf(chest.getBlock().getY()))
+                                .replace("{z}", String.valueOf(chest.getBlock().getZ()))
+                                .replace("{world}", chest.getWorld().getName())
+                )).collect(Collectors.toList());
     }
 
     public static void removeDeathMap(de.jeff_media.angelchest.data.AngelChest angelChest) {

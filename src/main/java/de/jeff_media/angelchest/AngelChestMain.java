@@ -438,6 +438,10 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
         saveAllAngelChestsToFile(true);
         ChunkManager.reset();
 
+        for(Player player: Bukkit.getOnlinePlayers()) {
+            GraveyardListener.callGraveyardLeaveEvent(player);
+        }
+
 //        Bukkit.getScheduler().getActiveWorkers().stream().filter(worker -> worker.getOwner() == this).forEach(worker -> {
 //            worker.getThread().interrupt();
 //        });
@@ -634,6 +638,9 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
         String versionAddendum = isPremiumVersion ? "/" + SpigotIdGetter.getSpigotId() : "";
         getLogger().info("Successfully enabled AngelChest" + plusTag + " v" + getDescription().getVersion() + versionAddendum + " (Premium: " + isPremiumVersion + ")");
 
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            GraveyardListener.callGraveyardEnterEvent(player);
+        }
     }
 
     private String getCommandReplacements(String command) {

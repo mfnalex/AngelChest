@@ -218,9 +218,9 @@ public final class CommandUtils {
 
         ac.createChest(newBlock, ac.owner);
 
-        if(facing != null) {
-            BlockDataUtils.setBlockDirection(newBlock, facing);
-        }
+//        if(facing != null) {
+//            BlockDataUtils.setBlockDirection(newBlock, facing);
+//        }
     }
 
     private static void fetchChestToPlayer(final AngelChestMain main, final Player player, final AngelChest ac) {
@@ -236,7 +236,7 @@ public final class CommandUtils {
         ac.createChest(newBlock, ac.owner);
 
         // Make the chest face the player
-        BlockDataUtils.setBlockDirection(newBlock, facing);
+//        BlockDataUtils.setBlockDirection(newBlock, facing);
 
         ac.block = newBlock;
 

@@ -11,6 +11,8 @@
 ## 13.8.0
 - Fixed teleporting not properly checking for nearby safe locations and instead teleporting the player to the chest location
 - Added two undocumented settings to config (tp-distance, tp-no-safe-space-y-offset)
+- Added {world} placeholder to death-map-lore
+- Fixed graveyard potion effects not being removed when plugin disables before players are kicked
 
 ## 13.7.0
 - fixed-chest-offset now has a "relative mode" (see config.yml)

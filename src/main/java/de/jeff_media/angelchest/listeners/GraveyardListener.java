@@ -1,6 +1,7 @@
 package de.jeff_media.angelchest.listeners;
 
 import com.jeff_media.jefflib.EntityUtils;
+import com.jeff_media.jefflib.Tasks;
 import com.jeff_media.jefflib.TextUtils;
 import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.data.Graveyard;
@@ -58,7 +59,9 @@ public class GraveyardListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        callGraveyardEnterEvent(event.getPlayer());
+        Tasks.later(() -> {
+            callGraveyardEnterEvent(event.getPlayer());
+        }, 3L);
     }
 
     @EventHandler
