@@ -210,39 +210,28 @@ public class AngelChestUtils {
 
         //Block block = location.getBlock();
 
-        if(main.debug) {
-            main.debug("## Checking if " + block + " is a safe spot...");
-        }
-
         /*if (location.getWorld().getEnvironment() == World.Environment.NETHER) {
             if (location.getBlockY() >= MAX_NETHER_HEIGHT) return false;
         }*/
         if (isAboveLava(block, 10)) {
-            main.debug("  ## Not a safe spot: Above lava");
             return false;
         }
 
         if (block.getY() <= AngelChestMain.getInstance().getWorldMinHeight(block.getWorld())) {
-            main.debug("  ## Not a safe spot: Below world min height");
             return false;
         }
 
         if (block.getType().isOccluding()) {
-            main.debug("  ## Not a safe spot: Block is occluding");
             return false;
         }
 
         if (block.getType().isSolid()) {
-            main.debug("  ## Not a safe spot: Block is solid");
             return false;
         }
 
         if (block.getRelative(0, -1, 0).getType().isSolid() || block.getRelative(0, -1, 0).getType() == Material.WATER) {
-            main.debug(" SAFE SPOT FOUND");
             return true;
         }
-
-        main.debug("  ## Not a safe spot: Block below is not solid or water");
 
         return false;
     }

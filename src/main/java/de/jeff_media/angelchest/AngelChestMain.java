@@ -25,6 +25,7 @@ import de.jeff_media.angelchest.listeners.*;
 import de.jeff_media.angelchest.nbt.NBTUtils;
 import de.jeff_media.angelchest.utils.*;
 import de.jeff_media.customblocks.CustomBlock;
+import de.jeff_media.customblocks.CustomBlockUtils;
 import de.jeff_media.daddy.Daddy_Stepsister;
 import de.jeff_media.updatechecker.UpdateChecker;
 import de.jeff_media.updatechecker.UserAgentBuilder;
@@ -597,6 +598,11 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
                     getLogger().info(ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', "&" + color + line)));
                 }
         }, 60L);
+
+        // TODO: Remove
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
+            CustomBlockUtils.setDebug(debug);
+        }, 1L, 1);
 
         ItemsAdderHook.runOnceItemsAdderLoaded(() -> {
             debug("Loading AngelChests from disk");
