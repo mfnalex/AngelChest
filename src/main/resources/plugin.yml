@@ -13,6 +13,7 @@ load: POSTWORLD
 #libraries:
 #  - org.slf4j:slf4j-api:1.6.6
 softdepend:
+  - Nexo
   - Oraxen
   - Multiverse-Core
   - Multiverse
