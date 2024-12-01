@@ -612,8 +612,9 @@ sound-channel: BLOCKS
         //main.setIgnoredSlotsHandler(new IgnoredSlotsHandler(com.jeff_media.jefflib.ConfigUtils.getConfig("ignored-slots.yml")));
         loadWorldHeights();
 
-        System.setProperty("customblocks.oraxen.yaw", String.valueOf((float) main.getConfig().getDouble("oraxen-furniture-yaw", 0.0d)));
-        System.setProperty("customblocks.oraxen.blockface", main.getConfig().getString("oraxen-furniture-face", "DOWN"));
+        System.setProperty("customblocks.nexooraxen.yaw", String.valueOf((float) main.getConfig().getDouble("nexo-oraxen-furniture-yaw", 0.0d)));
+        System.setProperty("customblocks.nexooraxen.blockface", main.getConfig().getString("nexo-oraxen-furniture-face", "DOWN"));
+
 
         for(Player player : Bukkit.getOnlinePlayers()) {
             GraveyardListener.callGraveyardLeaveEvent(player);

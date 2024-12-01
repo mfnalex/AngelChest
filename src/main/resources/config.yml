@@ -795,8 +795,8 @@ combatlogx-prevent-fastlooting: false
 
 # Placement settings when using oraxen furniture as chest material
 # See here for valid BlockFaces: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/block/BlockFace.html
-oraxen-furniture-yaw: 0
-oraxen-furniture-face: DOWN
+nexo-oraxen-furniture-yaw: 0
+nexo-oraxen-furniture-face: DOWN
 
 # You can define the priority on which AngelChest detects the player's drops. When you use plugins to
 # manipulate what items a player drops on death, consider setting this to a high value (e.g. HIGHEST
