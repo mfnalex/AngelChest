@@ -308,7 +308,7 @@
         <dependency>
             <groupId>com.jeff_media</groupId>
             <artifactId>CustomBlocks</artifactId>
-            <version>1.5.21-SNAPSHOT</version>
+            <version>1.5.23</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
