@@ -471,6 +471,10 @@ public final class AngelChest implements de.jeff_media.angelchest.AngelChest {
         if (createHologram) {
             createHologram(block, uuid);
         }
+        if(graveyard != null) {
+
+            GraveyardListener.update(block);
+        }
     }
 
     /**
