@@ -98,3 +98,110 @@ ENTITY_ATTACK: entity attack
 ENTITY_SWEEP_ATTACK: entity sweep attack
 PLAYER: player
 PROJECTILE: projectile
+
+
+#########################
+##### Translations ######
+#########################
+
+# Here are some community made translations - to use one, just uncomment them by removing the
+# single hashtag (#) symbol at the beginning of each line. Do NOT uncomment the name of the language.
+# Of course you can also edit the translations.
+
+##### Spanish
+#AREA_EFFECT_CLOUD: Asfixiado por una nube tóxica
+#ARROW: Asesinado por una flecha
+#AXOLOTL: Asesinado por un Ajolote
+#BAT: Asesinado por Murciélago
+#BEE: Asesinado por una Abeja
+#BLAZE: Asesinado por un Blaze
+#BLOCK_EXPLOSION: Muerto por una explosión
+#CAVE_SPIDER: Asesinado por una Araña de Cueva
+#CONTACT: Muerto por contacto
+#CRAMMING: Muerto por embutido
+#CREEPER: Asesinado por un Creeper
+#CUSTOM: Fallecimiento personal
+#DRAGON_BREATH: Asesinado por el Aliento de Dragón
+#DRAGON_FIREBALL: Asesinado por el Aliento de Dragón
+#DROWNED: Asesinado por un Ahogado
+#DROWNING: Muerto por ahogamiento
+#DRYOUT: Muerto por deshidratación
+#ELDER_GUARDIAN: Asesinado por un Guardián Anciano
+#ENDER_CRYSTAL: Asesinado por un Cristal de Ender
+#ENDER_DRAGON: Asesinado por un Dragón
+#ENDERMAN: Asesinado por un Enderman
+#ENDERMITE: Asesinado por un Endermite
+#ENTITY_EXPLOSION: Muerto por una explosión
+#EVOKER: Asesinado por un Invocador
+#EVOKER_FANGS: Asesinado por un Invocador
+#FALL: Muerto por caída
+#FALLING_BLOCK: Muerto por caída de bloques
+#FIRE: Chamuscado por el fuego
+#FIRE_TICK: Chamuscado por el fuego
+#FIREBALL: Chamuscado por una Bola de Fuego
+#FLY_INTO_WALL: Estampado contra una pared
+#FOX: Asesinado por un Zorro
+#FREEZE: Muerto por congelación
+#GHAST: Asesinado por un Ghast
+#GIANT: Asesinado por un Gigante
+#GOAT: Asesinado por una Cabra
+#GUARDIAN: Asesinado por un Guardián
+#HOGLIN: Asesinado por un Hoglin
+#HOT_FLOOR: Asfixiado por calentamiento del suelo
+#HUSK: Asesinado por un Zombi Momificado
+#ILLUSIONER: Asesinado por un Ilusionista
+#IRON_GOLEM: Asesinado por un Golem de Hierro
+#LAVA: Derretido en la lava
+#LIGHTNING: Electrocutado por un rayo
+#LLAMA: Asesinado por una Llama
+#LLAMA_SPIT: Asesinado a escupitajos
+#MAGIC: Asesinado con Magia
+#MAGMA_CUBE: Asesinado por un Cubo de Magma
+#MELTING: Muerte fundente
+#MINECART_TNT: Dinamitado
+#PANDA: Desgarrado por un Panda
+#PHANTOM: Asesinado por un Fantasma
+#PIGLIN: Asesinado por un Piglin
+#PIGLIN_BRUTE: Asesinado por un Piglin Bruto
+#PILLAGER: Asesinado por un Saqueador
+#POISON: Envenenado
+#POLAR_BEAR: Asesinado por un Oso Polar
+#PRIMED_TNT: Dinamitado
+#PUFFERFISH: Asesinado por un Pez Globo
+#RAVAGER: Asesinado por un Devastador
+#SHULKER: Asesinado por un Shulker
+#SHULKER_BULLET: Asesinado por un Proyectil de Shulker
+#SILVERFISH: Asesinado por una Lepisma
+#SKELETON: Asesinado por un Esqueleto
+#SKELETON_HORSE: Asesinado por un Caballo Esqueleto
+#SLIME: Baboseado
+#SMALL_FIREBALL: Chamuscado con una Bola de Fuego
+#SNOWBALL: Golpeado con Bolas de Nieve
+#SPECTRAL_ARROW: Atravesado con una Flecha Espectral
+#SPIDER: Asesinado por una Araña
+#SPLASH_POTION: Envenenado
+#STARVATION: Muerto de Hambre
+#STRAY: Asesinado por un Esqueleto Invernal
+#STRIDER: Asesinado por un Lavagante
+#SUFFOCATION: Enterrado en Bloques
+#SUICIDE: Suicidado
+#THORNS: Desangrado por multitud de Espinas
+#TRADER_LLAMA: Asesinado por una Llama Ambulante
+#TRIDENT: Empalado por un Tridente
+#VEX: Asesinado por un Vex
+#VINDICATOR: Asesinado por un Vindicador
+#VOID: Muerto por Vacío
+#WITCH: Asesinado por una Bruja
+#WITHER: Asesinado por un Wither
+#WITHER_SKELETON: Asesinado por un Wither Esqueleto
+#WOLF: Asesinado por un Lobo
+#ZOGLIN: Asesinado por un Zoglin
+#ZOMBIE: Asesinado por un Zombi
+#ZOMBIE_HORSE: Asesinado por un Caballo Zombi
+#ZOMBIE_VILLAGER: Asesinado por un Aldeano Zombi
+#ZOMBIFIED_PIGLIN: Asesinado por un Piglin Zombificado
+#UNKNOWN: Muerte desconocida
+#ENTITY_ATTACK: Asesinado por el ataque de criaturas
+#ENTITY_SWEEP_ATTACK: Asesinado por una orda de criaturas
+#PLAYER: Asesinado por un jugador
+#PROJECTILE: Atravesado por un proyectil
