@@ -612,8 +612,17 @@ sound-channel: BLOCKS
         //main.setIgnoredSlotsHandler(new IgnoredSlotsHandler(com.jeff_media.jefflib.ConfigUtils.getConfig("ignored-slots.yml")));
         loadWorldHeights();
 
-        System.setProperty("customblocks.oraxen.yaw", String.valueOf((float) main.getConfig().getDouble("oraxen-furniture-yaw", 0.0d)));
-        System.setProperty("customblocks.oraxen.blockface", main.getConfig().getString("oraxen-furniture-face", "DOWN"));
+        // backward compatibility
+        String furnitureYaw = "nexo-oraxen-furniture-yaw";
+        String furnitureFace = "nexo-oraxen-furniture-face";
+        if (!main.getConfig().contains(furnitureYaw)) furnitureYaw = "oraxen-furniture-yaw";
+        if(!main.getConfig().contains(furnitureFace)) furnitureFace = "oraxen-furniture-face";
+
+        System.setProperty("customblocks.nexo.yaw", String.valueOf((float) main.getConfig().getDouble(furnitureYaw, 0.0d)));
+        System.setProperty("customblocks.nexo.blockface", main.getConfig().getString(furnitureFace, "DOWN"));
+        System.setProperty("customblocks.oraxen.yaw", String.valueOf((float) main.getConfig().getDouble(furnitureYaw, 0.0d)));
+        System.setProperty("customblocks.oraxen.blockface", main.getConfig().getString(furnitureFace, "DOWN"));
+
 
         for(Player player : Bukkit.getOnlinePlayers()) {
             GraveyardListener.callGraveyardLeaveEvent(player);

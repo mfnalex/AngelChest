@@ -287,6 +287,7 @@ only-show-gui-after-death-if-player-can-tp-or-fetch: true
 #
 # Note for ItemsAdder users: ItemsAdder blocks are 100% supported! ItemsAdder furniture is experimental.
 # Note for Oraxen users: Oraxen blocks and Oraxen furniture are 100% supported!
+# Note for Nexo users: Nexo blocks and Nexo furniture are experimental.
 #
 # IMPORTANT: You must use "double quotes" here!
 #
@@ -297,6 +298,7 @@ only-show-gui-after-death-if-player-can-tp-or-fetch: true
 #  material: "minecraft:red_candle[candles=3,lit=true]" (will use 3 red, lit candles)
 #  material: "itemsadder:iasurvival:ruby_ore"           (will use Ruby Ore from ItemsAdder)
 #  material: "oraxen:ruby_ore"                          (will use Ruby Ore from Oraxen)
+#  material: "nexo:ruby_ore"                            (will use Ruby Ore from Nexo)
 material: "CHEST"
 
 # You can choose another Material to use for unlocked AngelChests.
@@ -793,10 +795,10 @@ use-worldborder-api: true
 # When true, players who are currently in combat cannot fast-loot AngelChests
 combatlogx-prevent-fastlooting: false
 
-# Placement settings when using oraxen furniture as chest material
+# Placement settings when using Nexo or oraxen furniture as chest material
 # See here for valid BlockFaces: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/block/BlockFace.html
-oraxen-furniture-yaw: 0
-oraxen-furniture-face: DOWN
+nexo-oraxen-furniture-yaw: 0
+nexo-oraxen-furniture-face: DOWN
 
 # You can define the priority on which AngelChest detects the player's drops. When you use plugins to
 # manipulate what items a player drops on death, consider setting this to a high value (e.g. HIGHEST
