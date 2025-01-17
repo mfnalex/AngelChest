@@ -2,18 +2,18 @@
 package de.jeff_media.angelchest.hooks;
 
 import de.jeff_media.angelchest.AngelChestMain;
-import me.angeschossen.lands.api.integration.LandsIntegration;
-import me.angeschossen.lands.api.player.LandPlayer;
-import me.angeschossen.lands.api.war.War;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
+
+import me.angeschossen.lands.api.player.*;
+import me.angeschossen.lands.api.war.*;
 
 import java.util.stream.Collectors;
 
 public class LandsHook {
 
     private static final AngelChestMain main = AngelChestMain.getInstance();
-    private static final LandsIntegration lands = new LandsIntegration(main);
+    private static final me.angeschossen.lands.api.LandsIntegration lands = me.angeschossen.lands.api.LandsIntegration.of(main);
 
     public static boolean isInWar(Player player1, Player player2) {
 
@@ -25,7 +25,7 @@ public class LandsHook {
                 .stream()
                 .filter(landPlayer2::isInWar)
                 .collect(Collectors.toList())) {
-            if(!war.getTeam(landPlayer1.getPlayer()).equals(war.getTeam(landPlayer2.getPlayer()))) {
+            if(!war.getTeam(landPlayer1).equals(war.getTeam(landPlayer2))) {
                 return true;
             }
         }

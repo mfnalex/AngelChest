@@ -1,6 +1,6 @@
 package de.jeff_media.angelchest.utils;
 
-import com.google.common.base.Enums;
+import com.jeff_media.jefflib.EnumUtils;
 import de.jeff_media.angelchest.AngelChestMain;
 import de.jeff_media.angelchest.config.Config;
 import de.jeff_media.angelchest.config.Messages;
@@ -37,7 +37,7 @@ public class SoundUtils {
             }
         }
 
-        final Sound sound = Enums.getIfPresent(Sound.class, main.getConfig().getString(Config.SOUND_EFFECT)).orNull();
+        final Sound sound = EnumUtils.getIfPresent(Sound.class, main.getConfig().getString(Config.SOUND_EFFECT)).orElse(null);
 
         if (sound == null) {
             main.getLogger().warning("You specified an invalid sound effect: " + main.getConfig().getString(Config.SOUND_EFFECT));
@@ -46,7 +46,7 @@ public class SoundUtils {
 
         final float volume = (float) main.getConfig().getDouble(Config.SOUND_VOLUME);
         final float pitch = (float) main.getConfig().getDouble(Config.SOUND_PITCH);
-        final SoundCategory channel = Enums.getIfPresent(SoundCategory.class, main.getConfig().getString(Config.SOUND_CHANNEL)).or(SoundCategory.BLOCKS);
+        final SoundCategory channel = EnumUtils.getIfPresent(SoundCategory.class, main.getConfig().getString(Config.SOUND_CHANNEL)).orElse(SoundCategory.BLOCKS);
 
         if (player != null && player.isOnline()) {
             player.playSound(location, sound, channel, volume, pitch);
