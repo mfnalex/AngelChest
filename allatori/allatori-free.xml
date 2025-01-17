@@ -11,7 +11,7 @@
         <jar in="AngelChest-${project.version}.jar" out="AngelChest-${project.version}.jar"/>
     </input>
 
-    <classpath basedir="C:\Users\mfnal\.m2\repository">
+    <classpath basedir="/home/mfnalex/.m2/repository">
         <jar name="org/spigotmc/spigot-api/1.18.2-R0.1-SNAPSHOT/spigot-api-1.18.2-R0.1-SNAPSHOT.jar"/>
     </classpath>
 
