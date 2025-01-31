@@ -372,7 +372,7 @@
         <dependency>
             <groupId>com.jeff_media</groupId>
             <artifactId>Stepsister</artifactId>
-            <version>14</version>
+            <version>14.1</version>
             <scope>compile</scope>
         </dependency>
         <!-- /*Daddy end*/ -->
