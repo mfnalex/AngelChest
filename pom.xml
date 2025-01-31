@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>13.9.2</version>
+    <version>13.9.3</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -182,29 +182,29 @@
                 </executions>
             </plugin>
 
-<!--            <plugin>-->
-<!--                <groupId>org.codehaus.mojo</groupId>-->
-<!--                <artifactId>exec-maven-plugin</artifactId>-->
-<!--                <version>1.2.1</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <phase>deploy</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>exec</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <configuration>-->
-<!--                    <executable>java</executable>-->
-<!--                    <workingDirectory>${basedir}/../</workingDirectory>-->
-<!--                    <arguments>-->
-<!--                        <argument>-jar</argument>-->
-<!--                        <argument>${basedir}/../PluginCompiler.jar</argument>-->
-<!--                        <argument>AngelChest</argument>-->
-<!--                        <argument>${project.version}</argument>-->
-<!--                    </arguments>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <workingDirectory>${basedir}/../</workingDirectory>
+                    <arguments>
+                        <argument>-jar</argument>
+                        <argument>${basedir}/../PluginCompiler.jar</argument>
+                        <argument>AngelChest</argument>
+                        <argument>${project.version}</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
 
         </plugins>
 
@@ -273,14 +273,14 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.19.3-R0.1-SNAPSHOT</version>
+            <version>1.21.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.18-rc3-R0.1-SNAPSHOT</version>
+            <version>1.21.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 

@@ -16,6 +16,9 @@
     </classpath>
 
     <keep-names>
+        <!--<class access="public" />-->
+        <!--<method access="public" />-->
+        <!--<field access="public" />-->
         <class template="class de.jeff_media.angelchest.AngelChest" />
         <class template="class de.jeff_media.angelchest.AngelChestPlugin" />
         <class template="class de.jeff_media.angelchest.AngelChestMain" />
@@ -37,12 +40,6 @@
 
     <property name="log-file" value="log.xml"/>
 
-    <property name="generics" value="remove"/>
-    <property name="line-numbers" value="keep"/> <!-- For Debugging: keep -->
-    <property name="inner-classes" value="remove"/>
-    <property name="default-package" value="de.jeff_media.angelchest"/>
-    <property name="force-default-package" value="enable"/>
-
     <property name="classes-naming-prefix" value="AngelChestMain$$"/>
     <property name="methods-naming-prefix" value="$$"/>
     <property name="fields-naming-prefix" value="$$"/>
@@ -53,21 +50,24 @@
     <property name="fields-naming" value="keywords"/>
     <property name="local-variables-naming" value="optimize"/>
 
+    <property name="generics" value="remove"/>
+    <property name="line-numbers" value="keep"/> <!-- For Debugging: keep -->
+    <property name="inner-classes" value="keep"/>
+    <property name="default-package" value="de.jeff_media.angelchest"/>
+    <property name="force-default-package" value="enable"/>
     <property name="synthetize-methods" value="disable"/>
     <property name="synthetize-fields" value="disable"/>
     <property name="remove-toString" value="disable"/>
-    <property name="string-encryption" value="maximum"/>
-    <property name="string-encryption-type" value="fast"/>
-    <property name="string-encryption-version" value="v4" add="de.jeff_media.angelchest.AngelChestMain"/>
+    <property name="string-encryption" value="disable"/>
+    <property name="string-encryption-type" value="strong"/>
     <property name="string-encryption-ignored-strings" value="../allatori/spigotmc-patterns.txt"/>
-
     <ignore-classes>
         <class template="class **.co.aikar.**" />
         <class template="class **.nms.**" />
         <class template="class **NMS**"/>
-<!--        <class template="class **.updatechecker.**"/>-->
-<!--        <class template="class **.jefflib.**"/>-->
-<!--        <class template="class **.customblocks.**"/>-->
-<!--        <class template="class **.thirdparty.**"/>-->
+        <!--        <class template="class **.jefflib.**"/>-->
+        <!--        <class template="class **.updatechecker.**"/>-->
+        <!--        <class template="class **.customblocks.**"/>-->
+        <!--        <class template="class **.thirdparty.**"/>-->
     </ignore-classes>
 </config>
