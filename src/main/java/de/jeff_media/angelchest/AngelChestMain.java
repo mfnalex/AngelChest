@@ -73,7 +73,6 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
     private static final String SPIGOT_RESOURCE_ID_PLUS = "88214";
     public static final String UPDATECHECKER_LINK_DOWNLOAD_PLUS = "https://www.spigotmc.org/resources/" + SPIGOT_RESOURCE_ID_PLUS;
     public static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/" + SPIGOT_RESOURCE_ID_PLUS + "/updates";
-    private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/angelchestplus/latest-version.txt";
     public static boolean SCHEDULE_TASKS = true;
     public static boolean isPremiumVersion = isPremium0();
 
@@ -257,7 +256,7 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
     }
 
     public void initUpdateChecker() {
-        UpdateChecker.init(this, UPDATECHECKER_LINK_API)
+        UpdateChecker.init(this, isPremiumVersion ? Integer.parseInt(SPIGOT_RESOURCE_ID_PLUS) : Integer.parseInt(SPIGOT_RESOURCE_ID_FREE))
                 .setDonationLink(UPDATECHECKER_LINK_DONATE)
                 .setChangelogLink(UPDATECHECKER_LINK_CHANGELOG)
                 .setPaidDownloadLink(UPDATECHECKER_LINK_DOWNLOAD_PLUS)
