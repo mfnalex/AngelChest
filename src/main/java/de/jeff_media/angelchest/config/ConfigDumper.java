@@ -127,7 +127,7 @@ public final class ConfigDumper {
         de.jeff_media.angelchest.utils.FileUtils.appendLines(log, "\n" + banner("Gamerules"));
         for (final World world : Bukkit.getWorlds().stream().sorted(worldByNameComparator).collect(Collectors.toList())) {
             de.jeff_media.angelchest.utils.FileUtils.appendLines(log, world.getName() + "[" + world.getUID() + "]");
-            @SuppressWarnings("rawtypes") final GameRule[] rules = new GameRule[]{GameRule.DO_ENTITY_DROPS, GameRule.KEEP_INVENTORY};
+            @SuppressWarnings("rawtypes") final GameRule[] rules = new GameRule[]{GameRule.ENTITY_DROPS, GameRule.KEEP_INVENTORY};
             //noinspection rawtypes
             for (final GameRule rule : rules) {
                 //noinspection unchecked

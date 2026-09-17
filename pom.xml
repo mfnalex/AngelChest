@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>13.9.3</version>
+    <version>14.0.0-RC1</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -15,7 +15,7 @@
         <spigot.main>${project.groupId}.angelchest.AngelChestMain</spigot.main>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
+        <java.version>25</java.version>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <config.version>${maven.build.timestamp}</config.version>
     </properties>
@@ -49,8 +49,14 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <release>${java.version}</release>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.46</version>
+                        </path>
+                    </annotationProcessorPaths>
                     <compilerArgs>
                         <arg>-parameters</arg> <!-- for ACF -->
                     </compilerArgs>
@@ -74,7 +80,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.3</version>
+                <version>3.6.2</version>
                 <configuration>
                     <relocations>
                         <relocation>
@@ -98,16 +104,8 @@
                             <shadedPattern>de.jeff_media.angelchest.thirdparty.co.aikar.locales</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>org.apache.maven.artifact</pattern>
-                            <shadedPattern>de.jeff_media.angelchest.jefflib.thirdparty.org.apache.maven.artifact</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>de.jeff_media.updatechecker</pattern>
                             <shadedPattern>de.jeff_media.angelchest.updatechecker</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>de.jeff_media.daddy</pattern>
-                            <shadedPattern>de.jeff_media.angelchest</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>co.aikar.commands</pattern>
@@ -273,14 +271,14 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.21.4-R0.1-SNAPSHOT</version>
+            <version>26.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.21.4-R0.1-SNAPSHOT</version>
+            <version>26.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -288,17 +286,11 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.32</version>
+            <version>1.18.46</version>
             <scope>provided</scope>
         </dependency>
 
         <!-- Own Libraries -->
-        <dependency>
-            <groupId>com.jeff-media.jefflib</groupId>
-            <artifactId>jefflib</artifactId>
-            <version>14.2.3</version>
-            <scope>compile</scope>
-        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.jeff-media.cesspool</groupId>-->
 <!--            <artifactId>cesspool</artifactId>-->
@@ -359,23 +351,6 @@
             <version>1.5.8-java8</version>
             <scope>compile</scope>
         </dependency>
-
-
-        <dependency>
-            <groupId>com.allatori</groupId>
-            <artifactId>allatori-annotations</artifactId>
-            <version>8.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- /*Daddy start*/ -->
-        <dependency>
-            <groupId>com.jeff_media</groupId>
-            <artifactId>Stepsister</artifactId>
-            <version>14.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- /*Daddy end*/ -->
 
         <dependency>
             <groupId>co.aikar</groupId>

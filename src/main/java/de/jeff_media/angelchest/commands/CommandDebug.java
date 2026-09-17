@@ -1,7 +1,6 @@
 package de.jeff_media.angelchest.commands;
 
 import com.jeff_media.jefflib.EntityUtils;
-import com.jeff_media.jefflib.JeffLib;
 import com.jeff_media.jefflib.ParticleUtils;
 import com.jeff_media.jefflib.data.tuples.Pair;
 import de.jeff_media.angelchest.AngelChestMain;
@@ -235,7 +234,6 @@ public final class CommandDebug implements CommandExecutor, TabCompleter {
         ConfigUtils.reloadCompleteConfig(true);
         main.debug = enabled;
         main.getConfig().set("debug", enabled);
-        JeffLib.setDebug(enabled);
         Messages.send(commandSender, ChatColor.GRAY + "AngelChest debug mode has been " + (enabled ? "enabled" : "disabled"));
     }
 

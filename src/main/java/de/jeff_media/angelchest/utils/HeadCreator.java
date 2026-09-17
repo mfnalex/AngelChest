@@ -1,6 +1,5 @@
 package de.jeff_media.angelchest.utils;
 
-import com.jeff_media.jefflib.SkullUtils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import de.jeff_media.angelchest.AngelChestMain;
@@ -12,7 +11,13 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.UUID;
 
 public final class HeadCreator {
@@ -44,9 +49,22 @@ public final class HeadCreator {
             if (main.debug) main.debug("Player head = base64");
             final String base64 = main.getConfig().getString(Config.CUSTOM_HEAD_BASE64);
             final GameProfile profile = new GameProfile(UUID.randomUUID(), "");
-            profile.getProperties().put("textures", new Property("textures", base64));
+            profile.properties().put("textures", new Property("textures", base64));
 
-            SkullUtils.setHeadTexture(block, profile);
+            final Skull skullState = (Skull) block.getState();
+            final PlayerProfile playerProfile = Bukkit.createPlayerProfile(profile.id(), profile.name());
+            final PlayerTextures textures = playerProfile.getTextures();
+            final String textureUrl = extractTextureUrl(base64);
+            if (textureUrl != null) {
+                try {
+                    textures.setSkin(new URL(textureUrl));
+                    playerProfile.setTextures(textures);
+                    skullState.setOwnerProfile(playerProfile);
+                    skullState.update();
+                } catch (MalformedURLException ignored) {
+                    main.getLogger().warning("Invalid custom head texture URL");
+                }
+            }
 
         }
     }
@@ -69,7 +87,22 @@ public final class HeadCreator {
 //
 //        head.setItemMeta(meta);
 //        return head;
-        return SkullUtils.getHead(base64);
+        final ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        final SkullMeta meta = (SkullMeta) head.getItemMeta();
+        if (meta == null) return head;
+        final String textureUrl = extractTextureUrl(base64);
+        if (textureUrl != null) {
+            try {
+                final PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID());
+                final PlayerTextures textures = profile.getTextures();
+                textures.setSkin(new URL(textureUrl));
+                profile.setTextures(textures);
+                meta.setOwnerProfile(profile);
+            } catch (MalformedURLException ignored) {
+            }
+        }
+        head.setItemMeta(meta);
+        return head;
     }
 
     @SuppressWarnings("unused")
@@ -83,5 +116,19 @@ public final class HeadCreator {
         skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
         head.setItemMeta(skullMeta);
         return head;
+    }
+
+    private static String extractTextureUrl(final String base64) {
+        try {
+            final String decoded = new String(Base64.getDecoder().decode(base64), StandardCharsets.UTF_8);
+            final String marker = "\"url\":\"";
+            final int urlStart = decoded.indexOf(marker);
+            if (urlStart < 0) return null;
+            final int valueStart = urlStart + marker.length();
+            final int valueEnd = decoded.indexOf('"', valueStart);
+            return valueEnd < 0 ? null : decoded.substring(valueStart, valueEnd);
+        } catch (IllegalArgumentException ignored) {
+            return null;
+        }
     }
 }

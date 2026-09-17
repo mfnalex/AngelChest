@@ -29,7 +29,7 @@
 
 # You can also create smelting / campfire recipes, or smithing and stonecutting recipes.
 # See here for all possible crafting recipe types:
-# https://github.com/JEFF-Media-GbR/JeffLib/blob/master/examples/RecipeUtils_getRecipe.yml
+# Recipe format examples are documented below.
 
 # For help, join my Discord at https://discord.jeff-media.com
 

@@ -1,6 +1,5 @@
 package de.jeff_media.angelchest.data;
 
-import com.allatori.annotations.DoNotRename;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -11,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import java.util.UUID;
 
-@DoNotRename
 public class WorldBoundingBox {
 
     private final BoundingBox boundingBox;

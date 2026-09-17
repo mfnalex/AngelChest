@@ -1,14 +1,11 @@
 package de.jeff_media.angelchest;
 
 import co.aikar.commands.*;
-import com.allatori.annotations.DoNotRename;
-import com.jeff_media.jefflib.JeffLib;
 import com.jeff_media.jefflib.Tasks;
 import com.jeff_media.jefflib.Ticks;
 import com.jeff_media.jefflib.WorldUtils;
 import com.jeff_media.jefflib.data.McVersion;
 import com.jeff_media.jefflib.data.tuples.Pair;
-import com.jeff_media.jefflib.exceptions.NMSNotSupportedException;
 import de.jeff_media.angelchest.commands.*;
 import de.jeff_media.angelchest.config.*;
 import de.jeff_media.angelchest.data.AngelChest;
@@ -52,8 +49,6 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -63,11 +58,9 @@ import java.util.stream.IntStream;
 public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin {
 
     private static boolean isPremium0() {
-        String percent = "%";
-        if(System.getProperty("hopefullyundefinedproperty_" + ThreadLocalRandom.current().nextInt()) != null) {
-            percent = ".";
-        }
-        return !"%%__USER__%%".startsWith(percent);
+        final String resource = "%%__RESOURCE__%%";
+        final String unreplacedPlaceholder = new String(new char[]{'%', '%', '_', '_', 'R', 'E', 'S', 'O', 'U', 'R', 'C', 'E', '_', '_', '%', '%'});
+        return !resource.equals(unreplacedPlaceholder);
     }
 
 
@@ -82,19 +75,10 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
     public static final String UPDATECHECKER_LINK_CHANGELOG = "https://www.spigotmc.org/resources/" + SPIGOT_RESOURCE_ID_PLUS + "/updates";
     private static final String UPDATECHECKER_LINK_API = "https://api.jeff-media.de/angelchestplus/latest-version.txt";
     public static boolean SCHEDULE_TASKS = true;
-    @DoNotRename
     public static boolean isPremiumVersion = isPremium0();
 
     private static AngelChestMain instance;
     private static WorldGuardWrapper worldGuardWrapper;
-    @Getter
-    public final Object A_ENSURE_JEFFLIB_INIT = ((Supplier<Object>) () -> {
-        try {
-            JeffLib.init(AngelChestMain.this);
-        } catch (Throwable ignored) {
-        }
-        return null;
-    }).get();
     @Getter
     private final CurrencyFormatter currencyFormatter = new CurrencyFormatter(this);
     @Getter
@@ -162,14 +146,6 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
 
     @Getter
     private final ChargesManager chargesManager = new ChargesManager(this);
-
-    {
-        try {
-            JeffLib.init(this);
-        } catch (Throwable ignored) {
-
-        }
-    }
 
     public static AngelChestMain getInstance() {
         return instance;
@@ -465,12 +441,7 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
         /*Daddy start*/
         isPremiumVersion = false; // DO NOT REMOVE THIS LINE
         Daddy_Stepsister.init(this); // TODO TODO TODO
-        if (Daddy_Stepsister.allows(PremiumFeatures.GENERIC)) {
-            Daddy_Stepsister.createVerificationFile();
-            isPremiumVersion = true;
-        } else {
-            isPremiumVersion = false;
-        }
+        isPremiumVersion = Daddy_Stepsister.allows(PremiumFeatures.GENERIC);
         /*Daddy end*/
 
         if (Bukkit.getPluginManager().getPlugin("ExecutableItems") != null) {
@@ -661,11 +632,6 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
 
     @Override
     public void onLoad() {
-        try {
-            JeffLib.enableNMS();
-        } catch (NMSNotSupportedException ex) {
-
-        }
         instance = this;
         WorldGuardWrapper.tryToRegisterFlags();
     }

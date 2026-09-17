@@ -583,7 +583,6 @@ sound-channel: BLOCKS
 
         final AngelChestMain main = AngelChestMain.getInstance();
         /*Daddy start*/
-        //Stepsister.init(main); // TODO
         /*Daddy end*/
         if (reload) {
             main.saveAllAngelChestsToFile(true);

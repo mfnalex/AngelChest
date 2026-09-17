@@ -1,12 +1,8 @@
 package de.jeff_media.angelchest.utils;
 
-import com.jeff_media.jefflib.BlockUtils;
-import com.jeff_media.jefflib.VectorUtils;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
-import java.util.Collection;
-import java.util.function.Predicate;
 
 public class TeleportLocationUtils {
 
@@ -19,13 +15,6 @@ public class TeleportLocationUtils {
     };
 
     public static Location getFinalTPLocation(Block chest) {
-        Collection<Block> targetLocations = BlockUtils.getBlocksInRadius(chest.getLocation(), 3, BlockUtils.RadiusType.CUBOID, new Predicate<Block>() {
-            @Override
-            public boolean test(Block block) {
-                return false;
-            }
-        });
-        VectorUtils.lookAt(null,null);
         return null; // TODO
     }
 }
