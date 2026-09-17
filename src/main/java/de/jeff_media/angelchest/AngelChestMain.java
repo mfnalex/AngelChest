@@ -414,8 +414,10 @@ public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin
         saveAllAngelChestsToFile(true);
         ChunkManager.reset();
 
-        for(Player player: Bukkit.getOnlinePlayers()) {
-            GraveyardListener.callGraveyardLeaveEvent(player);
+        if(isPremiumVersion) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                GraveyardListener.callGraveyardLeaveEvent(player);
+            }
         }
 
 //        Bukkit.getScheduler().getActiveWorkers().stream().filter(worker -> worker.getOwner() == this).forEach(worker -> {
