@@ -255,6 +255,10 @@
             <url>https://repo.jeff-media.com/public/</url>
         </repository>
 
+        <repository>
+            <id>eldonexus</id>
+            <url>https://eldonexus.de/repository/maven-releases/</url>
+        </repository>
 <!--        <repository>-->
 <!--            <id>sirblobman-public</id>-->
 <!--            <url>https://nexus.sirblobman.xyz/repository/public/</url>-->
@@ -312,9 +316,10 @@
 <!--            <scope>compile</scope>-->
 <!--        </dependency>-->
         <dependency>
-            <groupId>yannicklamprecht</groupId>
+            <groupId>com.github.yannicklamprecht</groupId>
             <artifactId>worldborderapi</artifactId>
-            <version>1.182.0</version>
+            <version>1.180.0</version>
+            <classifier>dev</classifier>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -326,7 +331,7 @@
         <dependency>
             <groupId>de.jeff_media</groupId>
             <artifactId>AngelChestAPI</artifactId>
-            <version>13.6.1</version>
+            <version>14.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -344,7 +349,7 @@
         <dependency>
             <groupId>io.th0rgal</groupId>
             <artifactId>protectionlib</artifactId>
-            <version>1.5.8-java8</version>
+            <version>1.8.0</version>
             <scope>compile</scope>
         </dependency>
 
