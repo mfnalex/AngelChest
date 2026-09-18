@@ -251,10 +251,6 @@
         </repository>
 
         <repository>
-            <id>jeff-media-private</id>
-            <url>https://repo.jeff-media.com/private</url>
-        </repository>
-        <repository>
             <id>jeff-media-public</id>
             <url>https://repo.jeff-media.com/public/</url>
         </repository>
@@ -300,7 +296,7 @@
         <dependency>
             <groupId>com.jeff_media</groupId>
             <artifactId>CustomBlocks</artifactId>
-            <version>1.5.23</version>
+            <version>1.5.24</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
