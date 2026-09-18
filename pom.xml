@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>14.0.0-RC1</version>
+    <version>14.0.0-RC2</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -259,10 +259,12 @@
             <id>eldonexus</id>
             <url>https://eldonexus.de/repository/maven-releases/</url>
         </repository>
-<!--        <repository>-->
-<!--            <id>sirblobman-public</id>-->
-<!--            <url>https://nexus.sirblobman.xyz/repository/public/</url>-->
-<!--        </repository>-->
+
+        <repository>
+            <id>oraxen-releases</id>
+            <name>Oraxen Repository</name>
+            <url>https://repo.oraxen.com/releases</url>
+        </repository>
 
     </repositories>
 
@@ -291,12 +293,6 @@
         </dependency>
 
         <!-- Own Libraries -->
-<!--        <dependency>-->
-<!--            <groupId>com.jeff-media.cesspool</groupId>-->
-<!--            <artifactId>cesspool</artifactId>-->
-<!--            <version>1.0-SNAPSHOT</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.jeff_media</groupId>
             <artifactId>CustomBlocks</artifactId>
@@ -309,12 +305,7 @@
             <version>2.0.0</version>
             <scope>compile</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.tcoded</groupId>-->
-<!--            <artifactId>FoliaLib</artifactId>-->
-<!--            <version>0.2.5</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
+
         <dependency>
             <groupId>com.github.yannicklamprecht</groupId>
             <artifactId>worldborderapi</artifactId>
@@ -453,26 +444,6 @@
             <version>10.0.0.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.zaxxer</groupId>-->
-<!--            <artifactId>HikariCP</artifactId>-->
-<!--            <version>5.0.1</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>com.ssomar</groupId>-->
-<!--            <artifactId>SCore</artifactId>-->
-<!--            <version>1.7.2.0</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
-
-        <dependency>
-            <groupId>com.ssomar</groupId>
-            <artifactId>SCore</artifactId>
-            <version>42.42.42</version>
-            <scope>provided</scope>
-        </dependency>
 
         <dependency>
             <groupId>com.jeff_media</groupId>
@@ -481,15 +452,6 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- Plugins that are not available in repositories. They will be accessed via Reflection. -->
-        <!-- It is not needed that you have them installed. -->
-        <!--<dependency>
-            <groupId>doesnt.matter</groupId>
-            <artifactId>ExecutableItems</artifactId>
-            <version>doesnt.matter</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ExecutableItems.jar</systemPath>
-        </dependency>-->
     </dependencies>
 
     <distributionManagement>

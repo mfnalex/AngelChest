@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+// This is what you get if you don't upload your API to a maven repository.
 public final class ExecutableItemsHook extends IExecutableItemsHook {
 
     @SuppressWarnings("rawtypes")
