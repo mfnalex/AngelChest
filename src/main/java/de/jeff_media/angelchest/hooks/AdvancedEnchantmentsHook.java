@@ -1,6 +1,5 @@
 package de.jeff_media.angelchest.hooks;
 
-import net.advancedplugins.ae.api.AEAPI;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.InvocationTargetException;
@@ -8,25 +7,35 @@ import java.lang.reflect.Method;
 
 public class AdvancedEnchantmentsHook {
 
-    private static Method hasHolyWhiteScrollMethod = null;
+    private static final Method hasHolyWhiteScrollMethod = findMethod("hasHolyWhiteScroll");
+    private static final Method hasWhiteScrollMethod = findMethod("hasWhitescroll");
 
-    static {
+    private static Method findMethod(final String methodName) {
         try {
-            hasHolyWhiteScrollMethod = Class.forName("net.advancedplugins.ae.api.AEAPI").getMethod("hasHolyWhiteScroll", ItemStack.class);
-        } catch (Exception ignored) {
-
+            return Class.forName("net.advancedplugins.ae.api.AEAPI").getMethod(methodName, ItemStack.class);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | LinkageError ignored) {
+            return null;
         }
     }
 
     public static boolean hasWhiteScroll(ItemStack item) {
-        if(hasHolyWhiteScrollMethod != null) {
-            try {
-                return (boolean) hasHolyWhiteScrollMethod.invoke(null, item);
-            } catch (IllegalAccessException | InvocationTargetException ignored) {
-
-            }
+        final Boolean hasHolyWhiteScroll = invoke(hasHolyWhiteScrollMethod, item);
+        if (hasHolyWhiteScroll != null) {
+            return hasHolyWhiteScroll;
         }
-        return AEAPI.hasWhitescroll(item);
+        final Boolean hasWhiteScroll = invoke(hasWhiteScrollMethod, item);
+        return hasWhiteScroll != null && hasWhiteScroll;
+    }
+
+    private static Boolean invoke(final Method method, final ItemStack item) {
+        if (method == null) {
+            return null;
+        }
+        try {
+            return (Boolean) method.invoke(null, item);
+        } catch (IllegalAccessException | InvocationTargetException | ClassCastException | IllegalArgumentException ignored) {
+            return null;
+        }
     }
 
 }

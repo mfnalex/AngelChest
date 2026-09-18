@@ -424,12 +424,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>advancedenchantments</groupId>
-            <artifactId>advancedenchantments-api</artifactId>
-            <version>8.7.4</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>com.github.slimefun</groupId>
             <artifactId>Slimefun4</artifactId>
             <version>master-SNAPSHOT</version>
