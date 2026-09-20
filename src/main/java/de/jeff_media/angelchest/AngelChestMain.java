@@ -58,9 +58,7 @@ import java.util.stream.IntStream;
 public final class AngelChestMain extends JavaPlugin implements AngelChestPlugin {
 
     private static boolean isPremium0() {
-        String resource = "%%__RESOURCE__%%";
-        final String unreplacedPlaceholder = new String(new char[]{'%', '%', '_', '_', 'R', 'E', 'S', 'O', 'U', 'R', 'C', 'E', '_', '_', '%', '%'});
-        return !resource.equals(unreplacedPlaceholder);
+        return true;
     }
 
 
