@@ -6,7 +6,7 @@
     <groupId>de.jeff_media</groupId>
     <name>AngelChest</name>
     <artifactId>AngelChest</artifactId>
-    <version>14.0.0-RC4</version>
+    <version>14.0.0-RC5</version>
     <description>Best available death chest / grave plugin!</description>
 
     <properties>
@@ -18,8 +18,9 @@
         <java.version>25</java.version>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <config.version>${maven.build.timestamp}</config.version>
-        <!-- The premium profile is active by default; use -Pfree for the free build. -->
+        <!-- The premium profile is active by default; the both profile also builds free. -->
         <build.variant>premium</build.variant>
+        <build.skip-both>false</build.skip-both>
     </properties>
 
     <build>
@@ -242,6 +243,41 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>both</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>build-free-variant</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>${build.skip-both}</skip>
+                                    <executable>mvn</executable>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <arguments>
+                                        <argument>package</argument>
+                                        <argument>-Pfree</argument>
+                                        <argument>-Dbuild.skip-both=true</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>premium</id>
             <activation>
