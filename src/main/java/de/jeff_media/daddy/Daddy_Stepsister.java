@@ -17,8 +17,8 @@ public final class Daddy_Stepsister {
     }
 
     public static void init(final Object ignoredPlugin) {
-        final String resource = "%%__RESOURCE__%%";
-        final String unreplacedPlaceholder = new String(new char[]{'%', '%', '_', '_', 'R', 'E', 'S', 'O', 'U', 'R', 'C', 'E', '_', '_', '%', '%'});
+        String resource = "%%__RESOURCE__%%";
+        String unreplacedPlaceholder = new String(new char[]{'%', '%', '_', '_', 'R', 'E', 'S', 'O', 'U', 'R', 'C', 'E', '_', '_', '%', '%'});
         premium = !resource.equals(unreplacedPlaceholder);
     }
 
