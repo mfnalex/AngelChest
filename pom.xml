@@ -18,9 +18,18 @@
         <java.version>25</java.version>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <config.version>${maven.build.timestamp}</config.version>
+        <!-- The premium profile is active by default; use -Pfree for the free build. -->
+        <build.variant>premium</build.variant>
     </properties>
 
     <build>
+        <finalName>${project.name}-${project.version}-${build.variant}</finalName>
+        <!--
+            Compile a profile-specific copy of the Java sources. This lets the
+            free build adjust the two premium gates without modifying sources
+            in the working tree.
+        -->
+        <sourceDirectory>${project.build.directory}/generated-sources/${build.variant}</sourceDirectory>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -28,6 +37,31 @@
             </resource>
         </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-variant-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/generated-sources/${build.variant}</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/src/main/java</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -68,7 +102,6 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.4.2</version>
                 <configuration>
-                    <finalName>${project.name}-${project.version}</finalName>
                     <archive>
                         <manifest>
                             <mainClass>com.jeff_media.standalonepluginscreen.StandalonePluginScreen</mainClass>
@@ -207,6 +240,55 @@
         </plugins>
 
     </build>
+
+    <profiles>
+        <profile>
+            <id>premium</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <build.variant>premium</build.variant>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>free</id>
+            <properties>
+                <build.variant>free</build.variant>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>disable-premium-features</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <replace
+                                                file="${project.build.directory}/generated-sources/${build.variant}/de/jeff_media/angelchest/AngelChestMain.java"
+                                                token="return true;"
+                                                value="return false;"/>
+                                        <replace
+                                                file="${project.build.directory}/generated-sources/${build.variant}/de/jeff_media/daddy/Daddy_Stepsister.java"
+                                                token="premium = true;"
+                                                value="premium = false;"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>
